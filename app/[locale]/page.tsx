@@ -1,7 +1,14 @@
 import Image from "next/image";
 import {useTranslations} from 'next-intl';
+import { use } from "react";
 
-export default function Home() {
+type HomeProps = {
+  params: Promise<{locale: string}>;
+}
+
+export default function Home({ params }: HomeProps) {
+  const { locale } = use(params);
+  console.log('Locale in page:', locale);
   const t = useTranslations('HomePage');
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
