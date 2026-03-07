@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import {NextIntlClientProvider, hasLocale} from 'next-intl';
-import {getMessages, setRequestLocale} from 'next-intl/server';
+import {setRequestLocale} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
+import { Providers } from "@/providers/providers";
 import "../globals.css";
 
 type LayoutProps = {
@@ -32,20 +33,18 @@ export const metadata: Metadata = {
 
 export default async function LocaleLayout({ children, params }: LayoutProps) {
   const {locale} = await params;
-  console.log('Params in layout:', params);
-  console.log('Locale in layout:', locale);
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
   setRequestLocale(locale);
   
   return (
-    <html lang={locale}>
-      <body 
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`} 
-        suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextIntlClientProvider locale={locale}>
-          {children}
+          <Providers>
+            {children}
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>
