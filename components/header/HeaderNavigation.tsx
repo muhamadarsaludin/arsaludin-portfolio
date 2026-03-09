@@ -39,7 +39,7 @@ export default function HeaderNavigation({className}: HeaderNavigationProps) {
   const t = useTranslations("components.header.navigation")
 
   return (
-    <nav className={clsx("flex gap-6 items-center px-6", className)}>
+    <nav className={clsx("flex gap-6 items-center", className)}>
       {navigationLinks.map((link, index) => (
         <HeaderNavLink key={index} label={t(link.label)} href={link.href} disabled={link.disabled} />
       ))}

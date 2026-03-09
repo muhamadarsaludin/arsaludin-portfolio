@@ -24,7 +24,7 @@ export default function Header({ className }: HeaderProps) {
   }
 
   return (
-    <header className={clsx(className, "px-6 border-b border-gray-950/10 dark:border-white/10")}>
+    <header className={clsx(className, "z-1000 px-6 bg-white dark:bg-neutral-950 border-b border-gray-950/10 dark:border-white/10")}>
       <div className="max-w-(--m-page-width) mx-auto py-4 flex items-center justify-between">
         <div className="flex gap-6 items-center">
           <MenuToggle className="lg:hidden" showMenu={showMenu} handleToggle={handleToggle} />
@@ -44,7 +44,7 @@ export default function Header({ className }: HeaderProps) {
               className="hidden dark:block"
             />
           </Link>
-          <HeaderNavigation className="hidden lg:flex"/>
+          <HeaderNavigation className="hidden lg:flex px-6"/>
         </div>
         <div className="flex gap-3">
           <div className="hidden lg:flex gap-3">
@@ -62,8 +62,20 @@ export default function Header({ className }: HeaderProps) {
         </div>
       </div>
       {/* Drawer aside*/}
-      <aside>
-        
+      <aside className={clsx(
+        "fixed z-1000 top-[69px] bottom-0 inset-x-0 flex flex-col gap-6 justify-between w-fit bg-white dark:bg-neutral-950 p-6 border-r border-gray-950/10 dark:border-white/10 lg:hidden -translate-x-full",
+        "transform transition-transform duration-300 ease-in-out",
+        showMenu ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <HeaderNavigation className="flex flex-col items-start"/>
+        <div className="flex flex-col gap-3">
+          <MiracleButton variant="secondary">
+            {t("cta.contact")}
+          </MiracleButton>
+          <MiracleButton variant="primary" endIcon={ <LuDownload size={16}/> }>
+            {t("cta.resume")}
+          </MiracleButton>
+        </div>
       </aside>
     </header>
   )

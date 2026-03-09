@@ -43,7 +43,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
       <body className={`${geist.variable} ${geistMono.variable} antialiased bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 rounded-md shadow-md`}>
         <NextIntlClientProvider locale={locale}>
           <Providers>
-            <Header className="fixed top-0 inset-x-0 z-1000" />
+            <Header className="fixed top-0 inset-x-0" />
             <main>
               {children}
             </main>

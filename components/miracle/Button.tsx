@@ -18,14 +18,14 @@ export default function MiracleButton({
   endIcon,
   ...props
 }: ButtonProps) {
-  const baseStyles = "inline-flex items-center justify-center gap-2 rounded-md transition-colors px-6 py-2 text-sm font-medium"
+  const baseStyles = "text-sm flex items-center justify-center gap-2 rounded-md transition-colors px-3 py-2 font-medium"
 
   const variantStyles = clsx({
     primary: "bg-neutral-950 dark:bg-white text-neutral-50 dark:text-neutral-900",
-    secondary: "bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 border border-neutral-900 dark:border-neutral-50",
+    secondary: "bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 ring ring-neutral-900 dark:ring-neutral-50",
   }[variant])
 
-  const widthClass = fullWidth ? "w-full" : "w-auto"
+  const widthClass = fullWidth ? "w-auto" : "w-auto"
 
   return (
     <button
@@ -33,7 +33,7 @@ export default function MiracleButton({
       {...props}
     >
       {startIcon && <span className="flex">{startIcon}</span>}
-      {children}
+      <span>{children}</span>
       {endIcon && <span className="flex">{endIcon}</span>}
     </button>
   )
