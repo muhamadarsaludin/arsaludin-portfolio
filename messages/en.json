@@ -1,5 +1,17 @@
 {
-  "HomePage": {
-    "title": "Hello world!"
+  "components": {
+    "header": {
+      "navigation": {
+        "home": "Home",
+        "projects": "Projects",
+        "certifications": "Certifications",
+        "blog": "Blog",
+        "dashboard": "Dashboard"
+      },
+      "cta": {
+        "contact": "Contact me!",
+        "resume": "Download resume"
+      }
+    }
   }
 }

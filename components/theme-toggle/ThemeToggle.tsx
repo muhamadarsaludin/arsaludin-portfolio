@@ -6,6 +6,7 @@ function ThemeToggle() {
   return ( 
     <div>
       <button onClick={() => setTheme('light')}>Light Mode</button>
+      <button onClick={() => setTheme('system')}>System</button>
       <button onClick={() => setTheme('dark')}>Dark Mode</button>
     </div>
    );

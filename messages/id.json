@@ -1,5 +1,17 @@
 {
-  "HomePage": {
-    "title": "Halo Dunia!"
+  "components": {
+    "header": {
+      "navigation": {
+        "home": "Beranda",
+        "projects": "Proyek",
+        "certifications": "Sertifikasi",
+        "blog": "Blog",
+        "dashboard": "Dasbor"
+      },
+      "cta": {
+        "contact": "Hubungi saya!",
+        "resume": "Unduh resume"
+      }
+    }
   }
 }

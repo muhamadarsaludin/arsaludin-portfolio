@@ -1,5 +1,4 @@
 import Image from "next/image";
-import {useTranslations} from 'next-intl';
 import { use } from "react";
 import { setRequestLocale } from "next-intl/server";
 import ThemeToggle from "@/components/theme-toggle/ThemeToggle";
@@ -11,13 +10,12 @@ type HomeProps = {
 export default function Home({ params }: HomeProps) {
   const {locale} = use(params);
   setRequestLocale(locale);
-  const t = useTranslations('HomePage');
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div className="flex min-h-screen items-center justify-center  font-sans">
+      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 sm:items-start">
         <ThemeToggle />
-        <h1 className="text-6xl font-bold text-center mb-8">{t('title')}</h1>
+        <h1 className="text-6xl font-bold text-center mb-8">Title</h1>
         <Image
           className="dark:invert"
           src="/next.svg"
