@@ -12,6 +12,13 @@
         "contact": "Hubungi saya!",
         "resume": "Unduh resume"
       }
+    },
+    "footer": {
+      "subtitle": "Memiliki proyek yang ingin dikembangkan?",
+      "title": "Mari berdiskusi dengan saya!",
+      "cta": "Hubungi saya",
+      "timeLabel": "Waktu lokal",
+      "copyright": "Muhamad Arsaludin. Hak cipta dilindungi."
     }
   }
 }

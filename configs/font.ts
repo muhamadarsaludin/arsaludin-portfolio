@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Outfit } from "next/font/google";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -12,4 +12,10 @@ const geistMono = Geist_Mono({
   fallback: ["Courier New", "Courier", "monospace"],
 });
 
-export { geist, geistMono };
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  fallback: ["Arial", "Helvetica", "sans-serif"],
+})
+
+export { geist, geistMono, outfit };

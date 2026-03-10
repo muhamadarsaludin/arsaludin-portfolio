@@ -5,7 +5,7 @@ import {setRequestLocale} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import { Providers } from "@/providers/providers";
-import { geist, geistMono } from "@/configs/font";
+import { geist, geistMono, outfit } from "@/configs/font";
 import "../globals.css";
 import Header from '@/components/header/Header';
 import Footer from '@/components/footer/Footer';
@@ -40,11 +40,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${geist.variable} ${geistMono.variable} antialiased bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 rounded-md shadow-md`}>
+      <body className={`${geist.variable} ${geistMono.variable} ${outfit.variable} antialiased bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 rounded-md shadow-md`}>
         <NextIntlClientProvider locale={locale}>
           <Providers>
             <Header className="fixed top-0 inset-x-0" />
-            <main className="h-[300vh]">
+            <main className="pt-24">
               {children}
             </main>
             <Footer />

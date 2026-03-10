@@ -12,6 +12,13 @@
         "contact": "Contact me!",
         "resume": "Download resume"
       }
+    },
+    "footer": {
+      "subtitle": "Have a project in mind?",
+      "title": "Let's talk to me!",
+      "cta": "Talk to me",
+      "timeLabel": "My local time",
+      "copyright": "Muhamad Arsaludin. All rights reserved"
     }
   }
 }

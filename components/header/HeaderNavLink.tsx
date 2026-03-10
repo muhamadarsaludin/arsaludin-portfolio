@@ -24,10 +24,10 @@ export default function HeaderNavLink({
   return (
     <Link 
       className={clsx(
-       "transition-colors duration-300 ease text-sm",
+       "transition-colors duration-300 ease text-sm py-2",
         isActive
-          ? "text-blue-500 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
-          : "text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-50"
+          ? "text-blue-600 dark:text-blue-500 hover:text-blue-600 dark:hover:text-blue-500"
+          : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50"
       )}
       href={href} 
       aria-label={label}>
