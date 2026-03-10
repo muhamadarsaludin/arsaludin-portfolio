@@ -24,7 +24,7 @@ export default function HeaderNavLink({
   return (
     <Link 
       className={clsx(
-       "transition-colors text-sm",
+       "transition-colors duration-300 ease text-sm",
         isActive
           ? "text-blue-500 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
           : "text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-50"

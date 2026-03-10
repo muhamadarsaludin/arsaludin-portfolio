@@ -9,7 +9,7 @@ import { geist, geistMono } from "@/configs/font";
 import "../globals.css";
 import Header from '@/components/header/Header';
 import Footer from '@/components/footer/Footer';
-import BackToTop from '@/components/back-to-top/BackToTop';
+import MiracleBackToTop from '@/components/miracle/BackToTop';
 
 type LayoutProps = {
   children: React.ReactNode
@@ -44,11 +44,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         <NextIntlClientProvider locale={locale}>
           <Providers>
             <Header className="fixed top-0 inset-x-0" />
-            <main>
+            <main className="h-[300vh]">
               {children}
             </main>
             <Footer />
-            <BackToTop/>
+            <MiracleBackToTop/>
           </Providers>
         </NextIntlClientProvider>
       </body>
