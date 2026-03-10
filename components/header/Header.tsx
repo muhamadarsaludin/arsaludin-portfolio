@@ -11,6 +11,7 @@ import MiracleButton from "../miracle/Button"
 import { LuDownload } from "react-icons/lu"
 import LangToggle from "./toggle/LangToggle"
 import ThemeToggle from "./toggle/ThemeToggle"
+import { useScrollLock } from "@/hooks/useScrollLock"
 
 type HeaderProps = {
   className?: string
@@ -20,10 +21,13 @@ export default function Header({ className }: HeaderProps) {
   const t = useTranslations("components.header")
   const [showMenu, setShowMenu] = useState(false)
   const pathname = usePathname()
-
   const handleToggle = () => {
     setShowMenu(prev => !prev)
   }
+  useScrollLock(showMenu)
+  useEffect(() => {
+    setShowMenu(false)
+  }, [pathname])
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)") // lg breakpoint
     const handleChange = () => {
@@ -36,7 +40,6 @@ export default function Header({ className }: HeaderProps) {
     return () => media.removeEventListener("change", handleChange)
   }, [])
   
-
   return (
     <header className={clsx(className, "z-1000 px-6 bg-white dark:bg-neutral-950 border-b border-gray-950/10 dark:border-white/10")}>
       <div className="max-w-(--m-page-width) mx-auto py-4 flex items-center justify-between">
