@@ -52,6 +52,7 @@ export default function Header({ className }: HeaderProps) {
               height={24}
               width={38}
               className="dark:hidden"
+              priority
             />
             <Image
               src="/logo/logo-dark.svg"
@@ -59,6 +60,7 @@ export default function Header({ className }: HeaderProps) {
               height={24}
               width={38}
               className="hidden dark:block"
+              priority
             />
           </Link>
           <HeaderNavigation className="hidden lg:flex px-6"/>
