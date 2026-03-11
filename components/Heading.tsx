@@ -2,14 +2,15 @@
 
 import clsx from "clsx"
 import { toSnakeCase } from "@/utils/stringCase"
-import React, { JSX, useState } from "react"
+import React, { JSX } from "react"
 import MiracleTooltip from "./miracle/Tooltip"
 import { LuLink2 } from "react-icons/lu"
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
+import { Link } from "@/i18n/navigation"
 
 export type HeadingProps = {
   id?: string
-  level?: 1 | 2 | 3 | 4
+  level?: 1 | 2 | 3 | 4 | 5
   children: React.ReactNode
   className?: string
   copyLink?: boolean
@@ -36,23 +37,26 @@ export default function Heading({
   }
 
   const levelClass: Record<number, string> = {
-    1: "text-5xl",
-    2: "text-3xl",
-    3: "text-2xl",
-    4: "text-xl",
+    1: "text-5xl mt-0",
+    2: "text-4xl mt-10",
+    3: "text-3xl mt-8",
+    4: "text-2xl mt-6",
+    5: "text-xl mt-4"
   }
 
   return (
     <Tag 
       id={headingId} 
       className={clsx(
-        "relative font-medium leading-tight inline-block group/heading",
+        "relative font-medium leading-tight group/heading scroll-mt-24",
         levelClass[level],
         className
       )}>
-      {children}
+      <Link href={`#${headingId}`}>
+        {children}
+      </Link>
       {copyLink && (
-        <div className="absolute right-full top-1/2 -translate-y-1/2 pr-2 invisible opacity-0 translate-x-1 group-hover/heading:translate-x-0 group-hover/heading:visible group-hover/heading:opacity-100 transition duration-300 ease shrink-0 flex-1">
+        <div className="absolute right-full top-1/2 -translate-y-1/2 pr-1 invisible opacity-0 translate-x-1 group-hover/heading:translate-x-0 group-hover/heading:visible group-hover/heading:opacity-100 transition duration-300 ease shrink-0 flex-1">
           <MiracleTooltip
             position="top-start"
             trigger={
@@ -62,7 +66,7 @@ export default function Heading({
                 aria-label="Copy link to this section"
                 title="Copy link"
               >
-                <LuLink2 className="text-[0.3em]"/>
+                <LuLink2 className="text-[0.5em]"/>
               </button>
             }>
             <span className="flex text-nowrap text-xs">{message}</span>
