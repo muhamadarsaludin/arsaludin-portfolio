@@ -33,7 +33,7 @@ export default function MiracleRadio({
       <input
         type="radio"
         id={radioId}
-        className="h-4 w-4 accent-blue-500 dark:accent-blue-400"
+        className="h-4 w-4 accent-blue-600 dark:accent-blue-400"
         disabled={disabled}
         onChange={onChange}
         {...props}

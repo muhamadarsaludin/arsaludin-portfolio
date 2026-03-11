@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { use } from "react";
 import { setRequestLocale } from "next-intl/server";
+import Heading from "@/components/Heading";
 
 type HomeProps = {
   params: Promise<{locale: string}>;
@@ -11,7 +12,22 @@ export default function Home({ params }: HomeProps) {
   setRequestLocale(locale);
 
   return (
-    <div></div>
+    <div className="max-w-(--m-page-width) mx-auto">
+      <Heading id="test" level={1}>
+        Ini heading afafa asfsf
+      </Heading>
+    </div>
+    // <div className="flex flex-col">
+    //   <Heading id="test">
+    //     Ini heading 2
+    //   </Heading>
+    //   <Heading id="test" level={3}>
+    //     Ini heading 3
+    //   </Heading>
+    //   <Heading id="test" level={4}>
+    //     Ini heading 4
+    //   </Heading>
+    // </div>
     // <div className="flex min-h-screen items-center justify-center  font-sans">
     //   {/* <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 sm:items-start">
     //     <h1 className="text-6xl font-bold text-center mb-8">Title</h1>

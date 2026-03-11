@@ -9,8 +9,8 @@
   /* 
   - surface-primary: white neutral-950 | neutral-300 neutral-700
   - text-primary: neutral-900 neutral-50 | [TBD]
-  - text-secondary: neutral-500 neutral-500 | neutral-900 neutral-50
-  - text-link: blue-500 | blue-500
+  - text-secondary: text-neutral-500 dark:text-neutral-400 | neutral-900 neutral-50
+  - text-link: text-blue-600 dark:text-blue-500 | 
   - border-primary: border-gray-950/10 dark:border-white/10
   - Surface Scedonary: [TBD]
   */

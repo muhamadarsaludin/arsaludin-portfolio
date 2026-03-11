@@ -56,9 +56,9 @@ export default function Footer() {
           </a>
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
             {t("timeLabel")}{" "}
-            <span className="font-medium text-neutral-900 dark:text-neutral-50">
+            <time className="font-medium text-neutral-900 dark:text-neutral-50">
               {localTime}
-            </span>
+            </time>
           </p>
           <div className="flex gap-3 md:gap-4">
             {socmeds.map((socmed) => {
@@ -83,7 +83,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="border-t border-gray-950/10 dark:border-white/10 py-6 text-center">
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            © {year} {t("copyright")}
+            © <time>{year}</time> {t("copyright")}
           </p>
         </div>
 

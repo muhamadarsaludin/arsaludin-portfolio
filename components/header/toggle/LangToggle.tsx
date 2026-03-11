@@ -34,7 +34,7 @@ export default function LangToggle({className}: LangToggleProps) {
   ]
   
   return (
-    <MiracleTooltip trigger={
+    <MiracleTooltip position="bottom-center" trigger={
       <button
         className={clsx(
           "p-2 rounded-md cursor-pointer group-hover:bg-neutral-100 dark:group-hover:bg-neutral-800 transition-colors duration-300 ease",

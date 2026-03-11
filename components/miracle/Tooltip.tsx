@@ -32,10 +32,10 @@ export default function MiracleTooltip({
     "right-end": "left-full bottom-0 pl-2",
   }
   return (
-    <div className={clsx("relative group cursor-pointer", className)}>
+    <div className={clsx("relative flex group/tooltip cursor-pointer", className)}>
       {trigger}
       <div className={clsx(
-        "absolute invisible opacity-0 transition-opacity duration-300 ease z-1000 group-hover:opacity-100 group-hover:visible",
+        "absolute invisible opacity-0 transition-opacity duration-300 ease z-1000 group-hover/tooltip:opacity-100 group-hover/tooltip:visible",
         tooltipPositionClass[position]
         )}>
         <div className="p-2 bg-white dark:bg-neutral-950 rounded-md shadow-md shadow-neutral-500/50 border border-gray-950/10 dark:border-white/10">
