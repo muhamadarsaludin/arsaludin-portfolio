@@ -8,7 +8,7 @@ import { Providers } from "@/providers/providers";
 import { geist, geistMono, outfit } from "@/configs/font";
 import "../globals.css";
 import Header from '@/components/header/Header';
-import Footer from '@/components/footer/Footer';
+import Footer from '@/components/Footer';
 import MiracleBackToTop from '@/components/miracle/BackToTop';
 
 type LayoutProps = {
