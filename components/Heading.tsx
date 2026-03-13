@@ -37,18 +37,26 @@ export default function Heading({
   }
 
   const levelClass: Record<number, string> = {
-    1: "text-5xl mt-0",
-    2: "text-4xl mt-10",
-    3: "text-3xl mt-8",
-    4: "text-2xl mt-6",
-    5: "text-xl mt-4"
+    1: "text-5xl",
+    2: "text-4xl",
+    3: "text-3xl",
+    4: "text-2xl",
+    5: "text-xl"
   }
+
+  // const levelClass: Record<number, string> = {
+  //   1: "text-5xl mt-0",
+  //   2: "text-4xl mt-10",
+  //   3: "text-3xl mt-8",
+  //   4: "text-2xl mt-6",
+  //   5: "text-xl mt-4"
+  // }
 
   return (
     <Tag 
       id={headingId} 
       className={clsx(
-        "relative font-medium leading-tight group/heading scroll-mt-24",
+        "relative leading-tight group/heading scroll-mt-24 font-bold",
         levelClass[level],
         className
       )}>

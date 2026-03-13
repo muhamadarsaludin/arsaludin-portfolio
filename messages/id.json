@@ -20,5 +20,18 @@
       "timeLabel": "Waktu lokal",
       "copyright": "Muhamad Arsaludin. Hak cipta dilindungi."
     }
+  },
+  "pages": {
+    "home": {
+      "profile": {
+        "about": "UX Engineer dengan pengalaman lebih dari 4 tahun di front-end engineering dan design system. Berpengalaman dalam membangun UI library yang scalable, menerjemahkan kebutuhan produk serta desain UI/UX ke dalam kode berkualitas tinggi di platform web dan Android, serta menjembatani kolaborasi antara designer, product manager, dan developer.",
+        "caption": "Statistik Developer",
+        "experience": "Pengalaman",
+        "projects": "Proyek",
+        "stack": "Stack",
+        "certifications": "Sertifikasi",
+        "blogs": "Blogs"
+      }
+    }
   }
 }
