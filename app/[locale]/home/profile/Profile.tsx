@@ -11,12 +11,12 @@ export default function Profile() {
   return (
    <Section className="relative">
       <ProfileHero />
-      <div className="-mt-10 lg:-mt-20 relative z-10 flex-col">
-        <div className="flex gap-4 lg:gap-6 xl:gap-8">
+      <div className="-mt-15 lg:-mt-20 relative z-10 flex-col">
+        <div className="flex flex-col md:flex-row gap-4 lg:gap-6 xl:gap-8">
           <div className={clsx(
             "shrink-0 relative rounded-4xl lg:rounded-[60px] overflow-hidden ml-4 lg:ml-6 xl:ml-8",
-            "border-5 lg:border-10 border-primary",
-            "w-30 lg:w-48 h-auto"
+            "border-4 lg:border-6 xl:border-8 border-primary",
+            "w-30 md:40 lg:w-45 aspect-5/6"
             )}>
             <Image
               className="absolute object-cover object-top"
@@ -25,13 +25,13 @@ export default function Profile() {
               fill
             />
           </div>
-          <div className="flex-1 flex flex-row gap-6 xl:gap-8 justify-between mt-10 lg:mt-20 pt-4 lg:pt-6 xl:pt-8">
-            <ProfileInfo/>
+          <div className="flex-1 flex flex-row gap-6 xl:gap-8 justify-between mt-0 md:mt-15 lg:mt-20 pt-0 md:pt-4 lg:pt-6 xl:pt-8">
+            <ProfileInfo className="shrink-0"/>
             <ProfileStats className="hidden lg:block"/>
           </div>
         </div>
         <ProfileStats className="block lg:hidden mt-4"/>
-        <p className="max-w-full md:max-w-9/12 mt-4 lg:mt-6 xl:mt-8">{t("about")}</p>
+        <p className="max-w-full lg:max-w-7/12 mt-6 lg:mt-8 xl:mt-10">{t("about")}</p>
       </div>
       
    </Section>
