@@ -3,8 +3,10 @@ import Image from "next/image"
 import ProfileHero from "./ProfileHero";
 import ProfileStats from "./ProfileStats";
 import ProfileInfo from "./ProfileInfo";
+import { useTranslations } from "next-intl";
 
 export default function Profile() {
+  const t = useTranslations("pages.home.profile")
   return (
    <Section className="relative">
       <ProfileHero />
@@ -17,14 +19,14 @@ export default function Profile() {
             fill
           />
         </div>
-
-        <div className="flex-1 flex justify-between items-end gap-4 mt-20 pt-6">
+        <div className="flex-1 flex justify-between items-end gap-4 mt-20 pt-8">
           <ProfileInfo/>
           <div className="flex">
             <ProfileStats/>
           </div>
         </div>
       </div>
+      <p className="max-w-full lg:max-w-9/12 mt-8">{t("about")}</p>
    </Section>
   )
 }
