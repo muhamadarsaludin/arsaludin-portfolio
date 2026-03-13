@@ -34,8 +34,7 @@ export default function MiracleBackToTop() {
       className={clsx(
         "fixed bottom-6 right-6 z-50",
         "flex h-12 w-12 items-center justify-center rounded-md",
-        "bg-neutral-900 text-white shadow-lg",
-        "dark:bg-neutral-100 dark:text-neutral-900",
+        "bg-surface-primary-inv text-primary-inv shadow-lg",
         "transition-all duration-300",
         "hover:scale-105 active:scale-95",
         "hover:transform hover:-translate-y-1 active:translate-y-0",

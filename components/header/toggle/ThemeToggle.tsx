@@ -56,7 +56,7 @@ export default function ThemeToggle({className}: ThemeToggleProps) {
     <MiracleTooltip position="bottom-end" trigger={
       <button
         className={clsx(
-          "p-2 rounded-md cursor-pointer group-hover:bg-neutral-100 dark:group-hover:bg-neutral-800 transition-colors duration-300 ease",
+          "p-2 rounded-md cursor-pointer group-hover/tooltip:bg-neutral-100 dark:group-hover/tooltip:bg-neutral-800 transition-colors duration-300 ease",
           className
         )}
         aria-label="Theme Toggle">

@@ -37,7 +37,7 @@ export default function LangToggle({className}: LangToggleProps) {
     <MiracleTooltip position="bottom-center" trigger={
       <button
         className={clsx(
-          "p-2 rounded-md cursor-pointer group-hover:bg-neutral-100 dark:group-hover:bg-neutral-800 transition-colors duration-300 ease",
+          "p-2 rounded-md cursor-pointer group-hover/tooltip:bg-neutral-100 dark:group-hover/tooltip:bg-neutral-800 transition-colors duration-300 ease",
           className
         )}
         aria-label="Lang Toggle">
@@ -54,7 +54,7 @@ export default function LangToggle({className}: LangToggleProps) {
             checked={localeData.value === locale}
             iconStart={
               <Image
-                className="shrink-0"
+                className="shrink-0 border border-gray-950/10 dark:border-white/10 rounded-sm"
                 src={localeData.iconStart}
                 alt={`${localeData.label} Flag`}
                 width={20}

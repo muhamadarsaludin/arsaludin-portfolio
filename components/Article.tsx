@@ -7,9 +7,8 @@ export type ArticleProps = React.HTMLAttributes<HTMLElement> & {
 
 export default function Article({children, className, ...props}: ArticleProps) {
   return (
-    <article className={clsx("mx-6", className)}
-      {...props}>
-      <div className="max-w-(--m-page-width) mx-auto">
+    <article {...props}>
+      <div className={clsx("max-w-(--m-page-width) mx-auto px-6", className)}>
         {children}
       </div>
     </article>

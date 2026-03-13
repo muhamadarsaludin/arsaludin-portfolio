@@ -40,10 +40,10 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${geist.variable} ${geistMono.variable} ${outfit.variable} antialiased bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 rounded-md shadow-md`}>
+      <body className={`${geist.variable} ${geistMono.variable} ${outfit.variable} antialiased bg-surface-primary text-primary rounded-md shadow-md`}>
         <NextIntlClientProvider locale={locale}>
           <Providers>
-            <Header className="fixed top-0 inset-x-0" />
+            <Header/>
             <main className="pt-24">
               {children}
             </main>

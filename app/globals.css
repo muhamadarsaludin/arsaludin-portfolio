@@ -5,7 +5,9 @@
   --background: #ffffff;
   --foreground: #171717;
   --m-page-width: 1400px;
-
+  --color-1: #5227FF;
+  --color-2: #f155ef;
+  --color-3: #5eadf3;
   /* 
   - surface-primary: white neutral-950 | neutral-300 neutral-700
   - text-primary: neutral-900 neutral-50 | [TBD]
@@ -30,4 +32,36 @@
 
 body {
   font-family: var(--font-outfit);
+}
+
+.bg-surface-primary {
+  @apply bg-white dark:bg-neutral-950
+}
+
+.bg-surface-primary-inv {
+  @apply bg-neutral-950 dark:bg-white
+}
+
+.bg-surface-secondary {
+  @apply bg-neutral-100 dark:bg-neutral-800
+}
+
+.bg-overlay {
+  @apply bg-neutral-950/50 dark:bg-white/50
+}
+
+.text-primary {
+  @apply text-neutral-900 dark:text-neutral-50
+}
+
+.text-primary-inv {
+  @apply text-neutral-50 dark:text-neutral-900
+}
+
+.text-secondary {
+  @apply text-neutral-500 dark:text-neutral-400
+}
+
+.border-primary {
+  @apply border-gray-950/10 dark:border-white/10
 }

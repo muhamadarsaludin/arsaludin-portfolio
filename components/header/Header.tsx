@@ -41,8 +41,15 @@ export default function Header({ className }: HeaderProps) {
   }, [])
   
   return (
-    <header className={clsx(className, "z-100 px-6 bg-white dark:bg-neutral-950 border-b border-gray-950/10 dark:border-white/10")}>
-      <div className="max-w-(--m-page-width) mx-auto py-4 flex items-center justify-between">
+    <header className={clsx(
+      "bg-surface-primary border-b border-primary",
+      "fixed top-0 inset-x-0 z-100",
+      className
+      )}>
+      <div className={clsx(
+        "max-w-(--m-page-width) mx-auto py-4 px-6",
+        "flex items-center justify-between"
+        )}>
         <div className="flex gap-6 items-center">
           <MenuToggle className="lg:hidden" showMenu={showMenu} handleToggle={handleToggle} />
           <Link href="/" className="shrink-0" aria-label="Arsaludin Logo">
@@ -83,8 +90,10 @@ export default function Header({ className }: HeaderProps) {
       
       {/* Drawer aside*/}
       <aside className={clsx(
-        "fixed z-100 top-[69px] bottom-0 inset-x-0 flex flex-col gap-6 justify-between w-fit bg-white dark:bg-neutral-950 p-6 border-r border-gray-950/10 dark:border-white/10 lg:hidden -translate-x-full",
-        "transform transition-transform duration-300 ease",
+        "fixed z-100 top-17.25 bottom-0 left-0 w-fit p-6 lg:hidden",
+        "flex flex-col gap-6 justify-between",
+        "bg-surface-primary border-r border-primary",
+        "-translate-x-full transform transition-transform duration-300 ease",
         showMenu ? "translate-x-0" : "-translate-x-full"
       )}>
         <HeaderNavigation className="flex flex-col items-start"/>
@@ -101,7 +110,8 @@ export default function Header({ className }: HeaderProps) {
       {/* Overlay */}
       <div 
         className={clsx(
-          "bg-neutral-950/50 dark:bg-white/50 fixed z-99 top-[69px] left-0 right-0 bottom-0 invisible opacity-0 transition-opacity duration-300 ease",
+          "fixed z-99 top-17.25 left-0 right-0 bottom-0 bg-overlay",
+          "invisible opacity-0 transition-opacity duration-300 ease",
           showMenu && "visible opacity-100"
         )} 
         onClick={() => setShowMenu(false)}>
