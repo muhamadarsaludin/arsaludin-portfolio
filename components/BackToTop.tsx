@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { LuArrowUp } from "react-icons/lu"
 import clsx from "clsx"
 
-export default function MiracleBackToTop() {
+export default function BackToTop() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {

@@ -46,7 +46,7 @@ export default function MiracleRadio({
       </label>
 
       {description && (
-        <span className="col-start-2 col-span-2 text-sm text-neutral-500">
+        <span className="col-start-2 col-span-2 text-sm text-secondary">
           {description}
         </span>
       )}

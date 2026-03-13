@@ -9,7 +9,7 @@ import { geist, geistMono, outfit } from "@/configs/font";
 import "../globals.css";
 import Header from '@/components/header/Header';
 import Footer from '@/components/Footer';
-import MiracleBackToTop from '@/components/miracle/BackToTop';
+import BackToTop from '@/components/BackToTop';
 
 type LayoutProps = {
   children: React.ReactNode
@@ -48,7 +48,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
               {children}
             </main>
             <Footer />
-            <MiracleBackToTop/>
+            <BackToTop/>
           </Providers>
         </NextIntlClientProvider>
       </body>
