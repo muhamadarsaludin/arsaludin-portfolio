@@ -37,11 +37,11 @@ export default function Heading({
   }
 
   const levelClass: Record<number, string> = {
-    1: "text-5xl",
-    2: "text-4xl",
-    3: "text-3xl",
-    4: "text-2xl",
-    5: "text-xl"
+    1: "text-3xl lg:text-4xl xl:text-5xl",
+    2: "text-2xl lg:text-3xl xl:text-4xl",
+    3: "text-xl lg:text-2xl xl:text-3xl",
+    4: "text-lg lg:text-xl xl:text-2xl",
+    5: "text-md lg:text-lg xl:text-xl"
   }
 
   // const levelClass: Record<number, string> = {

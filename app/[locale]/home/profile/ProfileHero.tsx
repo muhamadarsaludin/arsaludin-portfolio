@@ -26,7 +26,7 @@ export default function ProfileHero() {
       </div>
       <Image
         className="absolute object-contain md:object-cover"
-        src="/background-profile.png"
+        src="/background-profile.webp"
         alt="Think.Design.Develop"
         fill
       />

@@ -1,13 +1,18 @@
 import Heading from '@/components/Heading'
+import clsx from 'clsx'
 import { LuMapPin } from 'react-icons/lu'
 
-export default function ProfileInfo() {
+type ProfileInfoProps = {
+  className?: string
+}
+
+export default function ProfileInfo({className}: ProfileInfoProps) {
   return (
-    <div className="flex-1 flex flex-col gap-1">
-      <Heading className="font-bold" copyLink={false} level={2}>
+    <div className={clsx("flex flex-col gap-1", className)}>
+      <h1 className="text-2xl md:text-3xl xl:text-4xl font-bold">
         Muhamad Arsaludin
-      </Heading>
-      <p className="text-blue-400 text-2xl font-medium">UX Engineer</p>
+      </h1>
+      <p className="text-blue-400 text-xl lg:text-2xl font-medium">UX Engineer</p>
       <p className="text-secondary flex gap-1 items-center"><LuMapPin/>Tasikmalaya, Indonesia</p>
     </div>
   )
