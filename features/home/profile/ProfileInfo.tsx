@@ -1,4 +1,3 @@
-import Heading from '@/components/Heading'
 import clsx from 'clsx'
 import { LuMapPin } from 'react-icons/lu'
 

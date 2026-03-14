@@ -6,7 +6,7 @@ import ProfileInfo from "./ProfileInfo";
 import { useTranslations } from "next-intl";
 import clsx from "clsx";
 
-export default function Profile() {
+export default function ProfileSection() {
   const t = useTranslations("pages.home.profile")
   return (
    <Section className="relative">
@@ -33,7 +33,6 @@ export default function Profile() {
         <ProfileStats className="block lg:hidden mt-4"/>
         <p className="max-w-full lg:max-w-7/12 mt-6 lg:mt-8 xl:mt-10">{t("about")}</p>
       </div>
-      
    </Section>
   )
 }
