@@ -24,8 +24,8 @@ const navigationLinks = [
     disabled: false
   },
   {
-    label: "blog",
-    href: "/blog",
+    label: "blogs",
+    href: "/blogs",
     disabled: false
   },
   {

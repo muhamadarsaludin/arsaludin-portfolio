@@ -5,7 +5,7 @@
         "home": "Beranda",
         "projects": "Proyek",
         "certifications": "Sertifikasi",
-        "blog": "Blog",
+        "blogs": "Blog",
         "dashboard": "Dasbor"
       },
       "cta": {
@@ -30,7 +30,7 @@
         "projects": "Proyek",
         "stack": "Stack",
         "certifications": "Sertifikasi",
-        "blogs": "Blogs"
+        "blogs": "Blog"
       }
     }
   }
