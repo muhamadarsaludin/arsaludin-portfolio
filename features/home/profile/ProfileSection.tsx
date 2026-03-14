@@ -1,10 +1,9 @@
 import Section from "@/components/Section";
-import Image from "next/image"
 import ProfileHero from "./ProfileHero";
 import ProfileStats from "./ProfileStats";
 import ProfileInfo from "./ProfileInfo";
 import { useTranslations } from "next-intl";
-import clsx from "clsx";
+import ProfileImage from "./ProfileImage";
 
 export default function ProfileSection() {
   const t = useTranslations("pages.home.profile")
@@ -13,18 +12,7 @@ export default function ProfileSection() {
       <ProfileHero />
       <div className="-mt-15 lg:-mt-20 relative z-10 flex-col">
         <div className="flex flex-col md:flex-row gap-4 lg:gap-6 xl:gap-8">
-          <div className={clsx(
-            "shrink-0 relative rounded-4xl lg:rounded-[60px] overflow-hidden ml-4 lg:ml-6 xl:ml-8",
-            "border-4 lg:border-6 xl:border-8 border-primary",
-            "w-30 md:40 lg:w-45 aspect-5/6"
-            )}>
-            <Image
-              className="absolute object-cover object-top"
-              src="/profile.webp"
-              alt="Muhamad Arsaludin"
-              fill
-            />
-          </div>
+          <ProfileImage className="ml-4 lg:ml-6 xl:ml-8"/>
           <div className="flex-1 flex flex-row gap-6 xl:gap-8 justify-between mt-0 md:mt-15 lg:mt-20 pt-0 md:pt-4 lg:pt-6 xl:pt-8">
             <ProfileInfo className="shrink-0"/>
             <ProfileStats className="hidden lg:block"/>
