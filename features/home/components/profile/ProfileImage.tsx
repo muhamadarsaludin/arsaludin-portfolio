@@ -15,7 +15,7 @@ export default function ProfileImage({className}: ProfileImageProps) {
       )}>
       <Image
         className="absolute object-cover object-top"
-        src="/profile.webp"
+        src="/profile/profile.webp"
         alt="Muhamad Arsaludin"
         fill
       />
