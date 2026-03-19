@@ -1,13 +1,12 @@
+import { getFeaturedProjects } from "../services/projects";
+import { loginWithGoogle, logout } from '@/features/auth/services/authService';
 import ProfileSection from "./profile";
-import EducationSection from "./education";
-import { getEducations } from "../services";
 
 export default async function HomePage() {
-  const educations = await getEducations()
+  const featuredProjects = await getFeaturedProjects()
   return (
     <>
       <ProfileSection/>
-      <EducationSection items={educations} />
     </>
   )
 }

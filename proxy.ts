@@ -1,7 +1,20 @@
+import { type NextRequest } from 'next/server'
 import createMiddleware from 'next-intl/middleware';
 import {routing} from './i18n/routing';
+import { updateSession } from '@/lib/supabase/proxy'
  
-export default createMiddleware(routing);
+// export default createMiddleware(routing);
+const handleI18nRouting = createMiddleware(routing)
+
+export async function proxy(request: NextRequest) {
+  const response = handleI18nRouting(request)
+  if (response.headers.get('location')) {
+    return response
+  }
+  return await updateSession(request, response)
+}
+
+
  
 export const config = {
   // Match all pathnames except for
