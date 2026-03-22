@@ -12,13 +12,6 @@ export type ThemeToggleProps = {
 
 export default function ThemeToggle({className}: ThemeToggleProps) {
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   const handleThemeChange = (theme: string) => {
     setTheme(theme)
@@ -53,7 +46,7 @@ export default function ThemeToggle({className}: ThemeToggleProps) {
   }
   
   return (
-    <MiracleTooltip position="bottom-end" trigger={
+    <MiracleTooltip defaultPosition="bottom-center" hoverContent trigger={
       <button
         className={clsx(
           "p-2 rounded-md cursor-pointer group-hover/tooltip:bg-neutral-100 dark:group-hover/tooltip:bg-neutral-800 transition-colors duration-300 ease",

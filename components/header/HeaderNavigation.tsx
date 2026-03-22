@@ -29,8 +29,8 @@ const navigationLinks = [
     disabled: false
   },
   {
-    label: "dashboard",
-    href: "/dashboard",
+    label: "contact",
+    href: "/contact",
     disabled: false
   }
 ]

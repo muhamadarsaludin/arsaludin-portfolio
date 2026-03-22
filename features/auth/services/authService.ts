@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/client';
 
 const supabase = createClient();
 
-export async function loginWithGoogle() {
+export async function signInWithGoogle() {
   try {
     const redirectTo = process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL;
 
@@ -13,7 +13,7 @@ export async function loginWithGoogle() {
     });
 
     if (error) {
-      console.error('Google login error:', error.message);
+      console.error('Sign in with Google error:', error.message);
       throw error;
     }
   } catch (err) {
@@ -22,15 +22,15 @@ export async function loginWithGoogle() {
   }
 }
 
-export async function logout() {
+export async function signOut() {
   try {
     const { error } = await supabase.auth.signOut();
     if (error) {
-      console.error('Logout error:', error.message);
+      console.error('Sign out error:', error.message);
       throw error;
     }
   } catch (err) {
-    console.error('Unexpected logout error:', err);
+    console.error('Unexpected sign out error:', err);
     throw err;
   }
 }
