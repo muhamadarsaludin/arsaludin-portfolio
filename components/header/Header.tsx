@@ -7,11 +7,13 @@ import { Link, usePathname } from "@/i18n/navigation"
 import MenuToggle from "./toggle/MenuToggle"
 import Image from "next/image"
 import HeaderNavigation from "./HeaderNavigation"
-import MiracleButton from "../miracle/Button"
-import { LuDownload } from "react-icons/lu"
 import LangToggle from "./toggle/LangToggle"
 import ThemeToggle from "./toggle/ThemeToggle"
 import { useScrollLock } from "@/hooks/useScrollLock"
+import DownloadResumeButton from "./button/DownloadResumeButton"
+import SignInButton from "./button/SignInButton"
+import HeaderAvatar from "./HeaderAvatar"
+import { useAuth } from "@/providers/AuthProvider"
 
 type HeaderProps = {
   className?: string
@@ -20,6 +22,7 @@ type HeaderProps = {
 export default function Header({ className }: HeaderProps) {
   const t = useTranslations("components.header")
   const [showMenu, setShowMenu] = useState(false)
+  const { isSignedIn } = useAuth()
   const pathname = usePathname()
   const handleToggle = () => {
     setShowMenu(prev => !prev)
@@ -74,17 +77,14 @@ export default function Header({ className }: HeaderProps) {
         </div>
         <div className="flex gap-3">
           <div className="hidden lg:flex gap-3">
-            <MiracleButton variant="secondary">
-              {t("cta.contact")}
-            </MiracleButton>
-            <MiracleButton variant="primary" endIcon={ <LuDownload size={16}/> }>
-              {t("cta.resume")}
-            </MiracleButton>
+            {!isSignedIn && <SignInButton/>}
+            <DownloadResumeButton/>
           </div>
           <div className="flex gap-1">
             <LangToggle/>
             <ThemeToggle/>
           </div>
+          {isSignedIn && <HeaderAvatar />}
         </div>
       </div>
       
@@ -98,12 +98,8 @@ export default function Header({ className }: HeaderProps) {
       )}>
         <HeaderNavigation className="flex flex-col items-start"/>
         <div className="flex flex-col gap-3">
-          <MiracleButton variant="secondary">
-            {t("cta.contact")}
-          </MiracleButton>
-          <MiracleButton variant="primary" endIcon={ <LuDownload size={16}/> }>
-            {t("cta.resume")}
-          </MiracleButton>
+          {!isSignedIn && <SignInButton/>}
+          <DownloadResumeButton/>
         </div>
       </aside>
 

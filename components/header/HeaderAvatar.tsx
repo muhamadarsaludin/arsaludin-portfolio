@@ -1,0 +1,76 @@
+"use client"
+
+import React from "react"
+import MiracleTooltip from "../miracle/Tooltip"
+import { signOut } from "@/features/auth/services/authService"
+import { LuLogOut } from "react-icons/lu"
+import { useTranslations } from "next-intl"
+import Image from "next/image"
+import { useAuth } from "@/providers/AuthProvider"
+
+export default function HeaderAvatar() {
+  const { user } = useAuth()  
+  const t = useTranslations("components.header")
+  const getInitials = (name: string) => {
+    const words = (name || "").trim().split(" ").filter(Boolean)
+    if (words.length === 0) return ""
+    if (words.length === 1) return words[0][0].toUpperCase()
+    if (words.length === 2 || words.length === 3) return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+    return (words[0][0] + words[1][0]).toUpperCase()
+  }
+
+  if (!user) return null
+
+  const userData = 
+  {
+    name: user.user_metadata.full_name || "",
+    email: user.email || "",
+    avatarUrl: user.user_metadata.avatar_url || ""
+  }
+
+  const initials = getInitials(userData.name)
+
+  const handleSignOut = async () => {
+    await signOut()
+    window.location.reload()
+  }
+
+  return (
+    <MiracleTooltip
+      defaultPosition="bottom-center"
+      hoverContent
+      noPadding
+      trigger={
+        userData.avatarUrl ? (
+          <Image
+            src={userData.avatarUrl}
+            alt={userData.name}
+            width={40}
+            height={40}
+            unoptimized
+            referrerPolicy="no-referrer"
+            className="w-10 h-10 rounded-full object-cover"
+          />
+        ) : (
+          <div className="w-10 h-10 rounded-full bg-blue-600 dark:bg-blue-400 flex items-center justify-center text-primary-inv font-semibold">
+            {initials || "?"}
+          </div>
+        )
+      }
+    >
+      <div className="flex flex-col m-1">
+        <div className="p-3 text-sm font-medium border-b border-gray-950/10 dark:border-white/10">
+          <div className="font-semibold">{userData.name}</div>
+          {userData.email && <div className="text-xs text-neutral-500 dark:text-neutral-400 font-normal mt-0.5">{userData.email}</div>}
+        </div>
+        <button 
+          onClick={handleSignOut}
+          className="mt-1 p-2 text-sm text-left hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors flex gap-1 items-center rounded-sm cursor-pointer"
+        >
+          <LuLogOut />
+          {t("cta.signOut")}
+        </button>
+      </div>
+    </MiracleTooltip>
+  )
+}
