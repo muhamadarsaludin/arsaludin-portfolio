@@ -49,17 +49,17 @@ export default function HeaderAvatar() {
             height={40}
             unoptimized
             referrerPolicy="no-referrer"
-            className="w-10 h-10 rounded-full object-cover"
+            className="w-10 h-10 rounded-full object-cover border border-primary"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-blue-600 dark:bg-blue-400 flex items-center justify-center text-primary-inv font-semibold">
+          <div className="w-10 h-10 rounded-full bg-blue-600 dark:bg-blue-400 flex items-center justify-center text-primary-inv font-semibold border border-primary">
             {initials || "?"}
           </div>
         )
       }
     >
       <div className="flex flex-col m-1">
-        <div className="p-3 text-sm font-medium border-b border-gray-950/10 dark:border-white/10">
+        <div className="p-2 text-sm font-medium border-b border-primary">
           <div className="font-semibold">{userData.name}</div>
           {userData.email && <div className="text-xs text-neutral-500 dark:text-neutral-400 font-normal mt-0.5">{userData.email}</div>}
         </div>
