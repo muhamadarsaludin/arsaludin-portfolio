@@ -1,15 +1,16 @@
-import { Metadata, Viewport } from 'next';
-import { metadata as metaConfig } from '@/configs/metadata';
-import {NextIntlClientProvider, hasLocale} from 'next-intl';
-import {setRequestLocale} from 'next-intl/server';
-import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
-import { Providers } from "@/providers/providers";
+import { Metadata, Viewport } from "next";
+import { metadata as metaConfig } from "@/configs/metadata";
+import {NextIntlClientProvider, hasLocale} from "next-intl";
+import {setRequestLocale} from "next-intl/server";
+import {notFound} from "next/navigation";
+import {routing} from "@/i18n/routing";
 import { geist, geistMono, outfit } from "@/configs/font";
 import "../globals.css";
-import Header from '@/components/header/Header';
-import Footer from '@/components/Footer';
-import BackToTop from '@/components/BackToTop';
+import Header from "@/components/header/Header";
+import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
+import { createClient } from "@/lib/supabase/server";
+import { Providers } from "@/providers/Providers";
 
 type LayoutProps = {
   children: React.ReactNode
@@ -27,9 +28,11 @@ export const viewport: Viewport = {
   colorScheme: "light dark",
 }
 
+// SSG
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
+
 
 export default async function LocaleLayout({ children, params }: LayoutProps) {
   const {locale} = await params
@@ -37,12 +40,17 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
     notFound();
   }
   setRequestLocale(locale)
+
+  // Auth
+  const supabase = await createClient()
+  const { data } = await supabase.auth.getUser()
+  console.log(data)
   
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${geist.variable} ${geistMono.variable} ${outfit.variable} antialiased bg-surface-primary text-primary rounded-md shadow-md`}>
         <NextIntlClientProvider locale={locale}>
-          <Providers>
+          <Providers initialUser={data.user}>
             <Header/>
             <main className="pt-23 lg:pt-25">
               {children}
