@@ -35,6 +35,7 @@ export function generateStaticParams() {
 
 
 export default async function LocaleLayout({ children, params }: LayoutProps) {
+  // SSG
   const {locale} = await params
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -44,7 +45,6 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   // Auth
   const supabase = await createClient()
   const { data } = await supabase.auth.getUser()
-  console.log(data)
   
   return (
     <html lang={locale} suppressHydrationWarning>
