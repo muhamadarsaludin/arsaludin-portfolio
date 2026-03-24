@@ -66,7 +66,7 @@ export default function Heading({
       {copyLink && (
         <div className="absolute right-full top-1/2 -translate-y-1/2 pr-1 invisible opacity-0 translate-x-1 group-hover/heading:translate-x-0 group-hover/heading:visible group-hover/heading:opacity-100 transition duration-300 ease shrink-0 flex-1">
           <MiracleTooltip
-            position="top-start"
+            hoverContent
             trigger={
               <button
                 onClick={handleCopy}
