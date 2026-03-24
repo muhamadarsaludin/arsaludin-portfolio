@@ -22,7 +22,7 @@ type HeaderProps = {
 export default function Header({ className }: HeaderProps) {
   const t = useTranslations("components.header")
   const [showMenu, setShowMenu] = useState(false)
-  const { isSignedIn } = useAuth()
+  const { isSignedIn, isLoading } = useAuth()
   const pathname = usePathname()
   const handleToggle = () => {
     setShowMenu(prev => !prev)
@@ -77,7 +77,7 @@ export default function Header({ className }: HeaderProps) {
         </div>
         <div className="flex gap-3">
           <div className="hidden lg:flex gap-3">
-            {!isSignedIn && <SignInButton/>}
+            {!isLoading && !isSignedIn && <SignInButton/>}
             <DownloadResumeButton/>
           </div>
           <div className="flex gap-1">

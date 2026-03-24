@@ -17,20 +17,25 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
-export function AuthProvider({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = createClient()
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+
+  // 👇 undefined = belum tau (IMPORTANT)
+  const [user, setUser] = useState<User | null | undefined>(undefined)
 
   useEffect(() => {
+    // 🔥 ambil session awal (INI YANG KURANG DI CODE KAMU)
+    const getInitialSession = async () => {
+      const { data } = await supabase.auth.getSession()
+      setUser(data.session?.user ?? null)
+    }
+
+    getInitialSession()
+
+    // 🔥 listen perubahan auth
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null)
-        setLoading(session?.user ? false : true)
       }
     )
 
@@ -39,8 +44,16 @@ export function AuthProvider({
     }
   }, [supabase])
 
+  const isLoading = user === undefined
+
   return (
-    <AuthContext.Provider value={{ user, isSignedIn: !!user, isLoading: loading}}>
+    <AuthContext.Provider
+      value={{
+        user: user ?? null,
+        isSignedIn: !!user,
+        isLoading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

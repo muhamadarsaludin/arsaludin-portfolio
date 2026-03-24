@@ -9,8 +9,9 @@ import Image from "next/image"
 import { useAuth } from "@/providers/AuthProvider"
 
 export default function HeaderAvatar() {
-  const { user } = useAuth()  
+  const { user, isLoading, isSignedIn } = useAuth()
   const t = useTranslations("components.header")
+
   const getInitials = (name: string) => {
     const words = (name || "").trim().split(" ").filter(Boolean)
     if (words.length === 0) return ""
@@ -19,10 +20,9 @@ export default function HeaderAvatar() {
     return (words[0][0] + words[1][0]).toUpperCase()
   }
 
-  if (!user) return null
+  if (isLoading || !isSignedIn || !user) return null
 
-  const userData = 
-  {
+  const userData = {
     name: user.user_metadata.full_name || "",
     email: user.email || "",
     avatarUrl: user.user_metadata.avatar_url || ""
@@ -45,14 +45,14 @@ export default function HeaderAvatar() {
           <Image
             src={userData.avatarUrl}
             alt={userData.name}
-            width={40}
-            height={40}
+            width={32}
+            height={32}
             unoptimized
             referrerPolicy="no-referrer"
-            className="w-10 h-10 rounded-full object-cover border border-primary"
+            className="w-8 h-8 rounded-full object-cover border border-primary"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-blue-600 dark:bg-blue-400 flex items-center justify-center text-primary-inv font-semibold border border-primary">
+          <div className="w-8 h-8 rounded-full bg-blue-600 dark:bg-blue-400 flex items-center justify-center text-primary-inv font-semibold border border-primary">
             {initials || "?"}
           </div>
         )
@@ -65,7 +65,7 @@ export default function HeaderAvatar() {
         </div>
         <button 
           onClick={handleSignOut}
-          className="mt-1 p-2 text-sm text-left hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors flex gap-1 items-center rounded-sm cursor-pointer"
+          className="mt-1 p-2 text-sm text-left hover:bg-neutral-80 dark:hover:bg-neutral-800 transition-colors flex gap-1 items-center rounded-sm cursor-pointer"
         >
           <LuLogOut />
           {t("cta.signOut")}
