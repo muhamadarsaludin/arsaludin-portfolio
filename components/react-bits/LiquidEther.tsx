@@ -128,9 +128,9 @@ export default function LiquidEther({
       fboHeight: number | null = null;
       time = 0;
       delta = 0;
+      lastTime = 0;
       container: HTMLElement | null = null;
       renderer: THREE.WebGLRenderer | null = null;
-      clock: THREE.Clock | null = null;
       init(container: HTMLElement) {
         this.container = container;
         this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
@@ -145,8 +145,7 @@ export default function LiquidEther({
         el.style.width = '100%';
         el.style.height = '100%';
         el.style.display = 'block';
-        this.clock = new THREE.Clock();
-        this.clock.start();
+        this.lastTime = performance.now();
       }
       resize() {
         if (!this.container) return;
@@ -157,8 +156,9 @@ export default function LiquidEther({
         if (this.renderer) this.renderer.setSize(this.width, this.height, false);
       }
       update() {
-        if (!this.clock) return;
-        this.delta = this.clock.getDelta();
+        const now = performance.now();
+        this.delta = (now - this.lastTime) / 1000;
+        this.lastTime = now;
         this.time += this.delta;
       }
     }

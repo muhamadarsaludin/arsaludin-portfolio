@@ -1,10 +1,27 @@
+"use client"
+
 import BlurText from '@/components/react-bits/BlurText'
+import { useAnimateOnInView } from '@/hooks/useAnimateOnInView'
 import LiquidEther from '@/components/react-bits/LiquidEther'
 import Image from "next/image"
 
-export default function ProfileHero() {
+type ProfileHeroProps = React.HTMLAttributes<HTMLDivElement> & {
+  className?: string
+}
+
+export default function ProfileHero({className, ...props}: ProfileHeroProps) {
+  const { ref: heroRef, showAnimation } = useAnimateOnInView<HTMLDivElement>({
+    threshold: 0.2,
+    delay: 500,
+    triggerOnce: true,
+  });
+
   return (
-    <div className="w-full h-50 md:h-70 lg:h-85 xl:h-100 rounded-2xl relative border border-gray-950/10 dark:border-white/10 bg-black overflow-hidden">
+    <div 
+      ref={heroRef}
+      {...props}
+      className="w-full h-50 md:h-70 lg:h-85 xl:h-100 rounded-2xl relative border border-gray-950/10 dark:border-white/10 bg-black overflow-hidden"
+    >
       <div style={{ width: '100%', height: "100%", position: 'relative' }} className="z-1 hidden md:block">
         <LiquidEther
           colors={['#2563EB', '#22D3EE', '#8B5CF6']}
@@ -29,16 +46,21 @@ export default function ProfileHero() {
         src="/profile/background-profile.webp"
         alt="Think.Design.Develop"
         fill
+        sizes="100vw"
+        priority
       />
-      <BlurText
-        text="Think . Design . Develop"
-        delay={200}
-        animateBy="words"
-        direction="top"
-        className="text-2xl md:text-6xl lg:text-[5rem] xl:text-8xl font-semibold mb-9 md:mb-8 absolute z-2 bottom-0 inset-x-0 justify-center leading-tight px-6"
-        spanClassName="bg-linear-to-b from-neutral-100 to-neutral-950 bg-clip-text text-transparent"
-        style={{ wordSpacing: "-1rem" }}
-      />
+      {
+        showAnimation &&
+        <BlurText
+          text="Think . Design . Develop"
+          delay={200}
+          animateBy="words"
+          direction="top"
+          className="text-2xl md:text-6xl lg:text-[5rem] xl:text-8xl font-semibold mb-9 md:mb-8 absolute z-2 bottom-0 inset-x-0 justify-center leading-tight px-6"
+          spanClassName="bg-linear-to-b from-neutral-100 to-neutral-950 bg-clip-text text-transparent"
+          style={{ wordSpacing: "-1rem" }}
+        />
+      }
     </div>
   )
 }
