@@ -84,7 +84,7 @@ export default function Header({ className }: HeaderProps) {
             <LangToggle/>
             <ThemeToggle/>
           </div>
-          {isSignedIn && <HeaderAvatar />}
+          <HeaderAvatar />
         </div>
       </div>
       

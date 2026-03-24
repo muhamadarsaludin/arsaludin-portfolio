@@ -9,7 +9,6 @@ import "../globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
-import { createClient } from "@/lib/supabase/server";
 import { Providers } from "@/providers/Providers";
 
 type LayoutProps = {
@@ -41,16 +40,12 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
     notFound();
   }
   setRequestLocale(locale)
-
-  // Auth
-  const supabase = await createClient()
-  const { data } = await supabase.auth.getUser()
   
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${geist.variable} ${geistMono.variable} ${outfit.variable} antialiased bg-surface-primary text-primary rounded-md shadow-md`}>
         <NextIntlClientProvider locale={locale}>
-          <Providers initialUser={data.user}>
+          <Providers>
             <Header/>
             <main className="pt-23 lg:pt-25">
               {children}

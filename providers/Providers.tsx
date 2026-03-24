@@ -7,15 +7,13 @@ import { AosProvider } from './AosProvider'
 import type { User } from '@supabase/supabase-js'
 
 export function Providers({
-  children,
-  initialUser,
+  children
 }: {
   children: ReactNode
-  initialUser: User | null
 }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <AuthProvider initialUser={initialUser}>
+      <AuthProvider>
         <AosProvider>
           {children}
         </AosProvider>
