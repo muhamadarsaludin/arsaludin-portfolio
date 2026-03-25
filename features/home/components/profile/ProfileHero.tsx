@@ -46,7 +46,7 @@ export default function ProfileHero({className, ...props}: ProfileHeroProps) {
         src="/profile/background-profile.webp"
         alt="Think.Design.Develop"
         fill
-        sizes="100vw"
+        sizes="(max-width: 768px) 100vw, 1280px"
         priority
       />
       {

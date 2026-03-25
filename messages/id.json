@@ -32,6 +32,10 @@
         "stack": "Stack",
         "certifications": "Sertifikasi",
         "blogs": "Blog"
+      },
+      "skills-and-services": {
+        "title": "Keahlian & Layanan",
+        "description": "Saya menghadirkan layanan digital dengan menggabungkan kemampuan teknis dan pemikiran kreatif untuk menciptakan solusi yang berdampak dan berkualitas tinggi."
       }
     }
   }

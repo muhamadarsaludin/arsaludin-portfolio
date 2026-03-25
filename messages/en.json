@@ -32,6 +32,10 @@
         "stack": "Stack",
         "certifications": "Certifications",
         "blogs": "Blog"
+      },
+      "skills-and-services": {
+        "title": "Skills & Services",
+        "description": "I deliver digital services by combining technical skills and creative thinking to create impactful, high-quality solutions."
       }
     }
   }

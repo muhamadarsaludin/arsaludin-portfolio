@@ -23,7 +23,7 @@ export default function ProfileSection() {
           </div>
         </div>
         <ProfileStats className="block lg:hidden mt-4"/>
-        <p className="max-w-full lg:max-w-7/12 mt-6 lg:mt-8 xl:mt-10">{t("about")}</p>
+        <p className="max-w-full lg:max-w-7/12 mt-6 lg:mt-8 text-secondary">{t("about")}</p>
       </div>
    </Section>
   )

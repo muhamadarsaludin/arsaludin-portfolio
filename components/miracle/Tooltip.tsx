@@ -113,7 +113,7 @@ export default function MiracleTooltip({
   return (
     <div 
       ref={containerRef}
-      className={clsx("relative flex w-fit cursor-pointer", className)}
+      className={clsx("relative flex w-fit cursor-pointer group/tooltip", className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
