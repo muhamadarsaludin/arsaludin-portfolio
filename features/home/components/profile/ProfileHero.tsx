@@ -1,7 +1,6 @@
 "use client"
 
 import BlurText from '@/components/react-bits/BlurText'
-import { useAnimateOnInView } from '@/hooks/useAnimateOnInView'
 import LiquidEther from '@/components/react-bits/LiquidEther'
 import Image from "next/image"
 

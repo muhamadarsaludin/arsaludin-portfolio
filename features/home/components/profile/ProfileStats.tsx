@@ -1,5 +1,4 @@
 "use client"
-import { useAnimateOnInView } from '@/hooks/useAnimateOnInView'
 import clsx from 'clsx'
 import { useTranslations } from 'next-intl'
 import CountUp from 'react-countup'
