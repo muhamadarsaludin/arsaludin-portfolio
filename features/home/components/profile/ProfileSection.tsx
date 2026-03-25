@@ -9,9 +9,8 @@ export default function ProfileSection() {
   const t = useTranslations("pages.home.profile")
   return (
    <Section className="relative">
-      <ProfileHero data-aos="zoom-in-up" />
-      <div 
-        data-aos="fade-up" data-aos-delay="500"
+      <ProfileHero/>
+      <div
         className="-mt-15 lg:-mt-20 relative z-10 flex-col">
         <div 
           className="flex flex-col md:flex-row gap-4 lg:gap-6 xl:gap-8">

@@ -10,15 +10,8 @@ type ProfileHeroProps = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 export default function ProfileHero({className, ...props}: ProfileHeroProps) {
-  const { ref: heroRef, showAnimation } = useAnimateOnInView<HTMLDivElement>({
-    threshold: 0.2,
-    delay: 500,
-    triggerOnce: true,
-  });
-
   return (
     <div 
-      ref={heroRef}
       {...props}
       className="w-full h-50 md:h-70 lg:h-85 xl:h-100 rounded-2xl relative border border-gray-950/10 dark:border-white/10 bg-black overflow-hidden"
     >
@@ -49,18 +42,15 @@ export default function ProfileHero({className, ...props}: ProfileHeroProps) {
         sizes="(max-width: 768px) 100vw, 1280px"
         priority
       />
-      {
-        showAnimation &&
-        <BlurText
-          text="Think . Design . Develop"
-          delay={200}
-          animateBy="words"
-          direction="top"
-          className="text-2xl md:text-6xl lg:text-[5rem] xl:text-8xl font-semibold mb-9 md:mb-8 absolute z-2 bottom-0 inset-x-0 justify-center leading-tight px-6"
-          spanClassName="bg-linear-to-b from-neutral-100 to-neutral-950 bg-clip-text text-transparent"
-          style={{ wordSpacing: "-1rem" }}
-        />
-      }
+      <BlurText
+        text="Think . Design . Develop"
+        delay={200}
+        animateBy="words"
+        direction="top"
+        className="text-2xl md:text-6xl lg:text-[5rem] xl:text-8xl font-semibold mb-9 md:mb-8 absolute z-2 bottom-0 inset-x-0 justify-center leading-tight px-6"
+        spanClassName="bg-linear-to-b from-neutral-100 to-neutral-950 bg-clip-text text-transparent"
+        style={{ wordSpacing: "-1rem" }}
+      />
     </div>
   )
 }

@@ -10,13 +10,8 @@ type ProfileStatsProps = {
 
 export default function ProfileStats({className}: ProfileStatsProps) {
   const t = useTranslations("pages.home.profile")
-  const { ref: statsRef, showAnimation } = useAnimateOnInView<HTMLDivElement>({
-    threshold: 0.2,
-    delay: 800,
-    triggerOnce: true,
-  });
   return (
-    <div ref={statsRef} className={clsx("max-w-full overflow-auto", className)}>
+    <div className={clsx("max-w-full overflow-auto", className)}>
       <table className="border-separate border-spacing-0">
         <thead>
           <tr>
@@ -30,17 +25,12 @@ export default function ProfileStats({className}: ProfileStatsProps) {
         <tbody>
           <tr>
             <td className="min-w-20 text-center p-1 font-medium text-xl md:text-2xl xl:text-3xl">
-              {
-                showAnimation && 
-                <>
-                <CountUp end={4} /> +
-                </>
-              }
+              <CountUp end={4} /> +
             </td>
-            <td className="min-w-20 text-center p-1 font-medium text-xl md:text-2xl xl:text-3xl">{showAnimation && <CountUp end={10} />}</td>
-            <td className="min-w-20 text-center p-1 font-medium text-xl md:text-2xl xl:text-3xl">{showAnimation && <CountUp end={12} />}</td>
-            <td className="min-w-20 text-center p-1 font-medium text-xl md:text-2xl xl:text-3xl">{showAnimation && <CountUp end={20} />}</td>
-            <td className="min-w-20 text-center p-1 font-medium text-xl md:text-2xl xl:text-3xl">{showAnimation && <CountUp end={4} />}</td>
+            <td className="min-w-20 text-center p-1 font-medium text-xl md:text-2xl xl:text-3xl"><CountUp end={10} /></td>
+            <td className="min-w-20 text-center p-1 font-medium text-xl md:text-2xl xl:text-3xl"><CountUp end={12} /></td>
+            <td className="min-w-20 text-center p-1 font-medium text-xl md:text-2xl xl:text-3xl"><CountUp end={20} /></td>
+            <td className="min-w-20 text-center p-1 font-medium text-xl md:text-2xl xl:text-3xl"><CountUp end={4} /></td>
           </tr>
         </tbody>
       </table>

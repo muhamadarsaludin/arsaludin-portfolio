@@ -1,7 +1,7 @@
 import ProfileSection from "./profile";
 import SkillsAndServicesSection from "./skills-and-services/SkillsAndServicesSection";
 
-export default async function HomePage() {
+export default function HomePage() {
   return (
     <>
       <ProfileSection/>
