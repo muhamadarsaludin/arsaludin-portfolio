@@ -8,19 +8,26 @@ import { useTranslations } from "next-intl"
 import Image from "next/image"
 import { useAuth } from "@/providers/AuthProvider"
 
+const getInitials = (name: string) => {
+  if (!name) return ""
+  const words = name.trim().split(/\s+/)
+  let initials = ""
+  
+  if (words.length === 1) {
+    initials = words[0]?.[0] ?? ""
+  } else if (words.length <= 3) {
+    initials = (words[0]?.[0] ?? "") + (words[words.length - 1]?.[0] ?? "")
+  } else {
+    initials = (words[0]?.[0] ?? "") + (words[1]?.[0] ?? "")
+  }
+  return initials.toUpperCase()
+}
+
 export default function HeaderAvatar() {
-  const { user, isLoading, isSignedIn } = useAuth()
+  const { user, isSignedIn } = useAuth()
   const t = useTranslations("components.header")
 
-  const getInitials = (name: string) => {
-    const words = (name || "").trim().split(" ").filter(Boolean)
-    if (words.length === 0) return ""
-    if (words.length === 1) return words[0][0].toUpperCase()
-    if (words.length === 2 || words.length === 3) return (words[0][0] + words[words.length - 1][0]).toUpperCase()
-    return (words[0][0] + words[1][0]).toUpperCase()
-  }
-
-  if (isLoading || !isSignedIn || !user) return null
+  if (!user) return null
 
   const userData = {
     name: user.user_metadata.full_name || "",
@@ -32,7 +39,6 @@ export default function HeaderAvatar() {
 
   const handleSignOut = async () => {
     await signOut()
-    window.location.reload()
   }
 
   return (

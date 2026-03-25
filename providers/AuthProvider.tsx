@@ -12,27 +12,21 @@ import type { User } from "@supabase/supabase-js"
 type AuthContextType = {
   user: User | null
   isSignedIn: boolean
-  isLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({
+  children,
+  initialUser,
+}: {
+  children: React.ReactNode
+  initialUser: User | null
+}) {
   const supabase = createClient()
-
-  // 👇 undefined = belum tau (IMPORTANT)
-  const [user, setUser] = useState<User | null | undefined>(undefined)
+  const [user, setUser] = useState<User | null>(initialUser)
 
   useEffect(() => {
-    // 🔥 ambil session awal (INI YANG KURANG DI CODE KAMU)
-    const getInitialSession = async () => {
-      const { data } = await supabase.auth.getSession()
-      setUser(data.session?.user ?? null)
-    }
-
-    getInitialSession()
-
-    // 🔥 listen perubahan auth
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null)
@@ -44,14 +38,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [supabase])
 
-  const isLoading = user === undefined
-
   return (
     <AuthContext.Provider
       value={{
-        user: user ?? null,
+        user,
         isSignedIn: !!user,
-        isLoading,
       }}
     >
       {children}
@@ -59,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-export const useAuth = () => {
+export function useAuth() {
   const ctx = useContext(AuthContext)
   if (!ctx) throw new Error("useAuth must be used inside AuthProvider")
   return ctx

@@ -10,6 +10,7 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import { Providers } from "@/providers/Providers";
+import { createClient } from "@/lib/supabase/server";
 
 type LayoutProps = {
   children: React.ReactNode
@@ -38,11 +39,16 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
     notFound();
   }
   setRequestLocale(locale)
+
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${geist.variable} ${geistMono.variable} ${outfit.variable} antialiased bg-surface-primary text-primary rounded-md shadow-md`} suppressHydrationWarning>
-        <Providers>
+        <Providers initialUser={user}>
           <NextIntlClientProvider locale={locale}>
             <Header/>
             <main className="pt-23 lg:pt-25">

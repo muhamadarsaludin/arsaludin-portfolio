@@ -1,4 +1,3 @@
-// features/services/auth/googleLogin.js
 import { createClient } from '@/lib/supabase/client';
 
 const supabase = createClient();
