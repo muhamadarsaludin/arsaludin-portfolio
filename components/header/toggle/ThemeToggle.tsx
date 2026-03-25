@@ -1,23 +1,28 @@
-"use client";
-import { useTheme } from "next-themes";
+"use client"
+
+import { useTheme } from "@wrksz/themes/client";
 import { LuMoon, LuSun, LuMonitorCog, LuPalette } from 'react-icons/lu'
 import clsx from 'clsx'
 import MiracleTooltip from "@/components/miracle/Tooltip";
 import MiracleRadio from "@/components/miracle/Radio";
-import { useEffect, useState } from "react";
 
 export type ThemeToggleProps = {
   className?: string
 }
 
+type ThemeData = {
+  value: "system" | "light" | "dark"
+  label: string
+}
+
 export default function ThemeToggle({className}: ThemeToggleProps) {
   const { theme, setTheme } = useTheme()
 
-  const handleThemeChange = (theme: string) => {
+  const handleThemeChange = (theme: "light" | "dark" | "system") => {
     setTheme(theme)
   };
 
-  const themes = [
+  const themes: ThemeData[] = [
     {
       value: "system",
       label: "System",

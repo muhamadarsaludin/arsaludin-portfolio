@@ -43,17 +43,17 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${geist.variable} ${geistMono.variable} ${outfit.variable} antialiased bg-surface-primary text-primary rounded-md shadow-md`}>
-        <NextIntlClientProvider locale={locale}>
-          <Providers>
+      <body className={`${geist.variable} ${geistMono.variable} ${outfit.variable} antialiased bg-surface-primary text-primary rounded-md shadow-md`} suppressHydrationWarning>
+        <Providers>
+          <NextIntlClientProvider locale={locale}>
             <Header/>
             <main className="pt-23 lg:pt-25">
               {children}
             </main>
             <Footer />
             <BackToTop/>
-          </Providers>
-        </NextIntlClientProvider>
+          </NextIntlClientProvider>
+        </Providers>
       </body>
     </html>
   )

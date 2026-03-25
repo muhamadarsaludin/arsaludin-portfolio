@@ -1,10 +1,7 @@
-'use client'
-
-import { ThemeProvider } from 'next-themes'
+import { ThemeProvider } from '@wrksz/themes/next'
 import { ReactNode } from 'react'
 import { AuthProvider } from './AuthProvider'
 import { AosProvider } from './AosProvider'
-import type { User } from '@supabase/supabase-js'
 
 export function Providers({
   children
