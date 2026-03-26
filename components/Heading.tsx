@@ -14,6 +14,7 @@ export type HeadingProps = {
   children: React.ReactNode
   className?: string
   copyLink?: boolean
+  noMarginTop?: boolean
 }
 
 export default function Heading({
@@ -22,6 +23,7 @@ export default function Heading({
   children,
   className,
   copyLink = true,
+  noMarginTop = false,
 }: HeadingProps) {
   const Tag = `h${level}` as keyof JSX.IntrinsicElements
   const baseId = id ?? (typeof children === "string" ? children : "")
@@ -45,12 +47,20 @@ export default function Heading({
     }
   }
 
-  const levelClass: Record<number, string> = {
-    1: "text-3xl md:text-4xl xl:text-5xl mt-0",
-    2: "text-2xl md:text-3xl xl:text-4xl mt-8 lg:mt-10 xl:mt-12",
-    3: "text-xl md:text-2xl xl:text-3xl mt-6 lg:mt-8",
-    4: "text-lg md:text-xl xl:text-2xl mt-4 lg:mt-6",
-    5: "text-md md:text-lg xl:text-xl mt-2 lg:mt-4"
+  const fontSizeClass: Record<number, string> = {
+    1: "text-3xl md:text-4xl xl:text-5xl",
+    2: "text-2xl md:text-3xl xl:text-4xl",
+    3: "text-xl md:text-2xl xl:text-3xl",
+    4: "text-lg md:text-xl xl:text-2xl",
+    5: "text-md md:text-lg xl:text-xl"
+  }
+
+  const marginClass: Record<number, string> = {
+    1: "mt-0",
+    2: "mt-8 lg:mt-10 xl:mt-12",
+    3: "mt-6 lg:mt-8",
+    4: "mt-4 lg:mt-6",
+    5: "mt-2 lg:mt-4"
   }
 
   return (
@@ -58,7 +68,8 @@ export default function Heading({
       id={headingId} 
       className={clsx(
         "relative leading-tight group/heading scroll-mt-24 font-bold",
-        levelClass[level],
+        fontSizeClass[level],
+        !noMarginTop && marginClass[level],
         className
       )}>
       <Link href={`#${headingId}`} onClick={handleScroll}>

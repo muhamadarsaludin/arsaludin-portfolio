@@ -4,27 +4,26 @@ import Heading from '@/components/Heading'
 import { useLocale, useTranslations } from 'next-intl'
 import { getServices } from '../../services/services'
 import ServiceCard, { ServiceType } from './ServiceCard'
-import FrontendIllustration from './illustrations/FrontendIllustration'
-import BackendIllustration from './illustrations/BackendIllustration'
+import FrontEndIllustration from './illustrations/FrontEndIllustration'
+import BackEndIllustration from './illustrations/BackEndIllustration'
 import AndroidIllustration from './illustrations/AndroidIllustration'
-import UxIllustration from './illustrations/UxIllustration'
+import UiUxIllustration from './illustrations/UiUxIllustration'
 import PmIllustration from './illustrations/PmIllustration'
-import DevopsIllustration from './illustrations/DevopsIllustration'
+import DevOpsIllustration from './illustrations/DevOpsIllustration'
 import React, { Suspense } from 'react'
-import SkillsAndServicesSkeleton from './SkillsAndServicesSkeleton'
+import ServiceCardSkeleton from './ServiceCardSkeleton'
 
 const illustrationsMap: Record<string, React.ReactNode> = {
-  "front-end": <FrontendIllustration />,
-  "back-end": <BackendIllustration />,
-  "ui-ux": <UxIllustration />,
+  "front-end": <FrontEndIllustration />,
+  "back-end": <BackEndIllustration />,
+  "ui-ux": <UiUxIllustration />,
   android: <AndroidIllustration />,
   pm: <PmIllustration />,
-  devops: <DevopsIllustration />,
+  devops: <DevOpsIllustration />,
 }
 
 async function ServiceList({ locale }: { locale: string }) {
   const dbServices = await getServices(locale)
-
   return (
     <div className="mt-8 flex snap-x snap-mandatory gap-4 pb-4 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
       {dbServices.map((dbService) => {
@@ -32,7 +31,7 @@ async function ServiceList({ locale }: { locale: string }) {
           title: dbService.name,
           description: dbService.description,
           illustration: illustrationsMap[dbService.slug] || null,
-          skills: [],
+          skills: ["html", "css", "js", "react", "nextjs", "tailwind"],
           featured: dbService.level === "expert",
         }
         return <ServiceCard key={dbService.id} service={service} />
@@ -41,10 +40,19 @@ async function ServiceList({ locale }: { locale: string }) {
   )
 }
 
+function ServiceListSkeleton() {
+  return (
+    <div className="mt-8 flex snap-x snap-mandatory gap-4 pb-4 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
+      {[...Array(6)].map((_, i) => (
+        <ServiceCardSkeleton key={i} />
+      ))}
+    </div>
+  )
+}
+
 export default function SkillsAndServicesSection() {
   const t = useTranslations("pages.home.skills-and-services")
   const locale = useLocale()
-
   return (
     <Section>
       <Heading id="skills-and-services">
@@ -52,11 +60,11 @@ export default function SkillsAndServicesSection() {
       </Heading>
       <p className="mt-4 text-neutral-600 dark:text-neutral-400">
         {t("description")}
-      </p>      
-      
-      <Suspense fallback={<SkillsAndServicesSkeleton />}>
+      </p>
+      <Suspense fallback={<ServiceListSkeleton />}>
         <ServiceList locale={locale} />
       </Suspense>
+      
     </Section>
   )
 }

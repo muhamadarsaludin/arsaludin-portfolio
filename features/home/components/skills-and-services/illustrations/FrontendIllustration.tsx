@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 
-export default function FrontendIllustration() {
+export default function FrontEndIllustration() {
   return (
     <div className="relative h-36 w-52 overflow-hidden rounded-lg border border-neutral-300 bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-950">
       {/* Browser header */}

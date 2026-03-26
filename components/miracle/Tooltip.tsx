@@ -14,6 +14,7 @@ export type TooltipProps = {
     | "right-start" | "right-center" | "right-end"
   hoverContent?: boolean
   noPadding?: boolean
+  showArrow?: boolean
 }
 
 export default function MiracleTooltip({
@@ -22,7 +23,8 @@ export default function MiracleTooltip({
   children,
   defaultPosition = "top-center",
   hoverContent = false,
-  noPadding = false
+  noPadding = false,
+  showArrow = true
 }: TooltipProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [adaptedPos, setAdaptedPos] = useState(defaultPosition)
@@ -110,6 +112,21 @@ export default function MiracleTooltip({
     "right-end": "left-full bottom-0 pl-2",
   }
 
+  const arrowPositionClass: Record<string, string> = {
+    "top-start": "-bottom-[5px] left-3 border-b border-r",
+    "top-center": "-bottom-[5px] left-1/2 -translate-x-1/2 border-b border-r",
+    "top-end": "-bottom-[5px] right-3 border-b border-r",
+    "bottom-start": "-top-[5px] left-3 border-t border-l",
+    "bottom-center": "-top-[5px] left-1/2 -translate-x-1/2 border-t border-l",
+    "bottom-end": "-top-[5px] right-3 border-t border-l",
+    "left-start": "-right-[5px] top-3 border-t border-r",
+    "left-center": "-right-[5px] top-1/2 -translate-y-1/2 border-t border-r",
+    "left-end": "-right-[5px] bottom-3 border-t border-r",
+    "right-start": "-left-[5px] top-3 border-b border-l",
+    "right-center": "-left-[5px] top-1/2 -translate-y-1/2 border-b border-l",
+    "right-end": "-left-[5px] bottom-3 border-b border-l",
+  }
+
   return (
     <div 
       ref={containerRef}
@@ -127,7 +144,15 @@ export default function MiracleTooltip({
           tooltipPositionClass[adaptedPos]
         )}
       >
-        <div className={clsx("bg-white dark:bg-neutral-950 rounded-md shadow-md shadow-neutral-500/50 border border-gray-950/10 dark:border-white/10 w-max min-w-max", !noPadding && "p-3")}>
+        <div className={clsx("relative bg-surface-primary rounded-md shadow-md shadow-neutral-500/50 border border-gray-950/10 dark:border-white/10 w-max min-w-max", !noPadding && "p-3")}>
+          {showArrow && (
+            <div
+              className={clsx(
+                "absolute w-2.5 h-2.5 rotate-45 bg-surface-primary border-gray-950/10 dark:border-white/10",
+                arrowPositionClass[adaptedPos]
+              )}
+            />
+          )}
           {children}
         </div>
       </div>

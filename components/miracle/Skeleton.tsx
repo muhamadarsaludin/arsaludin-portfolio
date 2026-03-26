@@ -8,7 +8,7 @@ export function MiracleSkeleton({
   return (
     <div
       className={clsx(
-        "animate-pulse rounded-md bg-gray-200 dark:bg-gray-800",
+        "animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-800",
         className
       )}
       {...props}

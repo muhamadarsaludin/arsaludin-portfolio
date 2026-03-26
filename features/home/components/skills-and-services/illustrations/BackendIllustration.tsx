@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 
-export default function BackendIllustration() {
+export default function BackEndIllustration() {
   return (
     <div className="relative flex h-36 w-52 flex-col items-center justify-center overflow-hidden rounded-lg border border-neutral-300 bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-950">
       
