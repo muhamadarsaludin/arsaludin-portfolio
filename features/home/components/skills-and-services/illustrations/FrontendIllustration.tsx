@@ -1,80 +1,144 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import BrowserWrapperIllustration from './BrowserWrapperIllustration'
+import clsx from 'clsx'
 
 export default function FrontEndIllustration() {
+  const colors = [
+    "bg-red-400 dark:bg-red-500",
+    "bg-blue-400 dark:bg-blue-500",
+    "bg-green-400 dark:bg-green-500",
+    "bg-yellow-400 dark:bg-yellow-500",
+  ]
   return (
-    <div className="relative h-36 w-52 overflow-hidden rounded-lg border border-neutral-300 bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-950">
-      {/* Browser header */}
-      <div className="flex items-center gap-1 border-b border-neutral-300 bg-neutral-200 px-2 py-1 dark:border-neutral-700 dark:bg-neutral-900">
-        {[1, 2, 3].map(i => (
-          <div key={i} className="h-2 w-2 rounded-full border border-neutral-400 dark:border-neutral-600" />
-        ))}
-        {/* URL Bar */}
-        <div className="ml-1 h-2 flex-1 rounded-sm bg-neutral-300/50 dark:bg-neutral-700/50" />
-      </div>
-      {/* Content Area */}
-      <div className="flex h-full gap-2 p-2">
-        {/* Sidebar Animating Width */}
-        <motion.div 
-          className="flex h-full flex-col gap-1.5 overflow-hidden rounded border border-neutral-300 bg-neutral-200 p-1 dark:border-neutral-700 dark:bg-neutral-800"
-          animate={{ width: ['48px', '16px', '48px'] }} 
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }} 
-        >
-          {/* Sidebar Items */}
-          <div className="h-1.5 w-full shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-600" />
-          <div className="h-1.5 w-3/4 shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-600" />
-          <div className="h-1.5 w-5/6 shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-600" />
-          {/* Profile Icon at bottom */}
-          <div className="mt-auto h-3 w-3 shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-600" />
-        </motion.div>
-        {/* Main Content Layout */}
-        <div className="flex flex-1 flex-col gap-2 overflow-hidden">
+    <BrowserWrapperIllustration>
+      <div className="flex h-full items-start relative">
+        {/* Sidebar */}
+        <div className="w-fit h-full bottom-0 flex flex-col justify-between gap-1 p-1 border-r-[0.5px] border-primary overflow-hidden relative bg-surface-secondary">
+          <div className="flex flex-col gap-2">
+            <div className="h-6 w-6 border-[0.5px] border-primary relative overflow-hidden rounded-md">
+              <div className="absolute -bottom-3 -left-1.5 h-6 w-6 rotate-45 rounded-xs bg-neutral-400 dark:bg-neutral-600" />
+              <div className="absolute -bottom-2 left-2.5 h-4 w-4 rotate-45 rounded-xs bg-neutral-300 dark:bg-neutral-700" />
+            </div>
+            <div className='flex flex-col gap-0.5'>
+              <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-400 dark:bg-neutral-600" />
+              <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
+              <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
+              <div className="h-0.5 w-3/4 shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
+            </div>
+          </div>
+          <div className="w-2 h-2 rounded-full bg-neutral-400 dark:bg-neutral-600"></div>
+        </div>
+        
+        {/* Main Content */}
+        <div className="flex flex-1 flex-col gap-2 overflow-hidden relative">
           {/* Top Navbar */}
-          <div className="flex w-full items-center justify-between border-b border-neutral-300 pb-1 dark:border-neutral-700">
-            <div className="h-1.5 w-8 rounded-full bg-neutral-300 dark:bg-neutral-700" />
-            <div className="h-2 w-2 rounded-full bg-neutral-400 dark:bg-neutral-600" />
+          <div className="flex w-full items-center justify-between border-b-[0.5px] border-primary p-1 absolute top-0 left-0 right-0 z-1 bg-surface-secondary">
+            <div className="h-2 w-2 rounded-xs bg-neutral-400 dark:bg-neutral-600" />
+            <div className="flex gap-1">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className={clsx(
+                  "h-1 w-4 rounded-full",
+                  i === 1 ? "bg-blue-400 dark:bg-blue-500" : "bg-neutral-300 dark:bg-neutral-700"
+                )} />
+              ))}
+            </div>
           </div>
 
-          {/* Image Placeholder with Mountains */}
+          {/* Animated Content */}
           <motion.div 
-            className="relative h-10 w-full shrink-0 overflow-hidden rounded border border-neutral-300 bg-neutral-200/50 dark:border-neutral-700 dark:bg-neutral-800/50"
-            animate={{ opacity: [0.6, 1, 0.6] }} 
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} 
-          >
-            {/* Sun */}
-            <motion.div 
-              className="absolute right-3 top-2 h-3 w-3 rounded-full bg-neutral-400 dark:bg-neutral-500"
-              animate={{ y: [0, -2, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            {/* Mountains */}
-            <div className="absolute -bottom-4 left-2 h-8 w-8 rotate-45 rounded-sm bg-neutral-400 dark:bg-neutral-600" />
-            <div className="absolute -bottom-5 left-7 h-10 w-10 rotate-45 rounded-sm bg-neutral-300 dark:bg-neutral-500" />
-          </motion.div>
-          
-          {/* Dashboard / Grid Data */}
-          <div className="flex flex-1 gap-1.5">
-            {/* Bar Chart Block */}
-            <div className="flex flex-1 items-end justify-between gap-1 rounded border border-neutral-300 bg-neutral-200/50 p-1 dark:border-neutral-700 dark:bg-neutral-800/50">
+            className="mt-6 flex flex-col gap-1.5 px-2"
+            animate={{ y: [0, -50, 0] }} 
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}>
+            <div 
+              className="relative h-10 w-full shrink-0 overflow-hidden rounded bg-surface-secondary">
+              <div className="absolute -bottom-5 left-2 h-10 w-10 rotate-45 rounded-sm bg-neutral-400 dark:bg-neutral-600" />
+              <div className="absolute -bottom-4 left-8 h-8 w-8 rotate-45 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
+            </div>
+
+            {/* Card Grid */}
+            <div className="grid grid-cols-3 gap-1.5">
               {[1, 2, 3].map((i) => (
-                <motion.div 
-                  key={i} 
-                  className="w-full rounded-t-sm bg-neutral-400 dark:bg-neutral-500"
-                  animate={{ height: ['40%', '80%', '50%', '40%'] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }} 
-                />
+                <div
+                  key={i}
+                  className="h-6 rounded overflow-hidden relative bg-surface-secondary"
+                >
+                  <div
+                    className={clsx(
+                      "absolute bottom-0 left-0 right-0 h-1",
+                      colors[i % colors.length]
+                    )}
+                  />
+                </div>
               ))}
             </div>
-            {/* List Block */}
-            <div className="flex flex-1 flex-col justify-between rounded border border-neutral-300 bg-neutral-200/50 p-1 dark:border-neutral-700 dark:bg-neutral-800/50">
+            
+            {/*Chart */}
+            <div className="flex gap-1.5 h-fit">
+              <div className="flex items-end gap-[2px] w-fit min-h-full rounded p-1 bg-surface-secondary">
+                {[4, 7, 3, 6, 5].map((h, i) => (
+                  <motion.div
+                    key={i}
+                    className={clsx("w-1 rounded-sm", colors[i % colors.length])}
+                    initial={{ height: 0 }}
+                    animate={{ height: `${h * 4}px` }}
+                    transition={{
+                      duration: 1,
+                      delay: i * 0.1,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                    }}
+                  />
+                ))}
+              </div>
+              <div className="flex flex-col gap-1 flex-1">
+                {[1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-2 rounded px-1 py-1 bg-surface-secondary"
+                  >
+                    <div className="h-3 w-3 rounded bg-neutral-400 dark:bg-neutral-600" />
+                    <div className="flex flex-col gap-0.5 flex-1">
+                      <div className="h-0.5 w-3/4 bg-neutral-400 dark:bg-neutral-600 rounded" />
+                      <div className="h-0.5 w-1/2 bg-neutral-300 dark:bg-neutral-700 rounded" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Card List */}
+            <div className="flex flex-col gap-1 flex-1">
               {[1, 2].map((i) => (
-                <div key={i} className="flex items-center gap-1"><div className="h-1.5 w-1.5 shrink-0 rounded-sm bg-neutral-400 dark:bg-neutral-600" /><div className="h-1 w-full rounded-full bg-neutral-300 dark:bg-neutral-700" /></div>
+                <div
+                  key={i}
+                  className="flex items-center gap-2 rounded px-1 py-1 bg-surface-secondary"
+                >
+                  <div className="flex flex-col gap-0.5 flex-1">
+                    <div className="h-0.5 w-3/4 bg-neutral-400 dark:bg-neutral-600 rounded" />
+                    <div className="h-0.5 w-1/2 bg-neutral-300 dark:bg-neutral-700 rounded" />
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
+        {/* Simulated Cursor */}
+        <motion.div 
+          className="absolute z-20 drop-shadow-md"
+          animate={{
+            left: ['80%', '80%', '80%', '64%', '64%', '73%', '64%', '80%'],
+            top: ['45%', '45%', '45%', '55%', '55%', '55%', '55%', '45%'],
+            scale: [1, 0.8, 1, 1, 0.9, 0.9, 1, 1]
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-neutral-600 dark:text-neutral-400">
+            <path d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </motion.div>
       </div>
-    </div>
+    </BrowserWrapperIllustration>
   )
 }
