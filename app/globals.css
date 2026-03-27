@@ -8,14 +8,6 @@
   --color-1: #5227FF;
   --color-2: #f155ef;
   --color-3: #5eadf3;
-  /* 
-  - surface-primary: white neutral-950 | neutral-300 neutral-700
-  - text-primary: neutral-900 neutral-50 | [TBD]
-  - text-secondary: text-neutral-500 dark:text-neutral-400 | neutral-900 neutral-50
-  - text-link: text-blue-600 dark:text-blue-500 | 
-  - border-primary: border-gray-950/10 dark:border-white/10
-  - Surface Scedonary: [TBD]
-  */
 }
 
 :root.dark {
@@ -43,7 +35,7 @@ body {
 }
 
 .bg-surface-secondary {
-  @apply bg-neutral-100 dark:bg-neutral-800
+  @apply bg-neutral-100 dark:bg-neutral-900
 }
 
 .bg-overlay {
@@ -60,6 +52,10 @@ body {
 
 .text-secondary {
   @apply text-neutral-500 dark:text-neutral-400
+}
+
+.text-secondary-inv {
+  @apply text-neutral-400 dark:text-neutral-500
 }
 
 .border-primary {

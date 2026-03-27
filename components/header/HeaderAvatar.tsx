@@ -66,12 +66,12 @@ export default function HeaderAvatar() {
     >
       <div className="flex flex-col m-1">
         <div className="p-2 text-sm font-medium border-b border-primary">
-          <div className="font-semibold">{userData.name}</div>
-          {userData.email && <div className="text-xs text-neutral-500 dark:text-neutral-400 font-normal mt-0.5">{userData.email}</div>}
+          <div className="font-semibold text-primary-inv">{userData.name}</div>
+          {userData.email && <div className="text-xs text-secondary-inv font-normal mt-0.5">{userData.email}</div>}
         </div>
         <button 
           onClick={handleSignOut}
-          className="mt-1 p-2 text-sm text-left hover:bg-neutral-80 dark:hover:bg-neutral-800 transition-colors flex gap-1 items-center rounded-sm cursor-pointer"
+          className="my-1 p-2 text-sm text-left text-primary-inv hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors flex gap-1 items-center rounded-sm cursor-pointer"
         >
           <LuLogOut />
           {t("cta.signOut")}

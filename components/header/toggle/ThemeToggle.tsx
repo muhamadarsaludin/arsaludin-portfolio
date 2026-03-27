@@ -70,6 +70,7 @@ export default function ThemeToggle({className}: ThemeToggleProps) {
             value={themeData.value}
             checked={themeData.value === theme}
             iconStart={getThemeIcon(themeData.value, 16)}
+            invers
             onChange={() => handleThemeChange(themeData.value)}>
             {themeData.label}
           </MiracleRadio>

@@ -52,6 +52,7 @@ export default function LangToggle({className}: LangToggleProps) {
             name="language"
             value={localeData.value}
             checked={localeData.value === locale}
+            invers
             iconStart={
               <Image
                 className="shrink-0 border border-gray-950/10 dark:border-white/10 rounded-sm"

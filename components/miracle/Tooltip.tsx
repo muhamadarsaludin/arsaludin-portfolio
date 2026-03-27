@@ -113,18 +113,18 @@ export default function MiracleTooltip({
   }
 
   const arrowPositionClass: Record<string, string> = {
-    "top-start": "-bottom-[5px] left-3 border-b border-r",
-    "top-center": "-bottom-[5px] left-1/2 -translate-x-1/2 border-b border-r",
-    "top-end": "-bottom-[5px] right-3 border-b border-r",
-    "bottom-start": "-top-[5px] left-3 border-t border-l",
-    "bottom-center": "-top-[5px] left-1/2 -translate-x-1/2 border-t border-l",
-    "bottom-end": "-top-[5px] right-3 border-t border-l",
-    "left-start": "-right-[5px] top-3 border-t border-r",
-    "left-center": "-right-[5px] top-1/2 -translate-y-1/2 border-t border-r",
-    "left-end": "-right-[5px] bottom-3 border-t border-r",
-    "right-start": "-left-[5px] top-3 border-b border-l",
-    "right-center": "-left-[5px] top-1/2 -translate-y-1/2 border-b border-l",
-    "right-end": "-left-[5px] bottom-3 border-b border-l",
+    "top-start": "-bottom-[5px] left-3",
+    "top-center": "-bottom-[5px] left-1/2 -translate-x-1/2",
+    "top-end": "-bottom-[5px] right-3",
+    "bottom-start": "-top-[5px] left-3",
+    "bottom-center": "-top-[5px] left-1/2 -translate-x-1/2",
+    "bottom-end": "-top-[5px] right-3",
+    "left-start": "-right-[5px] top-3",
+    "left-center": "-right-[5px] top-1/2 -translate-y-1/2",
+    "left-end": "-right-[5px] bottom-3",
+    "right-start": "-left-[5px] top-3",
+    "right-center": "-left-[5px] top-1/2 -translate-y-1/2",
+    "right-end": "-left-[5px] bottom-3",
   }
 
   return (
@@ -144,11 +144,11 @@ export default function MiracleTooltip({
           tooltipPositionClass[adaptedPos]
         )}
       >
-        <div className={clsx("relative bg-surface-primary rounded-md shadow-md shadow-neutral-500/50 border border-gray-950/10 dark:border-white/10 w-max min-w-max", !noPadding && "p-3")}>
+        <div className={clsx("relative bg-surface-primary-inv rounded-md shadow-sm shadow-neutral-700 dark:shadow-neutral-300 text-primary-inv w-max min-w-max", !noPadding && "p-3")}>
           {showArrow && (
             <div
               className={clsx(
-                "absolute w-2.5 h-2.5 rotate-45 bg-surface-primary border-gray-950/10 dark:border-white/10",
+                "absolute w-2.5 h-2.5 rotate-45 bg-surface-primary-inv",
                 arrowPositionClass[adaptedPos]
               )}
             />

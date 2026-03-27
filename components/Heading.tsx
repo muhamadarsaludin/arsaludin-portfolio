@@ -67,7 +67,7 @@ export default function Heading({
     <Tag 
       id={headingId} 
       className={clsx(
-        "relative leading-tight group/heading scroll-mt-24 font-bold",
+        "relative leading-tight group/heading scroll-mt-24 font-bold w-fit",
         fontSizeClass[level],
         !noMarginTop && marginClass[level],
         className
@@ -79,6 +79,7 @@ export default function Heading({
         <div className="absolute right-full top-1/2 -translate-y-1/2 pr-1 invisible opacity-0 translate-x-1 group-hover/heading:translate-x-0 group-hover/heading:visible group-hover/heading:opacity-100 transition duration-300 ease shrink-0 flex-1 z-200">
           <MiracleTooltip
             hoverContent
+            noPadding
             trigger={
               <button
                 onClick={handleCopy}
@@ -89,7 +90,7 @@ export default function Heading({
                 <LuLink2 className="text-[0.5em]"/>
               </button>
             }>
-            <span className="flex text-nowrap text-xs font-medium">{message}</span>
+            <span className="flex text-nowrap text-xs font-medium p-2">{message}</span>
           </MiracleTooltip>
         </div>
       )}

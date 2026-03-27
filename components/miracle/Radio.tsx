@@ -7,6 +7,7 @@ export type RadioProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
   description?: ReactNode
   iconStart?: ReactNode
   children?: ReactNode
+  invers?: boolean
 }
 
 export default function MiracleRadio({
@@ -17,6 +18,7 @@ export default function MiracleRadio({
   id,
   disabled,
   onChange,
+  invers = false,
   ...props
 }: RadioProps) {
   const generatedId = useId()
@@ -33,7 +35,10 @@ export default function MiracleRadio({
       <input
         type="radio"
         id={radioId}
-        className="h-4 w-4 accent-blue-600 dark:accent-blue-400 cursor-pointer"
+        className={clsx(
+          "h-4 w-4 cursor-pointer",
+          invers ? "accent-blue-400 dark:accent-blue-600 " : "accent-blue-600 dark:accent-blue-400 "
+        )}
         disabled={disabled}
         onChange={onChange}
         {...props}
