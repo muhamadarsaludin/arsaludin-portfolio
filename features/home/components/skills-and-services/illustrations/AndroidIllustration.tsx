@@ -19,7 +19,7 @@ export default function AndroidIllustration() {
           <div className="h-2 w-2 rounded-xs bg-neutral-400 dark:bg-neutral-600" />
           <div className="flex flex-col gap-px">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-px w-1.5 rounded-full bg-neutral-300 dark:bg-neutral-700" />
+              <div key={i} className="h-px w-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
             ))}
           </div>
         </div>

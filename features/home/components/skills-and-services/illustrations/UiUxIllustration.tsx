@@ -30,11 +30,11 @@ export default function UxIllustration() {
                 <div className="h-1 w-full rounded bg-neutral-400 dark:bg-neutral-600" />
                 <div className="h-0.5 w-3/4 rounded bg-neutral-300 dark:bg-neutral-700" />
               </div>
-              <div className="flex flex-col gap-0.5 pb-1">
+              <div className="flex flex-col gap-1 pb-1">
+                <div className="h-0.5 w-3/4 rounded bg-neutral-400 dark:bg-neutral-600"/>
                 {[1, 2, 3, 4, 5].map(i => (
                   <div key={i} className="h-0.5 w-full rounded bg-neutral-300 dark:bg-neutral-700"/>
                 ))}
-                <div className="h-0.5 w-3/4 rounded bg-neutral-300 dark:bg-neutral-700"/>
               </div>
             </div>
           </div>

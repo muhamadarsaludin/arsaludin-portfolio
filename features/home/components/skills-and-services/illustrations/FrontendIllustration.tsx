@@ -21,11 +21,12 @@ export default function FrontEndIllustration() {
               <div className="absolute -bottom-3 -left-1.5 h-6 w-6 rotate-45 rounded-xs bg-neutral-400 dark:bg-neutral-600" />
               <div className="absolute -bottom-2 left-2.5 h-4 w-4 rotate-45 rounded-xs bg-neutral-300 dark:bg-neutral-700" />
             </div>
-            <div className='flex flex-col gap-0.5'>
-              <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-400 dark:bg-neutral-600" />
+            <div className='flex flex-col gap-1'>
+              <div className="h-0.5 w-3/4 shrink-0 rounded-sm bg-neutral-400 dark:bg-neutral-600" />
               <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
               <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
-              <div className="h-0.5 w-3/4 shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
+              <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
+              <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
             </div>
           </div>
           <div className="w-2 h-2 rounded-full bg-neutral-400 dark:bg-neutral-600"></div>
