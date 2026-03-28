@@ -40,7 +40,7 @@ export default function PmIllustration() {
             }}
             transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <div className="m-1 h-1 w-6 rounded-full bg-blue-400/50 dark:bg-blue-500/50" />
+            <div className="m-1 h-1 w-6 rounded-full bg-blue-400 dark:bg-blue-500" />
             <div className="mx-1 h-0.5 w-8 rounded-full bg-neutral-300 dark:bg-neutral-600" />
           </motion.div>
         </div>

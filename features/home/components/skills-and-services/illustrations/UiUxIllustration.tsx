@@ -42,18 +42,18 @@ export default function UxIllustration() {
           {/* Center: Canvas / Artboard */}
           <div className="flex flex-1 items-center justify-center">
             <motion.div 
-              className="relative flex h-16 flex-col gap-1 border border-blue-500 bg-white p-1 shadow-sm dark:bg-neutral-800"
+              className="relative flex h-16 flex-col gap-1 border border-blue-400 dark:border-blue-500 bg-white p-1 shadow-sm dark:bg-neutral-800"
               animate={{ width: ['64px', '64px', '64px', '84px', '64px', '64px'] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
             >
               {/* Selection Handles */}
-              <div className="absolute -left-1 -top-1 h-1.5 w-1.5 border border-blue-500 bg-white" />
-              <div className="absolute -right-1 -top-1 h-1.5 w-1.5 border border-blue-500 bg-white" />
-              <div className="absolute -bottom-1 -left-1 h-1.5 w-1.5 border border-blue-500 bg-white" />
-              <div className="absolute -bottom-1 -right-1 h-1.5 w-1.5 border border-blue-500 bg-white" />
+              <div className="absolute -left-1 -top-1 h-1.5 w-1.5 border border-blue-400 dark:border-blue-500 bg-white" />
+              <div className="absolute -right-1 -top-1 h-1.5 w-1.5 border border-blue-400 dark:border-blue-500 bg-white" />
+              <div className="absolute -bottom-1 -left-1 h-1.5 w-1.5 border border-blue-400 dark:border-blue-500 bg-white" />
+              <div className="absolute -bottom-1 -right-1 h-1.5 w-1.5 border border-blue-400 dark:border-blue-500 bg-white" />
               
               {/* Internal Artboard Content */}
-              <div className="h-2 w-full rounded-sm bg-neutral-200 dark:bg-neutral-700" />
+              <div className="h-2 w-full rounded-sm bg-neutral-300 dark:bg-neutral-700" />
               <motion.div 
                 className="h-6 w-full rounded-sm"
                 animate={{ backgroundColor: ['#171717', '#3b82f6', '#171717', '#171717', '#171717', '#171717'] }}
