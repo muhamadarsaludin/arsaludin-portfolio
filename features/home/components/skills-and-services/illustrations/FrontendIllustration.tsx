@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import BrowserWrapperIllustration from './BrowserWrapperIllustration'
+import BrowserIllustration from './BrowserIllustration'
 import clsx from 'clsx'
 
 export default function FrontEndIllustration() {
@@ -12,10 +12,10 @@ export default function FrontEndIllustration() {
     "bg-yellow-400 dark:bg-yellow-500",
   ]
   return (
-    <BrowserWrapperIllustration>
+    <BrowserIllustration>
       <div className="flex h-full items-start relative">
         {/* Sidebar */}
-        <div className="w-fit h-full bottom-0 flex flex-col justify-between gap-1 p-1 border-r-[0.5px] border-primary overflow-hidden relative bg-surface-secondary">
+        <div className="w-fit h-full bottom-0 flex flex-col justify-between gap-1 p-1 border-r border-primary overflow-hidden relative bg-surface-secondary">
           <div className="flex flex-col gap-2">
             <div className="h-6 w-6 border-[0.5px] border-primary relative overflow-hidden rounded-md">
               <div className="absolute -bottom-3 -left-1.5 h-6 w-6 rotate-45 rounded-xs bg-neutral-400 dark:bg-neutral-600" />
@@ -34,7 +34,7 @@ export default function FrontEndIllustration() {
         {/* Main Content */}
         <div className="flex flex-1 flex-col gap-2 overflow-hidden relative">
           {/* Top Navbar */}
-          <div className="flex w-full items-center justify-between border-b-[0.5px] border-primary p-1 absolute top-0 left-0 right-0 z-1 bg-surface-secondary">
+          <div className="flex w-full items-center justify-between border-b border-primary p-1 absolute top-0 left-0 right-0 z-1 bg-surface-secondary">
             <div className="h-2 w-2 rounded-xs bg-neutral-400 dark:bg-neutral-600" />
             <div className="flex gap-1">
               {[1, 2, 3, 4].map((i) => (
@@ -139,6 +139,6 @@ export default function FrontEndIllustration() {
           </svg>
         </motion.div>
       </div>
-    </BrowserWrapperIllustration>
+    </BrowserIllustration>
   )
 }
