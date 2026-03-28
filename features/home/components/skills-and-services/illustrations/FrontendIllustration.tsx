@@ -37,9 +37,9 @@ export default function FrontEndIllustration() {
           <div className="flex w-full items-center justify-between border-b border-primary p-1 absolute top-0 left-0 right-0 z-1 bg-surface-secondary">
             <div className="h-2 w-2 rounded-xs bg-neutral-400 dark:bg-neutral-600" />
             <div className="flex gap-1">
-              {[1, 2, 3, 4].map((i) => (
+              {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className={clsx(
-                  "h-1 w-4 rounded-full",
+                  "h-0.5 w-3 rounded-full",
                   i === 1 ? "bg-blue-400 dark:bg-blue-500" : "bg-neutral-300 dark:bg-neutral-700"
                 )} />
               ))}
@@ -129,7 +129,7 @@ export default function FrontEndIllustration() {
           className="absolute z-20 drop-shadow-md"
           animate={{
             left: ['80%', '80%', '80%', '64%', '64%', '73%', '64%', '80%'],
-            top: ['45%', '45%', '45%', '55%', '55%', '55%', '55%', '45%'],
+            top: ['40%', '40%', '40%', '55%', '55%', '55%', '55%', '40%'],
             scale: [1, 0.8, 1, 1, 0.9, 0.9, 1, 1]
           }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
