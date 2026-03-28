@@ -19,12 +19,11 @@ export default function ServiceCard({ service }: { service: ServiceType }) {
         "border border-primary rounded-2xl"
       )}
     >
-      <div className="w-full aspect-video relative flex justify-center items-center">
-        {/* // background */}
+      <div className="w-full aspect-video relative flex justify-center items-center p-5 sm:p-6">
         {service.illustration}
         <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#80808035_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_20%,#000_70%,transparent_100%)]"></div>
       </div>
-      <div className="flex flex-1 flex-col p-6">
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
         <h3 className="mb-2 font-semibold text-primary text-lg md:text-xl xl:text-2xl">
           {service.title}
         </h3>

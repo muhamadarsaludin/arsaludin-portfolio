@@ -17,7 +17,7 @@ const illustrationsMap: Record<string, React.ReactNode> = {
   "front-end": <FrontEndIllustration />,
   "back-end": <BackEndIllustration />,
   "ui-ux": <UiUxIllustration />,
-  android: <AndroidIllustration />,
+  android: <AndroidIllustration/>,
   pm: <PmIllustration />,
   devops: <DevOpsIllustration />,
 }
