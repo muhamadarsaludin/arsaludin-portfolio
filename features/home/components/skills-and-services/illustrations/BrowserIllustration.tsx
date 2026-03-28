@@ -2,7 +2,7 @@ type BrowserWrapperIllustrationProps = {
   children?: React.ReactNode 
 }
 
-export default function BrowserWrapperIllustration({children}: BrowserWrapperIllustrationProps) {
+export default function BrowserIllustration({children}: BrowserWrapperIllustrationProps) {
   const colors = [
     'bg-red-400 dark:bg-red-500', 
     'bg-amber-400 dark:bg-amber-500', 
