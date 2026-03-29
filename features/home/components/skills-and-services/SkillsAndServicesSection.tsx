@@ -49,11 +49,11 @@ function ServiceListSkeleton() {
   )
 }
 
-export default function SkillsAndServicesSection() {
+export default function SkillsAndServicesSection({className} : {className?: string}) {
   const t = useTranslations("pages.home.skills-and-services")
   const locale = useLocale()
   return (
-    <Section>
+    <Section className={className}>
       <Heading id="skills-and-services">
         {t("title")}
       </Heading>

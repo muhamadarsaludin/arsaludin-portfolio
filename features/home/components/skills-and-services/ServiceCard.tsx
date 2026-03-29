@@ -53,8 +53,18 @@ export default function ServiceCard({ service }: { service: ServiceType }) {
               }
               noPadding
             >
-              <div className="max-w-[180px] p-2 text-center text-[11px] font-medium leading-snug whitespace-normal">
-                {service.skills.slice(7).map((skill) => skill.name).join(', ')}
+              <div className="max-w-[180px] p-2 text-center text-[11px] font-medium leading-snug whitespace-normal flex flex-col gap-1">
+                {service.skills.slice(7).map((additonalSkill, i) => {
+                  const IconComponent = additonalSkill.icon ? (skillIcons as Record<string, React.ElementType>)[additonalSkill.icon] : null
+                  return (
+                    <MiracleBadge
+                      key={i}
+                      startIcon={IconComponent && <IconComponent className="h-3.5 w-3.5" />}
+                    >
+                      {additonalSkill.name}
+                    </MiracleBadge>
+                  )
+                })}
               </div>
             </MiracleTooltip>
           )}

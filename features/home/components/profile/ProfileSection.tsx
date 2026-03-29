@@ -4,11 +4,12 @@ import ProfileStats from "./ProfileStats";
 import ProfileInfo from "./ProfileInfo";
 import { useTranslations } from "next-intl";
 import ProfileImage from "./ProfileImage";
+import clsx from "clsx";
 
-export default function ProfileSection() {
+export default function ProfileSection({className} : {className?: string}) {
   const t = useTranslations("pages.home.profile")
   return (
-   <Section className="relative">
+   <Section className={clsx("relative", className)}>
       <ProfileHero/>
       <div
         className="-mt-15 lg:-mt-20 relative z-10 flex-col">
@@ -22,7 +23,7 @@ export default function ProfileSection() {
           </div>
         </div>
         <ProfileStats className="block lg:hidden mt-4"/>
-        <p className="max-w-full lg:max-w-7/12 mt-6 lg:mt-8 text-secondary">{t("about")}</p>
+        <p className="max-w-full lg:max-w-7/12 mt-6 lg:mt-10 text-secondary">{t("about")}</p>
       </div>
    </Section>
   )

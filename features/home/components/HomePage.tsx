@@ -4,8 +4,8 @@ import SkillsAndServicesSection from "./skills-and-services";
 export default function HomePage() {
   return (
     <>
-      <ProfileSection/>
-      <SkillsAndServicesSection/>
+      <ProfileSection className="pb-16"/>
+      <SkillsAndServicesSection className="pb-16"/>
     </>
   )
 }

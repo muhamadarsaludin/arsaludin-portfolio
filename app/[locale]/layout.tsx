@@ -51,7 +51,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         <Providers initialUser={user}>
           <NextIntlClientProvider locale={locale}>
             <Header/>
-            <main className="pt-23 lg:pt-25">
+            <main className="pt-25 lg:pt-30">
               {children}
             </main>
             <Footer />
