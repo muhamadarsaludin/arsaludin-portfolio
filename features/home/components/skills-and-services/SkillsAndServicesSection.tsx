@@ -1,5 +1,4 @@
 import Section from '@/components/Section'
-import Link from 'next/link'
 import Heading from '@/components/Heading'
 import { useLocale, useTranslations } from 'next-intl'
 import { getServices } from '../../services/services'
@@ -31,7 +30,7 @@ async function ServiceList({ locale }: { locale: string }) {
           title: dbService.name,
           description: dbService.description,
           illustration: illustrationsMap[dbService.slug] || null,
-          skills: ["html", "css", "js", "react", "nextjs", "tailwind"],
+          skills: dbService.skills,
           featured: dbService.level === "expert",
         }
         return <ServiceCard key={dbService.id} service={service} />
