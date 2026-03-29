@@ -15,7 +15,7 @@ export default function ServiceCard({ service }: { service: ServiceType }) {
   return (
     <div 
       className={clsx(
-        "flex flex-col w-[80vw] max-w-[300px] sm:w-auto sm:max-w-none shrink-0 snap-start overflow-hidden",
+        "flex flex-col w-[80vw] max-w-[300px] sm:w-auto sm:max-w-none shrink-0 snap-start",
         "border border-primary rounded-2xl"
       )}
     >
