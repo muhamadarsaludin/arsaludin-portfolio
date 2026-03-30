@@ -36,6 +36,9 @@
       "skills-and-services": {
         "title": "Keahlian & Layanan",
         "description": "Saya menghadirkan layanan digital dengan menggabungkan kemampuan teknis dan pemikiran kreatif untuk menciptakan solusi yang berdampak dan berkualitas tinggi."
+      },
+      "projects": {
+        "title": "Showcase karya terbaik saya"
       }
     }
   }

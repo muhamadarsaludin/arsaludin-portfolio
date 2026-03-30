@@ -1,15 +1,8 @@
 // /services/project.service.ts
 import { createClient } from "@/lib/supabase/server"
 import {routing} from "@/i18n/routing"
+import { SkillItem } from "@/features/shared/types/skills"
 
-// 🔹 Type: Categories (nested array dari Supabase)
-type ProjectCategory = {
-  categories: {
-    category: string
-  }[]
-}
-
-// 🔹 Type: Translation (i18n juga array)
 type ProjectTranslation = {
   title: string | null
   description: string | null
@@ -20,6 +13,10 @@ type ProjectTranslation = {
     locale: string
   }[]
 }
+
+type ProjectSkill = {
+  skills: SkillItem | null
+}[]
 
 export async function getFeaturedProjects(locale: string = routing.defaultLocale) {
   const supabase = await createClient()
@@ -33,6 +30,7 @@ export async function getFeaturedProjects(locale: string = routing.defaultLocale
     github_url,
     url,
     created_at,
+    updated_at,
     order_index,
     project_translations!inner (
       description,
@@ -43,14 +41,21 @@ export async function getFeaturedProjects(locale: string = routing.defaultLocale
         locale
       )
     ),
-    project_categories (
-      categories(category)
+    skill_maps!inner (
+      skills ( 
+        name,
+        icon,
+        color
+      )
     )
   `)
   .eq("is_featured", true)
   .eq("project_translations.i18n.locale", locale)
   .order("order_index", { ascending: true })
   .limit(3)
+  .eq("skill_maps.is_show", true)
+  .eq("skill_maps.target_type", "project")
+  .order("order_index", { referencedTable: "skill_maps", ascending: true })
 
   if (error) {
     console.error("Supabase Error:", error)
@@ -59,8 +64,14 @@ export async function getFeaturedProjects(locale: string = routing.defaultLocale
 
   if (!data) return []
 
+  const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: "long" })
+
   return data.map((project) => {
     const t = project.project_translations?.[0] as ProjectTranslation | undefined
+    const skills =
+        (project.skill_maps as unknown as ProjectSkill)
+          ?.map((s) => s.skills)
+          .filter((skill) => skill !== null) as SkillItem[] ?? []
 
     return {
       id: project.id,
@@ -69,20 +80,14 @@ export async function getFeaturedProjects(locale: string = routing.defaultLocale
       thumbnail: project.thumbnail,
       github_url: project.github_url,
       url: project.url,
-      order_index: project.order_index,
-
-      // 🔹 translation (sudah ke-filter by locale di DB)
       description: t?.description ?? "",
       content: t?.content ?? "",
       additional_info: t?.additional_info ?? "",
       additional_info_label: t?.additional_info_label ?? "",
-
-      // 🔹 categories (flatten dari nested array)
-      categories:
-        (project.project_categories as ProjectCategory[])
-          ?.flatMap((c) => c.categories)
-          .map((cat) => cat.category)
-          .filter(Boolean) ?? [],
+      skills,
+      created_at: dateFormatter.format(new Date(project.created_at)),
+      update_at: dateFormatter.format(new Date(project.updated_at)),
+      order_index: project.order_index
     }
   })
 }

@@ -1,11 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { routing } from "@/i18n/routing"
-
-export type SkillItem = {
-  name: string
-  icon: string | null
-  color: string | null
-}
+import type { SkillItem } from "@/features/shared/types/skills"
 
 export type Service = {
   id: number
