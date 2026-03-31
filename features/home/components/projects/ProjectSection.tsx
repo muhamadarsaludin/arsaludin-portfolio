@@ -5,6 +5,8 @@ import React, { Suspense } from 'react'
 import ProjectCardSkeleton from '@/features/projects/components/ProjectCardSkeleton'
 import { getProjects } from '@/features/projects/services/projects'
 import ProjectCard from '@/features/projects/components/ProjectCard'
+import MiracleButton from '@/components/miracle/Button'
+import Link from 'next/link'
 
 async function FeaturedProjectList({ locale }: { locale: string }) {
   const dbFeaturedProjects = await getProjects(locale, true, 3)
@@ -27,7 +29,6 @@ function FeaturedProjectListSkeleton() {
   )
 }
 
-
 export default function ProjectSection({className} : {className?: string}) {
   const t = useTranslations("pages.home.projects")
   const locale = useLocale()
@@ -39,6 +40,13 @@ export default function ProjectSection({className} : {className?: string}) {
       <Suspense fallback={<FeaturedProjectListSkeleton />}>
         <FeaturedProjectList locale={locale} />
       </Suspense>
+      <div className="flex justify-center mt-8">
+        <Link href="/projects">
+          <MiracleButton variant="secondary">
+            {t("cta")}
+          </MiracleButton>
+        </Link>
+      </div>
     </Section>
   )
 }

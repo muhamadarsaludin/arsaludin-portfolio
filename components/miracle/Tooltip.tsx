@@ -148,7 +148,7 @@ export default function MiracleTooltip({
           {showArrow && (
             <div
               className={clsx(
-                "absolute w-2.5 h-2.5 rotate-45 bg-surface-primary-inv",
+                "absolute w-2.5 h-2.5 rotate-45 bg-surface-primary-inv -z-1",
                 arrowPositionClass[adaptedPos]
               )}
             />

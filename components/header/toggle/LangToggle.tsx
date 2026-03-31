@@ -17,7 +17,7 @@ export default function LangToggle({className}: LangToggleProps) {
 
   const handleLocaleChange = (nextLocale: string) => {
     if (nextLocale === locale) return;
-    router.replace(pathname, { locale: nextLocale });
+    router.replace(pathname, { locale: nextLocale, scroll: false});
   };
 
   const locales = [

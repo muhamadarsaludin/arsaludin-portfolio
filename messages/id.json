@@ -48,7 +48,8 @@
         "description": "Saya menghadirkan layanan digital dengan menggabungkan kemampuan teknis dan pemikiran kreatif untuk menciptakan solusi yang berdampak dan berkualitas tinggi."
       },
       "projects": {
-        "title": "Showcase karya terbaik saya"
+        "title": "Showcase karya terbaik saya",
+        "cta": "Lihat semua proyek"
       }
     }
   }

@@ -48,7 +48,8 @@
         "description": "I deliver digital services by combining technical skills and creative thinking to create impactful, high-quality solutions."
       },
       "projects": {
-        "title": "Showcase of my best works"
+        "title": "Showcase of my best works",
+        "cta": "View all projects"
       }
     }
   }
