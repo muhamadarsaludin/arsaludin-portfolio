@@ -4,9 +4,10 @@ export type Reaction = {
 }
 
 export type ReactionSummary = {
+  hasReactions: boolean
   all: Reaction[]
   top: Reaction[]
-  remaining: number
   total: number
-  isLimit: boolean;
+  remaining: number
+  isTruncated: boolean
 }

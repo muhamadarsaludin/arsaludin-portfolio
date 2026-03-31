@@ -2,10 +2,7 @@
 
 import { useEffect, RefObject } from "react"
 
-export function useScrollLock(
-  lock: boolean,
-  ref?: RefObject<HTMLElement>
-) {
+export function useScrollLock(lock: boolean, ref?: RefObject<HTMLElement>) {
   useEffect(() => {
     const element = ref?.current ?? document.body
     const originalOverflow = element.style.overflow

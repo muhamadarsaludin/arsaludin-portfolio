@@ -12,7 +12,7 @@ const getInitials = (name: string) => {
   if (!name) return ""
   const words = name.trim().split(/\s+/)
   let initials = ""
-  
+
   if (words.length === 1) {
     initials = words[0]?.[0] ?? ""
   } else if (words.length <= 3) {
@@ -32,7 +32,7 @@ export default function HeaderAvatar() {
   const userData = {
     name: user.user_metadata.full_name || "",
     email: user.email || "",
-    avatarUrl: user.user_metadata.avatar_url || ""
+    avatarUrl: user.user_metadata.avatar_url || "",
   }
 
   const initials = getInitials(userData.name)
@@ -55,23 +55,25 @@ export default function HeaderAvatar() {
             height={32}
             unoptimized
             referrerPolicy="no-referrer"
-            className="w-8 h-8 rounded-full object-cover border border-primary"
+            className="border-primary h-8 w-8 rounded-full border object-cover"
           />
         ) : (
-          <div className="w-8 h-8 rounded-full bg-blue-600 dark:bg-blue-400 flex items-center justify-center text-primary-inv font-semibold border border-primary">
+          <div className="text-primary-inv border-primary flex h-8 w-8 items-center justify-center rounded-full border bg-blue-600 font-semibold dark:bg-blue-400">
             {initials || "?"}
           </div>
         )
       }
     >
-      <div className="flex flex-col m-1">
-        <div className="p-2 text-sm font-medium border-b border-primary">
-          <div className="font-semibold text-primary-inv">{userData.name}</div>
-          {userData.email && <div className="text-xs text-secondary-inv font-normal mt-0.5">{userData.email}</div>}
+      <div className="m-1 flex flex-col">
+        <div className="border-primary border-b p-2 text-sm font-medium">
+          <div className="text-primary-inv font-semibold">{userData.name}</div>
+          {userData.email && (
+            <div className="text-secondary-inv mt-0.5 text-xs font-normal">{userData.email}</div>
+          )}
         </div>
-        <button 
+        <button
           onClick={handleSignOut}
-          className="my-1 p-2 text-sm text-left text-primary-inv hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors flex gap-1 items-center rounded-sm cursor-pointer"
+          className="text-primary-inv my-1 flex cursor-pointer items-center gap-1 rounded-sm p-2 text-left text-sm transition-colors hover:bg-neutral-800 dark:hover:bg-neutral-200"
         >
           <LuLogOut />
           {t("cta.signOut")}

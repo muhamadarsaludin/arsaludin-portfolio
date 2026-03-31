@@ -1,19 +1,22 @@
-import clsx from 'clsx'
-import React, { useState, useRef, useEffect } from 'react'
-import MiracleTooltip from '@/components/miracle/Tooltip'
-import MiracleBadge from '@/components/miracle/Badge'
-import EmojiPicker from 'emoji-picker-react'
-import { LuCircleFadingPlus, LuMessageCircleMore } from 'react-icons/lu'
-import { useAuth } from '@/providers/AuthProvider'
-import { useTranslations } from 'next-intl'
-import { ProjectReactionSummary } from '@/features/projects/services/projects' // Assuming this type exists
+import clsx from "clsx"
+import React, { useState, useRef, useEffect } from "react"
+import MiracleTooltip from "@/components/miracle/Tooltip"
+import MiracleBadge from "@/components/miracle/Badge"
+import EmojiPicker from "emoji-picker-react"
+import { LuCircleFadingPlus, LuMessageCircleMore } from "react-icons/lu"
+import { useAuth } from "@/providers/AuthProvider"
+import { useTranslations } from "next-intl"
+import { ProjectReactionSummary } from "@/features/projects/services/projects" // Assuming this type exists
 
 interface ProjectCardFooterProps {
-  reactionSummary: ProjectReactionSummary;
-  commentsCount: number;
+  reactionSummary: ProjectReactionSummary
+  commentsCount: number
 }
 
-export default function ProjectCardFooter({ reactionSummary, commentsCount }: ProjectCardFooterProps) {
+export default function ProjectCardFooter({
+  reactionSummary,
+  commentsCount,
+}: ProjectCardFooterProps) {
   const zIndexClasses = ["z-10", "z-11", "z-12"]
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const pickerRef = useRef<HTMLDivElement>(null)
@@ -26,9 +29,9 @@ export default function ProjectCardFooter({ reactionSummary, commentsCount }: Pr
         setShowEmojiPicker(false)
       }
     }
-    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside)
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [])
 
@@ -36,88 +39,85 @@ export default function ProjectCardFooter({ reactionSummary, commentsCount }: Pr
     if (!isSignedIn) {
       // Jika pengguna belum login, panggil fungsi signIn.
       // Implementasi signIn() akan tergantung pada AuthProvider Anda (misalnya, redirect ke halaman login atau membuka modal).
-      console.log("User not signed in. Initiating sign-in process for reaction.");
-      await signIn(); 
+      console.log("User not signed in. Initiating sign-in process for reaction.")
+      await signIn()
     } else {
-      setShowEmojiPicker((prev) => !prev);
+      setShowEmojiPicker((prev) => !prev)
     }
-  };
+  }
 
   const handleCommentClick = async () => {
     if (!isSignedIn) {
-      console.log("User not signed in. Initiating sign-in process for comment.");
-      await signIn();
+      console.log("User not signed in. Initiating sign-in process for comment.")
+      await signIn()
     } else {
-      console.log("User signed in. Opening comment section/modal.");
+      console.log("User signed in. Opening comment section/modal.")
       // TODO: Implementasi fungsionalitas komentar yang sebenarnya (misalnya, membuka modal komentar, navigasi ke bagian komentar)
     }
-  };
+  }
 
   return (
-    <div className="flex items-center justify-between px-5 sm:px-6 py-3 border-t border-primary bg-surface-secondary rounded-b-2xl">
+    <div className="border-primary bg-surface-secondary flex items-center justify-between rounded-b-2xl border-t px-5 py-3 sm:px-6">
       {/* Left Side: Reactions */}
       <div className="flex items-center gap-1">
-        {reactionSummary.total > 0 &&
+        {reactionSummary.total > 0 && (
           <MiracleTooltip
             trigger={
-              <div className="relative z-20 flex items-center -space-x-2 cursor-help">
+              <div className="relative z-20 flex cursor-help items-center -space-x-2">
                 {reactionSummary?.top.map((reaction, index) => (
                   <div
                     key={index}
                     className={clsx(
-                      "flex items-center justify-center w-7 h-7 rounded-full bg-surface-secondary border-2 border-primary shadow-sm",
+                      "bg-surface-secondary border-primary flex h-7 w-7 items-center justify-center rounded-full border-2 shadow-sm",
                       zIndexClasses[index]
                     )}
                   >
                     <span className="text-xs">{reaction.emoji}</span>
                   </div>
                 ))}
-                <div
-                  className="flex items-center justify-center h-7 min-w-7 px-1 rounded-full bg-surface-secondary border-2 border-primary shadow-sm z-13"
-                >
-                  <span className="text-xs font-bold text-secondary">+{reactionSummary.remaining}</span>
+                <div className="bg-surface-secondary border-primary z-13 flex h-7 min-w-7 items-center justify-center rounded-full border-2 px-1 shadow-sm">
+                  <span className="text-secondary text-xs font-bold">
+                    +{reactionSummary.remaining}
+                  </span>
                 </div>
               </div>
             }
             noPadding
             hoverContent
           >
-            <div className="flex gap-1 flex-wrap p-2 max-w-[150px] cursor-help">
+            <div className="flex max-w-[150px] cursor-help flex-wrap gap-1 p-2">
               {reactionSummary.all.map((reaction, index) => (
                 <MiracleBadge key={index}>
                   {reaction.emoji} {reaction.count}
                 </MiracleBadge>
               ))}
-              {
-                reactionSummary.isLimit &&
-                <MiracleBadge>
-                  •••
-                </MiracleBadge>
-              }
+              {reactionSummary.isLimit && <MiracleBadge>•••</MiracleBadge>}
             </div>
           </MiracleTooltip>
-        }
+        )}
 
         <div className="relative z-20 flex items-center" ref={pickerRef}>
           <MiracleTooltip
             trigger={
               <button
-                className="group p-1 cursor-pointer"
+                className="group cursor-pointer p-1"
                 onClick={handleReactionClick} // Menggunakan handler baru
               >
                 <LuCircleFadingPlus
                   size={20}
-                  className="text-secondary group-hover:scale-110 transition-transform"
+                  className="text-secondary transition-transform group-hover:scale-110"
                 />
               </button>
             }
             noPadding
           >
-            <span className="flex text-nowrap text-xs font-medium p-2">{isSignedIn ? t("reaction-tooltip.default") : t("reaction-tooltip.auth")}</span>
+            <span className="flex p-2 text-xs font-medium text-nowrap">
+              {isSignedIn ? t("reaction-tooltip.default") : t("reaction-tooltip.auth")}
+            </span>
           </MiracleTooltip>
 
           {showEmojiPicker && (
-            <div className="absolute bottom-full left-0 mb-2 z-50">
+            <div className="absolute bottom-full left-0 z-50 mb-2">
               <EmojiPicker
                 onEmojiClick={(emojiData) => {
                   console.log("Selected emoji:", emojiData.emoji)
@@ -128,30 +128,34 @@ export default function ProjectCardFooter({ reactionSummary, commentsCount }: Pr
             </div>
           )}
         </div>
-        {reactionSummary.total > 0 &&
-          <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400 group-hover:text-primary">
+        {reactionSummary.total > 0 && (
+          <span className="group-hover:text-primary text-sm font-medium text-neutral-600 dark:text-neutral-400">
             {reactionSummary?.total}
           </span>
-        }
+        )}
       </div>
       {/* Right Side: Comments */}
       <div className="flex items-center gap-1">
         <MiracleTooltip
           trigger={
-            <button className="relative z-20 group p-1 cursor-pointer" onClick={handleCommentClick}> {/* Menambahkan onClick */}
+            <button className="group relative z-20 cursor-pointer p-1" onClick={handleCommentClick}>
+              {" "}
+              {/* Menambahkan onClick */}
               <LuMessageCircleMore
                 size={20}
-                className="text-secondary group-hover:scale-110 transition-transform"
+                className="text-secondary transition-transform group-hover:scale-110"
               />
             </button>
           }
           noPadding
         >
-          <span className="flex text-nowrap text-xs font-medium p-2">{isSignedIn ? t("comment-tooltip.default") : t("comment-tooltip.auth")}</span>
+          <span className="flex p-2 text-xs font-medium text-nowrap">
+            {isSignedIn ? t("comment-tooltip.default") : t("comment-tooltip.auth")}
+          </span>
         </MiracleTooltip>
         {commentsCount > 0 && (
-          <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400 group-hover:text-primary">
-            {commentsCount} <span className="hidden xs:inline">comments</span>
+          <span className="group-hover:text-primary text-sm font-medium text-neutral-600 dark:text-neutral-400">
+            {commentsCount} <span className="xs:inline hidden">comments</span>
           </span>
         )}
       </div>

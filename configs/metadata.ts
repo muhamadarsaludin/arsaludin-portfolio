@@ -1,17 +1,17 @@
-import { Metadata } from "next";
+import { Metadata } from "next"
 
 const baseUrl =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : process.env.NEXT_PUBLIC_SITE_URL ?? "https://arsaludin.my.id";
+    : (process.env.NEXT_PUBLIC_SITE_URL ?? "https://arsaludin.my.id")
 
 export const metadata: Metadata = {
   title: "Arsaludin - UX Engineer",
   description:
     "Arsaludin - UX Engineer with 4+ years of experience in front end engineering and design systems. Specialized in building scalable UI libraries, translating product requirements and UI/UX designs into high-quality code across web and Android, and bridging collaboration between designers, product managers, and developers.",
-  authors: { 
+  authors: {
     name: "Muhamad Arsaludin",
-    url: baseUrl
+    url: baseUrl,
   },
   keywords: [
     "Arsaludin",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "Frontend Developer",
     "Web Developer",
     "Android Developer",
-    "Software Engineer"
+    "Software Engineer",
   ],
   applicationName: "Arsaludin Portfolio",
   metadataBase: baseUrl ? new URL(baseUrl) : undefined,
@@ -40,7 +40,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Arsaludin - UX Engineer",
-    description: "Arsaludin - UX Engineer with 4+ years of experience in front end engineering and design systems. Specialized in building scalable UI libraries, translating product requirements and UI/UX designs into high-quality code across web and Android, and bridging collaboration between designers, product managers, and developers.",
+    description:
+      "Arsaludin - UX Engineer with 4+ years of experience in front end engineering and design systems. Specialized in building scalable UI libraries, translating product requirements and UI/UX designs into high-quality code across web and Android, and bridging collaboration between designers, product managers, and developers.",
     url: baseUrl,
     siteName: "Arsaludin Portfolio",
     images: [
@@ -50,6 +51,6 @@ export const metadata: Metadata = {
         height: 630,
         alt: "Arsaludin Portfolio",
       },
-    ]
+    ],
   },
 }

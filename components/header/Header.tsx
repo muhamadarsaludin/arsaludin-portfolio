@@ -25,7 +25,7 @@ export default function Header({ className }: HeaderProps) {
   const { isSignedIn } = useAuth()
   const pathname = usePathname()
   const handleToggle = () => {
-    setShowMenu(prev => !prev)
+    setShowMenu((prev) => !prev)
   }
   useScrollLock(showMenu)
   useEffect(() => {
@@ -42,18 +42,22 @@ export default function Header({ className }: HeaderProps) {
     media.addEventListener("change", handleChange)
     return () => media.removeEventListener("change", handleChange)
   }, [])
-  
+
   return (
-    <header className={clsx(
-      "bg-surface-primary border-b border-primary",
-      "fixed top-0 inset-x-0 z-100",
-      className
-      )}>
-      <div className={clsx(
-        "max-w-(--m-page-width) mx-auto py-4 px-6",
-        "flex items-center justify-between"
-        )}>
-        <div className="flex gap-6 items-center">
+    <header
+      className={clsx(
+        "bg-surface-primary border-primary border-b",
+        "fixed inset-x-0 top-0 z-100",
+        className
+      )}
+    >
+      <div
+        className={clsx(
+          "mx-auto max-w-(--m-page-width) px-6 py-4",
+          "flex items-center justify-between"
+        )}
+      >
+        <div className="flex items-center gap-6">
           <MenuToggle className="lg:hidden" showMenu={showMenu} handleToggle={handleToggle} />
           <Link href="/" className="shrink-0" aria-label="Arsaludin Logo">
             <Image
@@ -73,45 +77,47 @@ export default function Header({ className }: HeaderProps) {
               priority
             />
           </Link>
-          <HeaderNavigation className="hidden lg:flex px-6"/>
+          <HeaderNavigation className="hidden px-6 lg:flex" />
         </div>
         <div className="flex gap-3">
-          <div className="hidden lg:flex gap-3">
-            {!isSignedIn && <SignInButton/>}
-            <DownloadResumeButton/>
+          <div className="hidden gap-3 lg:flex">
+            {!isSignedIn && <SignInButton />}
+            <DownloadResumeButton />
           </div>
           <div className="flex gap-1">
-            <LangToggle/>
-            <ThemeToggle/>
+            <LangToggle />
+            <ThemeToggle />
           </div>
           {isSignedIn && <HeaderAvatar />}
         </div>
       </div>
-      
+
       {/* Drawer aside*/}
-      <aside className={clsx(
-        "fixed z-100 top-17.25 bottom-0 left-0 w-fit p-6 lg:hidden",
-        "flex flex-col gap-6 justify-between",
-        "bg-surface-primary border-r border-primary",
-        "-translate-x-full transform transition-transform duration-300 ease",
-        showMenu ? "translate-x-0" : "-translate-x-full"
-      )}>
-        <HeaderNavigation className="flex flex-col items-start"/>
+      <aside
+        className={clsx(
+          "fixed top-17.25 bottom-0 left-0 z-100 w-fit p-6 lg:hidden",
+          "flex flex-col justify-between gap-6",
+          "bg-surface-primary border-primary border-r",
+          "ease -translate-x-full transform transition-transform duration-300",
+          showMenu ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        <HeaderNavigation className="flex flex-col items-start" />
         <div className="flex flex-col gap-3">
-          {!isSignedIn && <SignInButton/>}
-          <DownloadResumeButton/>
+          {!isSignedIn && <SignInButton />}
+          <DownloadResumeButton />
         </div>
       </aside>
 
       {/* Overlay */}
-      <div 
+      <div
         className={clsx(
-          "fixed z-99 top-17.25 left-0 right-0 bottom-0 bg-overlay",
-          "invisible opacity-0 transition-opacity duration-300 ease",
+          "bg-overlay fixed top-17.25 right-0 bottom-0 left-0 z-99",
+          "ease invisible opacity-0 transition-opacity duration-300",
           showMenu && "visible opacity-100"
-        )} 
-        onClick={() => setShowMenu(false)}>
-      </div>
+        )}
+        onClick={() => setShowMenu(false)}
+      ></div>
     </header>
   )
 }

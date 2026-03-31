@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { motion } from 'framer-motion'
-import MobileIllustration from './MobileIllustration'
-import clsx from 'clsx'
+import { motion } from "framer-motion"
+import MobileIllustration from "./MobileIllustration"
+import clsx from "clsx"
 
 export default function AndroidIllustration() {
   const colors = [
@@ -15,7 +15,7 @@ export default function AndroidIllustration() {
     <MobileIllustration>
       {/* Top Navbar */}
       <div className="relative h-full w-full overflow-hidden">
-        <div className="flex w-full items-center justify-between border-b border-primary p-1 absolute top-0 left-0 right-0 z-1 bg-surface-secondary">
+        <div className="border-primary bg-surface-secondary absolute top-0 right-0 left-0 z-1 flex w-full items-center justify-between border-b p-1">
           <div className="h-2 w-2 rounded-xs bg-neutral-400 dark:bg-neutral-600" />
           <div className="flex flex-col gap-px">
             {[1, 2, 3].map((i) => (
@@ -23,13 +23,13 @@ export default function AndroidIllustration() {
             ))}
           </div>
         </div>
-        
-        <motion.div 
+
+        <motion.div
           className="mt-6 flex flex-col gap-1.5 px-2"
-          animate={{ y: [0, -50, 0] }} 
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}>
-          <div 
-            className="relative h-10 w-full shrink-0 overflow-hidden rounded bg-surface-secondary">
+          animate={{ y: [0, -50, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <div className="bg-surface-secondary relative h-10 w-full shrink-0 overflow-hidden rounded">
             <div className="absolute -bottom-5 left-2 h-10 w-10 rotate-45 rounded-sm bg-neutral-400 dark:bg-neutral-600" />
             <div className="absolute -bottom-4 left-8 h-8 w-8 rotate-45 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
           </div>
@@ -37,23 +37,20 @@ export default function AndroidIllustration() {
           {/* Card Grid */}
           <div className="grid grid-cols-3 gap-1.5">
             {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="h-6 rounded overflow-hidden relative bg-surface-secondary"
-              >
+              <div key={i} className="bg-surface-secondary relative h-6 overflow-hidden rounded">
                 <div
                   className={clsx(
-                    "absolute bottom-0 left-0 right-0 h-1",
+                    "absolute right-0 bottom-0 left-0 h-1",
                     colors[i % colors.length]
                   )}
                 />
               </div>
             ))}
           </div>
-          
+
           {/*Chart */}
-          <div className="flex flex-col gap-1.5 h-fit">
-            <div className="flex items-end gap-[2px] w-full h-12 rounded p-1 bg-surface-secondary">
+          <div className="flex h-fit flex-col gap-1.5">
+            <div className="bg-surface-secondary flex h-12 w-full items-end gap-[2px] rounded p-1">
               {[4, 7, 3, 6, 5].map((h, i) => (
                 <motion.div
                   key={i}
@@ -69,16 +66,16 @@ export default function AndroidIllustration() {
                 />
               ))}
             </div>
-            <div className="flex flex-col gap-1 flex-1">
+            <div className="flex flex-1 flex-col gap-1">
               {[1, 2].map((i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-2 rounded px-1 py-1 bg-surface-secondary"
+                  className="bg-surface-secondary flex items-center gap-2 rounded px-1 py-1"
                 >
                   <div className="h-3 w-3 rounded bg-neutral-400 dark:bg-neutral-600" />
-                  <div className="flex flex-col gap-0.5 flex-1">
-                    <div className="h-0.5 w-3/4 bg-neutral-400 dark:bg-neutral-600 rounded" />
-                    <div className="h-0.5 w-1/2 bg-neutral-300 dark:bg-neutral-700 rounded" />
+                  <div className="flex flex-1 flex-col gap-0.5">
+                    <div className="h-0.5 w-3/4 rounded bg-neutral-400 dark:bg-neutral-600" />
+                    <div className="h-0.5 w-1/2 rounded bg-neutral-300 dark:bg-neutral-700" />
                   </div>
                 </div>
               ))}
@@ -90,10 +87,10 @@ export default function AndroidIllustration() {
     // <div className="relative flex h-36 w-52 items-center justify-center overflow-hidden rounded-lg border border-neutral-300 bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-950">
     //   {/* Mobile Phone Frame */}
     //   <div className="relative h-32 w-20 overflow-hidden rounded-xl border-2 border-neutral-400 bg-neutral-100 shadow-sm dark:border-neutral-600 dark:bg-neutral-900">
-        
+
     //     {/* Camera Notch */}
     //     <div className="absolute left-1/2 top-0 z-20 h-2 w-6 -translate-x-1/2 rounded-b-md bg-neutral-400 dark:bg-neutral-600" />
-        
+
     //     {/* App Bar (Header) */}
     //     <div className="absolute top-0 z-10 flex w-full items-center justify-between bg-neutral-200/90 px-1.5 pb-1 pt-2.5 backdrop-blur-md dark:bg-neutral-800/90">
     //       {/* Android Icon */}
@@ -109,14 +106,14 @@ export default function AndroidIllustration() {
     //     </div>
 
     //     {/* App Content Scrolling */}
-    //     <motion.div 
+    //     <motion.div
     //       className="mt-6 flex flex-col gap-1.5 px-1.5 pb-8"
-    //       animate={{ y: [0, -55, 0] }} 
+    //       animate={{ y: [0, -55, 0] }}
     //       transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
     //     >
     //       {/* Hero Banner */}
     //       <div className="h-10 w-full shrink-0 rounded bg-neutral-200 dark:bg-neutral-800" />
-          
+
     //       {/* Grid Section */}
     //       <div className="flex shrink-0 gap-1.5">
     //         <div className="h-10 w-1/2 rounded bg-neutral-200 dark:bg-neutral-800" />
@@ -136,7 +133,7 @@ export default function AndroidIllustration() {
     //     </motion.div>
 
     //     {/* Floating Action Button (FAB) */}
-    //     <motion.div 
+    //     <motion.div
     //       className="absolute bottom-6 right-1.5 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-white shadow"
     //       animate={{ scale: [1, 1.15, 1] }}
     //       transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}

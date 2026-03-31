@@ -28,7 +28,7 @@ export default function Heading({
   const Tag = `h${level}` as keyof JSX.IntrinsicElements
   const baseId = id ?? (typeof children === "string" ? children : "")
   const headingId = toKebabCase(baseId)
-  const {message, copy} = useCopyToClipboard({
+  const { message, copy } = useCopyToClipboard({
     defaultMessage: "Copy link",
     successMessage: "Link copied!",
   })
@@ -52,7 +52,7 @@ export default function Heading({
     2: "text-2xl md:text-3xl xl:text-4xl",
     3: "text-xl md:text-2xl xl:text-3xl",
     4: "text-lg md:text-xl xl:text-2xl",
-    5: "text-md md:text-lg xl:text-xl"
+    5: "text-md md:text-lg xl:text-xl",
   }
 
   const marginClass: Record<number, string> = {
@@ -60,37 +60,39 @@ export default function Heading({
     2: "mt-8 lg:mt-10 xl:mt-12",
     3: "mt-6 lg:mt-8",
     4: "mt-4 lg:mt-6",
-    5: "mt-2 lg:mt-4"
+    5: "mt-2 lg:mt-4",
   }
 
   return (
-    <Tag 
-      id={headingId} 
+    <Tag
+      id={headingId}
       className={clsx(
-        "relative leading-tight group/heading scroll-mt-24 font-bold w-fit",
+        "group/heading relative w-fit scroll-mt-24 leading-tight font-bold",
         fontSizeClass[level],
         !noMarginTop && marginClass[level],
         className
-      )}>
+      )}
+    >
       <Link href={`#${headingId}`} onClick={handleScroll}>
         {children}
       </Link>
       {copyLink && (
-        <div className="absolute right-full top-1/2 -translate-y-1/2 pr-1 invisible opacity-0 translate-x-1 group-hover/heading:translate-x-0 group-hover/heading:visible group-hover/heading:opacity-100 transition duration-300 ease shrink-0 flex-1 z-200">
+        <div className="ease invisible absolute top-1/2 right-full z-200 flex-1 shrink-0 translate-x-1 -translate-y-1/2 pr-1 opacity-0 transition duration-300 group-hover/heading:visible group-hover/heading:translate-x-0 group-hover/heading:opacity-100">
           <MiracleTooltip
             hoverContent
             noPadding
             trigger={
               <button
                 onClick={handleCopy}
-                className="cursor-pointer p-2 rounded-full text-blue-600 dark:text-blue-400 group-hover/tooltip:bg-blue-100 dark:group-hover/tooltip:bg-blue-900 transition-colors duration-300 ease"
+                className="ease cursor-pointer rounded-full p-2 text-blue-600 transition-colors duration-300 group-hover/tooltip:bg-blue-100 dark:text-blue-400 dark:group-hover/tooltip:bg-blue-900"
                 aria-label="Copy link to this section"
                 title="Copy link"
               >
-                <LuLink2 className="text-[0.5em]"/>
+                <LuLink2 className="text-[0.5em]" />
               </button>
-            }>
-            <span className="flex text-nowrap text-xs font-medium p-2">{message}</span>
+            }
+          >
+            <span className="flex p-2 text-xs font-medium text-nowrap">{message}</span>
           </MiracleTooltip>
         </div>
       )}

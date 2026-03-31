@@ -1,1 +1,1 @@
-export {default} from "./SkillsAndServicesSection"
+export { default } from "./SkillsAndServicesSection"

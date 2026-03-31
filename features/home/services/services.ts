@@ -1,18 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { routing } from "@/i18n/routing"
 import type { Skill } from "@/features/shared/types/skills"
-
-export type Service = {
-  id: number
-  slug: string
-  level: string
-  order_index: number
-  created_at: string
-  updated_at: string
-  name: string
-  description: string
-  skills: Skill[]
-}
+import { Service } from "../types/services"
 
 type ServiceTranslation = {
   name: string | null
@@ -30,7 +19,8 @@ export async function getServices(locale: string = routing.defaultLocale): Promi
   const supabase = await createClient()
   const { data, error } = await supabase
     .from("services")
-    .select(`
+    .select(
+      `
       id,
       slug,
       level,
@@ -51,7 +41,8 @@ export async function getServices(locale: string = routing.defaultLocale): Promi
           color
         )
       )
-    `)
+    `
+    )
     .eq("is_show", true)
     .eq("skill_maps.is_show", true)
     .eq("skill_maps.target_type", "service")
@@ -70,9 +61,9 @@ export async function getServices(locale: string = routing.defaultLocale): Promi
   return data.map((service) => {
     const t = service.service_translations?.[0] as ServiceTranslation | undefined
     const skills =
-      (service.skill_maps as unknown as ServiceSkill)
+      ((service.skill_maps as unknown as ServiceSkill)
         ?.map((s) => s.skills)
-        .filter((skill) => skill !== null) as Skill[] ?? []
+        .filter((skill) => skill !== null) as Skill[]) ?? []
 
     return {
       id: service.id,

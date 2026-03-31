@@ -1,6 +1,5 @@
 "use client"
 
-
 import { usePathname } from "@/i18n/navigation"
 import { useLocale } from "next-intl"
 
@@ -10,6 +9,6 @@ export function useLocalizedPathname() {
 
   if (!pathname) return "/"
 
-  const pathWithoutLocale = pathname.replace(new RegExp(`^/${locale}`), '') || '/'
+  const pathWithoutLocale = pathname.replace(new RegExp(`^/${locale}`), "") || "/"
   return pathWithoutLocale
 }

@@ -5,7 +5,7 @@
   --background: #ffffff;
   --foreground: #171717;
   --m-page-width: 1400px;
-  --color-1: #5227FF;
+  --color-1: #5227ff;
   --color-2: #f155ef;
   --color-3: #5eadf3;
 }
@@ -27,37 +27,37 @@ body {
 }
 
 .bg-surface-primary {
-  @apply bg-white dark:bg-neutral-950
+  @apply bg-white dark:bg-neutral-950;
 }
 
 .bg-surface-primary-inv {
-  @apply bg-neutral-950 dark:bg-white
+  @apply bg-neutral-950 dark:bg-white;
 }
 
 .bg-surface-secondary {
-  @apply bg-neutral-100 dark:bg-neutral-900
+  @apply bg-neutral-100 dark:bg-neutral-900;
 }
 
 .bg-overlay {
-  @apply bg-neutral-950/50 dark:bg-white/50
+  @apply bg-neutral-950/50 dark:bg-white/50;
 }
 
 .text-primary {
-  @apply text-neutral-900 dark:text-neutral-50
+  @apply text-neutral-900 dark:text-neutral-50;
 }
 
 .text-primary-inv {
-  @apply text-neutral-50 dark:text-neutral-900
+  @apply text-neutral-50 dark:text-neutral-900;
 }
 
 .text-secondary {
-  @apply text-neutral-500 dark:text-neutral-400
+  @apply text-neutral-500 dark:text-neutral-400;
 }
 
 .text-secondary-inv {
-  @apply text-neutral-400 dark:text-neutral-500
+  @apply text-neutral-400 dark:text-neutral-500;
 }
 
 .border-primary {
-  @apply border-gray-950/10 dark:border-white/10
+  @apply border-gray-950/10 dark:border-white/10;
 }

@@ -47,12 +47,12 @@ import {
   SiVite,
   SiVitest,
   SiVuedotjs,
-  SiYarn
+  SiYarn,
 } from "react-icons/si"
-import { GiBearHead, GiChameleonGlyph } from "react-icons/gi";
-import { TbBeach, TbBrandFramerMotion, TbFileTypeXml } from "react-icons/tb";
-import { FaAws } from "react-icons/fa6";
-import { BiLogoAdobe } from "react-icons/bi";
+import { GiBearHead, GiChameleonGlyph } from "react-icons/gi"
+import { TbBeach, TbBrandFramerMotion, TbFileTypeXml } from "react-icons/tb"
+import { FaAws } from "react-icons/fa6"
+import { BiLogoAdobe } from "react-icons/bi"
 
 export const skillIcons = {
   SiHtml5,
@@ -110,5 +110,5 @@ export const skillIcons = {
   SiNginx,
   SiNpm,
   SiYarn,
-  SiComposer
+  SiComposer,
 }

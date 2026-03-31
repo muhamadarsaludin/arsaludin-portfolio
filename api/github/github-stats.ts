@@ -1,4 +1,4 @@
-import { GithubStats } from "@/types/github";
+import { GithubStats } from "@/types/github"
 
 const query = `
   query($login: String!) {
@@ -42,7 +42,7 @@ const query = `
       }
     }
   }
-`;
+`
 
 export async function getGithubStats(): Promise<GithubStats> {
   const res = await fetch("https://api.github.com/graphql", {
@@ -56,23 +56,23 @@ export async function getGithubStats(): Promise<GithubStats> {
       variables: { login: process.env.GITHUB_USERNAME },
     }),
     next: { revalidate: 86400 }, // cache 24 hours
-  });
+  })
 
-  const json = await res.json();
-  const user = json.data.user;
+  const json = await res.json()
+  const user = json.data.user
 
-  const contributions =
-    user.contributionsCollection.contributionCalendar.weeks.flatMap(
-      (week: any) => week.contributionDays.map((day: any) => ({
+  const contributions = user.contributionsCollection.contributionCalendar.weeks.flatMap(
+    (week: any) =>
+      week.contributionDays.map((day: any) => ({
         date: day.date,
         count: day.contributionCount,
       }))
-    );
+  )
 
   const totalStars = user.repositories.nodes.reduce(
     (acc: number, repo: any) => acc + repo.stargazerCount,
     0
-  );
+  )
 
   console.log(user)
 
@@ -87,5 +87,5 @@ export async function getGithubStats(): Promise<GithubStats> {
     totalCommitContributions: user.contributionsCollection.totalCommitContributions,
     totalPullRequestContributions: user.contributionsCollection.totalPullRequestContributions,
     totalIssueContributions: user.contributionsCollection.totalIssueContributions,
-  };
+  }
 }

@@ -27,8 +27,8 @@ export default function MiracleRadio({
   return (
     <div
       className={clsx(
-        "grid grid-cols-[auto_auto_1fr] gap-x-2 gap-y-1 items-center cursor-pointer",
-        disabled && "opacity-50 pointer-events-none",
+        "grid cursor-pointer grid-cols-[auto_auto_1fr] items-center gap-x-2 gap-y-1",
+        disabled && "pointer-events-none opacity-50",
         className
       )}
     >
@@ -37,7 +37,7 @@ export default function MiracleRadio({
         id={radioId}
         className={clsx(
           "h-4 w-4 cursor-pointer",
-          invers ? "accent-blue-400 dark:accent-blue-600 " : "accent-blue-600 dark:accent-blue-400 "
+          invers ? "accent-blue-400 dark:accent-blue-600" : "accent-blue-600 dark:accent-blue-400"
         )}
         disabled={disabled}
         onChange={onChange}
@@ -46,12 +46,12 @@ export default function MiracleRadio({
 
       {iconStart && <span className="flex shrink-0">{iconStart}</span>}
 
-      <label htmlFor={radioId} className="select-none text-sm cursor-pointer">
+      <label htmlFor={radioId} className="cursor-pointer text-sm select-none">
         {children}
       </label>
 
       {description && (
-        <span className="col-start-2 col-span-2 text-sm text-secondary cursor-pointer">
+        <span className="text-secondary col-span-2 col-start-2 cursor-pointer text-sm">
           {description}
         </span>
       )}

@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { motion } from 'framer-motion'
-import BrowserIllustration from './BrowserIllustration'
-import clsx from 'clsx'
+import { motion } from "framer-motion"
+import BrowserIllustration from "./BrowserIllustration"
+import clsx from "clsx"
 
 export default function FrontEndIllustration() {
   const colors = [
@@ -13,15 +13,15 @@ export default function FrontEndIllustration() {
   ]
   return (
     <BrowserIllustration>
-      <div className="flex h-full items-start relative">
+      <div className="relative flex h-full items-start">
         {/* Sidebar */}
-        <div className="w-fit h-full bottom-0 flex flex-col justify-between gap-1 p-1 border-r border-primary overflow-hidden relative bg-surface-secondary">
+        <div className="border-primary bg-surface-secondary relative bottom-0 flex h-full w-fit flex-col justify-between gap-1 overflow-hidden border-r p-1">
           <div className="flex flex-col gap-2">
-            <div className="h-6 w-6 border-[0.5px] border-primary relative overflow-hidden rounded-md">
+            <div className="border-primary relative h-6 w-6 overflow-hidden rounded-md border-[0.5px]">
               <div className="absolute -bottom-3 -left-1.5 h-6 w-6 rotate-45 rounded-xs bg-neutral-400 dark:bg-neutral-600" />
               <div className="absolute -bottom-2 left-2.5 h-4 w-4 rotate-45 rounded-xs bg-neutral-300 dark:bg-neutral-700" />
             </div>
-            <div className='flex flex-col gap-1'>
+            <div className="flex flex-col gap-1">
               <div className="h-0.5 w-3/4 shrink-0 rounded-sm bg-neutral-400 dark:bg-neutral-600" />
               <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
               <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
@@ -29,31 +29,34 @@ export default function FrontEndIllustration() {
               <div className="h-0.5 w-full shrink-0 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
             </div>
           </div>
-          <div className="w-2 h-2 rounded-full bg-neutral-400 dark:bg-neutral-600"></div>
+          <div className="h-2 w-2 rounded-full bg-neutral-400 dark:bg-neutral-600"></div>
         </div>
-        
+
         {/* Main Content */}
-        <div className="flex flex-1 flex-col gap-2 overflow-hidden relative">
+        <div className="relative flex flex-1 flex-col gap-2 overflow-hidden">
           {/* Top Navbar */}
-          <div className="flex w-full items-center justify-between border-b border-primary p-1 absolute top-0 left-0 right-0 z-1 bg-surface-secondary">
+          <div className="border-primary bg-surface-secondary absolute top-0 right-0 left-0 z-1 flex w-full items-center justify-between border-b p-1">
             <div className="h-2 w-2 rounded-xs bg-neutral-400 dark:bg-neutral-600" />
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className={clsx(
-                  "h-0.5 w-3 rounded-full",
-                  i === 1 ? "bg-blue-400 dark:bg-blue-500" : "bg-neutral-300 dark:bg-neutral-700"
-                )} />
+                <div
+                  key={i}
+                  className={clsx(
+                    "h-0.5 w-3 rounded-full",
+                    i === 1 ? "bg-blue-400 dark:bg-blue-500" : "bg-neutral-300 dark:bg-neutral-700"
+                  )}
+                />
               ))}
             </div>
           </div>
 
           {/* Animated Content */}
-          <motion.div 
+          <motion.div
             className="mt-6 flex flex-col gap-1.5 px-2"
-            animate={{ y: [0, -50, 0] }} 
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}>
-            <div 
-              className="relative h-10 w-full shrink-0 overflow-hidden rounded bg-surface-secondary">
+            animate={{ y: [0, -50, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <div className="bg-surface-secondary relative h-10 w-full shrink-0 overflow-hidden rounded">
               <div className="absolute -bottom-5 left-2 h-10 w-10 rotate-45 rounded-sm bg-neutral-400 dark:bg-neutral-600" />
               <div className="absolute -bottom-4 left-8 h-8 w-8 rotate-45 rounded-sm bg-neutral-300 dark:bg-neutral-700" />
             </div>
@@ -61,23 +64,20 @@ export default function FrontEndIllustration() {
             {/* Card Grid */}
             <div className="grid grid-cols-3 gap-1.5">
               {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="h-6 rounded overflow-hidden relative bg-surface-secondary"
-                >
+                <div key={i} className="bg-surface-secondary relative h-6 overflow-hidden rounded">
                   <div
                     className={clsx(
-                      "absolute bottom-0 left-0 right-0 h-1",
+                      "absolute right-0 bottom-0 left-0 h-1",
                       colors[i % colors.length]
                     )}
                   />
                 </div>
               ))}
             </div>
-            
+
             {/*Chart */}
-            <div className="flex gap-1.5 h-fit">
-              <div className="flex items-end gap-[2px] w-fit min-h-full rounded p-1 bg-surface-secondary">
+            <div className="flex h-fit gap-1.5">
+              <div className="bg-surface-secondary flex min-h-full w-fit items-end gap-[2px] rounded p-1">
                 {[4, 7, 3, 6, 5].map((h, i) => (
                   <motion.div
                     key={i}
@@ -93,16 +93,16 @@ export default function FrontEndIllustration() {
                   />
                 ))}
               </div>
-              <div className="flex flex-col gap-1 flex-1">
+              <div className="flex flex-1 flex-col gap-1">
                 {[1, 2].map((i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-2 rounded px-1 py-1 bg-surface-secondary"
+                    className="bg-surface-secondary flex items-center gap-2 rounded px-1 py-1"
                   >
                     <div className="h-3 w-3 rounded bg-neutral-400 dark:bg-neutral-600" />
-                    <div className="flex flex-col gap-0.5 flex-1">
-                      <div className="h-0.5 w-3/4 bg-neutral-400 dark:bg-neutral-600 rounded" />
-                      <div className="h-0.5 w-1/2 bg-neutral-300 dark:bg-neutral-700 rounded" />
+                    <div className="flex flex-1 flex-col gap-0.5">
+                      <div className="h-0.5 w-3/4 rounded bg-neutral-400 dark:bg-neutral-600" />
+                      <div className="h-0.5 w-1/2 rounded bg-neutral-300 dark:bg-neutral-700" />
                     </div>
                   </div>
                 ))}
@@ -110,15 +110,15 @@ export default function FrontEndIllustration() {
             </div>
 
             {/* Card List */}
-            <div className="flex flex-col gap-1 flex-1">
+            <div className="flex flex-1 flex-col gap-1">
               {[1, 2].map((i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-2 rounded px-1 py-1 bg-surface-secondary"
+                  className="bg-surface-secondary flex items-center gap-2 rounded px-1 py-1"
                 >
-                  <div className="flex flex-col gap-0.5 flex-1">
-                    <div className="h-0.5 w-3/4 bg-neutral-400 dark:bg-neutral-600 rounded" />
-                    <div className="h-0.5 w-1/2 bg-neutral-300 dark:bg-neutral-700 rounded" />
+                  <div className="flex flex-1 flex-col gap-0.5">
+                    <div className="h-0.5 w-3/4 rounded bg-neutral-400 dark:bg-neutral-600" />
+                    <div className="h-0.5 w-1/2 rounded bg-neutral-300 dark:bg-neutral-700" />
                   </div>
                 </div>
               ))}
@@ -126,17 +126,29 @@ export default function FrontEndIllustration() {
           </motion.div>
         </div>
         {/* Simulated Cursor */}
-        <motion.div 
+        <motion.div
           className="absolute z-20 drop-shadow-md"
           animate={{
-            left: ['80%', '80%', '80%', '64%', '64%', '73%', '64%', '80%'],
-            top: ['40%', '40%', '40%', '55%', '55%', '55%', '55%', '40%'],
-            scale: [1, 0.8, 1, 1, 0.9, 0.9, 1, 1]
+            left: ["80%", "80%", "80%", "64%", "64%", "73%", "64%", "80%"],
+            top: ["40%", "40%", "40%", "55%", "55%", "55%", "55%", "40%"],
+            scale: [1, 0.8, 1, 1, 0.9, 0.9, 1, 1],
           }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-neutral-600 dark:text-neutral-400">
-            <path d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            className="text-neutral-600 dark:text-neutral-400"
+          >
+            <path
+              d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </motion.div>
       </div>

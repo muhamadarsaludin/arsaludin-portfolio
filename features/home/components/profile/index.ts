@@ -1,1 +1,1 @@
-export {default} from "./ProfileSection"
+export { default } from "./ProfileSection"

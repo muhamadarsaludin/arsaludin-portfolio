@@ -1,22 +1,25 @@
 "use client"
 
-import BlurText from '@/components/react-bits/BlurText'
-import LiquidEther from '@/components/react-bits/LiquidEther'
+import BlurText from "@/components/react-bits/BlurText"
+import LiquidEther from "@/components/react-bits/LiquidEther"
 import Image from "next/image"
 
 type ProfileHeroProps = React.HTMLAttributes<HTMLDivElement> & {
   className?: string
 }
 
-export default function ProfileHero({className, ...props}: ProfileHeroProps) {
+export default function ProfileHero({ className, ...props }: ProfileHeroProps) {
   return (
-    <div 
+    <div
       {...props}
-      className="w-full h-50 md:h-70 lg:h-85 xl:h-100 rounded-2xl relative border border-gray-950/10 dark:border-white/10 bg-black overflow-hidden"
+      className="relative h-50 w-full overflow-hidden rounded-2xl border border-gray-950/10 bg-black md:h-70 lg:h-85 xl:h-100 dark:border-white/10"
     >
-      <div style={{ width: '100%', height: "100%", position: 'relative' }} className="z-1 hidden md:block">
+      <div
+        style={{ width: "100%", height: "100%", position: "relative" }}
+        className="z-1 hidden md:block"
+      >
         <LiquidEther
-          colors={['#2563EB', '#22D3EE', '#8B5CF6']}
+          colors={["#2563EB", "#22D3EE", "#8B5CF6"]}
           mouseForce={20}
           cursorSize={100}
           isViscous
@@ -46,7 +49,7 @@ export default function ProfileHero({className, ...props}: ProfileHeroProps) {
         delay={200}
         animateBy="words"
         direction="top"
-        className="text-2xl md:text-6xl lg:text-[5rem] xl:text-8xl font-semibold mb-9 md:mb-8 absolute z-2 bottom-0 inset-x-0 justify-center leading-tight px-6"
+        className="absolute inset-x-0 bottom-0 z-2 mb-9 justify-center px-6 text-2xl leading-tight font-semibold md:mb-8 md:text-6xl lg:text-[5rem] xl:text-8xl"
         spanClassName="bg-linear-to-b from-neutral-100 to-neutral-950 bg-clip-text text-transparent"
         style={{ wordSpacing: "-1rem" }}
       />

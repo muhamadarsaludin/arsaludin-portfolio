@@ -11,37 +11,42 @@ const navigationLinks = [
   {
     label: "home",
     href: "/",
-    disabled: false
+    disabled: false,
   },
   {
     label: "projects",
     href: "/projects",
-    disabled: false
+    disabled: false,
   },
   {
     label: "certifications",
     href: "/certifications",
-    disabled: false
+    disabled: false,
   },
   {
     label: "blogs",
     href: "/blogs",
-    disabled: false
+    disabled: false,
   },
   {
     label: "contact",
     href: "/contact",
-    disabled: false
-  }
+    disabled: false,
+  },
 ]
 
-export default function HeaderNavigation({className}: HeaderNavigationProps) {
+export default function HeaderNavigation({ className }: HeaderNavigationProps) {
   const t = useTranslations("components.header.navigation")
 
   return (
-    <nav className={clsx("flex gap-6 items-center", className)}>
+    <nav className={clsx("flex items-center gap-6", className)}>
       {navigationLinks.map((link, index) => (
-        <HeaderNavLink key={index} label={t(link.label)} href={link.href} disabled={link.disabled} />
+        <HeaderNavLink
+          key={index}
+          label={t(link.label)}
+          href={link.href}
+          disabled={link.disabled}
+        />
       ))}
     </nav>
   )

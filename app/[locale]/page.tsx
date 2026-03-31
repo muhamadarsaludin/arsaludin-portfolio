@@ -1,9 +1,9 @@
-import HomePage from "@/features/home/components";
+import HomePage from "@/features/home/components"
 
 export default function Home() {
   return (
     <>
-      <HomePage/>
+      <HomePage />
     </>
-  );
+  )
 }

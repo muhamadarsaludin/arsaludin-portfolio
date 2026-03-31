@@ -5,12 +5,10 @@ export type SectionProps = React.HTMLAttributes<HTMLElement> & {
   className?: string
 }
 
-export default function Section({children, className, ...props}: SectionProps) {
+export default function Section({ children, className, ...props }: SectionProps) {
   return (
     <section {...props}>
-      <div className={clsx("max-w-(--m-page-width) mx-auto px-6", className)}>
-        {children}
-      </div>
+      <div className={clsx("mx-auto max-w-(--m-page-width) px-6", className)}>{children}</div>
     </section>
   )
 }

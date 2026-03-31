@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/server"
-import {routing} from "@/i18n/routing"
+import { routing } from "@/i18n/routing"
 import { Skill } from "@/features/shared/types/skills"
-import type { Reaction, ReactionSummary } from "@/features/shared/types/reactions"
+import type { Reaction } from "@/features/shared/types/reactions"
+import type { Project } from "../types/projects"
 
 type ProjectTranslation = {
   title: string | null
@@ -18,85 +19,67 @@ type ProjectSkill = {
   skills: Skill | null
 }[]
 
-export type Project = {
-  id: string;
-  name: string;
-  description: string;
-  slug: string;
-  thumbnail: string;
-  github_url: string | null;
-  url: string | null;
-  content: string;
-  created_at: string;
-  updated_at: string;
-  additional_info: {
-    label: string;
-    content: string;
-  };
-  skills: Skill[];
-  comments_count: number;
-  reaction_sumary: ReactionSummary;
-}
-
 export async function getProjects(
   locale: string = routing.defaultLocale,
   isFeatured: boolean = false,
   limit: number = 12,
   page: number = 1
-) : Promise<Project[]> {
+): Promise<Project[]> {
   const supabase = await createClient()
 
-  const from = (page - 1) * limit;
-  const to = from + limit - 1;
+  const from = (page - 1) * limit
+  const to = from + limit - 1
 
   let query = supabase
-  .from("projects")
-  .select(`
-    id,
-    name,
-    slug,
-    thumbnail,
-    github_url,
-    url,
-    created_at,
-    updated_at,
-    project_translations!inner (
-      description,
-      content,
-      additional_info,
-      additional_info_label,
-      i18n!inner (
-        locale
+    .from("projects")
+    .select(
+      `
+      id,
+      name,
+      slug,
+      thumbnail,
+      github_url,
+      url,
+      created_at,
+      updated_at,
+      project_translations!inner (
+        description,
+        content,
+        additional_info,
+        additional_info_label,
+        i18n!inner (
+          locale
+        )
+      ),
+      skill_maps (
+        skills ( 
+          name,
+          icon,
+          color
+        )
+      ),
+      comments(count),
+      project_reaction_summary(
+        emoji,
+        count
       )
-    ),
-    skill_maps (
-      skills ( 
-        name,
-        icon,
-        color
-      )
-    ),
-    comments(count),
-    project_reaction_summary(
-      emoji,
-      count
+    `
     )
-  `)
-  .eq("project_translations.i18n.locale", locale)
-  .order("order_index", { ascending: true })
-  .limit(3)
-  .eq("skill_maps.is_show", true)
-  .eq("skill_maps.target_type", "project")
-  .order("order_index", { referencedTable: "skill_maps", ascending: true })
-  .eq('comments.target_type', 'project');
+    .eq("project_translations.i18n.locale", locale)
+    .order("order_index", { ascending: true })
+    .limit(3)
+    .eq("skill_maps.is_show", true)
+    .eq("skill_maps.target_type", "project")
+    .order("order_index", { referencedTable: "skill_maps", ascending: true })
+    .eq("comments.target_type", "project")
 
   if (isFeatured) {
-    query.eq("is_featured", true);
+    query.eq("is_featured", true)
   }
 
-  query = query.range(from, to);
+  query = query.range(from, to)
 
-  const {data, error} = await query
+  const { data, error } = await query
 
   if (error) {
     console.error("Supabase Error:", error)
@@ -109,19 +92,19 @@ export async function getProjects(
   return data.map((project) => {
     const t = project.project_translations?.[0] as ProjectTranslation | undefined
     const skills =
-        (project.skill_maps as unknown as ProjectSkill)
-          ?.map((s) => s.skills)
-          .filter((skill) => skill !== null) as Skill[] ?? []
+      ((project.skill_maps as unknown as ProjectSkill)
+        ?.map((s) => s.skills)
+        .filter((skill) => skill !== null) as Skill[]) ?? []
 
     const commentsCount = (project.comments as any)?.[0]?.count ?? 0
-    const reactions = (project.project_reaction_summary as Reaction[]) ?? [];
+    const reactions = (project.project_reaction_summary as Reaction[]) ?? []
 
-    const sortedReactions = [...reactions].sort((a, b) => b.count - a.count);
-    const topThree = sortedReactions.slice(0, 3);
+    const sortedReactions = [...reactions].sort((a, b) => b.count - a.count)
+    const topThree = sortedReactions.slice(0, 3)
     const limitedAll = sortedReactions.slice(0, 10)
-    const remaining = sortedReactions.length > 3 ? sortedReactions.length - 3 : 0;
-    const totalReactionsCount = sortedReactions.reduce((sum, r) => sum + r.count, 0);
-    
+    const remaining = sortedReactions.length > 3 ? sortedReactions.length - 3 : 0
+    const totalReactionsCount = sortedReactions.reduce((sum, r) => sum + r.count, 0)
+
     return {
       id: project.id,
       name: project.name,

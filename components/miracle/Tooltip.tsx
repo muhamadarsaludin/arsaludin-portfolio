@@ -7,11 +7,19 @@ export type TooltipProps = {
   className?: string
   trigger: ReactNode
   children: ReactNode
-  defaultPosition?: 
-    | "top-start" | "top-center" | "top-end"
-    | "bottom-start" | "bottom-center" | "bottom-end"
-    | "left-start" | "left-center" | "left-end"
-    | "right-start" | "right-center" | "right-end"
+  defaultPosition?:
+    | "top-start"
+    | "top-center"
+    | "top-end"
+    | "bottom-start"
+    | "bottom-center"
+    | "bottom-end"
+    | "left-start"
+    | "left-center"
+    | "left-end"
+    | "right-start"
+    | "right-center"
+    | "right-end"
   hoverContent?: boolean
   noPadding?: boolean
   showArrow?: boolean
@@ -19,16 +27,16 @@ export type TooltipProps = {
 
 export default function MiracleTooltip({
   className,
-  trigger, 
+  trigger,
   children,
   defaultPosition = "top-center",
   hoverContent = false,
   noPadding = false,
-  showArrow = true
+  showArrow = true,
 }: TooltipProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [adaptedPos, setAdaptedPos] = useState(defaultPosition)
-  
+
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -78,18 +86,21 @@ export default function MiracleTooltip({
         if (align === "start" && triggerRect.left + contentRect.width > viewportWidth) align = "end"
         if (align === "end" && triggerRect.right - contentRect.width < 0) align = "start"
         if (align === "center") {
-          if (triggerRect.left + (triggerRect.width / 2) + (contentRect.width / 2) > viewportWidth) align = "end"
-          if (triggerRect.left + (triggerRect.width / 2) - (contentRect.width / 2) < 0) align = "start"
+          if (triggerRect.left + triggerRect.width / 2 + contentRect.width / 2 > viewportWidth)
+            align = "end"
+          if (triggerRect.left + triggerRect.width / 2 - contentRect.width / 2 < 0) align = "start"
         }
       }
 
       // Alignment adaptation (vertical)
       if (side === "left" || side === "right") {
-        if (align === "start" && triggerRect.top + contentRect.height > viewportHeight) align = "end"
+        if (align === "start" && triggerRect.top + contentRect.height > viewportHeight)
+          align = "end"
         if (align === "end" && triggerRect.bottom - contentRect.height < 0) align = "start"
         if (align === "center") {
-          if (triggerRect.top + (triggerRect.height / 2) + (contentRect.height / 2) > viewportHeight) align = "end"
-          if (triggerRect.top + (triggerRect.height / 2) - (contentRect.height / 2) < 0) align = "start"
+          if (triggerRect.top + triggerRect.height / 2 + contentRect.height / 2 > viewportHeight)
+            align = "end"
+          if (triggerRect.top + triggerRect.height / 2 - contentRect.height / 2 < 0) align = "start"
         }
       }
 
@@ -128,27 +139,32 @@ export default function MiracleTooltip({
   }
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className={clsx("relative flex w-fit cursor-pointer group/tooltip", className)}
+      className={clsx("group/tooltip relative flex w-fit cursor-pointer", className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {trigger}
-      <div 
+      <div
         ref={contentRef}
         className={clsx(
-          "absolute z-1000 transition-[opacity,visibility] duration-300 ease",
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none",
+          "ease absolute z-1000 transition-[opacity,visibility] duration-300",
+          isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0",
           hoverContent ? "pointer-events-auto" : "pointer-events-none",
           tooltipPositionClass[adaptedPos]
         )}
       >
-        <div className={clsx("relative bg-surface-primary-inv rounded-md shadow-sm shadow-neutral-700 dark:shadow-neutral-300 text-primary-inv w-max min-w-max", !noPadding && "p-3")}>
+        <div
+          className={clsx(
+            "bg-surface-primary-inv text-primary-inv relative w-max min-w-max rounded-md shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
+            !noPadding && "p-3"
+          )}
+        >
           {showArrow && (
             <div
               className={clsx(
-                "absolute w-2.5 h-2.5 rotate-45 bg-surface-primary-inv -z-1",
+                "bg-surface-primary-inv absolute -z-1 h-2.5 w-2.5 rotate-45",
                 arrowPositionClass[adaptedPos]
               )}
             />
