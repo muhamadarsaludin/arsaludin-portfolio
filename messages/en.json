@@ -20,6 +20,16 @@
       "cta": "Talk to me",
       "timeLabel": "My local time",
       "copyright": "Muhamad Arsaludin. All rights reserved"
+    },
+    "project-card": {
+      "reaction-tooltip": {
+        "default": "Add reaction",
+        "auth": "Sign in to react"
+      },
+      "comment-tooltip": {
+        "default": "Add comment",
+        "auth": "Sign in to comment"
+      }
     }
   },
   "pages": {

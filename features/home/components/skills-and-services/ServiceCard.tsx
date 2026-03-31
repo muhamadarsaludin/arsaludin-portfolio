@@ -3,13 +3,13 @@ import React from 'react'
 import MiracleTooltip from '@/components/miracle/Tooltip'
 import MiracleBadge from '@/components/miracle/Badge'
 import { skillIcons } from '@/features/shared/services/skills'
-import type { SkillItem } from '@/features/shared/types/skills'
+import type { Skill } from '@/features/shared/types/skills'
 
 export interface ServiceType {
   title: string
   description: string
   illustration: React.ReactNode
-  skills: SkillItem[]
+  skills: Skill[]
   featured?: boolean
 }
 

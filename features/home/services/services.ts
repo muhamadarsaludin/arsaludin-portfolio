@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { routing } from "@/i18n/routing"
-import type { SkillItem } from "@/features/shared/types/skills"
+import type { Skill } from "@/features/shared/types/skills"
 
 export type Service = {
   id: number
@@ -11,7 +11,7 @@ export type Service = {
   updated_at: string
   name: string
   description: string
-  skills: SkillItem[]
+  skills: Skill[]
 }
 
 type ServiceTranslation = {
@@ -23,7 +23,7 @@ type ServiceTranslation = {
 }
 
 type ServiceSkill = {
-  skills: SkillItem | null
+  skills: Skill | null
 }[]
 
 export async function getServices(locale: string = routing.defaultLocale): Promise<Service[]> {
@@ -37,18 +37,18 @@ export async function getServices(locale: string = routing.defaultLocale): Promi
       order_index,
       created_at,
       updated_at,
-      skill_maps!inner (
-        skills ( 
-          name,
-          icon,
-          color
-        )
-      ),
       service_translations!inner (
         name,
         description,
         i18n!inner (
           locale
+        )
+      ),
+      skill_maps (
+        skills ( 
+          name,
+          icon,
+          color
         )
       )
     `)
@@ -72,7 +72,7 @@ export async function getServices(locale: string = routing.defaultLocale): Promi
     const skills =
       (service.skill_maps as unknown as ServiceSkill)
         ?.map((s) => s.skills)
-        .filter((skill) => skill !== null) as SkillItem[] ?? []
+        .filter((skill) => skill !== null) as Skill[] ?? []
 
     return {
       id: service.id,

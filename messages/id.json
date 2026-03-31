@@ -20,6 +20,16 @@
       "cta": "Hubungi saya",
       "timeLabel": "Waktu lokal",
       "copyright": "Muhamad Arsaludin. Hak cipta dilindungi."
+    },
+    "project-card": {
+      "reaction-tooltip": {
+        "default": "Tambah reaksi",
+        "auth": "Masuk untuk mereaksi"
+      },
+      "comment-tooltip": {
+        "default": "Tambah komentar",
+        "auth": "Masuk untuk berkomentar"
+      }
     }
   },
   "pages": {
