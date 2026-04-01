@@ -1,11 +1,11 @@
 import { createClient } from "@/lib/supabase/server"
 import { routing } from "@/i18n/routing"
 import { Skill } from "@/features/shared/types/skills"
-import type { Reaction } from "@/features/shared/types/reactions"
 import type { Project } from "../types/projects"
 import { TOP_SKILLS_AMOUNT } from "@/features/shared/constants/skills"
-import { MAX_REACTIONS_AMOUNT, TOP_REACTIONS_AMOUNT } from "@/features/shared/constants/reactions"
+import { TOP_REACTIONS_AMOUNT } from "@/features/shared/constants/reactions"
 import { dateFormatter } from "@/utils/date-formater"
+import { Reaction, ReactionCount } from "@/features/shared/types/reactions"
 
 type ProjectTranslation = {
   title: string | null
@@ -28,10 +28,13 @@ export async function getProjects(
   limit: number = 12,
   page: number = 1,
   topSkillsAmount: number = TOP_SKILLS_AMOUNT,
-  topReactionsAmount: number = TOP_REACTIONS_AMOUNT,
-  maxReactionsAmount: number = MAX_REACTIONS_AMOUNT
+  topReactionsAmount: number = TOP_REACTIONS_AMOUNT
 ): Promise<Project[]> {
   const supabase = await createClient()
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
 
   const from = (page - 1) * limit
   const to = from + limit - 1
@@ -66,16 +69,21 @@ export async function getProjects(
         )
       ),
       comments(count),
-      project_reaction_summary(
+      project_reaction_counts(
         emoji,
         count
-      )
+      ),
+      reactions(
+        emoji,
+        user_id
+      ) 
     `
     )
     .eq("project_translations.i18n.locale", locale)
     .eq("skill_maps.is_show", true)
     .eq("skill_maps.target_type", "project")
     .eq("comments.target_type", "project")
+    .eq("reactions.target_type", "project")
     .order("order_index", { ascending: true })
     .order("order_index", { referencedTable: "skill_maps", ascending: true })
 
@@ -98,8 +106,12 @@ export async function getProjects(
     const skills = (project.skill_maps as unknown as ProjectSkills)
       ?.map((p) => p.skills)
       .filter(Boolean) ?? [];
-    const reactions = project.project_reaction_summary as Reaction[] ?? []
-    const sortedReactions = [...reactions].sort((a, b) => b.count - a.count)
+    const userReaction = user
+      ? ((project.reactions as Reaction[])
+          ?.find((r) => r.user_id === user.id) ?? null)
+      : null
+    const reactionCounts = project.project_reaction_counts as ReactionCount[] ?? []
+    const sortedReactionCounts = [...reactionCounts].sort((a, b) => b.count - a.count)
 
     return {
       id: project.id,
@@ -123,13 +135,13 @@ export async function getProjects(
         remaining: skills.length - topSkillsAmount,
       },
       reaction_summary: {
-        hasReactions: reactions.length > 0,
-        all: sortedReactions.slice(0, maxReactionsAmount),
-        top: sortedReactions.slice(0, topReactionsAmount),
-        total: reactions.length,
-        remaining: reactions.length - topReactionsAmount,
-        isTruncated: sortedReactions.length > maxReactionsAmount,
-        totalReactionsCount: sortedReactions.reduce((sum, r) => sum + r.count, 0)
+        hasReactions: reactionCounts.length > 0,
+        userReaction: userReaction,
+        totalReactions: sortedReactionCounts.reduce((sum, r) => sum + r.count, 0),
+        all: sortedReactionCounts,
+        top: sortedReactionCounts.slice(0, topReactionsAmount),
+        total: reactionCounts.length,
+        remaining: reactionCounts.length - topReactionsAmount
       },
       order_index: project.order_index,
       created_at: dateFormatter(locale).format(new Date(project.created_at)),

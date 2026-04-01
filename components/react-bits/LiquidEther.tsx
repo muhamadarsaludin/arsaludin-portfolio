@@ -1,6 +1,27 @@
 "use client"
 import React, { useEffect, useRef } from "react"
-import * as THREE from "three"
+import { 
+  Scene, 
+  Camera, 
+  WebGLRenderer, 
+  PlaneGeometry, 
+  Mesh, 
+  RawShaderMaterial, 
+  Vector2, 
+  Vector4, 
+  Color, 
+  DataTexture, 
+  RGBAFormat, 
+  LinearFilter, 
+  ClampToEdgeWrapping, 
+  WebGLRenderTarget, 
+  HalfFloatType, 
+  FloatType,
+  LineSegments,
+  BufferGeometry,
+  BufferAttribute,
+  AdditiveBlending
+} from "three"
 
 export interface LiquidEtherProps {
   mouseForce?: number
@@ -87,7 +108,7 @@ export default function LiquidEther({
   useEffect(() => {
     if (!mountRef.current) return
 
-    function makePaletteTexture(stops: string[]): THREE.DataTexture {
+    function makePaletteTexture(stops: string[]): DataTexture {
       let arr: string[]
       if (Array.isArray(stops) && stops.length > 0) {
         arr = stops.length === 1 ? [stops[0], stops[0]] : stops
@@ -97,17 +118,17 @@ export default function LiquidEther({
       const w = arr.length
       const data = new Uint8Array(w * 4)
       for (let i = 0; i < w; i++) {
-        const c = new THREE.Color(arr[i])
+        const c = new Color(arr[i])
         data[i * 4 + 0] = Math.round(c.r * 255)
         data[i * 4 + 1] = Math.round(c.g * 255)
         data[i * 4 + 2] = Math.round(c.b * 255)
         data[i * 4 + 3] = 255
       }
-      const tex = new THREE.DataTexture(data, w, 1, THREE.RGBAFormat)
-      tex.magFilter = THREE.LinearFilter
-      tex.minFilter = THREE.LinearFilter
-      tex.wrapS = THREE.ClampToEdgeWrapping
-      tex.wrapT = THREE.ClampToEdgeWrapping
+      const tex = new DataTexture(data, w, 1, RGBAFormat)
+      tex.magFilter = LinearFilter
+      tex.minFilter = LinearFilter
+      tex.wrapS = ClampToEdgeWrapping
+      tex.wrapT = ClampToEdgeWrapping
       tex.generateMipmaps = false
       tex.needsUpdate = true
       return tex
@@ -115,7 +136,7 @@ export default function LiquidEther({
 
     const paletteTex = makePaletteTexture(colors)
     // Hard-code transparent background vector (alpha 0)
-    const bgVec4 = new THREE.Vector4(0, 0, 0, 0)
+    const bgVec4 = new Vector4(0, 0, 0, 0)
 
     class CommonClass {
       width = 0
@@ -130,15 +151,15 @@ export default function LiquidEther({
       delta = 0
       lastTime = 0
       container: HTMLElement | null = null
-      renderer: THREE.WebGLRenderer | null = null
+      renderer: WebGLRenderer | null = null
       init(container: HTMLElement) {
         this.container = container
         this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
         this.resize()
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+        this.renderer = new WebGLRenderer({ antialias: true, alpha: true })
         // Always transparent
         this.renderer.autoClear = false
-        this.renderer.setClearColor(new THREE.Color(0x000000), 0)
+        this.renderer.setClearColor(new Color(0x000000), 0)
         this.renderer.setPixelRatio(this.pixelRatio)
         this.renderer.setSize(this.width, this.height)
         const el = this.renderer.domElement
@@ -166,9 +187,9 @@ export default function LiquidEther({
 
     class MouseClass {
       mouseMoved = false
-      coords = new THREE.Vector2()
-      coords_old = new THREE.Vector2()
-      diff = new THREE.Vector2()
+      coords = new Vector2()
+      coords_old = new Vector2()
+      diff = new Vector2()
       timer: number | null = null
       container: HTMLElement | null = null
       docTarget: Document | null = null
@@ -180,8 +201,8 @@ export default function LiquidEther({
       takeoverActive = false
       takeoverStartTime = 0
       takeoverDuration = 0.25
-      takeoverFrom = new THREE.Vector2()
-      takeoverTo = new THREE.Vector2()
+      takeoverFrom = new Vector2()
+      takeoverTo = new Vector2()
       onInteract: (() => void) | null = null
       private _onMouseMove = this.onDocumentMouseMove.bind(this)
       private _onTouchStart = this.onDocumentTouchStart.bind(this)
@@ -320,12 +341,12 @@ export default function LiquidEther({
       resumeDelay: number
       rampDurationMs: number
       active = false
-      current = new THREE.Vector2(0, 0)
-      target = new THREE.Vector2()
+      current = new Vector2(0, 0)
+      target = new Vector2()
       lastTime = performance.now()
       activationTime = 0
       margin = 0.2
-      private _tmpDir = new THREE.Vector2()
+      private _tmpDir = new Vector2()
       constructor(
         mouse: MouseClass,
         manager: WebGLManager,
@@ -565,22 +586,22 @@ export default function LiquidEther({
     class ShaderPass {
       props: any
       uniforms?: Uniforms
-      scene: THREE.Scene | null = null
-      camera: THREE.Camera | null = null
-      material: THREE.RawShaderMaterial | null = null
-      geometry: THREE.BufferGeometry | null = null
-      plane: THREE.Mesh | null = null
+      scene: Scene | null = null
+      camera: Camera | null = null
+      material: RawShaderMaterial | null = null
+      geometry: BufferGeometry | null = null
+      plane: Mesh | null = null
       constructor(props: any) {
         this.props = props || {}
         this.uniforms = this.props.material?.uniforms
       }
       init(..._args: any[]) {
-        this.scene = new THREE.Scene()
-        this.camera = new THREE.Camera()
+        this.scene = new Scene()
+        this.camera = new Camera()
         if (this.uniforms) {
-          this.material = new THREE.RawShaderMaterial(this.props.material)
-          this.geometry = new THREE.PlaneGeometry(2, 2)
-          this.plane = new THREE.Mesh(this.geometry, this.material)
+          this.material = new RawShaderMaterial(this.props.material)
+          this.geometry = new PlaneGeometry(2, 2)
+          this.plane = new Mesh(this.geometry, this.material)
           this.scene.add(this.plane)
         }
       }
@@ -593,7 +614,7 @@ export default function LiquidEther({
     }
 
     class Advection extends ShaderPass {
-      line!: THREE.LineSegments
+      line!: LineSegments
       constructor(simProps: any) {
         super({
           material: {
@@ -618,17 +639,17 @@ export default function LiquidEther({
         this.createBoundary()
       }
       createBoundary() {
-        const boundaryG = new THREE.BufferGeometry()
+        const boundaryG = new BufferGeometry()
         const vertices_boundary = new Float32Array([
           -1, -1, 0, -1, 1, 0, -1, 1, 0, 1, 1, 0, 1, 1, 0, 1, -1, 0, 1, -1, 0, -1, -1, 0,
         ])
-        boundaryG.setAttribute("position", new THREE.BufferAttribute(vertices_boundary, 3))
-        const boundaryM = new THREE.RawShaderMaterial({
+        boundaryG.setAttribute("position", new BufferAttribute(vertices_boundary, 3))
+        const boundaryM = new RawShaderMaterial({
           vertexShader: line_vert,
           fragmentShader: advection_frag,
           uniforms: this.uniforms!,
         })
-        this.line = new THREE.LineSegments(boundaryG, boundaryM)
+        this.line = new LineSegments(boundaryG, boundaryM)
         this.scene!.add(this.line)
       }
       update(...args: any[]) {
@@ -646,27 +667,27 @@ export default function LiquidEther({
     }
 
     class ExternalForce extends ShaderPass {
-      mouse!: THREE.Mesh
+      mouse!: Mesh
       constructor(simProps: any) {
         super({ output: simProps.dst })
         this.init(simProps)
       }
       init(simProps: any) {
         super.init()
-        const mouseG = new THREE.PlaneGeometry(1, 1)
-        const mouseM = new THREE.RawShaderMaterial({
+        const mouseG = new PlaneGeometry(1, 1)
+        const mouseM = new RawShaderMaterial({
           vertexShader: mouse_vert,
           fragmentShader: externalForce_frag,
-          blending: THREE.AdditiveBlending,
+          blending: AdditiveBlending,
           depthWrite: false,
           uniforms: {
             px: { value: simProps.cellScale },
-            force: { value: new THREE.Vector2(0, 0) },
-            center: { value: new THREE.Vector2(0, 0) },
-            scale: { value: new THREE.Vector2(simProps.cursor_size, simProps.cursor_size) },
+            force: { value: new Vector2(0, 0) },
+            center: { value: new Vector2(0, 0) },
+            scale: { value: new Vector2(simProps.cursor_size, simProps.cursor_size) },
           },
         })
-        this.mouse = new THREE.Mesh(mouseG, mouseM)
+        this.mouse = new Mesh(mouseG, mouseM)
         this.scene!.add(this.mouse)
       }
       update(...args: any[]) {
@@ -685,7 +706,7 @@ export default function LiquidEther({
           Math.max(Mouse.coords.y, -1 + cursorSizeY + cellScale.y * 2),
           1 - cursorSizeY - cellScale.y * 2
         )
-        const uniforms = (this.mouse.material as THREE.RawShaderMaterial).uniforms
+        const uniforms = (this.mouse.material as RawShaderMaterial).uniforms
         uniforms.force.value.set(forceX, forceY)
         uniforms.center.value.set(centerX, centerY)
         uniforms.scale.value.set(cursorSize, cursorSize)
@@ -836,7 +857,7 @@ export default function LiquidEther({
 
     class Simulation {
       options: SimOptions
-      fbos: Record<string, THREE.WebGLRenderTarget | null> = {
+      fbos: Record<string, WebGLRenderTarget | null> = {
         vel_0: null,
         vel_1: null,
         vel_viscous0: null,
@@ -845,9 +866,9 @@ export default function LiquidEther({
         pressure_0: null,
         pressure_1: null,
       }
-      fboSize = new THREE.Vector2()
-      cellScale = new THREE.Vector2()
-      boundarySpace = new THREE.Vector2()
+      fboSize = new Vector2()
+      cellScale = new Vector2()
+      boundarySpace = new Vector2()
       advection!: Advection
       externalForce!: ExternalForce
       viscous!: Viscous
@@ -877,7 +898,7 @@ export default function LiquidEther({
       }
       getFloatType() {
         const isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent)
-        return isIOS ? THREE.HalfFloatType : THREE.FloatType
+        return isIOS ? HalfFloatType : FloatType
       }
       createAllFBO() {
         const type = this.getFloatType()
@@ -885,13 +906,13 @@ export default function LiquidEther({
           type,
           depthBuffer: false,
           stencilBuffer: false,
-          minFilter: THREE.LinearFilter,
-          magFilter: THREE.LinearFilter,
-          wrapS: THREE.ClampToEdgeWrapping,
-          wrapT: THREE.ClampToEdgeWrapping,
+          minFilter: LinearFilter,
+          magFilter: LinearFilter,
+          wrapS: ClampToEdgeWrapping,
+          wrapT: ClampToEdgeWrapping,
         } as const
         for (const key in this.fbos) {
-          this.fbos[key] = new THREE.WebGLRenderTarget(this.fboSize.x, this.fboSize.y, opts)
+          this.fbos[key] = new WebGLRenderTarget(this.fboSize.x, this.fboSize.y, opts)
         }
       }
       createShaderPass() {
@@ -980,23 +1001,23 @@ export default function LiquidEther({
 
     class Output {
       simulation: Simulation
-      scene: THREE.Scene
-      camera: THREE.Camera
-      output: THREE.Mesh
+      scene: Scene
+      camera: Camera
+      output: Mesh
       constructor() {
         this.simulation = new Simulation()
-        this.scene = new THREE.Scene()
-        this.camera = new THREE.Camera()
-        this.output = new THREE.Mesh(
-          new THREE.PlaneGeometry(2, 2),
-          new THREE.RawShaderMaterial({
+        this.scene = new Scene()
+        this.camera = new Camera()
+        this.output = new Mesh(
+          new PlaneGeometry(2, 2),
+          new RawShaderMaterial({
             vertexShader: face_vert,
             fragmentShader: color_frag,
             transparent: true,
             depthWrite: false,
             uniforms: {
               velocity: { value: this.simulation.fbos.vel_0!.texture },
-              boundarySpace: { value: new THREE.Vector2() },
+              boundarySpace: { value: new Vector2() },
               palette: { value: paletteTex },
               bgColor: { value: bgVec4 },
             },

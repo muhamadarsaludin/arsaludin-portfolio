@@ -1,7 +1,7 @@
 import Heading from "@/components/Heading"
 import Section from "@/components/Section"
 import { useLocale, useTranslations } from "next-intl"
-import React, { Suspense } from "react"
+import { Suspense } from "react"
 import ProjectCardSkeleton from "@/features/projects/components/ProjectCardSkeleton"
 import { getProjects } from "@/features/projects/services/projects"
 import ProjectCard from "@/features/projects/components/ProjectCard"

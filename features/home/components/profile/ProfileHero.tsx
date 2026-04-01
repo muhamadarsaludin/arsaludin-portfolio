@@ -43,6 +43,7 @@ export default function ProfileHero({ className, ...props }: ProfileHeroProps) {
         fill
         sizes="(max-width: 768px) 100vw, 1280px"
         priority
+        fetchPriority="high"
       />
       <BlurText
         text="Think . Design . Develop"

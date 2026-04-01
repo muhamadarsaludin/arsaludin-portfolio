@@ -5,9 +5,21 @@ import { useAuth } from '@/providers/AuthProvider'
 import { useTranslations } from 'next-intl'
 import { LuCircleFadingPlus } from 'react-icons/lu'
 import MiracleTooltip from '@/components/miracle/Tooltip'
-import EmojiPicker from 'emoji-picker-react'
 import { signInWithGoogle } from '@/features/auth/services/authService'
 import MiraclePopover from '@/components/miracle/Popover'
+// 1. Import dynamic dari next
+import dynamic from 'next/dynamic'
+
+// 2. Load EmojiPicker secara dynamic
+// ssr: false wajib karena library ini butuh object 'window'
+const EmojiPicker = dynamic(() => import('emoji-picker-react'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-[350px] h-[400px] flex items-center justify-center bg-surface-secondary rounded-lg border border-primary animate-pulse">
+      <span className="text-xs text-secondary font-medium">Loading Picker...</span>
+    </div>
+  ),
+})
 
 function ReactionButtonAuth() {
   const t = useTranslations("components.reaction")
@@ -71,10 +83,14 @@ export default function ReactionPicker() {
       noPadding
     >
       <div className="min-w-[350px]">
-        <EmojiPicker
-          skinTonesDisabled
-          onEmojiClick={handleEmojiClick}
-        />
+        {isPickerOpen && (
+          <EmojiPicker
+            skinTonesDisabled
+            onEmojiClick={handleEmojiClick}
+            // Tambahin props theme biar sinkron sama app lo (optional)
+            // theme={"auto" as any} 
+          />
+        )}
       </div>
     </MiraclePopover>
   )

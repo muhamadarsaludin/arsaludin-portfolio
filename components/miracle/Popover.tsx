@@ -52,7 +52,8 @@ export default function MiraclePopover({
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
-  const handleToggle = () => {
+  const handleToggle = (e: React.MouseEvent) => {
+    e.stopPropagation()
     const nextState = !isOpen
     if (!isControlled) {
       setInternalOpen(nextState)

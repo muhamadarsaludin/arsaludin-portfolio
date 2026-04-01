@@ -7,7 +7,7 @@ export default function ReactionsAmount({reactionSummary}: ReactionsAmountProps)
   if (reactionSummary.total <= 0) return
   return (
     <span className="text-sm font-medium text-secondary">
-      {reactionSummary.totalReactionsCount}
+      {reactionSummary.totalReactions}
     </span>
   )
 }
