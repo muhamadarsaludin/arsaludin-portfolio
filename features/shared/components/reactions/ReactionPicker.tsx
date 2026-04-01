@@ -71,7 +71,6 @@ export default function ReactionPicker() {
       }
       noPadding
       hoverContent
-      triggerMode="click"
     >
       <div className="min-w-[350px]">
         <EmojiPicker
