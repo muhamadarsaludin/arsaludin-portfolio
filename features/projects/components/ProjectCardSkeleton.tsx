@@ -20,6 +20,7 @@ export default function ServiceCardSkeleton() {
           ))}
         </div>
       </div>
+      <MiracleSkeleton className="h-10 w-full rounded-none" />
     </div>
   )
 }

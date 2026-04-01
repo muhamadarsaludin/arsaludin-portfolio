@@ -61,7 +61,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         <h3 className="text-primary mb-2 text-lg font-semibold md:text-xl xl:text-2xl">
           {project.name}
         </h3>
-        <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+        <p className="text-sm leading-relaxed text-secondary mb-4">
           {project.description}
         </p>
         <SkillBadges skillSummary={project.skill_summary} className="mb-auto"/>
