@@ -8,11 +8,10 @@ import MiracleTooltip from '@/components/miracle/Tooltip'
 import { signInWithGoogle } from '@/features/auth/services/authService'
 import MiraclePopover from '@/components/miracle/Popover'
 import MiracleLoader from '@/components/miracle/Loader'
-// 1. Import dynamic dari next
 import dynamic from 'next/dynamic'
+import { Theme } from 'emoji-picker-react'
+import { useTheme } from '@wrksz/themes/client'
 
-// 2. Load EmojiPicker secara dynamic
-// ssr: false wajib karena library ini butuh object 'window'
 const EmojiPicker = dynamic(() => import('emoji-picker-react'), {
   ssr: false,
   loading: () => (
@@ -55,6 +54,8 @@ function ReactionButtonAuth() {
 export default function ReactionPicker() {
   const [isPickerOpen, setIsPickerOpen] = useState(false)
   const { isSignedIn } = useAuth()
+  const { theme } = useTheme()
+  const pickerTheme = theme === 'dark' ? Theme.LIGHT : Theme.DARK
 
   const handleEmojiClick = useCallback((emojiData: any) => {
     console.log("Selected emoji:", emojiData.emoji)
@@ -86,10 +87,11 @@ export default function ReactionPicker() {
       <div className="min-w-[350px]">
         {isPickerOpen && (
           <EmojiPicker
+            theme={pickerTheme}
             skinTonesDisabled
             onEmojiClick={handleEmojiClick}
-            // Tambahin props theme biar sinkron sama app lo (optional)
-            // theme={"auto" as any} 
+            width={350}
+            height={400}
           />
         )}
       </div>
