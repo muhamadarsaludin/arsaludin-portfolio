@@ -3,6 +3,9 @@ import { routing } from "@/i18n/routing"
 import { Skill } from "@/features/shared/types/skills"
 import type { Reaction } from "@/features/shared/types/reactions"
 import type { Project } from "../types/projects"
+import { TOP_SKILLS_AMOUNT } from "@/features/shared/constants/skills"
+import { MAX_REACTIONS_AMOUNT, TOP_REACTIONS_AMOUNT } from "@/features/shared/constants/reactions"
+import { dateFormatter } from "@/utils/date-formater"
 
 type ProjectTranslation = {
   title: string | null
@@ -15,15 +18,18 @@ type ProjectTranslation = {
   }[]
 }
 
-type ProjectSkill = {
-  skills: Skill | null
+type ProjectSkills = {
+  skills: Skill
 }[]
 
 export async function getProjects(
   locale: string = routing.defaultLocale,
   isFeatured: boolean = false,
   limit: number = 12,
-  page: number = 1
+  page: number = 1,
+  topSkillsAmount: number = TOP_SKILLS_AMOUNT,
+  topReactionsAmount: number = TOP_REACTIONS_AMOUNT,
+  maxReactionsAmount: number = MAX_REACTIONS_AMOUNT
 ): Promise<Project[]> {
   const supabase = await createClient()
 
@@ -40,6 +46,7 @@ export async function getProjects(
       thumbnail,
       github_url,
       url,
+      order_index,
       created_at,
       updated_at,
       project_translations!inner (
@@ -66,17 +73,15 @@ export async function getProjects(
     `
     )
     .eq("project_translations.i18n.locale", locale)
-    .order("order_index", { ascending: true })
-    .limit(3)
     .eq("skill_maps.is_show", true)
     .eq("skill_maps.target_type", "project")
-    .order("order_index", { referencedTable: "skill_maps", ascending: true })
     .eq("comments.target_type", "project")
+    .order("order_index", { ascending: true })
+    .order("order_index", { referencedTable: "skill_maps", ascending: true })
 
   if (isFeatured) {
     query.eq("is_featured", true)
   }
-
   query = query.range(from, to)
 
   const { data, error } = await query
@@ -87,23 +92,14 @@ export async function getProjects(
   }
   if (!data) return []
 
-  const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: "long" })
-
   return data.map((project) => {
     const t = project.project_translations?.[0] as ProjectTranslation | undefined
-    const skills =
-      ((project.skill_maps as unknown as ProjectSkill)
-        ?.map((s) => s.skills)
-        .filter((skill) => skill !== null) as Skill[]) ?? []
-
     const commentsCount = (project.comments as any)?.[0]?.count ?? 0
-    const reactions = (project.project_reaction_summary as Reaction[]) ?? []
-
+    const skills = (project.skill_maps as unknown as ProjectSkills)
+      ?.map((p) => p.skills)
+      .filter(Boolean) ?? [];
+    const reactions = project.project_reaction_summary as Reaction[] ?? []
     const sortedReactions = [...reactions].sort((a, b) => b.count - a.count)
-    const topThree = sortedReactions.slice(0, 3)
-    const limitedAll = sortedReactions.slice(0, 10)
-    const remaining = sortedReactions.length > 3 ? sortedReactions.length - 3 : 0
-    const totalReactionsCount = sortedReactions.reduce((sum, r) => sum + r.count, 0)
 
     return {
       id: project.id,
@@ -114,21 +110,30 @@ export async function getProjects(
       github_url: project.github_url,
       url: project.url,
       content: t?.content ?? "",
-      created_at: dateFormatter.format(new Date(project.created_at)),
-      updated_at: dateFormatter.format(new Date(project.updated_at)),
       additional_info: {
         label: t?.additional_info ?? "",
         content: t?.additional_info ?? "",
       },
-      skills,
       comments_count: commentsCount,
-      reaction_sumary: {
-        all: limitedAll,
-        top: topThree,
-        remaining: remaining,
-        total: totalReactionsCount,
-        isLimit: sortedReactions.length > limitedAll.length,
+      skill_summary: {
+        hasSkills: skills.length > 0,
+        all: skills,
+        top: skills.slice(0, topSkillsAmount),
+        total: skills.length,
+        remaining: skills.length - topSkillsAmount,
       },
+      reaction_summary: {
+        hasReactions: reactions.length > 0,
+        all: sortedReactions.slice(0, maxReactionsAmount),
+        top: sortedReactions.slice(0, topReactionsAmount),
+        total: reactions.length,
+        remaining: reactions.length - topReactionsAmount,
+        isTruncated: sortedReactions.length > maxReactionsAmount,
+        totalReactionsCount: sortedReactions.reduce((sum, r) => sum + r.count, 0)
+      },
+      order_index: project.order_index,
+      created_at: dateFormatter(locale).format(new Date(project.created_at)),
+      updated_at: dateFormatter(locale).format(new Date(project.updated_at)),
     }
   })
 }

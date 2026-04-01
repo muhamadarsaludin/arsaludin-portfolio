@@ -3,6 +3,7 @@ import { routing } from "@/i18n/routing"
 import type { Skill } from "@/features/shared/types/skills"
 import { Service } from "../types/services"
 import { dateFormatter } from "@/utils/date-formater"
+import { TOP_SKILLS_AMOUNT } from "@/features/shared/constants/skills"
 
 type ServiceTranslation = {
   name: string | null
@@ -13,10 +14,13 @@ type ServiceTranslation = {
 }
 
 type ServiceSkills = {
-  skills: Skill | null
+  skills: Skill
 }[]
 
-export async function getServices(locale: string = routing.defaultLocale): Promise<Service[]> {
+export async function getServices(
+  locale: string = routing.defaultLocale,
+  topSkillsAmount: number = TOP_SKILLS_AMOUNT
+): Promise<Service[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from("services")
@@ -36,7 +40,7 @@ export async function getServices(locale: string = routing.defaultLocale): Promi
         )
       ),
       skill_maps (
-        skills ( 
+        skills!inner ( 
           name,
           icon,
           color
@@ -59,10 +63,9 @@ export async function getServices(locale: string = routing.defaultLocale): Promi
 
   return data.map((service) => {
     const t = service.service_translations?.[0] as ServiceTranslation | undefined
-    const skills =
-      ((service.skill_maps as unknown as ServiceSkills)
-        ?.map((s) => s.skills)
-        .filter((skill) => skill !== null) as Skill[]) ?? []
+    const skills = (service.skill_maps as unknown as ServiceSkills)
+      ?.map((s) => s.skills)
+      .filter(Boolean) ?? [];
 
     return {
       id: service.id,
@@ -73,9 +76,9 @@ export async function getServices(locale: string = routing.defaultLocale): Promi
       skill_summary: {
         hasSkills: skills.length > 0,
         all: skills,
-        top: skills.slice(0, 7),
+        top: skills.slice(0, topSkillsAmount),
         total: skills.length,
-        remaining: skills.length - 7,
+        remaining: skills.length - topSkillsAmount,
       },
       order_index: service.order_index,
       created_at: dateFormatter(locale).format(new Date(service.created_at)),

@@ -9,11 +9,11 @@ import MiracleButton from "@/components/miracle/Button"
 import Link from "next/link"
 
 async function FeaturedProjectList({ locale }: { locale: string }) {
-  const dbFeaturedProjects = await getProjects(locale, true, 3)
+  const featuredProjects = await getProjects(locale, true, 3)
   return (
     <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
-      {dbFeaturedProjects.map((dbProject) => {
-        return <ProjectCard key={dbProject.id} project={dbProject} />
+      {featuredProjects.map((project) => {
+        return <ProjectCard key={project.id} project={project} />
       })}
     </div>
   )

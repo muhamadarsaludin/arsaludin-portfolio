@@ -10,4 +10,5 @@ export type ReactionSummary = {
   total: number
   remaining: number
   isTruncated: boolean
+  totalReactionsCount: number
 }

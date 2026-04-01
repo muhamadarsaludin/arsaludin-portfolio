@@ -21,14 +21,16 @@
       "timeLabel": "Waktu lokal",
       "copyright": "Muhamad Arsaludin. Hak cipta dilindungi."
     },
-    "project-card": {
-      "reaction-tooltip": {
-        "default": "Tambah reaksi",
-        "auth": "Masuk untuk mereaksi"
-      },
-      "comment-tooltip": {
-        "default": "Tambah komentar",
-        "auth": "Masuk untuk berkomentar"
+    "reaction": {
+      "tooltip": {
+        "default": "Add reaction",
+        "auth": "Sign in to react"
+      }
+    },
+    "comment": {
+      "tooltip": {
+        "default": "Add comment",
+        "auth": "Sign in to comment"
       }
     }
   },

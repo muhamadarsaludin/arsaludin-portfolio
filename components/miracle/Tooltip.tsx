@@ -23,6 +23,9 @@ export type TooltipProps = {
   hoverContent?: boolean
   noPadding?: boolean
   showArrow?: boolean
+  open?: boolean
+  triggerMode?: "hover" | "click"
+  onOpenChange?: (open: boolean) => void 
 }
 
 export default function MiracleTooltip({
@@ -33,6 +36,7 @@ export default function MiracleTooltip({
   hoverContent = false,
   noPadding = false,
   showArrow = true,
+  triggerMode = "hover",
 }: TooltipProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [adaptedPos, setAdaptedPos] = useState(defaultPosition)
@@ -41,22 +45,65 @@ export default function MiracleTooltip({
   const contentRef = useRef<HTMLDivElement>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  // Handles opening the tooltip on mouse enter if triggerMode is 'hover'
   const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    setIsOpen(true)
+    if (triggerMode === "hover") {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+      setIsOpen(true)
+    }
   }
 
+  // Handles closing the tooltip on mouse leave if triggerMode is 'hover'
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false)
-    }, 100)
+    if (triggerMode === "hover") {
+      timeoutRef.current = setTimeout(() => {
+        setIsOpen(false)
+      }, 100)
+    }
   }
+
+  // Handles toggling the tooltip on click if triggerMode is 'click'
+  const handleClick = () => {
+    if (triggerMode === "click") {
+      setIsOpen((prev) => !prev)
+    }
+  }
+
+  // Effect to clear any pending timeout when the component unmounts
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
+
 
   useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
   }, [])
+
+  // Effect to handle clicks outside the tooltip to close it when triggerMode is 'click'
+  useEffect(() => {
+    if (triggerMode === "click") {
+      const handleClickOutside = (event: MouseEvent) => {
+        // Close if click is outside both the trigger and the tooltip content
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target as Node) &&
+          contentRef.current &&
+          !contentRef.current.contains(event.target as Node)
+        ) {
+          setIsOpen(false) // Use the potentially controlled setIsOpen
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside)
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside)
+      }
+    }
+  }, [triggerMode]) // Re-run this effect if triggerMode changes
 
   useEffect(() => {
     if (isOpen && containerRef.current && contentRef.current) {
@@ -141,9 +188,10 @@ export default function MiracleTooltip({
   return (
     <div
       ref={containerRef}
-      className={clsx("group/tooltip relative flex w-fit cursor-pointer", className)}
+      className={clsx("group/tooltip relative flex w-fit", className, (triggerMode === "hover" || triggerMode === "click") && "cursor-pointer")}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     >
       {trigger}
       <div
@@ -151,7 +199,7 @@ export default function MiracleTooltip({
         className={clsx(
           "ease absolute z-1000 transition-[opacity,visibility] duration-300",
           isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0",
-          hoverContent ? "pointer-events-auto" : "pointer-events-none",
+          hoverContent || triggerMode === "click" ? "pointer-events-auto" : "pointer-events-none", // Allow interaction with content if hoverContent is true or if triggered by click
           tooltipPositionClass[adaptedPos]
         )}
       >
@@ -164,7 +212,7 @@ export default function MiracleTooltip({
           {showArrow && (
             <div
               className={clsx(
-                "bg-surface-primary-inv absolute -z-1 h-2.5 w-2.5 rotate-45",
+                "bg-surface-primary-inv absolute z-1 h-2.5 w-2.5 rotate-45",
                 arrowPositionClass[adaptedPos]
               )}
             />
