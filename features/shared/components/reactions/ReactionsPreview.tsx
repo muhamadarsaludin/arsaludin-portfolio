@@ -21,9 +21,9 @@ export default function ReactionsPreview ({reactionSummary}: ReactionsPreviewPro
               key={index}
               className={clsx(
                 "bg-surface-secondary flex h-7 w-7 items-center justify-center rounded-full border-2 shadow-sm",
-                reaction.emoji === reactionSummary.userReaction?.emoji ? "border-blue-400 dark:border-blue-500" : "border-primary", 
-                `z-${zIndex + index}`
+                reaction.emoji === reactionSummary.userReaction?.emoji ? "border-blue-400 dark:border-blue-500" : "border-primary",
               )}
+              style={{ zIndex: zIndex + index }}
             >
               <span className="text-xs">{reaction.emoji}</span>
             </div>

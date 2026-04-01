@@ -7,6 +7,7 @@ import { LuCircleFadingPlus } from 'react-icons/lu'
 import MiracleTooltip from '@/components/miracle/Tooltip'
 import { signInWithGoogle } from '@/features/auth/services/authService'
 import MiraclePopover from '@/components/miracle/Popover'
+import MiracleLoader from '@/components/miracle/Loader'
 // 1. Import dynamic dari next
 import dynamic from 'next/dynamic'
 
@@ -15,8 +16,8 @@ import dynamic from 'next/dynamic'
 const EmojiPicker = dynamic(() => import('emoji-picker-react'), {
   ssr: false,
   loading: () => (
-    <div className="w-[350px] h-[400px] flex items-center justify-center bg-surface-secondary rounded-lg border border-primary animate-pulse">
-      <span className="text-xs text-secondary font-medium">Loading Picker...</span>
+    <div className="w-[350px] h-[400px] flex items-center justify-center bg-surface-primary rounded-lg border border-primary">
+      <MiracleLoader size={40}/>
     </div>
   ),
 })
