@@ -1,4 +1,4 @@
-import { SkillsSumary } from "@/features/shared/types/skills"
+import { SkillSummary } from "@/features/shared/types/skills"
 
 export type Service = {
   id: number
@@ -6,7 +6,7 @@ export type Service = {
   level: string
   name: string
   description: string
-  skill_summary: SkillsSumary
+  skill_summary: SkillSummary
   order_index: number
   created_at: string
   updated_at: string

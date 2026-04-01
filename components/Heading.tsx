@@ -1,7 +1,7 @@
 "use client"
 
 import clsx from "clsx"
-import { toKebabCase } from "@/utils/stringCase"
+import { toKebabCase } from "@/utils/string-case"
 import React, { JSX } from "react"
 import MiracleTooltip from "./miracle/Tooltip"
 import { LuLink2 } from "react-icons/lu"

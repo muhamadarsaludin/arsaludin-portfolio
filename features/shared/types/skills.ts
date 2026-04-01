@@ -4,7 +4,7 @@ export type Skill = {
   color: string | null
 }
 
-export type SkillsSumary = {
+export type SkillSummary = {
   hasSkills: boolean
   all: Skill[]
   top: Skill[]

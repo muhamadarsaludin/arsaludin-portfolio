@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server"
 import { routing } from "@/i18n/routing"
 import type { Skill } from "@/features/shared/types/skills"
 import { Service } from "../types/services"
+import { dateFormatter } from "@/utils/date-formater"
 
 type ServiceTranslation = {
   name: string | null
@@ -11,7 +12,7 @@ type ServiceTranslation = {
   }[]
 }
 
-type ServiceSkill = {
+type ServiceSkills = {
   skills: Skill | null
 }[]
 
@@ -56,25 +57,29 @@ export async function getServices(locale: string = routing.defaultLocale): Promi
   }
   if (!data) return []
 
-  const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: "long" })
-
   return data.map((service) => {
     const t = service.service_translations?.[0] as ServiceTranslation | undefined
     const skills =
-      ((service.skill_maps as unknown as ServiceSkill)
+      ((service.skill_maps as unknown as ServiceSkills)
         ?.map((s) => s.skills)
         .filter((skill) => skill !== null) as Skill[]) ?? []
 
     return {
       id: service.id,
       slug: service.slug,
-      level: service.level as string,
-      order_index: service.order_index,
-      created_at: dateFormatter.format(new Date(service.created_at)),
-      updated_at: dateFormatter.format(new Date(service.updated_at)),
+      level: service.level,
       name: t?.name ?? "",
       description: t?.description ?? "",
-      skills,
+      skill_summary: {
+        hasSkills: skills.length > 0,
+        all: skills,
+        top: skills.slice(0, 7),
+        total: skills.length,
+        remaining: skills.length - 7,
+      },
+      order_index: service.order_index,
+      created_at: dateFormatter(locale).format(new Date(service.created_at)),
+      updated_at: dateFormatter(locale).format(new Date(service.updated_at))
     }
   })
 }
