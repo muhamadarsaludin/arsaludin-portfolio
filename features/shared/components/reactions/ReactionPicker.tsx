@@ -7,6 +7,7 @@ import { LuCircleFadingPlus } from 'react-icons/lu'
 import MiracleTooltip from '@/components/miracle/Tooltip'
 import EmojiPicker from 'emoji-picker-react'
 import { signInWithGoogle } from '@/features/auth/services/authService'
+import MiraclePopover from '@/components/miracle/Popover'
 
 function ReactionButtonAuth() {
   const t = useTranslations("components.reaction")
@@ -42,14 +43,10 @@ export default function ReactionPicker() {
   const [isPickerOpen, setIsPickerOpen] = useState(false)
   const { isSignedIn } = useAuth()
 
-  const handleTogglePicker = useCallback(() => {
-    setIsPickerOpen((prev) => !prev)
-  }, [])
-
   const handleEmojiClick = useCallback((emojiData: any) => {
     console.log("Selected emoji:", emojiData.emoji)
-    // TODO: Tambahkan logic submit reaction di sini
-    setIsPickerOpen(false) // Menutup picker setelah emoji dipilih
+    // Logic submit reaction here
+    setIsPickerOpen(false) 
   }, [])
 
   if (!isSignedIn) {
@@ -57,30 +54,27 @@ export default function ReactionPicker() {
   }
 
   return (
-    <MiracleTooltip
+    <MiraclePopover
+      open={isPickerOpen}
+      onOpenChange={setIsPickerOpen}
+      showArrow={false}
+      noBackground
       trigger={
-        <button
-          className="cursor-pointer p-1 group/reaction-picke"
-          onClick={handleTogglePicker}
-        >
+        <div className="group/reaction-picker cursor-pointer p-1">
           <LuCircleFadingPlus
             size={20}
-            className="text-secondary transition-transform group-hover/reaction-picker:scale-110 duration-300"
+            className="text-secondary transition-transform duration-300 group-hover/reaction-picker:scale-110"
           />
-        </button>
+        </div>
       }
       noPadding
-      hoverContent
     >
       <div className="min-w-[350px]">
         <EmojiPicker
           skinTonesDisabled
-          onEmojiClick={(emojiData) => {
-            console.log("Selected emoji:", emojiData.emoji)
-            handleEmojiClick(emojiData)
-          }}
+          onEmojiClick={handleEmojiClick}
         />
       </div>
-    </MiracleTooltip>
+    </MiraclePopover>
   )
 }

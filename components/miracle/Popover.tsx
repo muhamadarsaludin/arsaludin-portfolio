@@ -3,7 +3,7 @@
 import clsx from "clsx"
 import { ReactNode, useEffect, useRef, useState } from "react"
 
-export type TooltipProps = {
+export type MiraclePopoverProps = {
   className?: string
   trigger: ReactNode
   children: ReactNode
@@ -20,43 +20,69 @@ export type TooltipProps = {
     | "right-start"
     | "right-center"
     | "right-end"
-  hoverContent?: boolean
   noPadding?: boolean
   showArrow?: boolean
+  noBackground?: boolean
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
-export default function MiracleTooltip({
+export default function MiraclePopover({
   className,
   trigger,
   children,
   defaultPosition = "top-center",
-  hoverContent = false,
   noPadding = false,
+  noBackground = false,
   showArrow = true,
-}: TooltipProps) {
-  const [isOpen, setIsOpen] = useState(false)
+  open: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+}: MiraclePopoverProps) {
+  const [internalOpen, setInternalOpen] = useState(defaultOpen)
+  
+  const isControlled = controlledOpen !== undefined
+  const isOpen = isControlled ? controlledOpen : internalOpen
+
   const [adaptedPos, setAdaptedPos] = useState(defaultPosition)
 
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    setIsOpen(true)
+  const handleToggle = () => {
+    const nextState = !isOpen
+    if (!isControlled) {
+      setInternalOpen(nextState)
+    }
+    onOpenChange?.(nextState)
   }
 
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false)
-    }, 100)
+  const handleClose = () => {
+    if (!isControlled) {
+      setInternalOpen(false)
+    }
+    onOpenChange?.(false)
   }
 
   useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        handleClose()
+      }
     }
-  }, [])
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [isOpen])
 
   useEffect(() => {
     if (isOpen && containerRef.current && contentRef.current) {
@@ -67,35 +93,26 @@ export default function MiracleTooltip({
 
       let [side, align] = defaultPosition.split("-")
 
-      if (side === "top" && triggerRect.top - contentRect.height < 0) {
-        side = "bottom"
-      } else if (side === "bottom" && triggerRect.bottom + contentRect.height > viewportHeight) {
-        side = "top"
-      }
+      if (side === "top" && triggerRect.top - contentRect.height < 0) side = "bottom"
+      else if (side === "bottom" && triggerRect.bottom + contentRect.height > viewportHeight) side = "top"
 
-      if (side === "left" && triggerRect.left - contentRect.width < 0) {
-        side = "right"
-      } else if (side === "right" && triggerRect.right + contentRect.width > viewportWidth) {
-        side = "left"
-      }
+      if (side === "left" && triggerRect.left - contentRect.width < 0) side = "right"
+      else if (side === "right" && triggerRect.right + contentRect.width > viewportWidth) side = "left"
 
       if (side === "top" || side === "bottom") {
         if (align === "start" && triggerRect.left + contentRect.width > viewportWidth) align = "end"
         if (align === "end" && triggerRect.right - contentRect.width < 0) align = "start"
         if (align === "center") {
-          if (triggerRect.left + triggerRect.width / 2 + contentRect.width / 2 > viewportWidth)
-            align = "end"
+          if (triggerRect.left + triggerRect.width / 2 + contentRect.width / 2 > viewportWidth) align = "end"
           if (triggerRect.left + triggerRect.width / 2 - contentRect.width / 2 < 0) align = "start"
         }
       }
 
       if (side === "left" || side === "right") {
-        if (align === "start" && triggerRect.top + contentRect.height > viewportHeight)
-          align = "end"
+        if (align === "start" && triggerRect.top + contentRect.height > viewportHeight) align = "end"
         if (align === "end" && triggerRect.bottom - contentRect.height < 0) align = "start"
         if (align === "center") {
-          if (triggerRect.top + triggerRect.height / 2 + contentRect.height / 2 > viewportHeight)
-            align = "end"
+          if (triggerRect.top + triggerRect.height / 2 + contentRect.height / 2 > viewportHeight) align = "end"
           if (triggerRect.top + triggerRect.height / 2 - contentRect.height / 2 < 0) align = "start"
         }
       }
@@ -104,7 +121,7 @@ export default function MiracleTooltip({
     }
   }, [isOpen, defaultPosition])
 
-  const tooltipPositionClass: Record<string, string> = {
+  const popoverPositionClass: Record<string, string> = {
     "top-start": "bottom-full left-0 pb-2",
     "top-center": "bottom-full left-1/2 -translate-x-1/2 pb-2",
     "top-end": "bottom-full right-0 pb-2",
@@ -137,30 +154,33 @@ export default function MiracleTooltip({
   return (
     <div
       ref={containerRef}
-      className={clsx("group/tooltip relative flex w-fit cursor-pointer", className)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      className={clsx("relative flex w-fit", className)}
     >
-      {trigger}
+      <div onClick={handleToggle} className="cursor-pointer">
+        {trigger}
+      </div>
+
       <div
         ref={contentRef}
         className={clsx(
           "ease absolute z-1000 transition-[opacity,visibility] duration-300",
           isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0",
-          hoverContent ? "pointer-events-auto" : "pointer-events-none",
-          tooltipPositionClass[adaptedPos]
+          popoverPositionClass[adaptedPos]
         )}
       >
         <div
           className={clsx(
-            "bg-surface-primary-inv text-primary-inv relative w-max min-w-max rounded-md shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
+            "text-primary-inv relative w-max min-w-max rounded-md shadow-lg shadow-neutral-700/20 dark:shadow-neutral-300/10",
+            !noBackground && "bg-surface-primary-inv",
             !noPadding && "p-3"
           )}
+          onClick={(e) => e.stopPropagation()}
         >
           {showArrow && (
             <div
               className={clsx(
                 "bg-surface-primary-inv absolute -z-1 h-2.5 w-2.5 rotate-45",
+                !noBackground && "bg-surface-primary-inv",
                 arrowPositionClass[adaptedPos]
               )}
             />
