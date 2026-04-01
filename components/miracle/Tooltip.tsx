@@ -22,7 +22,9 @@ export type TooltipProps = {
     | "right-end"
   hoverContent?: boolean
   noPadding?: boolean
-  showArrow?: boolean
+  noBackground?: boolean
+  noShadow?: boolean
+  noArrow?: boolean
 }
 
 export default function MiracleTooltip({
@@ -32,7 +34,9 @@ export default function MiracleTooltip({
   defaultPosition = "top-center",
   hoverContent = false,
   noPadding = false,
-  showArrow = true,
+  noBackground = false,
+  noShadow = false,
+  noArrow = false,
 }: TooltipProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [adaptedPos, setAdaptedPos] = useState(defaultPosition)
@@ -153,14 +157,17 @@ export default function MiracleTooltip({
       >
         <div
           className={clsx(
-            "bg-surface-primary-inv text-primary-inv relative w-max min-w-max rounded-md shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
+            "text-primary-inv relative w-max min-w-max rounded-md",
+            !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
+            !noBackground && "bg-surface-primary-inv",
             !noPadding && "p-3"
           )}
         >
-          {showArrow && (
+          {!noArrow && (
             <div
               className={clsx(
-                "bg-surface-primary-inv absolute -z-1 h-2.5 w-2.5 rotate-45",
+                "absolute -z-1 h-2.5 w-2.5 rotate-45",
+                !noBackground && "bg-surface-primary-inv",
                 arrowPositionClass[adaptedPos]
               )}
             />

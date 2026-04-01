@@ -21,8 +21,9 @@ export type MiraclePopoverProps = {
     | "right-center"
     | "right-end"
   noPadding?: boolean
-  showArrow?: boolean
+  noArrow?: boolean
   noBackground?: boolean
+  noShadow?: boolean
   open?: boolean
   defaultOpen?: boolean
   onOpenChange?: (open: boolean) => void
@@ -35,7 +36,8 @@ export default function MiraclePopover({
   defaultPosition = "top-center",
   noPadding = false,
   noBackground = false,
-  showArrow = true,
+  noShadow = false,
+  noArrow = false,
   open: controlledOpen,
   onOpenChange,
   defaultOpen = false,
@@ -170,16 +172,17 @@ export default function MiraclePopover({
       >
         <div
           className={clsx(
-            "text-primary-inv relative w-max min-w-max rounded-md shadow-lg shadow-neutral-700/20 dark:shadow-neutral-300/10",
+            "text-primary-inv relative w-max min-w-max rounded-md",
+            !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
             !noBackground && "bg-surface-primary-inv",
             !noPadding && "p-3"
           )}
           onClick={(e) => e.stopPropagation()}
         >
-          {showArrow && (
+          {!noArrow && (
             <div
               className={clsx(
-                "bg-surface-primary-inv absolute -z-1 h-2.5 w-2.5 rotate-45",
+                "absolute -z-1 h-2.5 w-2.5 rotate-45",
                 !noBackground && "bg-surface-primary-inv",
                 arrowPositionClass[adaptedPos]
               )}

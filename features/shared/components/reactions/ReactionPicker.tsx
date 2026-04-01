@@ -57,8 +57,9 @@ export default function ReactionPicker() {
     <MiraclePopover
       open={isPickerOpen}
       onOpenChange={setIsPickerOpen}
-      showArrow={false}
+      noArrow
       noBackground
+      noShadow
       trigger={
         <div className="group/reaction-picker cursor-pointer p-1">
           <LuCircleFadingPlus
