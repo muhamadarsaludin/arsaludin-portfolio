@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import BrowserIllustration from "./BrowserIllustration"
 
-export default function DevopsIllustration() {
+export default function DevOpsIllustration() {
   return (
     <BrowserIllustration>
       <div className="relative flex h-full w-full items-center justify-center">

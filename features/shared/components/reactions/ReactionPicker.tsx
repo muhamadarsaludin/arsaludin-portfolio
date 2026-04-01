@@ -20,12 +20,12 @@ function ReactionButtonAuth() {
     <MiracleTooltip
       trigger={
         <button
-          className="group cursor-pointer p-1"
+          className="cursor-pointer p-1 group/reaction-picker"
           onClick={handleOnClick}
         >
           <LuCircleFadingPlus
             size={20}
-            className="text-secondary transition-transform group-hover:scale-110"
+            className="text-secondary transition-transform group-hover/reaction-picker:scale-110 duration-300"
           />
         </button>
       }
@@ -60,12 +60,12 @@ export default function ReactionPicker() {
     <MiracleTooltip
       trigger={
         <button
-          className="group cursor-pointer p-1"
+          className="cursor-pointer p-1 group/reaction-picke"
           onClick={handleTogglePicker}
         >
           <LuCircleFadingPlus
             size={20}
-            className="text-secondary transition-transform group-hover:scale-110"
+            className="text-secondary transition-transform group-hover/reaction-picker:scale-110 duration-300"
           />
         </button>
       }
@@ -77,7 +77,7 @@ export default function ReactionPicker() {
           skinTonesDisabled
           onEmojiClick={(emojiData) => {
             console.log("Selected emoji:", emojiData.emoji)
-            // TODO: Tambahkan logic submit reaction di sini
+            handleEmojiClick(emojiData)
           }}
         />
       </div>
