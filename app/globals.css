@@ -83,7 +83,7 @@ body {
   @apply text-neutral-600 dark:text-neutral-400;
 }
 .text-secondary-inv {
-  @apply text-neutral-400 dark:text-neutral-500;
+  @apply text-neutral-400 dark:text-neutral-600;
 }
 
 .text-neutral-low {

@@ -89,7 +89,7 @@ export default function ReactionPicker({ userReaction, onSelectReaction }: React
               />
               <span
                 className={clsx(
-                  "absolute top-0 right-0 h-1.5 w-1.5 rounded-full bg-red-500",
+                  "absolute top-0 right-0 h-1.5 w-1.5 rounded-full bg-red",
                   "ease transition-opacity duration-300",
                   userReaction ? "opacity-100" : "opacity-0"
                 )}

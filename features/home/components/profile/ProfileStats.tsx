@@ -14,11 +14,11 @@ export default function ProfileStats({ className }: ProfileStatsProps) {
       <table className="border-separate border-spacing-0">
         <thead>
           <tr>
-            <th className="min-w-20 p-1 text-center text-sm font-normal">{t("experience")}</th>
-            <th className="min-w-20 p-1 text-center text-sm font-normal">{t("projects")}</th>
-            <th className="min-w-20 p-1 text-center text-sm font-normal">{t("stack")}</th>
-            <th className="min-w-20 p-1 text-center text-sm font-normal">{t("certifications")}</th>
-            <th className="min-w-20 p-1 text-center text-sm font-normal">{t("blogs")}</th>
+            <th className="min-w-20 p-1 text-center text-sm font-normal text-secondary">{t("experience")}</th>
+            <th className="min-w-20 p-1 text-center text-sm font-normal text-secondary">{t("projects")}</th>
+            <th className="min-w-20 p-1 text-center text-sm font-normal text-secondary">{t("stack")}</th>
+            <th className="min-w-20 p-1 text-center text-sm font-normal text-secondary">{t("certifications")}</th>
+            <th className="min-w-20 p-1 text-center text-sm font-normal text-secondary">{t("blogs")}</th>
           </tr>
         </thead>
         <tbody>

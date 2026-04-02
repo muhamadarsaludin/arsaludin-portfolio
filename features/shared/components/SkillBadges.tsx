@@ -1,5 +1,5 @@
 import React from "react"
-import { Skill, SkillSummary } from "../types/skills"
+import { SkillSummary } from "../types/skills"
 import { skillIcons } from "../services/skills"
 import MiracleBadge from "@/components/miracle/Badge"
 import MiracleTooltip from "@/components/miracle/Tooltip"
@@ -29,7 +29,7 @@ export default function SkillBadges({ skillSummary, className }: SkillBadgesProp
       {skillSummary.remaining > 0 && (
         <MiracleTooltip
           trigger={
-            <MiracleBadge className="cursor-help transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-700">
+            <MiracleBadge>
               +{skillSummary.remaining}
             </MiracleBadge>
           }

@@ -3,6 +3,7 @@
 import { useScrollLock } from "@/hooks/useScrollLock"
 import clsx from "clsx"
 import { ReactNode, useEffect, useState } from "react"
+import { LuX } from "react-icons/lu"
 
 export type MiracleDrawerProps = {
   isOpen: boolean
@@ -103,34 +104,21 @@ export default function MiracleDrawer({
         style={customStyle}
       >
         {position === "bottom" && (
-          <div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-700" />
+          <div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-neutral-med" />
         )}
 
         {(title || showCloseIcon) && (
-          <div className="flex shrink-0 items-center justify-between border-b border-neutral-200 px-4 py-3 dark:border-neutral-800">
-            <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
+          <div className="flex shrink-0 items-center justify-between border-b border-primary px-4 py-3">
+            <div className="text-base font-semibold text-primary">
               {title}
             </div>
             {showCloseIcon && (
               <button
                 onClick={onClose}
-                className="ml-auto cursor-pointer rounded-md p-1.5 text-neutral-500 transition-colors hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800"
+                className="ml-auto cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800"
                 aria-label="Close drawer"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 6 6 18" />
-                  <path d="m6 6 12 12" />
-                </svg>
+                <LuX size={20} />
               </button>
             )}
           </div>

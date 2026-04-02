@@ -27,7 +27,7 @@ export default function ReactionsPreview({
                 "group/reaction-picker",
                 "bg-secondary flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border-2 shadow-sm",
                 reaction.emoji === reactionSummary.userReaction?.emoji
-                  ? "border-blue-400 dark:border-blue-500"
+                  ? "border-blue"
                   : "border-primary"
               )}
               style={{ zIndex: zIndex + index }}
@@ -57,7 +57,7 @@ export default function ReactionsPreview({
             className={clsx(
               "h-7.5",
               reaction.emoji === reactionSummary.userReaction?.emoji &&
-                "border-2 border-blue-400 dark:border-blue-500"
+                "border-2 border-blue"
             )}
             onClick={() => onSelectReaction(reaction.emoji)}
           >

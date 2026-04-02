@@ -49,7 +49,7 @@ export default function Loader({ size = 24, strokeWidth = 8 }: LoaderProps) {
       >
         {/* Base Circle - Mengikuti keyframe base lo */}
         <circle
-          className="text-neutral-300 dark:text-neutral-700"
+          className="text-neutral-med"
           cx="28"
           cy="28"
           r="20"
@@ -65,7 +65,7 @@ export default function Loader({ size = 24, strokeWidth = 8 }: LoaderProps) {
 
         {/* Highlight Circle - Mengikuti keyframe highlight lo */}
         <circle
-          className="text-blue-600 dark:text-blue-400"
+          className="text-blue"
           cx="28"
           cy="28"
           r="20"

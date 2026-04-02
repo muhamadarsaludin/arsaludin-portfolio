@@ -40,7 +40,7 @@ export default function LangToggle({ className }: LangToggleProps) {
       trigger={
         <button
           className={clsx(
-            "cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out group-hover/tooltip:bg-neutral-100 dark:group-hover/tooltip:bg-neutral-800",
+            "cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out group-hover/tooltip:bg-neutral-200 dark:group-hover/tooltip:bg-neutral-800",
             className
           )}
           aria-label="Lang Toggle"

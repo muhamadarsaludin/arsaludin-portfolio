@@ -14,7 +14,7 @@ export default function MiracleBadge({
   ...props
 }: BadgeProps) {
   const baseStyles =
-    "inline-flex items-center gap-1.5 rounded-md bg-neutral-200/60 px-2.5 py-1 text-xs font-medium bg-secondary text-secondary"
+    "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium bg-secondary text-secondary"
 
   return (
     <span className={clsx(baseStyles, className)} {...props}>
