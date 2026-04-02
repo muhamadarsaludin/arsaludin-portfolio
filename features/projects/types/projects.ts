@@ -2,7 +2,7 @@ import { ReactionSummary } from "@/features/shared/types/reactions"
 import { SkillSummary } from "@/features/shared/types/skills"
 
 export type Project = {
-  id: string
+  id: number
   name: string
   description: string
   slug: string

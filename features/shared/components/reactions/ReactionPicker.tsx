@@ -12,14 +12,11 @@ import dynamic from 'next/dynamic'
 import { Theme } from 'emoji-picker-react'
 import { useTheme } from '@wrksz/themes/client'
 
-const EmojiPicker = dynamic(() => import('emoji-picker-react'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-[350px] h-[400px] flex items-center justify-center bg-surface-primary rounded-lg border border-primary">
-      <MiracleLoader size={40}/>
-    </div>
-  ),
-})
+type ReactionPickerProps = {
+  currentReaction?: string
+  onSelectReaction: (emoji: string) => void
+}
+
 
 function ReactionButtonAuth() {
   const t = useTranslations("components.reaction")
@@ -51,38 +48,48 @@ function ReactionButtonAuth() {
   )
 }
 
-export default function ReactionPicker() {
+const EmojiPicker = dynamic(() => import('emoji-picker-react'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-[350px] h-[400px] flex items-center justify-center bg-surface-primary rounded-lg border border-primary">
+      <MiracleLoader size={40}/>
+    </div>
+  ),
+})
+
+export default function ReactionPicker({ currentReaction, onSelectReaction }: ReactionPickerProps) {
   const [isPickerOpen, setIsPickerOpen] = useState(false)
   const { isSignedIn } = useAuth()
   const { theme } = useTheme()
-  const pickerTheme = theme === 'dark' ? Theme.LIGHT : Theme.DARK
+  
+  // Perbaikan: Jika theme dark, pakai Theme.DARK
+  const pickerTheme = theme === 'dark' ? Theme.DARK : Theme.LIGHT
 
   const handleEmojiClick = useCallback((emojiData: any) => {
-    console.log("Selected emoji:", emojiData.emoji)
-    // Logic submit reaction here
+    onSelectReaction(emojiData.emoji)
     setIsPickerOpen(false) 
-  }, [])
+  }, [onSelectReaction])
 
-  if (!isSignedIn) {
-    return <ReactionButtonAuth />
-  }
+  if (!isSignedIn) return <ReactionButtonAuth />
 
   return (
     <MiraclePopover
       open={isPickerOpen}
       onOpenChange={setIsPickerOpen}
-      noArrow
-      noBackground
-      noShadow
+      noArrow noBackground noShadow noPadding
       trigger={
-        <div className="group/reaction-picker cursor-pointer p-1">
+        <div className="group/reaction-picker cursor-pointer p-1 relative">
           <LuCircleFadingPlus
             size={20}
-            className="text-secondary transition-transform duration-300 group-hover/reaction-picker:scale-110"
+            className={`transition-all duration-300 group-hover/reaction-picker:scale-110 ${
+              currentReaction ? 'text-primary' : 'text-secondary'
+            }`}
           />
+          {currentReaction && (
+             <span className="absolute top-0 right-0 h-1.5 w-1.5 rounded-full bg-primary" />
+          )}
         </div>
       }
-      noPadding
     >
       <div className="min-w-[350px]">
         {isPickerOpen && (

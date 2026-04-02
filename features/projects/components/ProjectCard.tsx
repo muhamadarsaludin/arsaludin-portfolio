@@ -4,34 +4,26 @@ import clsx from "clsx"
 import Image from "next/image"
 import { Project } from "../types/projects"
 import SkillBadges from "@/features/shared/components/SkillBadges"
-import { ReactionSummary } from "@/features/shared/types/reactions"
+import { Link, useRouter } from "@/i18n/navigation"
+import { toggleReaction } from "@/features/shared/services/reactions"
 import ReactionGroup from "@/features/shared/components/reactions/ReactionGroup"
-import { Link } from "@/i18n/navigation"
-
-function ProjectCardFooter(
-  { 
-    className, 
-    commentsCount, 
-    reactionSummary
-  }: { 
-    className?: string, 
-    commentsCount: number,
-    reactionSummary: ReactionSummary
-  }
-) {
-  return (
-    <div 
-      className="flex items-center justify-between px-5 sm:px-6 py-3 rounded-b-2xl bg-surface-secondary border-t border-primary"
-      onClick={(e) => e.stopPropagation()}>
-        {/* Left */}
-        <ReactionGroup reactionSummary={reactionSummary} />
-        {/* Right */}
-        <div className="flex items-center gap-1"></div>
-    </div>
-  )
-}
 
 export default function ProjectCard({ project }: { project: Project }) {
+  const router = useRouter()
+
+  const handleSelectReaction = async (emoji: string) => {
+    try {
+      await toggleReaction({
+        targetId: project.id,
+        targetType: 'project',
+        emoji
+      })
+      router.refresh()
+    } catch (error) {
+      console.error("Failed to toggle reaction:", error)
+    }
+  }
+  
   return (
     <div
       className={clsx(
@@ -68,7 +60,15 @@ export default function ProjectCard({ project }: { project: Project }) {
       </div>
 
       {/* Footer */}
-      <ProjectCardFooter commentsCount={project.comments_count} reactionSummary={project.reaction_summary}/>
+      <div 
+        className="flex items-center justify-between px-5 sm:px-6 py-3 rounded-b-2xl bg-surface-secondary border-t border-primary"
+        onClick={(e) => e.stopPropagation()}>
+          {/* Left */}
+          <ReactionGroup reactionSummary={project.reaction_summary} onSelectReaction={handleSelectReaction}/>
+  
+          {/* Right */}
+          <div className="flex items-center gap-1"></div>
+      </div>
     </div>
   )
 }
