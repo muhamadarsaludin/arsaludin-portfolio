@@ -47,7 +47,7 @@ export default function Header({ className }: HeaderProps) {
     <header
       className={clsx(
         "bg-surface-primary border-primary border-b",
-        "fixed inset-x-0 top-0 z-header",
+        "z-header fixed inset-x-0 top-0",
         className
       )}
     >
@@ -95,10 +95,10 @@ export default function Header({ className }: HeaderProps) {
       {/* Drawer aside*/}
       <aside
         className={clsx(
-          "fixed top-17.25 bottom-0 left-0 z-header w-fit p-6 lg:hidden",
+          "z-header fixed top-17.25 bottom-0 left-0 w-fit p-6 lg:hidden",
           "flex flex-col justify-between gap-6",
           "bg-surface-primary border-primary border-r",
-          "ease-in-out -translate-x-full transform transition-transform duration-300",
+          "-translate-x-full transform transition-transform duration-300 ease-in-out",
           showMenu ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -112,8 +112,8 @@ export default function Header({ className }: HeaderProps) {
       {/* Overlay */}
       <div
         className={clsx(
-          "bg-overlay fixed top-17.25 right-0 bottom-0 left-0 z-header-overlay",
-          "ease-in-out invisible opacity-0 transition-opacity duration-300",
+          "bg-overlay z-header-overlay fixed top-17.25 right-0 bottom-0 left-0",
+          "invisible opacity-0 transition-opacity duration-300 ease-in-out",
           showMenu && "visible opacity-100"
         )}
         onClick={() => setShowMenu(false)}

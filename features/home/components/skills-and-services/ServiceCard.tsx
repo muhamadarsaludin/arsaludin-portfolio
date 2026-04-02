@@ -37,10 +37,8 @@ export default function ServiceCard({ service }: { service: Service }) {
         <h3 className="text-primary mb-2 text-lg font-semibold md:text-xl xl:text-2xl">
           {service.name}
         </h3>
-        <p className="text-sm leading-relaxed text-secondary mb-4">
-          {service.description}
-        </p>
-        <SkillBadges skillSummary={service.skill_summary} className="mb-auto"/>
+        <p className="text-secondary mb-4 text-sm leading-relaxed">{service.description}</p>
+        <SkillBadges skillSummary={service.skill_summary} className="mb-auto" />
       </div>
     </div>
   )

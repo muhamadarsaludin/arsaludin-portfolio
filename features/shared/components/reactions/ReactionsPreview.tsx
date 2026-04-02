@@ -4,11 +4,14 @@ import MiracleTooltip from "@/components/miracle/Tooltip"
 import MiracleBadge from "@/components/miracle/Badge"
 
 type ReactionsPreviewProps = {
-  reactionSummary: ReactionSummary,
+  reactionSummary: ReactionSummary
   onSelectReaction: (emoji: string) => void
 }
 
-export default function ReactionsPreview ({reactionSummary, onSelectReaction}: ReactionsPreviewProps) {
+export default function ReactionsPreview({
+  reactionSummary,
+  onSelectReaction,
+}: ReactionsPreviewProps) {
   const zIndex = 10
 
   if (reactionSummary.total <= 0) return
@@ -22,36 +25,42 @@ export default function ReactionsPreview ({reactionSummary, onSelectReaction}: R
               key={index}
               className={clsx(
                 "group/reaction-picker",
-                "bg-surface-secondary flex h-7 w-7 items-center justify-center rounded-full border-2 shadow-sm cursor-pointer",
-                reaction.emoji === reactionSummary.userReaction?.emoji ? "border-blue-400 dark:border-blue-500" : "border-primary",
+                "bg-surface-secondary flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border-2 shadow-sm",
+                reaction.emoji === reactionSummary.userReaction?.emoji
+                  ? "border-blue-400 dark:border-blue-500"
+                  : "border-primary"
               )}
               style={{ zIndex: zIndex + index }}
               onClick={() => onSelectReaction(reaction.emoji)}
             >
-              <span className="text-xs transition-all duration-300 ease-in-out group-hover/reaction-picker:scale-120">{reaction.emoji}</span>
+              <span className="text-xs transition-all duration-300 ease-in-out group-hover/reaction-picker:scale-120">
+                {reaction.emoji}
+              </span>
             </button>
           ))}
-          {reactionSummary.remaining > 0 &&
+          {reactionSummary.remaining > 0 && (
             <div className="bg-surface-secondary border-primary z-13 flex h-7 min-w-7 items-center justify-center rounded-full border-2 px-1 shadow-sm">
               <span className="text-secondary text-xs font-medium">
                 +{reactionSummary.remaining}
               </span>
             </div>
-          }
+          )}
         </div>
       }
       noPadding
       hoverContent
     >
-      <div className="flex max-w-[150px] max-h-[200px] overflow-y-auto cursor-pointer flex-wrap gap-1 p-2">
+      <div className="flex max-h-[200px] max-w-[150px] cursor-pointer flex-wrap gap-1 overflow-y-auto p-2">
         {reactionSummary.all.map((reaction, index) => (
-          <MiracleBadge 
-            key={index} 
+          <MiracleBadge
+            key={index}
             className={clsx(
               "h-7.5",
-              reaction.emoji === reactionSummary.userReaction?.emoji && "border-2 border-blue-400 dark:border-blue-500"
+              reaction.emoji === reactionSummary.userReaction?.emoji &&
+                "border-2 border-blue-400 dark:border-blue-500"
             )}
-            onClick={() => onSelectReaction(reaction.emoji)}>
+            onClick={() => onSelectReaction(reaction.emoji)}
+          >
             {reaction.emoji} {reaction.count}
           </MiracleBadge>
         ))}

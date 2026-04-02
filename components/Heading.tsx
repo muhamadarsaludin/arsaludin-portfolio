@@ -77,14 +77,14 @@ export default function Heading({
         {children}
       </Link>
       {copyLink && (
-        <div className="ease-in-out invisible absolute top-1/2 right-full z-200 flex-1 shrink-0 translate-x-1 -translate-y-1/2 pr-1 opacity-0 transition duration-300 group-hover/heading:visible group-hover/heading:translate-x-0 group-hover/heading:opacity-100">
+        <div className="invisible absolute top-1/2 right-full z-200 flex-1 shrink-0 translate-x-1 -translate-y-1/2 pr-1 opacity-0 transition duration-300 ease-in-out group-hover/heading:visible group-hover/heading:translate-x-0 group-hover/heading:opacity-100">
           <MiracleTooltip
             hoverContent
             noPadding
             trigger={
               <button
                 onClick={handleCopy}
-                className="ease-in-out cursor-pointer rounded-full p-2 text-blue-600 transition-colors duration-300 group-hover/tooltip:bg-blue-100 dark:text-blue-400 dark:group-hover/tooltip:bg-blue-900"
+                className="cursor-pointer rounded-full p-2 text-blue-600 transition-colors duration-300 ease-in-out group-hover/tooltip:bg-blue-100 dark:text-blue-400 dark:group-hover/tooltip:bg-blue-900"
                 aria-label="Copy link to this section"
                 title="Copy link"
               >

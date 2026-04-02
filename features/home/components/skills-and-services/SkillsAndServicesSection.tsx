@@ -33,7 +33,7 @@ export default function SkillsAndServicesSection({ className }: { className?: st
   return (
     <Section className={className}>
       <Heading id="skills-and-services">{t("title")}</Heading>
-      <p className="mt-4 text-secondary">{t("description")}</p>
+      <p className="text-secondary mt-4">{t("description")}</p>
       <Suspense fallback={<ServiceListSkeleton />}>
         <ServiceList locale={locale} />
       </Suspense>

@@ -43,7 +43,7 @@ export default function MiraclePopover({
   defaultOpen = false,
 }: MiraclePopoverProps) {
   const [internalOpen, setInternalOpen] = useState(defaultOpen)
-  
+
   const isControlled = controlledOpen !== undefined
   const isOpen = isControlled ? controlledOpen : internalOpen
 
@@ -70,10 +70,7 @@ export default function MiraclePopover({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         handleClose()
       }
     }
@@ -97,25 +94,30 @@ export default function MiraclePopover({
       let [side, align] = defaultPosition.split("-")
 
       if (side === "top" && triggerRect.top - contentRect.height < 0) side = "bottom"
-      else if (side === "bottom" && triggerRect.bottom + contentRect.height > viewportHeight) side = "top"
+      else if (side === "bottom" && triggerRect.bottom + contentRect.height > viewportHeight)
+        side = "top"
 
       if (side === "left" && triggerRect.left - contentRect.width < 0) side = "right"
-      else if (side === "right" && triggerRect.right + contentRect.width > viewportWidth) side = "left"
+      else if (side === "right" && triggerRect.right + contentRect.width > viewportWidth)
+        side = "left"
 
       if (side === "top" || side === "bottom") {
         if (align === "start" && triggerRect.left + contentRect.width > viewportWidth) align = "end"
         if (align === "end" && triggerRect.right - contentRect.width < 0) align = "start"
         if (align === "center") {
-          if (triggerRect.left + triggerRect.width / 2 + contentRect.width / 2 > viewportWidth) align = "end"
+          if (triggerRect.left + triggerRect.width / 2 + contentRect.width / 2 > viewportWidth)
+            align = "end"
           if (triggerRect.left + triggerRect.width / 2 - contentRect.width / 2 < 0) align = "start"
         }
       }
 
       if (side === "left" || side === "right") {
-        if (align === "start" && triggerRect.top + contentRect.height > viewportHeight) align = "end"
+        if (align === "start" && triggerRect.top + contentRect.height > viewportHeight)
+          align = "end"
         if (align === "end" && triggerRect.bottom - contentRect.height < 0) align = "start"
         if (align === "center") {
-          if (triggerRect.top + triggerRect.height / 2 + contentRect.height / 2 > viewportHeight) align = "end"
+          if (triggerRect.top + triggerRect.height / 2 + contentRect.height / 2 > viewportHeight)
+            align = "end"
           if (triggerRect.top + triggerRect.height / 2 - contentRect.height / 2 < 0) align = "start"
         }
       }
@@ -155,10 +157,7 @@ export default function MiraclePopover({
   }
 
   return (
-    <div
-      ref={containerRef}
-      className={clsx("relative flex w-fit", className)}
-    >
+    <div ref={containerRef} className={clsx("relative flex w-fit", className)}>
       <div onClick={handleToggle} className="cursor-pointer">
         {trigger}
       </div>
@@ -166,7 +165,7 @@ export default function MiraclePopover({
       <div
         ref={contentRef}
         className={clsx(
-          "ease-in-out absolute z-popover transition-[opacity,visibility] duration-300",
+          "z-popover absolute transition-[opacity,visibility] duration-300 ease-in-out",
           isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0",
           popoverPositionClass[adaptedPos]
         )}

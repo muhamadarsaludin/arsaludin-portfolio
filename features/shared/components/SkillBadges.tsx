@@ -10,13 +10,9 @@ type SkillBadgesProps = {
   className?: string
 }
 
-
 export default function SkillBadges({ skillSummary, className }: SkillBadgesProps) {
   return (
-    <div className={clsx(
-      "flex flex-wrap items-center gap-2",
-      className
-      )}>
+    <div className={clsx("flex flex-wrap items-center gap-2", className)}>
       {skillSummary.top.map((skill, i) => {
         const IconComponent = skill.icon
           ? (skillIcons as Record<string, React.ElementType>)[skill.icon]

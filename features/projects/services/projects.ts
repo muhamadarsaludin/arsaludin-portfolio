@@ -33,7 +33,7 @@ export async function getProjects(
   const supabase = await createClient()
 
   const {
-    data: { user }
+    data: { user },
   } = await supabase.auth.getUser()
 
   const from = (page - 1) * limit
@@ -103,14 +103,12 @@ export async function getProjects(
   return data.map((project) => {
     const t = project.project_translations?.[0] as ProjectTranslation | undefined
     const commentsCount = (project.comments as any)?.[0]?.count ?? 0
-    const skills = (project.skill_maps as unknown as ProjectSkills)
-      ?.map((p) => p.skills)
-      .filter(Boolean) ?? [];
+    const skills =
+      (project.skill_maps as unknown as ProjectSkills)?.map((p) => p.skills).filter(Boolean) ?? []
     const userReaction = user
-      ? ((project.reactions as Reaction[])
-          ?.find((r) => r.user_id === user.id) ?? null)
+      ? ((project.reactions as Reaction[])?.find((r) => r.user_id === user.id) ?? null)
       : null
-    const reactionCounts = project.project_reaction_counts as ReactionCount[] ?? []
+    const reactionCounts = (project.project_reaction_counts as ReactionCount[]) ?? []
     const sortedReactionCounts = [...reactionCounts].sort((a, b) => b.count - a.count)
 
     return {
@@ -141,7 +139,7 @@ export async function getProjects(
         all: sortedReactionCounts,
         top: sortedReactionCounts.slice(0, topReactionsAmount),
         total: reactionCounts.length,
-        remaining: reactionCounts.length - topReactionsAmount
+        remaining: reactionCounts.length - topReactionsAmount,
       },
       order_index: project.order_index,
       created_at: dateFormatter(locale).format(new Date(project.created_at)),

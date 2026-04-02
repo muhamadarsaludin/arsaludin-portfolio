@@ -63,9 +63,8 @@ export async function getServices(
 
   return data.map((service) => {
     const t = service.service_translations?.[0] as ServiceTranslation | undefined
-    const skills = (service.skill_maps as unknown as ServiceSkills)
-      ?.map((s) => s.skills)
-      .filter(Boolean) ?? [];
+    const skills =
+      (service.skill_maps as unknown as ServiceSkills)?.map((s) => s.skills).filter(Boolean) ?? []
 
     return {
       id: service.id,
@@ -82,7 +81,7 @@ export async function getServices(
       },
       order_index: service.order_index,
       created_at: dateFormatter(locale).format(new Date(service.created_at)),
-      updated_at: dateFormatter(locale).format(new Date(service.updated_at))
+      updated_at: dateFormatter(locale).format(new Date(service.updated_at)),
     }
   })
 }

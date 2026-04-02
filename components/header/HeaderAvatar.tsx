@@ -59,14 +59,12 @@ export default function HeaderAvatar() {
         )
       }
     >
-      <div className="m-1 flex flex-col cursor-pointer">
+      <div className="m-1 flex cursor-pointer flex-col">
         <div className="border-primary border-b p-2 text-sm font-medium">
-          <MiracleBadge
-            className="mb-2"
-            startIcon={<LuUserRound />}>
+          <MiracleBadge className="mb-2" startIcon={<LuUserRound />}>
             <span className="capitalize">{profile.role}</span>
           </MiracleBadge>
-          <h3 className="text-primary-inv font-semibold truncate">{profile.full_name}</h3>
+          <h3 className="text-primary-inv truncate font-semibold">{profile.full_name}</h3>
           <p className="text-secondary-inv mt-0.5 text-xs font-normal">{profile.email}</p>
         </div>
         <button

@@ -6,12 +6,12 @@ export async function getComments(targetId: number, targetType: string) {
   try {
     const supabase = await createClient()
     const { data, error } = await supabase
-      .from('comments')
-      .select('*') 
-      .eq('target_id', targetId)
-      .eq('target_type', targetType)
-      .order('created_at', { ascending: false })
-    
+      .from("comments")
+      .select("*")
+      .eq("target_id", targetId)
+      .eq("target_type", targetType)
+      .order("created_at", { ascending: false })
+
     if (error) throw error
     return data
   } catch (error) {

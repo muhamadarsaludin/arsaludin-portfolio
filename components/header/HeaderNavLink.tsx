@@ -18,7 +18,7 @@ export default function HeaderNavLink({ href, label, disabled = false }: HeaderN
   return (
     <Link
       className={clsx(
-        "ease-in-out py-2 text-sm transition-colors duration-300",
+        "py-2 text-sm transition-colors duration-300 ease-in-out",
         isActive
           ? "text-blue-600 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-400"
           : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"

@@ -1,26 +1,26 @@
 "use client"
 import React, { useEffect, useRef } from "react"
-import { 
-  Scene, 
-  Camera, 
-  WebGLRenderer, 
-  PlaneGeometry, 
-  Mesh, 
-  RawShaderMaterial, 
-  Vector2, 
-  Vector4, 
-  Color, 
-  DataTexture, 
-  RGBAFormat, 
-  LinearFilter, 
-  ClampToEdgeWrapping, 
-  WebGLRenderTarget, 
-  HalfFloatType, 
+import {
+  Scene,
+  Camera,
+  WebGLRenderer,
+  PlaneGeometry,
+  Mesh,
+  RawShaderMaterial,
+  Vector2,
+  Vector4,
+  Color,
+  DataTexture,
+  RGBAFormat,
+  LinearFilter,
+  ClampToEdgeWrapping,
+  WebGLRenderTarget,
+  HalfFloatType,
   FloatType,
   LineSegments,
   BufferGeometry,
   BufferAttribute,
-  AdditiveBlending
+  AdditiveBlending,
 } from "three"
 
 export interface LiquidEtherProps {

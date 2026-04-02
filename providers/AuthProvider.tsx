@@ -24,13 +24,15 @@ export function AuthProvider({
   const supabase = createClient()
   const [user, setUser] = useState<User | null>(initialUser)
   const [profile, setProfile] = useState<Profile | null>(
-    initialUser ? ({ 
-      id: initialUser.id,
-      full_name: initialUser.user_metadata?.full_name || "",
-      email: initialUser.email || "",
-      avatar_url: initialUser.user_metadata?.avatar_url || "",
-      role: "user"
-    } as Profile) : null
+    initialUser
+      ? ({
+          id: initialUser.id,
+          full_name: initialUser.user_metadata?.full_name || "",
+          email: initialUser.email || "",
+          avatar_url: initialUser.user_metadata?.avatar_url || "",
+          role: "user",
+        } as Profile)
+      : null
   )
 
   useEffect(() => {

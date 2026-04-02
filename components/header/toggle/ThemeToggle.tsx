@@ -57,7 +57,7 @@ export default function ThemeToggle({ className }: ThemeToggleProps) {
       trigger={
         <button
           className={clsx(
-            "ease-in-out cursor-pointer rounded-md p-2 transition-colors duration-300 group-hover/tooltip:bg-neutral-100 dark:group-hover/tooltip:bg-neutral-800",
+            "cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out group-hover/tooltip:bg-neutral-100 dark:group-hover/tooltip:bg-neutral-800",
             className
           )}
           aria-label="Theme Toggle"

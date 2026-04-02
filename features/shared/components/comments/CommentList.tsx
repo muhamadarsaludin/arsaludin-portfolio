@@ -1,8 +1,8 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
-import MiracleLoader from '@/components/miracle/Loader'
-import { getComments } from '../../services/comments'
+import React, { useEffect, useState } from "react"
+import MiracleLoader from "@/components/miracle/Loader"
+import { getComments } from "../../services/comments"
 
 type CommentListProps = {
   targetId: number
@@ -44,11 +44,19 @@ export default function CommentList({ targetId, targetType }: CommentListProps) 
   }, [targetId, targetType])
 
   if (isLoading) {
-    return <div className="flex justify-center p-8"><MiracleLoader size={30} /></div>
+    return (
+      <div className="flex justify-center p-8">
+        <MiracleLoader size={30} />
+      </div>
+    )
   }
 
   if (comments.length === 0) {
-    return <div className="text-center text-secondary text-sm p-8">No comments yet. Be the first to comment!</div>
+    return (
+      <div className="text-secondary p-8 text-center text-sm">
+        No comments yet. Be the first to comment!
+      </div>
+    )
   }
 
   return (
@@ -56,17 +64,21 @@ export default function CommentList({ targetId, targetType }: CommentListProps) 
       {comments.map((comment) => (
         <div key={comment.id} className="flex gap-3">
           {comment.profiles?.avatar_url ? (
-            <img 
-              src={comment.profiles.avatar_url} 
-              alt={comment.profiles.full_name || 'Avatar'} 
-              className="h-8 w-8 shrink-0 rounded-full object-cover" 
+            <img
+              src={comment.profiles.avatar_url}
+              alt={comment.profiles.full_name || "Avatar"}
+              className="h-8 w-8 shrink-0 rounded-full object-cover"
             />
           ) : (
             <div className="h-8 w-8 shrink-0 rounded-full bg-neutral-200 dark:bg-neutral-800" />
           )}
           <div className="flex flex-col">
-            <span className="text-sm font-semibold">{comment.profiles?.full_name || `User ${comment.user_id.slice(0, 4)}`}</span>
-            <span className="text-sm text-neutral-600 dark:text-neutral-400">{comment.comment}</span>
+            <span className="text-sm font-semibold">
+              {comment.profiles?.full_name || `User ${comment.user_id.slice(0, 4)}`}
+            </span>
+            <span className="text-sm text-neutral-600 dark:text-neutral-400">
+              {comment.comment}
+            </span>
           </div>
         </div>
       ))}

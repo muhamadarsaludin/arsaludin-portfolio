@@ -38,18 +38,25 @@ export default function ProjectCard({ project }: { project: Project }) {
         <h3 className="text-primary mb-2 text-lg font-semibold md:text-xl xl:text-2xl">
           {project.name}
         </h3>
-        <p className="text-sm leading-relaxed text-secondary mb-4">
-          {project.description}
-        </p>
-        <SkillBadges skillSummary={project.skill_summary} className="mb-auto"/>
+        <p className="text-secondary mb-4 text-sm leading-relaxed">{project.description}</p>
+        <SkillBadges skillSummary={project.skill_summary} className="mb-auto" />
       </div>
 
       {/* Footer */}
-      <div 
-        className="flex items-center justify-between px-5 sm:px-6 py-3 rounded-b-2xl bg-surface-secondary border-t border-primary"
-        onClick={(e) => e.stopPropagation()}>
-          <ReactionGroup targetId={project.id} targetType="project" reactionSummary={project.reaction_summary}/>
-          <CommentGroup targetId={project.id} targetType="project" commentsCount={project.comments_count}/>
+      <div
+        className="bg-surface-secondary border-primary flex items-center justify-between rounded-b-2xl border-t px-5 py-3 sm:px-6"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <ReactionGroup
+          targetId={project.id}
+          targetType="project"
+          reactionSummary={project.reaction_summary}
+        />
+        <CommentGroup
+          targetId={project.id}
+          targetType="project"
+          commentsCount={project.comments_count}
+        />
       </div>
     </div>
   )

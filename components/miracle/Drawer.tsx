@@ -30,7 +30,7 @@ export default function MiracleDrawer({
   scrimClassName,
 }: MiracleDrawerProps) {
   const [isMounted, setIsMounted] = useState(false)
-  
+
   useEffect(() => {
     setIsMounted(true)
   }, [])
@@ -85,8 +85,8 @@ export default function MiracleDrawer({
     <>
       <div
         className={clsx(
-          "fixed inset-0 z-drawer-overlay transition-all duration-300 ease-in-out bg-overlay",
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none",
+          "z-drawer-overlay bg-overlay fixed inset-0 transition-all duration-300 ease-in-out",
+          isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0",
           scrimClassName
         )}
         onClick={closeOnScrimClick ? onClose : undefined}
@@ -94,7 +94,7 @@ export default function MiracleDrawer({
 
       <div
         className={clsx(
-          "fixed z-drawer flex flex-col shadow-2xl transition-transform duration-300 ease-in-out bg-surface-primary dark:shadow-black",
+          "z-drawer bg-surface-primary fixed flex flex-col shadow-2xl transition-transform duration-300 ease-in-out dark:shadow-black",
           borderStyles[position],
           positionStyles[position],
           isOpen ? translateOpen : translateClosed[position],
@@ -114,7 +114,7 @@ export default function MiracleDrawer({
             {showCloseIcon && (
               <button
                 onClick={onClose}
-                className="ml-auto rounded-md p-1.5 text-neutral-500 transition-colors hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800 cursor-pointer"
+                className="ml-auto cursor-pointer rounded-md p-1.5 text-neutral-500 transition-colors hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800"
                 aria-label="Close drawer"
               >
                 <svg
@@ -136,9 +136,7 @@ export default function MiracleDrawer({
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto p-4">
-          {children}
-        </div>
+        <div className="flex-1 overflow-y-auto p-4">{children}</div>
       </div>
     </>
   )

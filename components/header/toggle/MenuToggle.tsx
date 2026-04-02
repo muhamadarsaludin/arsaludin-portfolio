@@ -13,7 +13,7 @@ export default function MenuToggle({ className, showMenu, handleToggle }: MenuTo
   return (
     <button
       className={clsx(
-        "ease-in-out cursor-pointer rounded-md p-2 transition-colors duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-800",
+        "cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-100 dark:hover:bg-neutral-800",
         className
       )}
       onClick={handleToggle}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 interface LoaderProps {
   size?: number
@@ -41,10 +41,10 @@ export default function Loader({ size = 24, strokeWidth = 8 }: LoaderProps) {
       <svg
         viewBox="0 0 56 56"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ 
-          width: size, 
-          height: size, 
-          animation: 'rotate 2s linear infinite' 
+        style={{
+          width: size,
+          height: size,
+          animation: "rotate 2s linear infinite",
         }}
       >
         {/* Base Circle - Mengikuti keyframe base lo */}
@@ -59,10 +59,10 @@ export default function Loader({ size = 24, strokeWidth = 8 }: LoaderProps) {
           strokeLinecap="round"
           style={{
             opacity: 0.5,
-            animation: 'dash-base 1.5s linear infinite',
+            animation: "dash-base 1.5s linear infinite",
           }}
         />
-        
+
         {/* Highlight Circle - Mengikuti keyframe highlight lo */}
         <circle
           className="text-blue-600 dark:text-blue-400"
@@ -74,7 +74,7 @@ export default function Loader({ size = 24, strokeWidth = 8 }: LoaderProps) {
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           style={{
-            animation: 'dash-highlight 1.5s linear infinite',
+            animation: "dash-highlight 1.5s linear infinite",
           }}
         />
       </svg>

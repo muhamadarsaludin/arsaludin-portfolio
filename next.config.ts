@@ -3,7 +3,7 @@ import createNextIntlPlugin from "next-intl/plugin"
 
 const nextConfig: NextConfig = {
   experimental: {
-    optimizePackageImports: ['react-icons', 'three'],
+    optimizePackageImports: ["react-icons", "three"],
   },
   images: {
     minimumCacheTTL: 2592000,
