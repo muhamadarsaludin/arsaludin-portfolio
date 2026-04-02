@@ -103,10 +103,6 @@ export default function MiracleDrawer({
         )}
         style={customStyle}
       >
-        {position === "bottom" && (
-          <div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-neutral-med" />
-        )}
-
         {(title || showCloseIcon) && (
           <div className="flex shrink-0 items-center justify-between border-b border-primary px-4 py-3">
             <div className="text-base font-semibold text-primary">

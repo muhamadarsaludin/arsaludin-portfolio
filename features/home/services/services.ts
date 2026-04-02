@@ -80,8 +80,8 @@ export async function getServices(
         remaining: skills.length - topSkillsAmount,
       },
       order_index: service.order_index,
-      created_at: dateFormatter(locale).format(new Date(service.created_at)),
-      updated_at: dateFormatter(locale).format(new Date(service.updated_at)),
+      created_at: service.created_at,
+      updated_at: service.updated_at
     }
   })
 }

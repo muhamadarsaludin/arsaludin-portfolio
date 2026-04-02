@@ -28,9 +28,16 @@
       }
     },
     "comment": {
+      "title": "Comments",
+      "emptyMessage": "No comments yet. Be the first to comment!",
+      "reply": "Reply",
+      "authorLabel": "Author",
       "tooltip": {
         "default": "Add comment",
         "auth": "Sign in to comment"
+      },
+      "textField": {
+        "placeholder": "Tulis komentar..."
       }
     }
   },

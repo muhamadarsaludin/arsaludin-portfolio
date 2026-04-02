@@ -28,9 +28,16 @@
       }
     },
     "comment": {
+      "title": "Komentar",
+      "emptyMessage": "Belum ada komentar. Yuk, jadi yang pertama!",
+      "reply": "Balas",
+      "authorLabel": "Penulis",
       "tooltip": {
         "default": "Add comment",
         "auth": "Sign in to comment"
+      },
+      "textField": {
+        "placeholder": "Tulis komentar..."
       }
     }
   },

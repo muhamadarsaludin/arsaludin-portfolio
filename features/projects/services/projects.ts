@@ -142,8 +142,8 @@ export async function getProjects(
         remaining: reactionCounts.length - topReactionsAmount,
       },
       order_index: project.order_index,
-      created_at: dateFormatter(locale).format(new Date(project.created_at)),
-      updated_at: dateFormatter(locale).format(new Date(project.updated_at)),
+      created_at: project.created_at,
+      updated_at: project.updated_at,
     }
   })
 }
