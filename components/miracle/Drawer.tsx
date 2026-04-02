@@ -94,7 +94,7 @@ export default function MiracleDrawer({
 
       <div
         className={clsx(
-          "z-drawer bg-surface-primary fixed flex flex-col shadow-2xl transition-transform duration-300 ease-in-out dark:shadow-black",
+          "z-drawer bg-primary fixed flex flex-col shadow-2xl transition-transform duration-300 ease-in-out dark:shadow-black",
           borderStyles[position],
           positionStyles[position],
           isOpen ? translateOpen : translateClosed[position],

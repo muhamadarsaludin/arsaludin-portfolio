@@ -26,15 +26,16 @@ body {
   font-family: var(--font-outfit);
 }
 
-.bg-surface-primary {
+/* ========= CUSTOM CLASS ================ */
+/* Background */
+.bg-primary {
   @apply bg-white dark:bg-neutral-950;
 }
-
-.bg-surface-primary-inv {
+.bg-primary-inv {
   @apply bg-neutral-950 dark:bg-white;
 }
 
-.bg-surface-secondary {
+.bg-secondary {
   @apply bg-neutral-100 dark:bg-neutral-900;
 }
 
@@ -42,10 +43,38 @@ body {
   @apply bg-neutral-900/40 backdrop-blur-sm dark:bg-black/60;
 }
 
+.bg-skeleton {
+  @apply bg-neutral-200 dark:bg-neutral-800;
+}
+
+.bg-neutral-low {
+  @apply bg-neutral-200 dark:bg-neutral-800;
+}
+.bg-neutral-med {
+  @apply bg-neutral-300 dark:bg-neutral-700;
+}
+.bg-neutral-high {
+   @apply bg-neutral-400 dark:bg-neutral-600;
+}
+
+.bg-blue {
+  @apply bg-blue-600 dark:bg-blue-400;
+}
+.bg-red {
+  @apply bg-red-600 dark:bg-red-400;
+}
+.bg-yellow {
+  @apply bg-yellow-600 dark:bg-yellow-400;
+}
+.bg-green {
+  @apply bg-green-600 dark:bg-green-400;
+}
+
+
+/* Text */
 .text-primary {
   @apply text-neutral-900 dark:text-neutral-50;
 }
-
 .text-primary-inv {
   @apply text-neutral-50 dark:text-neutral-900;
 }
@@ -53,13 +82,50 @@ body {
 .text-secondary {
   @apply text-neutral-600 dark:text-neutral-400;
 }
-
 .text-secondary-inv {
   @apply text-neutral-400 dark:text-neutral-500;
 }
 
+.text-neutral-low {
+  @apply text-neutral-200 dark:text-neutral-800;
+}
+.text-neutral-med {
+  @apply text-neutral-300 dark:text-neutral-700;
+}
+.text-neutral-high {
+   @apply text-neutral-400 dark:text-neutral-600;
+}
+
+.text-blue {
+  @apply text-blue-600 dark:text-blue-400;
+}
+
+/* Border */
 .border-primary {
   @apply border-gray-950/10 dark:border-white/10;
+}
+
+.border-neutral-low {
+  @apply border-neutral-200 dark:border-neutral-800;
+}
+.border-neutral-med {
+  @apply border-neutral-300 dark:border-neutral-700;
+}
+.border-neutral-high {
+   @apply border-neutral-400 dark:border-neutral-600;
+}
+
+.border-blue {
+  @apply border-blue-600 dark:border-blue-400;
+}
+.border-red {
+  @apply border-red-600 dark:border-red-400;
+}
+.border-yellow {
+  @apply border-yellow-600 dark:border-yellow-400;
+}
+.border-green {
+  @apply border-green-600 dark:border-green-400;
 }
 
 /* z-index */

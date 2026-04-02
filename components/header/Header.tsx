@@ -46,7 +46,7 @@ export default function Header({ className }: HeaderProps) {
   return (
     <header
       className={clsx(
-        "bg-surface-primary border-primary border-b",
+        "bg-primary border-primary border-b",
         "z-header fixed inset-x-0 top-0",
         className
       )}
@@ -97,7 +97,7 @@ export default function Header({ className }: HeaderProps) {
         className={clsx(
           "z-header fixed top-17.25 bottom-0 left-0 w-fit p-6 lg:hidden",
           "flex flex-col justify-between gap-6",
-          "bg-surface-primary border-primary border-r",
+          "bg-primary border-primary border-r",
           "-translate-x-full transform transition-transform duration-300 ease-in-out",
           showMenu ? "translate-x-0" : "-translate-x-full"
         )}

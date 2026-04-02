@@ -44,7 +44,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
       {/* Footer */}
       <div
-        className="bg-surface-secondary border-primary flex items-center justify-between rounded-b-2xl border-t px-5 py-3 sm:px-6"
+        className="bg-secondary border-primary flex items-center justify-between rounded-b-2xl border-t px-5 py-3 sm:px-6"
         onClick={(e) => e.stopPropagation()}
       >
         <ReactionGroup

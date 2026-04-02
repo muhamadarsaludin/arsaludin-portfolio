@@ -47,7 +47,7 @@ function ReactionButtonAuth() {
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), {
   ssr: false,
   loading: () => (
-    <div className="bg-surface-primary border-primary flex h-[400px] w-[350px] items-center justify-center rounded-lg border">
+    <div className="bg-primary border-primary flex h-[400px] w-[350px] items-center justify-center rounded-lg border">
       <MiracleLoader size={40} />
     </div>
   ),

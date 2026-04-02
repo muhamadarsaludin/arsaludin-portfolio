@@ -48,7 +48,7 @@ export default function Footer() {
   }, [])
 
   return (
-    <footer className="bg-surface-primary border-primary border-t">
+    <footer className="bg-primary border-primary border-t">
       <div className="mx-auto max-w-(--m-page-width) px-6">
         {/* Top */}
         <div className="flex flex-col items-center gap-4 py-10 text-center md:gap-6">

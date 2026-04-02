@@ -159,7 +159,7 @@ export default function MiracleTooltip({
           className={clsx(
             "text-primary-inv relative w-max min-w-max rounded-md text-xs font-medium",
             !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
-            !noBackground && "bg-surface-primary-inv",
+            !noBackground && "bg-primary-inv",
             !noPadding && "p-2"
           )}
         >
@@ -167,7 +167,7 @@ export default function MiracleTooltip({
             <div
               className={clsx(
                 "absolute z-1 h-2.5 w-2.5 rotate-45",
-                !noBackground && "bg-surface-primary-inv",
+                !noBackground && "bg-primary-inv",
                 arrowPositionClass[adaptedPos]
               )}
             />

@@ -25,7 +25,7 @@ export default function ReactionsPreview({
               key={index}
               className={clsx(
                 "group/reaction-picker",
-                "bg-surface-secondary flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border-2 shadow-sm",
+                "bg-secondary flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border-2 shadow-sm",
                 reaction.emoji === reactionSummary.userReaction?.emoji
                   ? "border-blue-400 dark:border-blue-500"
                   : "border-primary"
@@ -39,7 +39,7 @@ export default function ReactionsPreview({
             </button>
           ))}
           {reactionSummary.remaining > 0 && (
-            <div className="bg-surface-secondary border-primary z-13 flex h-7 min-w-7 items-center justify-center rounded-full border-2 px-1 shadow-sm">
+            <div className="bg-secondary border-primary z-13 flex h-7 min-w-7 items-center justify-center rounded-full border-2 px-1 shadow-sm">
               <span className="text-secondary text-xs font-medium">
                 +{reactionSummary.remaining}
               </span>
