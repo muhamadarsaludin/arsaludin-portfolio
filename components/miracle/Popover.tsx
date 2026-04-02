@@ -166,7 +166,7 @@ export default function MiraclePopover({
       <div
         ref={contentRef}
         className={clsx(
-          "ease absolute z-1000 transition-[opacity,visibility] duration-300",
+          "ease-in-out absolute z-popover transition-[opacity,visibility] duration-300",
           isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0",
           popoverPositionClass[adaptedPos]
         )}
@@ -183,7 +183,7 @@ export default function MiraclePopover({
           {!noArrow && (
             <div
               className={clsx(
-                "absolute -z-1 h-2.5 w-2.5 rotate-45",
+                "absolute z-1 h-2.5 w-2.5 rotate-45",
                 !noBackground && "bg-surface-primary-inv",
                 arrowPositionClass[adaptedPos]
               )}

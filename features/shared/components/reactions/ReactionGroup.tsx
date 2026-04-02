@@ -1,23 +1,42 @@
-import React from 'react'
+"use client"
+
 import ReactionsPreview from './ReactionsPreview'
 import ReactionPicker from './ReactionPicker'
 import { ReactionSummary } from '../../types/reactions'
-import ReactionsAmount from './ReactionsAmount'
+import ReactionsCount from './ReactionsCount'
+import { toggleReaction } from '../../services/reactions'
+import { useRouter } from '@/i18n/navigation'
 
-type ReactionsGroupProps = {
+type ReactionGroupProps = {
+  targetId: number
+  targetType: string
   reactionSummary: ReactionSummary
-  onSelectReaction: (emoji: string) => void
 }
 
-export default function ReactionGroup({ reactionSummary, onSelectReaction }: ReactionsGroupProps) {
+export default function ReactionGroup({ targetId, targetType, reactionSummary }: ReactionGroupProps) {
+  const router = useRouter() 
+  const handleSelectReaction = async (emoji: string) => {
+    try {
+      await toggleReaction({
+        targetId: targetId,
+        targetType: targetType,
+        emoji
+      })
+      router.refresh()
+    } catch (error) {
+      console.error("Failed to toggle reaction:", error)
+    }
+  }
   return (
     <div className="flex items-center gap-1">
-      <ReactionsPreview reactionSummary={reactionSummary} />
+      <ReactionsPreview 
+        onSelectReaction={handleSelectReaction} 
+        reactionSummary={reactionSummary} />
       <ReactionPicker 
-        currentReaction={reactionSummary.userReaction?.emoji} 
-        onSelectReaction={onSelectReaction} 
+        userReaction={reactionSummary.userReaction} 
+        onSelectReaction={handleSelectReaction} 
       />
-      <ReactionsAmount reactionSummary={reactionSummary} />
+      <ReactionsCount reactionSummary={reactionSummary} />
     </div>
   )
 }

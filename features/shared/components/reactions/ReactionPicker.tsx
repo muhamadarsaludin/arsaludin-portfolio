@@ -11,9 +11,11 @@ import MiracleLoader from '@/components/miracle/Loader'
 import dynamic from 'next/dynamic'
 import { Theme } from 'emoji-picker-react'
 import { useTheme } from '@wrksz/themes/client'
+import clsx from 'clsx'
+import { Reaction } from '../../types/reactions'
 
 type ReactionPickerProps = {
-  currentReaction?: string
+  userReaction: Reaction | null
   onSelectReaction: (emoji: string) => void
 }
 
@@ -57,13 +59,13 @@ const EmojiPicker = dynamic(() => import('emoji-picker-react'), {
   ),
 })
 
-export default function ReactionPicker({ currentReaction, onSelectReaction }: ReactionPickerProps) {
+export default function ReactionPicker({ userReaction, onSelectReaction }: ReactionPickerProps) {
   const [isPickerOpen, setIsPickerOpen] = useState(false)
   const { isSignedIn } = useAuth()
   const { theme } = useTheme()
+  const t = useTranslations("components.reaction")
   
-  // Perbaikan: Jika theme dark, pakai Theme.DARK
-  const pickerTheme = theme === 'dark' ? Theme.DARK : Theme.LIGHT
+  const pickerThemeInv = theme === 'dark' ? Theme.LIGHT : Theme.DARK
 
   const handleEmojiClick = useCallback((emojiData: any) => {
     onSelectReaction(emojiData.emoji)
@@ -78,23 +80,33 @@ export default function ReactionPicker({ currentReaction, onSelectReaction }: Re
       onOpenChange={setIsPickerOpen}
       noArrow noBackground noShadow noPadding
       trigger={
-        <div className="group/reaction-picker cursor-pointer p-1 relative">
-          <LuCircleFadingPlus
-            size={20}
-            className={`transition-all duration-300 group-hover/reaction-picker:scale-110 ${
-              currentReaction ? 'text-primary' : 'text-secondary'
-            }`}
-          />
-          {currentReaction && (
-             <span className="absolute top-0 right-0 h-1.5 w-1.5 rounded-full bg-primary" />
-          )}
-        </div>
+
+        <MiracleTooltip
+          trigger={
+            <div className="group/reaction-picker cursor-pointer p-1 relative">
+              <LuCircleFadingPlus
+                size={20}
+                className="transition-all duration-300 ease-in-out group-hover/reaction-picker:scale-110 text-secondary"
+              />
+              <span className={clsx(
+                "absolute top-0 right-0 h-1.5 w-1.5 rounded-full bg-red-500",
+                "transition-opacity duration-300 ease",
+                userReaction ? "opacity-100" : "opacity-0"
+              )} />
+            </div>
+          }
+          noPadding
+        >
+          <span className="flex p-2 text-xs font-medium text-nowrap">
+            {t("tooltip.default")}
+          </span>
+        </MiracleTooltip>
       }
     >
       <div className="min-w-[350px]">
         {isPickerOpen && (
           <EmojiPicker
-            theme={pickerTheme}
+            theme={pickerThemeInv}
             skinTonesDisabled
             onEmojiClick={handleEmojiClick}
             width={350}

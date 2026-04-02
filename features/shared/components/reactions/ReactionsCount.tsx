@@ -1,9 +1,9 @@
 import { ReactionSummary } from "../../types/reactions"
 
-type ReactionsAmountProps = {
+type ReactionsCountProps = {
   reactionSummary: ReactionSummary
 }
-export default function ReactionsAmount({reactionSummary}: ReactionsAmountProps) {
+export default function ReactionsCount({reactionSummary}: ReactionsCountProps) {
   if (reactionSummary.total <= 0) return
   return (
     <span className="text-sm font-medium text-secondary">

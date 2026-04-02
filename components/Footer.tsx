@@ -79,7 +79,7 @@ export default function Footer() {
                   aria-label={socmed.name}
                   className={clsx(
                     "flex items-center justify-center rounded-md p-2",
-                    "ease transition-all duration-300 hover:-translate-y-1",
+                    "ease-in-out transition-all duration-300 hover:-translate-y-1",
                     "border-primary border",
                     "bg-white hover:bg-neutral-950 dark:bg-neutral-950 dark:hover:bg-white",
                     "text-neutral-900 hover:text-neutral-50 dark:text-neutral-50 dark:hover:text-neutral-900"

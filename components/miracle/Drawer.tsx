@@ -1,0 +1,145 @@
+"use client"
+
+import { useScrollLock } from "@/hooks/useScrollLock"
+import clsx from "clsx"
+import { ReactNode, useEffect, useState } from "react"
+
+export type MiracleDrawerProps = {
+  isOpen: boolean
+  onClose: () => void
+  position?: "top" | "right" | "bottom" | "left"
+  size?: number | string
+  children: ReactNode
+  title?: ReactNode
+  showCloseIcon?: boolean
+  closeOnScrimClick?: boolean
+  className?: string
+  scrimClassName?: string
+}
+
+export default function MiracleDrawer({
+  isOpen,
+  onClose,
+  position = "right",
+  size,
+  children,
+  title,
+  showCloseIcon = true,
+  closeOnScrimClick = true,
+  className,
+  scrimClassName,
+}: MiracleDrawerProps) {
+  const [isMounted, setIsMounted] = useState(false)
+  
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose()
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [isOpen, onClose])
+  useScrollLock(isOpen)
+
+  if (!isMounted) return null
+
+  const borderStyles = {
+    top: "border-b border-primary",
+    bottom: "border-t border-primary",
+    left: "border-r border-primary",
+    right: "border-l border-primary",
+  }
+
+  const positionStyles = {
+    top: "top-0 inset-x-0 w-full h-auto max-h-[90vh] rounded-b-2xl",
+    bottom: "bottom-0 inset-x-0 w-full h-auto max-h-[90vh] rounded-t-2xl",
+    left: "left-0 inset-y-0 w-80 h-full max-w-[90vw]",
+    right: "right-0 inset-y-0 w-80 h-full max-w-[90vw]",
+  }
+
+  const translateOpen = "translate-x-0 translate-y-0"
+  const translateClosed = {
+    top: "-translate-y-full",
+    bottom: "translate-y-full",
+    left: "-translate-x-full",
+    right: "translate-x-full",
+  }
+
+  const customStyle: React.CSSProperties = {}
+  if (size !== undefined) {
+    const formattedSize = typeof size === "number" ? `${size}px` : size
+    if (position === "left" || position === "right") {
+      customStyle.width = formattedSize
+      customStyle.maxWidth = "100vw"
+    } else {
+      customStyle.height = formattedSize
+      customStyle.maxHeight = "100vh"
+    }
+  }
+
+  return (
+    <>
+      <div
+        className={clsx(
+          "fixed inset-0 z-drawer-overlay transition-all duration-300 ease-in-out bg-overlay",
+          isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none",
+          scrimClassName
+        )}
+        onClick={closeOnScrimClick ? onClose : undefined}
+      />
+
+      <div
+        className={clsx(
+          "fixed z-drawer flex flex-col shadow-2xl transition-transform duration-300 ease-in-out bg-surface-primary dark:shadow-black",
+          borderStyles[position],
+          positionStyles[position],
+          isOpen ? translateOpen : translateClosed[position],
+          className
+        )}
+        style={customStyle}
+      >
+        {position === "bottom" && (
+          <div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-700" />
+        )}
+
+        {(title || showCloseIcon) && (
+          <div className="flex shrink-0 items-center justify-between border-b border-neutral-200 px-4 py-3 dark:border-neutral-800">
+            <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
+              {title}
+            </div>
+            {showCloseIcon && (
+              <button
+                onClick={onClose}
+                className="ml-auto rounded-md p-1.5 text-neutral-500 transition-colors hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800 cursor-pointer"
+                aria-label="Close drawer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
+        )}
+
+        <div className="flex-1 overflow-y-auto p-4">
+          {children}
+        </div>
+      </div>
+    </>
+  )
+}

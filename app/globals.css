@@ -39,7 +39,7 @@ body {
 }
 
 .bg-overlay {
-  @apply bg-neutral-950/50 dark:bg-white/50;
+  @apply bg-neutral-900/40 dark:bg-black/60 backdrop-blur-sm;
 }
 
 .text-primary {
@@ -61,3 +61,25 @@ body {
 .border-primary {
   @apply border-gray-950/10 dark:border-white/10;
 }
+
+/* z-index */
+.z-header {
+  @apply z-100;
+}
+.z-header-overlay {
+  @apply z-99;
+}
+
+.z-drawer {
+  @apply z-1000;
+}
+.z-drawer-overlay {
+  @apply z-999;
+}
+
+.z-tooltip,
+.z-popover {
+  @apply z-1000;
+}
+
+

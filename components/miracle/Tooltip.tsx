@@ -149,7 +149,7 @@ export default function MiracleTooltip({
       <div
         ref={contentRef}
         className={clsx(
-          "ease absolute z-1000 transition-[opacity,visibility] duration-300",
+          "ease-in-out absolute z-tooltip transition-[opacity,visibility] duration-300",
           isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0",
           hoverContent ? "pointer-events-auto" : "pointer-events-none",
           tooltipPositionClass[adaptedPos]
@@ -157,16 +157,16 @@ export default function MiracleTooltip({
       >
         <div
           className={clsx(
-            "text-primary-inv relative w-max min-w-max rounded-md",
+            "text-primary-inv text-xs font-medium relative w-max min-w-max rounded-md",
             !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
             !noBackground && "bg-surface-primary-inv",
-            !noPadding && "p-3"
+            !noPadding && "p-2"
           )}
         >
           {!noArrow && (
             <div
               className={clsx(
-                "absolute -z-1 h-2.5 w-2.5 rotate-45",
+                "absolute z-1 h-2.5 w-2.5 rotate-45",
                 !noBackground && "bg-surface-primary-inv",
                 arrowPositionClass[adaptedPos]
               )}

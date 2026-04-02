@@ -3,10 +3,11 @@
 import React from "react"
 import MiracleTooltip from "../miracle/Tooltip"
 import { signOut } from "@/features/auth/services/authService"
-import { LuLogOut } from "react-icons/lu"
+import { LuLogOut, LuUserRound } from "react-icons/lu"
 import { useTranslations } from "next-intl"
 import Image from "next/image"
 import { useAuth } from "@/providers/AuthProvider"
+import MiracleBadge from "../miracle/Badge"
 
 const getInitials = (name: string) => {
   if (!name) return ""
@@ -24,18 +25,12 @@ const getInitials = (name: string) => {
 }
 
 export default function HeaderAvatar() {
-  const { user, isSignedIn } = useAuth()
+  const { profile } = useAuth()
   const t = useTranslations("components.header")
 
-  if (!user) return null
+  if (!profile) return null
 
-  const userData = {
-    name: user.user_metadata.full_name || "",
-    email: user.email || "",
-    avatarUrl: user.user_metadata.avatar_url || "",
-  }
-
-  const initials = getInitials(userData.name)
+  const initials = getInitials(profile.full_name)
 
   const handleSignOut = async () => {
     await signOut()
@@ -47,10 +42,10 @@ export default function HeaderAvatar() {
       hoverContent
       noPadding
       trigger={
-        userData.avatarUrl ? (
+        profile.avatar_url ? (
           <Image
-            src={userData.avatarUrl}
-            alt={userData.name}
+            src={profile.avatar_url}
+            alt={profile.full_name}
             width={32}
             height={32}
             unoptimized
@@ -64,12 +59,15 @@ export default function HeaderAvatar() {
         )
       }
     >
-      <div className="m-1 flex flex-col">
+      <div className="m-1 flex flex-col cursor-pointer">
         <div className="border-primary border-b p-2 text-sm font-medium">
-          <div className="text-primary-inv font-semibold">{userData.name}</div>
-          {userData.email && (
-            <div className="text-secondary-inv mt-0.5 text-xs font-normal">{userData.email}</div>
-          )}
+          <MiracleBadge
+            className="mb-2"
+            startIcon={<LuUserRound />}>
+            <span className="capitalize">{profile.role}</span>
+          </MiracleBadge>
+          <h3 className="text-primary-inv font-semibold truncate">{profile.full_name}</h3>
+          <p className="text-secondary-inv mt-0.5 text-xs font-normal">{profile.email}</p>
         </div>
         <button
           onClick={handleSignOut}
