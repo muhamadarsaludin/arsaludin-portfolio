@@ -4,6 +4,7 @@ import MiracleTooltip from "@/components/miracle/Tooltip"
 import clsx from "clsx"
 import { Skill } from "../types/skills"
 import { SkillIconMap } from "../services/skills"
+import { useTranslations } from "next-intl"
 
 type SkillBadgesProps = {
   skills: Skill[]
@@ -19,6 +20,7 @@ export default function SkillBadges({
   const hasMore = skills.length > limit
   const topSkills = skills.slice(0, limit)
   const remainingCount = skills.length - limit
+  const t = useTranslations("components.skillBadges")
   
   return (
     <div className={clsx("flex flex-wrap items-center gap-2", className)}>
@@ -66,7 +68,7 @@ export default function SkillBadges({
         >
           <div className="flex max-h-[250px] w-[180px] flex-col p-3">
             <p className="mb-2 text-[10px] font-bold text-primary-inv uppercase tracking-widest opacity-50">
-              Semua Skill
+              {t("title")}
             </p>
             <div className="flex flex-col gap-1 overflow-y-auto pr-1">
               {skills.map((skill, i) => {

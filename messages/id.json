@@ -21,6 +21,9 @@
       "timeLabel": "Waktu lokal",
       "copyright": "Muhamad Arsaludin. Hak cipta dilindungi."
     },
+    "skillBadges": {
+      "title": "Teknologi"
+    },
     "reaction": {
       "tooltip": {
         "default": "Add reaction",

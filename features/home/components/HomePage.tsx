@@ -1,4 +1,4 @@
-import ProfileSection from "./profile"
+import ProfileSection from "./profile/ProfileSection"
 import ProjectSection from "./projects/ProjectSection"
 import SkillsAndServicesSection from "./skills-and-services/SkillsAndServicesSection"
 
