@@ -35,11 +35,11 @@ export default function MiracleTextField({
           htmlFor={inputId}
           className={clsx(
             "text-sm font-medium select-none",
-            disabled ? "text-neutral-500" : "text-primary"
+            disabled ? "text-secondary" : "text-primary"
           )}
         >
           {label}
-          {props.required && <span className="text-red-500 ml-1">*</span>}
+          {props.required && <span className="text-red ml-1">*</span>}
         </label>
       )}
 
@@ -53,14 +53,14 @@ export default function MiracleTextField({
         )}
       >
         {startIcon && (
-          <span className="flex items-center pl-3 text-neutral-500">{startIcon}</span>
+          <span className="flex items-center pl-3 text-secondary">{startIcon}</span>
         )}
 
         <input
           id={inputId}
           disabled={disabled}
           className={clsx(
-            "w-full bg-transparent px-3 py-2 text-sm outline-none placeholder:text-neutral-400 disabled:cursor-not-allowed",
+            "w-full bg-transparent px-3 py-2 text-sm outline-none placeholder:text-secondary disabled:cursor-not-allowed",
             startIcon && "pl-2",
             endIcon && "pr-2"
           )}
@@ -68,13 +68,13 @@ export default function MiracleTextField({
         />
 
         {endIcon && (
-          <span className="flex items-center pr-3 text-neutral-500">{endIcon}</span>
+          <span className="flex items-center pr-3 text-secondary">{endIcon}</span>
         )}
       </div>
 
       {(helperText || typeof error === "string") && (
         <span
-          className={clsx("text-xs", isError ? "text-red-500" : "text-secondary")}
+          className={clsx("text-xs", isError ? "text-red" : "text-secondary")}
         >
           {typeof error === "string" ? error : helperText}
         </span>

@@ -175,7 +175,7 @@ export default function MiraclePopover({
             "text-primary-inv relative w-max min-w-max rounded-md",
             !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
             !noBackground && "bg-primary-inv",
-            !noPadding && "p-3"
+            !noPadding && "p-2"
           )}
           onClick={(e) => e.stopPropagation()}
         >

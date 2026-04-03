@@ -7,6 +7,7 @@ import React from "react"
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: React.ReactNode
   variant?: "primary" | "secondary"
+  status?: "default" | "danger"
   fullWidth?: boolean
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
@@ -18,6 +19,7 @@ export default function MiracleButton({
   children,
   className,
   variant = "primary",
+  status = "default",
   fullWidth = false,
   startIcon,
   endIcon,
@@ -31,15 +33,25 @@ export default function MiracleButton({
     "text-sm flex items-center justify-center gap-2 rounded-md px-3 py-2 font-medium transition-colors duration-300 ease-in-out cursor-pointer"
 
   const variantStyles = {
-    primary:
-      "bg-neutral-950 dark:bg-white text-neutral-50 dark:text-neutral-900",
-    secondary:
-      "bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 ring ring-neutral-950/10 dark:ring-white/50",
+    primary: {
+      default: "bg-neutral-950 dark:bg-white text-neutral-50 dark:text-neutral-900",
+      danger: "bg-red-600 dark:bg-red-500 text-white",
+    },
+    secondary: {
+      default: "bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 ring ring-neutral-950/10 dark:ring-white/50",
+      danger: "bg-white dark:bg-neutral-950 text-red-600 dark:text-red-500 ring ring-red-600/50 dark:ring-red-500/50",
+    },
   }
 
   const hoverStyles = {
-    primary: "hover:bg-neutral-700 dark:hover:bg-neutral-300",
-    secondary: "hover:bg-neutral-300 dark:hover:bg-neutral-700",
+    primary: {
+      default: "hover:bg-neutral-700 dark:hover:bg-neutral-300",
+      danger: "hover:bg-red-700 dark:hover:bg-red-600",
+    },
+    secondary: {
+      default: "hover:bg-neutral-300 dark:hover:bg-neutral-700",
+      danger: "hover:bg-red-50 dark:hover:bg-red-950/30",
+    },
   }
 
   const disabledStyles =
@@ -52,8 +64,8 @@ export default function MiracleButton({
       disabled={isDisabled}
       className={clsx(
         baseStyles,
-        variantStyles[variant],
-        !isDisabled && hoverStyles[variant],
+        variantStyles[variant][status],
+        !isDisabled && hoverStyles[variant][status],
         isDisabled && disabledStyles,
         widthClass,
         className

@@ -3,23 +3,40 @@
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import { CommentData } from "../types/comments"
+import { Reaction, ReactionCount } from "../types/reactions"
+import { TOP_REACTIONS_AMOUNT } from "../constants/reactions"
 
 export async function getComments(
   targetId: number, 
-  targetType: string
+  targetType: string,
+  topReactionsAmount: number = TOP_REACTIONS_AMOUNT
 ): Promise<CommentData[]> {
   const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
   const { data, error } = await supabase
     .from("comments")
     .select(`
       *,
       author:user_id (*),
-      replied_user:reply_to_id (*)
+      replied_user:reply_to_id (*),
+      comment_reaction_counts(
+        emoji,
+        count
+      ),
+      reactions(
+        emoji,
+        user_id
+      )
     `)
     .eq("target_id", targetId)
     .eq("target_type", targetType)
+    .eq("reactions.target_type", "comment")
     .order("created_at", { ascending: false }) 
-
+    
+  console.log("rawData comment", data)
   if (error) {
     console.error("Supabase Error:", error)
     throw error
@@ -27,6 +44,12 @@ export async function getComments(
   if (!data) return []
 
   return data.map((comment) => {
+    const userReaction = user
+    ? ((comment.reactions as Reaction[])?.find((r) => r.user_id === user.id) ?? null)
+    : null
+    const reactionCounts = (comment.project_reaction_counts as ReactionCount[]) ?? []
+    const sortedReactionCounts = [...reactionCounts].sort((a, b) => b.count - a.count)
+
     return {
       id: comment.id,
       content: comment.content,
@@ -49,6 +72,15 @@ export async function getComments(
         avatar_url: comment.replied_user.avatar_url,
         role: comment.replied_user.role
       } : null,
+      reaction_summary: {
+        hasReactions: reactionCounts.length > 0,
+        userReaction: userReaction,
+        totalReactions: sortedReactionCounts.reduce((sum, r) => sum + r.count, 0),
+        all: sortedReactionCounts,
+        top: sortedReactionCounts.slice(0, topReactionsAmount),
+        total: reactionCounts.length,
+        remaining: reactionCounts.length - topReactionsAmount,
+      }
     }
   })
 }
@@ -59,6 +91,7 @@ export async function addComment(formData: {
   content: string
   parentId?: number | null
   replyToId?: string | null
+  replyId?: number | null
 }) {
   const supabase = await createClient()
   
@@ -74,7 +107,8 @@ export async function addComment(formData: {
         content: formData.content,
         parent_id: formData.parentId || null,
         user_id: user.id,
-        reply_to_id: formData.replyToId
+        reply_to_id: formData.replyToId,
+        reply_id: formData.replyId
       },
     ])
     .select()
@@ -84,25 +118,47 @@ export async function addComment(formData: {
   revalidatePath("/", "layout")
 }
 
-export async function deleteComment(commentId: number, path: string) {
-  try {
-    const supabase = await createClient()
-    
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) throw new Error("Unauthorized")
+export async function deleteComment(commentId: number) {
+  const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error("Unauthorized")
+  
+  const [comment, { data: profile }] = await Promise.all([
+    getComment(commentId),
+    supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single()
+  ])
+  if (!comment) throw new Error("Comment not found")
+  
+  const isOwner = comment.user_id === user.id
+  const isAdmin = profile?.role === "admin"
 
-    const { error } = await supabase
-      .from("comments")
-      .delete()
-      .eq("id", commentId)
-      .eq("user_id", user.id)
-
-    if (error) throw error
-
-    revalidatePath(path)
-    return { success: true }
-  } catch (error) {
-    console.error("Delete comment error:", error)
-    return { success: false, error }
+  if (!isOwner && !isAdmin) {
+    throw new Error("Unauthorized: You don't have permission to delete this")
   }
+  
+  const { error } = await supabase
+    .from("comments")
+    .delete()
+    .eq("id", commentId)
+
+  if (error) throw error
+  revalidatePath("/", "layout")
+}
+
+export async function getComment(commentId: number) {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from("comments")
+    .select("*")
+    .eq("id", commentId)
+    .single()
+
+  if (error) throw error
+  return data
 }

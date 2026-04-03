@@ -1,4 +1,5 @@
 import { Profile } from "./profiles"
+import { ReactionSummary } from "./reactions"
 
 // ================== INFORMATION =================
 // Note: Named 'CommentData' instead of 'Comment' 
@@ -15,4 +16,5 @@ export type CommentData = {
   created_at: string
   author: Profile
   reply_profile: Profile | null
+  reaction_summary: ReactionSummary
 }
