@@ -28,11 +28,10 @@ export default function SkillBadges({
         
         const BadgeComponent = (
           <MiracleBadge
-            startIcon={IconComponent && <IconComponent />}
             className={clsx(
-              skill.link && "cursor-pointer hover:bg-primary hover:text-white transition-all active:scale-95"
+              skill.link && "cursor-pointer transition-all active:scale-95 group/badge"
             )}
-          >
+            startIcon={IconComponent && <IconComponent className={clsx(skill.link && "group-hover/badge:scale-110 transition-transform duration-300")}/>}>
             {skill.name}
           </MiracleBadge>
         )
@@ -79,7 +78,7 @@ export default function SkillBadges({
                     skill.link ? "hover:bg-white/10" : "opacity-80"
                   )}>
                     {IconComponent && (
-                      <IconComponent className="h-3 w-3 text-secondary-inv group-hover:scale-110 transition-transform" />
+                      <IconComponent className="h-3 w-3 text-secondary-inv group-hover:scale-110 transition-transform duration-300" />
                     )}
                     <span className="text-secondary-inv">
                       {skill.name}
