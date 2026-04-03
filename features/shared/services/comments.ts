@@ -8,8 +8,8 @@ import { TOP_REACTIONS_AMOUNT } from "../constants/reactions"
 
 export async function getComments(
   targetId: number, 
-  targetType: string,
-  topReactionsAmount: number = TOP_REACTIONS_AMOUNT
+  targetType: "project" | "blog",
+  // topReactionsAmount: number = TOP_REACTIONS_AMOUNT
 ): Promise<CommentData[]> {
   const supabase = await createClient()
   const {
@@ -21,19 +21,10 @@ export async function getComments(
     .select(`
       *,
       author:user_id (*),
-      replied_user:reply_to_id (*),
-      comment_reaction_counts(
-        emoji,
-        count
-      ),
-      reactions(
-        emoji,
-        user_id
-      )
+      replied_user:reply_to_id (*)
     `)
-    .eq("target_id", targetId)
+    .eq(`${targetType}_id`, targetId)
     .eq("target_type", targetType)
-    .eq("reactions.target_type", "comment")
     .order("created_at", { ascending: false }) 
     
   console.log("rawData comment", data)
@@ -44,17 +35,17 @@ export async function getComments(
   if (!data) return []
 
   return data.map((comment) => {
-    const userReaction = user
-    ? ((comment.reactions as Reaction[])?.find((r) => r.user_id === user.id) ?? null)
-    : null
-    const reactionCounts = (comment.project_reaction_counts as ReactionCount[]) ?? []
-    const sortedReactionCounts = [...reactionCounts].sort((a, b) => b.count - a.count)
+    // const userReaction = user
+    // ? ((comment.reactions as Reaction[])?.find((r) => r.user_id === user.id) ?? null)
+    // : null
+    // const reactionCounts = (comment.project_reaction_counts as ReactionCount[]) ?? []
+    // const sortedReactionCounts = [...reactionCounts].sort((a, b) => b.count - a.count)
 
     return {
       id: comment.id,
       content: comment.content,
       user_id: comment.user_id,
-      target_id: comment.target_id,
+      project_id: comment.target_id,
       target_type: comment.target_type,
       parent_id: comment.parent_id,
       created_at: comment.created_at, 
@@ -71,16 +62,16 @@ export async function getComments(
         email: comment.replied_user.email,
         avatar_url: comment.replied_user.avatar_url,
         role: comment.replied_user.role
-      } : null,
-      reaction_summary: {
-        hasReactions: reactionCounts.length > 0,
-        userReaction: userReaction,
-        totalReactions: sortedReactionCounts.reduce((sum, r) => sum + r.count, 0),
-        all: sortedReactionCounts,
-        top: sortedReactionCounts.slice(0, topReactionsAmount),
-        total: reactionCounts.length,
-        remaining: reactionCounts.length - topReactionsAmount,
-      }
+      } : null
+      // reaction_summary: {
+      //   hasReactions: reactionCounts.length > 0,
+      //   userReaction: userReaction,
+      //   totalReactions: sortedReactionCounts.reduce((sum, r) => sum + r.count, 0),
+      //   all: sortedReactionCounts,
+      //   top: sortedReactionCounts.slice(0, topReactionsAmount),
+      //   total: reactionCounts.length,
+      //   remaining: reactionCounts.length - topReactionsAmount,
+      // }
     }
   })
 }

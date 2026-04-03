@@ -10,11 +10,11 @@ export type CommentData = {
   id: number
   content: string
   user_id: string
-  target_id: number
+  project_id: number
   target_type: string
   parent_id: number | null
   created_at: string
   author: Profile
   reply_profile: Profile | null
-  reaction_summary: ReactionSummary
+  // reaction_summary: ReactionSummary
 }

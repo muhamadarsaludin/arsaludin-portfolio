@@ -92,11 +92,11 @@ export default function CommentItem({ comment, onDeleteComment, onReplyComment }
           </div>
         </div>
       </div>
-      <ReactionGroup
+      {/* <ReactionGroup
         targetId={comment.id}
         targetType="comment"
         reactionSummary={comment.reaction_summary}
-      />
+      /> */}
     </div>
   )
 }
