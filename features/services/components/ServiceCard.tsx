@@ -1,16 +1,13 @@
 import clsx from "clsx"
 import React from "react"
-import MiracleTooltip from "@/components/miracle/Tooltip"
-import MiracleBadge from "@/components/miracle/Badge"
-import { skillIcons } from "@/features/shared/services/skills"
-import { Service } from "../../types/services"
 import FrontEndIllustration from "./illustrations/FrontEndIllustration"
 import BackEndIllustration from "./illustrations/BackEndIllustration"
 import UiUxIllustration from "./illustrations/UiUxIllustration"
 import AndroidIllustration from "./illustrations/AndroidIllustration"
 import PmIllustration from "./illustrations/PmIllustration"
 import DevOpsIllustration from "./illustrations/DevOpsIllustration"
-import SkillBadges from "@/features/shared/components/SkillBadges"
+import { Service } from "../types/service"
+import SkillBadges from "@/features/skills/components/SkillBadges"
 
 const illustrationsMap: Record<string, React.ReactNode> = {
   "front-end": <FrontEndIllustration />,
@@ -38,7 +35,7 @@ export default function ServiceCard({ service }: { service: Service }) {
           {service.name}
         </h3>
         <p className="text-secondary mb-4 text-sm leading-relaxed">{service.description}</p>
-        <SkillBadges skillSummary={service.skill_summary} className="mb-auto" />
+        <SkillBadges skills={service.skills} className="mb-auto" />
       </div>
     </div>
   )

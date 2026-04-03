@@ -99,6 +99,9 @@ body {
 .text-blue {
   @apply text-blue-600 dark:text-blue-400;
 }
+.text-red {
+  @apply text-red-600 dark:text-red-400;
+}
 
 /* Border */
 .border-primary {

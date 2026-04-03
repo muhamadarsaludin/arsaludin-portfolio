@@ -3,7 +3,7 @@
 import clsx from "clsx"
 import Image from "next/image"
 import { Project } from "../types/projects"
-import SkillBadges from "@/features/shared/components/SkillBadges"
+import SkillBadges from "@/features/skills/components/SkillBadges"
 import { Link } from "@/i18n/navigation"
 import ReactionGroup from "@/features/shared/components/reactions/ReactionGroup"
 import CommentGroup from "@/features/shared/components/comments/CommentGroup"
@@ -39,7 +39,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           {project.name}
         </h3>
         <p className="text-secondary mb-4 text-sm leading-relaxed">{project.description}</p>
-        <SkillBadges skillSummary={project.skill_summary} className="mb-auto" />
+        {/* <SkillBadges skillSummary={project.skill_summary} className="mb-auto" /> */}
       </div>
 
       {/* Footer */}
