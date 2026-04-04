@@ -5,8 +5,7 @@ import Image from "next/image"
 import { Project } from "../types/projects"
 import { Link } from "@/i18n/navigation"
 import SkillBadges from "@/features/skills/components/SkillBadges"
-// import ReactionGroup from "@/features/shared/components/reactions/ReactionGroup"
-// import CommentGroup from "@/features/shared/components/comments/CommentGroup"
+import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
@@ -47,12 +46,12 @@ export default function ProjectCard({ project }: { project: Project }) {
         className="bg-secondary border-primary flex items-center justify-between rounded-b-2xl border-t px-5 py-3 sm:px-6"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* <ReactionGroup
+        <ReactionGroup
           targetId={project.id}
           targetType="project"
           reactionSummary={project.reaction_summary}
         />
-        <CommentGroup
+        {/* <CommentGroup
           targetId={project.id}
           targetType="project"
           commentsCount={project.comments_count}

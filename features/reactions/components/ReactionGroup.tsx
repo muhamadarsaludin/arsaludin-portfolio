@@ -1,0 +1,58 @@
+"use client"
+
+import { useCallback } from "react"
+import { useRouter } from "@/i18n/navigation"
+import { getAllReactions, toggleReaction } from "../services/reactions"
+import { ReactionSummary, ReactionTargetType } from "../type/reactions"
+import ReactionsPreview from "./ReactionsPreview"
+import ReactionPicker from "./ReactionPicker"
+
+type ReactionGroupProps = {
+  targetId: string
+  targetType: ReactionTargetType
+  reactionSummary: ReactionSummary
+}
+
+export default function ReactionGroup({
+  targetId,
+  targetType,
+  reactionSummary,
+}: ReactionGroupProps) {
+  const router = useRouter()
+
+  const handleSelectReaction = useCallback(async (emoji: string) => {
+    try {
+      await toggleReaction({
+        targetId,
+        targetType,
+        emoji,
+      })
+      
+      router.refresh()
+    } catch (error) {
+      console.error("Failed to toggle reaction:", error)
+    }
+  }, [targetId, targetType, router])
+
+  const handleGetAllReactions = useCallback(async () => {
+    return await getAllReactions({
+      targetId,
+      targetType,
+    })
+  }, [targetId, targetType])
+
+  return (
+    <div className="flex items-center gap-1">
+      <ReactionsPreview 
+        reactionSummary={reactionSummary}  
+        onSelectReaction={handleSelectReaction} 
+        getAllReactions={handleGetAllReactions}
+      />
+      
+      <ReactionPicker 
+        reactionSummary={reactionSummary} 
+        onSelectReaction={handleSelectReaction} 
+      />
+    </div>
+  )
+}

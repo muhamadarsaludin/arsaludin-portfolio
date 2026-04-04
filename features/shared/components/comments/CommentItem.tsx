@@ -9,7 +9,7 @@ import { timeAgo } from "@/utils/time-ago"
 import { useLocale, useTranslations } from "next-intl"
 import { useCallback } from "react"
 import { LuUserRound } from "react-icons/lu"
-import ReactionGroup from "../reactions/ReactionGroup"
+import ReactionGroup from "../../../reactions/components/ReactionGroup"
 
 type CommentItemProps = {
   comment: CommentData

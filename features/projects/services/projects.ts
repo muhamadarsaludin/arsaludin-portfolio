@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { routing } from "@/i18n/routing"
 import type { Project, ProjectTranslation } from "../types/projects"
+import { MAX_TOP_REACTIONS } from "@/features/reactions/constant/reactions"
 
 type getProjectsParams = {
   locale: string
@@ -23,6 +24,8 @@ export async function getProjects({
   isAdminView = false,
 }: getProjectsParams ): Promise<Project[]> {
   const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
 
   // Define the selection columns.
   // Using ternary for isAdminView to prevent "false" string injection in the query.
@@ -71,7 +74,18 @@ export async function getProjects({
     .select(columns)
     .eq("project_translations.i18n.locale", locale)
     .order("order_index", { ascending: true })
-    .order("order_index", { referencedTable: "project_skills", ascending: true })
+    .order("order_index", { 
+      referencedTable: "project_skills", 
+      ascending: true 
+    })
+    .order("count", { 
+      referencedTable: "project_reaction_counts", 
+      ascending: false 
+    })
+
+  if (user) {
+    query = query.eq("reactions.user_id", user.id)
+  }
 
   if (isFeatured) {
     query = query.eq("is_featured", true)
@@ -97,10 +111,27 @@ export async function getProjects({
    * This simplifies the nested structure for easier consumption in UI components.
    */
   return data.map((project: any) => {
+    // Translations
     const t = project.project_translations?.[0] as ProjectTranslation | undefined
+
+    // Skills
     const skills = project.project_skills
       ?.map((ps: any) => ps.skills)
       .filter(Boolean) || []
+
+    //Comments 
+    const commentCount = project.comments?.[0]?.count ?? 0
+
+    // Reactions
+    const userReaction = project.reactions?.[0] ?? null
+    const totalReactions = project.project_reaction_counts?.reduce(
+      (acc: number, curr: any) => acc + (curr.count || 0), 
+      0
+    ) ?? 0
+    const topReactions = project.project_reaction_counts?.slice(0, MAX_TOP_REACTIONS) ?? []
+    const totalEmojis = project.project_reaction_counts?.length ?? 0
+    const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS);
+
 
     return {
       id: project.id,
@@ -124,11 +155,14 @@ export async function getProjects({
         content: t?.additional_info ?? null,
       } : null,
       skills: skills,
-      comment_count: project.comments?.[0]?.count ?? 0,
-
-      // Pass through reaction data
-      // reaction_counts: project.project_reaction_counts || [],
-      // user_reactions: project.reactions || []
+      comment_count: commentCount,
+      reaction_summary: {
+        userReaction,
+        totalReactions,
+        topReactions,
+        totalEmojis,
+        remainingEmojis
+      }
     } as Project
   })
 }

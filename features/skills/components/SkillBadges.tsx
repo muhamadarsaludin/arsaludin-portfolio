@@ -67,7 +67,7 @@ export default function SkillBadges({
           hoverContent
         >
           <div className="flex max-h-[250px] w-[180px] flex-col p-3">
-            <p className="mb-2 text-[10px] font-bold text-primary-inv uppercase tracking-widest opacity-50">
+            <p className="mb-2 text-[10px] font-bold uppercase">
               {t("title")}
             </p>
             <div className="flex flex-col gap-1 overflow-y-auto pr-1">

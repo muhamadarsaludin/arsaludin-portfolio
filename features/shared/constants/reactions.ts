@@ -1,2 +1,0 @@
-export const TOP_REACTIONS_AMOUNT = 3
-export const MAX_REACTIONS_AMOUNT = 10

@@ -25,9 +25,14 @@
       "title": "Tech Stack"
     },
     "reaction": {
+      "popover": {
+        "title": "All Reactions"
+      },
       "tooltip": {
-        "default": "Add reaction",
-        "auth": "Sign in to react"
+        "add": "Add reaction",
+        "edit": "Edit reaction",
+        "auth": "Sign in to react",
+        "seeAll": "See all reactions"
       }
     },
     "comment": {

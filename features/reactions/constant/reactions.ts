@@ -1,0 +1,1 @@
+export const MAX_TOP_REACTIONS = 3

@@ -5,7 +5,7 @@ interface LoaderProps {
   strokeWidth?: number
 }
 
-export default function Loader({ size = 24, strokeWidth = 8 }: LoaderProps) {
+export default function MiracleLoader({ size = 24, strokeWidth = 8 }: LoaderProps) {
   return (
     <div className="flex items-center justify-center">
       <style>{`

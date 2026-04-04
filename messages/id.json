@@ -25,9 +25,14 @@
       "title": "Teknologi"
     },
     "reaction": {
+      "popover": {
+        "title": "Semua Reaksi"
+      },
       "tooltip": {
-        "default": "Add reaction",
-        "auth": "Sign in to react"
+        "add": "Tambah reaksi",
+        "edit": "Ubah reaksi",
+        "auth": "Masuk untuk bereaksi",
+        "seeAll": "Lihat semua reaksi"
       }
     },
     "comment": {

@@ -1,3 +1,4 @@
+import { ReactionSummary } from "@/features/reactions/type/reactions"
 import { Skill } from "@/features/skills/types/skills"
 
 export type Project = {
@@ -20,9 +21,9 @@ export type Project = {
     label: string | null
     content: string | null
   } | null
-
   skills: Skill[]
   comment_count: number
+  reaction_summary: ReactionSummary
 }
 
 export type ProjectTranslation = {
