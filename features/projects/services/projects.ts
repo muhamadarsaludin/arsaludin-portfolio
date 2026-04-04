@@ -1,149 +1,129 @@
 import { createClient } from "@/lib/supabase/server"
 import { routing } from "@/i18n/routing"
-import { Skill } from "@/features/shared/types/skills"
-import type { Project } from "../types/projects"
-import { TOP_SKILLS_AMOUNT } from "@/features/shared/constants/skills"
-import { TOP_REACTIONS_AMOUNT } from "@/features/shared/constants/reactions"
-import { dateFormatter } from "@/utils/date-formater"
-import { Reaction, ReactionCount } from "@/features/shared/types/reactions"
+import type { Project, ProjectTranslation } from "../types/projects"
 
-type ProjectTranslation = {
-  title: string | null
-  description: string | null
-  content: string | null
-  additional_info: string | null
-  additional_info_label: string | null
-  i18n: {
-    locale: string
-  }[]
-}
-
-type ProjectSkills = {
-  skills: Skill
-}[]
-
+/**
+ * Fetches projects with localized content, associated skills, reactions, and comment counts.
+ * * @param locale - The language code for localization (defaults to routing.defaultLocale).
+ * @param isFeatured - If `true`, filters the results to only include featured projects.
+ * @param isAdminView - If `true`, bypasses visibility filters and includes administrative 
+ * metadata (user_id, timestamps).
+ * @returns A promise that resolves to an array of formatted Project objects.
+ * @throws Will throw an error if the Supabase query fails.
+ */
 export async function getProjects(
   locale: string = routing.defaultLocale,
   isFeatured: boolean = false,
-  limit: number = 12,
-  page: number = 1,
-  topSkillsAmount: number = TOP_SKILLS_AMOUNT,
-  topReactionsAmount: number = TOP_REACTIONS_AMOUNT
+  isAdminView: boolean = false,
 ): Promise<Project[]> {
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  const from = (page - 1) * limit
-  const to = from + limit - 1
+  // Define the selection columns.
+  // Using ternary for isAdminView to prevent "false" string injection in the query.
+  const columns = `
+    id,
+    slug,
+    thumbnail,
+    github_url,
+    url,
+    is_show,
+    is_featured,
+    order_index,
+    ${isAdminView ? "user_id, created_at, updated_at," : ""}
+    project_translations!inner (
+      name,
+      description,
+      content,
+      additional_info,
+      additional_info_label,
+      i18n!inner (
+        locale
+      )
+    ),
+    project_skills (
+      is_show,
+      order_index,
+      skills ( 
+        name,
+        icon,
+        link
+      )
+    ),
+    comments(count),
+    project_reaction_counts(
+      emoji,
+      count
+    ),
+    reactions(
+      emoji,
+      user_id
+    ) 
+  `
 
   let query = supabase
     .from("projects")
-    .select(
-      `
-      id,
-      name,
-      slug,
-      thumbnail,
-      github_url,
-      url,
-      order_index,
-      created_at,
-      updated_at,
-      project_translations!inner (
-        description,
-        content,
-        additional_info,
-        additional_info_label,
-        i18n!inner (
-          locale
-        )
-      ),
-      skill_maps (
-        skills ( 
-          name,
-          icon,
-          color
-        )
-      ),
-      comments(count),
-      project_reaction_counts(
-        emoji,
-        count
-      ),
-      reactions(
-        emoji,
-        user_id
-      ) 
-    `
-    )
+    .select(columns)
     .eq("project_translations.i18n.locale", locale)
-    .eq("skill_maps.is_show", true)
-    .eq("skill_maps.target_type", "project")
-    .eq("comments.target_type", "project")
-    .eq("reactions.target_type", "project")
     .order("order_index", { ascending: true })
-    .order("order_index", { referencedTable: "skill_maps", ascending: true })
+    .order("order_index", { referencedTable: "project_skills", ascending: true })
 
   if (isFeatured) {
-    query.eq("is_featured", true)
+    query = query.eq("is_featured", true)
   }
-  query = query.range(from, to)
+
+  // Apply visibility filters for non-admin views
+  if (!isAdminView) {
+    query = query
+      .eq("is_show", true)
+      .eq("project_skills.is_show", true)
+  }
 
   const { data, error } = await query
 
   if (error) {
-    console.error("Supabase Error:", error)
+    console.error("Error fetching projects:", error)
     throw error
   }
+  
   if (!data) return []
 
-  return data.map((project) => {
+  /**
+   * Map and flatten the database response to match the Project interface.
+   * This simplifies the nested structure for easier consumption in UI components.
+   */
+  return data.map((project: any) => {
     const t = project.project_translations?.[0] as ProjectTranslation | undefined
-    const commentsCount = (project.comments as any)?.[0]?.count ?? 0
-    const skills =
-      (project.skill_maps as unknown as ProjectSkills)?.map((p) => p.skills).filter(Boolean) ?? []
-    const userReaction = user
-      ? ((project.reactions as Reaction[])?.find((r) => r.user_id === user.id) ?? null)
-      : null
-    const reactionCounts = (project.project_reaction_counts as ReactionCount[]) ?? []
-    const sortedReactionCounts = [...reactionCounts].sort((a, b) => b.count - a.count)
+    const skills = project.project_skills
+      ?.map((ps: any) => ps.skills)
+      .filter(Boolean) || []
 
     return {
       id: project.id,
-      name: project.name,
-      description: t?.description ?? "",
       slug: project.slug,
+      name: t?.name ?? "",
+      description: t?.description ?? "",
       thumbnail: project.thumbnail,
-      github_url: project.github_url,
-      url: project.url,
-      content: t?.content ?? "",
-      additional_info: {
-        label: t?.additional_info ?? "",
-        content: t?.additional_info ?? "",
-      },
-      comments_count: commentsCount,
-      skill_summary: {
-        hasSkills: skills.length > 0,
-        all: skills,
-        top: skills.slice(0, topSkillsAmount),
-        total: skills.length,
-        remaining: skills.length - topSkillsAmount,
-      },
-      reaction_summary: {
-        hasReactions: reactionCounts.length > 0,
-        userReaction: userReaction,
-        totalReactions: sortedReactionCounts.reduce((sum, r) => sum + r.count, 0),
-        all: sortedReactionCounts,
-        top: sortedReactionCounts.slice(0, topReactionsAmount),
-        total: reactionCounts.length,
-        remaining: reactionCounts.length - topReactionsAmount,
-      },
+      is_show: project.is_show,
+      is_featured: project.is_featured,
       order_index: project.order_index,
-      created_at: project.created_at,
-      updated_at: project.updated_at,
-    }
+
+      content: t?.content ?? null,
+      github_url: project.github_url ?? null,
+      url: project.url ?? null,
+      user_id: project.user_id ?? null,
+      created_at: project.created_at ?? null,
+      updated_at: project.updated_at ?? null,
+      
+      additional_info: (t?.additional_info || t?.additional_info_label) ? {
+        label: t?.additional_info_label ?? null,
+        content: t?.additional_info ?? null,
+      } : null,
+      skills: skills,
+      comment_count: project.comments?.[0]?.count ?? 0,
+
+      // Pass through reaction data
+      // reaction_counts: project.project_reaction_counts || [],
+      // user_reactions: project.reactions || []
+    } as Project
   })
 }

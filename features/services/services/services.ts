@@ -4,14 +4,14 @@ import { createClient } from "@/lib/supabase/server";
 
 /**
  * Fetches services from the database with localized content.
- * * @param locale - The language code to filter translations (e.g., 'en', 'id'). Defaults to the application's default locale.
- * @param showAll - Flag to determine if hidden services should be included. Set to `true` for admin dashboards, `false` for public pages.
+ * @param locale - The language code to filter translations (e.g., 'en', 'id'). Defaults to the application's default locale.
+ * @param isAdminView - If `true`, bypasses visibility filters and includes additional metadata such as user_id and timestamps.
  * @returns A promise that resolves to an array of formatted Service objects.
  * @throws Will throw an error if the Supabase query fails.
  */
 export async function getServices(
   locale: string = routing.defaultLocale,
-  showAll: boolean = false
+  isAdminView: boolean = false
 ): Promise<Service[]> {
   const supabase = await createClient();
 
@@ -21,7 +21,7 @@ export async function getServices(
     level,
     order_index,
     is_show,
-    ${showAll ? "user_id, created_at, updated_at," : ""}
+    ${isAdminView ? "user_id, created_at, updated_at," : ""}
     service_translations!inner (
       name,
       description,
@@ -48,7 +48,7 @@ export async function getServices(
     .order("order_index", { referencedTable: "service_skills", ascending: true });
 
   // Apply visibility filter for public-facing pages (Landing Page)
-  if (!showAll) {
+  if (!isAdminView) {
     query = query
       .eq("is_show", true)
       .eq("service_skills.is_show", true);
@@ -60,7 +60,7 @@ export async function getServices(
   if (!data) return [];
 
   /**
-   * Map and flatten the database response to match the Service interface.
+   * Map and flatten the database response to match the Service type.
    * This simplifies the data structure for easier consumption in UI components.
    */
   return data.map((service: any) => {

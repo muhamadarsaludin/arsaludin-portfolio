@@ -7,7 +7,7 @@ export default function HomePage() {
     <>
       <ProfileSection className="pb-16" />
       <SkillsAndServicesSection className="pb-16" />
-      {/* <ProjectSection className="pb-16" /> */}
+      <ProjectSection className="pb-16" />
     </>
   )
 }

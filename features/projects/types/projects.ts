@@ -1,23 +1,37 @@
-import { ReactionSummary } from "@/features/shared/types/reactions"
-import { SkillSummary } from "@/features/shared/types/skills"
+import { Skill } from "@/features/skills/types/skills"
 
 export type Project = {
-  id: number
+  id: string
+  slug: string
   name: string
   description: string
-  slug: string
   thumbnail: string
+  is_show: boolean
+  is_featured: boolean
+  order_index: number
+
+  content: string | null
   github_url: string | null
   url: string | null
-  content: string
+  user_id: string | null
+  created_at: string | null
+  updated_at: string | null
   additional_info: {
-    label: string
-    content: string
+    label: string | null
+    content: string | null
+  } | null
+
+  skills: Skill[]
+  comment_count: number
+}
+
+export type ProjectTranslation = {
+  name: string,
+  description: string,
+  content: string | null,
+  additional_info: string | null,
+  additional_info_label: string | null,
+  i18n: {
+    locale: string
   }
-  comments_count: number
-  reaction_summary: ReactionSummary
-  skill_summary: SkillSummary
-  order_index: number
-  created_at: string
-  updated_at: string
 }

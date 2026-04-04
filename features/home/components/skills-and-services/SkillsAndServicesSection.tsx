@@ -65,7 +65,7 @@ async function ServiceList({ locale }: { locale: string }) {
 function ServiceListSkeleton() {
   return (
     <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
-      {[...Array(6)].map((_, i) => (
+      {Array.from({ length: 6 }).map((_, i) => (
         <ServiceCardSkeleton key={i} />
       ))}
     </div>
