@@ -35,7 +35,10 @@ export default function ProjectSection({ className }: { className?: string }) {
  */
 async function FeaturedProjectList({ locale }: { locale: string }) {
   try {
-    const featuredProjects = await getProjects(locale, true, false)
+    const featuredProjects = await getProjects({
+      locale,
+      isFeatured: true
+    })
     // Handle Empty State (No records in Database)
     if (!featuredProjects || featuredProjects.length === 0) {
       return (

@@ -29,7 +29,7 @@ export default function SkillsAndServicesSection({ className }: { className?: st
  */
 async function ServiceList({ locale }: { locale: string }) {
   try {
-    const services = await getServices(locale)
+    const services = await getServices({locale})
     // Handle Empty State (No records in Database)
     if (!services || services.length === 0) {
       return (

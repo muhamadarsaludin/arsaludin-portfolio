@@ -2,6 +2,11 @@ import { routing } from "@/i18n/routing";
 import { Service, ServiceTranslation } from "../types/service";
 import { createClient } from "@/lib/supabase/server";
 
+type getServicesParams = {
+  locale: string;
+  isAdminView?: boolean;
+};
+
 /**
  * Fetches services from the database with localized content.
  * @param locale - The language code to filter translations (e.g., 'en', 'id'). Defaults to the application's default locale.
@@ -9,10 +14,10 @@ import { createClient } from "@/lib/supabase/server";
  * @returns A promise that resolves to an array of formatted Service objects.
  * @throws Will throw an error if the Supabase query fails.
  */
-export async function getServices(
-  locale: string = routing.defaultLocale,
-  isAdminView: boolean = false
-): Promise<Service[]> {
+export async function getServices({
+  locale,
+  isAdminView = false,
+}: getServicesParams): Promise<Service[]> {
   const supabase = await createClient();
 
   const columns = `
@@ -56,8 +61,11 @@ export async function getServices(
 
   const { data, error } = await query;
 
-  if (error) throw error;
-  if (!data) return [];
+  if (error) {
+    console.error("Error fetching services:", error)
+    throw error
+  }
+  if (!data) return []
 
   /**
    * Map and flatten the database response to match the Service type.

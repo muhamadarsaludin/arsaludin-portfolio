@@ -2,6 +2,12 @@ import { createClient } from "@/lib/supabase/server"
 import { routing } from "@/i18n/routing"
 import type { Project, ProjectTranslation } from "../types/projects"
 
+type getProjectsParams = {
+  locale: string
+  isFeatured?: boolean
+  isAdminView?: boolean
+}
+
 /**
  * Fetches projects with localized content, associated skills, reactions, and comment counts.
  * * @param locale - The language code for localization (defaults to routing.defaultLocale).
@@ -11,11 +17,11 @@ import type { Project, ProjectTranslation } from "../types/projects"
  * @returns A promise that resolves to an array of formatted Project objects.
  * @throws Will throw an error if the Supabase query fails.
  */
-export async function getProjects(
-  locale: string = routing.defaultLocale,
-  isFeatured: boolean = false,
-  isAdminView: boolean = false,
-): Promise<Project[]> {
+export async function getProjects({
+  locale,
+  isFeatured = false,
+  isAdminView = false,
+}: getProjectsParams ): Promise<Project[]> {
   const supabase = await createClient()
 
   // Define the selection columns.
@@ -84,7 +90,6 @@ export async function getProjects(
     console.error("Error fetching projects:", error)
     throw error
   }
-  
   if (!data) return []
 
   /**
