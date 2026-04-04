@@ -1,4 +1,4 @@
-import { ReactionSummary } from "@/features/reactions/type/reactions"
+import { ReactionSummary } from "@/features/reactions/types/reactions"
 import { Skill } from "@/features/skills/types/skills"
 
 export type Project = {
