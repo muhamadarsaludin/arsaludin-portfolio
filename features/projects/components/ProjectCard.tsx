@@ -2,7 +2,7 @@
 
 import clsx from "clsx"
 import Image from "next/image"
-import type { Project } from "../types/projects"
+import type { Project } from "../types/projects.types"
 import { Link } from "@/i18n/navigation"
 import SkillBadges from "@/features/skills/components/SkillBadges"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"

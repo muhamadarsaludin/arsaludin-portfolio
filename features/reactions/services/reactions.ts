@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
-import type { ReactionCount, ReactionTargetType } from "../types/reactions"
+import type { ReactionCount, ReactionTargetType } from "../types/reactions.types"
 
 type ToggleReactionParams = {
   targetId: string

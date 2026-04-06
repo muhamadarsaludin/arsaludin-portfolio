@@ -1,5 +1,5 @@
 import CommentItem from "./CommentItem"
-import type { CommentData, CommentTargetType } from "../types/comments"
+import type { CommentData, CommentTargetType } from "../types/comments.types"
 import { useTranslations } from "next-intl"
 
 type CommentListProps = {

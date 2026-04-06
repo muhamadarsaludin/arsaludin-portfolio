@@ -1,12 +1,12 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import type { CommentData, PaginatedComments } from "../types/comments"
-import { REPLIES_PAGE_SIZE } from "../constants/comments"
+import type { CommentData, PaginatedComments } from "../types/comments.types"
+import { REPLIES_PAGE_SIZE } from "../constants/comments.constants"
 import type { AddCommentParams } from "./comments"
 import { addComment, deleteComment } from "./comments"
-import type { Profile } from "@/features/profile/types/profiles"
-import { Cursor } from "@/features/shared/types"
+import type { Profile } from "@/features/profile/types/profiles.types"
+import { Cursor } from "@/features/shared/types/index.types"
 
 // ====== TYPES ======
 type GetRepliesParams = {

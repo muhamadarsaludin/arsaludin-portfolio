@@ -8,8 +8,8 @@ import MiracleButton from "@/components/miracle/Button"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import { useTranslations } from "next-intl"
 import { useAuth } from "@/providers/AuthProvider"
-import { signInWithGoogle } from "@/features/auth/services/authService"
-import type { ReactionSummary, ReactionCount } from "../types/reactions"
+import { signInWithGoogle } from "@/features/auth/services/auth"
+import type { ReactionSummary, ReactionCount } from "../types/reactions.types"
 import { LuEye } from "react-icons/lu"
 
 type ReactionsPreviewProps = {

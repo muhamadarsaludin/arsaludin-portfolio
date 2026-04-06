@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { COMMENTS_PAGE_SIZE } from "../constants/comments"
-import type { CommentTargetType } from "../types/comments"
+import { COMMENTS_PAGE_SIZE } from "../constants/comments.constants"
+import type { CommentTargetType } from "../types/comments.types"
 import { getComments } from "../services/comments"
-import type { Cursor } from "@/features/shared/types"
+import type { Cursor } from "@/features/shared/types/index.types"
 
 type UseCommentsParams = {
   targetId: string

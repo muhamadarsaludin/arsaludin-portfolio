@@ -2,9 +2,9 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
-import type { CommentData, CommentTargetType, PaginatedComments } from "../types/comments"
-import { COMMENTS_PAGE_SIZE } from "../constants/comments"
-import type { Cursor } from "@/features/shared/types"
+import type { CommentData, CommentTargetType, PaginatedComments } from "../types/comments.types"
+import { COMMENTS_PAGE_SIZE } from "../constants/comments.constants"
+import type { Cursor } from "@/features/shared/types/index.types"
 
 // ====== TYPES ======
 type GetCommentsParams = {

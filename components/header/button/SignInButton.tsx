@@ -1,5 +1,5 @@
 import MiracleButton from "@/components/miracle/Button"
-import { signInWithGoogle } from "@/features/auth/services/authService"
+import { signInWithGoogle } from "@/features/auth/services/auth"
 import { useTranslations } from "next-intl"
 
 export default function SignInButton() {

@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import type { User } from "@supabase/supabase-js"
-import type { Profile } from "@/features/profile/types/profiles"
+import type { Profile } from "@/features/profile/types/profiles.types"
 import { getProfile } from "@/features/profile/services/profiles"
 
 type AuthContextType = {

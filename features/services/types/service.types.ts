@@ -1,4 +1,4 @@
-import type { Skill } from "@/features/skills/types/skills"
+import type { Skill } from "@/features/skills/types/skills.types"
 
 export type Service = {
   id: string

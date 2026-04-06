@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { COMMENTS_PAGE_SIZE } from "../constants/comments"
-import type { Cursor } from "@/features/shared/types"
+import { COMMENTS_PAGE_SIZE } from "../constants/comments.constants"
+import type { Cursor } from "@/features/shared/types/index.types"
 import { getReplies } from "../services/replies"
 
 type UseRepliesParams = {

@@ -1,5 +1,5 @@
-import type { Profile } from "@/features/profile/types/profiles"
-import type { Cursor } from "@/features/shared/types"
+import type { Profile } from "@/features/profile/types/profiles.types"
+import type { Cursor } from "@/features/shared/types/index.types"
 
 // ================== INFORMATION =================
 // Note: Named 'CommentData' instead of 'Comment'

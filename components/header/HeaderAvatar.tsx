@@ -1,7 +1,7 @@
 "use client"
 
 import MiracleTooltip from "../miracle/Tooltip"
-import { signOut } from "@/features/auth/services/authService"
+import { signOut } from "@/features/auth/services/auth"
 import { LuLogOut, LuUserRound } from "react-icons/lu"
 import { useTranslations } from "next-intl"
 import Image from "next/image"

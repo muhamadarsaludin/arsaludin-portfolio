@@ -1,5 +1,5 @@
 import { routing } from "@/i18n/routing"
-import type { Service, ServiceTranslation } from "../types/service"
+import type { Service, ServiceTranslation } from "../types/service.types"
 import { createClient } from "@/lib/supabase/server"
 
 type getServicesParams = {

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import CommentItem from "./CommentItem"
-import type { CommentData, CommentTargetType } from "../types/comments"
+import type { CommentData, CommentTargetType } from "../types/comments.types"
 import { LuChevronDown, LuChevronUp } from "react-icons/lu"
 import { useReplies } from "../hooks/useReplies"
 import MiracleLoader from "@/components/miracle/Loader"

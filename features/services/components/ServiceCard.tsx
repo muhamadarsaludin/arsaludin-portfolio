@@ -6,7 +6,7 @@ import UiUxIllustration from "./illustrations/UiUxIllustration"
 import AndroidIllustration from "./illustrations/AndroidIllustration"
 import PmIllustration from "./illustrations/PmIllustration"
 import DevOpsIllustration from "./illustrations/DevOpsIllustration"
-import type { Service } from "../types/service"
+import type { Service } from "../types/service.types"
 import SkillBadges from "@/features/skills/components/SkillBadges"
 
 const illustrationsMap: Record<string, React.ReactNode> = {

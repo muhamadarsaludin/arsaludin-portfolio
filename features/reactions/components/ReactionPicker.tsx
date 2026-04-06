@@ -9,12 +9,12 @@ import clsx from "clsx"
 
 import { useAuth } from "@/providers/AuthProvider"
 import { useTheme } from "@wrksz/themes/client"
-import { signInWithGoogle } from "@/features/auth/services/authService"
+import { signInWithGoogle } from "@/features/auth/services/auth"
 
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import MiraclePopover from "@/components/miracle/Popover"
 import MiracleLoader from "@/components/miracle/Loader"
-import type { ReactionSummary } from "../types/reactions"
+import type { ReactionSummary } from "../types/reactions.types"
 
 // Dynamically import EmojiPicker to improve initial bundle size and performance
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), {
