@@ -49,13 +49,12 @@ export default function ReplyList({
           className="flex items-center gap-2 text-xs font-semibold text-blue cursor-pointer w-fit"
         >
           <div className="h-[1px] w-6 bg-blue" />
-          {/* Pakai pluralization logic */}
           {t("showCount", { count: repliesCount })}
           <LuChevronDown className="h-3 w-3" />
         </button>
       )}
 
-      {/* 2. LOADING AWAL */}
+      {/* 2. LOADING */}
       {isOpen && isLoading && allReplies.length === 0 && (
         <div className="flex items-center gap-2 py-2 text-xs text-secondary">
           <MiracleLoader size={14} />
@@ -81,7 +80,6 @@ export default function ReplyList({
       {/* 4. FOOTER CONTROLS */}
       {isOpen && (
         <div className="flex flex-col gap-3">
-          {/* Tombol Muat Lebih Banyak */}
           {hasNextPage && (
             <button
               onClick={() => fetchNextPage()}
@@ -98,7 +96,6 @@ export default function ReplyList({
             </button>
           )}
 
-          {/* Tombol Sembunyikan */}
           <button
             onClick={() => setIsOpen(false)}
             className="flex items-center gap-2 text-xs font-semibold text-blue cursor-pointer w-fit"

@@ -9,6 +9,13 @@ type UseCommentMutationParams = {
   targetType: string
 }
 
+/**
+ * Custom hook to handle top-level comment mutations (add and delete).
+ * Implements high-performance Optimistic Updates by targeting specific cache pages
+ * and minimizing unnecessary re-renders.
+ * @param targetId - The ID of the parent entity.
+ * @param targetType - The category used for query key mapping.
+ */
 export function useCommentMutation({
   targetId, 
   targetType
@@ -17,6 +24,10 @@ export function useCommentMutation({
   const queryKey = ["comments", targetType, targetId]
   const { user, profile } = useAuth()
 
+  /**
+   * Mutation to create a new top-level comment.
+   * Optimistically prepends the new comment to the first page of the cache.
+   */
   const add = useMutation({
     mutationFn: addComment,
     onMutate: async (variables) => {
@@ -57,6 +68,10 @@ export function useCommentMutation({
     onSettled: () => queryClient.invalidateQueries({ queryKey })
   })
 
+  /**
+   * Mutation to delete a comment.
+   * Optimistically removes the comment using a short-circuit search to save CPU.
+   */
   const remove = useMutation({
     mutationFn: deleteComment,
     onMutate: async (comment) => {

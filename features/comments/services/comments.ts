@@ -5,14 +5,36 @@ import { revalidatePath } from "next/cache"
 import type { CommentData, CommentTargetType, PaginatedComments } from "../types/comments"
 import { COMMENTS_PAGE_SIZE } from "../constants/comments"
 import type { Cursor } from "@/features/shared/types"
-import { Profile } from "@/features/profile/types/profiles"
 
+// ====== TYPES ======
 type GetCommentsParams = {
   targetId: string
   targetType: CommentTargetType
   cursor?: Cursor
   pageSize?: number
 }
+
+export type AddCommentParams = {
+  targetId: string
+  targetType: string
+  content: string
+  parentId: string | null
+  recipientId: string | null
+  replyToId: string | null
+}
+
+
+// ====== SERVICES ======
+
+/**
+ * Fetches a paginated list of top-level comments for a specific target entity.
+ * @param targetId - The unique ID of the target entity (e.g., Post ID).
+ * @param targetType - The category of the target, used to dynamically build the database query.
+ * @param cursor - Pagination metadata (createdAt & id) used for cursor-based fetching.
+ * @param pageSize - Number of items to retrieve. Defaults to COMMENTS_PAGE_SIZE.
+ * @returns A promise that resolves to a PaginatedComments object containing the data and pagination state.
+ */
+
 export async function getComments({
   targetId, 
   targetType,
@@ -100,14 +122,16 @@ export async function getComments({
   }
 }
 
-export type AddCommentParams = {
-  targetId: string
-  targetType: string
-  content: string
-  parentId: string | null
-  recipientId: string | null
-  replyToId: string | null
-}
+/**
+ * Creates a new comment or reply.
+ * @param targetId - The entity ID to associate the comment with.
+ * @param targetType - The type of target entity (determines the table column).
+ * @param content - The textual content of the comment.
+ * @param parentId - The ID of the parent comment if this is a reply.
+ * @param recipientId - The user receiving the reply.
+ * @param replyToId - The specific comment ID being responded to.
+ * @throws {Error} If the user is not authenticated.
+ */
 export async function addComment({
   targetId, 
   targetType,
@@ -141,6 +165,11 @@ export async function addComment({
   revalidatePath("/", "layout")
 }
 
+/**
+ * Deletes a specific comment after verifying ownership or administrative privileges.
+ * @param commentId - The unique identifier of the comment to delete.
+ * @throws {Error} If the user is unauthorized or the comment does not exist.
+ */
 export async function deleteComment({commentId}: {commentId: string}) {
   const supabase = await createClient()
   
@@ -173,6 +202,11 @@ export async function deleteComment({commentId}: {commentId: string}) {
   revalidatePath("/", "layout")
 }
 
+/**
+ * Retrieves a single comment record by its ID.
+ * * @param commentId - The ID of the comment to retrieve.
+ * @returns The raw comment data from the database.
+ */
 export async function getComment({commentId}: {commentId: string}) {
   const supabase = await createClient()
 

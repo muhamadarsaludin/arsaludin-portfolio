@@ -1,6 +1,5 @@
 import type { InfiniteData} from "@tanstack/react-query"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { addComment, deleteComment } from "../services/comments"
 import type { CommentData, PaginatedComments } from "../types/comments"
 import { useAuth } from "@/providers/AuthProvider"
 import { addReply, deleteReply } from "../services/replies"
@@ -10,6 +9,12 @@ type UseReplyMutationParams = {
   targetType: string
 }
 
+/**
+ * Custom hook to handle reply mutations (add and delete) with Optimistic Updates.
+ * Manages cache synchronization between the specific reply thread and the main comment list.
+ * @param targetId - The ID of the parent entity.
+ * @param targetType - The category of the parent entity for query key mapping.
+ */
 export function useReplyMutation({
   targetId,
   targetType
@@ -18,6 +23,37 @@ export function useReplyMutation({
   const mainCommentsKey = ["comments", targetType, targetId]
   const { user, profile } = useAuth()
 
+  /**
+   * Helper to update infinite query pages efficiently.
+   * Uses reference equality to skip re-renders for pages that haven't changed.
+   */
+  const updateCachePages = (
+    old: InfiniteData<PaginatedComments> | undefined,
+    parentId: string,
+    updateFn: (data: CommentData[]) => CommentData[]
+  ) => {
+    if (!old) return old
+    return {
+      ...old,
+      pages: old.pages.map((page) => {
+        // MEMORY OPTIMIZATION: 
+        // If parentId is not in this page, return the original page reference.
+        // This prevents unnecessary object creation and memory allocation.
+        const hasTarget = page.data.some(c => c.id === parentId)
+        if (!hasTarget && page.data.length > 0) return page 
+
+        return {
+          ...page,
+          data: updateFn(page.data)
+        }
+      })
+    }
+  }
+
+  /**
+   * Mutation to add a new reply.
+   * Performs an optimistic update on both the specific reply thread and the parent comment's reply count.
+   */
   const add = useMutation({
     mutationFn: addReply,
     onMutate: async (variables) => {
@@ -44,7 +80,6 @@ export function useReplyMutation({
         updated_at: new Date().toISOString()
       }
       
-      // Update Cache Replies
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
         if (!old) return old
         return {
@@ -55,7 +90,6 @@ export function useReplyMutation({
         }
       })
 
-      // Update Count di Cache Utama
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey, (old) => {
         if (!old) return old
         return {
@@ -79,7 +113,6 @@ export function useReplyMutation({
     },
     onSettled: async (_data, _error, variables) => {
       const pId = variables.parentId
-      // Gunakan await agar transisi optimistic ke server data mulus
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["replies", pId] }),
         queryClient.invalidateQueries({ queryKey: mainCommentsKey })
@@ -87,6 +120,10 @@ export function useReplyMutation({
     }
   })
 
+  /**
+   * Mutation to delete a reply.
+   * Optimistically removes the reply from the thread and decrements the parent's reply count.
+   */
   const remove = useMutation({
     mutationFn: deleteReply,
     onMutate: async (variables) => {

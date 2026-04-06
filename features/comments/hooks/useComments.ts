@@ -11,6 +11,15 @@ type UseCommentsParams = {
   enabled?: boolean
 }
 
+/**
+ * A custom hook to fetch and manage infinite scrolling for top-level comments.
+ * Built on top of TanStack Query's useInfiniteQuery for robust cache and pagination management.
+ * @param targetId - The specific ID of the entity whose comments are being retrieved.
+ * @param targetType - Defines the relationship type (e.g., 'posts', 'videos') to target the correct DB column.
+ * @param pageSize - Limits the number of comments returned in a single fetch.
+ * @param enabled - Conditional flag to control the query execution (automatically disabled if targetId is falsy).
+ * @returns An infinite query object containing data pages, fetch status, and pagination helpers.
+ */
 export function useComments({
   targetId,
   targetType,

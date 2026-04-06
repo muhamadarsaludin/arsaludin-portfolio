@@ -3,11 +3,35 @@
 import { createClient } from "@/lib/supabase/server"
 import type { CommentData, PaginatedComments } from "../types/comments"
 import { REPLIES_PAGE_SIZE } from "../constants/comments"
-import type { GetRepliesParams } from "../types/replies"
 import type { AddCommentParams} from "./comments"
 import { addComment, deleteComment } from "./comments"
 import type { Profile } from "@/features/profile/types/profiles"
+import { Cursor } from "@/features/shared/types"
 
+// ====== TYPES ======
+type GetRepliesParams = {
+  parentId: string
+  cursor?: Cursor
+  pageSize?: number
+}
+
+type DeleteReplyParams = {
+  commentId: string
+  parentId: string
+}
+
+type AddReplyParams = AddCommentParams & {
+  optimisticRecipient: Profile 
+}
+
+// ====== SERVICES ======
+
+/**
+ * Fetches a paginated list of replies for a specific parent comment.
+ * @param parentId - The unique identifier of the parent comment.
+ * @param cursor - Pagination metadata (createdAt & id) for offset-based fetching.
+ * @param pageSize - The number of replies to fetch. Defaults to REPLIES_PAGE_SIZE.
+ */
 export async function getReplies({ 
   parentId, 
   cursor,
@@ -90,10 +114,16 @@ export async function getReplies({
   }
 }
 
-
-type AddReplyParams = AddCommentParams & {
-  optimisticRecipient: Profile 
-}
+/**
+ * Creates a new reply for a specific comment.
+ * @param params.targetId - The ID of the main entity (e.g., project_id, post_id).
+ * @param params.targetType - The type of the main entity (e.g., 'project', 'post').
+ * @param params.content - The actual text of the reply.
+ * @param params.parentId - The ID of the top-level comment being replied to.
+ * @param params.recipientId - (Optional) The ID of the user being replied to.
+ * @param params.reply_to_id - (Optional) The specific reply ID if replying to a sub-comment.
+ * @param params.optimisticRecipient - Profile data used strictly for UI optimistic updates.
+ */
 export async function addReply({
   targetId, 
   targetType,
@@ -113,10 +143,12 @@ export async function addReply({
   })
 }
 
-type DeleteReplyParams = {
-  commentId: string
-  parentId: string
-}
+/**
+ * Deletes a specific reply and triggers cache invalidation.
+ * @param params.commentId - The unique UUID of the reply to be removed from the database.
+ * @param params.parentId - The ID of the parent comment. Essential for identifying 
+ * which reply thread needs to be refetched or updated in the UI cache.
+ */
 export async function deleteReply({
   commentId, 
   parentId // FOR TANSTACK QUERY CACHE KEY ONLY
