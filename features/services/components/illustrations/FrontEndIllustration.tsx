@@ -9,8 +9,7 @@ export default function FrontEndIllustration() {
 
   return (
     <BrowserIllustration>
-      <div className="relative flex h-full items-start text-primary">
-        
+      <div className="text-primary relative flex h-full items-start">
         {/* Sidebar */}
         <div className="border-primary bg-secondary relative z-10 flex h-full w-fit flex-col justify-between gap-1 border-r p-1">
           <div className="flex flex-col gap-2">
@@ -26,12 +25,11 @@ export default function FrontEndIllustration() {
               ))}
             </div>
           </div>
-          <div className="bg-neutral-high h-2 w-2 rounded-full mx-auto" />
+          <div className="bg-neutral-high mx-auto h-2 w-2 rounded-full" />
         </div>
 
         {/* Main Content */}
         <div className="relative flex flex-1 flex-col gap-2 overflow-hidden">
-          
           {/* Top Navbar */}
           <div className="border-primary bg-secondary absolute top-0 right-0 left-0 z-10 flex w-full items-center justify-between border-b p-1">
             <div className="bg-neutral-high h-2 w-2 rounded-xs" />
@@ -40,10 +38,7 @@ export default function FrontEndIllustration() {
               {Array.from({ length: 5 }).map((_, i) => (
                 <div
                   key={`nb-${i}`}
-                  className={clsx(
-                    "h-0.5 w-3 rounded-full",
-                    i === 0 ? "bg-blue" : "bg-neutral-med"
-                  )}
+                  className={clsx("h-0.5 w-3 rounded-full", i === 0 ? "bg-blue" : "bg-neutral-med")}
                 />
               ))}
             </div>
@@ -65,7 +60,12 @@ export default function FrontEndIllustration() {
             <div className="grid grid-cols-3 gap-1.5">
               {Array.from({ length: 3 }).map((_, i) => (
                 <div key={`gr-${i}`} className="bg-secondary relative h-6 overflow-hidden rounded">
-                  <div className={clsx("absolute inset-x-0 bottom-0 h-1", colors[(i + 1) % colors.length])} />
+                  <div
+                    className={clsx(
+                      "absolute inset-x-0 bottom-0 h-1",
+                      colors[(i + 1) % colors.length]
+                    )}
+                  />
                 </div>
               ))}
             </div>
@@ -79,15 +79,23 @@ export default function FrontEndIllustration() {
                     className={clsx("w-1 rounded-sm", colors[i % colors.length])}
                     initial={{ height: 0 }}
                     animate={{ height: `${h * 4}px` }}
-                    transition={{ duration: 1, delay: i * 0.1, repeat: Infinity, repeatType: "reverse" }}
+                    transition={{
+                      duration: 1,
+                      delay: i * 0.1,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                    }}
                   />
                 ))}
               </div>
-              
+
               <div className="flex flex-1 flex-col gap-1">
                 {/* Loop Small List (2) */}
                 {Array.from({ length: 2 }).map((_, i) => (
-                  <div key={`li-sm-${i}`} className="bg-secondary flex items-center gap-2 rounded px-1 py-1">
+                  <div
+                    key={`li-sm-${i}`}
+                    className="bg-secondary flex items-center gap-2 rounded px-1 py-1"
+                  >
                     <div className="bg-neutral-high h-3 w-3 rounded" />
                     <div className="flex flex-1 flex-col gap-0.5">
                       <div className="bg-neutral-high h-0.5 w-3/4 rounded" />
@@ -101,7 +109,10 @@ export default function FrontEndIllustration() {
             {/* Bottom Card List (2) */}
             <div className="flex flex-1 flex-col gap-1">
               {Array.from({ length: 2 }).map((_, i) => (
-                <div key={`li-lg-${i}`} className="bg-secondary flex items-center gap-2 rounded px-1 py-1">
+                <div
+                  key={`li-lg-${i}`}
+                  className="bg-secondary flex items-center gap-2 rounded px-1 py-1"
+                >
                   <div className="flex flex-1 flex-col gap-0.5">
                     <div className="bg-neutral-high h-0.5 w-3/4 rounded" />
                     <div className="bg-neutral-med h-0.5 w-1/2 rounded" />
@@ -114,7 +125,7 @@ export default function FrontEndIllustration() {
 
         {/* Cursor */}
         <motion.div
-          className="absolute z-20 pointer-events-none"
+          className="pointer-events-none absolute z-20"
           animate={{
             left: ["80%", "64%", "80%"],
             top: ["40%", "55%", "40%"],

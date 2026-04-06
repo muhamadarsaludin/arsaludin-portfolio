@@ -22,33 +22,27 @@ export default function ReplyList({
   onReplyComment,
 }: ReplyListProps) {
   const [isOpen, setIsOpen] = useState(false)
-  
+
   const t = useTranslations("components.comment.replies")
 
-  const { 
-    data, 
-    fetchNextPage, 
-    hasNextPage, 
-    isFetchingNextPage, 
-    isLoading,
-  } = useReplies({ 
-    parentId, 
-    enabled: isOpen
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useReplies({
+    parentId,
+    enabled: isOpen,
   })
 
   const allReplies: CommentData[] = data?.pages.flatMap((page) => page.data) ?? []
-  
+
   if (repliesCount <= 0) return null
 
-  return(
+  return (
     <div className="ml-11 flex flex-col gap-2">
       {/* 1. MAIN TOGGLE OPEN REPLIES */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 text-xs font-semibold text-blue cursor-pointer w-fit"
+          className="text-blue flex w-fit cursor-pointer items-center gap-2 text-xs font-semibold"
         >
-          <div className="h-[1px] w-6 bg-blue" />
+          <div className="bg-blue h-[1px] w-6" />
           {t("showCount", { count: repliesCount })}
           <LuChevronDown className="h-3 w-3" />
         </button>
@@ -56,7 +50,7 @@ export default function ReplyList({
 
       {/* 2. LOADING */}
       {isOpen && isLoading && allReplies.length === 0 && (
-        <div className="flex items-center gap-2 py-2 text-xs text-secondary">
+        <div className="text-secondary flex items-center gap-2 py-2 text-xs">
           <MiracleLoader size={14} />
           {t("fetching")}
         </div>
@@ -76,7 +70,7 @@ export default function ReplyList({
           ))}
         </div>
       )}
-      
+
       {/* 4. FOOTER CONTROLS */}
       {isOpen && (
         <div className="flex flex-col gap-3">
@@ -84,7 +78,7 @@ export default function ReplyList({
             <button
               onClick={() => fetchNextPage()}
               disabled={isFetchingNextPage}
-              className="flex items-center gap-2 text-xs font-bold text-secondary ml-8 hover:text-blue disabled:opacity-50 transition-colors"
+              className="text-secondary hover:text-blue ml-8 flex items-center gap-2 text-xs font-bold transition-colors disabled:opacity-50"
             >
               {isFetchingNextPage ? (
                 <>
@@ -98,9 +92,9 @@ export default function ReplyList({
 
           <button
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-2 text-xs font-semibold text-blue cursor-pointer w-fit"
+            className="text-blue flex w-fit cursor-pointer items-center gap-2 text-xs font-semibold"
           >
-            <div className="h-[1px] w-6 bg-blue" />
+            <div className="bg-blue h-[1px] w-6" />
             {t("hide")}
             <LuChevronUp className="h-3 w-3" />
           </button>

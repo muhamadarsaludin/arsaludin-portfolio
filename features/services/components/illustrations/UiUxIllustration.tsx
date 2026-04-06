@@ -6,14 +6,11 @@ import BrowserIllustration from "./BrowserIllustration"
 export default function UxIllustration() {
   return (
     <BrowserIllustration>
-      <div className="relative flex h-full w-full text-primary">
+      <div className="text-primary relative flex h-full w-full">
         {/* Background Grid Pattern */}
         <div className="absolute inset-0 z-0 grid grid-cols-4 gap-1 p-2">
           {Array.from({ length: 12 }).map((_, i) => (
-            <div
-              key={`grid-${i}`}
-              className="border border-dashed border-neutral-low"
-            />
+            <div key={`grid-${i}`} className="border-neutral-low border border-dashed" />
           ))}
         </div>
 
@@ -25,10 +22,7 @@ export default function UxIllustration() {
               <div className="bg-neutral-high h-2 w-2 rounded-xs" />
               <hr className="border-primary w-2 border-[0.5px]" />
               {Array.from({ length: 4 }).map((_, i) => (
-                <div
-                  key={`layer-dot-${i}`}
-                  className="bg-neutral-med h-1.5 w-1.5 rounded-full"
-                />
+                <div key={`layer-dot-${i}`} className="bg-neutral-med h-1.5 w-1.5 rounded-full" />
               ))}
             </div>
             <div className="flex flex-1 flex-col gap-1 p-1">
@@ -39,10 +33,7 @@ export default function UxIllustration() {
               <div className="flex flex-col gap-1 pb-1">
                 <div className="bg-neutral-high h-0.5 w-3/4 rounded" />
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <div
-                    key={`layer-line-${i}`}
-                    className="bg-neutral-med h-0.5 w-full rounded"
-                  />
+                  <div key={`layer-line-${i}`} className="bg-neutral-med h-0.5 w-full rounded" />
                 ))}
               </div>
             </div>
@@ -66,7 +57,14 @@ export default function UxIllustration() {
               <motion.div
                 className="h-6 w-full rounded-sm"
                 animate={{
-                  backgroundColor: ["#171717", "#3b82f6", "#171717", "#171717", "#171717", "#171717"],
+                  backgroundColor: [
+                    "#171717",
+                    "#3b82f6",
+                    "#171717",
+                    "#171717",
+                    "#171717",
+                    "#171717",
+                  ],
                 }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               />
@@ -82,10 +80,8 @@ export default function UxIllustration() {
 
             <div className="bg-neutral-high h-1 w-3/4 rounded" />
             <div className="border-neutral-low bg-primary flex items-center gap-1 rounded border p-0.5 shadow-sm">
-              <div className="h-2.5 w-2.5 shrink-0 rounded-xs border border-primary bg-[#171717]" />
-              <span className="text-secondary font-mono text-[6px] tracking-tighter">
-                #171717
-              </span>
+              <div className="border-primary h-2.5 w-2.5 shrink-0 rounded-xs border bg-[#171717]" />
+              <span className="text-secondary font-mono text-[6px] tracking-tighter">#171717</span>
             </div>
             <motion.div
               className="border-neutral-low bg-primary flex items-center gap-1 rounded border p-0.5 shadow-sm"
@@ -94,7 +90,7 @@ export default function UxIllustration() {
               }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             >
-              <div className="bg-blue h-2.5 w-2.5 shrink-0 rounded-xs border border-primary" />
+              <div className="bg-blue border-primary h-2.5 w-2.5 shrink-0 rounded-xs border" />
               <span className="text-primary font-mono text-[6px] tracking-tighter">#3b82f6</span>
             </motion.div>
           </div>

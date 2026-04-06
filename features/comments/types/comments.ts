@@ -1,10 +1,9 @@
 import type { Profile } from "@/features/profile/types/profiles"
 import type { Cursor } from "@/features/shared/types"
 
-
 // ================== INFORMATION =================
-// Note: Named 'CommentData' instead of 'Comment' 
-// to avoid naming conflicts with the built-in 
+// Note: Named 'CommentData' instead of 'Comment'
+// to avoid naming conflicts with the built-in
 // Web DOM 'Comment' interface.
 
 export type CommentData = {
@@ -19,7 +18,7 @@ export type CommentData = {
   updated_at: string | null
 }
 
-export type CommentTargetType = "project" | "comment" 
+export type CommentTargetType = "project" | "comment"
 
 export type PaginatedComments = {
   data: CommentData[]

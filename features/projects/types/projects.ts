@@ -27,11 +27,11 @@ export type Project = {
 }
 
 export type ProjectTranslation = {
-  name: string,
-  description: string,
-  content: string | null,
-  additional_info: string | null,
-  additional_info_label: string | null,
+  name: string
+  description: string
+  content: string | null
+  additional_info: string | null
+  additional_info_label: string | null
   i18n: {
     locale: string
   }

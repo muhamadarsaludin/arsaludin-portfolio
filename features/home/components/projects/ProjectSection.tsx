@@ -14,7 +14,7 @@ export default function ProjectSection({ className }: { className?: string }) {
   return (
     <Section className={className}>
       <Heading id="featured-projects">{t("title")}</Heading>
-      
+
       {/* Suspense handles the loading state (streaming) */}
       <Suspense fallback={<FeaturedProjectListSkeleton />}>
         <FeaturedProjectList locale={locale} />
@@ -37,13 +37,13 @@ async function FeaturedProjectList({ locale }: { locale: string }) {
   try {
     const featuredProjects = await getProjects({
       locale,
-      isFeatured: true
+      isFeatured: true,
     })
     // Handle Empty State (No records in Database)
     if (!featuredProjects || featuredProjects.length === 0) {
       return (
-        <div className="mt-8 flex h-40 flex-col items-center justify-center rounded-2xl border border-dashed border-primary">
-          <p className="text-sm text-secondary">No featured projects found for this language.</p>
+        <div className="border-primary mt-8 flex h-40 flex-col items-center justify-center rounded-2xl border border-dashed">
+          <p className="text-secondary text-sm">No featured projects found for this language.</p>
         </div>
       )
     }
@@ -55,17 +55,16 @@ async function FeaturedProjectList({ locale }: { locale: string }) {
         })}
       </div>
     )
-    
   } catch (error) {
     // Error State (Network failure, Supabase error, etc.)
     console.error("Failed to fetch featured project:", error)
     return (
-      <div className="mt-8 rounded-2xl p-8 text-center bg-red-100 dark:bg-red-950">
-        <p className="text-sm font-medium text-red">
+      <div className="mt-8 rounded-2xl bg-red-100 p-8 text-center dark:bg-red-950">
+        <p className="text-red text-sm font-medium">
           Unable to load featured projects. Please try again later.
         </p>
       </div>
-    )  
+    )
   }
 }
 

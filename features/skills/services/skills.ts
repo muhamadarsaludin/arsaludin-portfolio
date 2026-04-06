@@ -57,7 +57,7 @@ import { TbBeach, TbBrandFramerMotion, TbFileTypeXml } from "react-icons/tb"
 import { FaAws } from "react-icons/fa6"
 import { BiLogoAdobe } from "react-icons/bi"
 
-export const SkillIconMap : Record<string, IconType> = {
+export const SkillIconMap: Record<string, IconType> = {
   SiHtml5,
   SiCss,
   SiSass,

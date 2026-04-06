@@ -1,11 +1,11 @@
-import type { InfiniteData} from "@tanstack/react-query"
+import type { InfiniteData } from "@tanstack/react-query"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { CommentData, PaginatedComments } from "../types/comments"
 import { useAuth } from "@/providers/AuthProvider"
 import { addReply, deleteReply } from "../services/replies"
 
 type UseReplyMutationParams = {
-  targetId: string 
+  targetId: string
   targetType: string
 }
 
@@ -15,10 +15,7 @@ type UseReplyMutationParams = {
  * @param targetId - The ID of the parent entity.
  * @param targetType - The category of the parent entity for query key mapping.
  */
-export function useReplyMutation({
-  targetId,
-  targetType
-}: UseReplyMutationParams) {
+export function useReplyMutation({ targetId, targetType }: UseReplyMutationParams) {
   const queryClient = useQueryClient()
   const mainCommentsKey = ["comments", targetType, targetId]
   const { user, profile } = useAuth()
@@ -36,17 +33,17 @@ export function useReplyMutation({
     return {
       ...old,
       pages: old.pages.map((page) => {
-        // MEMORY OPTIMIZATION: 
+        // MEMORY OPTIMIZATION:
         // If parentId is not in this page, return the original page reference.
         // This prevents unnecessary object creation and memory allocation.
-        const hasTarget = page.data.some(c => c.id === parentId)
-        if (!hasTarget && page.data.length > 0) return page 
+        const hasTarget = page.data.some((c) => c.id === parentId)
+        if (!hasTarget && page.data.length > 0) return page
 
         return {
           ...page,
-          data: updateFn(page.data)
+          data: updateFn(page.data),
         }
-      })
+      }),
     }
   }
 
@@ -58,7 +55,7 @@ export function useReplyMutation({
     mutationFn: addReply,
     onMutate: async (variables) => {
       if (!user || !profile) return
-      
+
       const pId = variables.parentId
       const repliesKey = ["replies", pId]
 
@@ -66,7 +63,8 @@ export function useReplyMutation({
       await queryClient.cancelQueries({ queryKey: mainCommentsKey })
 
       const previousReplies = queryClient.getQueryData<InfiniteData<PaginatedComments>>(repliesKey)
-      const previousMain = queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
+      const previousMain =
+        queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
 
       const optimisticReply: CommentData = {
         id: `temp-${Date.now()}`,
@@ -77,16 +75,16 @@ export function useReplyMutation({
         author: profile,
         recipient: variables.optimisticRecipient,
         parent_id: pId,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       }
-      
+
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
         if (!old) return old
         return {
           ...old,
-          pages: old.pages.map((page, i) => 
+          pages: old.pages.map((page, i) =>
             i === 0 ? { ...page, data: [...page.data, optimisticReply] } : page
-          )
+          ),
         }
       })
 
@@ -96,10 +94,10 @@ export function useReplyMutation({
           ...old,
           pages: old.pages.map((page) => ({
             ...page,
-            data: page.data.map((c) => 
+            data: page.data.map((c) =>
               c.id === pId ? { ...c, replies_count: (c.replies_count || 0) + 1 } : c
-            )
-          }))
+            ),
+          })),
         }
       })
 
@@ -115,9 +113,9 @@ export function useReplyMutation({
       const pId = variables.parentId
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["replies", pId] }),
-        queryClient.invalidateQueries({ queryKey: mainCommentsKey })
+        queryClient.invalidateQueries({ queryKey: mainCommentsKey }),
       ])
-    }
+    },
   })
 
   /**
@@ -142,8 +140,8 @@ export function useReplyMutation({
           ...old,
           pages: old.pages.map((page) => ({
             ...page,
-            data: page.data.filter((c) => c.id !== variables.commentId)
-          }))
+            data: page.data.filter((c) => c.id !== variables.commentId),
+          })),
         }
       })
 
@@ -153,10 +151,10 @@ export function useReplyMutation({
           ...old,
           pages: old.pages.map((page) => ({
             ...page,
-            data: page.data.map((c) => 
+            data: page.data.map((c) =>
               c.id === pId ? { ...c, replies_count: Math.max(0, (c.replies_count || 0) - 1) } : c
-            )
-          }))
+            ),
+          })),
         }
       })
 
@@ -172,15 +170,15 @@ export function useReplyMutation({
       const pId = variables.parentId
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["replies", pId] }),
-        queryClient.invalidateQueries({ queryKey: mainCommentsKey })
+        queryClient.invalidateQueries({ queryKey: mainCommentsKey }),
       ])
-    }
+    },
   })
 
   return {
     add: add.mutate,
     remove: remove.mutate,
     isAdding: add.isPending,
-    isRemoving: remove.isPending
+    isRemoving: remove.isPending,
   }
 }

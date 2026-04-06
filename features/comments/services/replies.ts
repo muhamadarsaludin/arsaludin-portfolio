@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/server"
 import type { CommentData, PaginatedComments } from "../types/comments"
 import { REPLIES_PAGE_SIZE } from "../constants/comments"
-import type { AddCommentParams} from "./comments"
+import type { AddCommentParams } from "./comments"
 import { addComment, deleteComment } from "./comments"
 import type { Profile } from "@/features/profile/types/profiles"
 import { Cursor } from "@/features/shared/types"
@@ -21,7 +21,7 @@ type DeleteReplyParams = {
 }
 
 type AddReplyParams = AddCommentParams & {
-  optimisticRecipient: Profile 
+  optimisticRecipient: Profile
 }
 
 // ====== SERVICES ======
@@ -32,8 +32,8 @@ type AddReplyParams = AddCommentParams & {
  * @param cursor - Pagination metadata (createdAt & id) for offset-based fetching.
  * @param pageSize - The number of replies to fetch. Defaults to REPLIES_PAGE_SIZE.
  */
-export async function getReplies({ 
-  parentId, 
+export async function getReplies({
+  parentId,
   cursor,
   pageSize = REPLIES_PAGE_SIZE,
 }: GetRepliesParams): Promise<PaginatedComments> {
@@ -41,7 +41,8 @@ export async function getReplies({
 
   let query = supabase
     .from("comments")
-    .select(`
+    .select(
+      `
       id,
       content,
       created_at,
@@ -62,9 +63,10 @@ export async function getReplies({
         role,
         avatar_url
       )
-    `)
+    `
+    )
     .eq("parent_id", parentId)
-    .order("created_at", { ascending: true }) 
+    .order("created_at", { ascending: true })
     .order("id", { ascending: false })
     .limit(pageSize + 1) // add 1 additional data to check if there is more data.
 
@@ -85,7 +87,7 @@ export async function getReplies({
     return {
       data: [],
       nextCursor: null,
-      hasMore: false
+      hasMore: false,
     }
   }
 
@@ -101,16 +103,18 @@ export async function getReplies({
     parent_id: reply.parent_id ?? null,
     recipient: reply.recipient ?? null,
     replies_count: reply.replies_count?.[0].count ?? 0,
-  })) 
+  }))
   const lastItem = mappedData[mappedData.length - 1]
 
   return {
     data: mappedData,
-    nextCursor: hasMore ? {
-      createdAt: lastItem.created_at,
-      id: lastItem.id
-    } : null,
-    hasMore
+    nextCursor: hasMore
+      ? {
+          createdAt: lastItem.created_at,
+          id: lastItem.id,
+        }
+      : null,
+    hasMore,
   }
 }
 
@@ -125,33 +129,33 @@ export async function getReplies({
  * @param params.optimisticRecipient - Profile data used strictly for UI optimistic updates.
  */
 export async function addReply({
-  targetId, 
+  targetId,
   targetType,
   content,
   parentId,
   recipientId,
   replyToId,
-  optimisticRecipient // FOR OPTIMISTIC ONLY
-}:AddReplyParams) {
+  optimisticRecipient, // FOR OPTIMISTIC ONLY
+}: AddReplyParams) {
   await addComment({
-    targetId, 
+    targetId,
     targetType,
     content,
     parentId,
     recipientId,
-    replyToId
+    replyToId,
   })
 }
 
 /**
  * Deletes a specific reply and triggers cache invalidation.
  * @param params.commentId - The unique UUID of the reply to be removed from the database.
- * @param params.parentId - The ID of the parent comment. Essential for identifying 
+ * @param params.parentId - The ID of the parent comment. Essential for identifying
  * which reply thread needs to be refetched or updated in the UI cache.
  */
 export async function deleteReply({
-  commentId, 
-  parentId // FOR TANSTACK QUERY CACHE KEY ONLY
+  commentId,
+  parentId, // FOR TANSTACK QUERY CACHE KEY ONLY
 }: DeleteReplyParams) {
-  await deleteComment({commentId})
+  await deleteComment({ commentId })
 }

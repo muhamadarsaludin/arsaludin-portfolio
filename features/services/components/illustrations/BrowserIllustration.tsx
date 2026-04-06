@@ -3,11 +3,7 @@ type BrowserWrapperIllustrationProps = {
 }
 
 export default function BrowserIllustration({ children }: BrowserWrapperIllustrationProps) {
-  const colors = [
-    "bg-red",
-    "bg-yellow",
-    "bg-green",
-  ]
+  const colors = ["bg-red", "bg-yellow", "bg-green"]
   return (
     <div className="border-primary bg-primary relative flex h-35 w-50 flex-col overflow-hidden rounded-lg border sm:h-40 sm:w-55">
       {/* Browser header */}
@@ -17,7 +13,7 @@ export default function BrowserIllustration({ children }: BrowserWrapperIllustra
           <div key={idx} className={`border-primary h-2 w-2 rounded-full border ${color}`} />
         ))}
         {/* URL Bar */}
-        <div className="ml-1 h-2 flex-1 rounded-sm bg-neutral-high" />
+        <div className="bg-neutral-high ml-1 h-2 flex-1 rounded-sm" />
       </div>
       <div className="flex-1 overflow-hidden">{children}</div>
     </div>

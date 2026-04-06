@@ -4,7 +4,6 @@ import { AuthProvider } from "./AuthProvider"
 import type { User } from "@supabase/supabase-js"
 import QueryProvider from "./QueryProvider"
 
-
 export function Providers({
   children,
   initialUser,
@@ -14,11 +13,9 @@ export function Providers({
 }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <AuthProvider initialUser={initialUser}>
-          <QueryProvider >
-            {children}
-          </QueryProvider>
-        </AuthProvider>
+      <AuthProvider initialUser={initialUser}>
+        <QueryProvider>{children}</QueryProvider>
+      </AuthProvider>
     </ThemeProvider>
   )
 }

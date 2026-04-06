@@ -21,4 +21,3 @@ export type ServiceTranslation = {
     locale: string
   }
 }
-

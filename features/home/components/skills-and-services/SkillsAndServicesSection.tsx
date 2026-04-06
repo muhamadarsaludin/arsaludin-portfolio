@@ -14,7 +14,7 @@ export default function SkillsAndServicesSection({ className }: { className?: st
     <Section className={className}>
       <Heading id="skills-and-services">{t("title")}</Heading>
       <p className="text-secondary mt-4">{t("description")}</p>
-      
+
       {/* Suspense handles the loading state (streaming) */}
       <Suspense fallback={<ServiceListSkeleton />}>
         <ServiceList locale={locale} />
@@ -29,12 +29,12 @@ export default function SkillsAndServicesSection({ className }: { className?: st
  */
 async function ServiceList({ locale }: { locale: string }) {
   try {
-    const services = await getServices({locale})
+    const services = await getServices({ locale })
     // Handle Empty State (No records in Database)
     if (!services || services.length === 0) {
       return (
-        <div className="mt-8 flex h-40 flex-col items-center justify-center rounded-2xl border border-dashed border-primary">
-          <p className="text-sm text-secondary">No services found for this language.</p>
+        <div className="border-primary mt-8 flex h-40 flex-col items-center justify-center rounded-2xl border border-dashed">
+          <p className="text-secondary text-sm">No services found for this language.</p>
         </div>
       )
     }
@@ -50,8 +50,8 @@ async function ServiceList({ locale }: { locale: string }) {
     // Error State (Network failure, Supabase error, etc.)
     console.error("Failed to fetch services:", error)
     return (
-      <div className="mt-8 rounded-2xl p-8 text-center bg-red-100 dark:bg-red-950">
-        <p className="text-sm font-medium text-red">
+      <div className="mt-8 rounded-2xl bg-red-100 p-8 text-center dark:bg-red-950">
+        <p className="text-red text-sm font-medium">
           Unable to load services. Please try again later.
         </p>
       </div>

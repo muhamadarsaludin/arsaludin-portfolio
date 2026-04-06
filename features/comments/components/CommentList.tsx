@@ -9,23 +9,26 @@ type CommentListProps = {
   onReplyComment: (comment: CommentData) => void
 }
 
-export default function CommentList({ 
+export default function CommentList({
   targetId,
   targetType,
   comments,
-  onReplyComment 
+  onReplyComment,
 }: CommentListProps) {
   const t = useTranslations("components.comment.list")
 
-  if (comments.length === 0) return (
-    <div className="text-secondary text-center text-sm h-full flex items-center justify-center">{t("emptyMessage")}</div>
-  )
+  if (comments.length === 0)
+    return (
+      <div className="text-secondary flex h-full items-center justify-center text-center text-sm">
+        {t("emptyMessage")}
+      </div>
+    )
   return (
     <div className="flex flex-col gap-4">
       {comments.map((comment) => (
-        <CommentItem 
-          key={comment.id} 
-          comment={comment} 
+        <CommentItem
+          key={comment.id}
+          comment={comment}
           targetId={targetId}
           targetType={targetType}
           onReplyComment={onReplyComment}

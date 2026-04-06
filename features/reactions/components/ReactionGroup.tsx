@@ -20,19 +20,22 @@ export default function ReactionGroup({
 }: ReactionGroupProps) {
   const router = useRouter()
 
-  const handleSelectReaction = useCallback(async (emoji: string) => {
-    try {
-      await toggleReaction({
-        targetId,
-        targetType,
-        emoji,
-      })
-      
-      router.refresh()
-    } catch (error) {
-      console.error("Failed to toggle reaction:", error)
-    }
-  }, [targetId, targetType, router])
+  const handleSelectReaction = useCallback(
+    async (emoji: string) => {
+      try {
+        await toggleReaction({
+          targetId,
+          targetType,
+          emoji,
+        })
+
+        router.refresh()
+      } catch (error) {
+        console.error("Failed to toggle reaction:", error)
+      }
+    },
+    [targetId, targetType, router]
+  )
 
   const handleGetAllReactions = useCallback(async () => {
     return await getReactions({
@@ -43,16 +46,13 @@ export default function ReactionGroup({
 
   return (
     <div className="flex items-center gap-1">
-      <ReactionsPreview 
-        reactionSummary={reactionSummary}  
-        onSelectReaction={handleSelectReaction} 
+      <ReactionsPreview
+        reactionSummary={reactionSummary}
+        onSelectReaction={handleSelectReaction}
         getAllReactions={handleGetAllReactions}
       />
-      
-      <ReactionPicker 
-        reactionSummary={reactionSummary} 
-        onSelectReaction={handleSelectReaction} 
-      />
+
+      <ReactionPicker reactionSummary={reactionSummary} onSelectReaction={handleSelectReaction} />
     </div>
   )
 }

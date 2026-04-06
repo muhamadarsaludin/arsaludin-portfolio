@@ -1,4 +1,4 @@
-import type { InfiniteData} from "@tanstack/react-query"
+import type { InfiniteData } from "@tanstack/react-query"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { addComment, deleteComment } from "../services/comments"
 import type { CommentData, PaginatedComments } from "../types/comments"
@@ -16,10 +16,7 @@ type UseCommentMutationParams = {
  * @param targetId - The ID of the parent entity.
  * @param targetType - The category used for query key mapping.
  */
-export function useCommentMutation({
-  targetId, 
-  targetType
-}: UseCommentMutationParams ) {
+export function useCommentMutation({ targetId, targetType }: UseCommentMutationParams) {
   const queryClient = useQueryClient()
   const queryKey = ["comments", targetType, targetId]
   const { user, profile } = useAuth()
@@ -45,18 +42,16 @@ export function useCommentMutation({
         author: profile,
         recipient: null,
         parent_id: variables.parentId,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       }
-      
+
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(queryKey, (old) => {
         if (!old) return old
         return {
           ...old,
-          pages: old.pages.map((page, i) => 
-            i === 0 
-              ? { ...page, data: [optimisticCommentData, ...page.data] } 
-              : page
-          )
+          pages: old.pages.map((page, i) =>
+            i === 0 ? { ...page, data: [optimisticCommentData, ...page.data] } : page
+          ),
         }
       })
 
@@ -65,7 +60,7 @@ export function useCommentMutation({
     onError: (_err, _newComment, context) => {
       queryClient.setQueryData(queryKey, context?.previous)
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey })
+    onSettled: () => queryClient.invalidateQueries({ queryKey }),
   })
 
   /**
@@ -84,8 +79,8 @@ export function useCommentMutation({
           ...old,
           pages: old.pages.map((page) => ({
             ...page,
-            data: page.data.filter((c) => c.id !== comment.commentId)
-          }))
+            data: page.data.filter((c) => c.id !== comment.commentId),
+          })),
         }
       })
 
@@ -96,13 +91,13 @@ export function useCommentMutation({
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey })
-    }
+    },
   })
 
   return {
     add: add.mutate,
     remove: remove.mutate,
     isAdding: add.isPending,
-    isRemoving: remove.isPending
+    isRemoving: remove.isPending,
   }
 }

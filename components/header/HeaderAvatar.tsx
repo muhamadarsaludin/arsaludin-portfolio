@@ -38,7 +38,7 @@ export default function HeaderAvatar() {
             className="border-primary h-8 w-8 rounded-full border object-cover"
           />
         ) : (
-          <div className="text-primary-inv border-primary flex h-8 w-8 items-center justify-center rounded-full border font-semibold bg-blue">
+          <div className="text-primary-inv border-primary bg-blue flex h-8 w-8 items-center justify-center rounded-full border font-semibold">
             {initials || "?"}
           </div>
         )

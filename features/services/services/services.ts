@@ -3,9 +3,9 @@ import type { Service, ServiceTranslation } from "../types/service"
 import { createClient } from "@/lib/supabase/server"
 
 type getServicesParams = {
-  locale: string;
-  isAdminView?: boolean;
-};
+  locale: string
+  isAdminView?: boolean
+}
 
 /**
  * Fetches services from the database with localized content.
@@ -54,9 +54,7 @@ export async function getServices({
 
   // Apply visibility filter for public-facing pages (Landing Page)
   if (!isAdminView) {
-    query = query
-      .eq("is_show", true)
-      .eq("service_skills.is_show", true)
+    query = query.eq("is_show", true).eq("service_skills.is_show", true)
   }
 
   const { data, error } = await query
@@ -73,10 +71,8 @@ export async function getServices({
    */
   return data.map((service: any) => {
     const t = service.service_translations?.[0] as ServiceTranslation | undefined
-    
-    const skills = service.service_skills
-      ?.map((ss: any) => ss.skills)
-      .filter(Boolean) || []
+
+    const skills = service.service_skills?.map((ss: any) => ss.skills).filter(Boolean) || []
 
     return {
       id: service.id,

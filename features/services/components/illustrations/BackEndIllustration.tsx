@@ -9,11 +9,9 @@ export default function BackEndIllustration() {
 
   return (
     <BrowserIllustration>
-      <div className="relative flex h-full w-full flex-col items-center justify-between px-1 py-2 text-primary">
-        
+      <div className="text-primary relative flex h-full w-full flex-col items-center justify-between px-1 py-2">
         {/* Top layer: Terminal and Microservice */}
         <div className="relative z-10 flex w-full items-center justify-between px-2">
-          
           {/* Connection Lines (U-shape) */}
           <div className="border-neutral-med absolute top-[100%] right-[28px] left-[34px] h-1.5 rounded-b-sm border-x border-b" />
           <div className="bg-neutral-med absolute top-[100%] left-1/2 mt-1.5 h-1.5 w-[1px] -translate-x-1/2" />
@@ -21,9 +19,9 @@ export default function BackEndIllustration() {
           {/* Floating Terminal Logs */}
           <div className="border-primary bg-secondary z-10 flex h-8 w-[52px] flex-col overflow-hidden rounded border shadow-sm">
             <div className="border-primary bg-primary flex h-[8px] w-full shrink-0 items-center gap-[2.5px] border-b px-1">
-              <div className="h-[2.5px] w-[2.5px] rounded-full bg-red" />
-              <div className="h-[2.5px] w-[2.5px] rounded-full bg-yellow" />
-              <div className="h-[2.5px] w-[2.5px] rounded-full bg-green" />
+              <div className="bg-red h-[2.5px] w-[2.5px] rounded-full" />
+              <div className="bg-yellow h-[2.5px] w-[2.5px] rounded-full" />
+              <div className="bg-green h-[2.5px] w-[2.5px] rounded-full" />
             </div>
             <div className="flex flex-1 items-start overflow-hidden p-[3px]">
               <motion.div
@@ -79,11 +77,11 @@ export default function BackEndIllustration() {
                   colors[i % colors.length]
                 )}
                 animate={{ top: ["0%", "100%", "0%"] }}
-                transition={{ 
-                  duration: 2, 
-                  ease: "easeInOut", 
-                  repeat: Infinity, 
-                  delay: i * 0.6 
+                transition={{
+                  duration: 2,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                  delay: i * 0.6,
                 }}
               />
             </div>

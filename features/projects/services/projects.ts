@@ -13,7 +13,7 @@ type getProjectsParams = {
  * Fetches projects with localized content, associated skills, reactions, and comment counts.
  * * @param locale - The language code for localization (defaults to routing.defaultLocale).
  * @param isFeatured - If `true`, filters the results to only include featured projects.
- * @param isAdminView - If `true`, bypasses visibility filters and includes administrative 
+ * @param isAdminView - If `true`, bypasses visibility filters and includes administrative
  * metadata (user_id, timestamps).
  * @returns A promise that resolves to an array of formatted Project objects.
  * @throws Will throw an error if the Supabase query fails.
@@ -22,10 +22,12 @@ export async function getProjects({
   locale,
   isFeatured = false,
   isAdminView = false,
-}: getProjectsParams ): Promise<Project[]> {
+}: getProjectsParams): Promise<Project[]> {
   const supabase = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   // Define the selection columns.
   // Using ternary for isAdminView to prevent "false" string injection in the query.
@@ -74,13 +76,13 @@ export async function getProjects({
     .select(columns)
     .eq("project_translations.i18n.locale", locale)
     .order("order_index", { ascending: true })
-    .order("order_index", { 
-      referencedTable: "project_skills", 
-      ascending: true 
+    .order("order_index", {
+      referencedTable: "project_skills",
+      ascending: true,
     })
-    .order("count", { 
-      referencedTable: "project_reaction_counts", 
-      ascending: false 
+    .order("count", {
+      referencedTable: "project_reaction_counts",
+      ascending: false,
     })
 
   if (user) {
@@ -93,9 +95,7 @@ export async function getProjects({
 
   // Apply visibility filters for non-admin views
   if (!isAdminView) {
-    query = query
-      .eq("is_show", true)
-      .eq("project_skills.is_show", true)
+    query = query.eq("is_show", true).eq("project_skills.is_show", true)
   }
 
   const { data, error } = await query
@@ -115,23 +115,21 @@ export async function getProjects({
     const t = project.project_translations?.[0] as ProjectTranslation | undefined
 
     // Skills
-    const skills = project.project_skills
-      ?.map((ps: any) => ps.skills)
-      .filter(Boolean) || []
+    const skills = project.project_skills?.map((ps: any) => ps.skills).filter(Boolean) || []
 
-    //Comments 
+    //Comments
     const commentCount = project.comments?.[0]?.count ?? 0
 
     // Reactions
     const userReaction = project.reactions?.[0] ?? null
-    const totalReactions = project.project_reaction_counts?.reduce(
-      (acc: number, curr: any) => acc + (curr.count || 0), 
-      0
-    ) ?? 0
+    const totalReactions =
+      project.project_reaction_counts?.reduce(
+        (acc: number, curr: any) => acc + (curr.count || 0),
+        0
+      ) ?? 0
     const topReactions = project.project_reaction_counts?.slice(0, MAX_TOP_REACTIONS) ?? []
     const totalEmojis = project.project_reaction_counts?.length ?? 0
     const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
-
 
     return {
       id: project.id,
@@ -149,11 +147,14 @@ export async function getProjects({
       user_id: project.user_id ?? null,
       created_at: project.created_at ?? null,
       updated_at: project.updated_at ?? null,
-      
-      additional_info: (t?.additional_info || t?.additional_info_label) ? {
-        label: t?.additional_info_label ?? null,
-        content: t?.additional_info ?? null,
-      } : null,
+
+      additional_info:
+        t?.additional_info || t?.additional_info_label
+          ? {
+              label: t?.additional_info_label ?? null,
+              content: t?.additional_info ?? null,
+            }
+          : null,
       skills: skills,
       comment_count: commentCount,
       reaction_summary: {
@@ -161,8 +162,8 @@ export async function getProjects({
         totalReactions,
         topReactions,
         totalEmojis,
-        remainingEmojis
-      }
+        remainingEmojis,
+      },
     } as Project
   })
 }

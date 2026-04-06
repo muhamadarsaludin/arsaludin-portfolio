@@ -12,38 +12,43 @@ type SkillBadgesProps = {
   className?: string
 }
 
-export default function SkillBadges({ 
-  skills = [], 
-  limit = 7,
-  className 
-}: SkillBadgesProps) {
+export default function SkillBadges({ skills = [], limit = 7, className }: SkillBadgesProps) {
   const hasMore = skills.length > limit
   const topSkills = skills.slice(0, limit)
   const remainingCount = skills.length - limit
   const t = useTranslations("components.skillBadges")
-  
+
   return (
     <div className={clsx("flex flex-wrap items-center gap-2", className)}>
       {/* RENDER TOP SKILLS */}
       {topSkills.map((skill, i) => {
         const IconComponent = skill.icon ? SkillIconMap[skill.icon] : null
-        
+
         const BadgeComponent = (
           <MiracleBadge
             className={clsx(
-              skill.link && "cursor-pointer transition-all active:scale-95 group/badge"
+              skill.link && "group/badge cursor-pointer transition-all active:scale-95"
             )}
-            startIcon={IconComponent && <IconComponent className={clsx(skill.link && "group-hover/badge:scale-110 transition-transform duration-300")}/>}>
+            startIcon={
+              IconComponent && (
+                <IconComponent
+                  className={clsx(
+                    skill.link && "transition-transform duration-300 group-hover/badge:scale-110"
+                  )}
+                />
+              )
+            }
+          >
             {skill.name}
           </MiracleBadge>
         )
 
         if (skill.link) {
           return (
-            <a 
+            <a
               key={i}
-              href={skill.link} 
-              target="_blank" 
+              href={skill.link}
+              target="_blank"
               rel="noopener noreferrer"
               className="no-underline"
             >
@@ -59,7 +64,7 @@ export default function SkillBadges({
       {hasMore && (
         <MiracleTooltip
           trigger={
-            <MiracleBadge className="cursor-help bg-muted text-muted-foreground">
+            <MiracleBadge className="bg-muted text-muted-foreground cursor-help">
               +{remainingCount}
             </MiracleBadge>
           }
@@ -67,31 +72,29 @@ export default function SkillBadges({
           hoverContent
         >
           <div className="flex max-h-[250px] w-[180px] flex-col p-3">
-            <p className="mb-2 text-[10px] font-bold uppercase">
-              {t("title")}
-            </p>
+            <p className="mb-2 text-[10px] font-bold uppercase">{t("title")}</p>
             <div className="flex flex-col gap-1 overflow-y-auto pr-1">
               {skills.map((skill, i) => {
                 const IconComponent = skill.icon ? SkillIconMap[skill.icon] : null
-                
+
                 const ItemContent = (
-                  <div className={clsx(
-                    "flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors group",
-                    skill.link ? "hover:bg-white/10" : "opacity-80"
-                  )}>
-                    {IconComponent && (
-                      <IconComponent className="h-3 w-3 text-secondary-inv group-hover:scale-110 transition-transform duration-300" />
+                  <div
+                    className={clsx(
+                      "group flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors",
+                      skill.link ? "hover:bg-white/10" : "opacity-80"
                     )}
-                    <span className="text-secondary-inv">
-                      {skill.name}
-                    </span>
+                  >
+                    {IconComponent && (
+                      <IconComponent className="text-secondary-inv h-3 w-3 transition-transform duration-300 group-hover:scale-110" />
+                    )}
+                    <span className="text-secondary-inv">{skill.name}</span>
                   </div>
                 )
 
                 if (skill.link) {
                   return (
-                    <a 
-                      key={i} 
+                    <a
+                      key={i}
                       href={skill.link}
                       target="_blank"
                       rel="noopener noreferrer"

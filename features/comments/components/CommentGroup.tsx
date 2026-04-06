@@ -11,11 +11,7 @@ type CommentGroupProps = {
   commentCount: number
 }
 
-export default function CommentGroup({ 
-  targetId, 
-  targetType, 
-  commentCount 
-}: CommentGroupProps) {
+export default function CommentGroup({ targetId, targetType, commentCount }: CommentGroupProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   return (
@@ -28,7 +24,7 @@ export default function CommentGroup({
         isOpen={isDrawerOpen}
         targetId={targetId}
         targetType={targetType}
-        commentCount={commentCount} 
+        commentCount={commentCount}
         onClose={() => setIsDrawerOpen(false)}
       />
     </>

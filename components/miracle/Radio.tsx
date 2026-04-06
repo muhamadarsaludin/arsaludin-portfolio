@@ -1,7 +1,7 @@
 "use client"
 
 import clsx from "clsx"
-import type { InputHTMLAttributes, ReactNode} from "react"
+import type { InputHTMLAttributes, ReactNode } from "react"
 import { useId } from "react"
 
 export type RadioProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {

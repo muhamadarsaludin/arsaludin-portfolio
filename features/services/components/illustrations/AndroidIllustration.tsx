@@ -9,7 +9,7 @@ export default function AndroidIllustration() {
 
   return (
     <MobileIllustration>
-      <div className="relative h-full w-full overflow-hidden text-primary">
+      <div className="text-primary relative h-full w-full overflow-hidden">
         {/* Top Navbar */}
         <div className="border-primary bg-secondary absolute top-0 right-0 left-0 z-10 flex w-full items-center justify-between border-b p-1">
           <div className="bg-neutral-high h-2 w-2 rounded-xs" />
@@ -63,10 +63,13 @@ export default function AndroidIllustration() {
                 />
               ))}
             </div>
-            
+
             <div className="flex flex-1 flex-col gap-1">
               {Array.from({ length: 2 }).map((_, i) => (
-                <div key={`li-${i}`} className="bg-secondary flex items-center gap-2 rounded px-1 py-1">
+                <div
+                  key={`li-${i}`}
+                  className="bg-secondary flex items-center gap-2 rounded px-1 py-1"
+                >
                   <div className="bg-neutral-high h-3 w-3 rounded" />
                   <div className="flex flex-1 flex-col gap-0.5">
                     <div className="bg-neutral-high h-0.5 w-3/4 rounded" />

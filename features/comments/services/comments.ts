@@ -23,7 +23,6 @@ export type AddCommentParams = {
   replyToId: string | null
 }
 
-
 // ====== SERVICES ======
 
 /**
@@ -36,18 +35,19 @@ export type AddCommentParams = {
  */
 
 export async function getComments({
-  targetId, 
+  targetId,
   targetType,
   cursor,
-  pageSize = COMMENTS_PAGE_SIZE
+  pageSize = COMMENTS_PAGE_SIZE,
 }: GetCommentsParams): Promise<PaginatedComments> {
   const supabase = await createClient()
 
   const targetColumn = `${targetType}_id`
 
-  let query = supabase 
+  let query = supabase
     .from("comments")
-    .select(`
+    .select(
+      `
       id,
       content,
       created_at,
@@ -69,7 +69,8 @@ export async function getComments({
         avatar_url
       ),
       replies_count:comments!parent_id(count)
-    `)
+    `
+    )
     .is("parent_id", null)
     .eq(targetColumn, targetId)
     .order("created_at", { ascending: false })
@@ -83,7 +84,7 @@ export async function getComments({
   }
 
   const { data, error } = await query
-  
+
   if (error) {
     console.error(`[getComments] Error fetching ${targetType} comments:`, error)
     throw error
@@ -93,7 +94,7 @@ export async function getComments({
     return {
       data: [],
       nextCursor: null,
-      hasMore: false
+      hasMore: false,
     }
   }
 
@@ -109,16 +110,18 @@ export async function getComments({
     parent_id: comment.parent_id ?? null,
     recipient: comment.recipient ?? null,
     replies_count: comment.replies_count?.[0].count ?? 0,
-  })) 
+  }))
   const lastItem = mappedData[mappedData.length - 1]
 
   return {
     data: mappedData,
-    nextCursor: hasMore ? {
-      createdAt: lastItem.created_at,
-      id: lastItem.id
-    } : null,
-    hasMore
+    nextCursor: hasMore
+      ? {
+          createdAt: lastItem.created_at,
+          id: lastItem.id,
+        }
+      : null,
+    hasMore,
   }
 }
 
@@ -133,17 +136,19 @@ export async function getComments({
  * @throws {Error} If the user is not authenticated.
  */
 export async function addComment({
-  targetId, 
+  targetId,
   targetType,
   content,
   parentId,
   recipientId,
-  replyToId
-}:AddCommentParams) {
+  replyToId,
+}: AddCommentParams) {
   const supabase = await createClient()
   const targetColumn = `${targetType}_id`
-  
-  const { data: { user } } = await supabase.auth.getUser()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized")
 
   const { data, error } = await supabase
@@ -155,7 +160,7 @@ export async function addComment({
         parent_id: parentId,
         user_id: user.id,
         recipient_id: recipientId,
-        reply_to_id: replyToId
+        reply_to_id: replyToId,
       },
     ])
     .select()
@@ -170,33 +175,28 @@ export async function addComment({
  * @param commentId - The unique identifier of the comment to delete.
  * @throws {Error} If the user is unauthorized or the comment does not exist.
  */
-export async function deleteComment({commentId}: {commentId: string}) {
+export async function deleteComment({ commentId }: { commentId: string }) {
   const supabase = await createClient()
-  
-  const { data: { user } } = await supabase.auth.getUser()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized")
-  
+
   const [comment, { data: profile }] = await Promise.all([
-    getComment({commentId}),
-    supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single()
+    getComment({ commentId }),
+    supabase.from("profiles").select("role").eq("id", user.id).single(),
   ])
   if (!comment) throw new Error("Comment not found")
-  
+
   const isOwner = comment.user_id === user.id
   const isAdmin = profile?.role === "admin"
 
   if (!isOwner && !isAdmin) {
     throw new Error("Unauthorized: You don't have permission to delete this")
   }
-  
-  const { error } = await supabase
-    .from("comments")
-    .delete()
-    .eq("id", commentId)
+
+  const { error } = await supabase.from("comments").delete().eq("id", commentId)
 
   if (error) throw error
   revalidatePath("/", "layout")
@@ -207,14 +207,10 @@ export async function deleteComment({commentId}: {commentId: string}) {
  * * @param commentId - The ID of the comment to retrieve.
  * @returns The raw comment data from the database.
  */
-export async function getComment({commentId}: {commentId: string}) {
+export async function getComment({ commentId }: { commentId: string }) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
-    .from("comments")
-    .select("*")
-    .eq("id", commentId)
-    .single()
+  const { data, error } = await supabase.from("comments").select("*").eq("id", commentId).single()
 
   if (error) throw error
   return data

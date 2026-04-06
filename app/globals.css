@@ -54,7 +54,7 @@ body {
   @apply bg-neutral-300 dark:bg-neutral-700;
 }
 .bg-neutral-high {
-   @apply bg-neutral-400 dark:bg-neutral-600;
+  @apply bg-neutral-400 dark:bg-neutral-600;
 }
 
 .bg-blue {
@@ -69,7 +69,6 @@ body {
 .bg-green {
   @apply bg-green-600 dark:bg-green-400;
 }
-
 
 /* Text */
 .text-primary {
@@ -93,7 +92,7 @@ body {
   @apply text-neutral-300 dark:text-neutral-700;
 }
 .text-neutral-high {
-   @apply text-neutral-400 dark:text-neutral-600;
+  @apply text-neutral-400 dark:text-neutral-600;
 }
 
 .text-blue {
@@ -115,7 +114,7 @@ body {
   @apply border-neutral-300 dark:border-neutral-700;
 }
 .border-neutral-high {
-   @apply border-neutral-400 dark:border-neutral-600;
+  @apply border-neutral-400 dark:border-neutral-600;
 }
 
 .border-blue {

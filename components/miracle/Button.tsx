@@ -56,8 +56,10 @@ export default function MiracleButton({
       danger: "bg-red-600 dark:bg-red-500 text-white",
     },
     secondary: {
-      default: "bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 ring-1 ring-neutral-950/10 dark:ring-white/20 shadow-sm",
-      danger: "bg-white dark:bg-neutral-950 text-red-600 dark:text-red-500 ring-1 ring-red-600/50 dark:ring-red-500/50",
+      default:
+        "bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 ring-1 ring-neutral-950/10 dark:ring-white/20 shadow-sm",
+      danger:
+        "bg-white dark:bg-neutral-950 text-red-600 dark:text-red-500 ring-1 ring-red-600/50 dark:ring-red-500/50",
     },
   }
 
@@ -93,11 +95,11 @@ export default function MiracleButton({
         <MiracleLoader size={loaderSizes[size]} />
       ) : (
         <>
-          {startIcon && <span className="flex items-center shrink-0">{startIcon}</span>}
-          
+          {startIcon && <span className="flex shrink-0 items-center">{startIcon}</span>}
+
           {children && <span>{children}</span>}
-          
-          {endIcon && <span className="flex items-center shrink-0">{endIcon}</span>}
+
+          {endIcon && <span className="flex shrink-0 items-center">{endIcon}</span>}
         </>
       )}
     </button>

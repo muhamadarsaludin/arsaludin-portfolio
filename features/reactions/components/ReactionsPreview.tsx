@@ -15,7 +15,7 @@ import { LuEye } from "react-icons/lu"
 type ReactionsPreviewProps = {
   reactionSummary: ReactionSummary
   onSelectReaction: (emoji: string) => void
-  getAllReactions: () => Promise<ReactionCount[]> 
+  getAllReactions: () => Promise<ReactionCount[]>
 }
 
 export default function ReactionsPreview({
@@ -53,7 +53,7 @@ export default function ReactionsPreview({
   }, [isOpen, fetchData])
 
   /**
-   * Handles reaction selection. 
+   * Handles reaction selection.
    * If not signed in, triggers Google Login.
    */
   const handleSelectedIcon = async (emoji: string) => {
@@ -81,10 +81,12 @@ export default function ReactionsPreview({
           key={reaction.emoji}
           type="button"
           className={clsx(
-            "group/emoji flex h-7 items-center justify-center rounded-full border-2 bg-secondary transition-all duration-300 ease-in-out outline-none cursor-pointer",
+            "group/emoji bg-secondary flex h-7 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
             "min-w-7 px-1.5",
-            "hover:px-3 hover:gap-1.5",
-            reaction.emoji === reactionSummary.userReaction?.emoji ? "border-blue" : "border-primary"
+            "hover:gap-1.5 hover:px-3",
+            reaction.emoji === reactionSummary.userReaction?.emoji
+              ? "border-blue"
+              : "border-primary"
           )}
           style={{ zIndex: zIndexBase + index }}
           onClick={(e) => {
@@ -92,12 +94,12 @@ export default function ReactionsPreview({
             handleSelectedIcon(reaction.emoji)
           }}
         >
-          <span className="text-xs flex-shrink-0">{reaction.emoji}</span>
-          <span 
+          <span className="flex-shrink-0 text-xs">{reaction.emoji}</span>
+          <span
             className={clsx(
-              "text-secondary text-xs font-semibold overflow-hidden transition-all duration-300 ease-in-out",
-              "max-w-0 opacity-0 invisible",
-              "group-hover/emoji:max-w-[300px] group-hover/emoji:opacity-100 group-hover/emoji:visible"
+              "text-secondary overflow-hidden text-xs font-semibold transition-all duration-300 ease-in-out",
+              "invisible max-w-0 opacity-0",
+              "group-hover/emoji:visible group-hover/emoji:max-w-[300px] group-hover/emoji:opacity-100"
             )}
           >
             {reaction.count}
@@ -117,22 +119,24 @@ export default function ReactionsPreview({
                 <button
                   type="button"
                   className={clsx(
-                    "group/emoji flex h-7 items-center justify-center rounded-full border-2 border-primary bg-secondary transition-all duration-300 ease-in-out outline-none cursor-pointer",
+                    "group/emoji border-primary bg-secondary flex h-7 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
                     "min-w-7 px-1.5",
-                    "hover:px-3 hover:gap-1",
+                    "hover:gap-1 hover:px-3"
                   )}
                   style={{ zIndex: zIndexBase + reactionSummary.topReactions.length + 1 }}
                 >
-                  <span 
+                  <span
                     className={clsx(
-                      "text-secondary text-sm overflow-hidden transition-all duration-300 ease-in-out",
-                      "max-w-0 opacity-0 invisible",
-                      "group-hover/emoji:max-w-[50px] group-hover/emoji:opacity-100 group-hover/emoji:visible"
+                      "text-secondary overflow-hidden text-sm transition-all duration-300 ease-in-out",
+                      "invisible max-w-0 opacity-0",
+                      "group-hover/emoji:visible group-hover/emoji:max-w-[50px] group-hover/emoji:opacity-100"
                     )}
                   >
-                    <LuEye/>
+                    <LuEye />
                   </span>
-                  <span className="text-secondary text-xs font-semibold">+{reactionSummary.remainingEmojis}</span>
+                  <span className="text-secondary text-xs font-semibold">
+                    +{reactionSummary.remainingEmojis}
+                  </span>
                 </button>
               }
             >
@@ -141,10 +145,10 @@ export default function ReactionsPreview({
           }
         >
           <div className="flex max-h-[250px] w-[200px] flex-col p-3">
-            <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-secondary/60">
+            <p className="text-secondary/60 mb-2 text-[10px] font-bold tracking-widest uppercase">
               {t("popover.title")}
             </p>
-            
+
             <div className="flex flex-wrap gap-1 overflow-y-auto">
               {isLoading && allReactions.length === 0 ? (
                 <div className="flex w-full justify-center py-4">
@@ -157,13 +161,14 @@ export default function ReactionsPreview({
                     key={reaction.emoji}
                     size="sm"
                     className={clsx(
-                      reaction.emoji === reactionSummary.userReaction?.emoji && "border-2 border-blue",
+                      reaction.emoji === reactionSummary.userReaction?.emoji &&
+                        "border-blue border-2",
                       isLoading && "opacity-50"
                     )}
                     onClick={() => !isLoading && handleSelectedIcon(reaction.emoji)}
                   >
                     <span className="mr-1">{reaction.emoji}</span>
-                    <span className="font-bold text-secondary">{reaction.count}</span>
+                    <span className="text-secondary font-bold">{reaction.count}</span>
                   </MiracleButton>
                 ))
               )}

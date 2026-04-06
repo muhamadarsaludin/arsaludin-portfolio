@@ -21,15 +21,22 @@ type CommentInputProps = {
   className?: string
 }
 
-export default function CommentInput({ 
-  targetId, targetType, repliedComment, onClearReply, className
+export default function CommentInput({
+  targetId,
+  targetType,
+  repliedComment,
+  onClearReply,
+  className,
 }: CommentInputProps) {
   const [commentText, setCommentText] = useState("")
   const { isSignedIn, user } = useAuth()
   const t = useTranslations("components.comment.input")
 
-  const { add: addComment, isAdding: isAddingComment } = useCommentMutation({targetId, targetType})
-  const { add: addReply, isAdding: isAddingReply } = useReplyMutation({targetId, targetType})
+  const { add: addComment, isAdding: isAddingComment } = useCommentMutation({
+    targetId,
+    targetType,
+  })
+  const { add: addReply, isAdding: isAddingReply } = useReplyMutation({ targetId, targetType })
 
   const isAdding = isAddingComment || isAddingReply
 
@@ -69,21 +76,19 @@ export default function CommentInput({
   return (
     <div className={clsx("flex flex-col gap-3", className)}>
       {repliedComment && (
-        <div className="flex gap-2 items-start bg-primary animate-in fade-in slide-in-from-bottom-2 duration-300">
-          <div className="flex-1 flex flex-col gap-1.5 border-l-4 border-blue pl-3 py-1">
-            <p className="text-xs font-bold text-secondary flex items-center gap-1">
-              {t("replyingTo")}: 
-              <span className="text-blue">
-                @{repliedComment.author.full_name}
-              </span>
+        <div className="bg-primary animate-in fade-in slide-in-from-bottom-2 flex items-start gap-2 duration-300">
+          <div className="border-blue flex flex-1 flex-col gap-1.5 border-l-4 py-1 pl-3">
+            <p className="text-secondary flex items-center gap-1 text-xs font-bold">
+              {t("replyingTo")}:
+              <span className="text-blue">@{repliedComment.author.full_name}</span>
             </p>
-            <div className="p-2 bg-secondary rounded-lg w-full overflow-hidden">
-              <p className="line-clamp-1 text-[11px] text-secondary italic leading-relaxed">
+            <div className="bg-secondary w-full overflow-hidden rounded-lg p-2">
+              <p className="text-secondary line-clamp-1 text-[11px] leading-relaxed italic">
                 "{repliedComment.content}"
               </p>
             </div>
           </div>
-          
+
           <button
             onClick={onClearReply}
             className="ml-auto cursor-pointer rounded-full p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800"
@@ -97,10 +102,10 @@ export default function CommentInput({
         <div className="flex-1">
           <MiracleTextField
             placeholder={
-              !isSignedIn 
-                ? t("loginRequired") 
-                : repliedComment 
-                  ? `${t("replyingTo")} @${repliedComment.author.full_name} ...` 
+              !isSignedIn
+                ? t("loginRequired")
+                : repliedComment
+                  ? `${t("replyingTo")} @${repliedComment.author.full_name} ...`
                   : t("placeholder")
             }
             value={commentText}
@@ -115,27 +120,22 @@ export default function CommentInput({
             }}
           />
         </div>
-        <MiracleButton 
+        <MiracleButton
           className="shrink-0"
           onClick={handleSend}
           size="sm"
           loading={isAdding}
           disabled={!commentText.trim() || !isSignedIn}
-          startIcon={<LuSend />} 
+          startIcon={<LuSend />}
           isSquare
         />
       </div>
 
-      {!isSignedIn && 
-        <MiracleButton
-          onClick={handleSignIn}
-          startIcon={
-            <SiGoogle/>
-          }
-          fullWidth>
+      {!isSignedIn && (
+        <MiracleButton onClick={handleSignIn} startIcon={<SiGoogle />} fullWidth>
           {t("signIn")}
         </MiracleButton>
-      }
+      )}
     </div>
   )
 }

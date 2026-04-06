@@ -1,7 +1,7 @@
 "use client"
 
 import clsx from "clsx"
-import type { InputHTMLAttributes, ReactNode} from "react"
+import type { InputHTMLAttributes, ReactNode } from "react"
 import { useId } from "react"
 
 export type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -53,30 +53,24 @@ export default function MiracleTextField({
             : "border-neutral-300 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 dark:border-neutral-700"
         )}
       >
-        {startIcon && (
-          <span className="flex items-center pl-3 text-secondary">{startIcon}</span>
-        )}
+        {startIcon && <span className="text-secondary flex items-center pl-3">{startIcon}</span>}
 
         <input
           id={inputId}
           disabled={disabled}
           className={clsx(
-            "w-full bg-transparent px-3 py-2 text-sm outline-none placeholder:text-secondary disabled:cursor-not-allowed",
+            "placeholder:text-secondary w-full bg-transparent px-3 py-2 text-sm outline-none disabled:cursor-not-allowed",
             startIcon && "pl-2",
             endIcon && "pr-2"
           )}
           {...props}
         />
 
-        {endIcon && (
-          <span className="flex items-center pr-3 text-secondary">{endIcon}</span>
-        )}
+        {endIcon && <span className="text-secondary flex items-center pr-3">{endIcon}</span>}
       </div>
 
       {(helperText || typeof error === "string") && (
-        <span
-          className={clsx("text-xs", isError ? "text-red" : "text-secondary")}
-        >
+        <span className={clsx("text-xs", isError ? "text-red" : "text-secondary")}>
           {typeof error === "string" ? error : helperText}
         </span>
       )}

@@ -26,8 +26,10 @@ export async function toggleReaction({
 }: ToggleReactionParams): Promise<void> {
   const supabase = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
   if (!user) {
     console.warn("[toggleReaction] Unauthorized attempt")
     throw new Error("Unauthorized")
@@ -48,27 +50,22 @@ export async function toggleReaction({
   }
 
   if (existing?.emoji === emoji) {
-    const { error: deleteError } = await supabase
-      .from("reactions")
-      .delete()
-      .eq("id", existing.id)
+    const { error: deleteError } = await supabase.from("reactions").delete().eq("id", existing.id)
 
     if (deleteError) {
       console.error("[toggleReaction] Delete error:", deleteError)
       throw new Error("Failed to remove reaction")
     }
   } else {
-    const { error: upsertError } = await supabase
-      .from("reactions")
-      .upsert(
-        {
-          ...(existing ? { id: existing.id } : {}),
-          user_id: user.id,
-          [targetColumn]: targetId,
-          emoji,
-        },
-        { onConflict: `user_id,${targetColumn}` }
-      )
+    const { error: upsertError } = await supabase.from("reactions").upsert(
+      {
+        ...(existing ? { id: existing.id } : {}),
+        user_id: user.id,
+        [targetColumn]: targetId,
+        emoji,
+      },
+      { onConflict: `user_id,${targetColumn}` }
+    )
 
     if (upsertError) {
       console.error("[toggleReaction] Upsert error:", upsertError)
@@ -78,7 +75,6 @@ export async function toggleReaction({
 
   revalidatePath("/", "layout")
 }
-
 
 type GetAllReactionsParams = {
   targetId: string
@@ -110,7 +106,7 @@ export async function getReactions({
     console.error(`[getAllReactions] Error fetching ${targetType} reactions:`, error.message)
     throw error
   }
-  if(!data) return []
+  if (!data) return []
 
   return data as ReactionCount[]
 }

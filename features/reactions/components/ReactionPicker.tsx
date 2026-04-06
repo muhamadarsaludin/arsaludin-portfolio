@@ -31,32 +31,30 @@ type ReactionPickerProps = {
   onSelectReaction: (emoji: string) => void
 }
 
-export default function ReactionPicker({ 
-  reactionSummary, 
-  onSelectReaction 
-}: ReactionPickerProps) {
+export default function ReactionPicker({ reactionSummary, onSelectReaction }: ReactionPickerProps) {
   const [isPickerOpen, setIsPickerOpen] = useState(false)
   const { isSignedIn } = useAuth()
   const { theme } = useTheme()
   const t = useTranslations("components.reaction")
 
-  const pickerTheme = useMemo(() => 
-    theme === "dark" ?  Theme.LIGHT : Theme.DARK
-  , [theme])
+  const pickerTheme = useMemo(() => (theme === "dark" ? Theme.LIGHT : Theme.DARK), [theme])
 
-  const handleEmojiClick = useCallback((emojiData: any) => {
-    onSelectReaction(emojiData.emoji)
-    setIsPickerOpen(false)
-  }, [onSelectReaction])
+  const handleEmojiClick = useCallback(
+    (emojiData: any) => {
+      onSelectReaction(emojiData.emoji)
+      setIsPickerOpen(false)
+    },
+    [onSelectReaction]
+  )
 
   const PickerToggle = ({ onClick }: { onClick?: React.MouseEventHandler }) => (
     <MiracleTooltip
       noPadding
       trigger={
-        <button 
+        <button
           onClick={onClick}
           type="button"
-          className="group/reaction-picker cursor-pointer outline-none flex items-center gap-1"
+          className="group/reaction-picker flex cursor-pointer items-center gap-1 outline-none"
         >
           <div className="relative p-1">
             <LuCircleFadingPlus
@@ -65,22 +63,25 @@ export default function ReactionPicker({
             />
             <span
               className={clsx(
-                "absolute top-0 right-0 h-1.5 w-1.5 rounded-full bg-red",
+                "bg-red absolute top-0 right-0 h-1.5 w-1.5 rounded-full",
                 "transition-opacity duration-300",
                 reactionSummary.userReaction ? "opacity-100" : "opacity-0"
               )}
             />
           </div>
-          {reactionSummary.totalReactions > 0 && 
-            <span className="text-secondary text-sm font-medium">{reactionSummary.totalReactions}</span>
-          }
+          {reactionSummary.totalReactions > 0 && (
+            <span className="text-secondary text-sm font-medium">
+              {reactionSummary.totalReactions}
+            </span>
+          )}
         </button>
       }
     >
       <span className="flex p-2 text-xs font-medium whitespace-nowrap">
-        {isSignedIn ?
-         reactionSummary.userReaction 
-          ? t("tooltip.edit") : t("tooltip.add") 
+        {isSignedIn
+          ? reactionSummary.userReaction
+            ? t("tooltip.edit")
+            : t("tooltip.add")
           : t("tooltip.auth")}
       </span>
     </MiracleTooltip>
@@ -88,11 +89,11 @@ export default function ReactionPicker({
 
   if (!isSignedIn) {
     return (
-      <PickerToggle 
+      <PickerToggle
         onClick={async (e) => {
           e.preventDefault()
           await signInWithGoogle()
-        }} 
+        }}
       />
     )
   }

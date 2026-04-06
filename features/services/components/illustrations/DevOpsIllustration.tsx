@@ -6,7 +6,7 @@ import BrowserIllustration from "./BrowserIllustration"
 export default function DevOpsIllustration() {
   return (
     <BrowserIllustration>
-      <div className="relative flex h-full w-full items-center justify-center text-primary">
+      <div className="text-primary relative flex h-full w-full items-center justify-center">
         {/* Circular Path / CI/CD Pipeline */}
         <div className="border-neutral-med absolute h-24 w-24 rounded-full border-[1.5px] border-dashed" />
 

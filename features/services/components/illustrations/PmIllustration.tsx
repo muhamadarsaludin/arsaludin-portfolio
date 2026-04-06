@@ -7,14 +7,17 @@ export default function PmIllustration() {
   return (
     <div className="flex flex-col gap-2">
       <BrowserIllustration>
-        <div className="relative flex h-full w-full text-primary">
+        <div className="text-primary relative flex h-full w-full">
           {/* Kanban Board */}
           <div className="flex flex-1 gap-1.5 p-1.5">
             {/* Column 1: To Do */}
             <div className="bg-secondary flex flex-1 flex-col gap-1.5 rounded p-1">
               <div className="bg-neutral-high mb-0.5 h-1 w-6 rounded-full" />
               {Array.from({ length: 2 }).map((_, i) => (
-                <div key={`todo-${i}`} className="border-primary bg-primary h-5 w-full rounded-sm border shadow-sm" />
+                <div
+                  key={`todo-${i}`}
+                  className="border-primary bg-primary h-5 w-full rounded-sm border shadow-sm"
+                />
               ))}
             </div>
 
@@ -28,7 +31,10 @@ export default function PmIllustration() {
             <div className="bg-secondary flex flex-1 flex-col gap-1.5 rounded p-1">
               <div className="bg-green mb-0.5 h-1 w-6 rounded-full" />
               {Array.from({ length: 2 }).map((_, i) => (
-                <div key={`done-${i}`} className="border-primary bg-primary h-5 w-full rounded-sm border shadow-sm" />
+                <div
+                  key={`done-${i}`}
+                  className="border-primary bg-primary h-5 w-full rounded-sm border shadow-sm"
+                />
               ))}
             </div>
           </div>

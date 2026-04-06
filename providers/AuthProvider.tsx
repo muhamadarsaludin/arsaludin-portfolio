@@ -38,7 +38,7 @@ export function AuthProvider({
   useEffect(() => {
     const fetchProfile = async (userId: string) => {
       try {
-        const data = await getProfile({id: userId})
+        const data = await getProfile({ id: userId })
         if (data) setProfile(data)
       } catch (error) {
         console.error("Error fetching profile:", error)

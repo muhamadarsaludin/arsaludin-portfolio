@@ -2,7 +2,7 @@
 
 import { useScrollLock } from "@/hooks/useScrollLock"
 import clsx from "clsx"
-import type { ReactNode} from "react"
+import type { ReactNode } from "react"
 import { useEffect, useState } from "react"
 import { LuX } from "react-icons/lu"
 
@@ -112,10 +112,8 @@ export default function MiracleDrawer({
       >
         {/* Header */}
         {(title || showCloseIcon) && (
-          <div className="flex shrink-0 items-center justify-between border-b border-primary px-4 py-3">
-            <div className="text-base font-semibold text-primary">
-              {title}
-            </div>
+          <div className="border-primary flex shrink-0 items-center justify-between border-b px-4 py-3">
+            <div className="text-primary text-base font-semibold">{title}</div>
             {showCloseIcon && (
               <button
                 onClick={onClose}
@@ -129,16 +127,10 @@ export default function MiracleDrawer({
         )}
 
         {/* Content Body */}
-        <div className="flex-1 overflow-y-auto p-4">
-          {children}
-        </div>
+        <div className="flex-1 overflow-y-auto p-4">{children}</div>
 
         {/* Footer */}
-        {footer && (
-          <div className="shrink-0 border-t border-primary p-4 py-3">
-            {footer}
-          </div>
-        )}
+        {footer && <div className="border-primary shrink-0 border-t p-4 py-3">{footer}</div>}
       </div>
     </>
   )

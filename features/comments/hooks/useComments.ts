@@ -41,6 +41,6 @@ export function useComments({
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined
     },
-    staleTime: 5000, 
+    staleTime: 5000,
   })
 }

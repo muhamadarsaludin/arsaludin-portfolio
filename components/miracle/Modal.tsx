@@ -2,7 +2,7 @@
 
 import { useScrollLock } from "@/hooks/useScrollLock"
 import clsx from "clsx"
-import type { ReactNode} from "react"
+import type { ReactNode } from "react"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { LuX } from "react-icons/lu"
@@ -92,22 +92,22 @@ export default function MiracleModal({
         className={clsx(
           "bg-primary border-primary relative z-10 flex w-full flex-col rounded-3xl border shadow-2xl transition-all duration-300 ease-in-out dark:shadow-black",
           sizeStyles[size],
-          isOpen ? "scale-100 translate-y-0" : "scale-95 translate-y-12 sm:translate-y-0",
+          isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95 sm:translate-y-0",
           className
         )}
         role="dialog"
         aria-modal="true"
       >
         {(title || showCloseIcon) && (
-          <div className="flex shrink-0 items-center justify-between border-b border-primary px-6 py-5">
+          <div className="border-primary flex shrink-0 items-center justify-between border-b px-6 py-5">
             <div className="flex flex-col gap-1">
               {title && (
-                <div className={clsx("text-lg font-bold leading-tight", statusColors[status])}>
+                <div className={clsx("text-lg leading-tight font-bold", statusColors[status])}>
                   {title}
                 </div>
               )}
               {description && (
-                <div className="text-xs text-secondary font-medium leading-relaxed">
+                <div className="text-secondary text-xs leading-relaxed font-medium">
                   {description}
                 </div>
               )}
@@ -115,7 +115,7 @@ export default function MiracleModal({
             {showCloseIcon && (
               <button
                 onClick={onClose}
-                className="ml-auto flex shrink-0 cursor-pointer items-center justify-center rounded-xl p-2 text-secondary transition-all duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-primary active:scale-90"
+                className="text-secondary hover:text-primary ml-auto flex shrink-0 cursor-pointer items-center justify-center rounded-xl p-2 transition-all duration-200 hover:bg-neutral-100 active:scale-90 dark:hover:bg-neutral-800"
               >
                 <LuX size={22} />
               </button>
@@ -123,9 +123,7 @@ export default function MiracleModal({
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto px-6 py-6 scrollbar-hide">
-          {children}
-        </div>
+        <div className="scrollbar-hide flex-1 overflow-y-auto px-6 py-6">{children}</div>
       </div>
     </div>
   )
