@@ -1,5 +1,6 @@
+"use server"
+
 import { createClient } from "@/lib/supabase/server"
-import { routing } from "@/i18n/routing"
 import type { Project, ProjectTranslation } from "../types/projects.types"
 import { MAX_TOP_REACTIONS } from "@/features/reactions/constants/reactions.constants"
 

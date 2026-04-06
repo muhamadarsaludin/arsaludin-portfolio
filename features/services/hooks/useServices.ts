@@ -4,10 +4,10 @@ import { getServices } from "../services/services";
 /**
  * Custom hook to fetch and manage the state of services.
  * Integrates TanStack Query for efficient caching and background updates.
- * * @param options - Hook parameters.
+ * @param options - Hook parameters.
  * @param options.locale - Language code for localized content (e.g., 'id', 'en').
  * @param options.isAdminView - If true, fetches all records and includes administrative metadata.
- * * @features
+ * @features
  * - **Cache Isolation**: Includes `isAdminView` in the queryKey to prevent data leakage between public and admin views.
  * - **Static Optimization**: Uses a 1-hour `staleTime` since service data rarely changes.
  */
