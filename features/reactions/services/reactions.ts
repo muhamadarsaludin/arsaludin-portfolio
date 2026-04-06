@@ -92,7 +92,7 @@ type GetAllReactionsParams = {
  * @param targetType - Tipe target (untuk fleksibilitas jika ada post/comment).
  * @returns Promise berisi array ReactionCount yang sudah di-sort berdasarkan jumlah terbanyak.
  */
-export async function getAllReactions({
+export async function getReactions({
   targetId,
   targetType,
 }: GetAllReactionsParams): Promise<ReactionCount[]> {
@@ -108,8 +108,9 @@ export async function getAllReactions({
 
   if (error) {
     console.error(`[getAllReactions] Error fetching ${targetType} reactions:`, error.message)
-    return []
+    throw error
   }
+  if(!data) return []
 
-  return (data as ReactionCount[]) || []
+  return data as ReactionCount[]
 }

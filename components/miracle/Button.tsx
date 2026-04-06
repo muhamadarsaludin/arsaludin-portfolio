@@ -4,17 +4,17 @@ import clsx from "clsx"
 import MiracleLoader from "@/components/miracle/Loader"
 import React from "react"
 
-// Added size to the type definition
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: React.ReactNode
   variant?: "primary" | "secondary"
   status?: "default" | "danger"
-  size?: "xs" | "sm" | "md" | "lg" // New size prop
+  size?: "xs" | "sm" | "md" | "lg"
   fullWidth?: boolean
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
   loading?: boolean
   disabled?: boolean
+  isSquare?: boolean
 }
 
 export default function MiracleButton({
@@ -22,28 +22,28 @@ export default function MiracleButton({
   className,
   variant = "primary",
   status = "default",
-  size = "md", // Default size is medium
+  size = "md",
   fullWidth = false,
   startIcon,
   endIcon,
   loading = false,
   disabled = false,
+  isSquare = false,
   ...props
 }: ButtonProps) {
   const isDisabled = disabled || loading
 
   const baseStyles =
-    "flex items-center justify-center gap-2 font-medium transition-all duration-300 ease-in-out cursor-pointer rounded-md"
+    "flex items-center justify-center gap-1 font-medium transition-all duration-300 ease-in-out cursor-pointer rounded-md"
 
-  // Dynamic padding, text size, and icon container based on size prop
+  // Logic Padding: Jika isSquare, gunakan padding yang sama di semua sisi atau fix width/height
   const sizeStyles = {
-    xs: "text-[10px] px-2 py-1 gap-1 rounded-sm",
-    sm: "text-xs px-2.5 py-1.5 gap-1.5",
-    md: "text-sm px-4 py-2 gap-2",
-    lg: "text-base px-6 py-3 gap-2.5",
+    xs: isSquare ? "p-1 h-6 w-6 text-[10px]" : "text-[10px] px-2 py-1 gap-1 rounded-sm",
+    sm: isSquare ? "p-1.5 h-8 w-8 text-xs" : "text-xs px-2.5 py-1.5 gap-1",
+    md: isSquare ? "p-2 h-10 w-10 text-sm" : "text-sm px-4 py-2 gap-1.5",
+    lg: isSquare ? "p-3 h-12 w-12 text-base" : "text-base px-6 py-3 gap-2",
   }
 
-  // Loader size mapping to keep it proportional
   const loaderSizes = {
     xs: 12,
     sm: 14,
@@ -73,17 +73,15 @@ export default function MiracleButton({
     },
   }
 
-  const disabledStyles =
-    "opacity-50 cursor-not-allowed pointer-events-none grayscale"
-
-  const widthClass = fullWidth ? "w-full" : "w-auto"
+  const disabledStyles = "opacity-50 cursor-not-allowed pointer-events-none grayscale"
+  const widthClass = fullWidth && !isSquare ? "w-full" : ""
 
   return (
     <button
       disabled={isDisabled}
       className={clsx(
         baseStyles,
-        sizeStyles[size], // Apply the selected size
+        sizeStyles[size],
         variantStyles[variant][status],
         !isDisabled && hoverStyles[variant][status],
         isDisabled && disabledStyles,
@@ -96,9 +94,11 @@ export default function MiracleButton({
         <MiracleLoader size={loaderSizes[size]} />
       ) : (
         <>
-          {startIcon && <span className="flex items-center">{startIcon}</span>}
+          {startIcon && <span className="flex items-center shrink-0">{startIcon}</span>}
+          
           {children && <span>{children}</span>}
-          {endIcon && <span className="flex items-center">{endIcon}</span>}
+          
+          {endIcon && <span className="flex items-center shrink-0">{endIcon}</span>}
         </>
       )}
     </button>

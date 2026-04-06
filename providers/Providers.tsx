@@ -2,6 +2,8 @@ import { ThemeProvider } from "@wrksz/themes/next"
 import { ReactNode } from "react"
 import { AuthProvider } from "./AuthProvider"
 import { User } from "@supabase/supabase-js"
+import QueryProvider from "./QueryProvider"
+
 
 export function Providers({
   children,
@@ -12,7 +14,11 @@ export function Providers({
 }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <AuthProvider initialUser={initialUser}>{children}</AuthProvider>
+        <AuthProvider initialUser={initialUser}>
+          <QueryProvider >
+            {children}
+          </QueryProvider>
+        </AuthProvider>
     </ThemeProvider>
   )
 }

@@ -36,19 +36,38 @@
       }
     },
     "comment": {
-      "title": "Komentar",
-      "emptyMessage": "Belum ada komentar. Yuk, jadi yang pertama!",
-      "reply": "Balas",
-      "viewReplies": "Lihat balasan",
-      "hideReplies": "Sembunyikan balasan",
-      "replyingTo": "Balas kepada",
-      "authorLabel": "Penulis",
+      "list": {
+        "emptyMessage": "Belum ada komentar. Yuk, jadi yang pertama!"
+      },
+      "item": {
+        "reply": "Balas",
+        "viewReplies": "Lihat {count} balasan",
+        "hideReplies": "Sembunyikan balasan",
+        "action": "Aksi",
+        "delete": "Hapus",
+        "modal": {
+          "delete": {
+            "title": "Hapus Komentar",
+            "description": "Apakah kamu yakin ingin menghapus komentar ini? Tindakan ini tidak dapat dibatalkan.",
+            "cancel": "Batal",
+            "confirm": "Ya, Hapus"
+          }
+        }
+      },
+      "drawer": {
+        "title": "Komentar",
+        "isFetching": "Mengambil komentar...",
+        "seeMore": "Lihat lebih banyak"
+      },
       "tooltip": {
         "default": "Add comment",
         "auth": "Sign in to comment"
       },
-      "textField": {
-        "placeholder": "Tulis komentar..."
+      "input": {
+        "placeholder": "Tulis komentar...",
+        "replyingTo": "Replying to",
+        "loginRequired": "Masuk untuk berkomentar",
+        "signIn": "Masuk dengan Google"
       }
     }
   },

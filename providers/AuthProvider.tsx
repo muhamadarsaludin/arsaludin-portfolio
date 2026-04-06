@@ -3,8 +3,8 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import type { User } from "@supabase/supabase-js"
-import { Profile } from "@/features/shared/types/profiles"
-import { getProfile } from "@/features/shared/services/profiles"
+import { Profile } from "@/features/profile/types/profiles"
+import { getProfile } from "@/features/profile/services/profiles"
 
 type AuthContextType = {
   user: User | null
@@ -38,7 +38,7 @@ export function AuthProvider({
   useEffect(() => {
     const fetchProfile = async (userId: string) => {
       try {
-        const data = await getProfile(userId)
+        const data = await getProfile({id: userId})
         if (data) setProfile(data)
       } catch (error) {
         console.error("Error fetching profile:", error)

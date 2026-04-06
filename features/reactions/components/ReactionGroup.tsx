@@ -2,7 +2,7 @@
 
 import { useCallback } from "react"
 import { useRouter } from "@/i18n/navigation"
-import { getAllReactions, toggleReaction } from "../services/reactions"
+import { getReactions, toggleReaction } from "../services/reactions"
 import { ReactionSummary, ReactionTargetType } from "../types/reactions"
 import ReactionsPreview from "./ReactionsPreview"
 import ReactionPicker from "./ReactionPicker"
@@ -35,7 +35,7 @@ export default function ReactionGroup({
   }, [targetId, targetType, router])
 
   const handleGetAllReactions = useCallback(async () => {
-    return await getAllReactions({
+    return await getReactions({
       targetId,
       targetType,
     })

@@ -2,29 +2,34 @@
 
 import { useState } from "react"
 import CommentButton from "./CommentButton"
-import CommentsCount from "./CommentsCount"
 import CommentDrawer from "./CommentDrawer"
+import { CommentTargetType } from "../types/comments"
 
 type CommentGroupProps = {
-  targetId: number
-  targetType: string
-  commentsCount: number
+  targetId: string
+  targetType: CommentTargetType
+  commentCount: number
 }
 
-export default function CommentGroup({ targetId, targetType, commentsCount }: CommentGroupProps) {
+export default function CommentGroup({ 
+  targetId, 
+  targetType, 
+  commentCount 
+}: CommentGroupProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   return (
     <>
       <div className="flex items-center gap-1">
-        <CommentButton onClick={() => setIsDrawerOpen(true)} />
-        <CommentsCount commentsCount={commentsCount} />
+        <CommentButton commentCount={commentCount} onClick={() => setIsDrawerOpen(true)} />
       </div>
+
       <CommentDrawer
         isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
         targetId={targetId}
         targetType={targetType}
+        commentCount={commentCount} 
+        onClose={() => setIsDrawerOpen(false)}
       />
     </>
   )

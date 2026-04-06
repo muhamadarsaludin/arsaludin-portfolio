@@ -3,6 +3,7 @@
 import { useScrollLock } from "@/hooks/useScrollLock"
 import clsx from "clsx"
 import { ReactNode, useEffect, useState } from "react"
+import { createPortal } from "react-dom"
 import { LuX } from "react-icons/lu"
 
 export type MiracleModalProps = {
@@ -11,11 +12,20 @@ export type MiracleModalProps = {
   children: ReactNode
   title?: ReactNode
   description?: ReactNode
+  status?: "default" | "success" | "error" | "warning" | "info"
   size?: "sm" | "md" | "lg" | "xl" | "full"
   showCloseIcon?: boolean
   closeOnOutsideClick?: boolean
   className?: string
   overlayClassName?: string
+}
+
+const statusColors = {
+  default: "text-primary",
+  success: "text-green-600 dark:text-green-400",
+  error: "text-red-600 dark:text-red-400",
+  warning: "text-amber-600 dark:text-amber-400",
+  info: "text-blue-600 dark:text-blue-400",
 }
 
 export default function MiracleModal({
@@ -24,6 +34,7 @@ export default function MiracleModal({
   children,
   title,
   description,
+  status = "default",
   size = "md",
   showCloseIcon = true,
   closeOnOutsideClick = true,
@@ -55,59 +66,68 @@ export default function MiracleModal({
     md: "max-w-md",
     lg: "max-w-lg",
     xl: "max-w-xl",
-    full: "max-w-[90vw] md:max-w-screen-xl",
+    full: "max-w-[95vw] md:max-w-screen-xl",
   }
 
-  return (
+  const modalElement = (
     <div
       className={clsx(
-        "fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 transition-all duration-300 ease-in-out",
-        isOpen ? "visible" : "pointer-events-none invisible"
+        "fixed inset-0 z-[9999] flex items-center justify-center p-4 transition-all duration-300 ease-in-out",
+        isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
       )}
     >
-      {/* Overlay Backdrop */}
+      {/* Overlay */}
       <div
         className={clsx(
-          "bg-overlay absolute inset-0 transition-opacity duration-300 ease-in-out",
+          "fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ease-in-out",
           isOpen ? "opacity-100" : "opacity-0",
           overlayClassName
         )}
         onClick={closeOnOutsideClick ? onClose : undefined}
       />
 
-      {/* Modal Content */}
+      {/* Box Modal */}
       <div
         className={clsx(
-          "bg-primary border-primary relative flex w-full flex-col rounded-2xl border shadow-2xl transition-all duration-300 ease-in-out dark:shadow-black",
+          "bg-primary border-primary relative z-10 flex w-full flex-col rounded-3xl border shadow-2xl transition-all duration-300 ease-in-out dark:shadow-black",
           sizeStyles[size],
-          isOpen ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-4 sm:translate-y-0",
+          isOpen ? "scale-100 translate-y-0" : "scale-95 translate-y-12 sm:translate-y-0",
           className
         )}
         role="dialog"
         aria-modal="true"
       >
         {(title || showCloseIcon) && (
-          <div className="flex shrink-0 items-center justify-between border-b border-primary px-6 py-4">
+          <div className="flex shrink-0 items-center justify-between border-b border-primary px-6 py-5">
             <div className="flex flex-col gap-1">
-              {title && <div className="text-lg font-semibold text-primary">{title}</div>}
-              {description && <div className="text-sm text-secondary">{description}</div>}
+              {title && (
+                <div className={clsx("text-lg font-bold leading-tight", statusColors[status])}>
+                  {title}
+                </div>
+              )}
+              {description && (
+                <div className="text-xs text-secondary font-medium leading-relaxed">
+                  {description}
+                </div>
+              )}
             </div>
             {showCloseIcon && (
               <button
                 onClick={onClose}
-                className="ml-auto flex shrink-0 cursor-pointer items-center justify-center rounded-md p-2 text-secondary transition-colors duration-200 hover:bg-neutral-200 hover:text-primary dark:hover:bg-neutral-800"
-                aria-label="Close modal"
+                className="ml-auto flex shrink-0 cursor-pointer items-center justify-center rounded-xl p-2 text-secondary transition-all duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-primary active:scale-90"
               >
-                <LuX size={20} />
+                <LuX size={22} />
               </button>
             )}
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto px-6 py-4">
+        <div className="flex-1 overflow-y-auto px-6 py-6 scrollbar-hide">
           {children}
         </div>
       </div>
     </div>
   )
+
+  return createPortal(modalElement, document.body)
 }

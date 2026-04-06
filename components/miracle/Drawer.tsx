@@ -12,6 +12,7 @@ export type MiracleDrawerProps = {
   size?: number | string
   children: ReactNode
   title?: ReactNode
+  footer?: ReactNode
   showCloseIcon?: boolean
   closeOnScrimClick?: boolean
   className?: string
@@ -25,6 +26,7 @@ export default function MiracleDrawer({
   size,
   children,
   title,
+  footer,
   showCloseIcon = true,
   closeOnScrimClick = true,
   className,
@@ -35,6 +37,7 @@ export default function MiracleDrawer({
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -44,6 +47,7 @@ export default function MiracleDrawer({
     document.addEventListener("keydown", handleKeyDown)
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [isOpen, onClose])
+
   useScrollLock(isOpen)
 
   if (!isMounted) return null
@@ -84,6 +88,7 @@ export default function MiracleDrawer({
 
   return (
     <>
+      {/* Scrim Overlay */}
       <div
         className={clsx(
           "z-drawer-overlay bg-overlay fixed inset-0 transition-all duration-300 ease-in-out",
@@ -93,6 +98,7 @@ export default function MiracleDrawer({
         onClick={closeOnScrimClick ? onClose : undefined}
       />
 
+      {/* Drawer Panel */}
       <div
         className={clsx(
           "z-drawer bg-primary fixed flex flex-col shadow-2xl transition-transform duration-300 ease-in-out dark:shadow-black",
@@ -103,6 +109,7 @@ export default function MiracleDrawer({
         )}
         style={customStyle}
       >
+        {/* Header */}
         {(title || showCloseIcon) && (
           <div className="flex shrink-0 items-center justify-between border-b border-primary px-4 py-3">
             <div className="text-base font-semibold text-primary">
@@ -120,7 +127,17 @@ export default function MiracleDrawer({
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto p-4">{children}</div>
+        {/* Content Body */}
+        <div className="flex-1 overflow-y-auto p-4">
+          {children}
+        </div>
+
+        {/* Footer */}
+        {footer && (
+          <div className="shrink-0 border-t border-primary p-4 py-3">
+            {footer}
+          </div>
+        )}
       </div>
     </>
   )

@@ -6,6 +6,7 @@ import { Project } from "../types/projects"
 import { Link } from "@/i18n/navigation"
 import SkillBadges from "@/features/skills/components/SkillBadges"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
+import CommentGroup from "@/features/comments/components/CommentGroup"
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
@@ -51,11 +52,11 @@ export default function ProjectCard({ project }: { project: Project }) {
           targetType="project"
           reactionSummary={project.reaction_summary}
         />
-        {/* <CommentGroup
+        <CommentGroup
           targetId={project.id}
           targetType="project"
-          commentsCount={project.comments_count}
-        /> */}
+          commentCount={project.comment_count}
+        />
       </div>
     </div>
   )
