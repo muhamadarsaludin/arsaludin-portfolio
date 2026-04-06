@@ -111,7 +111,7 @@ export default function GithubCalendar({ data, colorScheme = "green" }: Props) {
       <div className="mt-2 flex items-center space-x-1 text-[10px]">
         <span>Less</span>
         <div className="flex space-x-[2px]">
-          <div className={`h-[10px] w-[10px] rounded-sm bg-gray-800`} />
+          <div className={"h-[10px] w-[10px] rounded-sm bg-gray-800"} />
           <div className={`h-[10px] w-[10px] ${getColor(2)} rounded-sm`} />
           <div className={`h-[10px] w-[10px] ${getColor(5)} rounded-sm`} />
           <div className={`h-[10px] w-[10px] ${getColor(10)} rounded-sm`} />

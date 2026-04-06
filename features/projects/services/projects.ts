@@ -130,7 +130,7 @@ export async function getProjects({
     ) ?? 0
     const topReactions = project.project_reaction_counts?.slice(0, MAX_TOP_REACTIONS) ?? []
     const totalEmojis = project.project_reaction_counts?.length ?? 0
-    const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS);
+    const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
 
 
     return {

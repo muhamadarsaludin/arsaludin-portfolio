@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+import type { Metadata } from "next"
 
 const baseUrl =
   process.env.NODE_ENV === "development"

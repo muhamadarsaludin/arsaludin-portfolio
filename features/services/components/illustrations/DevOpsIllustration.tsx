@@ -32,8 +32,8 @@ export default function DevOpsIllustration() {
               strokeLinejoin="round"
               className="text-red h-3.5 w-3.5"
             >
-              <polyline points="16 18 22 12 16 6"></polyline>
-              <polyline points="8 6 2 12 8 18"></polyline>
+              <polyline points="16 18 22 12 16 6" />
+              <polyline points="8 6 2 12 8 18" />
             </svg>
           </div>
 
@@ -80,7 +80,7 @@ export default function DevOpsIllustration() {
             strokeLinejoin="round"
             className="text-primary h-5 w-5"
           >
-            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
           </svg>
         </motion.div>
       </div>

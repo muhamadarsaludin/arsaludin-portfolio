@@ -1,5 +1,6 @@
 "use client"
-import { motion, Transition, Easing } from "motion/react"
+import type { Transition, Easing } from "motion/react"
+import { motion } from "motion/react"
 import { useEffect, useRef, useState, useMemo } from "react"
 
 type BlurTextProps = {

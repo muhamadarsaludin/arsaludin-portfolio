@@ -3,7 +3,7 @@
 import { useState } from "react"
 import CommentButton from "./CommentButton"
 import CommentDrawer from "./CommentDrawer"
-import { CommentTargetType } from "../types/comments"
+import type { CommentTargetType } from "../types/comments"
 
 type CommentGroupProps = {
   targetId: string

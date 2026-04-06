@@ -2,7 +2,8 @@
 
 import { useScrollLock } from "@/hooks/useScrollLock"
 import clsx from "clsx"
-import { ReactNode, useEffect, useState } from "react"
+import type { ReactNode} from "react"
+import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { LuX } from "react-icons/lu"
 

@@ -117,7 +117,7 @@ export default function Header({ className }: HeaderProps) {
           showMenu && "visible opacity-100"
         )}
         onClick={() => setShowMenu(false)}
-      ></div>
+       />
     </header>
   )
 }

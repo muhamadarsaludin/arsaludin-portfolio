@@ -14,7 +14,7 @@ import { signInWithGoogle } from "@/features/auth/services/authService"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import MiraclePopover from "@/components/miracle/Popover"
 import MiracleLoader from "@/components/miracle/Loader"
-import { ReactionSummary } from "../types/reactions"
+import type { ReactionSummary } from "../types/reactions"
 
 // Dynamically import EmojiPicker to improve initial bundle size and performance
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), {

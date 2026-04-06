@@ -1,5 +1,5 @@
-import { Profile } from "@/features/profile/types/profiles"
-import { Cursor } from "@/features/shared/types"
+import type { Profile } from "@/features/profile/types/profiles"
+import type { Cursor } from "@/features/shared/types"
 
 
 // ================== INFORMATION =================

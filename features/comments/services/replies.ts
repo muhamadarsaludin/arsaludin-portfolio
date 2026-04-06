@@ -1,11 +1,12 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { CommentData, PaginatedComments } from "../types/comments"
+import type { CommentData, PaginatedComments } from "../types/comments"
 import { REPLIES_PAGE_SIZE } from "../constants/comments"
-import { GetRepliesParams } from "../types/replies"
-import { addComment, AddCommentParams, deleteComment } from "./comments"
-import { Profile } from "@/features/profile/types/profiles"
+import type { GetRepliesParams } from "../types/replies"
+import type { AddCommentParams} from "./comments"
+import { addComment, deleteComment } from "./comments"
+import type { Profile } from "@/features/profile/types/profiles"
 
 export async function getReplies({ 
   parentId, 

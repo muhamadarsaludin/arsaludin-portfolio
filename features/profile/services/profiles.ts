@@ -1,7 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { Profile } from "../types/profiles"
+import type { Profile } from "../types/profiles"
 
 export async function getProfile({
   id

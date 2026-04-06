@@ -2,7 +2,8 @@
 
 import clsx from "clsx"
 import { toKebabCase } from "@/utils/string-case"
-import React, { JSX } from "react"
+import type { JSX } from "react"
+import React from "react"
 import MiracleTooltip from "./miracle/Tooltip"
 import { LuLink2 } from "react-icons/lu"
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"

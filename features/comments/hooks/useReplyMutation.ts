@@ -1,6 +1,7 @@
-import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query"
+import type { InfiniteData} from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { addComment, deleteComment } from "../services/comments"
-import { CommentData, PaginatedComments } from "../types/comments"
+import type { CommentData, PaginatedComments } from "../types/comments"
 import { useAuth } from "@/providers/AuthProvider"
 import { addReply, deleteReply } from "../services/replies"
 

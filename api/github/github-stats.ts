@@ -1,4 +1,4 @@
-import { GithubStats } from "@/types/github"
+import type { GithubStats } from "@/types/github"
 
 const query = `
   query($login: String!) {

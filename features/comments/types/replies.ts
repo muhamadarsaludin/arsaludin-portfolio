@@ -1,4 +1,4 @@
-import { Cursor } from "@/features/shared/types"
+import type { Cursor } from "@/features/shared/types"
 
 export type GetRepliesParams = {
   parentId: string

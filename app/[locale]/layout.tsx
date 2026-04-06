@@ -1,4 +1,4 @@
-import { Metadata, Viewport } from "next"
+import type { Metadata, Viewport } from "next"
 import { metadata as metaConfig } from "@/configs/metadata"
 import { NextIntlClientProvider, hasLocale } from "next-intl"
 import { setRequestLocale } from "next-intl/server"

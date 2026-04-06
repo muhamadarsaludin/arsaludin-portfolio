@@ -3,7 +3,7 @@
 import { useCallback } from "react"
 import { useRouter } from "@/i18n/navigation"
 import { getReactions, toggleReaction } from "../services/reactions"
-import { ReactionSummary, ReactionTargetType } from "../types/reactions"
+import type { ReactionSummary, ReactionTargetType } from "../types/reactions"
 import ReactionsPreview from "./ReactionsPreview"
 import ReactionPicker from "./ReactionPicker"
 

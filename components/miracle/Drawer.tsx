@@ -2,7 +2,8 @@
 
 import { useScrollLock } from "@/hooks/useScrollLock"
 import clsx from "clsx"
-import { ReactNode, useEffect, useState } from "react"
+import type { ReactNode} from "react"
+import { useEffect, useState } from "react"
 import { LuX } from "react-icons/lu"
 
 export type MiracleDrawerProps = {

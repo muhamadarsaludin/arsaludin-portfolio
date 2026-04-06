@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 import { useCommentMutation } from "../hooks/useCommentMutation"
-import { CommentTargetType, CommentData } from "../types/comments"
+import type { CommentTargetType, CommentData } from "../types/comments"
 import { useAuth } from "@/providers/AuthProvider"
-import MiracleTextField from '@/components/miracle/TextField'
-import MiracleButton from '@/components/miracle/Button'
-import { LuSend, LuX } from 'react-icons/lu'
+import MiracleTextField from "@/components/miracle/TextField"
+import MiracleButton from "@/components/miracle/Button"
+import { LuSend, LuX } from "react-icons/lu"
 import clsx from "clsx"
 import { useTranslations } from "next-intl"
 import { SiGoogle } from "react-icons/si"

@@ -1,6 +1,6 @@
-import { routing } from "@/i18n/routing";
-import { Service, ServiceTranslation } from "../types/service";
-import { createClient } from "@/lib/supabase/server";
+import { routing } from "@/i18n/routing"
+import type { Service, ServiceTranslation } from "../types/service"
+import { createClient } from "@/lib/supabase/server"
 
 type getServicesParams = {
   locale: string;
@@ -18,7 +18,7 @@ export async function getServices({
   locale,
   isAdminView = false,
 }: getServicesParams): Promise<Service[]> {
-  const supabase = await createClient();
+  const supabase = await createClient()
 
   const columns = `
     id,
@@ -43,23 +43,23 @@ export async function getServices({
         icon,
         link
       )
-    )`;
+    )`
 
   let query = supabase
     .from("services")
     .select(columns)
     .eq("service_translations.i18n.locale", locale)
     .order("order_index", { ascending: true })
-    .order("order_index", { referencedTable: "service_skills", ascending: true });
+    .order("order_index", { referencedTable: "service_skills", ascending: true })
 
   // Apply visibility filter for public-facing pages (Landing Page)
   if (!isAdminView) {
     query = query
       .eq("is_show", true)
-      .eq("service_skills.is_show", true);
+      .eq("service_skills.is_show", true)
   }
 
-  const { data, error } = await query;
+  const { data, error } = await query
 
   if (error) {
     console.error("Error fetching services:", error)
@@ -72,11 +72,11 @@ export async function getServices({
    * This simplifies the data structure for easier consumption in UI components.
    */
   return data.map((service: any) => {
-    const t = service.service_translations?.[0] as ServiceTranslation | undefined;
+    const t = service.service_translations?.[0] as ServiceTranslation | undefined
     
     const skills = service.service_skills
       ?.map((ss: any) => ss.skills)
-      .filter(Boolean) || [];
+      .filter(Boolean) || []
 
     return {
       id: service.id,
@@ -90,6 +90,6 @@ export async function getServices({
       created_at: service.created_at ?? null,
       updated_at: service.updated_at ?? null,
       skills: skills,
-    } as Service;
-  });
+    } as Service
+  })
 }

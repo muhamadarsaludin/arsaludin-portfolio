@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@wrksz/themes/next"
-import { ReactNode } from "react"
+import type { ReactNode } from "react"
 import { AuthProvider } from "./AuthProvider"
-import { User } from "@supabase/supabase-js"
+import type { User } from "@supabase/supabase-js"
 import QueryProvider from "./QueryProvider"
 
 

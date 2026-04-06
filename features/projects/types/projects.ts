@@ -1,5 +1,5 @@
-import { ReactionSummary } from "@/features/reactions/types/reactions"
-import { Skill } from "@/features/skills/types/skills"
+import type { ReactionSummary } from "@/features/reactions/types/reactions"
+import type { Skill } from "@/features/skills/types/skills"
 
 export type Project = {
   id: string

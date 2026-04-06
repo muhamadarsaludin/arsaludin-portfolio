@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr"
-import { NextResponse, type NextRequest } from "next/server"
+import type { NextResponse} from "next/server"
+import { type NextRequest } from "next/server"
 
 export async function updateSession(request: NextRequest, response: NextResponse) {
   const supabase = createServerClient(

@@ -14,7 +14,7 @@ import { useAuth } from "@/providers/AuthProvider"
 import { useCommentMutation } from "../hooks/useCommentMutation"
 import { getInitials } from "@/utils/initials"
 import { timeAgo } from "@/utils/time-ago"
-import { CommentData, CommentTargetType } from "../types/comments"
+import type { CommentData, CommentTargetType } from "../types/comments"
 import ReplyList from "./ReplyList"
 import { useReplyMutation } from "../hooks/useReplyMutation"
 

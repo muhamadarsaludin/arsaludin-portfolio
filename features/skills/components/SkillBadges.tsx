@@ -2,7 +2,7 @@ import React from "react"
 import MiracleBadge from "@/components/miracle/Badge"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import clsx from "clsx"
-import { Skill } from "../types/skills"
+import type { Skill } from "../types/skills"
 import { SkillIconMap } from "../services/skills"
 import { useTranslations } from "next-intl"
 
