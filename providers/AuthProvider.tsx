@@ -14,11 +14,17 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
+/**
+ * Global Authentication Provider.
+ * Synchronizes Supabase Auth sessions with detailed Profile data from the database.
+ * @param children - The React component tree that requires access to Auth state.
+ * @param initialUser - The User object fetched from the Server Component (Layout) to prevent hydration flickers.
+ */
 export function AuthProvider({ children, initialUser }: { children: React.ReactNode; initialUser: User | null }) {
   const supabase = createClient()
   const [user, setUser] = useState<User | null>(initialUser)
 
-  const { data: profile, isLoading: isProfileLoading } = useProfile(user?.id)
+  const { data: profile, isLoading: isProfileLoading } = useProfile({userId: user?.id ?? null})
 
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {

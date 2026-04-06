@@ -114,7 +114,10 @@ export default function CommentItem({
 
             <div className="flex items-center gap-2">
               <span className="text-secondary text-[11px] opacity-60">
-                {timeAgo(comment.created_at, locale)}
+                {timeAgo({
+                  date: comment.created_at, 
+                  locale
+                })}
               </span>
 
               <button
