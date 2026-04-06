@@ -10,8 +10,14 @@ import MiracleBadge from "../miracle/Badge"
 import { getInitials } from "@/utils/initials"
 
 export default function HeaderAvatar() {
-  const { profile } = useAuth()
+  const { profile, isLoading } = useAuth()
   const t = useTranslations("components.header")
+
+  if (isLoading) {
+    return (
+      <div className="h-8 w-8 animate-pulse rounded-full bg-neutral-300" />
+    )
+  }
 
   if (!profile) return null
 
@@ -33,7 +39,7 @@ export default function HeaderAvatar() {
             alt={profile.full_name}
             width={32}
             height={32}
-            unoptimized
+            priority
             referrerPolicy="no-referrer"
             className="border-primary h-8 w-8 rounded-full border object-cover"
           />
@@ -49,8 +55,12 @@ export default function HeaderAvatar() {
           <MiracleBadge className="mb-2" startIcon={<LuUserRound />}>
             <span className="capitalize">{profile.role}</span>
           </MiracleBadge>
-          <h3 className="text-primary-inv truncate font-semibold">{profile.full_name}</h3>
-          <p className="text-secondary-inv mt-0.5 text-xs font-normal">{profile.email}</p>
+          <h3 className="text-primary-inv truncate font-semibold">
+            {profile.full_name}
+          </h3>
+          <p className="text-secondary-inv mt-0.5 text-xs font-normal">
+            {profile.email}
+          </p>
         </div>
         <button
           onClick={handleSignOut}
