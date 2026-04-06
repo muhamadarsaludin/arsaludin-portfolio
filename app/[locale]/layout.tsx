@@ -39,10 +39,18 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   }
   setRequestLocale(locale)
 
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  let user = null
+  
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase.auth.getUser()
+    
+    if (!error && data?.user) {
+      user = data.user
+    }
+  } catch (err) {
+    console.error("Supabase Auth Error in Layout:", err)
+  }
 
   return (
     <html lang={locale} suppressHydrationWarning>
