@@ -1,73 +1,31 @@
 import Section from "@/components/Section"
 import Heading from "@/components/Heading"
-import { useLocale, useTranslations } from "next-intl"
-import { Suspense } from "react"
-import ServiceCardSkeleton from "@/features/services/components/ServiceCardSkeleton"
-import ServiceCard from "@/features/services/components/ServiceCard"
+import { getLocale, getTranslations } from "next-intl/server"
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
 import { getServices } from "@/features/services/services/services"
+import { ServiceList } from "./ServiceList"
 
-export default function SkillsAndServicesSection({ className }: { className?: string }) {
-  const t = useTranslations("pages.home.skills-and-services")
-  const locale = useLocale()
+/**
+ * Server Component: Prefetches data and provides a hydration boundary.
+ * This ensures SEO-friendly content and zero layout shift on initial load.
+ */
+export default async function SkillsAndServicesSection({ className }: { className?: string }) {
+  const t = await getTranslations("pages.home.skills-and-services")
+  const locale = await getLocale()
+  const queryClient = new QueryClient()
+
+  await queryClient.prefetchQuery({
+    queryKey: ["services", locale, false],
+    queryFn: () => getServices({ locale, isAdminView: false }),
+  })
 
   return (
-    <Section className={className}>
-      <Heading id="skills-and-services">{t("title")}</Heading>
-      <p className="text-secondary mt-4">{t("description")}</p>
-
-      {/* Suspense handles the loading state (streaming) */}
-      <Suspense fallback={<ServiceListSkeleton />}>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Section className={className}>
+        <Heading id="skills-and-services">{t("title")}</Heading>
+        <p className="text-secondary mt-4">{t("description")}</p>
         <ServiceList locale={locale} />
-      </Suspense>
-    </Section>
-  )
-}
-
-/**
- * ServiceList handles the data fetching and internal states (Empty & Error).
- * This is a Server Component.
- */
-async function ServiceList({ locale }: { locale: string }) {
-  try {
-    const services = await getServices({ locale })
-    // Handle Empty State (No records in Database)
-    if (!services || services.length === 0) {
-      return (
-        <div className="border-primary mt-8 flex h-40 flex-col items-center justify-center rounded-2xl border border-dashed">
-          <p className="text-secondary text-sm">No services found for this language.</p>
-        </div>
-      )
-    }
-    // Success State
-    return (
-      <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
-        {services.map((service) => (
-          <ServiceCard key={service.id} service={service} />
-        ))}
-      </div>
-    )
-  } catch (error) {
-    // Error State (Network failure, Supabase error, etc.)
-    console.error("Failed to fetch services:", error)
-    return (
-      <div className="mt-8 rounded-2xl bg-red-100 p-8 text-center dark:bg-red-950">
-        <p className="text-red text-sm font-medium">
-          Unable to load services. Please try again later.
-        </p>
-      </div>
-    )
-  }
-}
-
-/**
- * Skeleton Loader matches the grid layout of the actual list.
- */
-function ServiceListSkeleton() {
-  return (
-    <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <ServiceCardSkeleton key={i} />
-      ))}
-    </div>
+      </Section>
+    </HydrationBoundary>
   )
 }

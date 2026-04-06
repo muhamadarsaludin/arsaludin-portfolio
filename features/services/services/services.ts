@@ -1,4 +1,5 @@
-import { routing } from "@/i18n/routing"
+"use server"
+
 import type { Service, ServiceTranslation } from "../types/service.types"
 import { createClient } from "@/lib/supabase/server"
 
