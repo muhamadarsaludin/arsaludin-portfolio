@@ -36,7 +36,6 @@ export default function MiracleButton({
   const baseStyles =
     "flex items-center justify-center gap-1 font-medium transition-all duration-300 ease-in-out cursor-pointer rounded-md"
 
-  // Logic Padding: Jika isSquare, gunakan padding yang sama di semua sisi atau fix width/height
   const sizeStyles = {
     xs: isSquare ? "p-1 h-6 w-6 text-[10px]" : "text-[10px] px-2 py-1 gap-1 rounded-sm",
     sm: isSquare ? "p-1.5 h-8 w-8 text-xs" : "text-xs px-2.5 py-1.5 gap-1",

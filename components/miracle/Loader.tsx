@@ -47,7 +47,7 @@ export default function MiracleLoader({ size = 24, strokeWidth = 8 }: LoaderProp
           animation: "rotate 2s linear infinite",
         }}
       >
-        {/* Base Circle - Mengikuti keyframe base lo */}
+        {/* Base Circle */}
         <circle
           className="text-neutral-med"
           cx="28"
@@ -63,7 +63,7 @@ export default function MiracleLoader({ size = 24, strokeWidth = 8 }: LoaderProp
           }}
         />
 
-        {/* Highlight Circle - Mengikuti keyframe highlight lo */}
+        {/* Highlight Circle */}
         <circle
           className="text-blue"
           cx="28"

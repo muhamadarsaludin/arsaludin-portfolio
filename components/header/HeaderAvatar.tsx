@@ -1,6 +1,5 @@
 "use client"
 
-import React from "react"
 import MiracleTooltip from "../miracle/Tooltip"
 import { signOut } from "@/features/auth/services/authService"
 import { LuLogOut, LuUserRound } from "react-icons/lu"
