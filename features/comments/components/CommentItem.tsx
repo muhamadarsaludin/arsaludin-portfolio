@@ -14,12 +14,14 @@ import { useAuth } from "@/providers/AuthProvider"
 import { useCommentMutation } from "../hooks/useCommentMutation"
 import { getInitials } from "@/utils/initials"
 import { timeAgo } from "@/utils/time-ago"
-import { CommentData } from "../types/comments"
+import { CommentData, CommentTargetType } from "../types/comments"
+import ReplyList from "./ReplyList"
+import { useReplyMutation } from "../hooks/useReplyMutation"
 
 type CommentItemProps = {
   comment: CommentData
   targetId: string
-  targetType: string
+  targetType: CommentTargetType
   onReplyComment?: (repliedComment: CommentData) => void
 }
 
@@ -31,24 +33,38 @@ export default function CommentItem({
 }: CommentItemProps) {
   const t = useTranslations("components.comment.item")
   const locale = useLocale()
-  const { user, profile } = useAuth()
-  const { remove } = useCommentMutation(targetId, targetType)
+  const { user, isSignedIn, profile } = useAuth()
+
+  const { remove: removeComment, isRemoving: isRemovingComment } = useCommentMutation({targetId, targetType})
+  const { remove: removeReply, isRemoving: isRemovingReply } = useReplyMutation({targetId, targetType})
   
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [viewReplies, setViewReplies] = useState(false)
   const [authorAvatar, setAuthorAvatar] = useState(comment.author.avatar_url || "/dummy.webp")
+
+  const isDeleting = isRemovingComment || isRemovingReply
 
   const initials = getInitials(comment.author.full_name)
   const isAuthor = user?.id === comment.author.id
   const isAdmin = profile?.role === "admin"
 
   const handleDeleteAction = useCallback(() => {
-    remove({commentId: comment.id})
+    if (!isSignedIn) return
+    if (comment.parent_id) {
+      removeReply({ 
+        commentId: comment.id,
+        parentId: comment.parent_id
+      })
+    } else {
+      removeComment({ 
+        commentId: comment.id 
+      })
+    }
+    
     setIsDeleteModalOpen(false)
-  }, [comment.id, remove])
+  }, [comment, removeComment, removeReply])
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className={clsx("flex flex-col gap-2 transition-opacity", isDeleting && "opacity-50 pointer-events-none")}>
       <div className="flex gap-4 justify-between items-start group/comment">
         <div className="flex-1 flex gap-3">
           <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-blue text-primary-inv">
@@ -87,7 +103,7 @@ export default function CommentItem({
               {comment.content}
             </p>
 
-            <div className="flex gap-4 items-center mt-1">
+            <div className="flex gap-2 items-center">
               <span className="text-[11px] text-secondary opacity-60">
                 {timeAgo(comment.created_at, locale)}
               </span>
@@ -102,7 +118,7 @@ export default function CommentItem({
               {(isAdmin || isAuthor) && (
                 <MiraclePopover
                   trigger={
-                    <button className="text-xs font-bold text-secondary opacity-0 group-hover/comment:opacity-100 transition-opacity p-1 cursor-pointer">
+                    <button className="text-xs font-bold text-secondary opacity-0 group-hover/comment:opacity-100 transition-opacity cursor-pointer">
                       •••
                     </button> 
                   }
@@ -130,19 +146,16 @@ export default function CommentItem({
       </div>
 
       {comment.replies_count > 0 && (
-        <div className="ml-11">
-          <button 
-            onClick={() => setViewReplies(!viewReplies)}
-            className="text-xs text-secondary font-bold cursor-pointer flex gap-1 items-center hover:text-blue transition-colors"
-          >
-            {!viewReplies 
-              ? <>{t("viewReplies", { count: comment.replies_count })} <LuChevronDown/> </>
-              : <>{t("hideReplies")} <LuChevronUp /></>
-            }
-          </button>
-        </div>
+        <ReplyList 
+          parentId={comment.id} 
+          repliesCount={comment.replies_count} 
+          targetId={targetId} 
+          targetType={targetType}
+          onReplyComment={onReplyComment}
+        />
       )}
 
+      {/* Modal Delete */}
       <MiracleModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
@@ -164,6 +177,8 @@ export default function CommentItem({
             </MiracleButton>
             <MiracleButton 
               status="danger" 
+              loading={isDeleting}
+              disabled={isDeleting || !isSignedIn}
               onClick={handleDeleteAction}
               startIcon={<LuTrash2/>}
             >

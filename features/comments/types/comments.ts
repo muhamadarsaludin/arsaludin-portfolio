@@ -26,9 +26,3 @@ export type PaginatedComments = {
   nextCursor: Cursor | null
   hasMore: boolean
 }
-
-export type UseCommentsParams = {
-  targetId: string
-  targetType: CommentTargetType
-  pageSize?: number
-}

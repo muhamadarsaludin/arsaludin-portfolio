@@ -11,6 +11,7 @@ import clsx from "clsx"
 import { useTranslations } from "next-intl"
 import { SiGoogle } from "react-icons/si"
 import { signInWithGoogle } from "@/features/auth/services/authService"
+import { useReplyMutation } from "../hooks/useReplyMutation"
 
 type CommentInputProps = {
   targetId: string
@@ -27,7 +28,10 @@ export default function CommentInput({
   const { isSignedIn, user } = useAuth()
   const t = useTranslations("components.comment.input")
 
-  const { add, isAdding } = useCommentMutation(targetId, targetType)
+  const { add: addComment, isAdding: isAddingComment } = useCommentMutation({targetId, targetType})
+  const { add: addReply, isAdding: isAddingReply } = useReplyMutation({targetId, targetType})
+
+  const isAdding = isAddingComment || isAddingReply
 
   const handleSignIn = async () => {
     await signInWithGoogle()
@@ -37,17 +41,29 @@ export default function CommentInput({
     const cleanContent = commentText.trim()
     if (!cleanContent || !isSignedIn || !user) return
 
-    add({
-      targetId: targetId,
-      targetType: targetType,
-      content: cleanContent,
-      parentId: repliedComment?.parent_id ?? repliedComment?.id ?? null,
-      replyToId: repliedComment?.id ?? null,
-      recipientId: repliedComment?.author.id ?? null,
-    })
+    if (repliedComment) {
+      addReply({
+        targetId: targetId,
+        targetType: targetType,
+        content: cleanContent,
+        parentId: repliedComment.parent_id ?? repliedComment.id,
+        replyToId: repliedComment.id,
+        recipientId: repliedComment.author.id,
+        optimisticRecipient: repliedComment.author,
+      })
+      onClearReply()
+    } else {
+      addComment({
+        targetId: targetId,
+        targetType: targetType,
+        content: cleanContent,
+        parentId: null,
+        replyToId: null,
+        recipientId: null,
+      })
+    }
 
     setCommentText("")
-    onClearReply()
   }
 
   return (

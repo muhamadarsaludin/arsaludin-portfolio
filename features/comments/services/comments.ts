@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache"
 import { CommentData, CommentTargetType, PaginatedComments } from "../types/comments"
 import { COMMENTS_PAGE_SIZE } from "../constants/comments"
 import { Cursor } from "@/features/shared/types"
+import { Profile } from "@/features/profile/types/profiles"
 
 type GetCommentsParams = {
   targetId: string
@@ -29,6 +30,8 @@ export async function getComments({
       content,
       created_at,
       user_id,
+      parent_id,
+      reply_to_id,
       author:user_id (
         id,
         email,
@@ -97,7 +100,7 @@ export async function getComments({
   }
 }
 
-type AddCommentParams = {
+export type AddCommentParams = {
   targetId: string
   targetType: string
   content: string

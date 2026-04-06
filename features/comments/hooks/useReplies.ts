@@ -2,11 +2,17 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { COMMENTS_PAGE_SIZE } from "../constants/comments"
 import { Cursor } from "@/features/shared/types"
 import { getReplies } from "../services/replies"
-import { UseRepliesParams } from "../types/replies"
+
+type UseRepliesParams = {
+  parentId: string
+  pageSize?: number
+  enabled?: boolean
+}
 
 export function useReplies({
   parentId,
   pageSize = COMMENTS_PAGE_SIZE,
+  enabled = true,
 }: UseRepliesParams) {
   return useInfiniteQuery({
     queryKey: ["replies", parentId],
@@ -17,6 +23,7 @@ export function useReplies({
         pageSize,
       })
     },
+    enabled: !!parentId && enabled,
     initialPageParam: null as Cursor | null,
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined

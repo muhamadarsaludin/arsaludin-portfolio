@@ -68,6 +68,13 @@
         "replyingTo": "Replying to",
         "loginRequired": "Sign in to comment",
         "signIn": "Sign in with Google"
+      },
+      "replies": {
+        "showCount": "Show {count} {count, plural, one {reply} other {replies}}",
+        "hide": "Hide replies",
+        "loadMore": "Show more replies...",
+        "fetching": "Loading replies...",
+        "fetchingMore": "Loading more..."
       }
     }
   },

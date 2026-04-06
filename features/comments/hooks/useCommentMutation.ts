@@ -3,7 +3,15 @@ import { addComment, deleteComment } from "../services/comments"
 import { CommentData, PaginatedComments } from "../types/comments"
 import { useAuth } from "@/providers/AuthProvider"
 
-export function useCommentMutation(targetId: string, targetType: string) {
+type UseCommentMutationParams = {
+  targetId: string
+  targetType: string
+}
+
+export function useCommentMutation({
+  targetId, 
+  targetType
+}: UseCommentMutationParams ) {
   const queryClient = useQueryClient()
   const queryKey = ["comments", targetType, targetId]
   const { user, profile } = useAuth()
@@ -78,6 +86,7 @@ export function useCommentMutation(targetId: string, targetType: string) {
   return {
     add: add.mutate,
     remove: remove.mutate,
-    isAdding: add.isPending
+    isAdding: add.isPending,
+    isRemoving: remove.isPending
   }
 }

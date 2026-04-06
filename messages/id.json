@@ -68,6 +68,13 @@
         "replyingTo": "Replying to",
         "loginRequired": "Masuk untuk berkomentar",
         "signIn": "Masuk dengan Google"
+      },
+      "replies": {
+        "showCount": "Lihat {count} balasan",
+        "hide": "Sembunyikan balasan",
+        "loadMore": "Lihat {count} lainnya...",
+        "fetching": "Memuat balasan...",
+        "fetchingMore": "Memuat lebih banyak..."
       }
     }
   },

@@ -27,7 +27,7 @@ export default function CommentDrawer({
     hasNextPage, 
     isFetchingNextPage, 
     isLoading,
-  } = useComments({ targetId, targetType })
+  } = useComments({ targetId, targetType, enabled: isOpen})
   const allComments: CommentData[] = data?.pages.flatMap((page) => page.data) ?? []
   const { breakpoint } = useMediaQuery()
   const drawerPosition = ["default"].includes(breakpoint) ? "bottom" : "right"
