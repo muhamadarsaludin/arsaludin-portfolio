@@ -1,8 +1,12 @@
+import { Profile } from "@/features/profile/types/profiles.types"
+import { Cursor } from "@/features/shared/types/index.types"
+
 export type Reaction = {
   id: string
   emoji: string
   user_id: string
-  created_at: string | null
+  author: Profile
+  created_at: string
   updated_at: string | null
 }
 
@@ -16,7 +20,15 @@ export type ReactionTargetType = "project" | "comment"
 export type ReactionSummary = {
   userReaction: Reaction | null
   totalReactions: number
+  allReactions: ReactionCount[]
   topReactions: ReactionCount[]
   totalEmojis: number
   remainingEmojis: number
+}
+
+export type PaginatedReactions = {
+  data: Reaction[]
+  nextCursor: Cursor | null
+  hasMore: boolean
+
 }

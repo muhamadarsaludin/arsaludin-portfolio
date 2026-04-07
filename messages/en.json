@@ -32,7 +32,14 @@
         "add": "Add reaction",
         "edit": "Edit reaction",
         "auth": "Sign in to react",
-        "seeAll": "See all reactions"
+        "seeAll": "See all reactions",
+        "seeDetail": "Who reacted?"
+      },
+      "modal": {
+        "title": "Detail Reactions",
+        "description": "See who reacted",
+        "loadingDetail": "Fetching reaction details...",
+        "loadingList": "Loading users..."
       }
     },
     "comment": {

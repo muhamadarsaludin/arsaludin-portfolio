@@ -6,6 +6,7 @@ export default function SignInButton() {
   const t = useTranslations("components.header")
   const handleSignIn = async () => {
     await signInWithGoogle()
+    return
   }
   return (
     <MiracleButton variant="secondary" onClick={handleSignIn}>

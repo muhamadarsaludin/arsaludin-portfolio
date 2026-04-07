@@ -12,7 +12,7 @@ type getProjectsParams = {
 
 /**
  * Fetches projects with localized content, associated skills, reactions, and comment counts.
- * * @param locale - The language code for localization (defaults to routing.defaultLocale).
+ * @param locale - The language code for localization (defaults to routing.defaultLocale).
  * @param isFeatured - If `true`, filters the results to only include featured projects.
  * @param isAdminView - If `true`, bypasses visibility filters and includes administrative
  * metadata (user_id, timestamps).
@@ -30,8 +30,6 @@ export async function getProjects({
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Define the selection columns.
-  // Using ternary for isAdminView to prevent "false" string injection in the query.
   const columns = `
     id,
     slug,
@@ -94,7 +92,6 @@ export async function getProjects({
     query = query.eq("is_featured", true)
   }
 
-  // Apply visibility filters for non-admin views
   if (!isAdminView) {
     query = query.eq("is_show", true).eq("project_skills.is_show", true)
   }
@@ -105,31 +102,24 @@ export async function getProjects({
     console.error("Error fetching projects:", error)
     throw error
   }
+  
   if (!data) return []
 
-  /**
-   * Map and flatten the database response to match the Project interface.
-   * This simplifies the nested structure for easier consumption in UI components.
-   */
   return data.map((project: any) => {
-    // Translations
     const t = project.project_translations?.[0] as ProjectTranslation | undefined
-
-    // Skills
     const skills = project.project_skills?.map((ps: any) => ps.skills).filter(Boolean) || []
-
-    //Comments
     const commentCount = project.comments?.[0]?.count ?? 0
 
-    // Reactions
+    const allReactions = project.project_reaction_counts || []
     const userReaction = project.reactions?.[0] ?? null
-    const totalReactions =
-      project.project_reaction_counts?.reduce(
-        (acc: number, curr: any) => acc + (curr.count || 0),
-        0
-      ) ?? 0
-    const topReactions = project.project_reaction_counts?.slice(0, MAX_TOP_REACTIONS) ?? []
-    const totalEmojis = project.project_reaction_counts?.length ?? 0
+    
+    const totalReactions = allReactions.reduce(
+      (acc: number, curr: any) => acc + (curr.count || 0),
+      0
+    )
+    
+    const topReactions = allReactions.slice(0, MAX_TOP_REACTIONS)
+    const totalEmojis = allReactions.length
     const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
 
     return {
@@ -141,14 +131,12 @@ export async function getProjects({
       is_show: project.is_show,
       is_featured: project.is_featured,
       order_index: project.order_index,
-
       content: t?.content ?? null,
       github_url: project.github_url ?? null,
       url: project.url ?? null,
       user_id: project.user_id ?? null,
       created_at: project.created_at ?? null,
       updated_at: project.updated_at ?? null,
-
       additional_info:
         t?.additional_info || t?.additional_info_label
           ? {
@@ -161,6 +149,7 @@ export async function getProjects({
       reaction_summary: {
         userReaction,
         totalReactions,
+        allReactions,
         topReactions,
         totalEmojis,
         remainingEmojis,

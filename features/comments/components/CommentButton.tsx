@@ -1,6 +1,4 @@
 import MiracleTooltip from "@/components/miracle/Tooltip"
-import { signInWithGoogle } from "@/features/auth/services/auth"
-import { useAuth } from "@/providers/AuthProvider"
 import { useTranslations } from "next-intl"
 import React from "react"
 import { LuMessageCircleMore } from "react-icons/lu"

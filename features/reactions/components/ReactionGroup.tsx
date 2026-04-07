@@ -1,58 +1,57 @@
 "use client"
 
-import { useCallback } from "react"
-import { useRouter } from "@/i18n/navigation"
-import { getReactions, toggleReaction } from "../services/reactions"
+import { useState } from "react"
 import type { ReactionSummary, ReactionTargetType } from "../types/reactions.types"
 import ReactionsPreview from "./ReactionsPreview"
 import ReactionPicker from "./ReactionPicker"
+import ReactionModal from "./ReactionModal"
+import { useReactionMutation } from "../hooks/useReationMutation"
 
 type ReactionGroupProps = {
   targetId: string
   targetType: ReactionTargetType
-  reactionSummary: ReactionSummary
+  initialSummary?: ReactionSummary
 }
 
-export default function ReactionGroup({
-  targetId,
-  targetType,
-  reactionSummary,
+export default function ReactionGroup({ 
+  targetId, 
+  targetType, 
+  initialSummary 
 }: ReactionGroupProps) {
-  const router = useRouter()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  
+  const { mutate } = useReactionMutation({ 
+    targetId, 
+    targetType 
+  })
 
-  const handleSelectReaction = useCallback(
-    async (emoji: string) => {
-      try {
-        await toggleReaction({
-          targetId,
-          targetType,
-          emoji,
-        })
-
-        router.refresh()
-      } catch (error) {
-        console.error("Failed to toggle reaction:", error)
-      }
-    },
-    [targetId, targetType, router]
-  )
-
-  const handleGetAllReactions = useCallback(async () => {
-    return await getReactions({
-      targetId,
-      targetType,
-    })
-  }, [targetId, targetType])
+  const handleToggleReaction = (emoji: string) => {
+    mutate({ emoji })
+  }
 
   return (
-    <div className="flex items-center gap-1">
-      <ReactionsPreview
-        reactionSummary={reactionSummary}
-        onSelectReaction={handleSelectReaction}
-        getAllReactions={handleGetAllReactions}
+    <div className="flex items-center gap-1 py-1">
+      <ReactionsPreview 
+        targetId={targetId} 
+        targetType={targetType} 
+        initialSummary={initialSummary}
+        onSelectReaction={handleToggleReaction}
+      />
+      
+      <ReactionPicker 
+        targetId={targetId} 
+        targetType={targetType} 
+        initialSummary={initialSummary}
+        onSelectReaction={handleToggleReaction}
+        onShowDetail={() => setIsModalOpen(true)}
       />
 
-      <ReactionPicker reactionSummary={reactionSummary} onSelectReaction={handleSelectReaction} />
+      <ReactionModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        targetId={targetId} 
+        targetType={targetType} 
+      />
     </div>
   )
 }

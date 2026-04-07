@@ -1,82 +1,62 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState } from "react"
 import clsx from "clsx"
 import MiraclePopover from "@/components/miracle/Popover"
-import MiracleLoader from "@/components/miracle/Loader"
 import MiracleButton from "@/components/miracle/Button"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import { useTranslations } from "next-intl"
 import { useAuth } from "@/providers/AuthProvider"
 import { signInWithGoogle } from "@/features/auth/services/auth"
-import type { ReactionSummary, ReactionCount } from "../types/reactions.types"
 import { LuEye } from "react-icons/lu"
 
+// Hook & Types baru kita
+import { useReactionSummary } from "@/features/reactions/hooks/useReactionSummary"
+import type { ReactionSummary, ReactionTargetType } from "../types/reactions.types"
+
 type ReactionsPreviewProps = {
-  reactionSummary: ReactionSummary
+  targetId: string
+  targetType: ReactionTargetType
+  initialSummary?: ReactionSummary
   onSelectReaction: (emoji: string) => void
-  getAllReactions: () => Promise<ReactionCount[]>
 }
 
 export default function ReactionsPreview({
-  reactionSummary,
+  targetId,
+  targetType,
+  initialSummary,
   onSelectReaction,
-  getAllReactions,
 }: ReactionsPreviewProps) {
-  if (reactionSummary.totalReactions <= 0) return null
+
+  const { data: summary } = useReactionSummary({ 
+    targetId, 
+    targetType, 
+    initialSummary 
+  })
+
+  const dataSummary = summary ?? initialSummary
+  if (!dataSummary || dataSummary.totalReactions <= 0) return null
 
   const [isOpen, setIsOpen] = useState(false)
-  const [allReactions, setAllReactions] = useState<ReactionCount[]>([])
-  const [isLoading, setIsLoading] = useState(false)
   const { isSignedIn } = useAuth()
   const t = useTranslations("components.reaction")
   const zIndexBase = 10
 
   /**
-   * Fetches detailed reaction data for the popover
-   */
-  const fetchData = useCallback(async () => {
-    setIsLoading(true)
-    try {
-      const data = await getAllReactions()
-      setAllReactions(data)
-    } catch (error) {
-      console.error("[ReactionsPreview] Fetch error:", error)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [getAllReactions])
-
-  // Initial fetch when popover opens
-  useEffect(() => {
-    if (isOpen) fetchData()
-  }, [isOpen, fetchData])
-
-  /**
    * Handles reaction selection.
-   * If not signed in, triggers Google Login.
    */
   const handleSelectedIcon = async (emoji: string) => {
     if (!isSignedIn) {
-      try {
-        await signInWithGoogle()
-        return
-      } catch (error) {
-        console.error("[ReactionsPreview] Login error:", error)
-        return
-      }
+      await signInWithGoogle()
+      return
     }
-
     onSelectReaction(emoji)
-    if (isOpen) {
-      await fetchData()
-    }
   }
 
   return (
     <div className="relative z-20 flex cursor-pointer items-center -space-x-2">
       {/* Top Reactions List */}
-      {reactionSummary.topReactions.map((reaction, index) => (
+      {dataSummary.topReactions.map((reaction, index) => (
         <button
           key={reaction.emoji}
           type="button"
@@ -84,7 +64,7 @@ export default function ReactionsPreview({
             "group/emoji bg-secondary flex h-7 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
             "min-w-7 px-1.5",
             "hover:gap-1.5 hover:px-3",
-            reaction.emoji === reactionSummary.userReaction?.emoji
+            reaction.emoji === dataSummary.userReaction?.emoji
               ? "border-blue"
               : "border-primary"
           )}
@@ -108,7 +88,7 @@ export default function ReactionsPreview({
       ))}
 
       {/* Remaining Reactions Popover */}
-      {reactionSummary.remainingEmojis > 0 && (
+      {dataSummary.remainingEmojis > 0 && (
         <MiraclePopover
           open={isOpen}
           onOpenChange={setIsOpen}
@@ -123,7 +103,7 @@ export default function ReactionsPreview({
                     "min-w-7 px-1.5",
                     "hover:gap-1 hover:px-3"
                   )}
-                  style={{ zIndex: zIndexBase + reactionSummary.topReactions.length + 1 }}
+                  style={{ zIndex: zIndexBase + dataSummary.topReactions.length + 1 }}
                 >
                   <span
                     className={clsx(
@@ -135,7 +115,7 @@ export default function ReactionsPreview({
                     <LuEye />
                   </span>
                   <span className="text-secondary text-xs font-semibold">
-                    +{reactionSummary.remainingEmojis}
+                    +{dataSummary.remainingEmojis}
                   </span>
                 </button>
               }
@@ -150,28 +130,22 @@ export default function ReactionsPreview({
             </p>
 
             <div className="flex flex-wrap gap-1 overflow-y-auto">
-              {isLoading && allReactions.length === 0 ? (
-                <div className="flex w-full justify-center py-4">
-                  <MiracleLoader size={20} />
-                </div>
-              ) : (
-                allReactions.map((reaction) => (
-                  <MiracleButton
-                    variant="secondary"
-                    key={reaction.emoji}
-                    size="sm"
-                    className={clsx(
-                      reaction.emoji === reactionSummary.userReaction?.emoji &&
-                        "border-blue border-2",
-                      isLoading && "opacity-50"
-                    )}
-                    onClick={() => !isLoading && handleSelectedIcon(reaction.emoji)}
-                  >
-                    <span className="mr-1">{reaction.emoji}</span>
-                    <span className="text-secondary font-bold">{reaction.count}</span>
-                  </MiracleButton>
-                ))
-              )}
+              {/* Di sini kita pake allReactions dari summary data yang sama */}
+              {dataSummary.allReactions.map((reaction) => (
+                <MiracleButton
+                  variant="secondary"
+                  key={reaction.emoji}
+                  size="sm"
+                  className={clsx(
+                    reaction.emoji === dataSummary.userReaction?.emoji &&
+                      "border-blue border-2"
+                  )}
+                  onClick={() => handleSelectedIcon(reaction.emoji)}
+                >
+                  <span className="mr-1">{reaction.emoji}</span>
+                  <span className="text-secondary font-bold">{reaction.count}</span>
+                </MiracleButton>
+              ))}
             </div>
           </div>
         </MiraclePopover>
