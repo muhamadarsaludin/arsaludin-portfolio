@@ -58,7 +58,7 @@ export default function ReplyList({
 
       {/* 3. REPLY LIST */}
       {isOpen && (
-        <div className="flex flex-col gap-4 pt-2">
+        <ul className="flex flex-col gap-4 pt-2">
           {allReplies.map((reply) => (
             <CommentItem
               key={reply.id}
@@ -68,7 +68,7 @@ export default function ReplyList({
               onReplyComment={onReplyComment}
             />
           ))}
-        </div>
+        </ul>
       )}
 
       {/* 4. FOOTER CONTROLS */}

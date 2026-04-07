@@ -24,7 +24,7 @@ export default function CommentList({
       </div>
     )
   return (
-    <div className="flex flex-col gap-4">
+    <ul className="flex flex-col gap-4">
       {comments.map((comment) => (
         <CommentItem
           key={comment.id}
@@ -34,6 +34,6 @@ export default function CommentList({
           onReplyComment={onReplyComment}
         />
       ))}
-    </div>
+    </ul>
   )
 }

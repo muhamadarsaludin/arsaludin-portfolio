@@ -69,8 +69,7 @@ export async function getComments({
         avatar_url
       ),
       replies_count:comments!parent_id(count)
-    `
-    )
+    `)
     .is("parent_id", null)
     .eq(targetColumn, targetId)
     .order("created_at", { ascending: false })

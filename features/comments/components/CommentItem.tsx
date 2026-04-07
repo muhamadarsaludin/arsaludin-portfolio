@@ -70,7 +70,7 @@ export default function CommentItem({
   }, [comment, removeComment, removeReply])
 
   return (
-    <div
+    <li
       className={clsx(
         "flex flex-col gap-2 transition-opacity",
         isDeleting && "pointer-events-none opacity-50"
@@ -197,6 +197,6 @@ export default function CommentItem({
           </div>
         </div>
       </MiracleModal>
-    </div>
+    </li>
   )
 }
