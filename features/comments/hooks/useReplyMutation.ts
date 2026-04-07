@@ -21,33 +21,6 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
   const { user, profile } = useAuth()
 
   /**
-   * Helper to update infinite query pages efficiently.
-   * Uses reference equality to skip re-renders for pages that haven't changed.
-   */
-  const updateCachePages = (
-    old: InfiniteData<PaginatedComments> | undefined,
-    parentId: string,
-    updateFn: (data: CommentData[]) => CommentData[]
-  ) => {
-    if (!old) return old
-    return {
-      ...old,
-      pages: old.pages.map((page) => {
-        // MEMORY OPTIMIZATION:
-        // If parentId is not in this page, return the original page reference.
-        // This prevents unnecessary object creation and memory allocation.
-        const hasTarget = page.data.some((c) => c.id === parentId)
-        if (!hasTarget && page.data.length > 0) return page
-
-        return {
-          ...page,
-          data: updateFn(page.data),
-        }
-      }),
-    }
-  }
-
-  /**
    * Mutation to add a new reply.
    * Performs an optimistic update on both the specific reply thread and the parent comment's reply count.
    */
