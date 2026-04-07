@@ -36,10 +36,9 @@
         "seeDetail": "Siapa yang bereaksi?"
       },
       "modal": {
-        "title": "Detail Reaksi",
-        "description": "Lihat siapa yang memberi reaksi",
-        "loadingDetail": "Mengambil detail reaksi...",
-        "loadingList": "Memuat daftar pengguna..."
+        "title": "Reaksi",
+        "description": "List pengguna yang memberikan reaksi",
+        "loadingDetail": "Mengambil detail reaksi..."
       }
     },
     "comment": {

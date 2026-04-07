@@ -7,6 +7,7 @@ import MiracleLoader from "@/components/miracle/Loader"
 
 import { useReactions } from "@/features/reactions/hooks/useReactions"
 import { ReactionTargetType } from "@/features/reactions/types/reactions.types"
+import ReactionItem from "./ReactionItem"
 
 type ReactionModalProps = {
   isOpen: boolean
@@ -85,47 +86,11 @@ export default function ReactionModal({
             </p>
           </div>
         ) : (
-          <div className="flex flex-col gap-1.5">
+          <ul className="flex flex-col gap-4">
             {allReactions.map((reaction) => (
-              <div 
-                key={reaction.id} 
-                className="hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center justify-between rounded-2xl p-2.5 transition-all"
-              >
-                <div className="flex items-center gap-3">
-                  {/* Avatar Section */}
-                  <div className="bg-secondary relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-primary/10">
-                    {reaction.author.avatar_url ? (
-                      <img 
-                        src={reaction.author.avatar_url} 
-                        alt={reaction.author.full_name}
-                        className="h-full w-full object-cover" 
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : (
-                      <div className="text-primary flex h-full w-full items-center justify-center bg-blue/10 text-xs font-bold uppercase">
-                        {reaction.author.full_name?.charAt(0) || "?"}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* User Info Section */}
-                  <div className="flex flex-col">
-                    <span className="text-secondary text-sm font-bold leading-tight">
-                      {reaction.author.full_name}
-                    </span>
-                    <span className="text-secondary/50 text-[10px] font-semibold uppercase tracking-wider">
-                      {reaction.author.role || "Member"}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Reaction Emoji */}
-                <span className="pr-1 text-2xl select-none drop-shadow-sm transition-transform hover:scale-125">
-                  {reaction.emoji}
-                </span>
-              </div>
+             <ReactionItem key={reaction.id} reaction={reaction} />
             ))}
-          </div>
+          </ul>
         )}
 
         {/* --- INFINITE LOADING SENTINEL --- */}
@@ -137,7 +102,7 @@ export default function ReactionModal({
             <div className="flex flex-col items-center gap-2">
               <MiracleLoader size={20} />
               <span className="text-secondary/40 text-[10px] italic">
-                {t("loadingList")}
+                {t("loadingDetail")}
               </span>
             </div>
           )}

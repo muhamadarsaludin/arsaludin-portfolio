@@ -36,10 +36,9 @@
         "seeDetail": "Who reacted?"
       },
       "modal": {
-        "title": "Detail Reactions",
-        "description": "See who reacted",
-        "loadingDetail": "Fetching reaction details...",
-        "loadingList": "Loading users..."
+        "title": "Reactions",
+        "description": "List of users who reacted",
+        "loadingDetail": "Fetching reaction details..."
       }
     },
     "comment": {
