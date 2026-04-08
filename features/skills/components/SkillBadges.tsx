@@ -80,14 +80,17 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
                 const ItemContent = (
                   <div
                     className={clsx(
-                      "group flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors",
+                      "group/badge flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors",
                       skill.link ? "hover:bg-white/10" : "opacity-80"
                     )}
                   >
                     {IconComponent && (
-                      <IconComponent className="text-secondary-inv h-3 w-3 transition-transform duration-300 group-hover:scale-110" />
+                      <IconComponent className="text-secondary-inv h-3 w-3 transition-transform duration-300 group-hover/badge:scale-110" />
                     )}
-                    <span className="text-secondary-inv">{skill.name}</span>
+                    <span className={clsx(
+                      "text-secondary-inv",
+                      skill.link && "group-hover/badge:underline transition-all duration-300 ease-in-out"
+                    )}>{skill.name}</span>
                   </div>
                 )
 
