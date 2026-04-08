@@ -13,7 +13,7 @@ import clsx from "clsx"
  * Server Component: Prefetches featured projects for optimal SEO and performance.
  * Uses HydrationBoundary to pass data to the client-side TanStack Query cache.
  */
-export default async function ProjectSection({ className }: { className?: string }) {
+export default async function ProjectsSection({ className }: { className?: string }) {
   const t = await getTranslations("pages.home.projects")
   const locale = await getLocale()
   const queryClient = new QueryClient()
