@@ -71,7 +71,7 @@ export default function ReactionModal({
       size="sm"
       className="max-h-[75vh]"
     >
-      <div className="flex min-h-[350px] flex-col gap-1">
+      <div className="flex flex-col gap-1">
         {isLoading ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 py-10 text-center">
             <MiracleLoader size={32} />
