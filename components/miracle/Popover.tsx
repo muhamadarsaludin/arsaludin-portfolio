@@ -3,24 +3,15 @@
 import clsx from "clsx"
 import type { ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
+import { TooltipDefaultPosition } from "./Tooltip"
+
+export type PopoverDefaultPosition = TooltipDefaultPosition
 
 export type MiraclePopoverProps = {
   className?: string
   trigger: ReactNode
   children: ReactNode
-  defaultPosition?:
-    | "top-start"
-    | "top-center"
-    | "top-end"
-    | "bottom-start"
-    | "bottom-center"
-    | "bottom-end"
-    | "left-start"
-    | "left-center"
-    | "left-end"
-    | "right-start"
-    | "right-center"
-    | "right-end"
+  defaultPosition?: PopoverDefaultPosition
   noPadding?: boolean
   noArrow?: boolean
   noBackground?: boolean

@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache"
 import type { CommentData, CommentTargetType, PaginatedComments } from "../types/comments.types"
 import { COMMENTS_PAGE_SIZE } from "../constants/comments.constants"
 import type { Cursor } from "@/features/shared/types/index.types"
+import { MAX_TOP_REACTIONS } from "@/features/reactions/constants/reactions.constants"
 
 // ====== TYPES ======
 type GetCommentsParams = {
@@ -44,15 +45,19 @@ export async function getComments({
   targetType,
   cursor,
   pageSize = COMMENTS_PAGE_SIZE,
-}: GetCommentsParams): Promise<PaginatedComments> {
+}: GetCommentsParams): Promise<PaginatedComments> { 
   const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   const targetColumn = `${targetType}_id`
 
+  // 1. Inisialisasi Query
   let query = supabase
     .from("comments")
-    .select(
-      `
+    .select(`
       id,
       content,
       created_at,
@@ -60,30 +65,34 @@ export async function getComments({
       parent_id,
       reply_to_id,
       author:user_id (
-        id,
-        email,
-        full_name,
-        role,
-        avatar_url
+        id, email, full_name, role, avatar_url
       ),
       recipient:recipient_id(
-        id,
-        email,
-        full_name,
-        role,
-        avatar_url
+        id, email, full_name, role, avatar_url
       ),
-      replies_count:comments!parent_id(count)
+      replies_count:comments!parent_id(count),
+      comment_reaction_counts(
+        emoji,
+        count
+      ),
+      reactions(
+        emoji,
+        user_id
+      )
     `)
     .is("parent_id", null)
     .eq(targetColumn, targetId)
+    // Filter reactions untuk user yang sedang login saja (jika ada)
+    // Ini harus diletakkan di dalam string select atau menggunakan filter spesifik
+    .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000") 
     .order("created_at", { ascending: false })
     .order("id", { ascending: false })
-    .limit(pageSize + 1) // add 1 additional data to check if there is more data.
+    .limit(pageSize + 1)
 
+  // 2. Terapkan Cursor (Pagination Logic)
   if (cursor) {
     query = query.or(
-      `created_at.lt."${cursor.createdAt}",and(created_at.eq."${cursor.createdAt}",id.lt.${cursor.id})`
+      `created_at.lt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.lt.${cursor.id})`
     )
   }
 
@@ -95,26 +104,50 @@ export async function getComments({
   }
 
   if (!data || data.length === 0) {
-    return {
-      data: [],
-      nextCursor: null,
-      hasMore: false,
-    }
+    return { data: [], nextCursor: null, hasMore: false }
   }
-
+  
+  // 3. Handling Pagination Metadata
   const hasMore = data.length > pageSize
   const trimmedData = hasMore ? data.slice(0, pageSize) : data
-  const mappedData: CommentData[] = trimmedData.map((comment: any) => ({
-    id: comment.id,
-    content: comment.content,
-    user_id: comment.user_id,
-    author: comment.author,
-    created_at: comment.created_at,
-    updated_at: comment.updated_at ?? null,
-    parent_id: comment.parent_id ?? null,
-    recipient: comment.recipient ?? null,
-    replies_count: comment.replies_count?.[0].count ?? 0,
-  }))
+
+  // 4. Mapping Data (Fixing Syntax Error here)
+  const mappedData: CommentData[] = trimmedData.map((comment: any) => {
+    const allReactions = comment.comment_reaction_counts || []
+    // Karena kita sudah filter reactions.user_id di query, 
+    // jika ada isinya berarti itu milik user saat ini.
+    const userReaction = comment.reactions?.[0] ?? null
+    
+    const totalReactions = allReactions.reduce(
+      (acc: number, curr: any) => acc + (curr.count || 0),
+      0
+    )
+    
+    const topReactions = allReactions.slice(0, MAX_TOP_REACTIONS)
+    const totalEmojis = allReactions.length
+    const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
+    
+    return {
+      id: comment.id,
+      content: comment.content,
+      user_id: comment.user_id,
+      author: comment.author,
+      created_at: comment.created_at,
+      updated_at: comment.updated_at ?? null,
+      parent_id: comment.parent_id ?? null,
+      recipient: comment.recipient ?? null,
+      replies_count: comment.replies_count?.[0]?.count ?? 0,
+      reaction_summary: {
+        userReaction,
+        totalReactions,
+        allReactions,
+        topReactions,
+        totalEmojis,
+        remainingEmojis
+      }
+    }
+  }) // <-- Tadi kurang kurung penutup di sini
+
   const lastItem = mappedData[mappedData.length - 1]
 
   return {

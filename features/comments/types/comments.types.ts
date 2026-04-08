@@ -1,4 +1,5 @@
 import type { Profile } from "@/features/profile/types/profiles.types"
+import { ReactionSummary } from "@/features/reactions/types/reactions.types"
 import type { Cursor } from "@/features/shared/types/index.types"
 
 // ================== INFORMATION =================
@@ -16,6 +17,7 @@ export type CommentData = {
   recipient: Profile | null
   parent_id: string | null
   updated_at: string | null
+  reaction_summary: ReactionSummary
 }
 
 export type CommentTargetType = "project" | "comment"

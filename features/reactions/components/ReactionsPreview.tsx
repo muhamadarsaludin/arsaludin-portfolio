@@ -4,7 +4,7 @@ import { useState } from "react"
 import clsx from "clsx"
 import MiraclePopover from "@/components/miracle/Popover"
 import MiracleButton from "@/components/miracle/Button"
-import MiracleTooltip from "@/components/miracle/Tooltip"
+import MiracleTooltip, { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 import { useTranslations } from "next-intl"
 import { useAuth } from "@/providers/AuthProvider"
 import { signInWithGoogle } from "@/features/auth/services/auth"
@@ -19,6 +19,7 @@ type ReactionsPreviewProps = {
   targetType: ReactionTargetType
   initialSummary?: ReactionSummary
   onSelectReaction: (emoji: string) => void
+  tooltipPosition?: TooltipDefaultPosition
 }
 
 export default function ReactionsPreview({
@@ -26,6 +27,7 @@ export default function ReactionsPreview({
   targetType,
   initialSummary,
   onSelectReaction,
+  tooltipPosition
 }: ReactionsPreviewProps) {
 
   const { data: summary } = useReactionSummary({ 
@@ -34,14 +36,13 @@ export default function ReactionsPreview({
     initialSummary 
   })
 
-  const dataSummary = summary ?? initialSummary
-  if (!dataSummary || dataSummary.totalReactions <= 0) return null
-
   const [isOpen, setIsOpen] = useState(false)
+  const dataSummary = summary ?? initialSummary
   const { isSignedIn } = useAuth()
   const t = useTranslations("components.reaction")
   const zIndexBase = 10
-
+  
+  if (!dataSummary || dataSummary.totalReactions <= 0) return null
   /**
    * Handles reaction selection.
    */
@@ -93,8 +94,10 @@ export default function ReactionsPreview({
           open={isOpen}
           onOpenChange={setIsOpen}
           noPadding
+          defaultPosition={tooltipPosition}
           trigger={
             <MiracleTooltip
+              defaultPosition={tooltipPosition}
               trigger={
                 <button
                   type="button"

@@ -11,7 +11,7 @@ import { useAuth } from "@/providers/AuthProvider"
 import { useTheme } from "@wrksz/themes/client"
 import { signInWithGoogle } from "@/features/auth/services/auth"
 
-import MiracleTooltip from "@/components/miracle/Tooltip"
+import MiracleTooltip, { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 import MiraclePopover from "@/components/miracle/Popover"
 import MiracleLoader from "@/components/miracle/Loader"
 
@@ -35,6 +35,7 @@ type ReactionPickerProps = {
   initialSummary?: ReactionSummary
   onSelectReaction: (emoji: string) => void
   onShowDetail?: () => void
+  tooltipPosition?: TooltipDefaultPosition
 }
 
 export default function ReactionPicker({ 
@@ -42,7 +43,8 @@ export default function ReactionPicker({
   targetType, 
   initialSummary, 
   onSelectReaction,
-  onShowDetail
+  onShowDetail,
+  tooltipPosition
 }: ReactionPickerProps) {
   const [isPickerOpen, setIsPickerOpen] = useState(false)
   const { isSignedIn } = useAuth()
@@ -66,6 +68,7 @@ export default function ReactionPicker({
   const PickerToggle = ({ onClick }: { onClick?: React.MouseEventHandler }) => (
     <MiracleTooltip
       noPadding
+      defaultPosition={tooltipPosition}
       trigger={
         <button
           onClick={onClick}
@@ -115,6 +118,7 @@ export default function ReactionPicker({
       <MiraclePopover
         open={isPickerOpen}
         onOpenChange={setIsPickerOpen}
+        defaultPosition={tooltipPosition}
         noArrow
         noBackground
         noShadow
@@ -136,6 +140,7 @@ export default function ReactionPicker({
       
       {dataSummary && dataSummary.totalReactions > 0 && (
         <MiracleTooltip
+          defaultPosition={tooltipPosition}
           trigger={
             <button
               onClick={onShowDetail}

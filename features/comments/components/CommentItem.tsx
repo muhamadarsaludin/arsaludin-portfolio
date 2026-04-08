@@ -17,6 +17,7 @@ import { timeAgo } from "@/utils/time-ago"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import ReplyList from "./ReplyList"
 import { useReplyMutation } from "../hooks/useReplyMutation"
+import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 
 type CommentItemProps = {
   comment: CommentData
@@ -155,6 +156,11 @@ export default function CommentItem({
             </div>
           </div>
         </div>
+        <ReactionGroup 
+          targetId={comment.id} 
+          targetType="comment" 
+          initialSummary={comment.reaction_summary} 
+          tooltipPosition="left-center"/>
       </div>
 
       {comment.replies_count > 0 && (

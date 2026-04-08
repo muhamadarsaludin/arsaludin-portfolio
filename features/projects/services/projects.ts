@@ -74,6 +74,7 @@ export async function getProjects({
     .from("projects")
     .select(columns)
     .eq("project_translations.i18n.locale", locale)
+    .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000")
     .order("order_index", { ascending: true })
     .order("order_index", {
       referencedTable: "project_skills",
@@ -83,10 +84,6 @@ export async function getProjects({
       referencedTable: "project_reaction_counts",
       ascending: false,
     })
-
-  if (user) {
-    query = query.eq("reactions.user_id", user.id)
-  }
 
   if (isFeatured) {
     query = query.eq("is_featured", true)

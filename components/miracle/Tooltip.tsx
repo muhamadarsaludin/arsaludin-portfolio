@@ -4,23 +4,24 @@ import clsx from "clsx"
 import type { ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
 
+export type TooltipDefaultPosition = | "top-start"
+  | "top-center"
+  | "top-end"
+  | "bottom-start"
+  | "bottom-center"
+  | "bottom-end"
+  | "left-start"
+  | "left-center"
+  | "left-end"
+  | "right-start"
+  | "right-center"
+  | "right-end"
+
 export type TooltipProps = {
   className?: string
   trigger: ReactNode
   children: ReactNode
-  defaultPosition?:
-    | "top-start"
-    | "top-center"
-    | "top-end"
-    | "bottom-start"
-    | "bottom-center"
-    | "bottom-end"
-    | "left-start"
-    | "left-center"
-    | "left-end"
-    | "right-start"
-    | "right-center"
-    | "right-end"
+  defaultPosition?: TooltipDefaultPosition
   hoverContent?: boolean
   noPadding?: boolean
   noBackground?: boolean

@@ -7,6 +7,7 @@ import type { AddCommentParams } from "./comments"
 import { addComment, deleteComment } from "./comments"
 import type { Profile } from "@/features/profile/types/profiles.types"
 import { Cursor } from "@/features/shared/types/index.types"
+import { MAX_TOP_REACTIONS } from "@/features/reactions/constants/reactions.constants"
 
 // ====== TYPES ======
 type GetRepliesParams = {
@@ -39,10 +40,14 @@ export async function getReplies({
 }: GetRepliesParams): Promise<PaginatedComments> {
   const supabase = await createClient()
 
+  // Ambil user untuk filter reaksi pribadi
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
   let query = supabase
     .from("comments")
-    .select(
-      `
+    .select(`
       id,
       content,
       created_at,
@@ -50,29 +55,32 @@ export async function getReplies({
       parent_id,
       reply_to_id,
       author:user_id (
-        id,
-        email,
-        full_name,
-        role,
-        avatar_url
+        id, email, full_name, role, avatar_url
       ),
       recipient:recipient_id(
-        id,
-        email,
-        full_name,
-        role,
-        avatar_url
+        id, email, full_name, role, avatar_url
+      ),
+      replies_count:comments!parent_id(count),
+      comment_reaction_counts(
+        emoji,
+        count
+      ),
+      reactions(
+        emoji,
+        user_id
       )
-    `
-    )
+    `)
     .eq("parent_id", parentId)
-    .order("created_at", { ascending: true })
+    // Filter reaksi milik user login
+    .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000")
+    .order("created_at", { ascending: true }) // Biasanya reply urut dari yang terlama
     .order("id", { ascending: false })
-    .limit(pageSize + 1) // add 1 additional data to check if there is more data.
+    .limit(pageSize + 1)
 
   if (cursor) {
+    // Karena ascending: true, cursor gunakan .gt (greater than)
     query = query.or(
-      `created_at.lt."${cursor.createdAt}",and(created_at.eq."${cursor.createdAt}",id.lt.${cursor.id})`
+      `created_at.gt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.gt.${cursor.id})`
     )
   }
 
@@ -84,26 +92,47 @@ export async function getReplies({
   }
 
   if (!data || data.length === 0) {
-    return {
-      data: [],
-      nextCursor: null,
-      hasMore: false,
-    }
+    return { data: [], nextCursor: null, hasMore: false }
   }
 
   const hasMore = data.length > pageSize
   const trimmedData = hasMore ? data.slice(0, pageSize) : data
-  const mappedData: CommentData[] = trimmedData.map((reply: any) => ({
-    id: reply.id,
-    content: reply.content,
-    user_id: reply.user_id,
-    author: reply.author,
-    created_at: reply.created_at,
-    updated_at: reply.updated_at ?? null,
-    parent_id: reply.parent_id ?? null,
-    recipient: reply.recipient ?? null,
-    replies_count: reply.replies_count?.[0].count ?? 0,
-  }))
+
+  const mappedData: CommentData[] = trimmedData.map((reply: any) => {
+    // Logic Reaction Summary
+    const allReactions = reply.comment_reaction_counts || []
+    const userReaction = reply.reactions?.[0] ?? null
+    
+    const totalReactions = allReactions.reduce(
+      (acc: number, curr: any) => acc + (curr.count || 0),
+      0
+    )
+    
+    const topReactions = allReactions.slice(0, MAX_TOP_REACTIONS)
+    const totalEmojis = allReactions.length
+    const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
+
+    return {
+      id: reply.id,
+      content: reply.content,
+      user_id: reply.user_id,
+      author: reply.author,
+      created_at: reply.created_at,
+      updated_at: reply.updated_at ?? null,
+      parent_id: reply.parent_id ?? null,
+      recipient: reply.recipient ?? null,
+      replies_count: reply.replies_count?.[0]?.count ?? 0,
+      reaction_summary: {
+        allReactions,
+        totalReactions,
+        userReaction,
+        topReactions,
+        totalEmojis,
+        remainingEmojis
+      }
+    }
+  })
+
   const lastItem = mappedData[mappedData.length - 1]
 
   return {
