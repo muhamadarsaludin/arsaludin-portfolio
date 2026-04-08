@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { useTranslations } from "next-intl"
 import MiracleModal from "@/components/miracle/Modal"
 import MiracleLoader from "@/components/miracle/Loader"
@@ -8,6 +8,7 @@ import MiracleLoader from "@/components/miracle/Loader"
 import { useReactions } from "@/features/reactions/hooks/useReactions"
 import { ReactionTargetType } from "@/features/reactions/types/reactions.types"
 import ReactionItem from "./ReactionItem"
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 type ReactionModalProps = {
   isOpen: boolean
@@ -37,28 +38,11 @@ export default function ReactionModal({
     enabled: isOpen 
   })
 
-  /**
-   * Infinite Scroll Logic: 
-   * Automagically fetch next page when user scrolls to the bottom sentinel.
-   */
-  useEffect(() => {
-    if (!hasNextPage || isFetchingNextPage || !isOpen) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchNextPage()
-        }
-      },
-      { 
-        threshold: 0.1,
-        rootMargin: "100px" // Fetch 100px before reaching the end for better UX
-      }
-    )
-
-    if (loadMoreRef.current) observer.observe(loadMoreRef.current)
-    return () => observer.disconnect()
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage, isOpen])
+  useIntersectionObserver({
+    targetRef: loadMoreRef,
+    onIntersect: fetchNextPage,
+    enabled: !!hasNextPage && !isFetchingNextPage && isOpen,
+  })
 
   const allReactions = data?.pages.flatMap((page) => page.data) ?? []
 

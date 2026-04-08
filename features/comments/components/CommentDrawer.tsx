@@ -1,13 +1,15 @@
+"use client"
+
+import { useRef, useState } from "react"
 import MiracleDrawer from "@/components/miracle/Drawer"
 import CommentList from "./CommentList"
 import MiracleLoader from "@/components/miracle/Loader"
 import { useComments } from "../hooks/useComments"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import { useTranslations } from "next-intl"
-import clsx from "clsx"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
 import CommentInput from "./CommentInput"
-import { useState } from "react"
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 type CommentDrawerProps = {
   isOpen: boolean
@@ -25,16 +27,25 @@ export default function CommentDrawer({
   onClose,
 }: CommentDrawerProps) {
   const t = useTranslations("components.comment.drawer")
+  const loadMoreRef = useRef<HTMLDivElement>(null)
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useComments({
     targetId,
     targetType,
     enabled: isOpen,
   })
+
   const allComments: CommentData[] = data?.pages.flatMap((page) => page.data) ?? []
   const { breakpoint } = useMediaQuery()
   const drawerPosition = ["default"].includes(breakpoint) ? "bottom" : "right"
   const drawerSize = ["default"].includes(breakpoint) ? 550 : 450
   const [repliedComment, setRepliedComment] = useState<CommentData | null>(null)
+
+  useIntersectionObserver({
+    targetRef: loadMoreRef,
+    onIntersect: fetchNextPage,
+    enabled: !!hasNextPage && !isFetchingNextPage && isOpen,
+  })
 
   const handleReplyComment = (comment: CommentData) => {
     setRepliedComment(comment)
@@ -80,23 +91,14 @@ export default function CommentDrawer({
                 onReplyComment={handleReplyComment}
               />
 
-              {hasNextPage &&
-                (isFetchingNextPage ? (
+              <div ref={loadMoreRef} className="w-full">
+                {hasNextPage && (
                   <div className="text-secondary item-center flex w-full justify-center gap-1.5 py-4 text-sm font-medium">
                     <MiracleLoader size={18} />
                     <span>{t("isFetching")}</span>
                   </div>
-                ) : (
-                  <button
-                    onClick={() => fetchNextPage()}
-                    className={clsx(
-                      "flex w-full cursor-pointer items-center justify-center py-4 text-sm font-medium",
-                      "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200"
-                    )}
-                  >
-                    {t("seeMore")}
-                  </button>
-                ))}
+                )}
+              </div>
             </>
           )}
         </div>

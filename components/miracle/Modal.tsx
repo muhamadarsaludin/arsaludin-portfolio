@@ -99,7 +99,7 @@ export default function MiracleModal({
         aria-modal="true"
       >
         {(title || showCloseIcon) && (
-          <div className="border-primary flex shrink-0 items-center justify-between border-b px-6 py-5">
+          <div className="border-primary flex shrink-0 items-center justify-between border-b py-3 px-4">
             <div className="flex flex-col gap-1">
               {title && (
                 <div className={clsx("text-lg leading-tight font-bold", statusColors[status])}>
@@ -115,7 +115,7 @@ export default function MiracleModal({
             {showCloseIcon && (
               <button
                 onClick={onClose}
-                className="text-secondary hover:text-primary ml-auto flex shrink-0 cursor-pointer items-center justify-center rounded-xl p-2 transition-all duration-200 hover:bg-neutral-100 active:scale-90 dark:hover:bg-neutral-800"
+                className="text-secondary hover:text-primary ml-auto flex shrink-0 cursor-pointer items-center justify-center rounded-md p-2 transition-all duration-200 hover:bg-neutral-200 active:scale-90 dark:hover:bg-neutral-800"
               >
                 <LuX size={22} />
               </button>
@@ -123,7 +123,7 @@ export default function MiracleModal({
           </div>
         )}
 
-        <div className="scrollbar-hide flex-1 overflow-y-auto px-6 py-6">{children}</div>
+        <div className="scrollbar-hide flex-1 overflow-y-auto p-4">{children}</div>
       </div>
     </div>
   )
