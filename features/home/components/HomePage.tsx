@@ -5,9 +5,9 @@ import SkillsAndServicesSection from "./skills-and-services/SkillsAndServicesSec
 export default function HomePage() {
   return (
     <>
-      <ProfileSection className="pb-16" />
-      <SkillsAndServicesSection className="pb-16" />
-      <ProjectSection className="pb-16" />
+      <ProfileSection className="pb-15 lg:pb-18" />
+      <SkillsAndServicesSection className="py-15 lg:py-18" />
+      <ProjectSection className="py-15 lg:py-18" />
     </>
   )
 }

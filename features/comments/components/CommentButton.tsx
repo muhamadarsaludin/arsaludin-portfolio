@@ -31,7 +31,7 @@ export default function CommentButton({ commentCount, onClick }: CommentButtonPr
               className="text-secondary transition-all duration-300 ease-in-out group-hover/reaction-picker:scale-110"
             />
           </div>
-          {commentCount && commentCount > 0 && (
+          {(commentCount ?? 0) > 0 && (
             <span className="text-secondary text-sm font-medium">{commentCount}</span>
           )}
         </button>
