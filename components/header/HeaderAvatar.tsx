@@ -52,9 +52,13 @@ export default function HeaderAvatar() {
     >
       <div className="m-1 flex cursor-pointer flex-col">
         <div className="border-primary border-b p-2 text-sm font-medium">
-          <MiracleBadge className="mb-2" startIcon={<LuUserRound />}>
+          {/* <MiracleBadge className="mb-2" startIcon={<LuUserRound />}>
             <span className="capitalize">{profile.role}</span>
-          </MiracleBadge>
+          </MiracleBadge> */}
+          <span className="bg-blue inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[9px] font-bold text-primary-inv uppercase mb-2">
+            <LuUserRound size={10} />
+            {profile.role}
+          </span>
           <h3 className="text-primary-inv truncate font-semibold">
             {profile.full_name}
           </h3>

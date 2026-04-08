@@ -102,14 +102,39 @@ export default function ReactionPicker({
     </MiracleTooltip>
   )
 
+  const DetailToggle = () => {
+    if(!dataSummary || dataSummary.totalReactions <= 0) return null
+    return(
+      <MiracleTooltip
+        defaultPosition={tooltipPosition}
+        trigger={
+          <button
+            onClick={onShowDetail}
+            type="button"
+            className="group/reaction-picker cursor-help"
+          >
+            <span className="text-secondary text-sm font-medium tabular-nums">
+              {dataSummary.totalReactions}
+            </span>
+          </button>
+        }
+      >
+        {t("tooltip.seeDetail")}
+      </MiracleTooltip>
+    )
+  }
+
   if (!isSignedIn) {
     return (
-      <PickerToggle
-        onClick={async (e) => {
-          e.preventDefault()
-          await signInWithGoogle()
-        }}
-      />
+      <div className="flex items-center gap-1">
+        <PickerToggle
+          onClick={async (e) => {
+            e.preventDefault()
+            await signInWithGoogle()
+          }}
+        />
+        <DetailToggle/>
+      </div>
     )
   }
 
@@ -137,26 +162,7 @@ export default function ReactionPicker({
           )}
         </div>
       </MiraclePopover>
-      
-      {dataSummary && dataSummary.totalReactions > 0 && (
-        <MiracleTooltip
-          defaultPosition={tooltipPosition}
-          trigger={
-            <button
-              onClick={onShowDetail}
-              type="button"
-              className="group/reaction-picker cursor-help"
-            >
-              <span className="text-secondary text-sm font-medium tabular-nums">
-                {dataSummary.totalReactions}
-              </span>
-            </button>
-          }
-        >
-          {t("tooltip.seeDetail")}
-        </MiracleTooltip>
-      )}
-
+      <DetailToggle/>
     </div>
   )
 }

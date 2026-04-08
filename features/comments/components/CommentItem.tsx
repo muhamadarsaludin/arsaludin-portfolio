@@ -99,7 +99,7 @@ export default function CommentItem({
             <div className="flex items-center gap-2">
               <h3 className="text-primary text-sm font-bold">{comment.author.full_name}</h3>
               {comment.author.role === "admin" && (
-                <span className="bg-blue inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[9px] font-bold text-white uppercase">
+                <span className="bg-blue inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[9px] font-bold text-primary-inv uppercase">
                   <LuUserRound size={10} />
                   {comment.author.role}
                 </span>
