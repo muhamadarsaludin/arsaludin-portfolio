@@ -53,6 +53,14 @@ export function useCommentMutation({ targetId, targetType }: UseCommentMutationP
         recipient: null,
         parent_id: variables.parentId,
         updated_at: new Date().toISOString(),
+        reaction_summary: {
+          userReaction: null,
+          totalReactions: 0,
+          allReactions: [],
+          topReactions: [],
+          totalEmojis: 0,
+          remainingEmojis: 0
+        }
       }
 
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(queryKey, (old) => {

@@ -56,6 +56,14 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
         recipient: variables.optimisticRecipient,
         parent_id: pId,
         updated_at: new Date().toISOString(),
+        reaction_summary: {
+          userReaction: null,
+          totalReactions: 0,
+          allReactions: [],
+          topReactions: [],
+          totalEmojis: 0,
+          remainingEmojis: 0
+        }
       }
 
       // 1. Update Reply Thread List
