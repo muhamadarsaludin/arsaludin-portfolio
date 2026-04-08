@@ -4,16 +4,16 @@ import React from "react"
 import { LuMessageCircleMore } from "react-icons/lu"
 
 type CommentButtonProps = {
-  commentCount: number
-  onClick?: () => void
+  commentCount?: number
+  onClick: () => void
 }
 
 export default function CommentButton({ commentCount, onClick }: CommentButtonProps) {
   const t = useTranslations("components.comment.tooltip")
-
+  
   const handleOnClick = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    if (onClick) onClick()
+    e.stopPropagation()
+    onClick()
   }
 
   return (
@@ -31,7 +31,7 @@ export default function CommentButton({ commentCount, onClick }: CommentButtonPr
               className="text-secondary transition-all duration-300 ease-in-out group-hover/reaction-picker:scale-110"
             />
           </div>
-          {commentCount > 0 && (
+          {commentCount && commentCount > 0 && (
             <span className="text-secondary text-sm font-medium">{commentCount}</span>
           )}
         </button>

@@ -55,7 +55,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         <CommentGroup
           targetId={project.id}
           targetType="project"
-          commentCount={project.comment_count}
+          initialCount={project.comment_count}
         />
       </div>
     </div>

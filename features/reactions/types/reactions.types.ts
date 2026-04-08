@@ -30,5 +30,4 @@ export type PaginatedReactions = {
   data: Reaction[]
   nextCursor: Cursor | null
   hasMore: boolean
-
 }

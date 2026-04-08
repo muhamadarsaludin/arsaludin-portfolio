@@ -10,19 +10,24 @@ type UseReplyMutationParams = {
 }
 
 /**
- * Custom hook to handle reply mutations (add and delete) with Optimistic Updates.
- * Manages cache synchronization between the specific reply thread and the main comment list.
- * @param targetId - The ID of the parent entity.
- * @param targetType - The category of the parent entity for query key mapping.
+ * Custom hook to handle reply mutations (add and delete) with comprehensive Optimistic Updates.
+ * * This hook synchronizes three distinct cache layers:
+ * 1. **Replies Thread**: Prepends/removes the reply in the specific comment thread.
+ * 2. **Main Comment List**: Updates the `replies_count` property of the parent comment.
+ * 3. **Global Counter**: Updates the total `comment-count` (total interactions) for the target entity.
+ * @param {UseReplyMutationParams} params - Configuration object containing targetId and targetType.
+ * @param {string} params.targetId - The unique UUID of the entity (e.g., project_id).
+ * @param {string} params.targetType - The category used for query key mapping (e.g., "project").
+ * @returns {MutationObject} Methods and states for managing replies.
  */
 export function useReplyMutation({ targetId, targetType }: UseReplyMutationParams) {
   const queryClient = useQueryClient()
   const mainCommentsKey = ["comments", targetType, targetId]
+  const countKey = ["comment-count", targetType, targetId] // Global Counter Key
   const { user, profile } = useAuth()
 
   /**
    * Mutation to add a new reply.
-   * Performs an optimistic update on both the specific reply thread and the parent comment's reply count.
    */
   const add = useMutation({
     mutationFn: addReply,
@@ -32,12 +37,14 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
       const pId = variables.parentId
       const repliesKey = ["replies", pId]
 
+      // Cancel all related queries
       await queryClient.cancelQueries({ queryKey: repliesKey })
       await queryClient.cancelQueries({ queryKey: mainCommentsKey })
+      await queryClient.cancelQueries({ queryKey: countKey })
 
       const previousReplies = queryClient.getQueryData<InfiniteData<PaginatedComments>>(repliesKey)
-      const previousMain =
-        queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
+      const previousMain = queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
+      const previousCount = queryClient.getQueryData<number>(countKey)
 
       const optimisticReply: CommentData = {
         id: `temp-${Date.now()}`,
@@ -51,6 +58,7 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
         updated_at: new Date().toISOString(),
       }
 
+      // 1. Update Reply Thread List
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
         if (!old) return old
         return {
@@ -61,6 +69,7 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
         }
       })
 
+      // 2. Update parent's replies_count in Main List
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey, (old) => {
         if (!old) return old
         return {
@@ -74,39 +83,48 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
         }
       })
 
-      return { previousReplies, previousMain, pId }
+      // 3. Update Global Comment Count (+1)
+      queryClient.setQueryData<number>(countKey, (old) => (old ?? 0) + 1)
+
+      return { previousReplies, previousMain, previousCount, pId }
     },
     onError: (_err, _vars, context) => {
       if (context?.pId) {
         queryClient.setQueryData(["replies", context.pId], context.previousReplies)
       }
       queryClient.setQueryData(mainCommentsKey, context?.previousMain)
+      queryClient.setQueryData(countKey, context?.previousCount)
     },
     onSettled: async (_data, _error, variables) => {
       const pId = variables.parentId
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["replies", pId] }),
         queryClient.invalidateQueries({ queryKey: mainCommentsKey }),
+        queryClient.invalidateQueries({ queryKey: countKey }),
       ])
     },
   })
 
   /**
    * Mutation to delete a reply.
-   * Optimistically removes the reply from the thread and decrements the parent's reply count.
    */
   const remove = useMutation({
     mutationFn: deleteReply,
     onMutate: async (variables) => {
+      if (!user || !profile) return
+      
       const pId = variables.parentId
       const repliesKey = ["replies", pId]
 
       await queryClient.cancelQueries({ queryKey: repliesKey })
       await queryClient.cancelQueries({ queryKey: mainCommentsKey })
+      await queryClient.cancelQueries({ queryKey: countKey })
 
       const previousReplies = queryClient.getQueryData(repliesKey)
       const previousMain = queryClient.getQueryData(mainCommentsKey)
+      const previousCount = queryClient.getQueryData<number>(countKey)
 
+      // 1. Remove from Reply Thread
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
         if (!old) return old
         return {
@@ -118,6 +136,7 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
         }
       })
 
+      // 2. Decrement parent's replies_count in Main List
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey, (old) => {
         if (!old) return old
         return {
@@ -131,19 +150,24 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
         }
       })
 
-      return { previousReplies, previousMain, pId }
+      // 3. Update Global Comment Count (-1)
+      queryClient.setQueryData<number>(countKey, (old) => Math.max(0, (old ?? 0) - 1))
+
+      return { previousReplies, previousMain, previousCount, pId }
     },
     onError: (_err, _vars, context) => {
       if (context?.pId) {
         queryClient.setQueryData(["replies", context.pId], context.previousReplies)
       }
       queryClient.setQueryData(mainCommentsKey, context?.previousMain)
+      queryClient.setQueryData(countKey, context?.previousCount)
     },
     onSettled: async (_data, _error, variables) => {
       const pId = variables.parentId
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["replies", pId] }),
         queryClient.invalidateQueries({ queryKey: mainCommentsKey }),
+        queryClient.invalidateQueries({ queryKey: countKey }),
       ])
     },
   })

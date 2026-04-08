@@ -11,14 +11,20 @@ type UseCommentMutationParams = {
 
 /**
  * Custom hook to handle top-level comment mutations (add and delete).
- * Implements high-performance Optimistic Updates by targeting specific cache pages
- * and minimizing unnecessary re-renders.
- * @param targetId - The ID of the parent entity.
- * @param targetType - The category used for query key mapping.
+ * * This hook implements high-performance **Optimistic Updates** by:
+ * 1. Prepending/removing items directly in the `InfiniteData` cache to avoid full list re-fetches.
+ * 2. Synchronizing the `comment-count` cache to ensure UI counters remain reactive and accurate.
+ * 3. Providing atomic rollbacks via `context` if server-side mutations fail.
+ * @param {UseCommentMutationParams} params - The configuration object.
+ * @param {string} params.targetId - The unique UUID of the parent entity (e.g., project_id).
+ * @param {string} params.targetType - The category used for query key mapping (e.g., "project").
+ * @returns {Object} An object containing `add` and `remove` mutate functions, along with their pending states.
  */
 export function useCommentMutation({ targetId, targetType }: UseCommentMutationParams) {
   const queryClient = useQueryClient()
   const queryKey = ["comments", targetType, targetId]
+  const countKey = ["comment-count", targetType, targetId]
+
   const { user, profile } = useAuth()
 
   /**
@@ -29,8 +35,12 @@ export function useCommentMutation({ targetId, targetType }: UseCommentMutationP
     mutationFn: addComment,
     onMutate: async (variables) => {
       if (!user || !profile) return
+
       await queryClient.cancelQueries({ queryKey })
+      await queryClient.cancelQueries({ queryKey: countKey })
+
       const previous = queryClient.getQueryData<InfiniteData<PaginatedComments>>(queryKey)
+      const previousCount = queryClient.getQueryData<number>(countKey)
 
       // OPTIMISTIC DATA
       const optimisticCommentData: CommentData = {
@@ -55,12 +65,18 @@ export function useCommentMutation({ targetId, targetType }: UseCommentMutationP
         }
       })
 
-      return { previous }
+      queryClient.setQueryData<number>(countKey, (old) => (old ?? 0) + 1)
+
+      return { previous, previousCount }
     },
     onError: (_err, _newComment, context) => {
       queryClient.setQueryData(queryKey, context?.previous)
+      queryClient.setQueryData(countKey, context?.previousCount)
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey })
+      queryClient.invalidateQueries({ queryKey: countKey })
+    }
   })
 
   /**
@@ -70,8 +86,13 @@ export function useCommentMutation({ targetId, targetType }: UseCommentMutationP
   const remove = useMutation({
     mutationFn: deleteComment,
     onMutate: async (comment) => {
+      if (!user || !profile) return
+
       await queryClient.cancelQueries({ queryKey })
+      await queryClient.cancelQueries({ queryKey: countKey })
+
       const previous = queryClient.getQueryData<InfiniteData<PaginatedComments>>(queryKey)
+      const previousCount = queryClient.getQueryData<number>(countKey)
 
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(queryKey, (old) => {
         if (!old) return old
@@ -84,14 +105,20 @@ export function useCommentMutation({ targetId, targetType }: UseCommentMutationP
         }
       })
 
-      return { previous }
+      queryClient.setQueryData<number>(countKey, (old) => 
+        Math.max(0, (old ?? 0) - 1)
+      )
+
+      return { previous, previousCount }
     },
     onError: (_err, _id, context) => {
       queryClient.setQueryData(queryKey, context?.previous)
+      queryClient.setQueryData(countKey, context?.previousCount)
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey })
-    },
+      queryClient.invalidateQueries({ queryKey: countKey })
+    }
   })
 
   return {

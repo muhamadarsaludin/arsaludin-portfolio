@@ -23,6 +23,11 @@ export type AddCommentParams = {
   replyToId: string | null
 }
 
+type GetCommentCountParams = {
+  targetId: string
+  targetType: CommentTargetType
+}
+
 // ====== SERVICES ======
 
 /**
@@ -213,4 +218,32 @@ export async function getComment({ commentId }: { commentId: string }) {
 
   if (error) throw error
   return data
+}
+
+/**
+ * Fetches the total number of comments and replies for a specific target entity.
+ * @param {GetCommentCountParams} params - The target identification parameters.
+ * @param {string} params.targetId - The unique UUID of the entity (e.g., project_id).
+ * @param {CommentTargetType} params.targetType - The classification of the target (e.g., "project").
+ * @returns {Promise<number>} A promise that resolves to the total count of comments and replies. 
+ * Defaults to 0 if an error occurs.
+ */
+export async function getCommentCount({
+  targetId,
+  targetType,
+}: GetCommentCountParams): Promise<number> {
+  const supabase = await createClient()
+  const targetColumn = `${targetType}_id`
+
+  return supabase
+    .from("comments")
+    .select("id", { count: "exact", head: true })
+    .eq(targetColumn, targetId)
+    .then(({ count, error }) => {
+      if (error) {
+        console.error(`[getCommentCount] Error fetching count for ${targetType}:`, error)
+        return 0
+      }
+      return count ?? 0
+    })
 }
