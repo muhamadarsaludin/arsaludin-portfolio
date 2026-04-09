@@ -64,7 +64,7 @@ body {
   @apply bg-red-600 dark:bg-red-400;
 }
 .bg-yellow {
-  @apply bg-yellow-600 dark:bg-yellow-400;
+  @apply bg-yellow-500 dark:bg-yellow-300;
 }
 .bg-green {
   @apply bg-green-600 dark:bg-green-400;
@@ -127,7 +127,7 @@ body {
   @apply border-red-600 dark:border-red-400;
 }
 .border-yellow {
-  @apply border-yellow-600 dark:border-yellow-400;
+  @apply border-yellow-500 dark:border-yellow-300;
 }
 .border-green {
   @apply border-green-600 dark:border-green-400;
