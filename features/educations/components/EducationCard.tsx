@@ -9,6 +9,7 @@ import { useLocale } from "next-intl"
 import { LuBriefcaseBusiness, LuCalendar, LuChevronDown, LuMapPin } from "react-icons/lu"
 import { useTranslations } from "use-intl"
 import { MiracleMarkdown } from "@/components/miracle/Markdown"
+import MiracleBadge from "@/components/miracle/Badge"
 
 export const EducationCard = ({
   education,
@@ -52,7 +53,7 @@ export const EducationCard = ({
               onError={() => setLogoSrc("/dummy.webp")}
             />
           </div>
-          <div className="flex flex-col gap-0.5">
+          <div className="flex flex-col gap-0.5 items-start">
             <h3 className="text-primary text-lg font-semibold md:text-xl lg:text-2xl">
               {education.school}
             </h3>
@@ -69,6 +70,11 @@ export const EducationCard = ({
                 {education.location}
               </span>
             </p>
+            {education.grade && (
+              <MiracleBadge className="mt-1 bg-green-100! dark:bg-green-900/30!">
+                Grade: {education.grade}
+              </MiracleBadge>
+            )}
           </div>
         </div>
         {education.description && (
