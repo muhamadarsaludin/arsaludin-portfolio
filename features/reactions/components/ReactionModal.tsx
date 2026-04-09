@@ -17,25 +17,19 @@ type ReactionModalProps = {
   targetType: ReactionTargetType
 }
 
-export default function ReactionModal({ 
-  isOpen, 
-  onClose, 
-  targetId, 
-  targetType 
+export default function ReactionModal({
+  isOpen,
+  onClose,
+  targetId,
+  targetType,
 }: ReactionModalProps) {
   const t = useTranslations("components.reaction.modal")
   const loadMoreRef = useRef<HTMLDivElement>(null)
-  
-  const {
-    data,
-    isLoading,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useReactions({ 
-    targetId, 
-    targetType, 
-    enabled: isOpen 
+
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useReactions({
+    targetId,
+    targetType,
+    enabled: isOpen,
   })
 
   useIntersectionObserver({
@@ -59,9 +53,7 @@ export default function ReactionModal({
         {isLoading ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 py-10 text-center">
             <MiracleLoader size={32} />
-            <p className="text-secondary/50 text-xs animate-pulse">
-              {t("loadingDetail")}
-            </p>
+            <p className="text-secondary/50 animate-pulse text-xs">{t("loadingDetail")}</p>
           </div>
         ) : allReactions.length === 0 ? (
           <div className="flex flex-1 items-center justify-center py-10 text-center">
@@ -72,22 +64,20 @@ export default function ReactionModal({
         ) : (
           <ul className="flex flex-col gap-4">
             {allReactions.map((reaction) => (
-             <ReactionItem key={reaction.id} reaction={reaction} />
+              <ReactionItem key={reaction.id} reaction={reaction} />
             ))}
           </ul>
         )}
 
         {/* --- INFINITE LOADING SENTINEL --- */}
-        <div 
-          ref={loadMoreRef} 
+        <div
+          ref={loadMoreRef}
           className="flex min-h-[60px] w-full items-center justify-center py-4"
         >
           {isFetchingNextPage && (
             <div className="flex flex-col items-center gap-2">
               <MiracleLoader size={20} />
-              <span className="text-secondary/40 text-[10px] italic">
-                {t("loadingDetail")}
-              </span>
+              <span className="text-secondary/40 text-[10px] italic">{t("loadingDetail")}</span>
             </div>
           )}
         </div>

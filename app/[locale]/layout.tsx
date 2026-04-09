@@ -40,11 +40,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   setRequestLocale(locale)
 
   let user = null
-  
+
   try {
     const supabase = await createClient()
     const { data, error } = await supabase.auth.getUser()
-    
+
     if (!error && data?.user) {
       user = data.user
     }

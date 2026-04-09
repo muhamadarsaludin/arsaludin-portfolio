@@ -14,9 +14,7 @@ export default function HeaderAvatar() {
   const t = useTranslations("components.header")
 
   if (isLoading) {
-    return (
-      <div className="h-8 w-8 animate-pulse rounded-full bg-neutral-300" />
-    )
+    return <div className="h-8 w-8 animate-pulse rounded-full bg-neutral-300" />
   }
 
   if (!profile) return null
@@ -55,16 +53,12 @@ export default function HeaderAvatar() {
           {/* <MiracleBadge className="mb-2" startIcon={<LuUserRound />}>
             <span className="capitalize">{profile.role}</span>
           </MiracleBadge> */}
-          <span className="bg-blue inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[9px] font-bold text-primary-inv uppercase mb-2">
+          <span className="bg-blue text-primary-inv mb-2 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase">
             <LuUserRound size={10} />
             {profile.role}
           </span>
-          <h3 className="text-primary-inv truncate font-semibold">
-            {profile.full_name}
-          </h3>
-          <p className="text-secondary-inv mt-0.5 text-xs font-normal">
-            {profile.email}
-          </p>
+          <h3 className="text-primary-inv truncate font-semibold">{profile.full_name}</h3>
+          <p className="text-secondary-inv mt-0.5 text-xs font-normal">{profile.email}</p>
         </div>
         <button
           onClick={handleSignOut}

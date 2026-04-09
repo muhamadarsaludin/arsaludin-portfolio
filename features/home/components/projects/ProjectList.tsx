@@ -12,9 +12,13 @@ interface ProjectListProps {
 }
 
 export function ProjectList({ locale, isFeatured = false }: ProjectListProps) {
-  const { data: projects, isLoading, isError } = useProjects({ 
-    locale, 
-    isFeatured 
+  const {
+    data: projects,
+    isLoading,
+    isError,
+  } = useProjects({
+    locale,
+    isFeatured,
   })
 
   if (isLoading) return <ProjectListSkeleton />

@@ -23,13 +23,14 @@ export default async function SkillsAndServicesSection({ className }: { classNam
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={clsx(className)}>
-        <div className="w-full md:w-8/12 lg:w-6/12 mx-auto flex flex-col items-center text-center mb-10">
-          <Heading 
-            id="skills-and-services" 
+        <div className="mx-auto mb-10 flex w-full flex-col items-center text-center md:w-8/12 lg:w-6/12">
+          <Heading
+            id="skills-and-services"
             fontWeight="semibold"
             className="text-3xl md:text-4xl lg:text-5xl"
             linkClassName="text-[0.4em]!"
-            noMarginTop>
+            noMarginTop
+          >
             {t("title")}
           </Heading>
           <p className="text-secondary mt-4">{t("description")}</p>

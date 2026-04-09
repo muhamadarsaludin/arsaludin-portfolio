@@ -7,7 +7,7 @@ import { useProfile } from "@/features/profile/hooks/useProfile"
 
 type AuthContextType = {
   user: User | null
-  profile: any 
+  profile: any
   isLoading: boolean
   isSignedIn: boolean
 }
@@ -20,11 +20,17 @@ const AuthContext = createContext<AuthContextType | null>(null)
  * @param children - The React component tree that requires access to Auth state.
  * @param initialUser - The User object fetched from the Server Component (Layout) to prevent hydration flickers.
  */
-export function AuthProvider({ children, initialUser }: { children: React.ReactNode; initialUser: User | null }) {
+export function AuthProvider({
+  children,
+  initialUser,
+}: {
+  children: React.ReactNode
+  initialUser: User | null
+}) {
   const supabase = createClient()
   const [user, setUser] = useState<User | null>(initialUser)
 
-  const { data: profile, isLoading: isProfileLoading } = useProfile({userId: user?.id ?? null})
+  const { data: profile, isLoading: isProfileLoading } = useProfile({ userId: user?.id ?? null })
 
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {

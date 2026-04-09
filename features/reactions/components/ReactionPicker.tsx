@@ -38,13 +38,13 @@ type ReactionPickerProps = {
   tooltipPosition?: TooltipDefaultPosition
 }
 
-export default function ReactionPicker({ 
-  targetId, 
-  targetType, 
-  initialSummary, 
+export default function ReactionPicker({
+  targetId,
+  targetType,
+  initialSummary,
   onSelectReaction,
   onShowDetail,
-  tooltipPosition
+  tooltipPosition,
 }: ReactionPickerProps) {
   const [isPickerOpen, setIsPickerOpen] = useState(false)
   const { isSignedIn } = useAuth()
@@ -70,11 +70,7 @@ export default function ReactionPicker({
       noPadding
       defaultPosition={tooltipPosition}
       trigger={
-        <button
-          onClick={onClick}
-          type="button"
-          className="group/reaction-picker cursor-pointer"
-        >
+        <button onClick={onClick} type="button" className="group/reaction-picker cursor-pointer">
           <div className="relative p-1">
             <LuCircleFadingPlus
               size={20}
@@ -96,15 +92,15 @@ export default function ReactionPicker({
         {!isSignedIn
           ? t("tooltip.auth")
           : dataSummary?.userReaction
-          ? t("tooltip.edit")
-          : t("tooltip.add")}
+            ? t("tooltip.edit")
+            : t("tooltip.add")}
       </span>
     </MiracleTooltip>
   )
 
   const DetailToggle = () => {
-    if(!dataSummary || dataSummary.totalReactions <= 0) return null
-    return(
+    if (!dataSummary || dataSummary.totalReactions <= 0) return null
+    return (
       <MiracleTooltip
         defaultPosition={tooltipPosition}
         trigger={
@@ -133,7 +129,7 @@ export default function ReactionPicker({
             await signInWithGoogle()
           }}
         />
-        <DetailToggle/>
+        <DetailToggle />
       </div>
     )
   }
@@ -162,7 +158,7 @@ export default function ReactionPicker({
           )}
         </div>
       </MiraclePopover>
-      <DetailToggle/>
+      <DetailToggle />
     </div>
   )
 }

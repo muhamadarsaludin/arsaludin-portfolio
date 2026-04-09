@@ -27,13 +27,12 @@ export default function ReactionsPreview({
   targetType,
   initialSummary,
   onSelectReaction,
-  tooltipPosition
+  tooltipPosition,
 }: ReactionsPreviewProps) {
-
-  const { data: summary } = useReactionSummary({ 
-    targetId, 
-    targetType, 
-    initialSummary 
+  const { data: summary } = useReactionSummary({
+    targetId,
+    targetType,
+    initialSummary,
   })
 
   const [isOpen, setIsOpen] = useState(false)
@@ -41,7 +40,7 @@ export default function ReactionsPreview({
   const { isSignedIn } = useAuth()
   const t = useTranslations("components.reaction")
   const zIndexBase = 10
-  
+
   if (!dataSummary || dataSummary.totalReactions <= 0) return null
   /**
    * Handles reaction selection.
@@ -65,9 +64,7 @@ export default function ReactionsPreview({
             "group/emoji bg-secondary flex h-7 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
             "min-w-7 px-1.5",
             "hover:gap-1.5 hover:px-3",
-            reaction.emoji === dataSummary.userReaction?.emoji
-              ? "border-blue"
-              : "border-primary"
+            reaction.emoji === dataSummary.userReaction?.emoji ? "border-blue" : "border-primary"
           )}
           style={{ zIndex: zIndexBase + index }}
           onClick={(e) => {
@@ -140,8 +137,7 @@ export default function ReactionsPreview({
                   key={reaction.emoji}
                   size="sm"
                   className={clsx(
-                    reaction.emoji === dataSummary.userReaction?.emoji &&
-                      "border-blue border-2"
+                    reaction.emoji === dataSummary.userReaction?.emoji && "border-blue border-2"
                   )}
                   onClick={() => handleSelectedIcon(reaction.emoji)}
                 >

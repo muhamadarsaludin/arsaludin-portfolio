@@ -34,5 +34,5 @@ export const useIntersectionObserver = ({
       observer.unobserve(currentElement)
       observer.disconnect()
     }
-  }, [targetRef, enabled, threshold, rootMargin]) 
+  }, [targetRef, enabled, threshold, rootMargin])
 }

@@ -59,8 +59,8 @@ export function useCommentMutation({ targetId, targetType }: UseCommentMutationP
           allReactions: [],
           topReactions: [],
           totalEmojis: 0,
-          remainingEmojis: 0
-        }
+          remainingEmojis: 0,
+        },
       }
 
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(queryKey, (old) => {
@@ -84,7 +84,7 @@ export function useCommentMutation({ targetId, targetType }: UseCommentMutationP
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey })
       queryClient.invalidateQueries({ queryKey: countKey })
-    }
+    },
   })
 
   /**
@@ -113,9 +113,7 @@ export function useCommentMutation({ targetId, targetType }: UseCommentMutationP
         }
       })
 
-      queryClient.setQueryData<number>(countKey, (old) => 
-        Math.max(0, (old ?? 0) - 1)
-      )
+      queryClient.setQueryData<number>(countKey, (old) => Math.max(0, (old ?? 0) - 1))
 
       return { previous, previousCount }
     },
@@ -126,7 +124,7 @@ export function useCommentMutation({ targetId, targetType }: UseCommentMutationP
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey })
       queryClient.invalidateQueries({ queryKey: countKey })
-    }
+    },
   })
 
   return {

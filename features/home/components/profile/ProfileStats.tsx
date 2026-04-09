@@ -10,7 +10,7 @@ type ProfileStatsProps = {
 
 export default function ProfileStats({ className }: ProfileStatsProps) {
   const t = useTranslations("pages.home.profile")
-  const [isFinished, setIsFinished] = useState(false);
+  const [isFinished, setIsFinished] = useState(false)
   return (
     <div className={clsx("max-w-full overflow-auto", className)}>
       <table className="border-separate border-spacing-0">
@@ -36,13 +36,15 @@ export default function ProfileStats({ className }: ProfileStatsProps) {
         <tbody>
           <tr>
             <td className="min-w-20 p-1 text-center text-xl font-medium md:text-2xl lg:text-3xl">
-              <CountUp end={4} onEnd={() => setIsFinished(true)}/>
-                <span className={clsx(
+              <CountUp end={4} onEnd={() => setIsFinished(true)} />
+              <span
+                className={clsx(
                   "transition-opacity duration-300",
                   isFinished ? "opacity-100" : "opacity-0"
-                )}>
-                  +
-                </span>
+                )}
+              >
+                +
+              </span>
             </td>
             <td className="min-w-20 p-1 text-center text-xl font-medium md:text-2xl lg:text-3xl">
               <CountUp end={10} />

@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { getServices } from "../services/services";
+import { useQuery } from "@tanstack/react-query"
+import { getServices } from "../services/services"
 
 /**
  * Custom hook to fetch and manage the state of services.
@@ -11,12 +11,12 @@ import { getServices } from "../services/services";
  * - **Cache Isolation**: Includes `isAdminView` in the queryKey to prevent data leakage between public and admin views.
  * - **Static Optimization**: Uses a 1-hour `staleTime` since service data rarely changes.
  */
-export function useServices({ 
-  locale, 
-  isAdminView = false 
-}: { 
-  locale: string; 
-  isAdminView?: boolean 
+export function useServices({
+  locale,
+  isAdminView = false,
+}: {
+  locale: string
+  isAdminView?: boolean
 }) {
   return useQuery({
     queryKey: ["services", locale, isAdminView],

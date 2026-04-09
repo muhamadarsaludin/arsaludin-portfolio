@@ -11,10 +11,7 @@ type UseEducationsParams = {
  * @param {UseEducationsParams} params - The locale and view mode.
  * @returns The query result object including data, isLoading, and error.
  */
-export const useEducations = ({ 
-  locale, 
-  isAdminView = false 
-}: UseEducationsParams) => {
+export const useEducations = ({ locale, isAdminView = false }: UseEducationsParams) => {
   return useQuery({
     queryKey: ["educations", locale, { isAdminView }],
     queryFn: () => getEducations({ locale, isAdminView }),

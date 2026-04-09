@@ -43,7 +43,8 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
       await queryClient.cancelQueries({ queryKey: countKey })
 
       const previousReplies = queryClient.getQueryData<InfiniteData<PaginatedComments>>(repliesKey)
-      const previousMain = queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
+      const previousMain =
+        queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
       const previousCount = queryClient.getQueryData<number>(countKey)
 
       const optimisticReply: CommentData = {
@@ -62,8 +63,8 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
           allReactions: [],
           topReactions: [],
           totalEmojis: 0,
-          remainingEmojis: 0
-        }
+          remainingEmojis: 0,
+        },
       }
 
       // 1. Update Reply Thread List
@@ -120,7 +121,7 @@ export function useReplyMutation({ targetId, targetType }: UseReplyMutationParam
     mutationFn: deleteReply,
     onMutate: async (variables) => {
       if (!user || !profile) return
-      
+
       const pId = variables.parentId
       const repliesKey = ["replies", pId]
 

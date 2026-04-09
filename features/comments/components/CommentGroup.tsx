@@ -12,24 +12,16 @@ type CommentGroupProps = {
   initialCount?: number
 }
 
-export default function CommentGroup({ 
-  targetId, 
-  targetType, 
-  initialCount
-}: CommentGroupProps) {
-
+export default function CommentGroup({ targetId, targetType, initialCount }: CommentGroupProps) {
   const { data: count } = useCommentCount({ targetId, targetType, initialCount })
   const commentCount = count ?? initialCount ?? 0
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  
+
   return (
     <>
       <div className="flex items-center gap-1">
-        <CommentButton 
-          commentCount={commentCount} 
-          onClick={() => setIsDrawerOpen(true)} 
-        />
+        <CommentButton commentCount={commentCount} onClick={() => setIsDrawerOpen(true)} />
       </div>
 
       <CommentDrawer

@@ -12,7 +12,7 @@ export type Education = {
   description: string[] | null
   user_id: string | null
   create_at: string | null
-  updated_at: string |null
+  updated_at: string | null
 }
 
 export type EducationTranslation = {

@@ -5,8 +5,8 @@ const supabase = createClient()
 /**
  * Initiates the Google OAuth sign-in using Supabase.
  *
- * This function triggers a redirect to Google's consent screen. 
- * After successful authentication, Supabase will redirect the user back 
+ * This function triggers a redirect to Google's consent screen.
+ * After successful authentication, Supabase will redirect the user back
  * to the URL defined in the NEXT_PUBLIC_SUPABASE_REDIRECT_URL environment variable.
  *
  * @throws {Error} If the OAuth provider fails or the redirect URL is misconfigured.

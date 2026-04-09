@@ -4,7 +4,8 @@ import clsx from "clsx"
 import type { ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
 
-export type TooltipDefaultPosition = | "top-start"
+export type TooltipDefaultPosition =
+  | "top-start"
   | "top-center"
   | "top-end"
   | "bottom-start"

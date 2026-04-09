@@ -24,9 +24,7 @@ export function Providers({
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <QueryProvider>
-        <AuthProvider initialUser={initialUser}>
-          {children}
-        </AuthProvider>
+        <AuthProvider initialUser={initialUser}>{children}</AuthProvider>
       </QueryProvider>
     </ThemeProvider>
   )

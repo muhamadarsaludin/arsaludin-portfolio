@@ -90,11 +90,7 @@ export default function Heading({
     >
       {children}
 
-      <Link 
-        href={`#${headingId}`} 
-        className="absolute inset-0 z-0" 
-        aria-hidden="true"
-      />
+      <Link href={`#${headingId}`} className="absolute inset-0 z-0" aria-hidden="true" />
 
       {copyLink && (
         <div className="invisible absolute top-1/2 right-full z-[10] flex-1 shrink-0 translate-x-1 -translate-y-1/2 pr-1 opacity-0 transition duration-300 ease-in-out group-hover/heading:visible group-hover/heading:translate-x-0 group-hover/heading:opacity-100">
@@ -104,8 +100,8 @@ export default function Heading({
             trigger={
               <button
                 onClick={(e) => {
-                  e.stopPropagation();
-                  handleCopy();
+                  e.stopPropagation()
+                  handleCopy()
                 }}
                 className={clsx(
                   linkSizeClass[level],

@@ -11,7 +11,7 @@ type UseCommentCountParams = {
 
 /**
  * A custom hook to manage and synchronize comment counts across the UI.
- * Supports **Hydration** through `initialCount` to prevent Layout Shift (CLS) 
+ * Supports **Hydration** through `initialCount` to prevent Layout Shift (CLS)
  * when navigating between list and detail views.
  * @param {Object} params - Hook parameters.
  * @param {string} params.targetId - The unique ID of the target entity.
@@ -20,10 +20,10 @@ type UseCommentCountParams = {
  * @param {boolean} [params.enabled=true] - Controls whether the query should execute.
  * @returns {UseQueryResult<number, Error>} The TanStack Query result containing the total count.
  * @example
- * const { data: count } = useCommentCount({ 
- * targetId: "proj-123", 
- * targetType: "project", 
- * initialCount: 5 
+ * const { data: count } = useCommentCount({
+ * targetId: "proj-123",
+ * targetType: "project",
+ * initialCount: 5
  * });
  */
 export function useCommentCount({

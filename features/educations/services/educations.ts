@@ -10,8 +10,8 @@ type GetEducationsParams = {
 
 /**
  * Fetches education data from Supabase with internationalization (i18n) support.
- * * This function performs a complex join between the 'education' table and its 
- * corresponding translation and i18n tables. It ensures that only the relevant 
+ * * This function performs a complex join between the 'education' table and its
+ * corresponding translation and i18n tables. It ensures that only the relevant
  * translation for the requested locale is retrieved.
  *
  * @param {GetEducationParams} params - The configuration object for the fetch request.
@@ -65,7 +65,7 @@ export async function getEducations({
     console.error("Error fetching education data:", error)
     throw error
   }
-  
+
   if (!data) return []
 
   /**

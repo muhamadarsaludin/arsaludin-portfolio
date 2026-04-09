@@ -45,7 +45,7 @@ export async function getComments({
   targetType,
   cursor,
   pageSize = COMMENTS_PAGE_SIZE,
-}: GetCommentsParams): Promise<PaginatedComments> { 
+}: GetCommentsParams): Promise<PaginatedComments> {
   const supabase = await createClient()
 
   const {
@@ -57,7 +57,8 @@ export async function getComments({
   // 1. Inisialisasi Query
   let query = supabase
     .from("comments")
-    .select(`
+    .select(
+      `
       id,
       content,
       created_at,
@@ -79,12 +80,13 @@ export async function getComments({
         emoji,
         user_id
       )
-    `)
+    `
+    )
     .is("parent_id", null)
     .eq(targetColumn, targetId)
     // Filter reactions untuk user yang sedang login saja (jika ada)
     // Ini harus diletakkan di dalam string select atau menggunakan filter spesifik
-    .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000") 
+    .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000")
     .order("created_at", { ascending: false })
     .order("id", { ascending: false })
     .limit(pageSize + 1)
@@ -106,7 +108,7 @@ export async function getComments({
   if (!data || data.length === 0) {
     return { data: [], nextCursor: null, hasMore: false }
   }
-  
+
   // 3. Handling Pagination Metadata
   const hasMore = data.length > pageSize
   const trimmedData = hasMore ? data.slice(0, pageSize) : data
@@ -114,19 +116,19 @@ export async function getComments({
   // 4. Mapping Data (Fixing Syntax Error here)
   const mappedData: CommentData[] = trimmedData.map((comment: any) => {
     const allReactions = comment.comment_reaction_counts || []
-    // Karena kita sudah filter reactions.user_id di query, 
+    // Karena kita sudah filter reactions.user_id di query,
     // jika ada isinya berarti itu milik user saat ini.
     const userReaction = comment.reactions?.[0] ?? null
-    
+
     const totalReactions = allReactions.reduce(
       (acc: number, curr: any) => acc + (curr.count || 0),
       0
     )
-    
+
     const topReactions = allReactions.slice(0, MAX_TOP_REACTIONS)
     const totalEmojis = allReactions.length
     const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
-    
+
     return {
       id: comment.id,
       content: comment.content,
@@ -143,8 +145,8 @@ export async function getComments({
         allReactions,
         topReactions,
         totalEmojis,
-        remainingEmojis
-      }
+        remainingEmojis,
+      },
     }
   }) // <-- Tadi kurang kurung penutup di sini
 
@@ -258,7 +260,7 @@ export async function getComment({ commentId }: { commentId: string }) {
  * @param {GetCommentCountParams} params - The target identification parameters.
  * @param {string} params.targetId - The unique UUID of the entity (e.g., project_id).
  * @param {CommentTargetType} params.targetType - The classification of the target (e.g., "project").
- * @returns {Promise<number>} A promise that resolves to the total count of comments and replies. 
+ * @returns {Promise<number>} A promise that resolves to the total count of comments and replies.
  * Defaults to 0 if an error occurs.
  */
 export async function getCommentCount({

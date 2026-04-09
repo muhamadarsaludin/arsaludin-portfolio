@@ -15,17 +15,17 @@ type ReactionGroupProps = {
   tooltipPosition?: TooltipDefaultPosition
 }
 
-export default function ReactionGroup({ 
-  targetId, 
-  targetType, 
+export default function ReactionGroup({
+  targetId,
+  targetType,
   initialSummary,
-  tooltipPosition
+  tooltipPosition,
 }: ReactionGroupProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  
-  const { mutate } = useReactionMutation({ 
-    targetId, 
-    targetType 
+
+  const { mutate } = useReactionMutation({
+    targetId,
+    targetType,
   })
 
   const handleToggleReaction = (emoji: string) => {
@@ -34,28 +34,28 @@ export default function ReactionGroup({
 
   return (
     <div className="flex items-center gap-1 py-1">
-      <ReactionsPreview 
-        targetId={targetId} 
-        targetType={targetType} 
+      <ReactionsPreview
+        targetId={targetId}
+        targetType={targetType}
         initialSummary={initialSummary}
         onSelectReaction={handleToggleReaction}
         tooltipPosition={tooltipPosition}
       />
-      
-      <ReactionPicker 
-        targetId={targetId} 
-        targetType={targetType} 
+
+      <ReactionPicker
+        targetId={targetId}
+        targetType={targetType}
         initialSummary={initialSummary}
         onSelectReaction={handleToggleReaction}
         onShowDetail={() => setIsModalOpen(true)}
         tooltipPosition={tooltipPosition}
       />
 
-      <ReactionModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        targetId={targetId} 
-        targetType={targetType} 
+      <ReactionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        targetId={targetId}
+        targetType={targetType}
       />
     </div>
   )

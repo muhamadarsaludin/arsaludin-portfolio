@@ -8,13 +8,10 @@
  * timeAgo("2023-10-01T12:00:00Z", "id") // returns "2thn"
  * timeAgo(new Date().toISOString(), "en") // returns "now"
  * @performance
- * Uses simple math divisors for high performance. For more complex 
+ * Uses simple math divisors for high performance. For more complex
  * relative time needs, consider the native Intl.RelativeTimeFormat API.
  */
-export const timeAgo = ({
-  date, 
-  locale
-}:{date: string, locale: string}) => {
+export const timeAgo = ({ date, locale }: { date: string; locale: string }) => {
   const seconds = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000)
 
   const labels: Record<string, any> = {

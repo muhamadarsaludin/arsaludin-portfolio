@@ -23,18 +23,17 @@ export default async function EducationsSection({ className }: { className?: str
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Section className={clsx(
-        className
-      )}>
-        <Heading 
+      <Section className={clsx(className)}>
+        <Heading
           id="education"
-          className="text-3xl md:text-4xl lg:text-5xl mb-8 md:mb-10"
+          className="mb-8 text-3xl md:mb-10 md:text-4xl lg:text-5xl"
           linkClassName="text-[0.4em]!"
           noMarginTop
-          fontWeight="semibold">
+          fontWeight="semibold"
+        >
           {t("title")}
         </Heading>
-        <EducationList locale={locale}/>
+        <EducationList locale={locale} />
       </Section>
     </HydrationBoundary>
   )

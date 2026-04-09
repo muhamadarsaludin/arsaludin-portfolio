@@ -1,29 +1,20 @@
-import clsx from "clsx";
+import clsx from "clsx"
 
 type MiracleSkeletonProps = React.HTMLAttributes<HTMLDivElement> & {
-  variant?: "low" | "med" | "high";
-};
+  variant?: "low" | "med" | "high"
+}
 
-export function MiracleSkeleton({ 
-  className, 
-  variant = "low",
-  ...props 
-}: MiracleSkeletonProps) {
-  
+export function MiracleSkeleton({ className, variant = "low", ...props }: MiracleSkeletonProps) {
   const variantClasses = {
     low: "bg-neutral-low",
     med: "bg-neutral-med",
-    high: "bg-neutral-high"
-  };
+    high: "bg-neutral-high",
+  }
 
   return (
-    <div 
-      className={clsx(
-        "animate-pulse rounded-md", 
-        variantClasses[variant], 
-        className
-      )} 
-      {...props} 
+    <div
+      className={clsx("animate-pulse rounded-md", variantClasses[variant], className)}
+      {...props}
     />
-  );
+  )
 }

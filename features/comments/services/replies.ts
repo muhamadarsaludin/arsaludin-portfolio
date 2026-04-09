@@ -47,7 +47,8 @@ export async function getReplies({
 
   let query = supabase
     .from("comments")
-    .select(`
+    .select(
+      `
       id,
       content,
       created_at,
@@ -69,7 +70,8 @@ export async function getReplies({
         emoji,
         user_id
       )
-    `)
+    `
+    )
     .eq("parent_id", parentId)
     // Filter reaksi milik user login
     .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000")
@@ -102,12 +104,12 @@ export async function getReplies({
     // Logic Reaction Summary
     const allReactions = reply.comment_reaction_counts || []
     const userReaction = reply.reactions?.[0] ?? null
-    
+
     const totalReactions = allReactions.reduce(
       (acc: number, curr: any) => acc + (curr.count || 0),
       0
     )
-    
+
     const topReactions = allReactions.slice(0, MAX_TOP_REACTIONS)
     const totalEmojis = allReactions.length
     const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
@@ -128,8 +130,8 @@ export async function getReplies({
         userReaction,
         topReactions,
         totalEmojis,
-        remainingEmojis
-      }
+        remainingEmojis,
+      },
     }
   })
 

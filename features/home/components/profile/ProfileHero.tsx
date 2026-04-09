@@ -12,7 +12,7 @@ export default function ProfileHero({ className, ...props }: ProfileHeroProps) {
   return (
     <div
       {...props}
-      className="border-primary relative h-50 w-full overflow-hidden rounded-2xl border md:h-70 lg:h-85 xl:h-100 bg-black"
+      className="border-primary relative h-50 w-full overflow-hidden rounded-2xl border bg-black md:h-70 lg:h-85 xl:h-100"
     >
       <div
         style={{ width: "100%", height: "100%", position: "relative" }}

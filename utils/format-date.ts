@@ -18,28 +18,23 @@ type FormatDateParams = {
  *
  * @example
  * // Custom Month-Year usage: "Apr 2026"
- * formatDate({ 
- * date: '2026-04-09', 
- * locale: 'en-US' | 'en', 
- * options: { month: 'short', year: 'numeric' } 
+ * formatDate({
+ * date: '2026-04-09',
+ * locale: 'en-US' | 'en',
+ * options: { month: 'short', year: 'numeric' }
  * });
  */
-export const formatDate = ({
-  date,
-  locale,
-  dateStyle,
-  options
-}: FormatDateParams): string => {
+export const formatDate = ({ date, locale, dateStyle, options }: FormatDateParams): string => {
   // Convert input to a valid Date object
-  const dateObj = date instanceof Date ? date : new Date(date);
+  const dateObj = date instanceof Date ? date : new Date(date)
 
   // If the date is invalid, prevent the app from crashing and return a fallback
   if (isNaN(dateObj.getTime())) {
-    console.warn(`Invalid date provided to formatDate: ${date}`);
-    return "N/A";
+    console.warn(`Invalid date provided to formatDate: ${date}`)
+    return "N/A"
   }
-  const finalOptions: Intl.DateTimeFormatOptions = options 
-    ? options 
-    : { dateStyle: dateStyle || "long" };
-  return new Intl.DateTimeFormat(locale, finalOptions).format(dateObj);
-};
+  const finalOptions: Intl.DateTimeFormatOptions = options
+    ? options
+    : { dateStyle: dateStyle || "long" }
+  return new Intl.DateTimeFormat(locale, finalOptions).format(dateObj)
+}

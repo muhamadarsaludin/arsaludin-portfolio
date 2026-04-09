@@ -11,10 +11,7 @@ type UseExperiencesParams = {
  * @param {UseExperiencesParams} params - The locale and view mode.
  * @returns The query result object including data, isLoading, and error.
  */
-export const useExperiences = ({ 
-  locale, 
-  isAdminView = false 
-}: UseExperiencesParams) => {
+export const useExperiences = ({ locale, isAdminView = false }: UseExperiencesParams) => {
   return useQuery({
     queryKey: ["experiences", locale, { isAdminView }],
     queryFn: () => getExperiences({ locale, isAdminView }),

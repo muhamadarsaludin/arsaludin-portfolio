@@ -9,7 +9,7 @@ import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
 export function ServiceList({ locale }: { locale: string }) {
   const { data: services, isLoading, isError } = useServices({ locale })
 
-  if (isLoading) return (<ServiceListSkeleton />)
+  if (isLoading) return <ServiceListSkeleton />
   if (isError) return <ErrorStateCard />
   if (!services || services.length === 0) return <EmptyStateCard />
 

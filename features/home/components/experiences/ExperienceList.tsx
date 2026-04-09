@@ -6,15 +6,19 @@ import { useExperiences } from "@/features/experiences/hooks/useExperiences"
 import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
 
-export function ExperienceList({ locale }: {locale: string}) {
-  const { data: experiences, isLoading, isError } = useExperiences({ 
-    locale
+export function ExperienceList({ locale }: { locale: string }) {
+  const {
+    data: experiences,
+    isLoading,
+    isError,
+  } = useExperiences({
+    locale,
   })
 
   if (isLoading) return <ExperienceListSkeleton />
   if (isError) return <ErrorStateCard />
   if (!experiences || experiences.length === 0) return <EmptyStateCard />
-  
+
   return (
     <div className="flex flex-col gap-4">
       {experiences.map((experience, i) => (

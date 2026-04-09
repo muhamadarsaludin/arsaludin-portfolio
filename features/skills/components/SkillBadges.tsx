@@ -87,10 +87,15 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
                     {IconComponent && (
                       <IconComponent className="text-secondary-inv h-3 w-3 transition-transform duration-300 group-hover/badge:scale-110" />
                     )}
-                    <span className={clsx(
-                      "text-secondary-inv",
-                      skill.link && "group-hover/badge:underline transition-all duration-300 ease-in-out"
-                    )}>{skill.name}</span>
+                    <span
+                      className={clsx(
+                        "text-secondary-inv",
+                        skill.link &&
+                          "transition-all duration-300 ease-in-out group-hover/badge:underline"
+                      )}
+                    >
+                      {skill.name}
+                    </span>
                   </div>
                 )
 

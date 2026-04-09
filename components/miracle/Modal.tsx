@@ -99,7 +99,7 @@ export default function MiracleModal({
         aria-modal="true"
       >
         {(title || showCloseIcon) && (
-          <div className="border-primary flex shrink-0 items-center justify-between border-b py-3 px-4">
+          <div className="border-primary flex shrink-0 items-center justify-between border-b px-4 py-3">
             <div className="flex flex-col gap-1">
               {title && (
                 <div className={clsx("text-lg leading-tight font-bold", statusColors[status])}>

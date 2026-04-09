@@ -10,8 +10,8 @@ type GetExperiencesParams = {
 
 /**
  * Fetches professional experience data from Supabase with internationalization (i18n) support.
- * * This function performs a complex join between the 'experience' table and its 
- * corresponding translation and i18n tables. It ensures that only the relevant 
+ * * This function performs a complex join between the 'experience' table and its
+ * corresponding translation and i18n tables. It ensures that only the relevant
  * translation for the requested locale is retrieved.
  *
  * @param {GetExperiencesParams} params - The configuration object for the fetch request.
@@ -65,7 +65,7 @@ export async function getExperiences({
     console.error("Error fetching experience data:", error)
     throw error
   }
-  
+
   if (!data) return []
 
   /**

@@ -99,7 +99,7 @@ export async function getProjects({
     console.error("Error fetching projects:", error)
     throw error
   }
-  
+
   if (!data) return []
 
   return data.map((project: any) => {
@@ -109,12 +109,12 @@ export async function getProjects({
 
     const allReactions = project.project_reaction_counts || []
     const userReaction = project.reactions?.[0] ?? null
-    
+
     const totalReactions = allReactions.reduce(
       (acc: number, curr: any) => acc + (curr.count || 0),
       0
     )
-    
+
     const topReactions = allReactions.slice(0, MAX_TOP_REACTIONS)
     const totalEmojis = allReactions.length
     const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
