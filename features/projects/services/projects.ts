@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server"
 import type { Project, ProjectTranslation } from "../types/projects.types"
 import { MAX_TOP_REACTIONS } from "@/features/reactions/constants/reactions.constants"
 
-type getProjectsParams = {
+type GetProjectsParams = {
   locale: string
   isFeatured?: boolean
   isAdminView?: boolean
@@ -23,7 +23,7 @@ export async function getProjects({
   locale,
   isFeatured = false,
   isAdminView = false,
-}: getProjectsParams): Promise<Project[]> {
+}: GetProjectsParams): Promise<Project[]> {
   const supabase = await createClient()
 
   const {

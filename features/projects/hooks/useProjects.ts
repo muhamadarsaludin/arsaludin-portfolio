@@ -1,5 +1,3 @@
-// features/projects/hooks/useProjects.ts
-
 import { useQuery } from "@tanstack/react-query"
 import { getProjects } from "../services/projects"
 
