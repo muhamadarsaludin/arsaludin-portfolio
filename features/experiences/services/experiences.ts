@@ -36,9 +36,7 @@ export async function getExperiences({
     start_date,
     end_date,
     is_show,
-    created_at,
-    updated_at,
-    ${isAdminView ? "user_id," : ""}
+    ${isAdminView ? "user_id, created_at, updated_at," : ""}
     experience_translations!inner (
       role,
       employment_type,

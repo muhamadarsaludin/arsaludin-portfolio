@@ -1,3 +1,4 @@
+import EducationsSection from "./educations/EducationsSection"
 import ExperiencesSection from "./experiences/ExperiencesSection"
 import ProfileSection from "./profile/ProfileSection"
 import ProjectsSection from "./projects/ProjectsSection"
@@ -10,6 +11,7 @@ export default function HomePage() {
       <SkillsAndServicesSection className="py-15 lg:py-18" />
       <ProjectsSection className="py-15 lg:py-18" />
       <ExperiencesSection className="py-15 lg:py-18" />
+      <EducationsSection className="py-15 lg:py-18" />
     </>
   )
 }

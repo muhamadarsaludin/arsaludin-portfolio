@@ -2,23 +2,23 @@ import Heading from "@/components/Heading"
 import Section from "@/components/Section"
 import { getLocale, getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
-import { ExperienceList } from "./ExperienceList"
+import { EducationList } from "./EducationList"
 import clsx from "clsx"
-import { getExperiences } from "@/features/experiences/services/experiences"
+import { getEducations } from "@/features/educations/services/educations"
 
 /**
- * Server Component: Prefetches experience for optimal SEO and performance.
+ * Server Component: Prefetches education for optimal SEO and performance.
  * Uses HydrationBoundary to pass data to the client-side TanStack Query cache.
  */
-export default async function ExperiencesSection({ className }: { className?: string }) {
-  const t = await getTranslations("pages.home.experiences")
+export default async function EducationsSection({ className }: { className?: string }) {
+  const t = await getTranslations("pages.home.educations")
   const locale = await getLocale()
   const queryClient = new QueryClient()
   const isAdminView = false
 
   await queryClient.prefetchQuery({
-    queryKey: ["experiences", locale, { isAdminView }],
-    queryFn: () => getExperiences({ locale, isAdminView }),
+    queryKey: ["educations", locale, { isAdminView }],
+    queryFn: () => getEducations({ locale, isAdminView }),
   })
 
   return (
@@ -27,14 +27,14 @@ export default async function ExperiencesSection({ className }: { className?: st
         className
       )}>
         <Heading 
-          id="experience"
+          id="education"
           className="text-3xl md:text-4xl lg:text-5xl mb-8 md:mb-10"
           linkClassName="text-[0.4em]!"
           noMarginTop
           fontWeight="semibold">
           {t("title")}
         </Heading>
-        <ExperienceList locale={locale}/>
+        <EducationList locale={locale}/>
       </Section>
     </HydrationBoundary>
   )

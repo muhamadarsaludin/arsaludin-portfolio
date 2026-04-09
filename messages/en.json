@@ -86,6 +86,9 @@
     "experienceCard": {
       "keyContributions": "Contributions"
     },
+    "educationCard": {
+      "description": "Description"
+    },
     "errorStateCard": {
       "errorMessage": "Unable to load. Please try again later"
     },
@@ -112,8 +115,11 @@
         "title": "Showcase of my best works",
         "cta": "View all projects"
       },
-      "experience": {
+      "experiences": {
         "title": "Work experience"
+      },
+      "educations": {
+        "title": "Education"
       }
     }
   }

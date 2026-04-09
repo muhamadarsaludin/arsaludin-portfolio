@@ -86,6 +86,9 @@
     "experienceCard": {
       "keyContributions": "Kontribusi"
     },
+    "educationCard": {
+      "description": "Deskripsi"
+    },
     "errorStateCard": {
       "errorMessage": "Gagal memuat data. Silakan coba lagi nanti"
     },
@@ -112,8 +115,11 @@
         "title": "Showcase karya terbaik saya",
         "cta": "Lihat semua proyek"
       },
-      "experience": {
+      "experiences": {
         "title": "Pengalaman kerja"
+      },
+      "educations": {
+        "title": "Pendidikan"
       }
     }
   }
