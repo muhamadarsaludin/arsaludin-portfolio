@@ -11,7 +11,8 @@ import { useAuth } from "@/providers/AuthProvider"
 import { useTheme } from "@wrksz/themes/client"
 import { signInWithGoogle } from "@/features/auth/services/auth"
 
-import MiracleTooltip, { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
+import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
+import MiracleTooltip from "@/components/miracle/Tooltip"
 import MiraclePopover from "@/components/miracle/Popover"
 import MiracleLoader from "@/components/miracle/Loader"
 

@@ -6,7 +6,7 @@ import MiracleModal from "@/components/miracle/Modal"
 import MiracleLoader from "@/components/miracle/Loader"
 
 import { useReactions } from "@/features/reactions/hooks/useReactions"
-import { ReactionTargetType } from "@/features/reactions/types/reactions.types"
+import type { ReactionTargetType } from "@/features/reactions/types/reactions.types"
 import ReactionItem from "./ReactionItem"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 

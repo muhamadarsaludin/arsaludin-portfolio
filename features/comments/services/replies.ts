@@ -6,7 +6,7 @@ import { REPLIES_PAGE_SIZE } from "../constants/comments.constants"
 import type { AddCommentParams } from "./comments"
 import { addComment, deleteComment } from "./comments"
 import type { Profile } from "@/features/profile/types/profiles.types"
-import { Cursor } from "@/features/shared/types/index.types"
+import type { Cursor } from "@/features/shared/types/index.types"
 import { MAX_TOP_REACTIONS } from "@/features/reactions/constants/reactions.constants"
 
 // ====== TYPES ======

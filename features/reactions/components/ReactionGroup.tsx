@@ -6,7 +6,7 @@ import ReactionsPreview from "./ReactionsPreview"
 import ReactionPicker from "./ReactionPicker"
 import ReactionModal from "./ReactionModal"
 import { useReactionMutation } from "../hooks/useReationMutation"
-import { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
+import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 
 type ReactionGroupProps = {
   targetId: string

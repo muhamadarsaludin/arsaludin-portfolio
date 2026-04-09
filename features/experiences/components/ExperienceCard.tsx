@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Experience } from "../types/experiences.types"
+import type { Experience } from "../types/experiences.types"
 import clsx from "clsx"
 import { formatDate } from "@/utils/format-date"
 import { useLocale } from "next-intl"

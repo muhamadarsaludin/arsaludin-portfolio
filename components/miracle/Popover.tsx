@@ -3,7 +3,7 @@
 import clsx from "clsx"
 import type { ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
-import { TooltipDefaultPosition } from "./Tooltip"
+import type { TooltipDefaultPosition } from "./Tooltip"
 
 export type PopoverDefaultPosition = TooltipDefaultPosition
 

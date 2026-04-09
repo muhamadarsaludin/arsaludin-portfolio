@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Reaction } from "../types/reactions.types"
+import type { Reaction } from "../types/reactions.types"
 import Image from "next/image"
 import { getInitials } from "@/utils/initials"
 import { LuUserRound } from "react-icons/lu"

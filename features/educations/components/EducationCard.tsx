@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Education } from "../types/educations.types"
+import type { Education } from "../types/educations.types"
 import clsx from "clsx"
 import { formatDate } from "@/utils/format-date"
 import { useLocale } from "next-intl"

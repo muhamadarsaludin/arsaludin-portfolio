@@ -1,4 +1,5 @@
-import { useMutation, useQueryClient, InfiniteData } from "@tanstack/react-query"
+import type { InfiniteData } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuth } from "@/providers/AuthProvider"
 import { toggleReaction } from "../services/reactions"
 import type {

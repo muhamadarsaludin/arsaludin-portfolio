@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 import type { Cursor } from "@/features/shared/types/index.types"
 import { REACTIONS_PAGE_SIZE } from "../constants/reactions.constants"
-import { ReactionTargetType } from "../types/reactions.types"
+import type { ReactionTargetType } from "../types/reactions.types"
 import { getReactions } from "../services/reactions"
 
 type UseReactionsParams = {

@@ -1,5 +1,5 @@
 import { getCommentCount } from "../services/comments"
-import { CommentTargetType } from "../types/comments.types"
+import type { CommentTargetType } from "../types/comments.types"
 import { useQuery } from "@tanstack/react-query"
 
 type UseCommentCountParams = {

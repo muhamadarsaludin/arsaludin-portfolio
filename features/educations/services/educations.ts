@@ -1,7 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { Education, EducationTranslation } from "../types/educations.types"
+import type { Education, EducationTranslation } from "../types/educations.types"
 
 type GetEducationsParams = {
   locale: string

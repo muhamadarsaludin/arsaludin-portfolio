@@ -1,5 +1,5 @@
-import { Profile } from "@/features/profile/types/profiles.types"
-import { Cursor } from "@/features/shared/types/index.types"
+import type { Profile } from "@/features/profile/types/profiles.types"
+import type { Cursor } from "@/features/shared/types/index.types"
 
 export type Reaction = {
   id: string

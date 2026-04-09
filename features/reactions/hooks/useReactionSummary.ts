@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { getReactionSummary } from "../services/reactions"
-import { ReactionSummary, ReactionTargetType } from "../types/reactions.types"
+import type { ReactionSummary, ReactionTargetType } from "../types/reactions.types"
 import { MAX_TOP_REACTIONS } from "../constants/reactions.constants"
 
 type UseReactionSummaryParams = {

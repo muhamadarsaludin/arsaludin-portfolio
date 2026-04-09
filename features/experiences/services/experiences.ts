@@ -1,7 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { Experience, ExperienceTranslation } from "../types/experiences.types"
+import type { Experience, ExperienceTranslation } from "../types/experiences.types"
 
 type GetExperiencesParams = {
   locale: string
