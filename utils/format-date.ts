@@ -2,31 +2,44 @@ type FormatDateParams = {
   date: Date | number | string
   locale: string
   dateStyle?: "full" | "long" | "medium" | "short"
+  options?: Intl.DateTimeFormatOptions
 }
 
 /**
- * Formats a Date object, timestamp, or ISO string into a localized date string.
- * Leverages the browser's native `Intl.DateTimeFormat` for a zero-bundle-size solution.
+ * Formats a date into a localized string using the native Intl.DateTimeFormat API.
+ * This zero-bundle-size solution supports predefined styles or custom granular options.
  *
- * @param options - The configuration object for formatting.
- * @param options.date - The date to format (accepts Date object, timestamp number, or ISO string).
- * @param options.locale - The BCP 47 language tag (e.g., 'en-US', 'id-ID').
- * @param options.dateStyle - The date formatting style to use:
- * - 'full': Wednesday, April 8, 2026
- * - 'long': April 8, 2026
- * - 'medium': Apr 8, 2026
- * - 'short': 4/8/26
- * @returns A localized and formatted date string.
+ * @param {FormatDateParams} params - The formatting configuration object.
+ * @returns {string} A localized and formatted date string.
  *
  * @example
- * formatDate({ date: new Date(), locale: 'en-US' }) 
- * // Output: "April 8, 2026"
+ * // Standard usage: "April 9, 2026"
+ * formatDate({ date: '2026-04-09', locale: 'en-US', dateStyle: 'long' });
+ *
+ * @example
+ * // Custom Month-Year usage: "Apr 2026"
+ * formatDate({ 
+ * date: '2026-04-09', 
+ * locale: 'en-US' | 'en', 
+ * options: { month: 'short', year: 'numeric' } 
+ * });
  */
 export const formatDate = ({
   date,
   locale,
-  dateStyle = "long"
+  dateStyle,
+  options
 }: FormatDateParams): string => {
+  // Convert input to a valid Date object
   const dateObj = date instanceof Date ? date : new Date(date);
-  return new Intl.DateTimeFormat(locale, { dateStyle }).format(dateObj);
+
+  // If the date is invalid, prevent the app from crashing and return a fallback
+  if (isNaN(dateObj.getTime())) {
+    console.warn(`Invalid date provided to formatDate: ${date}`);
+    return "N/A";
+  }
+  const finalOptions: Intl.DateTimeFormatOptions = options 
+    ? options 
+    : { dateStyle: dateStyle || "long" };
+  return new Intl.DateTimeFormat(locale, finalOptions).format(dateObj);
 };
