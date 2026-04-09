@@ -17,11 +17,11 @@ export default function ProjectCard({ project }: { project: Project }) {
       )}
     >
       {/* Stretched Link for entire card */}
-      {/* <Link
+      <Link
         href={`/projects/${project.slug}`}
         className="focus-visible:ring-primary absolute inset-0 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
         aria-label={`Lihat detail proyek ${project.name}`}
-      /> */}
+      />
 
       {/* Image */}
       <div className="relative flex aspect-4/3 w-full items-center justify-center overflow-hidden rounded-t-2xl px-5 py-3 sm:px-6">

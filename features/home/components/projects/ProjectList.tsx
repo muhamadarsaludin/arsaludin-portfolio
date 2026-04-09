@@ -3,6 +3,8 @@
 import ProjectCard from "@/features/projects/components/ProjectCard"
 import ProjectCardSkeleton from "@/features/projects/components/ProjectCardSkeleton"
 import { useProjects } from "@/features/projects/hooks/useProjects"
+import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
+import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
 
 interface ProjectListProps {
   locale: string
@@ -16,18 +18,8 @@ export function ProjectList({ locale, isFeatured = false }: ProjectListProps) {
   })
 
   if (isLoading) return <ProjectListSkeleton />
-
-  if (isError) return (
-    <div className="rounded-2xl bg-red-100 p-8 text-center dark:bg-red-950">
-      <p className="text-red-600 text-sm font-medium">Failed to load projects.</p>
-    </div>
-  )
-
-  if (!projects?.length) return (
-    <div className="border-primary flex h-40 flex-col items-center justify-center rounded-2xl border border-dashed text-secondary text-sm">
-      No projects found.
-    </div>
-  )
+  if (isError) return <ErrorStateCard />
+  if (!projects || projects.length === 0) return <EmptyStateCard />
 
   return (
     <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">

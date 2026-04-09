@@ -3,29 +3,15 @@
 import ServiceCardSkeleton from "@/features/projects/components/ProjectCardSkeleton"
 import ServiceCard from "@/features/services/components/ServiceCard"
 import { useServices } from "@/features/services/hooks/useServices"
+import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
+import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
 
 export function ServiceList({ locale }: { locale: string }) {
   const { data: services, isLoading, isError } = useServices({ locale })
 
-  if (isLoading) return <ServiceListSkeleton />
-
-  if (isError) {
-    return (
-      <div className="flex h-30 flex-col items-center justify-center rounded-2xl bg-red-100 dark:bg-red-950 p-4">
-        <p className="text-red text-sm font-medium text-center">
-          Unable to load services. Please try again later.
-        </p>
-      </div>
-    )
-  }
-
-  if (!services || services.length === 0) {
-    return (
-      <div className="border-primaryflex h-30 flex-col items-center justify-center rounded-2xl border border-dashed p-4">
-        <p className="text-secondary text-sm font-medium text-center">No services found for this language.</p>
-      </div>
-    )
-  }
+  if (isLoading) return (<ServiceListSkeleton />)
+  if (isError) return <ErrorStateCard />
+  if (!services || services.length === 0) return <EmptyStateCard />
 
   return (
     <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">

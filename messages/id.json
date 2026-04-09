@@ -82,6 +82,15 @@
         "fetching": "Memuat balasan...",
         "fetchingMore": "Memuat lebih banyak..."
       }
+    },
+    "experienceCard": {
+      "keyContributions": "Kontribusi"
+    },
+    "errorStateCard": {
+      "errorMessage": "Gagal memuat data. Silakan coba lagi nanti"
+    },
+    "emptyStateCard": {
+      "emptyMessage": "Data tidak ditemukan, Sepertinya belum ada data untuk ditampilkan di sini."
     }
   },
   "pages": {
@@ -102,6 +111,9 @@
       "projects": {
         "title": "Showcase karya terbaik saya",
         "cta": "Lihat semua proyek"
+      },
+      "experience": {
+        "title": "Pengalaman kerja"
       }
     }
   }

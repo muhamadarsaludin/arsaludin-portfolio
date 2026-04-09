@@ -82,6 +82,15 @@
         "fetching": "Loading replies...",
         "fetchingMore": "Loading more..."
       }
+    },
+    "experienceCard": {
+      "keyContributions": "Contributions"
+    },
+    "errorStateCard": {
+      "errorMessage": "Unable to load. Please try again later"
+    },
+    "emptyStateCard": {
+      "emptyMessage": "No data found, It looks like there's nothing here yet."
     }
   },
   "pages": {
@@ -102,6 +111,9 @@
       "projects": {
         "title": "Showcase of my best works",
         "cta": "View all projects"
+      },
+      "experience": {
+        "title": "Work experience"
       }
     }
   }
