@@ -6,10 +6,10 @@ import type { Education } from "../types/educations.types"
 import clsx from "clsx"
 import { formatDate } from "@/utils/format-date"
 import { useLocale } from "next-intl"
-import { LuBriefcaseBusiness, LuCalendar, LuChevronDown, LuMapPin } from "react-icons/lu"
+import { LuCalendar, LuChevronDown, LuMapPin } from "react-icons/lu"
+import { IoRibbonSharp } from "react-icons/io5";
 import { useTranslations } from "use-intl"
 import { MiracleMarkdown } from "@/components/miracle/Markdown"
-import MiracleBadge from "@/components/miracle/Badge"
 
 export const EducationCard = ({
   education,
@@ -71,9 +71,14 @@ export const EducationCard = ({
               </span>
             </p>
             {education.grade && (
-              <MiracleBadge className="mt-1 bg-green-100! dark:bg-green-900/30!">
+              <span className={clsx(
+                "text-yellow rounded bg-yellow-100 px-1.5 py-0.5 font-medium",
+                "dark:bg-yellow-900/30",
+                "text-sm mt-1.5 flex gap-1 items-center"
+              )}>
+                <IoRibbonSharp />
                 Grade: {education.grade}
-              </MiracleBadge>
+              </span>
             )}
           </div>
         </div>
