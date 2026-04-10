@@ -6,7 +6,7 @@
         "projects": "Proyek",
         "certifications": "Sertifikasi",
         "blogs": "Blog",
-        "contact": "Kontak"
+        "forum": "Forum"
       },
       "cta": {
         "signIn": "Masuk",
@@ -19,7 +19,13 @@
       "title": "Mari bekerja sama!",
       "cta": "Hubungi saya",
       "timeLabel": "Waktu lokal",
-      "copyright": "Muhamad Arsaludin. Hak cipta dilindungi."
+      "copyright": "Muhamad Arsaludin. Hak cipta dilindungi.",
+      "navigation": {
+        "changelog": "Changelog",
+        "techStack": "Teknologi",
+        "vault": "Vault",
+        "privacy": "Privasi"
+      }
     },
     "skillBadges": {
       "title": "Teknologi"

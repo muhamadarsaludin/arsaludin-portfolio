@@ -5,6 +5,7 @@ import { FaGithub, FaLinkedinIn, FaInstagram, FaXTwitter, FaCode } from "react-i
 import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import clsx from "clsx"
+import FooterNavigation from "./FooterNavigation"
 
 export default function Footer() {
   const t = useTranslations("components.footer")
@@ -93,10 +94,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-primary border-t py-6 text-center">
+        <div className="border-primary border-t py-6 flex items-center justify-between">
           <p className="text-secondary text-sm">
             © <time>{year}</time> {t("copyright")}
           </p>
+          <FooterNavigation />
         </div>
       </div>
     </footer>

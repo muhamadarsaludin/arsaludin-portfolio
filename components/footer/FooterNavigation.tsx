@@ -1,47 +1,42 @@
 "use client"
 import { useTranslations } from "next-intl"
-import HeaderNavLink from "./HeaderNavLink"
 import clsx from "clsx"
+import FooterNavLink from "./FooterNavLink"
 
-type HeaderNavigationProps = {
+type FooterNavigationProps = {
   className?: string
 }
 
 const navigationLinks = [
   {
-    label: "home",
-    href: "/",
+    label: "changelog",
+    href: "/changelog",
     disabled: false,
   },
   {
-    label: "projects",
-    href: "/projects",
+    label: "techStack",
+    href: "/tech-stack",
     disabled: false,
   },
   {
-    label: "certifications",
-    href: "/certifications",
+    label: "vault",
+    href: "/vault",
     disabled: false,
   },
   {
-    label: "blogs",
-    href: "/blogs",
+    label: "privacy",
+    href: "/privacy",
     disabled: false,
-  },
-  {
-    label: "forum",
-    href: "/forum",
-    disabled: false,
-  },
+  }
 ]
 
-export default function HeaderNavigation({ className }: HeaderNavigationProps) {
-  const t = useTranslations("components.header.navigation")
+export default function FooterNavigation({ className }: FooterNavigationProps) {
+  const t = useTranslations("components.footer.navigation")
 
   return (
     <nav className={clsx("flex items-center gap-6", className)}>
       {navigationLinks.map((link, index) => (
-        <HeaderNavLink
+        <FooterNavLink
           key={index}
           label={t(link.label)}
           href={link.href}
