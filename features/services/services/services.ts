@@ -1,6 +1,6 @@
 "use server"
 
-import type { Service, ServiceTranslation } from "../types/service.types"
+import type { Service, ServiceTranslation } from "../types/services.types"
 import { createClient } from "@/lib/supabase/server"
 
 type getServicesParams = {
