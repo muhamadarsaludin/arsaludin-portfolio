@@ -95,6 +95,23 @@
     "educationCard": {
       "description": "Deskripsi"
     },
+    "achievementCard": {
+      "viewDetail": "Lihat detail",
+      "viewCredential": "Lihat kredensial!",
+      "label": {
+        "issuingOrganization": "Organisasi Penerbit",
+        "credentialID": "ID Kredensial",
+        "credentialURL": "URL Kredensial",
+        "type": "Jenis",
+        "issueDate": "Tanggal Terbit",
+        "expirationDate": "Tanggal Kadaluwarsa",
+        "categories": "Kategori"
+      },
+      "type": {
+        "award": "Penghargaan",
+        "course": "Kursus"
+      }
+    },
     "errorStateCard": {
       "errorMessage": "Gagal memuat data. Silakan coba lagi nanti"
     },
@@ -126,6 +143,10 @@
       },
       "educations": {
         "title": "Pendidikan"
+      },
+      "achievements": {
+        "title": "Pencapaian",
+        "cta": "Lihat semua pencapaian"
       }
     }
   }

@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useMemo } from "react"
 import dynamic from "next/dynamic"
-import { LuCircleFadingPlus } from "react-icons/lu"
+import { TbMoodPlus } from "react-icons/tb"
 import { useTranslations } from "next-intl"
 import { Theme } from "emoji-picker-react"
 import clsx from "clsx"
@@ -73,7 +73,7 @@ export default function ReactionPicker({
       trigger={
         <button onClick={onClick} type="button" className="group/reaction-picker cursor-pointer">
           <div className="relative p-1">
-            <LuCircleFadingPlus
+            <TbMoodPlus
               size={20}
               className="text-secondary transition-all duration-300 ease-in-out group-hover/reaction-picker:scale-110"
             />

@@ -1,3 +1,4 @@
+import AchievementsSection from "./achievements/AchievementsSection"
 import EducationsSection from "./educations/EducationsSection"
 import ExperiencesSection from "./experiences/ExperiencesSection"
 import ProfileSection from "./profile/ProfileSection"
@@ -12,6 +13,7 @@ export default function HomePage() {
       <ProjectsSection className="py-15 lg:py-18" />
       <ExperiencesSection className="py-15 lg:py-18" />
       <EducationsSection className="py-15 lg:py-18" />
+      <AchievementsSection className="py-15 lg:py-18" />
     </>
   )
 }

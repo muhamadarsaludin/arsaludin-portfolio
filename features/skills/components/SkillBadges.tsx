@@ -26,6 +26,7 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
 
         const BadgeComponent = (
           <MiracleBadge
+            variant="secondary"
             className={clsx(
               skill.link && "group/badge cursor-pointer transition-all active:scale-95"
             )}
@@ -64,7 +65,7 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
       {hasMore && (
         <MiracleTooltip
           trigger={
-            <MiracleBadge className="bg-muted text-muted-foreground cursor-help">
+            <MiracleBadge variant="secondary" className="bg-muted text-muted-foreground cursor-help">
               +{remainingCount}
             </MiracleBadge>
           }

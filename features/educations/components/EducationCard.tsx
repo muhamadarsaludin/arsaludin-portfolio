@@ -10,6 +10,7 @@ import { LuCalendar, LuChevronDown, LuMapPin } from "react-icons/lu"
 import { IoRibbonSharp } from "react-icons/io5";
 import { useTranslations } from "use-intl"
 import { MiracleMarkdown } from "@/components/miracle/Markdown"
+import MiracleBadge from "@/components/miracle/Badge"
 
 export const EducationCard = ({
   education,
@@ -71,14 +72,9 @@ export const EducationCard = ({
               </span>
             </p>
             {education.grade && (
-              <span className={clsx(
-                "text-yellow rounded bg-yellow-100 px-1.5 py-0.5 font-medium",
-                "dark:bg-yellow-900/30",
-                "text-sm mt-1.5 flex gap-1 items-center"
-              )}>
-                <IoRibbonSharp />
+              <MiracleBadge className="mt-2" color="yellow" variant="secondary" startIcon={<IoRibbonSharp />}>
                 Grade: {education.grade}
-              </span>
+              </MiracleBadge>
             )}
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 import clsx from "clsx"
 
-export default function ServiceCardSkeleton() {
+export default function ProjectCardSkeleton() {
   return (
     <div
       className={clsx(

@@ -95,6 +95,23 @@
     "educationCard": {
       "description": "Description"
     },
+    "achievementCard": {
+      "viewDetail": "View detail",
+      "viewCredential": "View credential!",
+      "label": {
+        "issuingOrganization": "Issuing Organization",
+        "credentialID": "Credential ID",
+        "credentialURL": "Credential URL",
+        "type": "Type",
+        "issueDate": "Issue Date",
+        "expirationDate": "Expiration Date",
+        "categories": "Categories"
+      },
+      "type": {
+        "award": "Award",
+        "course": "Course"
+      }
+    },
     "errorStateCard": {
       "errorMessage": "Unable to load. Please try again later"
     },
@@ -126,6 +143,10 @@
       },
       "educations": {
         "title": "Education"
+      },
+      "achievements": {
+        "title": "Achievements",
+        "cta": "View all achievements"
       }
     }
   }
