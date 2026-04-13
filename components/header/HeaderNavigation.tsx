@@ -19,8 +19,8 @@ const navigationLinks = [
     disabled: false,
   },
   {
-    label: "certifications",
-    href: "/certifications",
+    label: "achievements",
+    href: "/achievements",
     disabled: false,
   },
   {
