@@ -1,7 +1,7 @@
 "use client"
 
-import ServiceCardSkeleton from "@/features/projects/components/ProjectCardSkeleton"
 import ServiceCard from "@/features/services/components/ServiceCard"
+import ServiceCardSkeleton from "@/features/services/components/ServiceCardSkeleton"
 import { useServices } from "@/features/services/hooks/useServices"
 import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"

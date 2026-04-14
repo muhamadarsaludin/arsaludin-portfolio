@@ -26,15 +26,15 @@ export default function ServiceCard({ service }: { service: Service }) {
         "border-primary rounded-2xl border"
       )}
     >
-      <div className="relative flex aspect-video w-full items-center justify-center p-5 sm:p-6">
+      <div className="relative flex aspect-video w-full items-center justify-center p-5 md:p-6">
         {illustrationsMap[service.slug]}
         <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#80808035_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_20%,#000_70%,transparent_100%)] bg-[size:16px_16px]" />
       </div>
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <h3 className="text-primary mb-2 text-lg font-semibold md:text-xl xl:text-2xl">
+      <div className="flex flex-1 flex-col p-5 md:p-6">
+        <h3 className="text-primary mb-1 text-lg font-semibold md:text-xl xl:text-2xl">
           {service.name}
         </h3>
-        <p className="text-secondary mb-4 text-sm leading-relaxed">{service.description}</p>
+        <p className="text-secondary mb-6 text-sm leading-relaxed">{service.description}</p>
         <SkillBadges skills={service.skills} className="mb-auto" />
       </div>
     </div>
