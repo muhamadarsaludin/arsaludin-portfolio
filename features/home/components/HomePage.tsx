@@ -9,13 +9,13 @@ import TestimonialsSection from "./testimonials/TestimonialsSection"
 export default function HomePage() {
   return (
     <>
-      <ProfileSection className="pb-15 lg:pb-18" />
-      <SkillsAndServicesSection className="py-15 lg:py-18" />
-      <ProjectsSection className="py-15 lg:py-18" />
-      <ExperiencesSection className="py-15 lg:py-18" />
-      <EducationsSection className="py-15 lg:py-18" />
-      <AchievementsSection className="py-15 lg:py-18" />
-      <TestimonialsSection className="py-15 lg:py-18" />
+      <ProfileSection className="pb-13 lg:pb-16" />
+      <SkillsAndServicesSection className="py-13 lg:py-16" />
+      <ProjectsSection className="py-13 lg:py-16" />
+      <ExperiencesSection className="py-13 lg:py-16" />
+      <EducationsSection className="py-13 lg:py-16" />
+      <AchievementsSection className="py-13 lg:py-16" />
+      <TestimonialsSection className="py-13 lg:py-16" />
     </>
   )
 }
