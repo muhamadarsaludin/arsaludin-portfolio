@@ -50,22 +50,23 @@ export default function Footer() {
 
   return (
     <footer className="bg-primary border-primary border-t">
-      <div className="mx-auto max-w-(--m-page-width) px-6">
+      <div className="mx-auto max-w-(--m-page-width) px-4 md:px-6">
         {/* Top */}
-        <div className="flex flex-col items-center gap-4 py-10 text-center md:gap-6">
-          <p className="text-secondary text-lg font-medium md:text-xl lg:text-2xl">
+        <div className="flex flex-col items-center gap-5 py-8 md:py-10 text-center">
+          <p className="text-secondary font-medium text-lg md:text-xl lg:text-2xl">
             {t("subtitle")}
           </p>
-          <h2 className="text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl">
+          <h2 className="font-semibold tracking-tight text-3xl md:text-4xl lg:text-5xl mb-8 md:mb-10">
             {t("title")}
           </h2>
           <a
+            className="mb-3 md:mb-4"
             href="mailto:muhamadarsaludin71@gmail.com?subject=Let's%20Work%20Together"
             aria-label="Contact via email"
           >
             <MiracleButton>{t("cta")}</MiracleButton>
           </a>
-          <p className="text-secondary text-sm">
+          <p className="text-secondary text-sm flex items-center gap-1.5">
             {t("timeLabel")} <time className="text-primary font-medium">{localTime}</time>
           </p>
           <div className="flex gap-3 md:gap-4">
@@ -94,9 +95,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-primary border-t py-6 flex items-center justify-between">
+        <div className="border-primary border-t py-4 md:py-6 flex flex-col-reverse md:flex-row items-center justify-between gap-3">
           <p className="text-secondary text-sm">
-            © <time>{year}</time> {t("copyright")}
+            {t("copyright", { year: year })}
           </p>
           <FooterNavigation />
         </div>

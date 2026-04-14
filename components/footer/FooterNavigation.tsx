@@ -34,7 +34,7 @@ export default function FooterNavigation({ className }: FooterNavigationProps) {
   const t = useTranslations("components.footer.navigation")
 
   return (
-    <nav className={clsx("flex items-center gap-6", className)}>
+    <nav className={clsx("flex items-center justify-center gap-3 md:gap-6", className)}>
       {navigationLinks.map((link, index) => (
         <FooterNavLink
           key={index}

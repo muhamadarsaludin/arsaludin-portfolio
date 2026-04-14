@@ -16,10 +16,10 @@
     },
     "footer": {
       "subtitle": "Punya ide proyek?",
-      "title": "Mari bekerja sama!",
+      "title": "Mari berkarya bersama saya.",
       "cta": "Hubungi saya",
       "timeLabel": "Waktu lokal",
-      "copyright": "Muhamad Arsaludin. Hak cipta dilindungi.",
+      "copyright": "© {year} Muhamad Arsaludin. Hak cipta dilindungi.",
       "navigation": {
         "changelog": "Changelog",
         "techStack": "Teknologi",

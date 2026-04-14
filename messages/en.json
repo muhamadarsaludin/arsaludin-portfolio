@@ -16,10 +16,10 @@
     },
     "footer": {
       "subtitle": "Have a project in mind?",
-      "title": "Let's work together!",
-      "cta": "Talk to me",
-      "timeLabel": "My local time",
-      "copyright": "Muhamad Arsaludin. All rights reserved",
+      "title": "Let's build something great.",
+      "cta": "Get in touch",
+      "timeLabel": "Local time",
+      "copyright": "© {year} Muhamad Arsaludin. All rights reserved",
       "navigation": {
         "changelog": "Changelog",
         "techStack": "Tech Stack",
