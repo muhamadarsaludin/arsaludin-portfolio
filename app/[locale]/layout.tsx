@@ -47,7 +47,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`${geist.variable} ${geistMono.variable} ${outfit.variable} bg-primary text-primary antialiased`}
+        className={`${geist.variable} ${geistMono.variable} ${outfit.variable} bg-primary text-primary antialiased max-w-screen overflow-x-hidden`}
       >
         <Providers initialUser={user}>
           <NextIntlClientProvider locale={locale}>

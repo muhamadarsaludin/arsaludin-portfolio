@@ -53,7 +53,7 @@ export default function Header({ className }: HeaderProps) {
     >
       <div
         className={clsx(
-          "mx-auto max-w-(--m-page-width) px-6 py-4",
+          "mx-auto max-w-(--m-page-width) px-4 md:px-6 py-4",
           "flex items-center justify-between"
         )}
       >
@@ -79,7 +79,7 @@ export default function Header({ className }: HeaderProps) {
           </Link>
           <HeaderNavigation className="hidden px-6 lg:flex" />
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
           <div className="hidden gap-3 lg:flex">
             {!isSignedIn && <SignInButton />}
             <DownloadResumeButton />
@@ -95,14 +95,14 @@ export default function Header({ className }: HeaderProps) {
       {/* Drawer aside*/}
       <aside
         className={clsx(
-          "z-header fixed top-17.25 bottom-0 left-0 w-fit p-6 lg:hidden",
-          "flex flex-col justify-between gap-6",
+          "z-header fixed top-17.25 bottom-0 left-0 w-fit p-4 lg:hidden",
+          "flex flex-col justify-between gap-6 min-w-[220px]",
           "bg-primary border-primary border-r",
           "-translate-x-full transform transition-transform duration-300 ease-in-out",
           showMenu ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <HeaderNavigation className="flex flex-col items-start" />
+        <HeaderNavigation className="flex flex-col items-start" isSidebar />
         <div className="flex flex-col gap-3">
           {!isSignedIn && <SignInButton />}
           <DownloadResumeButton />

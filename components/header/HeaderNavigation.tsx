@@ -5,6 +5,7 @@ import clsx from "clsx"
 
 type HeaderNavigationProps = {
   className?: string
+  isSidebar?: boolean
 }
 
 const navigationLinks = [
@@ -35,16 +36,20 @@ const navigationLinks = [
   },
 ]
 
-export default function HeaderNavigation({ className }: HeaderNavigationProps) {
+export default function HeaderNavigation({ className, isSidebar }: HeaderNavigationProps) {
   const t = useTranslations("components.header.navigation")
 
   return (
-    <nav className={clsx("flex items-center gap-6", className)}>
+    <nav className={clsx(
+      "flex items-center", 
+      isSidebar ? "gap-4" : "gap-6",
+      className)}>
       {navigationLinks.map((link, index) => (
         <HeaderNavLink
           key={index}
           label={t(link.label)}
           href={link.href}
+          isSidebar={isSidebar}
           disabled={link.disabled}
         />
       ))}
