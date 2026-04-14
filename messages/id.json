@@ -112,6 +112,9 @@
         "course": "Kursus"
       }
     },
+    "testimonialCard": {
+      "at": "di"
+    },
     "errorStateCard": {
       "errorMessage": "Gagal memuat data. Silakan coba lagi nanti"
     },
@@ -147,6 +150,10 @@
       "achievements": {
         "title": "Pencapaian",
         "cta": "Lihat semua pencapaian"
+      },
+      "testimonials": {
+        "title": "Apa kata mereka",
+        "cta": "Lihat semua ulasan"
       }
     }
   }

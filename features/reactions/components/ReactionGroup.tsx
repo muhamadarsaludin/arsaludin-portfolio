@@ -33,7 +33,7 @@ export default function ReactionGroup({
   }
 
   return (
-    <div className="flex items-center gap-1 py-1">
+    <div className="flex items-center py-1">
       <ReactionsPreview
         targetId={targetId}
         targetType={targetType}

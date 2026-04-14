@@ -112,6 +112,9 @@
         "course": "Course"
       }
     },
+    "testimonialCard": {
+      "at": "at"
+    },
     "errorStateCard": {
       "errorMessage": "Unable to load. Please try again later"
     },
@@ -147,6 +150,10 @@
       "achievements": {
         "title": "Achievements",
         "cta": "View all achievements"
+      },
+      "testimonials": {
+        "title": "What they say",
+        "cta": "View all testimonials"
       }
     }
   }

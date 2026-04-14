@@ -8,21 +8,16 @@ import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleModal from "@/components/miracle/Modal"
 import { useLocale } from "next-intl"
 import { useTranslations } from "use-intl"
-import { LuArrowUpRight, LuExternalLink, LuAward, LuCalendar, LuSquareArrowOutUpRight } from "react-icons/lu"
+import { LuArrowUpRight, LuAward, LuSquareArrowOutUpRight } from "react-icons/lu"
 import { formatDate } from "@/utils/format-date"
 import MiracleTooltip from "@/components/miracle/Tooltip"
-import MiracleBadge, { BadgeColor } from "@/components/miracle/Badge"
+import MiracleBadge from "@/components/miracle/Badge"
 import MiracleButton from "@/components/miracle/Button"
 
 export default function AchievementCard({ achievement }: { achievement: Achievement }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const locale = useLocale()
   const t = useTranslations("components.achievementCard")
-
-  const typeBadgeColor: Record<string, BadgeColor> = {
-    "award": "yellow",
-    "course": "blue"
-  }
 
   return (
     <>
@@ -103,7 +98,7 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
               <p className="text-primary text-md font-semibold tracking-tight line-clamp-1">
                 {achievement.name}
               </p>
-              <p className="text-secondary text-xs tracking-tight">
+              <p className="text-secondary text-sm tracking-tight">
                 {achievement.issuing_organization}
               </p>
             </div>
@@ -208,7 +203,7 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
                   </p>
                   <div className="flex flex-wrap gap-1">
                     {achievement.categories.map((category, index) => (
-                      <MiracleBadge variant="secondary">
+                      <MiracleBadge variant="secondary" key={index}>
                         {category}
                       </MiracleBadge>
                     ))}

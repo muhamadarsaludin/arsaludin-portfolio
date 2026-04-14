@@ -4,6 +4,7 @@ import ExperiencesSection from "./experiences/ExperiencesSection"
 import ProfileSection from "./profile/ProfileSection"
 import ProjectsSection from "./projects/ProjectsSection"
 import SkillsAndServicesSection from "./skills-and-services/SkillsAndServicesSection"
+import TestimonialsSection from "./testimonials/TestimonialsSection"
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
       <ExperiencesSection className="py-15 lg:py-18" />
       <EducationsSection className="py-15 lg:py-18" />
       <AchievementsSection className="py-15 lg:py-18" />
+      <TestimonialsSection className="py-15 lg:py-18" />
     </>
   )
 }

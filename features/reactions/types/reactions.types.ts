@@ -15,7 +15,7 @@ export type ReactionCount = {
   count: number
 }
 
-export type ReactionTargetType = "project" | "comment" | "achievement"
+export type ReactionTargetType = "project" | "comment" | "achievement" | "testimonial"
 
 export type ReactionSummary = {
   userReaction: Reaction | null
