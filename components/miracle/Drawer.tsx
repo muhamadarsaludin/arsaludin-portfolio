@@ -102,13 +102,10 @@ export default function MiracleDrawer({
           scrimClassName
         )}
         onClick={closeOnScrimClick ? onClose : undefined}
-        aria-hidden="true"
       />
 
       {/* Drawer Panel */}
       <div
-        role="dialog"
-        aria-modal="true"
         className={clsx(
           "z-drawer bg-primary fixed flex flex-col shadow-2xl transition-transform duration-300 ease-in-out dark:shadow-black",
           borderStyles[position],

@@ -91,6 +91,8 @@ export default function CommentInput({
 
           <button
             onClick={onClearReply}
+            type="button"
+            aria-label={t("clearReply")}
             className="ml-auto cursor-pointer rounded-full p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800"
           >
             <LuX size={14} />
@@ -124,6 +126,7 @@ export default function CommentInput({
           className="shrink-0"
           onClick={handleSend}
           size="sm"
+          aria-label="Send comment"
           loading={isAdding}
           disabled={!commentText.trim() || !isSignedIn}
           startIcon={<LuSend />}

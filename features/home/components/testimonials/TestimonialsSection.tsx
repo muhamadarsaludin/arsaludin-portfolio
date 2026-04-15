@@ -27,7 +27,7 @@ export default async function TestimonialsSection({ className }: { className?: s
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={clsx(className)}>
-        <div className="relative mb-8 flex w-fit md:mb-10">
+        <div className="relative flex w-fit mb-10 md:mb-12">
           <Heading
             id="featured-projects"
             className="text-3xl md:text-4xl lg:text-5xl"
@@ -40,11 +40,11 @@ export default async function TestimonialsSection({ className }: { className?: s
           <Quote className="text-primary absolute -top-4 -right-9 text-4xl md:-top-6 md:-right-12 lg:-right-15 md:text-5xl lg:text-6xl"/>
         </div>
         <TestimonialList locale={locale} />
-        <div className="mt-6 flex justify-center md:mt-8">
+        {/* <div className="mt-8 flex justify-center md:mt-10">
           <Link href="/testimonials">
             <MiracleButton variant="secondary">{t("cta")}</MiracleButton>
           </Link>
-        </div>
+        </div> */}
       </Section>
     </HydrationBoundary>
   )

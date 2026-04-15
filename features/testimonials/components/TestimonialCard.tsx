@@ -35,7 +35,7 @@ export default function TestimonialCard({ testimonial }: { testimonial: Testimon
           )}
         />
       </div>
-      <div className="flex items-center justify-between gap-4 py-4">
+      <div className="flex items-center justify-between gap-4 pt-4">
         <div className="flex gap-2 items-center min-w-0">
           <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full">
             {testimonial.avatar_url ? (
@@ -77,10 +77,13 @@ export default function TestimonialCard({ testimonial }: { testimonial: Testimon
         </div>
         <div className="shrink-0 flex gap-1 items-center">
           {testimonial.linkedin && (
-            <a href={testimonial.linkedin} className="cursor-pointer">
-              <button className="flex items-center justify-center cursor-pointer hover:scale-105 text-neutral-600 dark:text-neutral-400 hover:text-blue-600 hover:dark:text-blue-400 transition-all duration-300 ease-in-out">
-                <FaLinkedin size={20}/>
-              </button>
+            <a 
+              href={testimonial.linkedin} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              aria-label={`View ${testimonial.name}'s LinkedIn profile`}
+              className="cursor-pointer lex items-center justify-center cursor-pointer hover:scale-105 text-neutral-600 dark:text-neutral-400 hover:text-blue-600 hover:dark:text-blue-400 transition-all duration-300 ease-in-out p-1">
+              <FaLinkedin size={20}/>
             </a>
           )}
           <ReactionGroup
