@@ -1,8 +1,9 @@
 import type { Skill } from "@/features/skills/types/skills.types"
 
 /**
- * CORE ENTITY
+ * SERVICE ENTITY
  * Raw data from 'services' table.
+ * Used for admin & server logic.
  */
 export type ServiceEntity = {
   id: string
@@ -32,18 +33,8 @@ export type ServiceTranslationEntity = {
 
 /**
  * SERVICE (Public)
- * Flattened object for UI Portfolio (Merged Core + Translation + Skills).
+ * Flattened object for UI Portfolio.
  */
 export type Service = Pick<ServiceEntity, "id" | "slug" | "level" | "order_index"> 
   & Pick<ServiceTranslationEntity, "name" | "description"> 
   & { skills: Skill[] }
-
-/**
- * SERVICE INPUT
- * Combined data for the Dashboard Form.
- */
-export type ServiceInput = Pick<
-  ServiceEntity,
-  "slug" | "level" | "order_index" | "is_show"
-> & 
-  Pick<ServiceTranslationEntity, "name" | "description" | "locale_id">

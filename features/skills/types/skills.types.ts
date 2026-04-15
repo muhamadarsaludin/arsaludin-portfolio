@@ -1,6 +1,6 @@
 /**
  * SKILL ENTITY
- * Database model (full data).
+ * Raw data from 'skills' table.
  * Used for admin & server logic.
  */
 export interface SkillEntity {
@@ -15,18 +15,9 @@ export interface SkillEntity {
 
 /**
  * SKILL (Public)
- * Public data for UI / Portfolio.
+ * Flattened object for UI Portfolio.
  */
 export type Skill = Pick<
   SkillEntity,
   "id" | "name" | "icon" | "link"
->
-
-/**
- * SKILL INPUT
- * Fields required for the Form (Create & Update).
- */
-export type SkillInput = Pick<
-  SkillEntity,
-  "name" | "icon" | "link"
 >
