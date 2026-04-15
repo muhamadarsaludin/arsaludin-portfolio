@@ -8,6 +8,7 @@ import MiracleButton from "@/components/miracle/Button"
 import Link from "next/link"
 import { IoSparkles } from "react-icons/io5"
 import clsx from "clsx"
+import { LuArrowRight } from "react-icons/lu"
 
 /**
  * Server Component: Prefetches featured projects for optimal SEO and performance.
@@ -26,7 +27,7 @@ export default async function ProjectsSection({ className }: { className?: strin
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={clsx(className)}>
-        <div className="relative mb-8 flex w-fit md:mb-10">
+        <div className="relative mb-10 md:mb-12 flex w-fit">
           <Heading
             id="featured-projects"
             className="max-w-[10ch] text-3xl md:text-4xl lg:text-5xl"
@@ -39,9 +40,13 @@ export default async function ProjectsSection({ className }: { className?: strin
           <IoSparkles className="text-yellow absolute -top-3 -right-4 text-4xl md:-top-10 md:-right-5 md:text-5xl lg:text-6xl" />
         </div>
         <ProjectList locale={locale} isFeatured={true} />
-        <div className="mt-6 flex justify-center md:mt-8">
+        <div className="mt-8 flex justify-center md:mt-10">
           <Link href="/projects">
-            <MiracleButton variant="secondary">{t("cta")}</MiracleButton>
+            <MiracleButton 
+              variant="secondary"
+              endIcon={<LuArrowRight />}>
+                {t("cta")}
+              </MiracleButton>
           </Link>
         </div>
       </Section>

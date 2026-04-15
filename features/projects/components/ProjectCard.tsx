@@ -19,12 +19,12 @@ export default function ProjectCard({ project }: { project: Project }) {
       {/* Stretched Link for entire card */}
       <Link
         href={`/projects/${project.slug}`}
-        className="focus-visible:ring-primary absolute inset-0 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+        className="focus-visible:ring-primary absolute inset-0 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 z-0"
         aria-label={`Lihat detail proyek ${project.name}`}
       />
 
       {/* Image */}
-      <div className="relative flex aspect-4/3 w-full items-center justify-center overflow-hidden rounded-t-2xl px-5 py-3 sm:px-6">
+      <div className="relative flex aspect-4/3 w-full overflow-hidden rounded-t-2xl">
         <Image
           className="object-cover"
           src={project.thumbnail}
@@ -34,17 +34,17 @@ export default function ProjectCard({ project }: { project: Project }) {
         />
       </div>
       {/* Body */}
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <h3 className="text-primary mb-2 text-lg font-semibold md:text-xl xl:text-2xl">
+      <div className="flex flex-1 flex-col p-5 md:p-6">
+        <h3 className="text-primary mb-1 text-lg font-semibold md:text-xl xl:text-2xl">
           {project.name}
         </h3>
-        <p className="text-secondary mb-4 text-sm leading-relaxed">{project.description}</p>
+        <p className="text-secondary mb-6 text-sm leading-relaxed">{project.description}</p>
         <SkillBadges skills={project.skills} className="mb-auto" />
       </div>
 
       {/* Footer */}
       <div
-        className="bg-secondary border-primary flex items-center justify-between rounded-b-2xl border-t px-5 py-3 sm:px-6"
+        className="bg-secondary border-primary flex items-center justify-between rounded-b-2xl border-t px-5 py-3 md:px-6"
         onClick={(e) => e.stopPropagation()}
       >
         <ReactionGroup

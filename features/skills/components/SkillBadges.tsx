@@ -19,7 +19,7 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
   const t = useTranslations("components.skillBadges")
 
   return (
-    <div className={clsx("flex flex-wrap items-center gap-2", className)}>
+    <div className={clsx("flex flex-wrap items-center gap-2 relative", className)}>
       {/* RENDER TOP SKILLS */}
       {topSkills.map((skill, i) => {
         const IconComponent = skill.icon ? SkillIconMap[skill.icon] : null
@@ -51,7 +51,8 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
               href={skill.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="no-underline"
+              className="no-underline cursor-pointer"
+              onClick={(e) => e.stopPropagation()}
             >
               {BadgeComponent}
             </a>
@@ -81,8 +82,8 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
                 const ItemContent = (
                   <div
                     className={clsx(
-                      "group/badge flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors",
-                      skill.link ? "hover:bg-white/10" : "opacity-80"
+                      "group/badge flex items-center gap-2 p-1.5 rounded-md",
+                      "hover:bg-neutral-900 hover:dark:bg-neutral-100 transition-colors duration-300 ease-in-out"
                     )}
                   >
                     {IconComponent && (

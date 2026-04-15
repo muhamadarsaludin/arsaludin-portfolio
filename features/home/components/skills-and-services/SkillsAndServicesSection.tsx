@@ -33,7 +33,7 @@ export default async function SkillsAndServicesSection({ className }: { classNam
           >
             {t("title")}
           </Heading>
-          <p className="text-secondary mt-3">{t("description")}</p>
+          <p className="text-secondary mt-3 text-sm md:text-base">{t("description")}</p>
         </div>
         <ServiceList locale={locale} />
       </Section>
