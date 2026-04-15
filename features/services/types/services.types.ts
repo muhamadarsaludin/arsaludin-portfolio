@@ -3,7 +3,6 @@ import type { Skill } from "@/features/skills/types/skills.types"
 /**
  * SERVICE ENTITY
  * Raw data from 'services' table.
- * Used for admin & server logic.
  */
 export type ServiceEntity = {
   id: string

@@ -24,7 +24,7 @@ import type { ReactionSummary, ReactionTargetType } from "../types/reactions.typ
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), {
   ssr: false,
   loading: () => (
-    <div className="bg-primary border-primary flex h-[400px] w-[350px] items-center justify-center rounded-lg border shadow-xl">
+    <div className="bg-primary border-primary flex h-100 w-87.5 items-center justify-center rounded-lg border shadow-xl">
       <MiracleLoader size={40} />
     </div>
   ),
@@ -82,7 +82,7 @@ export default function ReactionPicker({
           onClick={onClick} 
           type="button" 
           className="group/reaction-picker cursor-pointer">
-          <div className="relative p-1">
+          <div className="relative p-1.5">
             <TbMoodPlus
               size={20}
               className="text-secondary transition-all duration-300 ease-in-out group-hover/reaction-picker:scale-110"
@@ -118,7 +118,7 @@ export default function ReactionPicker({
           <button
             onClick={onShowDetail}
             type="button"
-            className="group/reaction-picker cursor-help min-w-6 flex items-start"
+            className="group/reaction-picker cursor-help min-w-6 py-1.5 flex"
             aria-label={t("tooltip.seeDetail")}
           >
             <span className="text-secondary text-sm font-medium">
@@ -134,7 +134,7 @@ export default function ReactionPicker({
 
   if (!isSignedIn) {
     return (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center">
         <PickerToggle
           onClick={async (e) => {
             e.preventDefault()
@@ -147,7 +147,7 @@ export default function ReactionPicker({
   }
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center">
       <MiraclePopover
         open={isPickerOpen}
         onOpenChange={setIsPickerOpen}
@@ -158,7 +158,7 @@ export default function ReactionPicker({
         noPadding
         trigger={<PickerToggle />}
       >
-        <div className="min-w-[350px] overflow-hidden rounded-lg shadow-2xl">
+        <div className="min-w-87.5 overflow-hidden rounded-lg shadow-2xl">
           {isPickerOpen && (
             <EmojiPicker
               theme={pickerTheme}

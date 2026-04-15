@@ -69,9 +69,9 @@ export default function ReactionsPreview({
               : `${t("tooltip.add")} ${reaction.emoji}`
           }
           className={clsx(
-            "group/emoji bg-secondary flex h-7 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
-            "min-w-7 px-1.5",
-            "hover:gap-1.5 hover:px-3",
+            "group/emoji bg-secondary flex h-8 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
+            "min-w-8 px-1.5 gap-0",
+            "hover:gap-1 hover:px-3",
             reaction.emoji === dataSummary.userReaction?.emoji ? "border-blue" : "border-primary"
           )}
           style={{ zIndex: zIndexBase + index }}
@@ -80,12 +80,12 @@ export default function ReactionsPreview({
             handleSelectedIcon(reaction.emoji)
           }}
         >
-          <span className="flex-shrink-0 text-xs">{reaction.emoji}</span>
+          <span className="shrink-0 text-xs">{reaction.emoji}</span>
           <span
             className={clsx(
               "text-secondary overflow-hidden text-xs font-semibold transition-all duration-300 ease-in-out",
               "invisible max-w-0 opacity-0",
-              "group-hover/emoji:visible group-hover/emoji:max-w-[300px] group-hover/emoji:opacity-100"
+              "group-hover/emoji:visible group-hover/emoji:max-w-35 group-hover/emoji:opacity-100"
             )}
           >
             {reaction.count}
@@ -107,17 +107,17 @@ export default function ReactionsPreview({
                 <button
                   type="button"
                   className={clsx(
-                    "group/emoji border-primary bg-secondary flex h-7 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
-                    "min-w-7 px-1.5",
+                    "group/emoji border-primary bg-secondary flex h-8 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
+                    "min-w-8 px-1.5 gap-0",
                     "hover:gap-1 hover:px-3"
                   )}
                   style={{ zIndex: zIndexBase + dataSummary.topReactions.length + 1 }}
                 >
                   <span
                     className={clsx(
-                      "text-secondary overflow-hidden text-sm transition-all duration-300 ease-in-out",
+                      "text-secondary overflow-hidden text-sm transition-all duration-300 ease-in-out shrink-0",
                       "invisible max-w-0 opacity-0",
-                      "group-hover/emoji:visible group-hover/emoji:max-w-[50px] group-hover/emoji:opacity-100"
+                      "group-hover/emoji:visible group-hover/emoji:max-w-10 group-hover/emoji:opacity-100"
                     )}
                   >
                     <LuEye />
@@ -132,7 +132,7 @@ export default function ReactionsPreview({
             </MiracleTooltip>
           }
         >
-          <div className="flex max-h-[250px] w-[200px] flex-col p-3">
+          <div className="flex max-h-62.5 w-50 flex-col p-3">
             <p className="text-secondary/60 mb-2 text-[10px] font-bold tracking-widest uppercase">
               {t("popover.title")}
             </p>

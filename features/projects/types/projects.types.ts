@@ -1,38 +1,52 @@
 import type { ReactionSummary } from "@/features/reactions/types/reactions.types"
 import type { Skill } from "@/features/skills/types/skills.types"
 
-export type Project = {
+/**
+ * PROJECT ENTITY
+ * Raw data from 'projects' table.
+ */
+export type ProjectEntity = {
   id: string
   slug: string
-  name: string
-  description: string
-  thumbnail: string
+  thumbnail: string | null
+  url: string | null
+  github_url: string | null
   is_show: boolean
   is_featured: boolean
   order_index: number
-
-  content: string | null
-  github_url: string | null
-  url: string | null
-  user_id: string | null
-  created_at: string | null
-  updated_at: string | null
-  additional_info: {
-    label: string | null
-    content: string | null
-  } | null
-  skills: Skill[]
-  comment_count: number
-  reaction_summary: ReactionSummary
+  user_id: string
+  created_at: string
+  updated_at: string
 }
 
-export type ProjectTranslation = {
+/**
+ * TRANSLATION ENTITY
+ * Raw data from 'project_translations' table.
+ */
+export type ProjectTranslationEntity = {
+  id: string
   name: string
   description: string
   content: string | null
   additional_info: string | null
   additional_info_label: string | null
-  i18n: {
-    locale: string
-  }
+  project_id: string
+  locale_id: string
+  user_id: string
+  created_at: string
+  updated_at: string
 }
+
+/**
+ * PROJECT (Public)
+ * Flattened object for UI Portfolio.
+ */
+export type Project = Pick<
+  ProjectEntity,
+  "id" | "slug" | "thumbnail" | "url" | "github_url" | "is_show" | "is_featured" | "order_index"> 
+  & Pick<ProjectTranslationEntity, "name" | "description" | "content" | "additional_info" | "additional_info_label" > 
+  & {
+    skills: Skill[]
+    comment_count: number
+    reaction_summary: ReactionSummary
+  }

@@ -23,10 +23,10 @@ export default function CommentButton({ commentCount, onClick }: CommentButtonPr
         <button
           onClick={handleOnClick}
           type="button"
-          className="group/reaction-picker flex cursor-pointer items-center gap-1 outline-none"
+          className="group/reaction-picker flex cursor-pointer items-center outline-none"
           aria-label={t("default")}
         >
-          <div className="relative p-1">
+          <div className="relative p-1.5">
             <LuMessageCircleMore
               size={20}
               className="text-secondary transition-all duration-300 ease-in-out group-hover/reaction-picker:scale-110"

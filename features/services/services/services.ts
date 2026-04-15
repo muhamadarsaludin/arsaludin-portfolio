@@ -8,7 +8,7 @@ type GetServicesParams = {
   locale: string
 }
 
-type GetServiceResponse = Pick<
+type GetServicesResponse = Pick<
   ServiceEntity, 
   "id" | "slug" | "level" | "order_index" | "is_show"
 > & {
@@ -17,7 +17,7 @@ type GetServiceResponse = Pick<
   > & {
     i18n: { locale: string }
   })[]
-  service_skills: {
+  skills: {
     is_show: boolean
     order_index: number
     skill: Skill
@@ -48,7 +48,7 @@ export async function getServices({
         locale
       )
     ),
-    service_skills (
+    skills:service_skills (
       is_show,
       order_index,
       skill:skills!inner (
@@ -62,7 +62,7 @@ export async function getServices({
 
   const { data, error } = await supabase
     .from("services")
-    .select<string, GetServiceResponse>(columns)
+    .select<string, GetServicesResponse>(columns)
     .eq("is_show", true)
     .eq("service_skills.is_show", true)
     .eq("service_translations.i18n.locale", locale)
@@ -79,9 +79,9 @@ export async function getServices({
 
   if (!data) return []
 
-  return data.map((service): Service => {
+  return data.map((service: GetServicesResponse): Service => {
     const t = service.translations?.[0]
-    const skills = service.service_skills?.map((ss) => ss.skill).filter(Boolean) ?? []
+    const skills = service.skills?.map((ss) => ss.skill).filter(Boolean) ?? []
 
     return {
       id: service.id,

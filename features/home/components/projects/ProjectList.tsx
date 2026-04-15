@@ -2,24 +2,12 @@
 
 import ProjectCard from "@/features/projects/components/ProjectCard"
 import ProjectCardSkeleton from "@/features/projects/components/ProjectCardSkeleton"
-import { useProjects } from "@/features/projects/hooks/useProjects"
+import { useFeaturedProjects } from "@/features/projects/hooks/useFeaturedProjects"
 import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
 
-interface ProjectListProps {
-  locale: string
-  isFeatured?: boolean
-}
-
-export function ProjectList({ locale, isFeatured = false }: ProjectListProps) {
-  const {
-    data: projects,
-    isLoading,
-    isError,
-  } = useProjects({
-    locale,
-    isFeatured,
-  })
+export function ProjectList({ locale }: { locale: string }) {
+  const { data: projects, isLoading, isError } = useFeaturedProjects({locale})
 
   if (isLoading) return <ProjectListSkeleton />
   if (isError) return <ErrorStateCard />

@@ -1,29 +1,43 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import type { Project, ProjectTranslation } from "../types/projects.types"
+import type { Project, ProjectEntity, ProjectTranslationEntity } from "../types/projects.types"
 import { MAX_TOP_REACTIONS } from "@/features/reactions/constants/reactions.constants"
+import { Skill } from "@/features/skills/types/skills.types"
+import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 
-type GetProjectsParams = {
+type GetFeaturedProjectsParams = {
   locale: string
-  isFeatured?: boolean
-  isAdminView?: boolean
+}
+
+type GetFeaturedProjectsResponse = Pick<
+  ProjectEntity, 
+  "id" | "slug" | "thumbnail" | "url" | "github_url" | "is_show" | "is_featured" | "order_index"
+> & {
+  translations: (Pick<
+    ProjectTranslationEntity, "name" | "description" | "content" | "additional_info" | "additional_info_label"
+  > & {
+    i18n: { locale: string }
+  })[]
+  skills: {
+    is_show: boolean
+    order_index: number
+    skill: Skill
+  }[]
+  comments: { count: number }[]
+  reaction_counts: ReactionCount[]
+  reactions: Reaction[]
 }
 
 /**
- * Fetches projects with localized content, associated skills, reactions, and comment counts.
- * @param locale - The language code for localization (defaults to routing.defaultLocale).
- * @param isFeatured - If `true`, filters the results to only include featured projects.
- * @param isAdminView - If `true`, bypasses visibility filters and includes administrative
- * metadata (user_id, timestamps).
+ * Fetches featured projects with localized content, associated skills, reactions, and comment counts.
+ * @param locale - The language code to filter translations (e.g., 'en', 'id'). Defaults to the application's default locale.
  * @returns A promise that resolves to an array of formatted Project objects.
  * @throws Will throw an error if the Supabase query fails.
  */
-export async function getProjects({
-  locale,
-  isFeatured = false,
-  isAdminView = false,
-}: GetProjectsParams): Promise<Project[]> {
+export async function getFeaturedProjects({
+  locale
+}: GetFeaturedProjectsParams): Promise<Project[]> {
   const supabase = await createClient()
 
   const {
@@ -34,13 +48,12 @@ export async function getProjects({
     id,
     slug,
     thumbnail,
-    github_url,
     url,
+    github_url,
     is_show,
     is_featured,
     order_index,
-    ${isAdminView ? "user_id, created_at, updated_at," : ""}
-    project_translations!inner (
+    translations:project_translations!inner (
       name,
       description,
       content,
@@ -50,30 +63,44 @@ export async function getProjects({
         locale
       )
     ),
-    project_skills (
+    skills:project_skills (
       is_show,
       order_index,
-      skills ( 
+      skill:skills!inner (
+        id,
         name,
         icon,
         link
       )
     ),
     comments(count),
-    project_reaction_counts(
+    reaction_counts:project_reaction_counts(
       emoji,
       count
     ),
     reactions(
+      id,
       emoji,
-      user_id
+      user_id,
+      created_at,
+      updated_at,
+      author:profiles(
+        id,
+        full_name,
+        email,
+        role,
+        avatar_url
+      )
     ) 
   `
 
-  let query = supabase
+  const { data, error } = await supabase
     .from("projects")
-    .select(columns)
+    .select<string, GetFeaturedProjectsResponse>(columns)
+    .eq("is_show", true)
+    .eq("is_featured", true)
     .eq("project_translations.i18n.locale", locale)
+    .eq("project_skills.is_show", true)
     .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000")
     .order("order_index", { ascending: true })
     .order("order_index", {
@@ -85,15 +112,6 @@ export async function getProjects({
       ascending: false,
     })
 
-  if (isFeatured) {
-    query = query.eq("is_featured", true)
-  }
-
-  if (!isAdminView) {
-    query = query.eq("is_show", true).eq("project_skills.is_show", true)
-  }
-
-  const { data, error } = await query
 
   if (error) {
     console.error("Error fetching projects:", error)
@@ -102,19 +120,16 @@ export async function getProjects({
 
   if (!data) return []
 
-  return data.map((project: any) => {
-    const t = project.project_translations?.[0] as ProjectTranslation | undefined
-    const skills = project.project_skills?.map((ps: any) => ps.skills).filter(Boolean) || []
+  return data.map((project: GetFeaturedProjectsResponse): Project => {
+    const t = project.translations?.[0]
+    const skills = project.skills?.map((ps) => ps.skill).filter(Boolean) ?? []
     const commentCount = project.comments?.[0]?.count ?? 0
-
-    const allReactions = project.project_reaction_counts || []
     const userReaction = project.reactions?.[0] ?? null
-
+    const allReactions = project.reaction_counts || []
     const totalReactions = allReactions.reduce(
-      (acc: number, curr: any) => acc + (curr.count || 0),
+      (acc, curr) => acc + (curr.count || 0), 
       0
     )
-
     const topReactions = allReactions.slice(0, MAX_TOP_REACTIONS)
     const totalEmojis = allReactions.length
     const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
@@ -122,26 +137,18 @@ export async function getProjects({
     return {
       id: project.id,
       slug: project.slug,
-      name: t?.name ?? "",
-      description: t?.description ?? "",
       thumbnail: project.thumbnail,
+      url: project.url ?? null,
+      github_url: project.github_url ?? null,
       is_show: project.is_show,
       is_featured: project.is_featured,
       order_index: project.order_index,
+      name: t?.name ?? "",
+      description: t?.description ?? "",
       content: t?.content ?? null,
-      github_url: project.github_url ?? null,
-      url: project.url ?? null,
-      user_id: project.user_id ?? null,
-      created_at: project.created_at ?? null,
-      updated_at: project.updated_at ?? null,
-      additional_info:
-        t?.additional_info || t?.additional_info_label
-          ? {
-              label: t?.additional_info_label ?? null,
-              content: t?.additional_info ?? null,
-            }
-          : null,
-      skills: skills,
+      additional_info: t?.additional_info ?? null,
+      additional_info_label: t?.additional_info_label ?? null,
+      skills,
       comment_count: commentCount,
       reaction_summary: {
         userReaction,
@@ -150,7 +157,7 @@ export async function getProjects({
         topReactions,
         totalEmojis,
         remainingEmojis,
-      },
-    } as Project
+      }
+    }
   })
 }

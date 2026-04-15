@@ -2,13 +2,13 @@ import Heading from "@/components/Heading"
 import Section from "@/components/Section"
 import { getLocale, getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
-import { getProjects } from "@/features/projects/services/projects"
-import { ProjectList } from "./ProjectList" // Komponen Client Reusable
+import { ProjectList } from "./ProjectList"
 import MiracleButton from "@/components/miracle/Button"
 import Link from "next/link"
 import { IoSparkles } from "react-icons/io5"
 import clsx from "clsx"
 import { LuArrowRight } from "react-icons/lu"
+import { getFeaturedProjects } from "@/features/projects/services/projects"
 
 /**
  * Server Component: Prefetches featured projects for optimal SEO and performance.
@@ -20,8 +20,8 @@ export default async function ProjectsSection({ className }: { className?: strin
   const queryClient = new QueryClient()
 
   await queryClient.prefetchQuery({
-    queryKey: ["projects", locale, { isFeatured: true, isAdminView: false }],
-    queryFn: () => getProjects({ locale, isFeatured: true, isAdminView: false }),
+    queryKey: ["featured-projects", locale],
+    queryFn: () => getFeaturedProjects({ locale }),
   })
 
   return (
@@ -39,7 +39,7 @@ export default async function ProjectsSection({ className }: { className?: strin
           </Heading>
           <IoSparkles className="text-yellow absolute -top-3 -right-4 text-4xl md:-top-10 md:-right-5 md:text-5xl lg:text-6xl" />
         </div>
-        <ProjectList locale={locale} isFeatured={true} />
+        <ProjectList locale={locale}/>
         <div className="mt-8 flex justify-center md:mt-10">
           <Link href="/projects" aria-label={t("cta")}>
             <MiracleButton 

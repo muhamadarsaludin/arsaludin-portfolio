@@ -7,31 +7,36 @@ import { Link } from "@/i18n/navigation"
 import SkillBadges from "@/features/skills/components/SkillBadges"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import CommentGroup from "@/features/comments/components/CommentGroup"
+import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <div
       className={clsx(
-        "group relative flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col sm:w-auto sm:max-w-none",
+        "group relative flex w-[80vw] max-w-75 shrink-0 snap-start flex-col sm:w-auto sm:max-w-none",
         "border-primary rounded-2xl border"
       )}
     >
       {/* Stretched Link for entire card */}
       <Link
         href={`/projects/${project.slug}`}
-        className="focus-visible:ring-primary absolute inset-0 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 z-0"
+        className="absolute inset-0 rounded-2xl z-0"
         aria-label={`Lihat detail proyek ${project.name}`}
       />
 
       {/* Image */}
-      <div className="relative flex aspect-4/3 w-full overflow-hidden rounded-t-2xl">
-        <Image
-          className="object-cover"
-          src={project.thumbnail}
-          alt={project.name}
-          fill
-          sizes="450px"
-        />
+      <div className="relative flex aspect-4/3 w-full rounded-t-2xl overflow-hidden">
+        {project.thumbnail ? (
+          <Image
+            className="object-cover"
+            src={project.thumbnail}
+            alt={project.name}
+            fill
+            sizes="450px"
+          />
+        ) : (
+          <MiracleSkeleton className="h-full w-full rounded-none!" variant="med"/>
+        )}
       </div>
       {/* Body */}
       <div className="flex flex-1 flex-col p-5 md:p-6">
@@ -39,12 +44,12 @@ export default function ProjectCard({ project }: { project: Project }) {
           {project.name}
         </h3>
         <p className="text-secondary mb-6 text-sm leading-relaxed">{project.description}</p>
-        <SkillBadges skills={project.skills} className="mb-auto" />
+        <SkillBadges skills={project.skills} className="mb-auto relative z-1" />
       </div>
 
       {/* Footer */}
       <div
-        className="bg-secondary border-primary flex items-center justify-between rounded-b-2xl border-t px-5 py-3 md:px-6"
+        className="bg-secondary border-primary flex items-center justify-between rounded-b-2xl border-t px-5 py-3 md:px-6 relative z-1"
         onClick={(e) => e.stopPropagation()}
       >
         <ReactionGroup

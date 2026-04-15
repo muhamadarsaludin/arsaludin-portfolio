@@ -1,7 +1,6 @@
 /**
  * SKILL ENTITY
  * Raw data from 'skills' table.
- * Used for admin & server logic.
  */
 export interface SkillEntity {
   id: string
