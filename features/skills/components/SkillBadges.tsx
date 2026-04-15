@@ -1,10 +1,10 @@
-import React from "react"
 import MiracleBadge from "@/components/miracle/Badge"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import clsx from "clsx"
 import type { Skill } from "../types/skills.types"
-import { SkillIconMap } from "../services/skills"
+import { SKILL_ICON_MAP } from "../services/skills"
 import { useTranslations } from "next-intl"
+import { MAX_VISIBLE_SKILLS } from "../constants/skills.constants"
 
 type SkillBadgesProps = {
   skills: Skill[]
@@ -12,7 +12,13 @@ type SkillBadgesProps = {
   className?: string
 }
 
-export default function SkillBadges({ skills = [], limit = 7, className }: SkillBadgesProps) {
+export default function SkillBadges({ 
+  skills = [], 
+  limit = MAX_VISIBLE_SKILLS,
+  className 
+}: SkillBadgesProps) {
+  if (!skills.length) return null
+
   const hasMore = skills.length > limit
   const topSkills = skills.slice(0, limit)
   const remainingCount = skills.length - limit
@@ -22,7 +28,7 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
     <div className={clsx("flex flex-wrap items-center gap-2 relative", className)}>
       {/* RENDER TOP SKILLS */}
       {topSkills.map((skill, i) => {
-        const IconComponent = skill.icon ? SkillIconMap[skill.icon] : null
+        const IconComponent = skill.icon ? SKILL_ICON_MAP[skill.icon] : null
 
         const BadgeComponent = (
           <MiracleBadge
@@ -77,7 +83,7 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
             <p className="mb-2 text-[10px] font-bold uppercase">{t("title")}</p>
             <div className="flex flex-col gap-1 overflow-y-auto pr-1">
               {skills.map((skill, i) => {
-                const IconComponent = skill.icon ? SkillIconMap[skill.icon] : null
+                const IconComponent = skill.icon ? SKILL_ICON_MAP[skill.icon] : null
 
                 const ItemContent = (
                   <div
