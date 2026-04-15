@@ -9,7 +9,7 @@ export default function AchievementCardSkeleton() {
       )}
     >
       <MiracleSkeleton className="aspect-7/5 w-full rounded-2xl!" variant="med" />
-      <div className="flex flex-1 gap-2 p-4 items-center">
+      <div className="flex flex-1 gap-2 pt-5 items-center">
         <MiracleSkeleton className="h-10 w-10" variant="med" />
         <div className="flex flex-col flex-1">
           <MiracleSkeleton className="mb-2 h-4 w-full" variant="med" />

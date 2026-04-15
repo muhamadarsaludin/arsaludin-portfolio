@@ -67,6 +67,7 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
                   <a 
                     href={achievement.credential_url} 
                     target="_blank" 
+                    aria-label={t("viewCredential")}
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()} 
                     className="p-2 rounded-full border-2 border-primary hover:bg-neutral-950/50 dark:hover:bg-white/50 transition-colors duration-300 ease-in-out">
@@ -80,7 +81,7 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between gap-4 p-4">
+        <div className="flex items-center justify-between gap-4 pt-5">
           <div className="flex gap-2 items-center min-w-0">
             <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
               {achievement.organization_logo ? (

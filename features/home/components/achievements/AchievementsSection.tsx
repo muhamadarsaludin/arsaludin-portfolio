@@ -7,6 +7,7 @@ import MiracleButton from "@/components/miracle/Button"
 import Link from "next/link"
 import clsx from "clsx"
 import { getFeaturedAchievements } from "@/features/achievements/services/achievements"
+import { LuArrowRight } from "react-icons/lu"
 
 /**
  * Server Component: Prefetches featured achievement for optimal SEO and performance.
@@ -26,7 +27,7 @@ export default async function AchievementsSection({ className }: { className?: s
       <Section className={clsx(className)}>
         <Heading
           id="featured-achievements"
-          className="mb-8 text-3xl md:mb-10 md:text-4xl lg:text-5xl"
+          className="text-3xl md:text-4xl lg:text-5xl mb-10 md:mb-12"
           linkClassName="text-[0.4em]!"
           noMarginTop
           fontWeight="semibold"
@@ -34,9 +35,14 @@ export default async function AchievementsSection({ className }: { className?: s
           {t("title")}
         </Heading>
         <AchievementList />
-        <div className="mt-6 flex justify-center md:mt-8">
-          <Link href="/achievements">
-            <MiracleButton variant="secondary">{t("cta")}</MiracleButton>
+        <div className="mt-8 flex justify-center md:mt-10">
+          <Link href="/achievements" aria-label={t("cta")}>
+            <MiracleButton 
+              variant="secondary"
+              endIcon={<LuArrowRight />}
+              tabIndex={-1}>
+              {t("cta")}
+            </MiracleButton>
           </Link>
         </div>
       </Section>
