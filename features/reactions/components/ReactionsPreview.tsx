@@ -61,6 +61,13 @@ export default function ReactionsPreview({
         <button
           key={reaction.emoji}
           type="button"
+          aria-label={
+            dataSummary.userReaction
+              ? reaction.emoji === dataSummary.userReaction.emoji 
+                ? `${t("tooltip.delete")} ${reaction.emoji}`
+                : `${t("tooltip.edit")} ${reaction.emoji}`
+              : `${t("tooltip.add")} ${reaction.emoji}`
+          }
           className={clsx(
             "group/emoji bg-secondary flex h-7 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
             "min-w-7 px-1.5",

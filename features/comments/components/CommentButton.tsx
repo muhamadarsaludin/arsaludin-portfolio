@@ -24,6 +24,7 @@ export default function CommentButton({ commentCount, onClick }: CommentButtonPr
           onClick={handleOnClick}
           type="button"
           className="group/reaction-picker flex cursor-pointer items-center gap-1 outline-none"
+          aria-label={t("default")}
         >
           <div className="relative p-1">
             <LuMessageCircleMore

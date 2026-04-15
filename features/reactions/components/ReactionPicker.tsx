@@ -71,7 +71,17 @@ export default function ReactionPicker({
       noPadding
       defaultPosition={tooltipPosition}
       trigger={
-        <button onClick={onClick} type="button" className="group/reaction-picker cursor-pointer">
+        <button 
+          aria-label={
+            !isSignedIn
+            ? t("tooltip.auth")
+            : dataSummary?.userReaction
+              ? t("tooltip.edit")
+              : t("tooltip.add")
+          }
+          onClick={onClick} 
+          type="button" 
+          className="group/reaction-picker cursor-pointer">
           <div className="relative p-1">
             <TbMoodPlus
               size={20}
@@ -108,9 +118,10 @@ export default function ReactionPicker({
           <button
             onClick={onShowDetail}
             type="button"
-            className="group/reaction-picker cursor-help"
+            className="group/reaction-picker cursor-help min-w-6 flex items-start"
+            aria-label={t("tooltip.seeDetail")}
           >
-            <span className="text-secondary text-sm font-medium tabular-nums">
+            <span className="text-secondary text-sm font-medium">
               {dataSummary.totalReactions}
             </span>
           </button>

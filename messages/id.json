@@ -36,6 +36,7 @@
       },
       "tooltip": {
         "add": "Tambah reaksi",
+        "delete": "Hapus reaksi",
         "edit": "Ubah reaksi",
         "auth": "Masuk untuk memberi reaksi",
         "seeAll": "Lihat semua reaksi",

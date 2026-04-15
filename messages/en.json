@@ -36,6 +36,7 @@
       },
       "tooltip": {
         "add": "Add reaction",
+        "delete": "Delete reaction",
         "edit": "Edit reaction",
         "auth": "Sign in to react",
         "seeAll": "See all reactions",

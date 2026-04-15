@@ -41,10 +41,11 @@ export default async function ProjectsSection({ className }: { className?: strin
         </div>
         <ProjectList locale={locale} isFeatured={true} />
         <div className="mt-8 flex justify-center md:mt-10">
-          <Link href="/projects">
+          <Link href="/projects" aria-label={t("cta")}>
             <MiracleButton 
               variant="secondary"
-              endIcon={<LuArrowRight />}>
+              endIcon={<LuArrowRight />}
+              tabIndex={-1}>
                 {t("cta")}
               </MiracleButton>
           </Link>
