@@ -47,7 +47,7 @@ export default function AndroidIllustration() {
 
           {/* Chart & List Section */}
           <div className="flex h-fit flex-col gap-1.5">
-            <div className="bg-secondary flex h-12 w-full items-end gap-[2px] rounded p-1">
+            <div className="bg-secondary flex h-12 w-full items-end gap-0.5 rounded p-1">
               {[4, 7, 3, 6, 5].map((h, i) => (
                 <motion.div
                   key={`bar-${i}`}

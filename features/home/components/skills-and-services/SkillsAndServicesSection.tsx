@@ -7,8 +7,8 @@ import { ServiceList } from "./ServiceList"
 import clsx from "clsx"
 
 /**
- * Server Component: Prefetches data and provides a hydration boundary.
- * This ensures SEO-friendly content and zero layout shift on initial load.
+ * Server Component: Prefetches data and provides a hydration boundary for React Query.
+ * Ensures the services data is available immediately on page load without client-side fetching.
  */
 export default async function SkillsAndServicesSection({ className }: { className?: string }) {
   const t = await getTranslations("pages.home.skills-and-services")
@@ -16,8 +16,8 @@ export default async function SkillsAndServicesSection({ className }: { classNam
   const queryClient = new QueryClient()
 
   await queryClient.prefetchQuery({
-    queryKey: ["services", locale, false],
-    queryFn: () => getServices({ locale, isAdminView: false }),
+    queryKey: ["services", locale],
+    queryFn: () => getServices({ locale }),
   })
 
   return (

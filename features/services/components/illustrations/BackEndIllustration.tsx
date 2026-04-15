@@ -13,17 +13,17 @@ export default function BackEndIllustration() {
         {/* Top layer: Terminal and Microservice */}
         <div className="relative z-10 flex w-full items-center justify-between px-2">
           {/* Connection Lines (U-shape) */}
-          <div className="border-neutral-med absolute top-[100%] right-[28px] left-[34px] h-1.5 rounded-b-sm border-x border-b" />
-          <div className="bg-neutral-med absolute top-[100%] left-1/2 mt-1.5 h-1.5 w-[1px] -translate-x-1/2" />
+          <div className="border-neutral-med absolute top-full right-7 left-8.5 h-1.5 rounded-b-sm border-x border-b" />
+          <div className="bg-neutral-med absolute top-full left-1/2 mt-1.5 h-1.5 w-px -translate-x-1/2" />
 
           {/* Floating Terminal Logs */}
-          <div className="border-primary bg-secondary z-10 flex h-8 w-[52px] flex-col overflow-hidden rounded border shadow-sm">
-            <div className="border-primary bg-primary flex h-[8px] w-full shrink-0 items-center gap-[2.5px] border-b px-1">
+          <div className="border-primary bg-secondary z-10 flex h-8 w-13 flex-col overflow-hidden rounded border shadow-sm">
+            <div className="border-primary bg-primary flex h-2 w-full shrink-0 items-center gap-[2.5px] border-b px-1">
               <div className="bg-red h-[2.5px] w-[2.5px] rounded-full" />
               <div className="bg-yellow h-[2.5px] w-[2.5px] rounded-full" />
               <div className="bg-green h-[2.5px] w-[2.5px] rounded-full" />
             </div>
-            <div className="flex flex-1 items-start overflow-hidden p-[3px]">
+            <div className="flex flex-1 items-start overflow-hidden p-1">
               <motion.div
                 className="flex w-full flex-col gap-[2.5px]"
                 animate={{ y: [0, -8, 0] }}
@@ -38,23 +38,23 @@ export default function BackEndIllustration() {
           </div>
 
           {/* Microservice / Worker Node */}
-          <div className="border-primary bg-secondary z-10 flex h-7 w-10 flex-col items-center justify-center gap-[3px] rounded border shadow-sm">
+          <div className="border-primary bg-secondary z-10 flex h-7 w-10 flex-col items-center justify-center gap-1 rounded border shadow-sm">
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              className="border-blue h-2 w-2 rounded-[2px] border border-dashed"
+              className="border-blue h-2 w-2 rounded-xs border border-dashed"
             />
-            <div className="bg-neutral-high h-[2px] w-5 rounded-full" />
+            <div className="bg-neutral-high h-0.5 w-5 rounded-full" />
           </div>
         </div>
 
         {/* Server / API Node */}
         <div className="border-primary bg-secondary relative z-10 mt-3 flex h-6 w-24 items-center justify-between rounded border px-1.5 shadow-sm">
           <div className="flex flex-col gap-1">
-            <div className="bg-neutral-high h-[2px] w-7 rounded-full" />
-            <div className="bg-neutral-med h-[2px] w-4 rounded-full" />
+            <div className="bg-neutral-high h-0.5 w-7 rounded-full" />
+            <div className="bg-neutral-med h-0.5 w-4 rounded-full" />
           </div>
-          <div className="flex gap-[3px]">
+          <div className="flex gap-1">
             {/* Status Indicators Loop */}
             {Array.from({ length: 2 }).map((_, i) => (
               <motion.div
@@ -70,7 +70,7 @@ export default function BackEndIllustration() {
         {/* Data Connection Lines (Vertical) */}
         <div className="relative z-0 flex h-5 w-12 shrink-0 justify-between">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={`line-${i}`} className="bg-neutral-med relative h-full w-[1px]">
+            <div key={`line-${i}`} className="bg-neutral-med relative h-full w-px">
               <motion.div
                 className={clsx(
                   "absolute left-1/2 h-1 w-1 -translate-x-1/2 rounded-full shadow-sm",
@@ -89,18 +89,18 @@ export default function BackEndIllustration() {
         </div>
 
         {/* Database Cylinder */}
-        <div className="relative z-10 mb-0.5 h-[28px] w-[52px] shrink-0 drop-shadow-sm">
+        <div className="relative z-10 mb-0.5 h-7 w-13 shrink-0 drop-shadow-sm">
           {/* Bottom Disk */}
-          <div className="border-primary bg-secondary absolute bottom-0 z-0 h-[10px] w-full rounded-[50%] border" />
+          <div className="border-primary bg-secondary absolute bottom-0 z-0 h-2.5 w-full rounded-[50%] border" />
 
           {/* Cylinder Body */}
-          <div className="border-primary bg-secondary absolute top-[5px] z-10 h-[18px] w-full border-x" />
+          <div className="border-primary bg-secondary absolute top-1.25 z-10 h-4.5 w-full border-x" />
 
           {/* Middle Ring */}
-          <div className="border-neutral-med absolute top-[10px] z-20 h-[10px] w-full rounded-[50%] border-b" />
+          <div className="border-neutral-med absolute top-2.5 z-20 h-2.5 w-full rounded-[50%] border-b" />
 
           {/* Top Disk */}
-          <div className="border-primary bg-secondary absolute top-0 z-30 flex h-[10px] w-full items-center justify-center rounded-[50%] border">
+          <div className="border-primary bg-secondary absolute top-0 z-30 flex h-2.5 w-full items-center justify-center rounded-[50%] border">
             <motion.div
               className="border-blue absolute h-full w-full rounded-[50%] border"
               animate={{ scale: [0.4, 0.85], opacity: [1, 0] }}

@@ -72,7 +72,7 @@ export default function FrontEndIllustration() {
 
             {/* Chart Section */}
             <div className="flex h-fit gap-1.5">
-              <div className="bg-secondary flex min-h-full w-fit items-end gap-[2px] rounded p-1">
+              <div className="bg-secondary flex min-h-full w-fit items-end gap-0.5 rounded p-1">
                 {[4, 7, 3, 6, 5].map((h, i) => (
                   <motion.div
                     key={`ch-${i}`}

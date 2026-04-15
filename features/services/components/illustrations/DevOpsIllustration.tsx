@@ -16,13 +16,13 @@ export default function DevOpsIllustration() {
           animate={{ rotate: 360 }}
           transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
         >
-          <div className="bg-blue -mt-[5px] h-2.5 w-2.5 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+          <div className="bg-blue -mt-1.25 h-2.5 w-2.5 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
         </motion.div>
 
         {/* Nodes Container */}
         <div className="absolute inset-0 z-10 flex items-center justify-center">
           {/* Top: Code */}
-          <div className="border-primary bg-primary absolute flex h-7 w-7 -translate-y-[48px] items-center justify-center rounded border shadow-sm">
+          <div className="border-primary bg-primary absolute flex h-7 w-7 -translate-y-12 items-center justify-center rounded border shadow-sm">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -38,7 +38,7 @@ export default function DevOpsIllustration() {
           </div>
 
           {/* Right: Build/Test (Gear) */}
-          <div className="border-primary bg-primary absolute flex h-7 w-7 translate-x-[48px] items-center justify-center rounded border shadow-sm">
+          <div className="border-primary bg-primary absolute flex h-7 w-7 translate-x-12 items-center justify-center rounded border shadow-sm">
             <motion.div
               className="border-yellow h-3.5 w-3.5 rounded-full border-2 border-dashed"
               animate={{ rotate: 360 }}
@@ -47,17 +47,17 @@ export default function DevOpsIllustration() {
           </div>
 
           {/* Bottom: Deploy (Servers) */}
-          <div className="border-primary bg-primary absolute flex h-7 w-7 translate-y-[48px] flex-col items-center justify-center gap-[3px] rounded border shadow-sm">
+          <div className="border-primary bg-primary absolute flex h-7 w-7 translate-y-12 flex-col items-center justify-center gap-1 rounded border shadow-sm">
             <div className="border-blue h-1.5 w-4 rounded-[1px] border" />
             <div className="border-blue h-1.5 w-4 rounded-[1px] border" />
           </div>
 
           {/* Left: Monitor (Chart) */}
-          <div className="border-primary bg-primary absolute flex h-7 w-7 -translate-x-[48px] items-end justify-center gap-[2px] rounded border p-[5px] shadow-sm">
+          <div className="border-primary bg-primary absolute flex h-7 w-7 -translate-x-12 items-end justify-center gap-0.5 rounded border p-1.25 shadow-sm">
             {[0, 0.5, 1].map((delay, i) => (
               <motion.div
                 key={`mon-${i}`}
-                className="bg-green w-[3px] rounded-t-sm"
+                className="bg-green w-1 rounded-t-sm"
                 animate={{ height: i === 1 ? ["80%", "30%", "80%"] : ["40%", "90%", "40%"] }}
                 transition={{ duration: 2, delay, repeat: Infinity, ease: "easeInOut" }}
               />

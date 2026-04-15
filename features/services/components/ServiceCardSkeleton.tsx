@@ -5,7 +5,7 @@ export default function ServiceCardSkeleton() {
   return (
     <div
       className={clsx(
-        "flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col overflow-hidden sm:w-auto sm:max-w-none",
+        "flex w-[80vw] max-w-75 shrink-0 snap-start flex-col overflow-hidden sm:w-auto sm:max-w-none",
         "border-primary rounded-2xl border"
       )}
     >
