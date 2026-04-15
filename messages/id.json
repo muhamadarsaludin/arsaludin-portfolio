@@ -28,7 +28,8 @@
       }
     },
     "skillBadges": {
-      "title": "Teknologi"
+      "title": "Teknologi",
+      "ariaPrefix": "Pelajari lebih lanjut tentang"
     },
     "reaction": {
       "popover": {

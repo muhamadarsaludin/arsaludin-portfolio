@@ -2,18 +2,19 @@ import type { NextConfig } from "next"
 import createNextIntlPlugin from "next-intl/plugin"
 
 const nextConfig: NextConfig = {
+  transpilePackages: ["three", "emoji-picker-react", "react-countup"],
   experimental: {
-    optimizePackageImports: ["react-icons", "three"],
+    optimizePackageImports: ["react-icons", "three"]
   },
   images: {
     minimumCacheTTL: 2592000,
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
-      },
-    ],
-  },
+        hostname: "**"
+      }
+    ]
+  }
 }
 
 const withNextIntl = createNextIntlPlugin()

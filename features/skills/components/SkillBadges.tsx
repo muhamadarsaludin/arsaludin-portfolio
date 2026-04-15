@@ -58,7 +58,7 @@ export default function SkillBadges({
               target="_blank"
               rel="noopener noreferrer"
               className="no-underline cursor-pointer"
-              aria-label={skill.name}
+              aria-label={`${t("ariaPrefix")} ${skill.name}`}
             >
               {BadgeComponent}
             </a>

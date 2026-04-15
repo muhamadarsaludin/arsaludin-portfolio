@@ -28,7 +28,8 @@
       }
     },
     "skillBadges": {
-      "title": "Tech Stack"
+      "title": "Tech Stack",
+      "ariaPrefix": "Learn more about"
     },
     "reaction": {
       "popover": {
