@@ -1,5 +1,6 @@
 "use client"
 
+import { createPortal } from "react-dom"
 import { useScrollLock } from "@/hooks/useScrollLock"
 import clsx from "clsx"
 import type { ReactNode } from "react"
@@ -45,7 +46,9 @@ export default function MiracleDrawer({
         onClose()
       }
     }
-    document.addEventListener("keydown", handleKeyDown)
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown)
+    }
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [isOpen, onClose])
 
@@ -53,6 +56,7 @@ export default function MiracleDrawer({
 
   if (!isMounted) return null
 
+  // --- Styles Logic ---
   const borderStyles = {
     top: "border-b border-primary",
     bottom: "border-t border-primary",
@@ -87,7 +91,8 @@ export default function MiracleDrawer({
     }
   }
 
-  return (
+  // --- Drawer Content ---
+  const drawerContent = (
     <>
       {/* Scrim Overlay */}
       <div
@@ -97,10 +102,13 @@ export default function MiracleDrawer({
           scrimClassName
         )}
         onClick={closeOnScrimClick ? onClose : undefined}
+        aria-hidden="true"
       />
 
       {/* Drawer Panel */}
       <div
+        role="dialog"
+        aria-modal="true"
         className={clsx(
           "z-drawer bg-primary fixed flex flex-col shadow-2xl transition-transform duration-300 ease-in-out dark:shadow-black",
           borderStyles[position],
@@ -130,8 +138,14 @@ export default function MiracleDrawer({
         <div className="flex-1 overflow-y-auto p-4">{children}</div>
 
         {/* Footer */}
-        {footer && <div className="border-primary shrink-0 border-t p-4 py-3">{footer}</div>}
+        {footer && (
+          <div className="border-primary shrink-0 border-t p-4 py-3">
+            {footer}
+          </div>
+        )}
       </div>
     </>
   )
+
+  return createPortal(drawerContent, document.body)
 }
