@@ -52,7 +52,7 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
               target="_blank"
               rel="noopener noreferrer"
               className="no-underline cursor-pointer"
-              onClick={(e) => e.stopPropagation()}
+              aria-label={skill.name}
             >
               {BadgeComponent}
             </a>
@@ -109,6 +109,7 @@ export default function SkillBadges({ skills = [], limit = 7, className }: Skill
                       target="_blank"
                       rel="noopener noreferrer"
                       className="no-underline"
+                      aria-label={skill.name}
                     >
                       {ItemContent}
                     </a>
