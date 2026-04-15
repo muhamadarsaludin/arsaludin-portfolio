@@ -38,7 +38,7 @@ export const ExperienceCard = ({
   const [logoSrc, setLogoSrc] = useState(experience.company_logo || "/dummy.webp")
 
   return (
-    <div className="border-primary bg-primary flex flex-col rounded-2xl border p-5 sm:p-6">
+    <div className="border-primary bg-primary flex flex-col rounded-2xl border p-5 md:p-6">
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-3 md:flex-row md:gap-6">
           <div className="border-primary relative h-12 w-12 shrink-0 overflow-hidden rounded-full border md:h-20 md:w-20">
@@ -79,6 +79,7 @@ export const ExperienceCard = ({
               e.stopPropagation()
               setIsOpen(!isOpen)
             }}
+            aria-label={isOpen ? t("hide") : t("show")}
             className="cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 focus:outline-none dark:hover:bg-neutral-800"
           >
             <LuChevronDown

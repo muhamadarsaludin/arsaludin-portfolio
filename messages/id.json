@@ -91,10 +91,14 @@
       }
     },
     "experienceCard": {
-      "keyContributions": "Kontribusi"
+      "keyContributions": "Kontribusi",
+      "show": "Lihat detail",
+      "hide": "Sembunyikan detail"
     },
     "educationCard": {
-      "description": "Deskripsi"
+      "description": "Deskripsi",
+      "show": "Lihat detail",
+      "hide": "Sembunyikan detail"
     },
     "achievementCard": {
       "viewDetail": "Lihat detail",

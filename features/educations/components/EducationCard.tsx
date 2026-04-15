@@ -84,6 +84,7 @@ export const EducationCard = ({
               e.stopPropagation()
               setIsOpen(!isOpen)
             }}
+            aria-label={isOpen ? t("hide") : t("show")}
             className="cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 focus:outline-none dark:hover:bg-neutral-800"
           >
             <LuChevronDown

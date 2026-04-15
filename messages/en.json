@@ -91,10 +91,14 @@
       }
     },
     "experienceCard": {
-      "keyContributions": "Contributions"
+      "keyContributions": "Contributions",
+      "show": "Show detail",
+      "hide": "Hide detail"
     },
     "educationCard": {
-      "description": "Description"
+      "description": "Description",
+      "show": "Show detail",
+      "hide": "Hide detail"
     },
     "achievementCard": {
       "viewDetail": "View detail",
