@@ -19,6 +19,7 @@ export type MiracleModalProps = {
   closeOnOutsideClick?: boolean
   className?: string
   overlayClassName?: string
+  noContentPadding?: boolean
 }
 
 const statusColors = {
@@ -41,6 +42,7 @@ export default function MiracleModal({
   closeOnOutsideClick = true,
   className,
   overlayClassName,
+  noContentPadding = false,
 }: MiracleModalProps) {
   const [isMounted, setIsMounted] = useState(false)
 
@@ -73,7 +75,7 @@ export default function MiracleModal({
   const modalElement = (
     <div
       className={clsx(
-        "fixed inset-0 z-[9999] flex items-center justify-center p-4 transition-all duration-300 ease-in-out",
+        "fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-6 transition-all duration-300 ease-in-out",
         isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
       )}
     >
@@ -99,10 +101,10 @@ export default function MiracleModal({
         aria-modal="true"
       >
         {(title || showCloseIcon) && (
-          <div className="border-primary flex shrink-0 items-center justify-between border-b px-4 py-3">
-            <div className="flex flex-col gap-1">
+          <div className="border-primary flex shrink-0 items-center justify-between border-b px-5 md:px-6 py-4 gap-6">
+            <div className="flex flex-col gap-0.5">
               {title && (
-                <div className={clsx("text-lg leading-tight font-bold", statusColors[status])}>
+                <div className={clsx("text-lg leading-tight font-semibold", statusColors[status])}>
                   {title}
                 </div>
               )}
@@ -115,15 +117,15 @@ export default function MiracleModal({
             {showCloseIcon && (
               <button
                 onClick={onClose}
-                className="text-secondary hover:text-primary ml-auto flex shrink-0 cursor-pointer items-center justify-center rounded-md p-2 transition-all duration-200 hover:bg-neutral-200 active:scale-90 dark:hover:bg-neutral-800"
+                className="text-secondary hover:text-primary flex shrink-0 cursor-pointer items-center justify-center rounded-md p-1.5 transition-all duration-200 hover:bg-neutral-200 active:scale-90 dark:hover:bg-neutral-800"
               >
-                <LuX size={22} />
+                <LuX size={20} />
               </button>
             )}
           </div>
         )}
 
-        <div className="scrollbar-hide flex-1 overflow-y-auto p-4">{children}</div>
+        <div className={clsx("scrollbar-hide flex-1 overflow-y-auto", noContentPadding ? "p-0" : "p-5 md:p-6")}>{children}</div>
       </div>
     </div>
   )

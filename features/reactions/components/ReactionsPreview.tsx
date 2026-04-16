@@ -14,11 +14,13 @@ import { LuEye } from "react-icons/lu"
 // Hook & Types baru kita
 import { useReactionSummary } from "@/features/reactions/hooks/useReactionSummary"
 import type { ReactionSummary, ReactionTargetType } from "../types/reactions.types"
+import { MAX_TOP_REACTIONS } from "../constants/reactions.constants"
 
 type ReactionsPreviewProps = {
   targetId: string
   targetType: ReactionTargetType
   initialSummary?: ReactionSummary
+  limit?: number
   onSelectReaction: (emoji: string) => void
   tooltipPosition?: TooltipDefaultPosition
 }
@@ -27,9 +29,11 @@ export default function ReactionsPreview({
   targetId,
   targetType,
   initialSummary,
+  limit = MAX_TOP_REACTIONS,
   onSelectReaction,
   tooltipPosition,
 }: ReactionsPreviewProps) {
+
   const { data: summary } = useReactionSummary({
     targetId,
     targetType,
@@ -37,12 +41,16 @@ export default function ReactionsPreview({
   })
 
   const [isOpen, setIsOpen] = useState(false)
-  const dataSummary = summary ?? initialSummary
   const { isSignedIn } = useAuth()
   const t = useTranslations("components.reaction")
   const zIndexBase = 10
+  
+  const dataSummary = summary ?? initialSummary
 
   if (!dataSummary || dataSummary.totalReactions <= 0) return null
+  
+  const topReactions = dataSummary.allReactions.slice(0, limit)
+  const remainingEmojis = Math.max(0, dataSummary.totalEmojis - limit)
   /**
    * Handles reaction selection.
    */
@@ -57,7 +65,7 @@ export default function ReactionsPreview({
   return (
     <div className="relative z-20 flex cursor-pointer items-center -space-x-2">
       {/* Top Reactions List */}
-      {dataSummary.topReactions.map((reaction, index) => (
+      {topReactions.map((reaction, index) => (
         <button
           key={reaction.emoji}
           type="button"
@@ -94,7 +102,7 @@ export default function ReactionsPreview({
       ))}
 
       {/* Remaining Reactions Popover */}
-      {dataSummary.remainingEmojis > 0 && (
+      {remainingEmojis > 0 && (
         <MiraclePopover
           open={isOpen}
           onOpenChange={setIsOpen}
@@ -111,7 +119,7 @@ export default function ReactionsPreview({
                     "min-w-8 px-1.5 gap-0",
                     "hover:gap-1 hover:px-3"
                   )}
-                  style={{ zIndex: zIndexBase + dataSummary.topReactions.length + 1 }}
+                  style={{ zIndex: zIndexBase + topReactions.length + 1 }}
                 >
                   <span
                     className={clsx(
@@ -123,7 +131,7 @@ export default function ReactionsPreview({
                     <LuEye />
                   </span>
                   <span className="text-secondary text-xs font-semibold">
-                    +{dataSummary.remainingEmojis}
+                    +{remainingEmojis}
                   </span>
                 </button>
               }

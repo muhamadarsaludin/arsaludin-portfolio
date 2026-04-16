@@ -1,3 +1,5 @@
+"use client"
+
 import type { InfiniteData } from "@tanstack/react-query"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuth } from "@/providers/AuthProvider"
@@ -8,29 +10,24 @@ import type {
   Reaction,
   PaginatedReactions,
 } from "../types/reactions.types"
-import { MAX_TOP_REACTIONS } from "../constants/reactions.constants"
 
 /**
  * Handles toggling reactions with Optimistic UI Updates.
- * Orchestrates synchronization between 'reaction-summary' and 'reactions' (user list) caches.
- * * @param params.targetId - The UUID of the target entity.
- * @param params.targetType - The classification of the target ("project" | "comment").
- * @param params.topReactionsCount - Syncs with the summary query's slice logic.
+ * Orchestrates synchronization between 'reaction-summary' and 'reactions' caches.
+ * @param targetId - The UUID of the target entity.
+ * @param targetType - The classification of the target ("project" | "comment").
  */
 export function useReactionMutation({
   targetId,
-  targetType,
-  topReactionsCount = MAX_TOP_REACTIONS,
+  targetType
 }: {
   targetId: string
   targetType: ReactionTargetType
-  topReactionsCount?: number
 }) {
   const queryClient = useQueryClient()
   const { user, profile } = useAuth()
 
-  // Keys harus match dengan yang ada di useReactionSummary dan useReactions
-  const summaryKey = ["reaction-summary", targetType, targetId, topReactionsCount]
+  const summaryKey = ["reaction-summary", targetType, targetId]
   const reactionsKey = ["reactions", targetType, targetId]
 
   return useMutation({
@@ -40,7 +37,6 @@ export function useReactionMutation({
     onMutate: async ({ emoji }) => {
       if (!user || !profile) return
 
-      // Stop refetch background biar gak tabrakan sama data "palsu" kita
       await queryClient.cancelQueries({ queryKey: summaryKey })
       await queryClient.cancelQueries({ queryKey: reactionsKey })
 
@@ -56,22 +52,18 @@ export function useReactionMutation({
         updated_at: null,
       }
 
+      // 1. Update Reaction Summary (Optimistic)
       queryClient.setQueryData<ReactionSummary>(summaryKey, (old) => {
-        const current = old ?? {
-          userReaction: null,
-          allReactions: [],
-          totalReactions: 0,
-          topReactions: [],
-          totalEmojis: 0,
-          remainingEmojis: 0,
-        }
+        if (!old) return old
 
-        const isRemoving = current.userReaction?.emoji === emoji
-        let nextAll = [...current.allReactions]
+        const isRemoving = old.userReaction?.emoji === emoji
+        let nextAll = [...old.allReactions]
 
-        if (current.userReaction) {
+        if (old.userReaction) {
           nextAll = nextAll.map((r) =>
-            r.emoji === current.userReaction?.emoji ? { ...r, count: Math.max(0, r.count - 1) } : r
+            r.emoji === old.userReaction?.emoji 
+              ? { ...r, count: Math.max(0, r.count - 1) } 
+              : r
           )
         }
 
@@ -84,23 +76,24 @@ export function useReactionMutation({
           }
         }
 
-        const filtered = nextAll.filter((r) => r.count > 0).sort((a, b) => b.count - a.count)
+        const filteredAndSorted = nextAll
+          .filter((r) => r.count > 0)
+          .sort((a, b) => b.count - a.count || a.emoji.localeCompare(b.emoji))
 
         return {
-          ...current,
-          allReactions: filtered,
+          ...old,
+          allReactions: filteredAndSorted,
           userReaction: isRemoving ? null : optimisticUserReaction,
           totalReactions: isRemoving
-            ? current.totalReactions - 1
-            : current.userReaction
-              ? current.totalReactions
-              : current.totalReactions + 1,
-          topReactions: filtered.slice(0, topReactionsCount),
-          totalEmojis: filtered.length,
-          remainingEmojis: Math.max(0, filtered.length - topReactionsCount),
+            ? old.totalReactions - 1
+            : old.userReaction
+              ? old.totalReactions
+              : old.totalReactions + 1,
+          totalEmojis: filteredAndSorted.length,
         }
       })
 
+      // 2. Update Reactions List (Optimistic)
       if (prevReactions) {
         queryClient.setQueryData<InfiniteData<PaginatedReactions>>(reactionsKey, (old) => {
           if (!old) return old

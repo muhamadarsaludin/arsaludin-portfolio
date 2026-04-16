@@ -47,11 +47,9 @@ export type ReactionTargetType = "project" | "comment" | "achievement" | "testim
  */
 export type ReactionSummary = {
   userReaction: Reaction | null
-  totalReactions: number
   allReactions: ReactionCount[]
-  topReactions: ReactionCount[]
+  totalReactions: number
   totalEmojis: number
-  remainingEmojis: number
 }
 
 /**

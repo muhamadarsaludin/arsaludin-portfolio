@@ -46,7 +46,9 @@
       "modal": {
         "title": "Reaksi",
         "description": "List pengguna yang memberikan reaksi",
-        "loadingDetail": "Mengambil detail reaksi..."
+        "loadingDetail": "Mengambil detail reaksi...",
+        "emptyMessage": "Belum ada reaksi. Yuk, jadi yang pertama!",
+        "timestamp": "Bereaksi pada {timestamp}"
       }
     },
     "comment": {

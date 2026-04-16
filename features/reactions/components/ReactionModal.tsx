@@ -46,7 +46,7 @@ export default function ReactionModal({
       onClose={onClose}
       title={t("title")}
       description={t("description")}
-      size="sm"
+      size="lg"
       className="max-h-[75vh]"
     >
       <div className="flex flex-col gap-1">
@@ -58,11 +58,11 @@ export default function ReactionModal({
         ) : allReactions.length === 0 ? (
           <div className="flex flex-1 items-center justify-center py-10 text-center">
             <p className="text-secondary/60 text-sm font-medium italic">
-              Belum ada reaksi di sini.
+              {t("emptyMessage")}
             </p>
           </div>
         ) : (
-          <ul className="flex flex-col gap-4">
+          <ul className="flex flex-col gap-5">
             {allReactions.map((reaction) => (
               <ReactionItem key={reaction.id} reaction={reaction} />
             ))}

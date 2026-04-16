@@ -7,28 +7,28 @@ type UseReactionSummaryParams = {
   targetId: string
   targetType: ReactionTargetType
   initialSummary?: ReactionSummary
-  topReactionsCount?: number
   enabled?: boolean
 }
 
 /**
  * Hook to manage reaction statistics and current user status.
  * Optimized for both SSR (via optional initialSummary) and client-side fetching.
- * * @param params.targetId - The UUID of the target entity.
- * @param params.targetType - The classification ("project" | "comment").
- * @param params.initialSummary - Optional server-provided data for hydration.
- * @param params.topReactionsCount - Number of top emojis to return.
+ * @param targetId - The UUID of the target entity.
+ * @param targetType - The classification ("project" | "comment").
+ * @param initialSummary - Optional server-provided data for hydration.
+ * @param topReactionsCount - Number of top emojis to return.
+ * @param params.enabled - Toggle to enable or disable the query. Defaults to true.
+ * @returns React Query object containing the reaction summary and fetch status.
  */
 export function useReactionSummary({
   targetId,
   targetType,
   initialSummary,
-  topReactionsCount = MAX_TOP_REACTIONS,
   enabled = true,
 }: UseReactionSummaryParams) {
   return useQuery({
-    queryKey: ["reaction-summary", targetType, targetId, topReactionsCount],
-    queryFn: () => getReactionSummary({ targetId, targetType, topReactionsCount }),
+    queryKey: ["reaction-summary", targetType, targetId],
+    queryFn: () => getReactionSummary({ targetId, targetType }),
     initialData: initialSummary,
     staleTime: 1000 * 60 * 5,
     enabled: !!targetId && enabled,

@@ -8,12 +8,10 @@ import type {
   Reaction,
 } from "../types/reactions.types"
 import type { Cursor } from "@/features/shared/types/index.types"
-import { MAX_TOP_REACTIONS } from "../constants/reactions.constants"
 
 type GetReactionSummaryParams = {
   targetId: string
   targetType: ReactionTargetType
-  topReactionsCount?: number
 }
 
 type GetReactionsParams = {
@@ -30,20 +28,15 @@ type ToggleReactionParams = {
 }
 
 /**
- * Fetches unified reaction statistics and the current authenticated user's reaction status.
- * Optimized for Server-Side Rendering (SSR) and initial hydration.
- * Uses database views to achieve an O(1) query performance for counts.
- * @param params - The configuration object.
- * @param params.targetId - The UUID of the target entity (e.g., project or comment ID).
- * @param params.targetType - The classification of the target ("project" | "comment").
- * @returns {Promise<ReactionSummary>} An aggregated summary including total counts,
- * top emojis, the complete list of emojis used, and the user's current reaction.
+ * Fetches reaction summary data for a specific target (e.g. post, comment, etc).
+ * @param targetId - Target entity ID (e.g., project or comment id).
+ * @param targetType - Target type used for dynamic table and column nullable FK.
+ * @returns A promise that resolves to a reaction summary object
  * @throws Will throw an error if the Supabase query fails.
  */
 export async function getReactionSummary({
   targetId,
   targetType,
-  topReactionsCount = MAX_TOP_REACTIONS,
 }: GetReactionSummaryParams): Promise<ReactionSummary> {
   const supabase = await createClient()
   const targetColumn = `${targetType}_id`
@@ -53,19 +46,30 @@ export async function getReactionSummary({
     data: { user },
   } = await supabase.auth.getUser()
 
-  const [countsRes, userRes] = await Promise.all([
+  const [reactionCountsRes, userReactionsRes] = await Promise.all([
     supabase
       .from(viewTable)
       .select("emoji, count")
       .eq(targetColumn, targetId)
       .order("count", { ascending: false }),
+
     user
       ? supabase
           .from("reactions")
           .select(
             `
-            id, emoji, user_id, created_at, updated_at,
-            author:profiles!inner (id, email, full_name, role, avatar_url)
+            id,
+            emoji,
+            user_id,
+            created_at,
+            updated_at,
+            author:profiles!inner (
+              id,
+              email,
+              full_name,
+              role,
+              avatar_url
+            )
           `
           )
           .eq(targetColumn, targetId)
@@ -74,24 +78,31 @@ export async function getReactionSummary({
       : Promise.resolve({ data: null, error: null }),
   ])
 
-  const allReactions = countsRes.data || []
-  const rawUserReaction: any = userRes.data
-  const userReaction = rawUserReaction
-    ? {
-        ...rawUserReaction,
-        author: Array.isArray(rawUserReaction.author)
-          ? rawUserReaction.author[0]
-          : rawUserReaction.author,
-      }
-    : null
+  if (reactionCountsRes.error) throw reactionCountsRes.error
+  if (userReactionsRes.error) throw userReactionsRes.error
+
+  const allReactions = reactionCountsRes.data || []
+
+  const userReaction =
+    userReactionsRes.data
+      ? {
+          ...userReactionsRes.data,
+          author: Array.isArray(userReactionsRes.data.author)
+            ? userReactionsRes.data.author[0]
+            : userReactionsRes.data.author,
+        }
+      : null
+
+  const totalReactions = allReactions.reduce(
+    (acc, curr) => acc + curr.count,
+    0
+  )
 
   return {
     userReaction,
     allReactions,
-    totalReactions: allReactions.reduce((acc, curr) => acc + curr.count, 0),
-    topReactions: allReactions.slice(0, topReactionsCount),
+    totalReactions,
     totalEmojis: allReactions.length,
-    remainingEmojis: Math.max(0, allReactions.length - topReactionsCount),
   }
 }
 
@@ -99,11 +110,10 @@ export async function getReactionSummary({
  * Fetches a paginated list of users who reacted to a specific target.
  * Designed exclusively for detailed views (like a "See who reacted" modal)
  * to prevent over-fetching on the initial page load.
- * @param params - The configuration object.
- * @param params.targetId - The UUID of the target entity.
- * @param params.targetType - The classification of the target ("project" | "comment").
- * @param params.cursor - The timestamp cursor for cursor-based pagination. Pass `null` for the first page.
- * @param params.pageSize - The number of records to fetch per page (defaults to 10).
+ * @param targetId - Target entity ID (e.g., project or comment id).
+ * @param targetType - Target type used for dynamic table and column nullable FK.
+ * @param cursor - The timestamp cursor for cursor-based pagination. Pass `null` for the first page.
+ * @param pageSize - The number of records to fetch per page (defaults to 10).
  * @returns {Promise<PaginatedReactions>} A paginated list of Reaction objects with `hasMore` and `nextCursor` states.
  * @throws Will throw an error if the Supabase query fails.
  */
@@ -120,8 +130,18 @@ export async function getReactions({
     .from("reactions")
     .select(
       `
-      id, emoji, user_id, created_at, updated_at,
-      author:profiles!inner (id, email, full_name, role, avatar_url)
+      id, 
+      emoji, 
+      user_id,
+      created_at, 
+      updated_at,
+      author:profiles!inner (
+        id, 
+        email, 
+        full_name, 
+        role, 
+        avatar_url
+      )
     `
     )
     .eq(targetColumn, targetId)
@@ -160,11 +180,9 @@ export async function getReactions({
 /**
  * Toggles a user's reaction on a specific target.
  * Automatically handles Add, Remove, and Update (change emoji) operations based on the user's current state.
- * * @param params - The configuration object.
- * @param params.targetId - The UUID of the target entity.
- * @param params.targetType - The classification of the target ("project" | "comment").
- * @param params.emoji - The string representation of the emoji to toggle.
- * @returns {Promise<any>} The result of the Supabase mutation.
+ * @param targetId - Target entity ID (e.g., project or comment id).
+ * @param targetType - Target type used for dynamic table and column nullable FK.
+ * @param emoji - The string representation of the emoji to toggle.
  * @throws Will throw an Error if the user is unauthorized or the database operation fails.
  */
 export async function toggleReaction({ targetId, targetType, emoji }: ToggleReactionParams) {

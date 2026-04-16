@@ -126,13 +126,11 @@ export async function getFeaturedProjects({
     const commentCount = project.comments?.[0]?.count ?? 0
     const userReaction = project.reactions?.[0] ?? null
     const allReactions = project.reaction_counts || []
+    const totalEmojis = allReactions.length
     const totalReactions = allReactions.reduce(
       (acc, curr) => acc + (curr.count || 0), 
       0
     )
-    const topReactions = allReactions.slice(0, MAX_TOP_REACTIONS)
-    const totalEmojis = allReactions.length
-    const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
 
     return {
       id: project.id,
@@ -152,11 +150,9 @@ export async function getFeaturedProjects({
       comment_count: commentCount,
       reaction_summary: {
         userReaction,
-        totalReactions,
         allReactions,
-        topReactions,
+        totalReactions,
         totalEmojis,
-        remainingEmojis,
       }
     }
   })

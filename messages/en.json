@@ -46,7 +46,9 @@
       "modal": {
         "title": "Reactions",
         "description": "List of users who reacted",
-        "loadingDetail": "Fetching reaction details..."
+        "loadingDetail": "Fetching reaction details...",
+        "emptyMessage": "No reactions yet. Be the first to react!",
+        "timestamp": "Reacted on {timestamp}" 
       }
     },
     "comment": {
