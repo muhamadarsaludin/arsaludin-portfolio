@@ -46,8 +46,7 @@ export const MiracleMarkdown = ({ content, className }: MarkdownProps) => {
             return (
               <code
                 className={clsx(
-                  "text-blue rounded bg-blue-100 px-1.5 py-0.5 font-medium",
-                  "dark:bg-blue-900/30",
+                  "rounded px-1.5 py-0.5 font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
                   "font-mono text-[0.85rem]"
                 )}
                 {...props}
