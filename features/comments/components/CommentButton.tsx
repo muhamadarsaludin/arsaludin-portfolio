@@ -8,7 +8,10 @@ type CommentButtonProps = {
   onClick: () => void
 }
 
-export default function CommentButton({ commentCount, onClick }: CommentButtonProps) {
+export default function CommentButton({ 
+  commentCount = 0, 
+  onClick 
+}: CommentButtonProps) {
   const t = useTranslations("components.comment.tooltip")
 
   const handleOnClick = async (e: React.MouseEvent) => {
@@ -32,7 +35,7 @@ export default function CommentButton({ commentCount, onClick }: CommentButtonPr
               className="text-secondary transition-all duration-300 ease-in-out group-hover/reaction-picker:scale-110"
             />
           </div>
-          {(commentCount ?? 0) > 0 && (
+          {commentCount > 0 && (
             <span className="text-secondary text-sm font-medium">{commentCount}</span>
           )}
         </button>

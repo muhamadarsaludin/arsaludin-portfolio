@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 
-// Sesuaikan dengan standar breakpoint Tailwind CSS
 const breakpoints = [
   { name: "2xl", query: "(min-width: 1536px)" },
   { name: "xl", query: "(min-width: 1280px)" },
@@ -15,28 +14,40 @@ export function useMediaQuery() {
   const [breakpoint, setBreakpoint] = useState<Breakpoint>("default")
 
   useEffect(() => {
-    const mediaQueryLists = breakpoints.map((bp) => ({
+    const mediaQueryList = breakpoints.map((bp) => ({
       name: bp.name,
       mql: window.matchMedia(bp.query),
     }))
 
     const updateBreakpoint = () => {
-      // Cari breakpoint terbesar yang cocok (karena array diurutkan dari 2xl ke sm)
-      const active = mediaQueryLists.find((bp) => bp.mql.matches)
+      const active = mediaQueryList.find((item) => item.mql.matches)
       setBreakpoint(active ? active.name : "default")
     }
 
-    // Set initial values di sisi client untuk menghindari hydration mismatch error Next.js
     updateBreakpoint()
-
-    // Menggunakan event listener yang spesifik pada media query (sangat ringan)
-    const listener = () => updateBreakpoint()
-    mediaQueryLists.forEach((bp) => bp.mql.addEventListener("change", listener))
+    mediaQueryList.forEach((item) => {
+      item.mql.addEventListener("change", updateBreakpoint)
+    })
 
     return () => {
-      mediaQueryLists.forEach((bp) => bp.mql.removeEventListener("change", listener))
+      mediaQueryList.forEach((item) => {
+        item.mql.removeEventListener("change", updateBreakpoint)
+      })
     }
   }, [])
 
-  return { breakpoint }
+  return {
+    breakpoint,
+    // Mobile: Di bawah 640px (default Tailwind)
+    isMobile: breakpoint === "default",
+    
+    // Tablet: 640px (sm) sampai 1023px (md)
+    isTablet: breakpoint === "sm" || breakpoint === "md",
+    
+    // Desktop: 1024px (lg) ke atas
+    isDesktop: ["lg", "xl", "2xl"].includes(breakpoint),
+    
+    // Helper tambahan untuk fleksibilitas UI
+    isMobileOrTablet: ["default", "sm", "md"].includes(breakpoint),
+  }
 }

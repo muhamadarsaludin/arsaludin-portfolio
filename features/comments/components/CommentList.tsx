@@ -24,7 +24,7 @@ export default function CommentList({
       </div>
     )
   return (
-    <ul className="flex flex-col gap-4">
+    <ul className="flex flex-col gap-5">
       {comments.map((comment) => (
         <CommentItem
           key={comment.id}

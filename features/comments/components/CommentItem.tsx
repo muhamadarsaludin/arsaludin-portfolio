@@ -18,6 +18,7 @@ import type { CommentData, CommentTargetType } from "../types/comments.types"
 import ReplyList from "./ReplyList"
 import { useReplyMutation } from "../hooks/useReplyMutation"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
+import MiracleBadge from "@/components/miracle/Badge"
 
 type CommentItemProps = {
   comment: CommentData
@@ -66,7 +67,6 @@ export default function CommentItem({
         commentId: comment.id,
       })
     }
-
     setIsDeleteModalOpen(false)
   }, [comment, removeComment, removeReply])
 
@@ -95,25 +95,24 @@ export default function CommentItem({
               </span>
             )}
           </div>
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <h3 className="text-primary text-sm font-bold">{comment.author.full_name}</h3>
+          <div className="flex flex-col gap-0.5">
+            <div className="flex items-center gap-1.5">
+              <h3 className="text-primary font-semibold">{comment.author.full_name}</h3>
               {comment.author.role === "admin" && (
-                <span className="bg-blue text-primary-inv inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase">
-                  <LuUserRound size={10} />
+                <MiracleBadge startIcon={<LuUserRound/>} color="blue" size="sm" className="capitalize">
                   {comment.author.role}
-                </span>
+                </MiracleBadge>
               )}
             </div>
 
             <p className="text-secondary text-sm leading-relaxed">
               {comment.recipient && (
-                <span className="text-blue mr-1 font-bold">@{comment.recipient.full_name}</span>
+                <span className="text-blue mr-1 font-semibold">@{comment.recipient.full_name}</span>
               )}
               {comment.content}
             </p>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-0.5">
               <span className="text-secondary text-[11px] opacity-60">
                 {timeAgo({
                   date: comment.created_at,
@@ -123,7 +122,7 @@ export default function CommentItem({
 
               <button
                 onClick={() => onReplyComment?.(comment)}
-                className="text-secondary hover:text-blue cursor-pointer text-xs font-bold transition-colors"
+                className="cursor-pointer text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors duration-300 ease-in-out"
               >
                 {t("reply")}
               </button>
@@ -131,7 +130,7 @@ export default function CommentItem({
               {(isAdmin || isAuthor) && (
                 <MiraclePopover
                   trigger={
-                    <button className="text-secondary cursor-pointer text-xs font-bold opacity-0 transition-opacity group-hover/comment:opacity-100">
+                    <button className="cursor-pointer text-xs font-semibold opacity-0 group-hover/comment:opacity-100 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-all duration-300 ease-in-out">
                       •••
                     </button>
                   }
@@ -164,10 +163,10 @@ export default function CommentItem({
         />
       </div>
 
-      {comment.replies_count > 0 && (
+      {comment.reply_count > 0 && (
         <ReplyList
           parentId={comment.id}
-          repliesCount={comment.replies_count}
+          replyCount={comment.reply_count}
           targetId={targetId}
           targetType={targetType}
           onReplyComment={onReplyComment}

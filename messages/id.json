@@ -83,14 +83,14 @@
         "placeholder": "Tulis komentar...",
         "replyingTo": "Replying to",
         "loginRequired": "Masuk untuk berkomentar",
-        "signIn": "Masuk dengan Google"
+        "signIn": "Masuk dengan Google",
+        "cancelReply": "Batalkan balasan"
       },
       "replies": {
-        "showCount": "Lihat {count} balasan",
+        "view": "Lihat {count} balasan",
         "hide": "Sembunyikan balasan",
-        "loadMore": "Lihat {count} lainnya...",
-        "fetching": "Memuat balasan...",
-        "fetchingMore": "Memuat lebih banyak..."
+        "loadMore": "Lihat {count} balasan lainnya",
+        "fetching": "Memuat balasan..."
       }
     },
     "experienceCard": {

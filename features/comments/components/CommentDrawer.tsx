@@ -1,15 +1,15 @@
 "use client"
 
-import { useRef, useState } from "react"
-import MiracleDrawer from "@/components/miracle/Drawer"
-import CommentList from "./CommentList"
-import MiracleLoader from "@/components/miracle/Loader"
-import { useComments } from "../hooks/useComments"
-import type { CommentData, CommentTargetType } from "../types/comments.types"
+import { useRef, useState, useMemo, useEffect } from "react"
 import { useTranslations } from "next-intl"
-import { useMediaQuery } from "@/hooks/useMediaQuery"
+import MiracleDrawer from "@/components/miracle/Drawer"
+import MiracleLoader from "@/components/miracle/Loader"
+import CommentList from "./CommentList"
 import CommentInput from "./CommentInput"
+import { useInfiniteComments } from "../hooks/useInfiniteComments"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
+import { useMediaQuery } from "@/hooks/useMediaQuery"
+import type { CommentData, CommentTargetType } from "../types/comments.types"
 
 type CommentDrawerProps = {
   isOpen: boolean
@@ -28,18 +28,20 @@ export default function CommentDrawer({
 }: CommentDrawerProps) {
   const t = useTranslations("components.comment.drawer")
   const loadMoreRef = useRef<HTMLDivElement>(null)
+  const [repliedComment, setRepliedComment] = useState<CommentData | null>(null)
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useComments({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteComments({
     targetId,
     targetType,
     enabled: isOpen,
   })
 
-  const allComments: CommentData[] = data?.pages.flatMap((page) => page.data) ?? []
-  const { breakpoint } = useMediaQuery()
-  const drawerPosition = ["default"].includes(breakpoint) ? "bottom" : "right"
-  const drawerSize = ["default"].includes(breakpoint) ? 550 : 450
-  const [repliedComment, setRepliedComment] = useState<CommentData | null>(null)
+  const allComments = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
+  const { isMobile } = useMediaQuery()
+
+  useEffect(() => {
+    if (!isOpen) setRepliedComment(null)
+  }, [isOpen, targetId])
 
   useIntersectionObserver({
     targetRef: loadMoreRef,
@@ -47,40 +49,28 @@ export default function CommentDrawer({
     enabled: !!hasNextPage && !isFetchingNextPage && isOpen,
   })
 
-  const handleReplyComment = (comment: CommentData) => {
-    setRepliedComment(comment)
-  }
-
-  const handleClearReply = () => {
-    setRepliedComment(null)
-  }
-
   return (
     <MiracleDrawer
       isOpen={isOpen}
       onClose={onClose}
-      position={drawerPosition}
-      size={drawerSize}
-      title={`Komentar (${commentCount})`}
+      position={isMobile ? "bottom" : "right"}
+      size={isMobile ? 500 : 600}
+      title={`${t("title")} (${commentCount})`}
       footer={
         <CommentInput
           targetId={targetId}
           targetType={targetType}
           repliedComment={repliedComment}
-          onClearReply={handleClearReply}
+          onClearReply={() => setRepliedComment(null)}
         />
       }
     >
       <div className="flex h-full flex-col overflow-hidden">
-        <div className="flex-1 overflow-y-auto pb-20">
+        <div className="flex-1 overflow-y-auto">
           {isLoading ? (
-            <div className="flex h-full items-center justify-center">
-              <div className="flex flex-col items-center justify-center">
-                <MiracleLoader size={40} />
-                <p className="text-secondary item-center flex w-full justify-center gap-1.5 py-4 text-sm font-medium">
-                  <span>{t("isFetching")}</span>
-                </p>
-              </div>
+            <div className="flex h-full flex-col items-center justify-center gap-4">
+              <MiracleLoader size={40} />
+              <p className="text-secondary text-sm font-medium">{t("isFetching")}</p>
             </div>
           ) : (
             <>
@@ -88,13 +78,12 @@ export default function CommentDrawer({
                 targetId={targetId}
                 targetType={targetType}
                 comments={allComments}
-                onReplyComment={handleReplyComment}
+                onReplyComment={setRepliedComment}
               />
-
-              <div ref={loadMoreRef} className="w-full">
-                {hasNextPage && (
-                  <div className="text-secondary item-center flex w-full justify-center gap-1.5 py-4 text-sm font-medium">
-                    <MiracleLoader size={18} />
+              <div ref={loadMoreRef} className="min-h-6 py-4">
+                {isFetchingNextPage && (
+                  <div className="flex items-center justify-center gap-2 text-sm text-secondary">
+                    <MiracleLoader size={16} />
                     <span>{t("isFetching")}</span>
                   </div>
                 )}

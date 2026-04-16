@@ -83,14 +83,14 @@
         "placeholder": "Tulis komentar...",
         "replyingTo": "Replying to",
         "loginRequired": "Sign in to comment",
-        "signIn": "Sign in with Google"
+        "signIn": "Sign in with Google",
+        "cancelReply": "Cancel reply"
       },
       "replies": {
-        "showCount": "Show {count} {count, plural, one {reply} other {replies}}",
+        "view": "View {count} {count, plural, one {reply} other {replies}}",
         "hide": "Hide replies",
-        "loadMore": "Show more replies...",
-        "fetching": "Loading replies...",
-        "fetchingMore": "Loading more..."
+        "loadMore":"View {count} more {count, plural, one {reply} other {replies}}",
+        "fetching": "Loading replies..."
       }
     },
     "experienceCard": {

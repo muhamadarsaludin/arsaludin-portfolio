@@ -117,12 +117,12 @@ export default function MiracleDrawer({
       >
         {/* Header */}
         {(title || showCloseIcon) && (
-          <div className="border-primary flex shrink-0 items-center justify-between border-b px-4 py-3">
+          <div className="border-primary flex shrink-0 items-center justify-between border-b px-5 md:px-6 py-4 gap-6">
             <div className="text-primary text-base font-semibold">{title}</div>
             {showCloseIcon && (
               <button
                 onClick={onClose}
-                className="ml-auto cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800"
+                className="ml-auto cursor-pointer rounded-md p-1.5 transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800"
                 aria-label="Close drawer"
               >
                 <LuX size={20} />
@@ -132,11 +132,11 @@ export default function MiracleDrawer({
         )}
 
         {/* Content Body */}
-        <div className="flex-1 overflow-y-auto p-4">{children}</div>
+        <div className="flex-1 overflow-y-auto p-5 md:p-6">{children}</div>
 
         {/* Footer */}
         {footer && (
-          <div className="border-primary shrink-0 border-t p-4 py-3">
+          <div className="border-primary shrink-0 border-t px-5 md:px-6 py-4">
             {footer}
           </div>
         )}

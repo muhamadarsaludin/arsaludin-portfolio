@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { COMMENTS_PAGE_SIZE } from "../constants/comments.constants"
 import type { CommentTargetType } from "../types/comments.types"
-import { getComments } from "../services/comments"
+import { getPaginatedComments } from "../services/comments"
 import type { Cursor } from "@/features/shared/types/index.types"
 
 type UseCommentsParams = {
@@ -20,27 +20,27 @@ type UseCommentsParams = {
  * @param enabled - Conditional flag to control the query execution (automatically disabled if targetId is falsy).
  * @returns An infinite query object containing data pages, fetch status, and pagination helpers.
  */
-export function useComments({
+export function useInfiniteComments({
   targetId,
   targetType,
   pageSize = COMMENTS_PAGE_SIZE,
   enabled = true,
 }: UseCommentsParams) {
   return useInfiniteQuery({
-    queryKey: ["comments", targetType, targetId],
+    queryKey: ["comments", targetType, targetId, { pageSize }],
     queryFn: async ({ pageParam }) => {
-      return getComments({
-        targetId,
+      return getPaginatedComments({
+        targetId: targetId!,
         targetType,
-        cursor: (pageParam as Cursor) ?? undefined,
+        cursor: pageParam as Cursor | undefined,
         pageSize,
       })
     },
     enabled: !!targetId && enabled,
-    initialPageParam: null as Cursor | null,
+    initialPageParam: undefined as Cursor | undefined,
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined
     },
-    staleTime: 1000 * 5,
+    staleTime: 1000 * 60,
   })
 }

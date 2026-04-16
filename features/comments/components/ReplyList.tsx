@@ -1,14 +1,17 @@
-import { useState } from "react"
-import CommentItem from "./CommentItem"
-import type { CommentData, CommentTargetType } from "../types/comments.types"
-import { LuChevronDown, LuChevronUp } from "react-icons/lu"
-import { useReplies } from "../hooks/useReplies"
-import MiracleLoader from "@/components/miracle/Loader"
+"use client"
+
+import { useState, useMemo } from "react"
 import { useTranslations } from "next-intl"
+import { LuChevronDown, LuChevronUp } from "react-icons/lu"
+
+import CommentItem from "./CommentItem"
+import MiracleLoader from "@/components/miracle/Loader"
+import { useInfiniteReplies } from "../hooks/useInfiniteReplies"
+import type { CommentData, CommentTargetType } from "../types/comments.types"
 
 type ReplyListProps = {
   parentId: string
-  repliesCount: number
+  replyCount: number
   targetId: string
   targetType: CommentTargetType
   onReplyComment?: (repliedComment: CommentData) => void
@@ -16,52 +19,56 @@ type ReplyListProps = {
 
 export default function ReplyList({
   parentId,
-  repliesCount,
+  replyCount,
   targetId,
   targetType,
   onReplyComment,
 }: ReplyListProps) {
   const [isOpen, setIsOpen] = useState(false)
-
   const t = useTranslations("components.comment.replies")
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useReplies({
+  const { 
+    data, 
+    fetchNextPage, 
+    hasNextPage, 
+    isFetchingNextPage, 
+    isLoading 
+  } = useInfiniteReplies({
     parentId,
     enabled: isOpen,
   })
 
-  const allReplies: CommentData[] = data?.pages.flatMap((page) => page.data) ?? []
+  const allReplies = useMemo(
+    () => data?.pages.flatMap((page) => page.data) ?? [],
+    [data?.pages]
+  )
 
-  if (repliesCount <= 0) return null
+  const isAnyLoading = isLoading || isFetchingNextPage
+
+  if (replyCount <= 0) return null
 
   return (
     <div className="ml-11 flex flex-col gap-2">
-      {/* 1. MAIN TOGGLE OPEN REPLIES */}
+      {/* TRIGGER: VIEW REPLIES */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="text-blue flex w-fit cursor-pointer items-center gap-2 text-xs font-semibold"
-        >
-          <div className="bg-blue h-[1px] w-6" />
-          {t("showCount", { count: repliesCount })}
-          <LuChevronDown className="h-3 w-3" />
-        </button>
-      )}
-
-      {/* 2. LOADING */}
-      {isOpen && isLoading && allReplies.length === 0 && (
-        <div className="text-secondary flex items-center gap-2 py-2 text-xs">
-          <MiracleLoader size={14} />
-          {t("fetching")}
+        <div className="flex gap-3 items-center">
+          <div className="bg-neutral-high h-[1.5px] w-6" />
+          <button
+            onClick={() => setIsOpen(true)}
+            className="flex w-fit cursor-pointer items-center gap-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors duration-300 ease-in-out"
+          >
+            {t("view", { count: replyCount })}
+            <LuChevronDown />
+          </button>
         </div>
       )}
 
-      {/* 3. REPLY LIST */}
+      {/* LIST REPLIES */}
       {isOpen && (
-        <ul className="flex flex-col gap-4 pt-2">
-          {allReplies.map((reply) => (
+        <ul className="flex flex-col gap-5 pt-2">
+          {allReplies.map((reply, index) => (
             <CommentItem
-              key={reply.id}
+              key={index}
               comment={reply}
               targetId={targetId}
               targetType={targetType}
@@ -71,33 +78,39 @@ export default function ReplyList({
         </ul>
       )}
 
-      {/* 4. FOOTER CONTROLS */}
+      {/* FOOTER: LOADING & CONTROLS */}
       {isOpen && (
-        <div className="flex flex-col gap-3">
-          {hasNextPage && (
-            <button
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-              className="text-secondary hover:text-blue ml-8 flex items-center gap-2 text-xs font-bold transition-colors disabled:opacity-50"
-            >
-              {isFetchingNextPage ? (
-                <>
-                  <MiracleLoader size={12} /> {t("fetchingMore")}
-                </>
-              ) : (
-                t("loadMore")
-              )}
-            </button>
-          )}
+        <div className="flex gap-3 items-center">
+          <div className="bg-neutral-high h-[1.5px] w-6" />
+          
+          <div className="flex items-center gap-4">
+            {isAnyLoading ? (
+              <div className="text-primary flex items-center gap-1 text-xs font-semibold">
+                <MiracleLoader size={14} />
+                <span>{t("fetching")}</span>
+              </div>
+            ) : (
+              <>
+                {hasNextPage && (
+                  <button
+                    onClick={() => fetchNextPage()}
+                    className="flex w-fit cursor-pointer items-center gap-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors duration-300 ease-in-out"
+                  >
+                    {t("loadMore", { count: replyCount - allReplies.length })}
+                    <LuChevronDown className="h-3 w-3" />
+                  </button>
+                )}
 
-          <button
-            onClick={() => setIsOpen(false)}
-            className="text-blue flex w-fit cursor-pointer items-center gap-2 text-xs font-semibold"
-          >
-            <div className="bg-blue h-[1px] w-6" />
-            {t("hide")}
-            <LuChevronUp className="h-3 w-3" />
-          </button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="flex w-fit cursor-pointer items-center gap-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors duration-300 ease-in-out"
+                >
+                  {t("hide")}
+                  <LuChevronUp className="h-3 w-3" />
+                </button>
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -92,7 +92,7 @@ export default function CommentInput({
           <button
             onClick={onClearReply}
             type="button"
-            aria-label={t("clearReply")}
+            aria-label={t("cancelReply")}
             className="ml-auto cursor-pointer rounded-full p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800"
           >
             <LuX size={14} />

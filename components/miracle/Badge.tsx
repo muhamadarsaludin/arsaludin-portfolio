@@ -3,12 +3,14 @@ import React from "react"
 
 export type BadgeColor = "default" | "red" | "green" | "blue" | "yellow" | "purple"
 export type BadgeVariant = "primary" | "secondary"
+export type BadgeSize = "sm" | "md"
 
 export type BadgeProps = React.HTMLAttributes<HTMLSpanElement> & {
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
   color?: BadgeColor
   variant?: BadgeVariant
+  size?: BadgeSize
 }
 
 export default function MiracleBadge({
@@ -18,10 +20,18 @@ export default function MiracleBadge({
   endIcon,
   color = "default",
   variant = "primary",
+  size = "md", // Default ukuran diatur ke md
   ...props
 }: BadgeProps) {
   
-  const baseStyles = "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-colors"
+  // Base styles tanpa padding dan ukuran font agar bisa dikontrol oleh sizeStyles
+  const baseStyles = "inline-flex items-center gap-1.5 rounded-md font-medium transition-colors"
+
+  // Definisi ukuran (sm vs md)
+  const sizeStyles: Record<BadgeSize, string> = {
+    sm: "px-2 py-0.5 text-[10px]",
+    md: "px-2.5 py-1 text-xs", // Ini adalah ukuran original Anda
+  }
 
   const colorStyles: Record<BadgeColor, Record<BadgeVariant, string>> = {
     default: {
@@ -51,15 +61,16 @@ export default function MiracleBadge({
   }
 
   const selectedStyles = colorStyles[color][variant]
+  const selectedSize = sizeStyles[size]
 
   return (
     <span 
-      className={clsx(baseStyles, selectedStyles, className)} 
+      className={clsx(baseStyles, selectedSize, selectedStyles, className)} 
       {...props}
     >
-      {startIcon && <span className="flex-shrink-0">{startIcon}</span>}
+      {startIcon && <span className="shrink-0 flex items-center justify-center">{startIcon}</span>}
       {children && <span>{children}</span>}
-      {endIcon && <span className="flex-shrink-0">{endIcon}</span>}
+      {endIcon && <span className="shrink-0 flex items-center justify-center">{endIcon}</span>}
     </span>
   )
 }
