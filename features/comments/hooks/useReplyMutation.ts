@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { CommentData, PaginatedComments, CommentTargetType } from "../types/comments.types"
 import { useAuth } from "@/providers/AuthProvider"
 import { addReply, deleteReply } from "../services/replies"
-import { COMMENTS_PAGE_SIZE } from "../constants/comments.constants"
+import { COMMENTS_PAGE_SIZE, REPLIES_PAGE_SIZE } from "../constants/comments.constants"
 
 type UseReplyMutationParams = {
   targetId: string
@@ -23,7 +23,7 @@ export function useReplyMutation({
   targetId, 
   targetType, 
   commentPageSize = COMMENTS_PAGE_SIZE,
-  replyPageSize = COMMENTS_PAGE_SIZE 
+  replyPageSize = REPLIES_PAGE_SIZE 
 }: UseReplyMutationParams) {
   const queryClient = useQueryClient()
   
@@ -32,16 +32,12 @@ export function useReplyMutation({
   
   const { user, profile } = useAuth()
 
-  /**
-   * Mutation to add a new reply.
-   */
   const add = useMutation({
     mutationFn: addReply,
     onMutate: async (variables) => {
       if (!user || !profile) return
 
       const pId = variables.parentId
-
       const repliesKey = ["replies", pId, { pageSize: replyPageSize }]
 
       await queryClient.cancelQueries({ queryKey: repliesKey })
@@ -72,18 +68,28 @@ export function useReplyMutation({
         },
       }
 
-      // 1. Update the Reply Thread
+      // 1. Update the Reply Thread (Append to LAST page)
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
-        if (!old) return old
+        if (!old) {
+          return {
+            pages: [{ data: [optimisticReply], hasMore: false, nextCursor: null }],
+            pageParams: [undefined],
+          }
+        }
+
+        const lastPageIndex = old.pages.length - 1
+
         return {
           ...old,
           pages: old.pages.map((page, i) =>
-            i === 0 ? { ...page, data: [optimisticReply, ...page.data] } : page
+            i === lastPageIndex 
+              ? { ...page, data: [...page.data, optimisticReply] } 
+              : page
           ),
         }
       })
 
-      // 2. Update Parent's reply_count in the Main List
+      // 2. Update Parent's reply_count
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey, (old) => {
         if (!old) return old
         return {
@@ -97,7 +103,7 @@ export function useReplyMutation({
         }
       })
 
-      // 3. Update Global Comment Count
+      // 3. Update Global Count
       queryClient.setQueryData<number>(countKey, (old) => (old ?? 0) + 1)
 
       return { previousReplies, previousMain, previousCount, repliesKey }
@@ -114,9 +120,6 @@ export function useReplyMutation({
     },
   })
 
-  /**
-   * Mutation to delete a reply.
-   */
   const remove = useMutation({
     mutationFn: deleteReply,
     onMutate: async (variables) => {
@@ -131,7 +134,6 @@ export function useReplyMutation({
       const previousMain = queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
       const previousCount = queryClient.getQueryData<number>(countKey)
 
-      // 1. Remove from Reply Thread
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
         if (!old) return old
         return {
@@ -143,7 +145,6 @@ export function useReplyMutation({
         }
       })
 
-      // 2. Decrement Parent's reply_count in the Main List
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey, (old) => {
         if (!old) return old
         return {
@@ -157,7 +158,6 @@ export function useReplyMutation({
         }
       })
 
-      // 3. Update Global Comment Count
       queryClient.setQueryData<number>(countKey, (old) => Math.max(0, (old ?? 0) - 1))
 
       return { previousReplies, previousMain, previousCount, repliesKey }

@@ -96,7 +96,7 @@ export async function getPaginatedReplies({
 
   if (cursor) {
     query = query.or(
-      `created_at.lt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.lt.${cursor.id})`
+      `created_at.gt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.gt.${cursor.id})`
     )
   }
 
