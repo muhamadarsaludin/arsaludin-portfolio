@@ -54,7 +54,7 @@ export default function CommentDrawer({
       isOpen={isOpen}
       onClose={onClose}
       position={isMobile ? "bottom" : "right"}
-      size={isMobile ? 500 : 600}
+      size={isMobile ? 500 : 450}
       title={`${t("title")} (${commentCount})`}
       footer={
         <CommentInput

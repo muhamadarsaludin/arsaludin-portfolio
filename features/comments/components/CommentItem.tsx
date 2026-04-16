@@ -24,6 +24,7 @@ type CommentItemProps = {
   comment: CommentData
   targetId: string
   targetType: CommentTargetType
+  isReply?: boolean
   onReplyComment?: (repliedComment: CommentData) => void
 }
 
@@ -31,6 +32,7 @@ export default function CommentItem({
   comment,
   targetId,
   targetType,
+  isReply = false,
   onReplyComment,
 }: CommentItemProps) {
   const t = useTranslations("components.comment.item")
@@ -77,9 +79,12 @@ export default function CommentItem({
         isDeleting && "pointer-events-none opacity-50"
       )}
     >
-      <div className="group/comment flex items-start justify-between gap-4">
+      <div className="group/comment flex items-start justify-between gap-3">
         <div className="flex flex-1 gap-3">
-          <div className="bg-blue text-primary-inv relative h-8 w-8 shrink-0 overflow-hidden rounded-full">
+          <div className={clsx(
+            "bg-blue text-primary-inv relative shrink-0 overflow-hidden rounded-full",
+            isReply ? "h-5 w-5 md:h-6 md:w-6" : "h-6 w-6 md:h-8 md:w-8"
+            )}>
             {comment.author?.avatar_url ? (
               <Image
                 src={authorAvatar}
@@ -96,10 +101,10 @@ export default function CommentItem({
             )}
           </div>
           <div className="flex flex-col gap-0.5">
-            <div className="flex items-center gap-1.5">
-              <h3 className="text-primary font-semibold">{comment.author.full_name}</h3>
+            <div className="flex items-center gap-1">
+              <h3 className="text-primary text-sm font-semibold">{comment.author.full_name}</h3>
               {comment.author.role === "admin" && (
-                <MiracleBadge startIcon={<LuUserRound/>} color="blue" size="sm" className="capitalize">
+                <MiracleBadge color="blue" size="sm" className="capitalize">
                   {comment.author.role}
                 </MiracleBadge>
               )}
@@ -107,7 +112,7 @@ export default function CommentItem({
 
             <p className="text-secondary text-sm leading-relaxed">
               {comment.recipient && (
-                <span className="text-blue mr-1 font-semibold">@{comment.recipient.full_name}</span>
+                <span className="text-blue mr-1">@{comment.recipient.full_name}</span>
               )}
               {comment.content}
             </p>

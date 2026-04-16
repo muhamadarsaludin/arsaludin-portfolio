@@ -48,7 +48,7 @@ export default function ReplyList({
   if (replyCount <= 0) return null
 
   return (
-    <div className="ml-11 flex flex-col gap-2">
+    <div className="ml-9 md:ml-11 flex flex-col gap-2">
       {/* TRIGGER: VIEW REPLIES */}
       {!isOpen && (
         <div className="flex gap-3 items-center">
@@ -72,6 +72,7 @@ export default function ReplyList({
               comment={reply}
               targetId={targetId}
               targetType={targetType}
+              isReply={true}
               onReplyComment={onReplyComment}
             />
           ))}
