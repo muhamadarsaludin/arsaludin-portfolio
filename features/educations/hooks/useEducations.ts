@@ -3,19 +3,19 @@ import { getEducations } from "../services/educations"
 
 type UseEducationsParams = {
   locale: string
-  isAdminView?: boolean
 }
 
 /**
- * Custom hook to fetch professional experiences using TanStack Query.
- * @param {UseEducationsParams} params - The locale and view mode.
- * @returns The query result object including data, isLoading, and error.
+ * Custom hook to fetch education history using TanStack Query.
+ * @param props - The hook properties.
+ * @param props.locale - The language code (e.g., 'en', 'id') for content translation.
+ * @returns The query result containing an array of Education objects.
  */
-export const useEducations = ({ locale, isAdminView = false }: UseEducationsParams) => {
+export const useEducations = ({ locale }: UseEducationsParams) => {
   return useQuery({
-    queryKey: ["educations", locale, { isAdminView }],
-    queryFn: () => getEducations({ locale, isAdminView }),
-    staleTime: isAdminView ? 0 : 1000 * 60 * 60,
-    refetchOnWindowFocus: isAdminView,
+    queryKey: ["educations", locale],
+    queryFn: () => getEducations({ locale }),
+    staleTime: 1000 * 60 * 60,
+    refetchOnWindowFocus: false
   })
 }

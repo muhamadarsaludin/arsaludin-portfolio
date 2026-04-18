@@ -14,11 +14,10 @@ export default async function EducationsSection({ className }: { className?: str
   const t = await getTranslations("pages.home.educations")
   const locale = await getLocale()
   const queryClient = new QueryClient()
-  const isAdminView = false
 
   await queryClient.prefetchQuery({
-    queryKey: ["educations", locale, { isAdminView }],
-    queryFn: () => getEducations({ locale, isAdminView }),
+    queryKey: ["educations", locale],
+    queryFn: () => getEducations({ locale }),
   })
 
   return (

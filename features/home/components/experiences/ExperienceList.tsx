@@ -10,9 +10,9 @@ export function ExperienceList({ locale }: { locale: string }) {
   const {
     data: experiences,
     isLoading,
-    isError,
+    isError
   } = useExperiences({
-    locale,
+    locale
   })
 
   if (isLoading) return <ExperienceListSkeleton />

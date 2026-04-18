@@ -24,7 +24,7 @@ export type ServiceTranslationEntity = {
   name: string
   description: string
   service_id: string
-  locale_id: string
+  i18n_id: string
   user_id: string
   created_at: string
   updated_at: string

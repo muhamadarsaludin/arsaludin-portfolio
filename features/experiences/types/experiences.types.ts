@@ -17,6 +17,10 @@ export type ExperienceEntity = {
   updated_at: string | null
 }
 
+/**
+ * TRANSLATION ENTITY
+ * Raw data from 'experience_translations' table.
+ */
 export type ExperienceTranslationEntity = {
   id: string
   role: string
@@ -26,7 +30,7 @@ export type ExperienceTranslationEntity = {
   user_id: string
   create_at: string
   updated_at: string
-  locale_id: string
+  i18n_id: string
   experience_id: string
 }
 

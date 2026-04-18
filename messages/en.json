@@ -95,9 +95,9 @@
     },
     "experienceCard": {
       "keyContributions": "Contributions",
-      "gallery": "Gallery",
       "show": "Show detail",
       "hide": "Hide detail",
+      "gallery": "Gallery",
       "timelineLabel": "Timeline",
       "locationLabel": "Location",
       "imageCounter": "Image {current} of {total}",
@@ -107,7 +107,13 @@
     "educationCard": {
       "description": "Description",
       "show": "Show detail",
-      "hide": "Hide detail"
+      "hide": "Hide detail",
+      "gallery": "Gallery",
+      "timelineLabel": "Timeline",
+      "locationLabel": "Location",
+      "imageCounter": "Image {current} of {total}",
+      "tipLabel": "Tip",
+      "tip": "Use your keyboard arrow keys or click thumbnails to navigate between images."
     },
     "achievementCard": {
       "viewDetail": "View detail",

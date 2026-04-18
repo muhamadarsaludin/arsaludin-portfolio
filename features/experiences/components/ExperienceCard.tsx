@@ -115,7 +115,7 @@ export const ExperienceCard = ({
             </p>
           </div>
         </div>
-        {experience.key_contributions && (
+        {(experience.key_contributions || experience.images) && (
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="cursor-pointer rounded-md p-2 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800"
@@ -134,19 +134,22 @@ export const ExperienceCard = ({
         isOpen ? "max-h-300 opacity-100" : "max-h-0 opacity-0"
       )}>
         <div className="border-primary mt-5 flex flex-col gap-5 md:gap-6 border-t pt-5 md:mt-6 md:pt-6">
-          <div className="flex flex-col gap-3">
-            <h4 className="text-sm font-bold uppercase">{t("keyContributions")} :</h4>
-            <div className="text-secondary flex max-w-full flex-col gap-1.5 pl-4">
-              {experience.key_contributions?.map((point, index) => (
-                <div key={index} className="flex gap-4">
-                  <span className="mt-2.25 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-600 dark:bg-neutral-400" />
-                  <MiracleMarkdown content={point} />
-                </div>
-              ))}
+          {/* KEY CONTRIBUTIONS */}
+          {experience.key_contributions && (
+            <div className="flex flex-col gap-3">
+              <h4 className="text-sm font-bold uppercase">{t("keyContributions")} :</h4>
+              <div className="text-secondary flex max-w-full flex-col gap-1.5 pl-4">
+                {experience.key_contributions?.map((point, index) => (
+                  <div key={index} className="flex gap-4">
+                    <span className="mt-2.25 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-600 dark:bg-neutral-400" />
+                    <MiracleMarkdown content={point} />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Gallery Horizontal Scroll */}
+          {/* Gallery */}
           {experience.images && experience.images.length > 0 && (
             <div className="flex flex-col gap-3">
               <h4 className="text-sm font-bold uppercase">{t("gallery")} :</h4>

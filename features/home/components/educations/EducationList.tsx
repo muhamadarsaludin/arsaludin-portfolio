@@ -10,9 +10,9 @@ export function EducationList({ locale }: { locale: string }) {
   const {
     data: educations,
     isLoading,
-    isError,
+    isError
   } = useEducations({
-    locale,
+    locale
   })
 
   if (isLoading) return <EducationListSkeleton />

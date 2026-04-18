@@ -20,7 +20,7 @@ type GetExperiencesResponse = Pick<ExperienceEntity, "id" | "company" | "company
 /**
  * Fetches professional experience history from the database.
  * @param locale - The language code to filter translations (e.g., 'en', 'id').
- * @returns A promise that resolves to an array of formatted Service objects.
+ * @returns A promise that resolves to an array of formatted Experience objects.
  * @throws Will throw an error if the Supabase query fails.
  */
 export async function getExperiences({

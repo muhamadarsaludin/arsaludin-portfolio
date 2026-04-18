@@ -1,26 +1,32 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import type { Education, EducationTranslation } from "../types/educations.types"
+import type { Education, EducationEntity, EducationTranslationEntity } from "../types/educations.types"
+import { ImageAsset } from "@/features/images/types/images.types"
 
 type GetEducationsParams = {
   locale: string
-  isAdminView?: boolean
 }
 
+type GetEducationsResponse = Pick<EducationEntity, "id" | "school" | "logo" | "grade" | "start_date" | "end_date" | "is_show">
+  & {translations: (Pick<
+    EducationTranslationEntity, "degree" | "field" | "location" | "description"
+    > & { 
+      i18n: { locale: string } 
+    })[]
+    images: ImageAsset[]
+  }
+
+
+
 /**
- * Fetches education data from Supabase with internationalization (i18n) support.
- * * This function performs a complex join between the 'education' table and its
- * corresponding translation and i18n tables. It ensures that only the relevant
- * translation for the requested locale is retrieved.
- *
- * @param {GetEducationParams} params - The configuration object for the fetch request.
- * @returns {Promise<Education[]>} A promise that resolves to an array of mapped Education objects.
+ * Fetches education history from the database.
+ * @param locale - The language code to filter translations (e.g., 'en', 'id').
+ * @returns A promise that resolves to an array of formatted Education objects.
  * @throws Will throw an error if the Supabase query fails.
  */
 export async function getEducations({
-  locale,
-  isAdminView = false,
+  locale
 }: GetEducationsParams): Promise<Education[]> {
   const supabase = await createClient()
 
@@ -36,8 +42,7 @@ export async function getEducations({
     start_date,
     end_date,
     is_show,
-    ${isAdminView ? "user_id, created_at, updated_at," : ""}
-    education_translations!inner (
+    translations:education_translations!inner (
       degree,
       field,
       location,
@@ -45,19 +50,22 @@ export async function getEducations({
       i18n!inner (
         locale
       )
-    )
+    ),
+    images(
+      id,
+      image_url,
+      alt,
+      order_index
+    )  
   `
 
   let query = supabase
     .from("educations")
-    .select(columns)
+    .select<string, GetEducationsResponse>(columns)
+    .eq("is_show", true)
     .eq("education_translations.i18n.locale", locale)
     .order("start_date", { ascending: false })
-
-  // Apply visibility filters for public-facing views
-  if (!isAdminView) {
-    query = query.eq("is_show", true)
-  }
+    .order("order_index", { referencedTable: 'images', ascending: true })
 
   const { data, error } = await query
 
@@ -68,13 +76,8 @@ export async function getEducations({
 
   if (!data) return []
 
-  /**
-   * Map the raw Supabase response to the Education type.
-   * Handles the extraction of nested translation data and ensures null-safety.
-   */
-  return data.map((education: any) => {
-    // Extract the primary translation based on the locale filter
-    const t = education.education_translations?.[0] as EducationTranslation | undefined
+  return data.map((education) => {
+    const t = education.translations?.[0]
 
     return {
       id: education.id,
@@ -88,9 +91,7 @@ export async function getEducations({
       field: t?.field ?? "",
       location: t?.location ?? "",
       description: t?.description ?? null,
-      user_id: education.user_id ?? null,
-      create_at: education.created_at ?? null,
-      updated_at: education.updated_at ?? null,
-    } as Education
+      images: education.images ?? null
+    }
   })
 }

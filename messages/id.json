@@ -95,9 +95,9 @@
     },
     "experienceCard": {
       "keyContributions": "Kontribusi",
-      "gallery": "Galeri",
       "show": "Lihat detail",
       "hide": "Sembunyikan detail",
+      "gallery": "Galeri",
       "timelineLabel": "Timeline",
       "locationLabel": "Lokasi",
       "imageCounter": "Gambar {current} dari {total}",
@@ -107,7 +107,13 @@
     "educationCard": {
       "description": "Deskripsi",
       "show": "Lihat detail",
-      "hide": "Sembunyikan detail"
+      "hide": "Sembunyikan detail",
+      "gallery": "Galeri",
+      "timelineLabel": "Timeline",
+      "locationLabel": "Lokasi",
+      "imageCounter": "Gambar {current} dari {total}",
+      "tipLabel": "Petunjuk",
+      "tip": "Gunakan tombol panah pada papan tik atau klik pratinjau untuk beralih antar gambar."
     },
     "achievementCard": {
       "viewDetail": "Lihat detail",

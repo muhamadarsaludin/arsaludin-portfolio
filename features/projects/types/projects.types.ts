@@ -31,7 +31,7 @@ export type ProjectTranslationEntity = {
   additional_info: string | null
   additional_info_label: string | null
   project_id: string
-  locale_id: string
+  i18n_id: string
   user_id: string
   created_at: string
   updated_at: string
