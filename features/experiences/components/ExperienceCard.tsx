@@ -269,7 +269,7 @@ export const ExperienceCard = ({
                   <LuCalendar size={18} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] uppercase tracking-tight text-secondary">Timeline</span>
+                  <span className="text-[10px] uppercase tracking-tight text-secondary">{t("timelineLabel")}</span>
                   <span className="text-sm font-medium">{startDate} - {endDate}</span>
                 </div>
               </div>
@@ -279,7 +279,7 @@ export const ExperienceCard = ({
                   <LuMapPin size={18} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] uppercase tracking-tight text-secondary">Location</span>
+                  <span className="text-[10px] uppercase tracking-tight text-secondary">{t("locationLabel")}</span>
                   <span className="text-sm font-medium">{experience.location}</span>
                 </div>
               </div>
@@ -287,9 +287,11 @@ export const ExperienceCard = ({
 
             <div className="mt-auto pt-3 md:pt-6 flex flex-col gap-3 md:gap-4">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-secondary font-medium">
-                  Image {selectedIndex! + 1} of {experience.images?.length}
-                </span>
+                {selectedIndex !== null && experience.images && (
+                  <span className="text-secondary font-medium">
+                    {t("imageCounter", { current: selectedIndex + 1, total: experience.images.length })}
+                  </span>
+                )}
                 <div className={clsx(
                   "h-1 w-4 rounded-full",
                   zoomScale > 1 ? "bg-blue-500" : "bg-neutral-med"
@@ -297,7 +299,7 @@ export const ExperienceCard = ({
               </div>
 
               <p className="text-xs italic bg-secondary text-secondary p-3 rounded-lg border border-dashed border-primary leading-relaxed">
-                Tip: Use your keyboard arrow keys or click thumbnails to navigate between photos.
+                {t("tipLabel")}: {t("tip")}
               </p>
             </div>
           </div>

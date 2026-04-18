@@ -97,7 +97,12 @@
       "keyContributions": "Contributions",
       "gallery": "Gallery",
       "show": "Show detail",
-      "hide": "Hide detail"
+      "hide": "Hide detail",
+      "timelineLabel": "Timeline",
+      "locationLabel": "Location",
+      "imageCounter": "Image {current} of {total}",
+      "tipLabel": "Tip",
+      "tip": "Use your keyboard arrow keys or click thumbnails to navigate between images."
     },
     "educationCard": {
       "description": "Description",

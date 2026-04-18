@@ -97,7 +97,12 @@
       "keyContributions": "Kontribusi",
       "gallery": "Galeri",
       "show": "Lihat detail",
-      "hide": "Sembunyikan detail"
+      "hide": "Sembunyikan detail",
+      "timelineLabel": "Timeline",
+      "locationLabel": "Lokasi",
+      "imageCounter": "Gambar {current} dari {total}",
+      "tipLabel": "Petunjuk",
+      "tip": "Gunakan tombol panah pada papan tik atau klik pratinjau untuk beralih antar gambar."
     },
     "educationCard": {
       "description": "Deskripsi",
