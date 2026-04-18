@@ -14,11 +14,10 @@ export default async function ExperiencesSection({ className }: { className?: st
   const t = await getTranslations("pages.home.experiences")
   const locale = await getLocale()
   const queryClient = new QueryClient()
-  const isAdminView = false
 
   await queryClient.prefetchQuery({
-    queryKey: ["experiences", locale, { isAdminView }],
-    queryFn: () => getExperiences({ locale, isAdminView }),
+    queryKey: ["experiences", locale],
+    queryFn: () => getExperiences({ locale }),
   })
 
   return (

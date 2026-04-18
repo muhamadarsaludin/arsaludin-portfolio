@@ -3,19 +3,19 @@ import { getExperiences } from "../services/experiences"
 
 type UseExperiencesParams = {
   locale: string
-  isAdminView?: boolean
 }
 
 /**
  * Custom hook to fetch professional experiences using TanStack Query.
- * @param {UseExperiencesParams} params - The locale and view mode.
- * @returns The query result object including data, isLoading, and error.
+ * @param props - The hook properties.
+ * @param props.locale - The language code (e.g., 'en', 'id') for content translation.
+ * @returns The query result containing an array of Experience objects.
  */
-export const useExperiences = ({ locale, isAdminView = false }: UseExperiencesParams) => {
+export const useExperiences = ({ locale }: UseExperiencesParams) => {
   return useQuery({
-    queryKey: ["experiences", locale, { isAdminView }],
-    queryFn: () => getExperiences({ locale, isAdminView }),
-    staleTime: isAdminView ? 0 : 1000 * 60 * 60,
-    refetchOnWindowFocus: isAdminView,
+    queryKey: ["experiences", locale],
+    queryFn: () => getExperiences({ locale }),
+    staleTime: 1000 * 60 * 60,
+    refetchOnWindowFocus: false,
   })
 }

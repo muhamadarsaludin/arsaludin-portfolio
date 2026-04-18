@@ -26,7 +26,7 @@ type GetServicesResponse = Pick<
 
 /**
  * Fetches services from the database with localized content.
- * @param locale - The language code to filter translations (e.g., 'en', 'id'). Defaults to the application's default locale.
+ * @param locale - The language code to filter translations (e.g., 'en', 'id').
  * @returns A promise that resolves to an array of formatted Service objects.
  * @throws Will throw an error if the Supabase query fails.
  */
