@@ -31,7 +31,7 @@ export default function TestimonialCard({ testimonial }: { testimonial: Testimon
           className={clsx(
             "absolute z-1 h-3 w-3 rotate-45",
             "bg-primary-inv",
-            "-bottom-[6px] left-4"
+            "-bottom-1.5 left-4"
           )}
         />
       </div>
@@ -82,7 +82,7 @@ export default function TestimonialCard({ testimonial }: { testimonial: Testimon
               target="_blank" 
               rel="noopener noreferrer"
               aria-label={`View ${testimonial.name}'s LinkedIn profile`}
-              className="cursor-pointer lex items-center justify-center cursor-pointer hover:scale-105 text-neutral-600 dark:text-neutral-400 hover:text-blue-600 hover:dark:text-blue-400 transition-all duration-300 ease-in-out p-1">
+              className="cursor-pointer lex items-center justify-center hover:scale-105 text-neutral-600 dark:text-neutral-400 hover:text-blue-600 hover:dark:text-blue-400 transition-all duration-300 ease-in-out p-1">
               <FaLinkedin size={20}/>
             </a>
           )}

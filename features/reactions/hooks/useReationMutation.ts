@@ -11,6 +11,11 @@ import type {
   PaginatedReactions,
 } from "../types/reactions.types"
 
+type UseReactionMutationParams = {
+  targetId: string
+  targetType: ReactionTargetType
+}
+
 /**
  * Handles toggling reactions with Optimistic UI Updates.
  * Orchestrates synchronization between 'reaction-summary' and 'reactions' caches.
@@ -20,10 +25,7 @@ import type {
 export function useReactionMutation({
   targetId,
   targetType
-}: {
-  targetId: string
-  targetType: ReactionTargetType
-}) {
+}: UseReactionMutationParams) {
   const queryClient = useQueryClient()
   const { user, profile } = useAuth()
 

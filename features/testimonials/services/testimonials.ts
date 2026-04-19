@@ -2,9 +2,26 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { MAX_TOP_REACTIONS } from "@/features/reactions/constants/reactions.constants"
-import { Testimonial, TestimonialTranslation } from "../types/testimonials.types"
+import { Testimonial, TestimonialEntity, TestimonialTranslationEntity } from "../types/testimonials.types"
+import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 
-export async function getFeaturedTestimonials({ locale } : { locale: string }): Promise<Testimonial[]> {
+type GetFeaturedTestimonialsParams = {
+  locale: string
+}
+
+type GetFeaturedTestimonialsResponse = Pick<TestimonialEntity, "id" | "name" | "company" | "avatar_url" | "linkedin" | "relationship" | "is_show" | "is_featured" | "order_index">
+  & {
+    translations: (Pick<TestimonialTranslationEntity, "role" | "content" | "additional_info"> 
+    & {
+      i18n: { locale: string }
+    })[]
+    reaction_counts: ReactionCount[]
+    reactions: Reaction[]
+  }
+  
+export async function getFeaturedTestimonials({ 
+  locale 
+} : GetFeaturedTestimonialsParams): Promise<Testimonial[]> {
   const supabase = await createClient()
 
   const {
@@ -21,10 +38,7 @@ export async function getFeaturedTestimonials({ locale } : { locale: string }): 
     is_show,
     is_featured,
     order_index,
-    user_id, 
-    created_at, 
-    updated_at,
-    testimonial_translations!inner (
+    translations:testimonial_translations!inner (
       role,
       content,
       additional_info,
@@ -32,30 +46,38 @@ export async function getFeaturedTestimonials({ locale } : { locale: string }): 
         locale
       )
     ),
-    testimonial_reaction_counts(
+    reaction_counts:testimonial_reaction_counts(
       emoji,
       count
     ),
     reactions(
+      id,
       emoji,
-      user_id
-    ) 
+      user_id,
+      created_at,
+      updated_at,
+      author:profiles(
+        id,
+        full_name,
+        email,
+        role,
+        avatar_url
+      )
+    )
   `
 
-  let query = supabase
+  const { data, error } = await supabase
     .from("testimonials")
-    .select(columns)
-    .eq("testimonial_translations.i18n.locale", locale)
+    .select<string, GetFeaturedTestimonialsResponse>(columns)
     .eq("is_show", true)
     .eq("is_featured", true)
+    .eq("testimonial_translations.i18n.locale", locale)
     .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000")
     .order("order_index", { ascending: true })
     .order("count", {
       referencedTable: "testimonial_reaction_counts",
       ascending: false,
     })
-
-  const { data, error } = await query
 
   if (error) {
     console.error("Error fetching featured testimonials:", error)
@@ -64,18 +86,15 @@ export async function getFeaturedTestimonials({ locale } : { locale: string }): 
 
   if (!data) return []
 
-  return data.map((testimonial: any) => {
-    const t = testimonial.testimonial_translations?.[0] as TestimonialTranslation | undefined
-    const allReactions = testimonial.testimonial_reaction_counts || []
+  return data.map((testimonial) => {
+    const t = testimonial.translations?.[0]
     const userReaction = testimonial.reactions?.[0] ?? null
+    const allReactions = testimonial.reaction_counts || []
+    const totalEmojis = allReactions.length
     const totalReactions = allReactions.reduce(
-      (acc: number, curr: any) => acc + (curr.count || 0),
+      (acc, curr) => acc + (curr.count || 0), 
       0
     )
-    const topReactions = allReactions.slice(0, MAX_TOP_REACTIONS)
-    const totalEmojis = allReactions.length
-    const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
-
 
     return {
       id: testimonial.id,
@@ -84,23 +103,18 @@ export async function getFeaturedTestimonials({ locale } : { locale: string }): 
       avatar_url: testimonial.avatar_url ?? null,
       linkedin: testimonial.linkedin ?? null,
       relationship: testimonial.relationship,
-      role: t?.role ?? "",
-      content: t?.content ?? "",
-      additional_info: t?.additional_info ?? null,
       is_show: testimonial.is_show,
       is_featured: testimonial.is_featured,
       order_index: testimonial.order_index,
-      user_id: testimonial.user_id,
-      created_at: testimonial.created_at,
-      updated_at: testimonial.updated_at,
+      role: t?.role ?? "",
+      content: t?.content ?? "",
+      additional_info: t?.additional_info ?? null,
       reaction_summary: {
         userReaction,
-        totalReactions,
         allReactions,
-        topReactions,
-        totalEmojis,
-        remainingEmojis,
+        totalReactions,
+        totalEmojis
       }
-    } as Testimonial
+    }
   })
 }

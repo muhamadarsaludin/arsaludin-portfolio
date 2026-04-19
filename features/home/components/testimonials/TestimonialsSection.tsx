@@ -2,13 +2,10 @@ import Heading from "@/components/Heading"
 import Section from "@/components/Section"
 import { getLocale, getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
-import { IoSparkles } from "react-icons/io5"
 import clsx from "clsx"
 import { getFeaturedTestimonials } from "@/features/testimonials/services/testimonials"
 import { TestimonialList } from "./TestimonialList"
 import Quote from "@/features/testimonials/components/Quote"
-import Link from "next/link"
-import MiracleButton from "@/components/miracle/Button"
 
 /**
  * Server Component: Prefetches featured testimonials for optimal SEO and performance.

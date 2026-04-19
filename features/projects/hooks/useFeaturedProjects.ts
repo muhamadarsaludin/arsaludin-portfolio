@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { getFeaturedProjects } from "../services/projects"
 
-type UseFeaturedProjectsProps = {
+type UseFeaturedProjectsParams = {
   locale: string
 }
 
@@ -13,7 +13,7 @@ type UseFeaturedProjectsProps = {
  */
 export function useFeaturedProjects({
   locale,
-}: UseFeaturedProjectsProps) {
+}: UseFeaturedProjectsParams) {
   return useQuery({
     queryKey: ["featured-projects", locale],
     queryFn: () => getFeaturedProjects({ locale }),

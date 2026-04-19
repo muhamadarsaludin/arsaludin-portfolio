@@ -1,6 +1,10 @@
 import { ReactionSummary } from "@/features/reactions/types/reactions.types"
 
-export type Testimonial = {
+/**
+ * TESTIMONIAL ENTITY
+ * Raw data from 'testimonials' table.
+ */
+export type TestimonialEntity = {
   id: string
   name: string
   company: string
@@ -9,20 +13,31 @@ export type Testimonial = {
   relationship: string
   is_show: boolean
   is_featured: boolean
-  role: string
-  content: string
-  additional_info: string | null
+  order_index: number
   user_id: string
   created_at: string
   updated_at: string
-  reaction_summary: ReactionSummary
 }
 
-export type TestimonialTranslation = {
-  role: string
+/**
+ * TRANSLATION ENTITY
+ * Raw data from 'testimonial_translations' table.
+ */
+export type TestimonialTranslationEntity = {
+  id: string
+  role: string 
   content: string
   additional_info: string | null
-  i18n: {
-    locale: string
-  }
+  testimonial_id: string
+  i18n_id: string
+  user_id: string
+  created_at: string
+  updated_at: string
 }
+
+
+export type Testimonial = Pick<TestimonialEntity, "id" | "name" | "company" | "avatar_url" | "linkedin" | "relationship" | "is_show" | "is_featured" | "order_index" >
+  & Pick<TestimonialTranslationEntity, "role" | "content" | "additional_info" >
+  & {
+      reaction_summary: ReactionSummary
+    }
