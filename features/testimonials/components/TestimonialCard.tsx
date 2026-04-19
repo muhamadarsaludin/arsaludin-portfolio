@@ -67,7 +67,7 @@ export default function TestimonialCard({ testimonial }: { testimonial: Testimon
                   trigger={
                     <LuInfo className="text-sm text-blue hover:scale-110 transition-all duration-300 ease-in-out" />
                   }>
-                    <div className="max-w-[180px]">
+                    <div className="max-w-45">
                       {testimonial.additional_info}
                     </div>
                 </MiracleTooltip>
@@ -82,7 +82,7 @@ export default function TestimonialCard({ testimonial }: { testimonial: Testimon
               target="_blank" 
               rel="noopener noreferrer"
               aria-label={`View ${testimonial.name}'s LinkedIn profile`}
-              className="cursor-pointer lex items-center justify-center hover:scale-105 text-neutral-600 dark:text-neutral-400 hover:text-blue-600 hover:dark:text-blue-400 transition-all duration-300 ease-in-out p-1">
+              className="cursor-pointer lex items-center justify-center cursor-pointer hover:scale-105 text-neutral-600 dark:text-neutral-400 hover:text-blue-600 hover:dark:text-blue-400 transition-all duration-300 ease-in-out p-1">
               <FaLinkedin size={20}/>
             </a>
           )}
