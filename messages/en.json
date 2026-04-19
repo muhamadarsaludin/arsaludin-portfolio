@@ -118,6 +118,9 @@
     "achievementCard": {
       "viewDetail": "View detail",
       "viewCredential": "View credential!",
+      "modal": {
+        "title": "Detail Achievement" 
+      },
       "label": {
         "issuingOrganization": "Issuing Organization",
         "credentialID": "Credential ID",

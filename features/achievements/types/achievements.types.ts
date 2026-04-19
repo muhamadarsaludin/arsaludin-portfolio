@@ -1,6 +1,12 @@
+import { Category } from "@/features/categories/types/categories.types"
 import type { ReactionSummary } from "@/features/reactions/types/reactions.types"
 
-export type Achievement = {
+/**
+ * ACHIEVEMENT ENTITY
+ * Raw data from 'achievements' table.
+ */
+
+export type AchievementEntity = {
   id: string
   name: string
   type: string
@@ -17,6 +23,25 @@ export type Achievement = {
   user_id: string
   created_at: string
   updated_at: string
-  reaction_summary: ReactionSummary
-  categories: string[]
 }
+
+/**
+ * ACHIEVEMENT CATEGORY ENTITY
+ * Raw data from 'achievement_categories' table.
+ */
+export type AchievementCategoryEntity = {
+  id: string
+  Achievement_id: string
+  category_id: string
+  user_id: string
+  created_at: string
+  updated_at: string
+}
+
+export type Achievement = Pick<
+  AchievementEntity,
+  "id" | "name" | "type" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index">
+  & { 
+    categories: Category[]
+    reaction_summary: ReactionSummary
+  }

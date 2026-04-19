@@ -118,6 +118,9 @@
     "achievementCard": {
       "viewDetail": "Lihat detail",
       "viewCredential": "Lihat kredensial!",
+      "modal": {
+        "title": "Detail Pencapaian" 
+      },
       "label": {
         "issuingOrganization": "Organisasi Penerbit",
         "credentialID": "ID Kredensial",

@@ -35,7 +35,7 @@ export function useCommentCount({
     queryKey: ["comment-count", targetType, targetId],
     queryFn: () => getCommentCount({ targetId, targetType }),
     initialData: initialCount,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60,
     enabled: !!targetId && enabled,
   })
 }

@@ -1,141 +1,131 @@
 "use client"
 
 import { useState } from "react"
-import clsx from "clsx"
 import Image from "next/image"
 import type { Achievement } from "../types/achievements.types"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleModal from "@/components/miracle/Modal"
 import { useLocale } from "next-intl"
 import { useTranslations } from "use-intl"
-import { LuArrowUpRight, LuAward, LuSquareArrowOutUpRight } from "react-icons/lu"
+import { LuAward, LuMinus, LuPlus } from "react-icons/lu"
 import { formatDate } from "@/utils/format-date"
-import MiracleTooltip from "@/components/miracle/Tooltip"
-import MiracleBadge from "@/components/miracle/Badge"
+import MiracleBadge, { BadgeColor } from "@/components/miracle/Badge"
 import MiracleButton from "@/components/miracle/Button"
 
 export default function AchievementCard({ achievement }: { achievement: Achievement }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [zoomScale, setZoomScale] = useState(1)
+
+  const badgeColor: Record<string, BadgeColor> = {
+    award: "yellow",
+    course: "blue"
+  }
+
   const locale = useLocale()
   const t = useTranslations("components.achievementCard")
 
   return (
-    <>
-      <div className="relative flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col sm:w-auto sm:max-w-none">
-        <div 
-          onClick={() => setIsModalOpen(true)}
-          className="relative group/cert aspect-7/5 w-full overflow-hidden rounded-2xl border border-primary cursor-pointer"
-        >
-          <Image
-            className="object-cover transition-transform duration-300 ease-in-out group-hover/cert:scale-103"
-            src={achievement.image}
-            alt={achievement.name}
-            fill
-            sizes="450px"
-          />
-          
-          <div 
-            className={clsx(
-              "absolute inset-0 flex p-4 items-end",
-              "bg-linear-to-b from-transparent to-white dark:to-neutral-950",
-              "opacity-0 group-hover/cert:opacity-100 transition-all duration-300 ease-in-out"
+    <div className="relative flex w-[80vw] max-w-75 shrink-0 snap-start flex-col sm:w-auto sm:max-w-none">
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="relative group/cert aspect-7/5 w-full overflow-hidden rounded-2xl border border-primary cursor-pointer"
+      >
+        <Image
+          className="object-cover transition-transform duration-300 ease-in-out group-hover/cert:scale-103"
+          src={achievement.image}
+          alt={achievement.name}
+          fill
+          sizes="450px"
+        />
+      </button>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between gap-4 pt-5">
+        <div className="flex gap-2 items-start min-w-0">
+          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
+            {achievement.organization_logo ? (
+              <Image 
+                src={achievement.organization_logo} 
+                alt={achievement.issuing_organization} 
+                fill
+                className="object-contain"
+              /> 
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-primary-inv bg-blue"><LuAward size={20}/></div>
             )}
-          >
-
-            <p className="flex gap-1 items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-md font-semibold">
-              <span>{t("viewDetail")}</span>
-              <LuSquareArrowOutUpRight />
-            </p>
-
-            <div className="flex justify-between items-center w-full">
-              <div className="flex flex-col gap-0.5 transform translate-y-2 transition-transform duration-300 group-hover/card:translate-y-0">
-                <p className="text-[10px] uppercase font-light tracking-tight">
-                  {t(`type.${achievement.type}`)}
-                </p>
-                {achievement.categories?.map((category, index) => (
-                  <p className="text-xs font-medium tracking-tight" key={index}>
-                    {index > 0 && <span className="mr-1 opacity-50"> | </span>}
-                    <span>
-                      {category}
-                    </span>
-                  </p>
-                ))}
-              </div>
-              <MiracleTooltip 
-                defaultPosition="top-end"
-                trigger={
-                  <a 
-                    href={achievement.credential_url} 
-                    target="_blank" 
-                    aria-label={t("viewCredential")}
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()} 
-                    className="p-2 rounded-full border-2 border-primary hover:bg-neutral-950/50 dark:hover:bg-white/50 transition-colors duration-300 ease-in-out">
-                    <LuArrowUpRight size={18} />
-                  </a>
-                }>
-                {t("viewCredential")}
-              </MiracleTooltip>
+          </div>
+          <div className="flex flex-col items-start">
+            <a
+              onClick={() => setIsModalOpen(true)}
+              aria-label={t("viewDetail")}
+              className="text-primary text-md font-semibold tracking-tight line-clamp-1 cursor-pointer hover:underline transform-all duration-300 ease-in-out">
+              {achievement.name}
+            </a>
+            <div className="text-secondary text-sm tracking-tight flex items-center gap-1">
+              <span>{achievement.issuing_organization}</span>
+              |
+              <MiracleBadge color={badgeColor[achievement.type]} size="sm" variant="secondary">
+                {t(`type.${achievement.type}`)}
+              </MiracleBadge>
             </div>
-          </div> 
+          </div>
         </div>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between gap-4 pt-5">
-          <div className="flex gap-2 items-center min-w-0">
-            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
-              {achievement.organization_logo ? (
-                <Image 
-                  src={achievement.organization_logo} 
-                  alt={achievement.issuing_organization} 
-                  fill
-                  className="object-contain"
-                /> 
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-primary-inv bg-blue"><LuAward size={20}/></div>
-              )}
-            </div>
-            <div className="flex flex-col min-w-0">
-              <p className="text-primary text-md font-semibold tracking-tight line-clamp-1">
-                {achievement.name}
-              </p>
-              <p className="text-secondary text-sm tracking-tight">
-                {achievement.issuing_organization}
-              </p>
-            </div>
-          </div>
-          <div className="shrink-0 relative z-30">
-            <ReactionGroup
-              targetId={achievement.id}
-              targetType="achievement"
-              initialSummary={achievement.reaction_summary}
-            />
-          </div>
+        <div className="shrink-0 relative z-30">
+          <ReactionGroup
+            targetId={achievement.id}
+            targetType="achievement"
+            initialSummary={achievement.reaction_summary}
+          />
         </div>
       </div>
 
-      {/* --- Detailed Modal Section --- */}
+      {/* --- MODAL DETAIL --- */}
       <MiracleModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={achievement.name}
+        onClose={() => { setIsModalOpen(false); setZoomScale(1); }}
         size="full"
+        title={t("modal.title")}
+        className="max-h-[85vh] h-full"
+        noContentPadding
       >
-        <div className="flex flex-col lg:flex-row gap-8 p-4">
-          
-          {/* Left Side: Certificate Preview */}
-          <div className="flex-1 w-full relative aspect-[7/5] overflow-hidden rounded-2xl border border-primary">
-            <Image
-              src={achievement.image}
-              alt={achievement.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 65vw"
-            />
+        <div className="flex h-full w-full flex-col md:flex-row overflow-hidden bg-primary rounded-b-3xl"> 
+          {/* LEFT SIDE */}
+          <div className="w-full h-full flex flex-col overflow-hidden">
+            {/* Image Preview */}
+            <div className="flex-1 flex w-full p-5 md:p-6 overflow-hidden relative group/preview">
+              <div className="h-full w-full flex items-center justify-center overflow-hidden bg-secondary rounded-2xl">
+                <div 
+                  className="relative h-full w-full"
+                  style={{ transform: `scale(${zoomScale})` }}
+                >
+                  <Image
+                    src={achievement.image}
+                    alt={achievement.name}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, 950px"
+                    priority
+                  />
+                </div>
+              </div>
+              {/* Zoom Controls Overlay */}
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 rounded-full p-0.5 bg-neutral-low text-primary border border-primary opacity-0 group-hover/preview:opacity-100 transition-all duration-300 ease-in-out">
+                <button 
+                  onClick={() => setZoomScale(prev => Math.max(prev - 0.5, 1))} 
+                  className="p-2 hover:bg-neutral-300 dark:hover:bg-neutral-700 rounded-full cursor-zoom-out transition-colors ease-in-out duration-300">
+                    <LuMinus size={16} />
+                </button>
+                <span className="text-[10px] font-mono min-w-8.75 text-center">{Math.round(zoomScale * 100)}%</span>
+                <button 
+                  onClick={() => setZoomScale(prev => Math.min(prev + 0.5, 3))} 
+                  className="p-2 hover:bg-neutral-300 dark:hover:bg-neutral-700 rounded-full cursor-zoom-in transition-colors ease-in-out duration-300">
+                    <LuPlus size={16} />
+                </button>
+              </div>
+            </div>
           </div>
-
-          {/* Right Side */}
-          <div className="flex flex-col w-full lg:w-75 shrink-0 gap-8">
+          {/* RIGHT SIDE */}
+          <div className="w-full md:w-87.5 h-fit md:h-full border-t md:border-t-0 md:border-l border-primary p-5 md:p-6 flex flex-col gap-5 md:gap-6 bg-primary shrink-0 items-start">
             <div className="flex items-center gap-2">
               <div className="relative h-10 w-10 overflow-hidden rounded-lg">
                 {achievement.organization_logo ? (
@@ -151,18 +141,22 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
                   </div>
                 )}
               </div>
-              <div>
-                <p className="text-primary text-md font-semibold tracking-tight line-clamp-1">
-                  {achievement.issuing_organization}
-                </p>
-                <p className="text-xs uppercase tracking-tight text-secondary">
-                  {t(`type.${achievement.type}`)}
-                </p>
-              </div>
+              <p className="text-primary text-md font-semibold tracking-tight line-clamp-1">
+                {achievement.issuing_organization}
+              </p>
             </div>
 
             {/* Main Details */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 w-full border-y border-primary py-5 md:py-6">
+              <div className="flex flex-col gap-1.5 items-start">
+                <p className="text-xs uppercase tracking-tight text-secondary">
+                  {t("label.type")}
+                </p>
+                <MiracleBadge color={badgeColor[achievement.type]} variant="secondary">
+                  {t(`type.${achievement.type}`)}
+                </MiracleBadge>
+              </div>
+
               {achievement.credential_id && (
                 <div className="flex flex-col gap-1.5">
                   <p className="text-xs uppercase tracking-tight text-secondary">
@@ -205,7 +199,7 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
                   <div className="flex flex-wrap gap-1">
                     {achievement.categories.map((category, index) => (
                       <MiracleBadge variant="secondary" key={index}>
-                        {category}
+                        {category.name}
                       </MiracleBadge>
                     ))}
                   </div>
@@ -213,7 +207,7 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
               )} 
             </div>
 
-            <div className="mt-auto">
+            <div className="mt-auto w-full">
               <a 
                 href={achievement.credential_url}
                 target="_blank" 
@@ -231,6 +225,6 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
           </div>
         </div>
       </MiracleModal>
-    </>
+    </div>
   )
 }

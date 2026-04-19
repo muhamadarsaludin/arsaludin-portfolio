@@ -2,12 +2,12 @@ import Heading from "@/components/Heading"
 import Section from "@/components/Section"
 import { getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
-import { AchievementList } from "./AchievementList" // Komponen Client Reusable
 import MiracleButton from "@/components/miracle/Button"
 import Link from "next/link"
 import clsx from "clsx"
-import { getFeaturedAchievements } from "@/features/achievements/services/achievements"
 import { LuArrowRight } from "react-icons/lu"
+import { getFeaturedAchievements } from "@/features/achievements/services/achievements"
+import { AchievementList } from "./AchievementList"
 
 /**
  * Server Component: Prefetches featured achievement for optimal SEO and performance.

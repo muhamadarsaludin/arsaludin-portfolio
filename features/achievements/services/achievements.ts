@@ -2,7 +2,21 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { MAX_TOP_REACTIONS } from "@/features/reactions/constants/reactions.constants"
-import { Achievement } from "../types/achievements.types"
+import { Achievement, AchievementEntity } from "../types/achievements.types"
+import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
+import { Category } from "@/features/categories/types/categories.types"
+
+type GetFeaturedAchievementsResponse = Pick<
+  AchievementEntity, "id" | "name" | "type" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index" 
+>
+  & {
+    categories: {
+      is_show: boolean;
+      category: Category;
+    }[];
+    reaction_counts: ReactionCount[]
+    reactions: Reaction[]
+  }
 
 export async function getFeaturedAchievements(): Promise<Achievement[]> {
   const supabase = await createClient()
@@ -25,37 +39,45 @@ export async function getFeaturedAchievements(): Promise<Achievement[]> {
     is_show,
     is_featured,
     order_index,
-    user_id, 
-    created_at, 
-    updated_at,
-    achievement_reaction_counts(
+    categories:achievement_categories(
+      is_show,
+      category:categories!inner(
+        id,
+        name
+      )
+    ),
+    reaction_counts:achievement_reaction_counts(
       emoji,
       count
     ),
-    achievement_categories(
-      categories(
-        category
-      )
-    ),
     reactions(
+      id,
       emoji,
-      user_id
+      user_id,
+      created_at,
+      updated_at,
+      author:profiles(
+        id,
+        full_name,
+        email,
+        role,
+        avatar_url
+      )
     ) 
   `
 
-  let query = supabase
+  const { data, error } = await supabase
     .from("achievements")
-    .select(columns)
+    .select<string, GetFeaturedAchievementsResponse>(columns)
     .eq("is_show", true)
     .eq("is_featured", true)
+    .eq("achievement_categories.is_show", true)
     .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000")
     .order("order_index", { ascending: true })
     .order("count", {
       referencedTable: "achievement_reaction_counts",
       ascending: false,
     })
-
-  const { data, error } = await query
 
   if (error) {
     console.error("Error fetching featured achievements:", error)
@@ -64,20 +86,15 @@ export async function getFeaturedAchievements(): Promise<Achievement[]> {
 
   if (!data) return []
 
-  return data.map((achievement: any) => {
-    const allReactions = achievement.achievement_reaction_counts || []
+  return data.map((achievement) => {
+    const categories = achievement.categories?.map((ac) => ac.category).filter(Boolean) ?? []
     const userReaction = achievement.reactions?.[0] ?? null
+    const allReactions = achievement.reaction_counts || []
+    const totalEmojis = allReactions.length
     const totalReactions = allReactions.reduce(
-      (acc: number, curr: any) => acc + (curr.count || 0),
+      (acc, curr) => acc + (curr.count || 0), 
       0
     )
-    const topReactions = allReactions.slice(0, MAX_TOP_REACTIONS)
-    const totalEmojis = allReactions.length
-    const remainingEmojis = Math.max(0, totalEmojis - MAX_TOP_REACTIONS)
-
-    const categories = achievement.achievement_categories?.map(
-      (ac: any) => ac.categories?.category
-    ).filter(Boolean) || []
 
     return {
       id: achievement.id,
@@ -93,18 +110,13 @@ export async function getFeaturedAchievements(): Promise<Achievement[]> {
       is_show: achievement.is_show,
       is_featured: achievement.is_featured,
       order_index: achievement.order_index,
-      user_id: achievement.user_id,
-      created_at: achievement.created_at,
-      updated_at: achievement.updated_at,
+      categories,
       reaction_summary: {
         userReaction,
-        totalReactions,
         allReactions,
-        topReactions,
+        totalReactions,
         totalEmojis,
-        remainingEmojis,
-      },
-      categories
-    } as Achievement
+      }
+    }
   })
 }
