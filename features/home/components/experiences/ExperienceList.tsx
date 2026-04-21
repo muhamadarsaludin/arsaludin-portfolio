@@ -10,13 +10,14 @@ export function ExperienceList({ locale }: { locale: string }) {
   const {
     data: experiences,
     isLoading,
-    isError
+    isError,
+    refetch
   } = useExperiences({
     locale
   })
 
   if (isLoading) return <ExperienceListSkeleton />
-  if (isError) return <ErrorStateCard />
+  if (isError) return <ErrorStateCard onRetry={refetch} />
   if (!experiences || experiences.length === 0) return <EmptyStateCard />
 
   return (

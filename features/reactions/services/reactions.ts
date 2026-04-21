@@ -146,10 +146,13 @@ export async function getReactions({
     )
     .eq(targetColumn, targetId)
     .order("created_at", { ascending: false })
+    .order("id", { ascending: false })
     .limit(pageSize + 1)
 
   if (cursor) {
-    query = query.lt("created_at", cursor)
+    query = query.or(
+      `created_at.lt.${cursor.created_at},and(created_at.eq.${cursor.created_at},id.lt.${cursor.id})`
+    )
   }
 
   const { data, error } = await query
@@ -169,7 +172,7 @@ export async function getReactions({
     data: formattedData,
     nextCursor: hasMore
       ? {
-          createdAt: lastItem.created_at,
+          created_at: lastItem.created_at,
           id: lastItem.id,
         }
       : null,

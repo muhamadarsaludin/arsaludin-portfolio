@@ -96,7 +96,7 @@ export async function getPaginatedReplies({
 
   if (cursor) {
     query = query.or(
-      `created_at.gt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.gt.${cursor.id})`
+      `created_at.gt.${cursor.created_at},and(created_at.eq.${cursor.created_at},id.gt.${cursor.id})`
     )
   }
 
@@ -155,7 +155,7 @@ export async function getPaginatedReplies({
     data: mappedData,
     nextCursor: hasMore
       ? {
-          createdAt: lastItem.created_at,
+          created_at: lastItem.created_at,
           id: lastItem.id,
         }
       : null,

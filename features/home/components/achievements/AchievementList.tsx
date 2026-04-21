@@ -11,10 +11,11 @@ export function AchievementList() {
     data: achievements,
     isLoading,
     isError,
+    refetch
   } = useFeaturedAchievements()
 
   if (isLoading) return <ProjectListSkeleton />
-  if (isError) return <ErrorStateCard />
+  if (isError) return <ErrorStateCard onRetry={refetch} />
   if (!achievements || achievements.length === 0) return <EmptyStateCard />
 
   return (

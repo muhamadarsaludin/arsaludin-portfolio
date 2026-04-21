@@ -115,7 +115,7 @@ export async function getPaginatedComments({
 
   if (cursor) {
     query = query.or(
-      `created_at.lt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.lt.${cursor.id})`
+      `created_at.lt.${cursor.created_at},and(created_at.eq.${cursor.created_at},id.lt.${cursor.id})`
     )
   }
 
@@ -176,7 +176,7 @@ export async function getPaginatedComments({
     data: mappedData,
     nextCursor: hasMore
       ? {
-          createdAt: lastItem.created_at,
+          created_at: lastItem.created_at,
           id: lastItem.id,
         }
       : null,

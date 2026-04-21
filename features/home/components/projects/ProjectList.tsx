@@ -7,10 +7,15 @@ import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
 
 export function ProjectList({ locale }: { locale: string }) {
-  const { data: projects, isLoading, isError } = useFeaturedProjects({locale})
+  const { 
+    data: projects, 
+    isLoading, 
+    isError,
+    refetch
+   } = useFeaturedProjects({locale})
 
   if (isLoading) return <ProjectListSkeleton />
-  if (isError) return <ErrorStateCard />
+  if (isError) return <ErrorStateCard onRetry={refetch}/>
   if (!projects || projects.length === 0) return <EmptyStateCard />
 
   return (

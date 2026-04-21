@@ -1,5 +1,5 @@
 import type { RefObject } from "react"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 type UseIntersectionObserverProps = {
   targetRef: RefObject<HTMLElement | null>
@@ -16,13 +16,22 @@ export const useIntersectionObserver = ({
   threshold = 0.1,
   rootMargin = "100px",
 }: UseIntersectionObserverProps) => {
+  const isTriggeredRef = useRef(false)
+
   useEffect(() => {
     if (!enabled || !targetRef.current) return
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
+        const entry = entries[0]
+
+        if (entry.isIntersecting && !isTriggeredRef.current) {
+          isTriggeredRef.current = true
           onIntersect()
+        }
+
+        if (!entry.isIntersecting) {
+          isTriggeredRef.current = false
         }
       },
       { threshold, rootMargin }
@@ -35,5 +44,5 @@ export const useIntersectionObserver = ({
       observer.unobserve(currentElement)
       observer.disconnect()
     }
-  }, [targetRef, enabled, threshold, rootMargin])
+  }, [targetRef, enabled, threshold, rootMargin, onIntersect])
 }

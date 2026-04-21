@@ -1,0 +1,1 @@
+export const ACHIEVEMENTS_PAGE_SIZE = 6

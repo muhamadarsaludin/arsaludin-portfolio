@@ -1,5 +1,6 @@
 import { Category } from "@/features/categories/types/categories.types"
 import type { ReactionSummary } from "@/features/reactions/types/reactions.types"
+import { Cursor } from "@/features/shared/types/index.types"
 
 /**
  * ACHIEVEMENT ENTITY
@@ -40,8 +41,14 @@ export type AchievementCategoryEntity = {
 
 export type Achievement = Pick<
   AchievementEntity,
-  "id" | "name" | "type" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index">
+  "id" | "name" | "type" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index" | "created_at">
   & { 
     categories: Category[]
     reaction_summary: ReactionSummary
   }
+
+export type PaginatedAchievements = {
+  data: Achievement[]
+  nextCursor: Cursor | null
+  hasMore: boolean
+}

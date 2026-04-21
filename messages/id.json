@@ -139,10 +139,11 @@
       "at": "di"
     },
     "errorStateCard": {
-      "errorMessage": "Gagal memuat data. Silakan coba lagi nanti"
+      "errorMessage": "Gagal memuat data. Silakan coba lagi nanti",
+      "cta": "Coba lagi"
     },
     "emptyStateCard": {
-      "emptyMessage": "Data tidak ditemukan, Sepertinya belum ada data untuk ditampilkan di sini."
+      "emptyMessage": "Data tidak ditemukan, Sepertinya belum ada apa pun di sini."
     }
   },
   "pages": {
@@ -177,6 +178,16 @@
       "testimonials": {
         "title": "Apa kata mereka",
         "cta": "Lihat semua ulasan"
+      }
+    },
+    "achievements": {
+      "title": "Pencapaian",
+      "description": "Koleksi sertifikasi dan penghargaan yang telah membentuk langkah dan keahlian saya sebagai UX Engineer.",
+      "searchBarPlaceholder": "Cari pencapaian...",
+      "noMoreData": "Anda telah melihat semua data!",
+      "breadcrumbs": {
+        "home": "Beranda",
+        "achievements": "Pencapaian"
       }
     }
   }

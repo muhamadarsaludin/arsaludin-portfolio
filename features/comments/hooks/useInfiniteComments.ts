@@ -4,7 +4,7 @@ import type { CommentTargetType } from "../types/comments.types"
 import { getPaginatedComments } from "../services/comments"
 import type { Cursor } from "@/features/shared/types/index.types"
 
-type UseCommentsParams = {
+type UseInfiniteCommentsParams = {
   targetId: string
   targetType: CommentTargetType
   pageSize?: number
@@ -25,7 +25,7 @@ export function useInfiniteComments({
   targetType,
   pageSize = COMMENTS_PAGE_SIZE,
   enabled = true,
-}: UseCommentsParams) {
+}: UseInfiniteCommentsParams) {
   return useInfiniteQuery({
     queryKey: ["comments", targetType, targetId, { pageSize }],
     queryFn: async ({ pageParam }) => {

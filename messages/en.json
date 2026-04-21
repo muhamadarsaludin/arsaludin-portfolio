@@ -139,7 +139,8 @@
       "at": "at"
     },
     "errorStateCard": {
-      "errorMessage": "Unable to load. Please try again later"
+      "errorMessage": "Unable to load. Please try again later",
+      "cta": "Try again"
     },
     "emptyStateCard": {
       "emptyMessage": "No data found, It looks like there's nothing here yet."
@@ -177,6 +178,16 @@
       "testimonials": {
         "title": "What they say",
         "cta": "View all testimonials"
+      }
+    },
+    "achievements": {
+      "title": "Achievements",
+      "description": "A curated collection of certifications and awards that have shaped my path and expertise as a UX Engineer.",
+      "searchBarPlaceholder": "Search achievements...",
+      "noMoreData": "You've reached the end of the list!",
+      "breadcrumbs": {
+        "home": "Home",
+        "achievements": "Achievements"
       }
     }
   }

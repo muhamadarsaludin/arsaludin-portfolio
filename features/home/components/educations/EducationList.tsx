@@ -10,13 +10,14 @@ export function EducationList({ locale }: { locale: string }) {
   const {
     data: educations,
     isLoading,
-    isError
+    isError,
+    refetch
   } = useEducations({
     locale
   })
 
   if (isLoading) return <EducationListSkeleton />
-  if (isError) return <ErrorStateCard />
+  if (isError) return <ErrorStateCard onRetry={refetch} />
   if (!educations || educations.length === 0) return <EmptyStateCard />
 
   return (

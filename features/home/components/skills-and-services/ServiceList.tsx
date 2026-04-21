@@ -7,12 +7,16 @@ import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
 
 export function ServiceList({ locale }: { locale: string }) {
-  const { data: services, isLoading, isError } = useServices({ locale })
+  const { 
+    data: services, 
+    isLoading, 
+    isError,
+    refetch
+  } = useServices({ locale })
 
   if (isLoading) return <ServiceListSkeleton />
-  if (isError) return <ErrorStateCard />
+  if (isError) return <ErrorStateCard onRetry={refetch}/>
   if (!services || services.length === 0) return <EmptyStateCard />
-
   return (
     <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
       {services.map((service) => (

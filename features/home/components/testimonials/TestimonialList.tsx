@@ -11,10 +11,11 @@ export function TestimonialList({locale}: {locale: string}) {
     data: testimonials,
     isLoading,
     isError,
+    refetch
   } = useFeaturedTestimonials({locale})
 
   if (isLoading) return <TestimonialListSkeleton />
-  if (isError) return <ErrorStateCard />
+  if (isError) return <ErrorStateCard onRetry={refetch}/>
   if (!testimonials || testimonials.length === 0) return <EmptyStateCard />
 
   return (
