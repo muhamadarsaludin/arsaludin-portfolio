@@ -31,6 +31,7 @@ export default function ProjectsContent({
   targetType
 }: ProjectsContentProps) {
   const t = useTranslations("pages.projects")
+  const td = useTranslations("data")
   const { setParams, getParam, getArrayParam } = useUrlParams()
 
   const categorySlugs = getArrayParam("categories") || []
@@ -173,7 +174,10 @@ export default function ProjectsContent({
                       checked={categorySlugs.includes(category.slug)}
                       onChange={() => handleToggleCategory(category.slug)}
                     >
-                      {category.name}
+                      {td.has(`categories.${category.slug}`) 
+                        ? td(`categories.${category.slug}`) 
+                        : category.name
+                      }
                     </MiracleCheckbox>
                   ))}
                 </div>

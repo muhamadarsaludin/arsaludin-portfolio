@@ -210,7 +210,7 @@
     "projects": {
       "title": "Proyek",
       "description": "Koleksi proyek yang merepresentasikan keahlian teknis saya sebagai UX Engineer, membahas proses serta keputusan teknis di baliknya.",
-      "searchBarPlaceholder": "Cari Proyek...",
+      "searchBarPlaceholder": "Cari proyek...",
       "noMoreData": "Anda telah melihat semua data!",
       "breadcrumbs": {
         "home": "Beranda",
