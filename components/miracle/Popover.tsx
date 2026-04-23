@@ -2,7 +2,8 @@
 
 import clsx from "clsx"
 import type { ReactNode } from "react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useLayoutEffect } from "react"
+import { createPortal } from "react-dom"
 import type { TooltipDefaultPosition } from "./Tooltip"
 
 export type PopoverDefaultPosition = TooltipDefaultPosition
@@ -39,10 +40,16 @@ export default function MiraclePopover({
   const isControlled = controlledOpen !== undefined
   const isOpen = isControlled ? controlledOpen : internalOpen
 
+  const [coords, setCoords] = useState({ top: 0, left: 0 })
   const [adaptedPos, setAdaptedPos] = useState(defaultPosition)
+  const [mounted, setMounted] = useState(false)
 
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -60,9 +67,14 @@ export default function MiraclePopover({
     onOpenChange?.(false)
   }
 
+  // Logic Click Outside yang support Portal
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      const target = event.target as Node
+      const isOutsideTrigger = containerRef.current && !containerRef.current.contains(target)
+      const isOutsideContent = contentRef.current && !contentRef.current.contains(target)
+
+      if (isOutsideTrigger && isOutsideContent) {
         handleClose()
       }
     }
@@ -70,68 +82,63 @@ export default function MiraclePopover({
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside)
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [isOpen])
 
-  useEffect(() => {
-    if (isOpen && containerRef.current && contentRef.current) {
-      const triggerRect = containerRef.current.getBoundingClientRect()
-      const contentRect = contentRef.current.getBoundingClientRect()
-      const viewportWidth = window.innerWidth
-      const viewportHeight = window.innerHeight
+  const updatePosition = () => {
+    if (!containerRef.current || !contentRef.current) return
 
-      let [side, align] = defaultPosition.split("-")
+    const triggerRect = containerRef.current.getBoundingClientRect()
+    const contentRect = contentRef.current.getBoundingClientRect()
+    const scrollX = window.scrollX
+    const scrollY = window.scrollY
 
-      if (side === "top" && triggerRect.top - contentRect.height < 0) side = "bottom"
-      else if (side === "bottom" && triggerRect.bottom + contentRect.height > viewportHeight)
-        side = "top"
+    let [side, align] = defaultPosition.split("-")
 
-      if (side === "left" && triggerRect.left - contentRect.width < 0) side = "right"
-      else if (side === "right" && triggerRect.right + contentRect.width > viewportWidth)
-        side = "left"
+    // Flip Logic (Sama seperti aslimu)
+    if (side === "top" && triggerRect.top - contentRect.height < 0) side = "bottom"
+    else if (side === "bottom" && triggerRect.bottom + contentRect.height > window.innerHeight) side = "top"
+    if (side === "left" && triggerRect.left - contentRect.width < 0) side = "right"
+    else if (side === "right" && triggerRect.right + contentRect.width > window.innerWidth) side = "left"
 
-      if (side === "top" || side === "bottom") {
-        if (align === "start" && triggerRect.left + contentRect.width > viewportWidth) align = "end"
-        if (align === "end" && triggerRect.right - contentRect.width < 0) align = "start"
-        if (align === "center") {
-          if (triggerRect.left + triggerRect.width / 2 + contentRect.width / 2 > viewportWidth)
-            align = "end"
-          if (triggerRect.left + triggerRect.width / 2 - contentRect.width / 2 < 0) align = "start"
-        }
-      }
+    let top = 0
+    let left = 0
 
-      if (side === "left" || side === "right") {
-        if (align === "start" && triggerRect.top + contentRect.height > viewportHeight)
-          align = "end"
-        if (align === "end" && triggerRect.bottom - contentRect.height < 0) align = "start"
-        if (align === "center") {
-          if (triggerRect.top + triggerRect.height / 2 + contentRect.height / 2 > viewportHeight)
-            align = "end"
-          if (triggerRect.top + triggerRect.height / 2 - contentRect.height / 2 < 0) align = "start"
-        }
-      }
+    // Kalkulasi Koordinat Y
+    if (side === "top") top = triggerRect.top + scrollY - contentRect.height - 8
+    else if (side === "bottom") top = triggerRect.bottom + scrollY + 8
+    else {
+      if (align === "start") top = triggerRect.top + scrollY
+      else if (align === "end") top = triggerRect.bottom + scrollY - contentRect.height
+      else top = triggerRect.top + scrollY + (triggerRect.height / 2) - (contentRect.height / 2)
+    }
 
-      setAdaptedPos(`${side}-${align}` as any)
+    // Kalkulasi Koordinat X
+    if (side === "left") left = triggerRect.left + scrollX - contentRect.width - 8
+    else if (side === "right") left = triggerRect.right + scrollX + 8
+    else {
+      if (align === "start") left = triggerRect.left + scrollX
+      else if (align === "end") left = triggerRect.left + scrollX + triggerRect.width - contentRect.width
+      else left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2)
+    }
+
+    setCoords({ top, left })
+    setAdaptedPos(`${side}-${align}` as any)
+  }
+
+  useLayoutEffect(() => {
+    if (isOpen) {
+      updatePosition()
+      window.addEventListener("scroll", updatePosition, true)
+      window.addEventListener("resize", updatePosition)
+    }
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true)
+      window.removeEventListener("resize", updatePosition)
     }
   }, [isOpen, defaultPosition])
-
-  const popoverPositionClass: Record<string, string> = {
-    "top-start": "bottom-full left-0 pb-2",
-    "top-center": "bottom-full left-1/2 -translate-x-1/2 pb-2",
-    "top-end": "bottom-full right-0 pb-2",
-    "bottom-start": "top-full left-0 pt-2",
-    "bottom-center": "top-full left-1/2 -translate-x-1/2 pt-2",
-    "bottom-end": "top-full right-0 pt-2",
-    "left-start": "right-full top-0 pr-2",
-    "left-center": "right-full top-1/2 -translate-y-1/2 pr-2",
-    "left-end": "right-full bottom-0 pr-2",
-    "right-start": "left-full top-0 pl-2",
-    "right-center": "left-full top-1/2 -translate-y-1/2 pl-2",
-    "right-end": "left-full bottom-0 pl-2",
-  }
 
   const arrowPositionClass: Record<string, string> = {
     "top-start": "-bottom-[5px] left-3",
@@ -149,40 +156,48 @@ export default function MiraclePopover({
   }
 
   return (
-    <div ref={containerRef} className={clsx("relative flex w-fit", className)}>
+    <div ref={containerRef} className={clsx("relative flex", className)}>
       <div onClick={handleToggle} className="cursor-pointer">
         {trigger}
       </div>
 
-      <div
-        ref={contentRef}
-        className={clsx(
-          "z-popover absolute transition-[opacity,visibility] duration-300 ease-in-out",
-          isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0",
-          popoverPositionClass[adaptedPos]
-        )}
-      >
+      {mounted && createPortal(
         <div
+          ref={contentRef}
+          style={{
+            position: "absolute",
+            top: `${coords.top}px`,
+            left: `${coords.left}px`,
+            zIndex: 9999,
+          }}
           className={clsx(
-            "text-primary-inv relative w-max min-w-max rounded-md",
-            !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
-            !noBackground && "bg-primary-inv",
-            !noPadding && "p-2"
+            "z-popover transition-[opacity,visibility] duration-300 ease-in-out",
+            isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
           )}
-          onClick={(e) => e.stopPropagation()}
         >
-          {!noArrow && (
-            <div
-              className={clsx(
-                "absolute z-1 h-2.5 w-2.5 rotate-45",
-                !noBackground && "bg-primary-inv",
-                arrowPositionClass[adaptedPos]
-              )}
-            />
-          )}
-          {children}
-        </div>
-      </div>
+          <div
+            className={clsx(
+              "text-primary-inv relative w-max min-w-max rounded-md",
+              !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
+              !noBackground && "bg-primary-inv",
+              !noPadding && "p-2"
+            )}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {!noArrow && (
+              <div
+                className={clsx(
+                  "absolute z-1 h-2.5 w-2.5 rotate-45",
+                  !noBackground && "bg-primary-inv",
+                  arrowPositionClass[adaptedPos]
+                )}
+              />
+            )}
+            {children}
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   )
 }

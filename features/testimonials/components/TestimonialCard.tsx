@@ -13,14 +13,16 @@ import { LuInfo } from "react-icons/lu"
 import { FaLinkedin } from "react-icons/fa6"
 import Quote from "./Quote"
 
-export default function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
-  const locale = useLocale()
+export default function TestimonialCard({ testimonial, className }: { testimonial: Testimonial, className?: string}) {
   const t = useTranslations("components.testimonialCard")
   const [avatar, setAvatar] = useState(testimonial.avatar_url || "/dummy.webp")
   const initials = getInitials(testimonial.name)
 
   return (
-    <div className="relative flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col sm:w-auto sm:max-w-none">
+    <div className={clsx(
+        "relative flex flex-col",
+        className
+      )}>
       <div className="p-4 border border-primary rounded-md flex-1 bg-primary-inv relative flex flex-col gap-2">
         <Quote className="text-primary-inv text-2xl"/>
         <p className="text-secondary-inv text-sm">

@@ -27,7 +27,7 @@ export default function HeaderAvatar() {
 
   return (
     <MiracleTooltip
-      defaultPosition="bottom-center"
+      defaultPosition="bottom-end"
       hoverContent
       noPadding
       trigger={
@@ -50,13 +50,13 @@ export default function HeaderAvatar() {
     >
       <div className="m-1 flex cursor-pointer flex-col">
         <div className="border-primary border-b p-2 text-sm font-medium">
-          {/* <MiracleBadge className="mb-2" startIcon={<LuUserRound />}>
+          <MiracleBadge className="mb-1.5" startIcon={<LuUserRound />} color="blue">
             <span className="capitalize">{profile.role}</span>
-          </MiracleBadge> */}
-          <span className="bg-blue text-primary-inv mb-2 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase">
+          </MiracleBadge>
+          {/* <span className="bg-blue text-primary-inv mb-2 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase">
             <LuUserRound size={10} />
             {profile.role}
-          </span>
+          </span> */}
           <h3 className="text-primary-inv truncate font-semibold">{profile.full_name}</h3>
           <p className="text-secondary-inv mt-0.5 text-xs font-normal">{profile.email}</p>
         </div>

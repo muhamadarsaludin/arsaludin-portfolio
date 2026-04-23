@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import clsx from "clsx"
-import { LuFilter, LuSearch, LuTriangleAlert, LuX } from "react-icons/lu"
+import { LuChevronDown, LuFilter, LuSearch, LuTriangleAlert } from "react-icons/lu"
 import MiraclePopover from "@/components/miracle/Popover"
 import MiracleTextField from "@/components/miracle/TextField"
 import MiracleButton from "@/components/miracle/Button"
+import MiracleCheckbox from "@/components/miracle/Checkbox"
 import { useTranslations } from "next-intl"
 import { useInfiniteAchievements } from "../hooks/useInfiniteAchievements"
 import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
@@ -14,11 +15,11 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import AchievementCardSkeleton from "./AchievementCardSkeleton"
 import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
 import AchievementCard from "./AchievementCard"
-import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.types"
+import { ACHIEVEMENTS_PAGE_SIZE, ACHIEVEMENTS_TYPES } from "../constants/achievements.types"
 import { useAvailableCategories } from "@/features/categories/hooks/useAvailableCategories"
 import { CategoryTargetType } from "@/features/categories/types/categories.types"
-import { useQueryClient } from "@tanstack/react-query"
 import { useUrlParams } from "@/hooks/useSearchParams"
+import MiracleBadge from "@/components/miracle/Badge"
 
 type AchievementsContentProps = {
   targetType: CategoryTargetType
@@ -28,64 +29,66 @@ export default function AchievementsContent({
   targetType
 }: AchievementsContentProps) {
   const t = useTranslations("pages.achievements")
+  const td = useTranslations("data")
   const { setParams, getParam, getArrayParam } = useUrlParams()
 
-  const queryClient = useQueryClient()
-
-  // --- URL STATE (source of truth) ---
-  const types = getArrayParam("types")
-  const categoryIds = getArrayParam("categories")
+  const types = getArrayParam("types") || []
+  const categorySlugs = getArrayParam("categories") || []
   const searchUrl = getParam("search") || ""
 
-  // --- LOCAL INPUT STATE ---
   const [search, setSearch] = useState(searchUrl)
   const debouncedSearch = useDebounce(search, 500)
+  const [isOpenFilter, setIsOpenFilter] = useState(false)
 
-  // ✅ Sync URL → input
-  useEffect(() => {
-    if (searchUrl !== search) {
-      setSearch(searchUrl)
-    }
-  }, [searchUrl])
+  const { data: categories } = useAvailableCategories({ targetType })
+  const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
-  // ✅ Sync input → URL
+  useEffect(() => { setSearch(searchUrl) }, [searchUrl])
   useEffect(() => {
     if (debouncedSearch !== searchUrl) {
-      setParams({
-        search: debouncedSearch || undefined
-      })
+      setParams({ search: debouncedSearch || undefined })
     }
   }, [debouncedSearch, searchUrl, setParams])
 
-  // --- FETCH CATEGORIES ---
-  const { data: categories } = useAvailableCategories({ targetType })
+  const handleToggleFilter = (key: "types" | "categories", value: string) => {
+    const current = key === "types" ? types : categorySlugs
+    const next = current.includes(value)
+      ? current.filter((v) => v !== value)
+      : [...current, value]
+    
+    setParams({ [key]: next.length ? next : undefined })
+  }
 
-  // --- FILTERS ---
+  const handleToggleAll = (key: "types" | "categories", allValues: string[]) => {
+    const current = key === "types" ? types : categorySlugs
+    const isAllSelected = allValues.length > 0 && allValues.every(v => current.includes(v))
+    
+    setParams({ [key]: isAllSelected ? undefined : allValues })
+  }
+
+  const handleReset = () => {
+    setParams({ types: undefined, categories: undefined, search: undefined })
+    setSearch("")
+  }
+
+  const getGroupStatus = (selected: string[], all: string[]) => {
+    const isAllSelected = all.length > 0 && all.every((v) => selected.includes(v))
+    const isSomeSelected = selected.length > 0 && !isAllSelected
+    return { isAllSelected, isSomeSelected }
+  }
+
   const currentFilters = useMemo(() => ({
     search: searchUrl || undefined,
-    types: types?.length ? types : undefined,
-    categoryIds: categoryIds?.length ? categoryIds : undefined,
+    types: types.length ? types : undefined,
+    categorySlugs: categorySlugs.length ? categorySlugs : undefined,
     pageSize: ACHIEVEMENTS_PAGE_SIZE,
-  }), [searchUrl, types, categoryIds])
+  }), [searchUrl, types, categorySlugs])
 
-  // console.log("currentFillters", {search: undefined, types: undefined, categoryIds: undefined, pageSize: ACHIEVEMENTS_PAGE_SIZE})
-
-  // --- FETCH DATA ---
   const { 
-    data, 
-    fetchNextPage, 
-    hasNextPage, 
-    isError,
-    isLoading, 
-    isFetchingNextPage,
-    refetch
+    data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch 
   } = useInfiniteAchievements(currentFilters)
 
-  const achievements = useMemo(
-    () => data?.pages.flatMap(p => p.data) ?? [],
-    [data]
-  )
-
+  const achievements = useMemo(() => data?.pages.flatMap(p => p.data) ?? [], [data])
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   useIntersectionObserver({
@@ -94,32 +97,27 @@ export default function AchievementsContent({
     enabled: !!hasNextPage && !isFetchingNextPage && !isLoading,
   })
 
-  // --- RENDER ---
+  const typeStatus = getGroupStatus(types, ACHIEVEMENTS_TYPES as string[])
+  const categoryStatus = getGroupStatus(categorySlugs, categorySlugsList)
+
   const renderContent = () => {
     if (isError) return <ErrorStateCard onRetry={() => refetch()} />
-
     if (isLoading) {
       return (
-        <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <AchievementCardSkeleton key={i} />
-          ))}
+        <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => <AchievementCardSkeleton key={i} />)}
         </div>
       )
     }
-
     if (achievements.length === 0) return <EmptyStateCard />
 
     return (
-      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {achievements.map((achievement) => (
           <AchievementCard key={achievement.id} achievement={achievement} />
         ))}
-
         {isFetchingNextPage &&
-          Array.from({ length: 3 }).map((_, i) => (
-            <AchievementCardSkeleton key={`more-${i}`} />
-          ))
+          Array.from({ length: 3 }).map((_, i) => <AchievementCardSkeleton key={`more-${i}`} />)
         }
       </div>
     )
@@ -127,112 +125,116 @@ export default function AchievementsContent({
 
   return (
     <div className="flex w-full flex-col gap-6 md:gap-8">
-      
-      {/* 🔍 TOOLBAR */}
-      <div className="flex w-full items-center gap-3 md:gap-4 md:max-w-xl">
-        
-        {/* SEARCH */}
-        <div className="relative flex-1">
-          <MiracleTextField 
-            placeholder={t("searchBarPlaceholder")}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            startIcon={<LuSearch className="text-secondary" />}
-            className="focus-within:shadow-sm"
-            fullWidth
-          />
-
-          {search && (
-            <button 
-              onClick={() => setSearch("")}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 hover:bg-secondary/10 rounded-full transition"
-            >
-              <LuX className="size-4" />
-            </button>
-          )}
-        </div>
-
-        {/* FILTER */}
+      <div className="flex w-full md:w-8/12 items-center gap-3 md:gap-4">
+        <MiracleTextField 
+          placeholder={t("searchBarPlaceholder")}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          startIcon={<LuSearch />}
+          fullWidth
+        />
         <MiraclePopover
+          open={isOpenFilter}
+          onOpenChange={v => setIsOpenFilter(v)}
           defaultPosition="bottom-end"
+          noPadding
           trigger={
-            <MiracleButton startIcon={<LuFilter />}>
-              Filter {categoryIds?.length ? `(${categoryIds.length})` : ""}
+            <MiracleButton 
+              startIcon={<LuFilter />}
+              endIcon={<LuChevronDown className={clsx("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
+            >
+              <div className="flex gap-2 items-center">
+                Filter 
+                {(types.length + categorySlugs.length) > 0 && (
+                  <MiracleBadge size="sm" variant="secondary">
+                    {types.length + categorySlugs.length}
+                  </MiracleBadge>
+                )}
+              </div>
             </MiracleButton>
           }
         >
-          <div className="w-80 p-5 flex flex-col gap-5 bg-background rounded-2xl shadow-xl border border-secondary/10">
-
-            {/* HEADER */}
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold">Filters</p>
-              
-              {categoryIds?.length && (
-                <button
-                  onClick={() => setParams({ categories: undefined })}
-                  className="text-xs text-red-500 hover:underline"
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-
-            {/* CATEGORY */}
-            <div className="flex flex-col gap-3">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-secondary">
-                Categories
-              </p>
-
-              <div className="flex flex-wrap gap-2 max-h-52 overflow-y-auto pr-1">
-                {categories?.map((cat) => {
-                  const isActive = categoryIds?.includes(cat.id)
-
-                  return (
-                    <button
-                      key={cat.id}
-                      onClick={() => {
-                        const prev = categoryIds || []
-                        const next = isActive
-                          ? prev.filter(id => id !== cat.id)
-                          : [...prev, cat.id]
-
-                        setParams({
-                          categories: next.length ? next : undefined
-                        })
-                      }}
-                      className={clsx(
-                        "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
-                        isActive
-                          ? "bg-primary text-white border-primary shadow-sm"
-                          : "bg-transparent text-secondary border-secondary/30 hover:border-primary hover:text-primary"
-                      )}
-                    >
-                      {cat.name}
-                    </button>
-                  )
-                })}
+          <div className="flex flex-col w-64 max-h-112.5 gap-4 overflow-y-auto p-4">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <MiracleCheckbox 
+                  invers
+                  checked={typeStatus.isAllSelected}
+                  indeterminate={typeStatus.isSomeSelected}
+                  onChange={() => handleToggleAll("types", ACHIEVEMENTS_TYPES as string[])}
+                />
+                <p className="text-xs font-semibold uppercase tracking-tight">
+                  {t("filter.label.types")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1 pl-4">
+                {ACHIEVEMENTS_TYPES.map((type) => (
+                  <MiracleCheckbox 
+                    key={type} 
+                    invers
+                    checked={types.includes(type)}
+                    onChange={() => handleToggleFilter("types", type)}
+                  >
+                    {td(`achievementTypes.${type}`)}
+                  </MiracleCheckbox>
+                ))}
               </div>
             </div>
+            
+            {categories && categories.length > 0 && (
+              <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
+                <div className="flex items-center gap-2">
+                  <MiracleCheckbox 
+                    invers
+                    checked={categoryStatus.isAllSelected}
+                    indeterminate={categoryStatus.isSomeSelected}
+                    onChange={() => handleToggleAll("categories", categorySlugsList)}
+                  />
+                  <p className="text-xs font-semibold uppercase tracking-tight">
+                    {t("filter.label.categories")}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1 pl-4">
+                  {categories.map((category) => (
+                    <MiracleCheckbox 
+                      key={category.slug} 
+                      invers
+                      checked={categorySlugs.includes(category.slug)}
+                      onChange={() => handleToggleFilter("categories", category.slug)}
+                    >
+                      {category.name}
+                    </MiracleCheckbox>
+                  ))}
+                </div>
+              </div>
+            )}
 
+            {(categorySlugs.length > 0 || types.length > 0 || searchUrl) && (
+              <div className="w-full pt-4 border-t border-primary-inv">
+                <MiracleButton 
+                  status="danger" 
+                  size="sm" 
+                  onClick={handleReset} 
+                  fullWidth
+                >
+                  {t("filter.reset")}
+                </MiracleButton>
+              </div>
+            )}
           </div>
         </MiraclePopover> 
       </div>
 
-      {/* GRID */}
-      <div className="min-h-[400px]">
-        {renderContent()}
-      </div>
+      <div className="w-full overflow-hidden">{renderContent()}</div>
 
-      {/* FOOTER */}
       <div ref={loadMoreRef} className="flex w-full justify-center py-10">
         {!hasNextPage && !isLoading && achievements.length > 0 && (
-          <p className="text-secondary/60 text-sm italic flex items-center gap-2 bg-secondary/5 px-4 py-2 rounded-full border border-secondary/5">
+          <p className="text-secondary text-sm italic flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5">
             <LuTriangleAlert className="text-yellow-500"/>
             {t("noMoreData")}
           </p>
         )}
       </div>
-
     </div>
   )
 }

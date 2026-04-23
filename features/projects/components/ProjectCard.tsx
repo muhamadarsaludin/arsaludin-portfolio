@@ -9,12 +9,12 @@ import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import CommentGroup from "@/features/comments/components/CommentGroup"
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 
-export default function ProjectCard({ project }: { project: Project }) {
+export default function ProjectCard({ project, className }: { project: Project, className?: string}) {
   return (
     <div
       className={clsx(
-        "group relative flex w-[80vw] max-w-75 shrink-0 snap-start flex-col sm:w-auto sm:max-w-none",
-        "border-primary rounded-2xl border"
+        "relative flex flex-col border-primary rounded-2xl border",
+        className
       )}
     >
       {/* Stretched Link for entire card */}
@@ -44,7 +44,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           {project.name}
         </h3>
         <p className="text-secondary mb-6 text-sm leading-relaxed">{project.description}</p>
-        <SkillBadges skills={project.skills} className="mb-auto relative z-1" />
+        <SkillBadges skills={project.skills} className="mb-auto relative z-2" />
       </div>
 
       {/* Footer */}

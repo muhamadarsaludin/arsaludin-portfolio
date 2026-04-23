@@ -158,14 +158,14 @@ export default function ReactionPicker({
         noPadding
         trigger={<PickerToggle />}
       >
-        <div className="min-w-87.5 overflow-hidden rounded-lg shadow-2xl">
+        <div className="overflow-hidden rounded-lg shadow-2xl">
           {isPickerOpen && (
             <EmojiPicker
               theme={pickerTheme}
               skinTonesDisabled
               onEmojiClick={handleEmojiClick}
-              width={350}
-              height={400}
+              width={300}
+              height={330}
             />
           )}
         </div>

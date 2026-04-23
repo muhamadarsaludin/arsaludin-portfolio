@@ -6,7 +6,7 @@ import { getPaginatedAchievements } from "../services/achievements"
 type UseAchievementsProps = {
   search?: string
   types?: string[]
-  categoryIds?: string[]
+  categorySlugs?: string[]
   pageSize?: number
   enabled?: boolean
   cursor?: Cursor | undefined
@@ -15,17 +15,17 @@ type UseAchievementsProps = {
 export function useInfiniteAchievements({
   search,
   types,
-  categoryIds,
+  categorySlugs,
   pageSize = ACHIEVEMENTS_PAGE_SIZE,
   enabled = true
 }: UseAchievementsProps = {}) {
   return useInfiniteQuery({
-    queryKey: ["achievements", { search, types, categoryIds, pageSize}],
+    queryKey: ["achievements", { search, types, categorySlugs, pageSize}],
     queryFn: async ({ pageParam }) => {
       return getPaginatedAchievements({
         search, 
         types, 
-        categoryIds, 
+        categorySlugs, 
         pageSize,
         cursor: pageParam as Cursor | undefined,
       })

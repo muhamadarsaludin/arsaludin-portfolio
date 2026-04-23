@@ -18,12 +18,12 @@ const SERVICE_ILLUSTRATION_MAP: Record<string, React.ReactNode> = {
   devops: <DevOpsIllustration />,
 }
 
-export default function ServiceCard({ service }: { service: Service }) {
+export default function ServiceCard({ service, className }: { service: Service, className?: string}) {
   return (
     <div
       className={clsx(
-        "flex w-[80vw] max-w-75 shrink-0 snap-start flex-col sm:w-auto sm:max-w-none",
-        "border-primary rounded-2xl border"
+        "relative flex flex-col border-primary rounded-2xl border",
+        className
       )}
     >
       <div className="relative flex aspect-video w-full items-center justify-center p-5 md:p-6">

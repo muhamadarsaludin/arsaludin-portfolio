@@ -19,9 +19,9 @@ export function AchievementList() {
   if (!achievements || achievements.length === 0) return <EmptyStateCard />
 
   return (
-    <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
+    <div className="max-w-full overflow-x-auto sm:overflow-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
       {achievements.map((achievement) => (
-        <AchievementCard achievement={achievement} key={achievement.id} />
+        <AchievementCard achievement={achievement} key={achievement.id} className="w-[75vw] sm:w-auto shrink-0 snap-start" />
       ))}
     </div>
   )
@@ -29,9 +29,9 @@ export function AchievementList() {
 
 export function ProjectListSkeleton() {
   return (
-    <div className="flex gap-4 overflow-x-auto sm:grid sm:grid-cols-2 lg:grid-cols-3">
+    <div className="max-w-full overflow-x-auto sm:overflow-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
       {Array.from({ length: 3 }).map((_, i) => (
-        <AchievementCardSkeleton key={i} />
+        <AchievementCardSkeleton key={i} className="w-[75vw] sm:w-auto shrink-0 snap-start" />
       ))}
     </div>
   )

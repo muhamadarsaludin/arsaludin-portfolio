@@ -84,7 +84,6 @@ export const EducationCard = ({
               fill
               className="object-contain"
               sizes="80px"
-              priority={false}
               onError={() => setLogoSrc("/dummy.webp")}
             />
           </div>
@@ -205,7 +204,6 @@ export const EducationCard = ({
                       fill
                       className="object-contain"
                       sizes="(max-width: 768px) 100vw, 950px"
-                      priority
                     />
                   </div>
                 )}

@@ -1,11 +1,12 @@
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 import clsx from "clsx"
 
-export default function AchievementCardSkeleton() {
+export default function AchievementCardSkeleton({className}: {className?: string}) {
   return (
     <div
       className={clsx(
-        "flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col overflow-hidden sm:w-auto sm:max-w-none"
+        "relative flex flex-col",
+        className
       )}
     >
       <MiracleSkeleton className="aspect-7/5 w-full rounded-2xl!" variant="med" />

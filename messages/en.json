@@ -1,4 +1,11 @@
 {
+  "data": {
+    "categories": {},
+    "achievementTypes": {
+      "award": "Award",
+      "course": "Course"
+    }
+  },
   "components": {
     "header": {
       "navigation": {
@@ -129,10 +136,6 @@
         "issueDate": "Issue Date",
         "expirationDate": "Expiration Date",
         "categories": "Categories"
-      },
-      "type": {
-        "award": "Award",
-        "course": "Course"
       }
     },
     "testimonialCard": {
@@ -188,6 +191,13 @@
       "breadcrumbs": {
         "home": "Home",
         "achievements": "Achievements"
+      },
+      "filter": {
+        "label": {
+          "types": "Types",
+          "categories": "Categories"
+        },
+        "reset": "Reset all filters"
       }
     }
   }

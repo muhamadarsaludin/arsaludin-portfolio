@@ -113,6 +113,10 @@ body {
   @apply border-gray-950/10 dark:border-white/10;
 }
 
+.border-primary-inv {
+  @apply border-white/10 dark:border-gray-950/10;
+}
+
 .border-neutral-low {
   @apply border-neutral-200 dark:border-neutral-800;
 }

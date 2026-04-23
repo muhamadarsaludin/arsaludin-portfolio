@@ -1,14 +1,16 @@
-import MiracleTooltip from "@/components/miracle/Tooltip"
+import MiracleTooltip, { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 import { useTranslations } from "next-intl"
 import React from "react"
 import { LuMessageCircleMore } from "react-icons/lu"
 
 type CommentButtonProps = {
+  tooltipPosition?: TooltipDefaultPosition
   commentCount?: number
   onClick: () => void
 }
 
 export default function CommentButton({ 
+  tooltipPosition,
   commentCount = 0, 
   onClick 
 }: CommentButtonProps) {
@@ -22,6 +24,7 @@ export default function CommentButton({
   return (
     <MiracleTooltip
       noPadding
+      defaultPosition={tooltipPosition}
       trigger={
         <button
           onClick={handleOnClick}

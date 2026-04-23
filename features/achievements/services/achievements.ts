@@ -6,7 +6,6 @@ import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.ty
 import { Category } from "@/features/categories/types/categories.types"
 import { Cursor } from "@/features/shared/types/index.types"
 import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.types"
-import { PostgrestFilterBuilder } from "@supabase/postgrest-js"
 
 type AchievementRawResponse = Pick<
   AchievementEntity, "id" | "name" | "type" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index" | "created_at"
@@ -119,7 +118,7 @@ export async function getFeaturedAchievements(): Promise<Achievement[]> {
 type GetPaginatedAchievementsParams = {
   search?: string
   types?: string[]
-  categoryIds?: string[]
+  categorySlugs?: string[]
   cursor?: Cursor
   pageSize?: number
 }
@@ -127,7 +126,7 @@ type GetPaginatedAchievementsParams = {
 export async function getPaginatedAchievements({
   search,
   types,
-  categoryIds,
+  categorySlugs,
   cursor,
   pageSize = ACHIEVEMENTS_PAGE_SIZE,
 }: GetPaginatedAchievementsParams): Promise<PaginatedAchievements> {
@@ -136,7 +135,7 @@ export async function getPaginatedAchievements({
     data: { user },
   } = await supabase.auth.getUser()
   const userId = user?.id ?? "00000000-0000-0000-0000-000000000000";
-  const isFilteringCategory = !!(categoryIds && categoryIds.length > 0)
+  const isFilteringCategory = !!(categorySlugs && categorySlugs.length > 0)
 
   let query = supabase
     .from("achievements")
@@ -164,7 +163,7 @@ export async function getPaginatedAchievements({
   }
 
   if (isFilteringCategory) {
-    query = query.in("achievement_categories.category_id", categoryIds)
+    query = query.in("achievement_categories.categories.slug", categorySlugs)
   }
 
   if (cursor && cursor.order_index !== undefined && cursor.issue_date) {

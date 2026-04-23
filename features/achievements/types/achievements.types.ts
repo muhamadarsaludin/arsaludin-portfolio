@@ -2,15 +2,16 @@ import { Category } from "@/features/categories/types/categories.types"
 import type { ReactionSummary } from "@/features/reactions/types/reactions.types"
 import { Cursor } from "@/features/shared/types/index.types"
 
+export type AchievementType = "award" | "course"
+
 /**
  * ACHIEVEMENT ENTITY
  * Raw data from 'achievements' table.
  */
-
 export type AchievementEntity = {
   id: string
   name: string
-  type: string
+  type: AchievementType
   image: string
   issuing_organization: string
   organization_logo: string | null

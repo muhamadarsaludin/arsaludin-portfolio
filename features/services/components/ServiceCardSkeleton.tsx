@@ -1,12 +1,12 @@
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 import clsx from "clsx"
 
-export default function ServiceCardSkeleton() {
+export default function ServiceCardSkeleton({className}: {className?: string}) {
   return (
     <div
       className={clsx(
-        "flex w-[80vw] max-w-75 shrink-0 snap-start flex-col overflow-hidden sm:w-auto sm:max-w-none",
-        "border-primary rounded-2xl border"
+        "flex flex-col border-primary rounded-2xl border",
+        className
       )}
     >
       <MiracleSkeleton className="aspect-video w-full rounded-none" variant="med" />

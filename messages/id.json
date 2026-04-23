@@ -1,4 +1,11 @@
 {
+  "data": {
+    "categories": {},
+    "achievementTypes": {
+      "award": "Penghargaan",
+      "course": "Kursus"
+    }
+  },
   "components": {
     "header": {
       "navigation": {
@@ -129,10 +136,6 @@
         "issueDate": "Tanggal Terbit",
         "expirationDate": "Tanggal Kadaluwarsa",
         "categories": "Kategori"
-      },
-      "type": {
-        "award": "Penghargaan",
-        "course": "Kursus"
       }
     },
     "testimonialCard": {
@@ -188,6 +191,13 @@
       "breadcrumbs": {
         "home": "Beranda",
         "achievements": "Pencapaian"
+      },
+      "filter": {
+        "label": {
+          "types": "Jenis",
+          "categories": "Kategori"
+        },
+        "reset": "Reset semua filter"
       }
     }
   }

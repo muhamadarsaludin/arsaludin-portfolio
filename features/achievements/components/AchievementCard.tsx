@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import type { Achievement } from "../types/achievements.types"
+import type { Achievement, AchievementType } from "../types/achievements.types"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleModal from "@/components/miracle/Modal"
 import { useLocale } from "next-intl"
@@ -11,21 +11,26 @@ import { LuAward, LuMinus, LuPlus } from "react-icons/lu"
 import { formatDate } from "@/utils/format-date"
 import MiracleBadge, { BadgeColor } from "@/components/miracle/Badge"
 import MiracleButton from "@/components/miracle/Button"
+import clsx from "clsx"
 
-export default function AchievementCard({ achievement }: { achievement: Achievement }) {
+export default function AchievementCard({ achievement, className }: { achievement: Achievement, className?: string}) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [zoomScale, setZoomScale] = useState(1)
 
-  const badgeColor: Record<string, BadgeColor> = {
+  const badgeColor: Record<AchievementType, BadgeColor> = {
     award: "yellow",
     course: "blue"
   }
 
   const locale = useLocale()
   const t = useTranslations("components.achievementCard")
+  const td = useTranslations("data.achievementTypes")
 
   return (
-    <div className="relative flex w-[80vw] max-w-75 shrink-0 snap-start flex-col sm:w-auto sm:max-w-none">
+    <div className={clsx(
+      "relative flex flex-col",
+      className
+    )}>
       <button
         onClick={() => setIsModalOpen(true)}
         className="relative group/cert aspect-7/5 w-full overflow-hidden rounded-2xl border border-primary cursor-pointer"
@@ -48,6 +53,7 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
                 src={achievement.organization_logo} 
                 alt={achievement.issuing_organization} 
                 fill
+                sizes="40px"
                 className="object-contain"
               /> 
             ) : (
@@ -65,12 +71,12 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
               <span>{achievement.issuing_organization}</span>
               |
               <MiracleBadge color={badgeColor[achievement.type]} size="sm" variant="secondary">
-                {t(`type.${achievement.type}`)}
+                {td(achievement.type)}
               </MiracleBadge>
             </div>
           </div>
         </div>
-        <div className="shrink-0 relative z-30">
+        <div className="shrink-0 relative">
           <ReactionGroup
             targetId={achievement.id}
             targetType="achievement"
@@ -104,7 +110,6 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
                     fill
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, 950px"
-                    priority
                   />
                 </div>
               </div>
@@ -133,6 +138,7 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
                     src={achievement.organization_logo} 
                     alt={achievement.issuing_organization} 
                     fill
+                    sizes="40px"
                     className="object-contain"
                   /> 
                 ) : (
@@ -153,7 +159,7 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
                   {t("label.type")}
                 </p>
                 <MiracleBadge color={badgeColor[achievement.type]} variant="secondary">
-                  {t(`type.${achievement.type}`)}
+                  {td(achievement.type)}
                 </MiracleBadge>
               </div>
 

@@ -2,7 +2,8 @@
 
 import clsx from "clsx"
 import type { InputHTMLAttributes, ReactNode } from "react"
-import { useId } from "react"
+import { useId, useRef, useState } from "react"
+import { LuX } from "react-icons/lu"
 
 export type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: ReactNode
@@ -11,6 +12,8 @@ export type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   startIcon?: ReactNode
   endIcon?: ReactNode
   fullWidth?: boolean
+  clearable?: boolean
+  onClear?: () => void
 }
 
 export default function MiracleTextField({
@@ -23,11 +26,41 @@ export default function MiracleTextField({
   className,
   id,
   disabled,
+  clearable = true,
+  onClear,
+  onChange,
   ...props
 }: TextFieldProps) {
   const generatedId = useId()
   const inputId = id || generatedId
   const isError = !!error
+
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [hasValue, setHasValue] = useState(() => String(props.value ?? props.defaultValue ?? "").length > 0)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHasValue(e.target.value.length > 0)
+    onChange?.(e)
+  }
+
+  const handleClear = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (inputRef.current) {
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set
+      nativeInputValueSetter?.call(inputRef.current, "")
+      
+      const event = new Event("input", { bubbles: true })
+      inputRef.current.dispatchEvent(event)
+    }
+
+    setHasValue(false)
+    onClear?.()
+  }
+
+  const hasClearFeature = clearable
+  const showClear = hasClearFeature && (props.value !== undefined ? String(props.value).length > 0 : hasValue)
 
   return (
     <div className={clsx("flex flex-col gap-1.5", fullWidth && "w-full", className)}>
@@ -57,16 +90,37 @@ export default function MiracleTextField({
 
         <input
           id={inputId}
+          ref={inputRef}
           disabled={disabled}
           className={clsx(
             "placeholder:text-secondary w-full bg-transparent px-3 py-2 text-sm outline-none disabled:cursor-not-allowed",
             startIcon && "pl-2",
-            endIcon && "pr-2"
+            (endIcon || hasClearFeature) && "pr-2"
           )}
+          onChange={handleChange}
           {...props}
         />
 
-        {endIcon && <span className="text-secondary flex items-center pr-3">{endIcon}</span>}
+        {(endIcon || hasClearFeature) && (
+          <div className="flex shrink-0 items-center gap-1.5 pr-3">
+            {hasClearFeature && (
+              <button
+                type="button"
+                tabIndex={-1}
+              onClick={handleClear}
+                disabled={disabled}
+                className={clsx(
+                  "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 hover:dark:text-neutral-50 hover:bg-neutral-100 hover:dark:bg-neutral-900 flex items-center justify-center outline-none transition-all disabled:cursor-not-allowed cursor-pointer p-1 rounded-full",
+                  showClear ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+                )}
+                aria-label="Clear input"
+              >
+                <LuX size={16} />
+              </button>
+            )}
+            {endIcon && <span className="text-secondary flex items-center">{endIcon}</span>}
+          </div>
+        )}
       </div>
 
       {(helperText || typeof error === "string") && (
