@@ -12,34 +12,14 @@ type AchievementRawResponse = Pick<
 >
   & {
     categories: {
-      is_show: boolean;
-      category: Category;
+      is_show: boolean
+      category: Category
     }[];
     reaction_counts: ReactionCount[]
     reactions: Reaction[]
   }
 
-// --- HELPERs ---
-const mapToAchievement = (achievement: AchievementRawResponse): Achievement => {
-  const categories = achievement.categories?.map((ac) => ac.category).filter(Boolean) ?? []
-  const userReaction = achievement.reactions?.[0] ?? null
-  const allReactions = achievement.reaction_counts || []
-  
-  return {
-    ...achievement,
-    organization_logo: achievement.organization_logo ?? null,
-    credential_id: achievement.credential_id ?? null,
-    expiration_date: achievement.expiration_date ?? null,
-    categories,
-    reaction_summary: {
-      userReaction,
-      allReactions,
-      totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
-      totalEmojis: allReactions.length,
-    }
-  }
-}
-
+// --- HELPERS ---
 const getColumns = (isFilteringCategory: boolean = false) => `
     id,
     name,
@@ -84,11 +64,31 @@ const getColumns = (isFilteringCategory: boolean = false) => `
     ) 
   `
 
+const mapToAchievement = (achievement: AchievementRawResponse): Achievement => {
+  const categories = achievement.categories?.map((ac) => ac.category).filter(Boolean) ?? []
+  const userReaction = achievement.reactions?.[0] ?? null
+  const allReactions = achievement.reaction_counts || []
+  
+  return {
+    ...achievement,
+    organization_logo: achievement.organization_logo ?? null,
+    credential_id: achievement.credential_id ?? null,
+    expiration_date: achievement.expiration_date ?? null,
+    categories,
+    reaction_summary: {
+      userReaction,
+      allReactions,
+      totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
+      totalEmojis: allReactions.length,
+    }
+  }
+}
+
 // --- MAIN FUNCTION ---
 export async function getFeaturedAchievements(): Promise<Achievement[]> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000";
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
 
   const { data, error } = await supabase
     .from("achievements")
@@ -192,7 +192,6 @@ export async function getPaginatedAchievements({
 
   const hasMore = data.length > pageSize
   const trimmedData = hasMore ? data.slice(0, pageSize) : data
-  
   const mappedData = trimmedData.map(mapToAchievement)
   const lastItem = mappedData[mappedData.length - 1]
 

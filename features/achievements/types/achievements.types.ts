@@ -27,19 +27,6 @@ export type AchievementEntity = {
   updated_at: string
 }
 
-/**
- * ACHIEVEMENT CATEGORY ENTITY
- * Raw data from 'achievement_categories' table.
- */
-export type AchievementCategoryEntity = {
-  id: string
-  Achievement_id: string
-  category_id: string
-  user_id: string
-  created_at: string
-  updated_at: string
-}
-
 export type Achievement = Pick<
   AchievementEntity,
   "id" | "name" | "type" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index" | "created_at">

@@ -1,4 +1,6 @@
+import { Category } from "@/features/categories/types/categories.types"
 import type { ReactionSummary } from "@/features/reactions/types/reactions.types"
+import { Cursor } from "@/features/shared/types/index.types"
 import type { Skill } from "@/features/skills/types/skills.types"
 
 /**
@@ -43,10 +45,17 @@ export type ProjectTranslationEntity = {
  */
 export type Project = Pick<
   ProjectEntity,
-  "id" | "slug" | "thumbnail" | "url" | "github_url" | "is_show" | "is_featured" | "order_index"> 
+  "id" | "slug" | "thumbnail" | "url" | "github_url" | "is_show" | "is_featured" | "order_index" | "created_at"> 
   & Pick<ProjectTranslationEntity, "name" | "description" | "content" | "additional_info" | "additional_info_label" > 
   & {
     skills: Skill[]
+    categories: Category[]
     comment_count: number
     reaction_summary: ReactionSummary
   }
+
+export type PaginatedProjects = {
+  data: Project[]
+  nextCursor: Cursor | null
+  hasMore: boolean
+}

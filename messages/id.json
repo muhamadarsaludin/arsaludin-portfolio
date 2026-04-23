@@ -1,6 +1,13 @@
 {
   "data": {
-    "categories": {},
+    "categories": {
+      "personal": "Proyek Pribadi",
+      "professional": "Proyek Profesional",
+      "client": "Proyek klien",
+      "design-system": "Sistem Desain",
+      "exploration": "Eksplorasi",
+      "case-study": "Studi Kasus"
+    },
     "achievementTypes": {
       "award": "Penghargaan",
       "course": "Kursus"
@@ -195,6 +202,22 @@
       "filter": {
         "label": {
           "types": "Jenis",
+          "categories": "Kategori"
+        },
+        "reset": "Reset semua filter"
+      }
+    },
+    "projects": {
+      "title": "Proyek",
+      "description": "Koleksi proyek yang merepresentasikan keahlian teknis saya sebagai UX Engineer, membahas proses serta keputusan teknis di baliknya.",
+      "searchBarPlaceholder": "Cari Proyek...",
+      "noMoreData": "Anda telah melihat semua data!",
+      "breadcrumbs": {
+        "home": "Beranda",
+        "projects": "Proyek"
+      },
+      "filter": {
+        "label": {
           "categories": "Kategori"
         },
         "reset": "Reset semua filter"

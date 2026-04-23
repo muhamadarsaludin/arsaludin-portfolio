@@ -1,6 +1,13 @@
 {
   "data": {
-    "categories": {},
+    "categories": {
+      "personal": "Personal Project",
+      "professional": "Professional Project",
+      "client": "Professional Project",
+      "design-system": "Design System",
+      "exploration": "Exploration",
+      "case-study": "Case Study"
+    },
     "achievementTypes": {
       "award": "Award",
       "course": "Course"
@@ -195,6 +202,22 @@
       "filter": {
         "label": {
           "types": "Types",
+          "categories": "Categories"
+        },
+        "reset": "Reset all filters"
+      }
+    },
+    "projects": {
+      "title": "Projects",
+      "description": "A collection of projects representing my technical expertise as a UX Engineer, highlighting the process and technical decisions.",
+      "searchBarPlaceholder": "Search projects...",
+      "noMoreData": "You've reached the end of the list!",
+      "breadcrumbs": {
+        "home": "Home",
+        "projects": "Projects"
+      },
+      "filter": {
+        "label": {
           "categories": "Categories"
         },
         "reset": "Reset all filters"

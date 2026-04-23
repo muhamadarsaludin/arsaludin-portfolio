@@ -1,30 +1,30 @@
-import { Cursor } from './../../shared/types/index.types';
+import { Cursor } from '../../shared/types/index.types';
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.types"
-import { getPaginatedAchievements } from "../services/achievements"
+import { PROJECTS_PAGE_SIZE } from '../constants/projects.types';
+import { getPaginatedProjects } from '../services/projects';
 
-type UseAchievementsProps = {
+type UseProjectsProps = {
+  locale: string 
   search?: string
-  types?: string[]
   categorySlugs?: string[]
   pageSize?: number
   cursor?: Cursor | undefined
   enabled?: boolean
 }
 
-export function useInfiniteAchievements({
+export function useInfiniteProjects({
+  locale,
   search,
-  types,
   categorySlugs,
-  pageSize = ACHIEVEMENTS_PAGE_SIZE,
+  pageSize = PROJECTS_PAGE_SIZE,
   enabled = true
-}: UseAchievementsProps = {}) {
+}: UseProjectsProps) {
   return useInfiniteQuery({
-    queryKey: ["achievements", { search, types, categorySlugs, pageSize}],
+    queryKey: ["projects", { locale, search, categorySlugs, pageSize}],
     queryFn: async ({ pageParam }) => {
-      return getPaginatedAchievements({
+      return getPaginatedProjects({
+        locale,
         search, 
-        types, 
         categorySlugs, 
         pageSize,
         cursor: pageParam as Cursor | undefined,
