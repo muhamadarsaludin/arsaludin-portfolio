@@ -1,3 +1,4 @@
+import Container from "@/components/Container"
 import AchievementsSection from "./achievements/AchievementsSection"
 import EducationsSection from "./educations/EducationsSection"
 import ExperiencesSection from "./experiences/ExperiencesSection"
@@ -8,7 +9,7 @@ import TestimonialsSection from "./testimonials/TestimonialsSection"
 
 export default function HomePage() {
   return (
-    <>
+    <Container>
       <ProfileSection className="pb-13 lg:pb-23" />
       <SkillsAndServicesSection className="py-13 lg:py-23" />
       <ProjectsSection className="py-13 lg:py-23" />
@@ -16,6 +17,6 @@ export default function HomePage() {
       <EducationsSection className="py-13 lg:py-23" />
       <AchievementsSection className="py-13 lg:py-23" />
       <TestimonialsSection className="py-13 lg:py-23" />
-    </>
+    </Container>
   )
 }

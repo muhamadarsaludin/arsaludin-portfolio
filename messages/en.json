@@ -222,6 +222,12 @@
         },
         "reset": "Reset all filters"
       }
+    },
+    "privacy": {
+      "breadcrumbs": {
+        "home": "Home",
+        "privacy": "Privacy Policy"
+      }
     }
   }
 }

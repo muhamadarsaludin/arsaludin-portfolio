@@ -10,6 +10,7 @@ import { CategoryTargetType } from '@/features/categories/types/categories.types
 import { PROJECTS_PAGE_SIZE } from '../constants/projects.types';
 import { getPaginatedProjects } from '../services/projects';
 import ProjectsContent from './ProjectsContent';
+import Container from '@/components/Container';
 
 type ProjectsPageProps = {
   params: Promise<{ locale: string }>;
@@ -73,28 +74,30 @@ export default async function ProjectsPage(props: ProjectsPageProps) {
   });
 
   return (
-    <Section className="pb-13 lg:pb-23 w-full">
-      <MiracleBreadcrumbs 
-        locales={routing.locales}
-        overrides={{
-          home: t("breadcrumbs.home"),
-          projects: t("breadcrumbs.projects")
-        }}
-        className="mb-5 md:mb-6"
-      />
-      <div className="mb-10 md:mb-12 w-full">
-        <Heading 
-          id={t("title")}
-          level={1}
-          className="font-semibold">
-            {t("title")}
-        </Heading>
-        <p className='mt-4'>{t("description")}</p>
-      </div>
-      {/* Projects Content */}
-      <HydrationBoundary state={dehydratedState}>
-        <ProjectsContent locale={locale} targetType={targetType} />
-      </HydrationBoundary>
-    </Section>
+    <Container>
+      <Section className="pb-13 lg:pb-23 w-full">
+        <MiracleBreadcrumbs 
+          locales={routing.locales}
+          overrides={{
+            home: t("breadcrumbs.home"),
+            projects: t("breadcrumbs.projects")
+          }}
+          className="mb-5 md:mb-6"
+        />
+        <div className="mb-10 md:mb-12 w-full">
+          <Heading 
+            id={t("title")}
+            level={1}
+            className="font-semibold">
+              {t("title")}
+          </Heading>
+          <p className='mt-4'>{t("description")}</p>
+        </div>
+        {/* Projects Content */}
+        <HydrationBoundary state={dehydratedState}>
+          <ProjectsContent locale={locale} targetType={targetType} />
+        </HydrationBoundary>
+      </Section>
+    </Container>
   )
 }

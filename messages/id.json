@@ -222,6 +222,12 @@
         },
         "reset": "Reset semua filter"
       }
+    },
+    "privacy": {
+      "breadcrumbs": {
+        "home": "Beranda",
+        "privacy": "Kebijakan Privasi"
+      }
     }
   }
 }

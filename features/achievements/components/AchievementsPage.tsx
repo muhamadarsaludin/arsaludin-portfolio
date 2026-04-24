@@ -10,6 +10,7 @@ import AchievementsContent from './AchievementsContent';
 import { Cursor } from '@/features/shared/types/index.types';
 import { getAvailableCategories } from '@/features/categories/services/categories';
 import { CategoryTargetType } from '@/features/categories/types/categories.types';
+import Container from '@/components/Container';
 
 type AchievementsPageProps = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -69,28 +70,30 @@ export default async function AchievementsPage({searchParams}: AchievementsPageP
   });
 
   return (
-    <Section className="pb-13 lg:pb-23 w-full">
-      <MiracleBreadcrumbs 
-        locales={routing.locales}
-        overrides={{
-          home: t("breadcrumbs.home"),
-          achievements: t("breadcrumbs.achievements")
-        }}
-        className="mb-5 md:mb-6"
-      />
-      <div className="mb-10 md:mb-12 w-full">
-        <Heading 
-          id={t("title")}
-          level={1}
-          className="font-semibold">
-            {t("title")}
-        </Heading>
-        <p className='mt-4'>{t("description")}</p>
-      </div>
-      {/* Achievements Content */}
-      <HydrationBoundary state={dehydratedState}>
-        <AchievementsContent targetType={targetType} />
-      </HydrationBoundary>
-    </Section>
+    <Container>
+      <Section className="pb-13 lg:pb-23 w-full">
+        <MiracleBreadcrumbs 
+          locales={routing.locales}
+          overrides={{
+            home: t("breadcrumbs.home"),
+            achievements: t("breadcrumbs.achievements")
+          }}
+          className="mb-5 md:mb-6"
+        />
+        <div className="mb-10 md:mb-12 w-full">
+          <Heading 
+            id={t("title")}
+            level={1}
+            className="font-semibold">
+              {t("title")}
+          </Heading>
+          <p className='mt-4'>{t("description")}</p>
+        </div>
+        {/* Achievements Content */}
+        <HydrationBoundary state={dehydratedState}>
+          <AchievementsContent targetType={targetType} />
+        </HydrationBoundary>
+      </Section>
+    </Container>
   )
 }

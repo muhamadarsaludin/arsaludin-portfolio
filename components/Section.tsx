@@ -8,7 +8,7 @@ export type SectionProps = React.HTMLAttributes<HTMLElement> & {
 export default function Section({ children, className, ...props }: SectionProps) {
   return (
     <section {...props}>
-      <div className={clsx("mx-auto max-w-(--m-page-width) px-4 md:px-6", className)}>{children}</div>
+      <div className={clsx("w-full", className)}>{children}</div>
     </section>
   )
 }
