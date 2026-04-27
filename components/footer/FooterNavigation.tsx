@@ -19,13 +19,13 @@ const navigationLinks = [
     disabled: false,
   },
   {
-    label: "vault",
-    href: "/vault",
+    label: "inspirationWebsite",
+    href: "/inpiration-website",
     disabled: false,
   },
   {
-    label: "privacy",
-    href: "/privacy",
+    label: "privacyPolicy",
+    href: "/privacy-policy",
     disabled: false,
   }
 ]

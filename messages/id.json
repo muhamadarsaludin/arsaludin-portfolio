@@ -38,7 +38,8 @@
         "changelog": "Changelog",
         "techStack": "Teknologi",
         "vault": "Vault",
-        "privacy": "Privasi"
+        "inspirationWebsite": "Website Inspirasi",
+        "privacyPolicy": "Kebijakan Privasi"
       }
     },
     "skillBadges": {
@@ -227,10 +228,10 @@
         "reset": "Reset semua filter"
       }
     },
-    "privacy": {
+    "privacy-policy": {
       "breadcrumbs": {
         "home": "Beranda",
-        "privacy": "Kebijakan Privasi"
+        "privacy-policy": "Kebijakan Privasi"
       }
     },
     "changelog": {

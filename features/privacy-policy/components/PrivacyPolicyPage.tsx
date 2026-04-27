@@ -6,19 +6,19 @@ import { notFound } from 'next/navigation';
 import Container from '@/components/Container';
 import TableOfContents from '@/components/TableOfContents';
 
-type PrivacyPageProps = {
+type PrivacyPolicyPageProps = {
   params: Promise<{ locale: string }>;
 };
 
-export default async function PrivacyPage({params}: PrivacyPageProps) {
+export default async function PrivacyPolicyPage({params}: PrivacyPolicyPageProps) {
   const {locale} = await params
-  const t = await getTranslations("pages.privacy")
+  const t = await getTranslations("pages.privacy-policy")
 
   let Content;
   try {
     Content = locale === 'id' 
-      ? (await import('../markdown/privacy-id.mdx')).default
-      : (await import('../markdown/privacy-en.mdx')).default;
+      ? (await import('../markdown/privacy-policy-id.mdx')).default
+      : (await import('../markdown/privacy-policy-en.mdx')).default;
   } catch (error) {
     console.error("MDX file not found", error);
     notFound();
@@ -31,7 +31,7 @@ export default async function PrivacyPage({params}: PrivacyPageProps) {
           locales={routing.locales}
           overrides={{
             home: t("breadcrumbs.home"),
-            privacy: t("breadcrumbs.privacy")
+            "privacy-policy": t("breadcrumbs.privacy-policy")
           }}
           className="mb-5 md:mb-6"
         />

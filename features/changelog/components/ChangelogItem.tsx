@@ -72,11 +72,11 @@ export default function ChangelogItem({
               </MiracleBadge>
             }
           </div>
-          <time className="text-secondary text-sm md:text-base">
+          <MiracleBadge>
             {t(
               "released", {date: formatDate({date: releaseDate, locale, dateStyle:"long"})}
             )}
-          </time>
+          </MiracleBadge>
         </div>
         
         <div className={clsx(
