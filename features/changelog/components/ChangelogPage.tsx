@@ -1,0 +1,61 @@
+import { getTranslations } from 'next-intl/server';
+import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs';
+import Section from '@/components/Section';
+import { routing } from '@/i18n/routing';
+import Container from '@/components/Container';
+import TableOfContents from '@/components/TableOfContents';
+import Heading from '@/components/Heading';
+import { getChangelog } from '../data';
+import { compileMDX } from '@/lib/mdx';
+import ChangelogItem from './ChangelogItem';
+
+type ChangelogPageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function ChangelogPage({params}: ChangelogPageProps) {
+  const {locale} = await params
+  const t = await getTranslations("pages.changelog")
+  const changelog = getChangelog(locale)
+  
+
+  return (
+    <Container className="flex gap-4 md:gap-6 items-start w-full">
+      <Section className="pb-13 lg:pb-23 flex-1 w-full">
+        <MiracleBreadcrumbs 
+          locales={routing.locales}
+          overrides={{
+            home: t("breadcrumbs.home"),
+            changelog: t("breadcrumbs.changelog")
+          }}
+          className="mb-5 md:mb-6"
+        />
+        <article className="w-full">
+          <div className="mb-10 md:mb-12 w-full">
+            <Heading 
+              id={t("title")}
+              level={1}
+              className="font-semibold">
+                {t("title")}
+            </Heading>
+            <p className='mt-4'>{t("description")}</p>
+          </div>
+          
+          <div className="flex flex-col w-full">
+            {await Promise.all(
+              changelog.map(async (item, index) =>{
+                const MDXContent = await compileMDX(item.notes);
+                return (
+                  <ChangelogItem key={item.version} version={item.version} releaseDate={item.releaseDate} index={index}>
+                    <MDXContent />
+                  </ChangelogItem>
+                )
+              })
+            )}
+          </div>
+        </article>
+      </Section>
+      <TableOfContents className="hidden lg:block sticky top-30 shrink-0" />
+    </Container>
+  )
+}

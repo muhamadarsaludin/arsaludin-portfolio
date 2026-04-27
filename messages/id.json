@@ -145,6 +145,10 @@
         "categories": "Kategori"
       }
     },
+    "changelogItem": {
+      "latest": "Terbaru",
+      "released": "Dirilis pada: {date}"
+    },
     "testimonialCard": {
       "at": "di"
     },
@@ -227,6 +231,14 @@
       "breadcrumbs": {
         "home": "Beranda",
         "privacy": "Kebijakan Privasi"
+      }
+    },
+    "changelog": {
+      "title": "Changelog",
+      "description": "Lihat apa saja yang baru di portofolio saya, mulai dari fitur baru dan peningkatan hingga perbaikan bug terbaru.",
+      "breadcrumbs": {
+        "home": "Beranda",
+        "changelog": "Changelog"
       }
     }
   }

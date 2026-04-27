@@ -148,6 +148,10 @@
     "testimonialCard": {
       "at": "at"
     },
+    "changelogItem": {
+      "latest": "Latest",
+      "released": "Released on: {date}"
+    },
     "errorStateCard": {
       "errorMessage": "Unable to load. Please try again later",
       "cta": "Try again"
@@ -227,6 +231,14 @@
       "breadcrumbs": {
         "home": "Home",
         "privacy": "Privacy Policy"
+      }
+    },
+    "changelog": {
+      "title": "Changelog",
+      "description": "See what's new on my portfolio, from fresh features and improvements to the latest bug fixes.",
+      "breadcrumbs": {
+        "home": "Home",
+        "changelog": "Changelog"
       }
     }
   }

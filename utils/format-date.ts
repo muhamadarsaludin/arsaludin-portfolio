@@ -24,17 +24,33 @@ type FormatDateParams = {
  * options: { month: 'short', year: 'numeric' }
  * });
  */
-export const formatDate = ({ date, locale, dateStyle = "long", options }: FormatDateParams): string => {
-  // Convert input to a valid Date object
-  const dateObj = date instanceof Date ? date : new Date(date)
+export const formatDate = ({ 
+  date, 
+  locale, 
+  dateStyle = "long", 
+  options 
+}: FormatDateParams): string => {
+  let dateObj: Date;
 
-  // If the date is invalid, prevent the app from crashing and return a fallback
-  if (isNaN(dateObj.getTime())) {
-    console.warn(`Invalid date provided to formatDate: ${date}`)
-    return "N/A"
+  if (date instanceof Date) {
+    dateObj = date;
+  } else {
+    let dateString = String(date);
+    if (typeof date === 'string' && date.includes('-')) {
+      const parts = date.split('-');
+      if (parts.length === 3 && parts[0].length !== 4) {
+        dateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
+      }
+    }
+    dateObj = new Date(dateString);
   }
-  const finalOptions: Intl.DateTimeFormatOptions = options
-    ? options
-    : { dateStyle: dateStyle }
-  return new Intl.DateTimeFormat(locale, finalOptions).format(dateObj)
-}
+
+  if (isNaN(dateObj.getTime())) {
+    console.warn(`Invalid date provided to formatDate: ${date}`);
+    return "N/A";
+  }
+
+  const finalOptions: Intl.DateTimeFormatOptions = options || { dateStyle };
+  
+  return new Intl.DateTimeFormat(locale, finalOptions).format(dateObj);
+};
