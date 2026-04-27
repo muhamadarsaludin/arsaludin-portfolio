@@ -230,6 +230,7 @@
       "filter": {
         "label": {
           "types": "Types",
+          "levels": "Levels",
           "categories": "Categories"
         },
         "reset": "Reset all filters"

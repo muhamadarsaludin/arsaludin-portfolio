@@ -22,8 +22,8 @@
       },
       "levels": {
         "expert": "Expert",
-        "intermediate": "Intermediate",
-        "beginner": "Beginner"
+        "intermediate": "Menengah",
+        "beginner": "Pemula"
       }
     }
   },
@@ -230,6 +230,7 @@
       "filter": {
         "label": {
           "types": "Jenis",
+          "levels": "Level",
           "categories": "Kategori"
         },
         "reset": "Reset semua filter"

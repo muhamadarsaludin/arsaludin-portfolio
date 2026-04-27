@@ -119,6 +119,7 @@ export async function getFeaturedAchievements(): Promise<Achievement[]> {
 type GetPaginatedAchievementsParams = {
   search?: string
   types?: string[]
+  levels?: string[]
   categorySlugs?: string[]
   cursor?: Cursor
   pageSize?: number
@@ -127,6 +128,7 @@ type GetPaginatedAchievementsParams = {
 export async function getPaginatedAchievements({
   search,
   types,
+  levels,
   categorySlugs,
   cursor,
   pageSize = ACHIEVEMENTS_PAGE_SIZE,
@@ -161,6 +163,10 @@ export async function getPaginatedAchievements({
 
   if (types && types.length > 0) {
     query = query.in("type", types)
+  }
+
+  if (levels && levels.length > 0) {
+    query = query.in("level", levels)
   }
 
   if (isFilteringCategory) {

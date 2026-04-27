@@ -15,7 +15,7 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import AchievementCardSkeleton from "./AchievementCardSkeleton"
 import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
 import AchievementCard from "./AchievementCard"
-import { ACHIEVEMENTS_PAGE_SIZE, ACHIEVEMENTS_TYPES } from "../constants/achievements.types"
+import { ACHIEVEMENTS_PAGE_SIZE, ACHIEVEMENTS_TYPES, ACHIEVEMENTS_LEVELS } from "../constants/achievements.types"
 import { useAvailableCategories } from "@/features/categories/hooks/useAvailableCategories"
 import { CategoryTargetType } from "@/features/categories/types/categories.types"
 import { useUrlParams } from "@/hooks/useSearchParams"
@@ -33,6 +33,7 @@ export default function AchievementsContent({
   const { setParams, getParam, getArrayParam } = useUrlParams()
 
   const types = getArrayParam("types") || []
+  const levels = getArrayParam("levels") || []
   const categorySlugs = getArrayParam("categories") || []
   const searchUrl = getParam("search") || ""
 
@@ -50,8 +51,8 @@ export default function AchievementsContent({
     }
   }, [debouncedSearch, searchUrl, setParams])
 
-  const handleToggleFilter = (key: "types" | "categories", value: string) => {
-    const current = key === "types" ? types : categorySlugs
+  const handleToggleFilter = (key: "types" | "levels" | "categories", value: string) => {
+    const current = key === "types" ? types : key === "levels" ? levels : categorySlugs
     const next = current.includes(value)
       ? current.filter((v) => v !== value)
       : [...current, value]
@@ -59,15 +60,15 @@ export default function AchievementsContent({
     setParams({ [key]: next.length ? next : undefined })
   }
 
-  const handleToggleAll = (key: "types" | "categories", allValues: string[]) => {
-    const current = key === "types" ? types : categorySlugs
+  const handleToggleAll = (key: "types" | "levels" | "categories", allValues: string[]) => {
+    const current = key === "types" ? types : key === "levels" ? levels : categorySlugs
     const isAllSelected = allValues.length > 0 && allValues.every(v => current.includes(v))
     
     setParams({ [key]: isAllSelected ? undefined : allValues })
   }
 
   const handleReset = () => {
-    setParams({ types: undefined, categories: undefined, search: undefined })
+    setParams({ types: undefined, levels: undefined, categories: undefined, search: undefined })
     setSearch("")
   }
 
@@ -80,9 +81,10 @@ export default function AchievementsContent({
   const currentFilters = useMemo(() => ({
     search: searchUrl || undefined,
     types: types.length ? types : undefined,
+    levels: levels.length ? levels : undefined,
     categorySlugs: categorySlugs.length ? categorySlugs : undefined,
     pageSize: ACHIEVEMENTS_PAGE_SIZE,
-  }), [searchUrl, types, categorySlugs])
+  }), [searchUrl, types, levels, categorySlugs])
 
   const { 
     data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch 
@@ -98,7 +100,9 @@ export default function AchievementsContent({
   })
 
   const typeStatus = getGroupStatus(types, ACHIEVEMENTS_TYPES as string[])
+  const levelStatus = getGroupStatus(levels, ACHIEVEMENTS_LEVELS as string[])
   const categoryStatus = getGroupStatus(categorySlugs, categorySlugsList)
+  const activeFiltersCount = types.length + levels.length + categorySlugs.length
 
   const renderContent = () => {
     if (isError) return <ErrorStateCard onRetry={() => refetch()} />
@@ -145,9 +149,9 @@ export default function AchievementsContent({
             >
               <div className="flex gap-2 items-center">
                 Filter 
-                {(types.length + categorySlugs.length) > 0 && (
+                {activeFiltersCount > 0 && (
                   <MiracleBadge size="sm" variant="secondary">
-                    {types.length + categorySlugs.length}
+                    {activeFiltersCount}
                   </MiracleBadge>
                 )}
               </div>
@@ -155,6 +159,7 @@ export default function AchievementsContent({
           }
         >
           <div className="flex flex-col w-64 max-h-112.5 gap-4 overflow-y-auto p-4">
+            {/* Filter Types */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <MiracleCheckbox 
@@ -175,12 +180,40 @@ export default function AchievementsContent({
                     checked={types.includes(type)}
                     onChange={() => handleToggleFilter("types", type)}
                   >
-                    {td(`achievementTypes.${type}`)}
+                    {td(`achievement.types.${type}`)}
+                  </MiracleCheckbox>
+                ))}
+              </div>
+            </div>
+
+            {/* Filter Levels */}
+            <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
+              <div className="flex items-center gap-2">
+                <MiracleCheckbox 
+                  invers
+                  checked={levelStatus.isAllSelected}
+                  indeterminate={levelStatus.isSomeSelected}
+                  onChange={() => handleToggleAll("levels", ACHIEVEMENTS_LEVELS as string[])}
+                />
+                <p className="text-xs font-semibold uppercase tracking-tight">
+                  {t("filter.label.levels")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1 pl-4">
+                {ACHIEVEMENTS_LEVELS.map((level) => (
+                  <MiracleCheckbox 
+                    key={level} 
+                    invers
+                    checked={levels.includes(level.toString())}
+                    onChange={() => handleToggleFilter("levels", level.toString())}
+                  >
+                    {td(`achievement.levels.${level}`)}
                   </MiracleCheckbox>
                 ))}
               </div>
             </div>
             
+            {/* Filter Categories */}
             {categories && categories.length > 0 && (
               <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
                 <div className="flex items-center gap-2">
@@ -209,7 +242,7 @@ export default function AchievementsContent({
               </div>
             )}
 
-            {(categorySlugs.length > 0 || types.length > 0 || searchUrl) && (
+            {(categorySlugs.length > 0 || types.length > 0 || levels.length > 0 || searchUrl) && (
               <div className="w-full pt-4 border-t border-primary-inv">
                 <MiracleButton 
                   status="danger" 

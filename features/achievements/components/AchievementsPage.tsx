@@ -31,6 +31,7 @@ export default async function AchievementsPage({searchParams}: AchievementsPageP
   const filters = {
     search: typeof searchParams.search === 'string' && searchParams.search ? searchParams.search : undefined,
     types: parseArrayParam(searchParams.types),
+    levels: parseArrayParam(searchParams.levels),
     categorySlugs: parseArrayParam(searchParams.categories),
     pageSize: ACHIEVEMENTS_PAGE_SIZE
   };
