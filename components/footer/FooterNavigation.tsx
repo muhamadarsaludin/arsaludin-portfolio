@@ -14,6 +14,11 @@ const navigationLinks = [
     disabled: false,
   },
   {
+    label: "roadmap",
+    href: "/roadmap",
+    disabled: true,
+  },
+  {
     label: "techStack",
     href: "/tech-stack",
     disabled: false,
@@ -34,7 +39,7 @@ export default function FooterNavigation({ className }: FooterNavigationProps) {
   const t = useTranslations("components.footer.navigation")
 
   return (
-    <nav className={clsx("flex items-center justify-center gap-3 md:gap-6", className)}>
+    <nav className={clsx("flex items-center justify-center gap-y-1 gap-x-3 md:gap-x-6 flex-wrap", className)}>
       {navigationLinks.map((link, index) => (
         <FooterNavLink
           key={index}

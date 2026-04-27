@@ -8,7 +8,7 @@ import { Cursor } from "@/features/shared/types/index.types"
 import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.types"
 
 type AchievementRawResponse = Pick<
-  AchievementEntity, "id" | "name" | "type" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index" | "created_at"
+  AchievementEntity, "id" | "name" | "type" | "level" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index" | "created_at"
 >
   & {
     categories: {
@@ -24,6 +24,7 @@ const getColumns = (isFilteringCategory: boolean = false) => `
     id,
     name,
     type,
+    level,
     image,
     issuing_organization,
     organization_logo,

@@ -8,9 +8,23 @@
       "exploration": "Exploration",
       "case-study": "Case Study"
     },
-    "achievementTypes": {
-      "award": "Award",
-      "course": "Course"
+    "service": {
+      "levels": {
+        "expert": "Expert",
+        "intermediate": "Intermediate",
+        "beginner": "Beginner"
+      }
+    },
+    "achievement": {
+      "types": {
+        "award": "Award",
+        "course": "Course"
+      },
+      "levels": {
+        "expert": "Expert",
+        "intermediate": "Intermediate",
+        "beginner": "Beginner"
+      }
     }
   },
   "components": {
@@ -36,6 +50,7 @@
       "copyright": "© {year} Muhamad Arsaludin. All rights reserved",
       "navigation": {
         "changelog": "Changelog",
+        "roadmap": "Roadmap",
         "techStack": "Tech Stack",
         "vault": "Vault",
         "inspirationWebsite": "Inspiration Website",
@@ -108,6 +123,13 @@
         "fetching": "Loading replies..."
       }
     },
+    "serviceCard": {
+      "level": {
+        "expert": "Expert",
+        "intermediate": "Intermediate",
+        "beginner": "Beginner"
+      }
+    },
     "experienceCard": {
       "keyContributions": "Contributions",
       "show": "Show detail",
@@ -141,6 +163,7 @@
         "credentialID": "Credential ID",
         "credentialURL": "Credential URL",
         "type": "Type",
+        "level": "Level",
         "issueDate": "Issue Date",
         "expirationDate": "Expiration Date",
         "categories": "Categories"

@@ -3,6 +3,7 @@ import type { ReactionSummary } from "@/features/reactions/types/reactions.types
 import { Cursor } from "@/features/shared/types/index.types"
 
 export type AchievementType = "award" | "course"
+export type AchievementLevel = "expert" | "intermediate" | "beginner"
 
 /**
  * ACHIEVEMENT ENTITY
@@ -12,6 +13,7 @@ export type AchievementEntity = {
   id: string
   name: string
   type: AchievementType
+  level: AchievementLevel | null
   image: string
   issuing_organization: string
   organization_logo: string | null
@@ -29,7 +31,7 @@ export type AchievementEntity = {
 
 export type Achievement = Pick<
   AchievementEntity,
-  "id" | "name" | "type" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index" | "created_at">
+  "id" | "name" | "type" | "level" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index" | "created_at">
   & { 
     categories: Category[]
     reaction_summary: ReactionSummary

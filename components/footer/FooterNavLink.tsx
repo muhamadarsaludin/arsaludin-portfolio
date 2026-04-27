@@ -13,7 +13,7 @@ export default function FooterNavLink({ href, label, disabled = false }: FooterN
   const isActive = pathname === href
 
   if (disabled) {
-    return <span>{label}</span>
+    return <span className="py-2 text-sm text-neutral-med cursor-not-allowed">{label}</span>
   }
   return (
     <Link

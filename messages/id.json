@@ -8,9 +8,23 @@
       "exploration": "Eksplorasi",
       "case-study": "Studi Kasus"
     },
-    "achievementTypes": {
-      "award": "Penghargaan",
-      "course": "Kursus"
+    "service": {
+      "levels": {
+        "expert": "Expert",
+        "intermediate": "Intermediate",
+        "beginner": "Beginner"
+      }
+    },
+    "achievement": {
+      "types": {
+        "award": "Award",
+        "course": "Course"
+      },
+      "levels": {
+        "expert": "Expert",
+        "intermediate": "Intermediate",
+        "beginner": "Beginner"
+      }
     }
   },
   "components": {
@@ -36,6 +50,7 @@
       "copyright": "© {year} Muhamad Arsaludin. Hak cipta dilindungi.",
       "navigation": {
         "changelog": "Changelog",
+        "roadmap": "Roadmap",
         "techStack": "Teknologi",
         "vault": "Vault",
         "inspirationWebsite": "Website Inspirasi",
@@ -108,6 +123,13 @@
         "fetching": "Memuat balasan..."
       }
     },
+    "serviceCard": {
+      "level": {
+        "expert": "Expert",
+        "intermediate": "Menengah",
+        "beginner": "Pemula"
+      }
+    },
     "experienceCard": {
       "keyContributions": "Kontribusi",
       "show": "Lihat detail",
@@ -141,6 +163,7 @@
         "credentialID": "ID Kredensial",
         "credentialURL": "URL Kredensial",
         "type": "Jenis",
+        "level": "Level",
         "issueDate": "Tanggal Terbit",
         "expirationDate": "Tanggal Kadaluwarsa",
         "categories": "Kategori"

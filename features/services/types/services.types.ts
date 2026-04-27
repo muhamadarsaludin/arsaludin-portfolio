@@ -1,5 +1,7 @@
 import type { Skill } from "@/features/skills/types/skills.types"
 
+export type ServiceLevel = "expert" | "intermediate" | "beginner"
+
 /**
  * SERVICE ENTITY
  * Raw data from 'services' table.
@@ -7,7 +9,7 @@ import type { Skill } from "@/features/skills/types/skills.types"
 export type ServiceEntity = {
   id: string
   slug: string
-  level: string | null
+  level: ServiceLevel | null
   order_index: number
   is_show: boolean
   user_id: string

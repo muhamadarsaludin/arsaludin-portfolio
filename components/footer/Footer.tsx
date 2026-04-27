@@ -95,7 +95,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-primary border-t py-4 md:py-6 flex flex-col-reverse md:flex-row items-center justify-between gap-3">
+        <div className="border-primary border-t py-4 md:py-6 flex flex-col-reverse lg:flex-row items-center justify-between gap-3">
           <p className="text-secondary text-sm">
             {t("copyright", { year: year })}
           </p>

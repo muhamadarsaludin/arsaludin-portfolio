@@ -2,12 +2,12 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import type { Achievement, AchievementType } from "../types/achievements.types"
+import type { Achievement, AchievementLevel, AchievementType } from "../types/achievements.types"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleModal from "@/components/miracle/Modal"
 import { useLocale } from "next-intl"
 import { useTranslations } from "use-intl"
-import { LuAward, LuMinus, LuPlus } from "react-icons/lu"
+import { LuAward, LuCrown, LuMinus, LuPlus } from "react-icons/lu"
 import { formatDate } from "@/utils/format-date"
 import MiracleBadge, { BadgeColor } from "@/components/miracle/Badge"
 import MiracleButton from "@/components/miracle/Button"
@@ -17,14 +17,20 @@ export default function AchievementCard({ achievement, className }: { achievemen
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [zoomScale, setZoomScale] = useState(1)
 
-  const badgeColor: Record<AchievementType, BadgeColor> = {
+  const typeBadgeColor: Record<AchievementType, BadgeColor> = {
     award: "yellow",
     course: "blue"
   }
 
+  const levelBadgeColor: Record<AchievementLevel, BadgeColor> = {
+    expert: "yellow",
+    intermediate: "blue",
+    beginner: "green"
+  }
+
   const locale = useLocale()
   const t = useTranslations("components.achievementCard")
-  const td = useTranslations("data.achievementTypes")
+  const td = useTranslations("data.achievement")
 
   return (
     <div className={clsx(
@@ -70,8 +76,8 @@ export default function AchievementCard({ achievement, className }: { achievemen
             <div className="text-secondary text-sm tracking-tight flex items-center gap-1">
               <span>{achievement.issuing_organization}</span>
               |
-              <MiracleBadge color={badgeColor[achievement.type]} size="sm" variant="secondary">
-                {td(achievement.type)}
+              <MiracleBadge color={typeBadgeColor[achievement.type]} size="sm" variant="secondary">
+                {td("types." + achievement.type)}
               </MiracleBadge>
             </div>
           </div>
@@ -154,15 +160,6 @@ export default function AchievementCard({ achievement, className }: { achievemen
 
             {/* Main Details */}
             <div className="flex flex-col gap-4 w-full border-y border-primary py-5 md:py-6">
-              <div className="flex flex-col gap-1.5 items-start">
-                <p className="text-xs uppercase tracking-tight text-secondary">
-                  {t("label.type")}
-                </p>
-                <MiracleBadge color={badgeColor[achievement.type]} variant="secondary">
-                  {td(achievement.type)}
-                </MiracleBadge>
-              </div>
-
               {achievement.credential_id && (
                 <div className="flex flex-col gap-1.5">
                   <p className="text-xs uppercase tracking-tight text-secondary">
@@ -174,6 +171,31 @@ export default function AchievementCard({ achievement, className }: { achievemen
                 </div>
               )}
               
+              <div className="grid grid-cols-2">
+                <div className="flex flex-col gap-1 items-start">
+                  <p className="text-xs uppercase tracking-tight text-secondary">
+                    {t("label.type")}
+                  </p>
+                  <MiracleBadge color={typeBadgeColor[achievement.type]} variant="secondary">
+                    {td("types." + achievement.type)}
+                  </MiracleBadge>
+                </div>
+                <div className="flex flex-col gap-1 items-start">
+                  <p className="text-xs uppercase tracking-tight text-secondary">
+                    {t("label.level")}
+                  </p>
+                  {achievement.level ? (
+                    <MiracleBadge color={levelBadgeColor[achievement.level]} variant="secondary" startIcon={achievement.level === "expert" ? (<LuCrown />) : undefined}>
+                      {td("levels." + achievement.level)}
+                    </MiracleBadge>
+                  ) : (
+                    <p className="text-sm text-primary font-medium">
+                      -
+                    </p>
+                  )}
+                </div>
+                
+              </div>
               <div className="grid grid-cols-2">
                 <div className="flex flex-col gap-1">
                   <p className="text-xs uppercase tracking-tight text-secondary">
