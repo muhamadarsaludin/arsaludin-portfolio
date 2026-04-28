@@ -84,7 +84,7 @@ export default function TestimonialCard({ testimonial, className }: { testimonia
               target="_blank" 
               rel="noopener noreferrer"
               aria-label={`View ${testimonial.name}'s LinkedIn profile`}
-              className="cursor-pointer lex items-center justify-center cursor-pointer hover:scale-105 text-neutral-600 dark:text-neutral-400 hover:text-blue-600 hover:dark:text-blue-400 transition-all duration-300 ease-in-out p-1">
+              className="flex items-center justify-center cursor-pointer hover:scale-105 text-neutral-600 dark:text-neutral-400 hover:text-blue-600 hover:dark:text-blue-400 transition-all duration-300 ease-in-out p-1">
               <FaLinkedin size={20}/>
             </a>
           )}

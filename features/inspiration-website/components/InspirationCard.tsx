@@ -1,7 +1,11 @@
-import React from 'react'
+"use client"
+
 import { InspirationWebsite } from '../types/inspiration-website.types';
-import { LuExternalLink, LuStar } from 'react-icons/lu';
+import { LuArrowUpRight, LuBriefcaseBusiness, LuCrown, LuExternalLink, LuMapPin, LuStar } from 'react-icons/lu';
 import MiracleBadge from '@/components/miracle/Badge';
+import { useTranslations } from 'next-intl';
+import Heading from '@/components/Heading';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 type InspirationCardProps = {
   item: InspirationWebsite
@@ -10,47 +14,66 @@ type InspirationCardProps = {
 
 export default function InspirationCard({ item, locale }: InspirationCardProps) {
   const desc = item.description?.[locale as 'en' | 'id'] || item.description?.en;
+  const t = useTranslations("components.inspirationCard")
+  const {isMobile} = useMediaQuery()
 
   return (
-    <div className="group relative flex flex-col p-5 rounded-2xl border border-border bg-card hover:border-primary/50 transition-all duration-300">
-      <div className="flex justify-between items-start mb-3">
-        <div className="flex flex-col gap-1">
-          <h3 className="font-bold text-lg leading-none group-hover:text-primary transition-colors">
+    <div className="flex p-5 md:p-6 rounded-2xl border border-primary items-start justify-between group/card overflow-hidden relative">
+      <a
+        href={item.link}
+        className="absolute inset-0 rounded-2xl cursor-pointer group/card"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={t("ariaLabel", {website: item.author})}
+      />
+      <div className="flex flex-col items-start">
+        <div className="flex items-center gap-3">
+          <h3 className="text-primary mb-1 font-semibold text-lg md:text-xl xl:text-2xl">
             {item.author}
           </h3>
-          <span className="text-xs text-secondary font-medium">
-            {item.role || item.type} {item.company ? ` @ ${item.company}` : ''}
-          </span>
-        </div>
-        <div className="flex gap-2">
           {item.is_favorite && (
-            <LuStar className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            <MiracleBadge startIcon={<LuStar />} color="yellow" variant="secondary">
+              {!isMobile ? t("favorite") : undefined}
+            </MiracleBadge>
           )}
-          <a 
-            href={item.link} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="p-1 hover:bg-secondary rounded-md transition-colors"
-          >
-            <LuExternalLink className="w-4 h-4" />
-          </a>
         </div>
-      </div>
 
-      {desc && (
-        <p className="text-sm text-secondary leading-relaxed mb-4">
-          {desc}
+        <p className="text-secondary flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm md:mt-0">
+          {(item.role || item.company) && (
+            <span className="flex items-center gap-1">
+              <LuBriefcaseBusiness className="shrink-0" />
+              <span>
+                {item.role && (
+                  <span>{item.role}</span>
+                )}
+                {item.company && (
+                  <span> {t("at")} {item.company}</span>
+                )}
+              </span>
+            </span>
+          )}
+          <span className="flex items-center gap-0.5">
+            <LuMapPin className="shrink-0" />
+            {item.location}
+          </span>
         </p>
-      )}
 
-      <div className="mt-auto flex gap-2">
-        <MiracleBadge variant="secondary">
-          {item.location}
-        </MiracleBadge>
-        <MiracleBadge variant="secondary">
-          {item.type.replace('-', ' ')}
-        </MiracleBadge>
+
+        {desc && (
+          <p className="text-sm text-secondary leading-relaxed mt-6 pl-2 py-0.5 border-l-2 border-blue italic">
+            "{desc}"
+          </p>
+        )}
       </div>
+      <a 
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={t("ariaLabel", {website: item.author})}
+        className="p-2 rounded-full border-2 border-primary relative z-1 opacity-0 group-hover/card:opacity-100 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-all duration-300 ease-in-out"
+      >
+        <LuArrowUpRight size={20}/>
+      </a>
     </div>
   )
 }

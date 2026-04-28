@@ -22,7 +22,7 @@ export default async function ChangelogPage({params}: ChangelogPageProps) {
 
   return (
     <Container className="flex gap-4 md:gap-6 items-start w-full">
-      <div className="pb-13 lg:pb-23 flex-1 w-full">
+      <Article className="pb-13 lg:pb-23 flex-1 w-full">
         <MiracleBreadcrumbs 
           locales={routing.locales}
           overrides={{
@@ -31,31 +31,29 @@ export default async function ChangelogPage({params}: ChangelogPageProps) {
           }}
           className="mb-5 md:mb-6"
         />
-        <Article>
-          <div className="mb-10 md:mb-12 w-full">
-            <Heading 
-              id={t("title")}
-              level={1}
-              className="font-semibold">
-                {t("title")}
-            </Heading>
-            <p className="mt-4 text-secondary">{t("description")}</p>
-          </div>
-          
-          <div className="flex flex-col w-full">
-            {await Promise.all(
-              changelog.map(async (item, index) =>{
-                const MDXContent = await compileMDX(item.notes);
-                return (
-                  <ChangelogItem key={item.version} version={item.version} releaseDate={item.releaseDate} index={index}>
-                    <MDXContent />
-                  </ChangelogItem>
-                )
-              })
-            )}
-          </div>
-        </Article>
-      </div>
+        <div className="mb-10 md:mb-12 w-full">
+          <Heading 
+            id={t("title")}
+            level={1}
+            className="font-semibold">
+              {t("title")}
+          </Heading>
+          <p className="mt-4 text-secondary">{t("description")}</p>
+        </div>
+        
+        <Section className="flex flex-col w-full">
+          {await Promise.all(
+            changelog.map(async (item, index) =>{
+              const MDXContent = await compileMDX(item.notes);
+              return (
+                <ChangelogItem key={item.version} version={item.version} releaseDate={item.releaseDate} index={index}>
+                  <MDXContent />
+                </ChangelogItem>
+              )
+            })
+          )}
+        </Section>
+      </Article>
       <TableOfContents className="hidden lg:block sticky top-30 shrink-0" />
     </Container>
   )

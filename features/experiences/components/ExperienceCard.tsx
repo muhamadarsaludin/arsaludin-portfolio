@@ -119,6 +119,7 @@ export const ExperienceCard = ({
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="cursor-pointer rounded-md p-2 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800"
+            aria-label={isOpen ? t("hide") : t("show")}
           >
             <LuChevronDown
               size={20}

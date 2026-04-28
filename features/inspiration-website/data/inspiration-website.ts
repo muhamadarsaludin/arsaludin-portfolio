@@ -100,7 +100,7 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[]= [
     is_favorite: false,
     location: "Indonesia",
     role: "Full Stack Developer",
-    company: "Maktabah Al Bakri Sdn.Bhd",
+    company: "Maktabah Al Bakri",
     type: "personal",
   },
   {
@@ -213,7 +213,7 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[]= [
   {
     link: "https://atlassian.design/",
     author: "Atlassian Design",
-    is_favorite: true,
+    is_favorite: false,
     location: "Global",
     type: "organization"
   },

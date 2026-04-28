@@ -8,8 +8,10 @@ import SkillBadges from "@/features/skills/components/SkillBadges"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import CommentGroup from "@/features/comments/components/CommentGroup"
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
+import { useTranslations } from "next-intl"
 
 export default function ProjectCard({ project, className }: { project: Project, className?: string}) {
+  const t = useTranslations("components.projectCard")
   return (
     <div
       className={clsx(
@@ -21,7 +23,7 @@ export default function ProjectCard({ project, className }: { project: Project, 
       <Link
         href={`/projects/${project.slug}`}
         className="absolute inset-0 rounded-2xl z-0"
-        aria-label={`Lihat detail proyek ${project.name}`}
+        aria-label={t("ariaLabel", {project: project.name})}
       />
 
       {/* Image */}

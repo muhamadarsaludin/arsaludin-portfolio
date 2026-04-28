@@ -7,6 +7,7 @@ import { LuOrbit, LuRefreshCcwDot } from 'react-icons/lu';
 import MiracleBadge from '@/components/miracle/Badge';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatDate } from '@/utils/format-date';
+import Section from '@/components/Section';
 
 interface ChangelogItemProps {
   version: string;
@@ -27,7 +28,7 @@ export default function ChangelogItem({
   const locale = useLocale()
 
   return (
-    <div className={clsx(
+    <Section className={clsx(
       "relative border-l-2 pl-8 md:pl-10 ml-4 md:ml-5 pb-6 md:pb-8 last:pb-0 transition-all duration-500 ease-in-out", 
       isOpen ? "border-blue" : "border-primary"
     )}>
@@ -88,6 +89,6 @@ export default function ChangelogItem({
             </div>
         </div>
       </div>
-    </div>
+    </Section>
   );
 }

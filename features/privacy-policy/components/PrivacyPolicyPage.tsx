@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 import Container from '@/components/Container';
 import TableOfContents from '@/components/TableOfContents';
+import Article from '@/components/Article';
 
 type PrivacyPolicyPageProps = {
   params: Promise<{ locale: string }>;
@@ -26,7 +27,7 @@ export default async function PrivacyPolicyPage({params}: PrivacyPolicyPageProps
 
   return (
     <Container className="flex gap-4 md:gap-6 items-start">
-      <div className="pb-13 lg:pb-23 flex-1">
+      <Article className="pb-13 lg:pb-23 flex-1">
         <MiracleBreadcrumbs 
           locales={routing.locales}
           overrides={{
@@ -35,10 +36,10 @@ export default async function PrivacyPolicyPage({params}: PrivacyPolicyPageProps
           }}
           className="mb-5 md:mb-6"
         />
-        <article className="w-full">
+        <Section className="w-full">
           <Content />
-        </article>
-      </div>
+        </Section>
+      </Article>
       <TableOfContents className="hidden lg:block sticky top-30 shrink-0" />
     </Container>
   )

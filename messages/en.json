@@ -129,6 +129,9 @@
         "beginner": "Beginner"
       }
     },
+    "projectCard": {
+      "ariaLabel": "View detail project {project}"
+    },
     "experienceCard": {
       "keyContributions": "Contributions",
       "show": "Show detail",
@@ -174,6 +177,11 @@
     "changelogItem": {
       "latest": "Latest",
       "released": "Released on: {date}"
+    },
+    "inspirationCard": {
+      "at": "at",
+      "favorite": "Favorite",
+      "ariaLabel": "View website {website}"
     },
     "errorStateCard": {
       "errorMessage": "Unable to load. Please try again later",
@@ -268,8 +276,8 @@
     "inspiration-website": {
       "title": "Inspiration Website",
       "description": "A curated collection of standout websites that deeply inspired the creation of this portfolio. This is a tribute to the exceptional work that keeps me exploring and pushing boundaries in web development.",
-      "personal": "Personal Website",
-      "organization": "Organization Website",
+      "personal": "Personal",
+      "organization": "Organization",
       "breadcrumbs": {
         "home": "Home",
         "inspiration-website": "Inspiration Website"

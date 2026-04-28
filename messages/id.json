@@ -129,6 +129,9 @@
         "beginner": "Pemula"
       }
     },
+    "projectCard": {
+      "ariaLabel": "Lihat detail proyek {project}"
+    },
     "experienceCard": {
       "keyContributions": "Kontribusi",
       "show": "Lihat detail",
@@ -168,12 +171,17 @@
         "categories": "Kategori"
       }
     },
+    "testimonialCard": {
+      "at": "di"
+    },
     "changelogItem": {
       "latest": "Terbaru",
       "released": "Dirilis pada: {date}"
     },
-    "testimonialCard": {
-      "at": "di"
+    "inspirationCard": {
+      "at": "di",
+      "favorite": "Favorit",
+      "ariaLabel": "Lihat website {website}"
     },
     "errorStateCard": {
       "errorMessage": "Gagal memuat data. Silakan coba lagi nanti",
@@ -268,8 +276,8 @@
     "inspiration-website": {
       "title": "Website Inspirasi",
       "description": "Koleksi referensi website pilihan yang menginspirasi lahirnya portofolio ini. Sebuah apresiasi untuk karya-karya luar biasa yang mendorong saya untuk terus bereksplorasi dalam dunia web.",
-      "personal": "Website Personal",
-      "organization": "Website Organisasi",
+      "personal": "Personal",
+      "organization": "Organisasi",
       "breadcrumbs": {
         "home": "Beranda",
         "inspiration-website": "Website Inspirasi"
