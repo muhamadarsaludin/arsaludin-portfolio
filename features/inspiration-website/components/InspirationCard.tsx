@@ -18,7 +18,7 @@ export default function InspirationCard({ item, locale }: InspirationCardProps) 
   const {isMobile} = useMediaQuery()
 
   return (
-    <div className="flex p-5 md:p-6 rounded-2xl border border-primary items-start justify-between group/card overflow-hidden relative">
+    <div className="flex gap-6 p-5 md:p-6 rounded-2xl border border-primary items-start justify-between group/card overflow-hidden relative">
       <a
         href={item.link}
         className="absolute inset-0 rounded-2xl cursor-pointer group/card"
