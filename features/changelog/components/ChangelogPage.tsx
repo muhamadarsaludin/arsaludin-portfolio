@@ -21,7 +21,7 @@ export default async function ChangelogPage({params}: ChangelogPageProps) {
   
 
   return (
-    <Container className="flex gap-4 md:gap-6 items-start w-full">
+    <Container className="flex gap-6 md:gap-8 items-start w-full">
       <Article className="pb-13 lg:pb-23 flex-1 w-full">
         <MiracleBreadcrumbs 
           locales={routing.locales}
