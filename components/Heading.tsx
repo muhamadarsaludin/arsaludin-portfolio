@@ -81,7 +81,7 @@ export default function Heading({
     <Tag
       id={headingId}
       className={clsx(
-        "group/heading relative w-fit scroll-mt-24 leading-tight",
+        "group/heading relative w-fit scroll-mt-24 leading-tight font-semibold",
         fontSizeClass[level],
         fontWeightClass[fontWeight],
         !noMarginTop && marginClass[level],

@@ -11,6 +11,7 @@ import { PROJECTS_PAGE_SIZE } from '../constants/projects.types';
 import { getPaginatedProjects } from '../services/projects';
 import ProjectsContent from './ProjectsContent';
 import Container from '@/components/Container';
+import Article from '@/components/Article';
 
 type ProjectsPageProps = {
   params: Promise<{ locale: string }>;
@@ -75,7 +76,7 @@ export default async function ProjectsPage(props: ProjectsPageProps) {
 
   return (
     <Container>
-      <Section className="pb-13 lg:pb-23 w-full">
+      <Article className="pb-13 lg:pb-23 w-full">
         <MiracleBreadcrumbs 
           locales={routing.locales}
           overrides={{
@@ -84,20 +85,20 @@ export default async function ProjectsPage(props: ProjectsPageProps) {
           }}
           className="mb-5 md:mb-6"
         />
-        <div className="mb-10 md:mb-12 w-full">
+        <header className="mb-8 lg:mb-10 xl:mb-12 w-full">
           <Heading 
             id={t("title")}
             level={1}
             className="font-semibold">
               {t("title")}
           </Heading>
-          <p className='mt-4'>{t("description")}</p>
-        </div>
+          <p className="mt-4 text-secondary">{t("description")}</p>
+        </header>
         {/* Projects Content */}
         <HydrationBoundary state={dehydratedState}>
           <ProjectsContent locale={locale} targetType={targetType} />
         </HydrationBoundary>
-      </Section>
+      </Article>
     </Container>
   )
 }

@@ -26,7 +26,7 @@ export default async function AchievementsSection({ className }: { className?: s
     <Section className={clsx(className)}>
         <Heading
           id="featured-achievements"
-          className="text-3xl md:text-4xl lg:text-5xl mb-10 md:mb-12"
+          className="text-3xl md:text-4xl lg:text-5xl mb-8 lg:mb-10 xl:mb-12"
           linkClassName="text-[0.4em]!"
           noMarginTop
           fontWeight="semibold"
@@ -36,7 +36,7 @@ export default async function AchievementsSection({ className }: { className?: s
         <HydrationBoundary state={dehydrate(queryClient)}>
           <AchievementList />
         </HydrationBoundary>
-        <div className="mt-8 flex justify-center md:mt-10">
+        <div className="flex justify-center mt-6 lg:mt-8 xl:mt-10">
           <Link href="/achievements" aria-label={t("cta")}>
             <MiracleButton 
               variant="secondary"

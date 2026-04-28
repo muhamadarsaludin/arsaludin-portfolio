@@ -9,27 +9,27 @@ type FooterNavigationProps = {
 
 const navigationLinks = [
   {
-    label: "changelog",
-    href: "/changelog",
-    disabled: false,
-  },
-  {
     label: "roadmap",
     href: "/roadmap",
     disabled: true,
   },
   {
-    label: "techStack",
-    href: "/tech-stack",
+    label: "changelog",
+    href: "/changelog",
     disabled: false,
   },
   {
-    label: "inspirationWebsite",
-    href: "/inpiration-website",
+    label: "gear-and-setup",
+    href: "/gear-and-setup",
     disabled: false,
   },
   {
-    label: "privacyPolicy",
+    label: "inspiration-website",
+    href: "/inspiration-website",
+    disabled: false,
+  },
+  {
+    label: "privacy-policy",
     href: "/privacy-policy",
     disabled: false,
   }

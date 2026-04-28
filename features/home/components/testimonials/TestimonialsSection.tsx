@@ -24,7 +24,7 @@ export default async function TestimonialsSection({ className }: { className?: s
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={clsx(className)}>
-        <div className="relative flex w-fit mb-10 md:mb-12">
+        <div className="relative flex w-fit mb-8 lg:mb-10 xl:mb-12">
           <Heading
             id="featured-projects"
             className="text-3xl md:text-4xl lg:text-5xl"

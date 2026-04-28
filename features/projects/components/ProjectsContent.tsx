@@ -20,6 +20,7 @@ import { PROJECTS_PAGE_SIZE } from "../constants/projects.types"
 import { useInfiniteProjects } from "../hooks/useInfiniteProjects"
 import ProjectCardSkeleton from "./ProjectCardSkeleton"
 import ProjectCard from "./ProjectCard"
+import Section from "@/components/Section"
 
 type ProjectsContentProps = {
   locale: string
@@ -102,27 +103,27 @@ export default function ProjectsContent({
     if (isError) return <ErrorStateCard onRetry={() => refetch()} />
     if (isLoading) {
       return (
-        <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Section className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => <ProjectCardSkeleton key={i} />)}
-        </div>
+        </Section>
       )
     }
     if (projects.length === 0) return <EmptyStateCard />
 
     return (
-      <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Section className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <ProjectCardSkeleton key={`more-${i}`} />)
         }
-      </div>
+      </Section>
     )
   }
 
   return (
-    <div className="flex w-full flex-col gap-6 md:gap-8">
+    <Section className="flex w-full flex-col gap-6 md:gap-8">
       <div className="flex w-full md:w-8/12 items-center gap-3 md:gap-4">
         <MiracleTextField 
           placeholder={t("searchBarPlaceholder")}
@@ -212,6 +213,6 @@ export default function ProjectsContent({
           </p>
         )}
       </div>
-    </div>
+    </Section>
   )
 }

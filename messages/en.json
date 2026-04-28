@@ -51,10 +51,9 @@
       "navigation": {
         "changelog": "Changelog",
         "roadmap": "Roadmap",
-        "techStack": "Tech Stack",
-        "vault": "Vault",
-        "inspirationWebsite": "Inspiration Website",
-        "privacyPolicy": "Privacy Policy"
+        "gear-and-setup": "Gear & Setup",
+        "inspiration-website": "Inspiration Website",
+        "privacy-policy": "Privacy Policy"
       }
     },
     "skillBadges": {
@@ -256,6 +255,24 @@
       "breadcrumbs": {
         "home": "Home",
         "privacy-policy": "Privacy Policy"
+      }
+    },
+    "gear-and-changelog": {
+      "title": "Gear & Setup",
+      "description": "A list of items that keep me productive every day. Not just tools, but partners in executing all my ideas.",
+      "breadcrumbs": {
+        "home": "Home",
+        "gear-and-setup": "Gear & Setup"
+      }
+    },
+    "inspiration-website": {
+      "title": "Inspiration Website",
+      "description": "A curated collection of standout websites that deeply inspired the creation of this portfolio. This is a tribute to the exceptional work that keeps me exploring and pushing boundaries in web development.",
+      "personal": "Personal Website",
+      "organization": "Organization Website",
+      "breadcrumbs": {
+        "home": "Home",
+        "inspiration-website": "Inspiration Website"
       }
     },
     "changelog": {

@@ -11,6 +11,7 @@ import { Cursor } from '@/features/shared/types/index.types';
 import { getAvailableCategories } from '@/features/categories/services/categories';
 import { CategoryTargetType } from '@/features/categories/types/categories.types';
 import Container from '@/components/Container';
+import Article from '@/components/Article';
 
 type AchievementsPageProps = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -72,7 +73,7 @@ export default async function AchievementsPage({searchParams}: AchievementsPageP
 
   return (
     <Container>
-      <Section className="pb-13 lg:pb-23 w-full">
+      <Article className="pb-13 lg:pb-23 w-full">
         <MiracleBreadcrumbs 
           locales={routing.locales}
           overrides={{
@@ -88,13 +89,13 @@ export default async function AchievementsPage({searchParams}: AchievementsPageP
             className="font-semibold">
               {t("title")}
           </Heading>
-          <p className='mt-4'>{t("description")}</p>
+          <p className="mt-4 text-secondary">{t("description")}</p>
         </div>
         {/* Achievements Content */}
         <HydrationBoundary state={dehydratedState}>
           <AchievementsContent targetType={targetType} />
         </HydrationBoundary>
-      </Section>
+      </Article>
     </Container>
   )
 }

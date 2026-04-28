@@ -8,6 +8,7 @@ import Heading from '@/components/Heading';
 import { getChangelog } from '../data';
 import { compileMDX } from '@/lib/mdx';
 import ChangelogItem from './ChangelogItem';
+import Article from '@/components/Article';
 
 type ChangelogPageProps = {
   params: Promise<{ locale: string }>;
@@ -21,7 +22,7 @@ export default async function ChangelogPage({params}: ChangelogPageProps) {
 
   return (
     <Container className="flex gap-4 md:gap-6 items-start w-full">
-      <Section className="pb-13 lg:pb-23 flex-1 w-full">
+      <div className="pb-13 lg:pb-23 flex-1 w-full">
         <MiracleBreadcrumbs 
           locales={routing.locales}
           overrides={{
@@ -30,7 +31,7 @@ export default async function ChangelogPage({params}: ChangelogPageProps) {
           }}
           className="mb-5 md:mb-6"
         />
-        <article className="w-full">
+        <Article>
           <div className="mb-10 md:mb-12 w-full">
             <Heading 
               id={t("title")}
@@ -38,7 +39,7 @@ export default async function ChangelogPage({params}: ChangelogPageProps) {
               className="font-semibold">
                 {t("title")}
             </Heading>
-            <p className='mt-4'>{t("description")}</p>
+            <p className="mt-4 text-secondary">{t("description")}</p>
           </div>
           
           <div className="flex flex-col w-full">
@@ -53,8 +54,8 @@ export default async function ChangelogPage({params}: ChangelogPageProps) {
               })
             )}
           </div>
-        </article>
-      </Section>
+        </Article>
+      </div>
       <TableOfContents className="hidden lg:block sticky top-30 shrink-0" />
     </Container>
   )

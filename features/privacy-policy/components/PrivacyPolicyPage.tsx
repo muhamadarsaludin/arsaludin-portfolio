@@ -26,7 +26,7 @@ export default async function PrivacyPolicyPage({params}: PrivacyPolicyPageProps
 
   return (
     <Container className="flex gap-4 md:gap-6 items-start">
-      <Section className="pb-13 lg:pb-23 flex-1">
+      <div className="pb-13 lg:pb-23 flex-1">
         <MiracleBreadcrumbs 
           locales={routing.locales}
           overrides={{
@@ -38,7 +38,7 @@ export default async function PrivacyPolicyPage({params}: PrivacyPolicyPageProps
         <article className="w-full">
           <Content />
         </article>
-      </Section>
+      </div>
       <TableOfContents className="hidden lg:block sticky top-30 shrink-0" />
     </Container>
   )

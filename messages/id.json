@@ -51,10 +51,9 @@
       "navigation": {
         "changelog": "Changelog",
         "roadmap": "Roadmap",
-        "techStack": "Teknologi",
-        "vault": "Vault",
-        "inspirationWebsite": "Website Inspirasi",
-        "privacyPolicy": "Kebijakan Privasi"
+        "gear-and-setup": "Gear & Setup",
+        "inspiration-website": "Website Inspirasi",
+        "privacy-policy": "Kebijakan Privasi"
       }
     },
     "skillBadges": {
@@ -256,6 +255,24 @@
       "breadcrumbs": {
         "home": "Beranda",
         "privacy-policy": "Kebijakan Privasi"
+      }
+    },
+    "gear-and-changelog": {
+      "title": "Gear & Setup",
+      "description": "Daftar perlengkapan yang menjaga produktivitas saya setiap hari. Bukan sekadar alat, melainkan partner untuk mengeksekusi setiap ide.",
+      "breadcrumbs": {
+        "home": "Beranda",
+        "gear-and-setup": "Gear & Setup"
+      }
+    },
+    "inspiration-website": {
+      "title": "Website Inspirasi",
+      "description": "Koleksi referensi website pilihan yang menginspirasi lahirnya portofolio ini. Sebuah apresiasi untuk karya-karya luar biasa yang mendorong saya untuk terus bereksplorasi dalam dunia web.",
+      "personal": "Website Personal",
+      "organization": "Website Organisasi",
+      "breadcrumbs": {
+        "home": "Beranda",
+        "inspiration-website": "Website Inspirasi"
       }
     },
     "changelog": {

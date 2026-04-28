@@ -20,6 +20,7 @@ import { useAvailableCategories } from "@/features/categories/hooks/useAvailable
 import { CategoryTargetType } from "@/features/categories/types/categories.types"
 import { useUrlParams } from "@/hooks/useSearchParams"
 import MiracleBadge from "@/components/miracle/Badge"
+import Section from "@/components/Section"
 
 type AchievementsContentProps = {
   targetType: CategoryTargetType
@@ -116,19 +117,19 @@ export default function AchievementsContent({
     if (achievements.length === 0) return <EmptyStateCard />
 
     return (
-      <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Section className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {achievements.map((achievement) => (
           <AchievementCard key={achievement.id} achievement={achievement} />
         ))}
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <AchievementCardSkeleton key={`more-${i}`} />)
         }
-      </div>
+      </Section>
     )
   }
 
   return (
-    <div className="flex w-full flex-col gap-6 md:gap-8">
+    <Section className="flex w-full flex-col gap-6 md:gap-8">
       <div className="flex w-full md:w-8/12 items-center gap-3 md:gap-4">
         <MiracleTextField 
           placeholder={t("searchBarPlaceholder")}
@@ -268,6 +269,6 @@ export default function AchievementsContent({
           </p>
         )}
       </div>
-    </div>
+    </Section>
   )
 }
