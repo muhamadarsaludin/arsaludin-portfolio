@@ -266,7 +266,8 @@
       "breadcrumbs": {
         "home": "Home",
         "privacy-policy": "Privacy Policy"
-      }
+      },
+      "latestUpdate": "Latest update: {date}"
     },
     "gear-and-setup": {
       "title": "Gear & Setup",

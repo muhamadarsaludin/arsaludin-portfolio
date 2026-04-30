@@ -266,7 +266,8 @@
       "breadcrumbs": {
         "home": "Beranda",
         "privacy-policy": "Kebijakan Privasi"
-      }
+      },
+      "latestUpdate": "Pembaruan terbaru: {date}"
     },
     "gear-and-setup": {
       "title": "Gear & Setup",
