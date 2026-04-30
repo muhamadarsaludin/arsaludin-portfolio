@@ -33,8 +33,8 @@ export default function MiracleBadge({
 
   const colorStyles: Record<BadgeColor, Record<BadgeVariant, string>> = {
     default: {
-      primary: "bg-neutral-med text-primary-inv",
-      secondary: "bg-neutral-low text-primary",
+      primary: "bg-secondary-inv text-primary-inv",
+      secondary: "bg-neutral-low text-secondary",
     },
     red: {
       primary: "bg-red text-primary-inv",

@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation';
 import Container from '@/components/Container';
 import TableOfContents from '@/components/TableOfContents';
 import Article from '@/components/Article';
+import MiracleBadge from '@/components/miracle/Badge';
+import { LuCalendar } from 'react-icons/lu';
 
 type PrivacyPolicyPageProps = {
   params: Promise<{ locale: string }>;
@@ -37,6 +39,7 @@ export default async function PrivacyPolicyPage({params}: PrivacyPolicyPageProps
           className="mb-5 md:mb-6"
         />
         <Section className="w-full">
+          <MiracleBadge startIcon={<LuCalendar/>} className="mb-4">Last Updated: April 24, 2026</MiracleBadge>
           <Content />
         </Section>
       </Article>
