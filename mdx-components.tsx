@@ -10,17 +10,18 @@ export const mdxComponents = {
   MiracleBadge,
   // 1. Headings
   Heading,
-  h1: (props: any) => <Heading level={1} className="font-semibold" {...props} />,
-  h2: (props: any) => <Heading level={2} className="font-semibold" {...props} />,
-  h3: (props: any) => <Heading level={3} className="font-semibold" {...props} />,
-  h4: (props: any) => <Heading level={4} className="font-semibold" {...props} />,
+  h1: (props: any) => <Heading level={1} className="text-primary" {...props} />,
+  h2: (props: any) => <Heading level={2} className="text-primary" {...props} />,
+  h3: (props: any) => <Heading level={3} className="text-primary" {...props} />,
+  h4: (props: any) => <Heading level={4} className="text-primary" {...props} />,
+  h5: (props: any) => <Heading level={5} className="text-primary" {...props} />,
 
   // 2. Text & Paragraphs
   p: (props: any) => (
     <p className="text-secondary mt-4" {...props} />
   ),
   small: (props: any) => (
-    <p className="text-secondary text-sm mt-3" {...props} />
+    <small className="text-secondary text-sm mt-4" {...props} />
   ),
   strong: ({ children, ...props }: any) => {
     const text = children?.toString() || ""
@@ -32,13 +33,15 @@ export const mdxComponents = {
 
   // 3. Lists
   ul: (props: any) => (
-    <ul className="mt-4 flex flex-col gap-2 list-none" {...props} />
+    <ul className="flex flex-col gap-1.5 list-none mt-4" {...props} />
   ),
   li: (props: any) => (
     <li 
       className={clsx(
-        "text-secondary relative pl-4",
-        "before:content-['•'] before:absolute before:left-0 before:text-primary before:font-bold"
+        "text-secondary relative pl-5.5",
+        "before:content-[''] before:absolute before:left-0", 
+        "before:mt-2.25 before:h-1.5 before:w-1.5 before:rounded-full",
+        "before:bg-neutral-600 dark:before:bg-neutral-400"
       )} 
       {...props} 
     />

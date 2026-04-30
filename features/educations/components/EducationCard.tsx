@@ -73,7 +73,7 @@ export const EducationCard = ({
   const currentImage = selectedIndex !== null ? education.images?.[selectedIndex] : null
 
   return (
-    <div className="border-primary bg-primary flex flex-col rounded-2xl border p-5 sm:p-6">
+    <div className="border-primary bg-primary flex flex-col rounded-2xl border p-5 md:p-6">
       {/* --- HEADER SECTION --- */}
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-3 md:flex-row md:gap-6">

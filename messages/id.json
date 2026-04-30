@@ -33,7 +33,7 @@
         "home": "Beranda",
         "projects": "Proyek",
         "achievements": "Pencapaian",
-        "blogs": "Blog",
+        "articles": "Artikel",
         "forum": "Forum"
       },
       "cta": {
@@ -52,7 +52,7 @@
         "changelog": "Changelog",
         "roadmap": "Roadmap",
         "gear-and-setup": "Gear & Setup",
-        "inspiration-website": "Website Inspirasi",
+        "inspiration-website": "Inspirasi Website",
         "privacy-policy": "Kebijakan Privasi"
       }
     },
@@ -176,7 +176,10 @@
     },
     "changelogItem": {
       "latest": "Terbaru",
-      "released": "Dirilis pada: {date}"
+      "release": "Rilis: {date}",
+      "show": "Lihat detail",
+      "hide": "Sembunyikan detail",
+      "changes": "Perubahan"
     },
     "inspirationCard": {
       "at": "di",
@@ -274,13 +277,13 @@
       }
     },
     "inspiration-website": {
-      "title": "Website Inspirasi",
+      "title": "Inspirasi Website",
       "description": "Koleksi referensi website pilihan yang menginspirasi lahirnya portofolio ini. Sebuah apresiasi untuk karya-karya luar biasa yang mendorong saya untuk terus bereksplorasi dalam dunia web.",
       "personal": "Personal",
       "organization": "Organisasi",
       "breadcrumbs": {
         "home": "Beranda",
-        "inspiration-website": "Website Inspirasi"
+        "inspiration-website": "Inspirasi Website"
       }
     },
     "changelog": {

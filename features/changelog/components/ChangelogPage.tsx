@@ -44,9 +44,10 @@ export default async function ChangelogPage({params}: ChangelogPageProps) {
         <Section className="flex flex-col w-full">
           {await Promise.all(
             changelog.map(async (item, index) =>{
-              const MDXContent = await compileMDX(item.notes);
+              const MDXContent = await compileMDX(item.changes);
+              const isLatest = index === 0;
               return (
-                <ChangelogItem key={item.version} version={item.version} releaseDate={item.releaseDate} index={index}>
+                <ChangelogItem key={item.version} version={item.version} releaseDate={item.releaseDate} banner={item.banner} showDetail={isLatest} isLatest={isLatest}>
                   <MDXContent />
                 </ChangelogItem>
               )

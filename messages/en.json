@@ -33,7 +33,7 @@
         "home": "Home",
         "projects": "Projects",
         "achievements": "Achievements",
-        "blogs": "Blogs",
+        "articles": "Articles",
         "forum": "Forum"
       },
       "cta": {
@@ -176,7 +176,10 @@
     },
     "changelogItem": {
       "latest": "Latest",
-      "released": "Released on: {date}"
+      "release": "Release: {date}",
+      "show": "Show detail",
+      "hide": "Hide detail",
+      "changes": "Changes"
     },
     "inspirationCard": {
       "at": "at",

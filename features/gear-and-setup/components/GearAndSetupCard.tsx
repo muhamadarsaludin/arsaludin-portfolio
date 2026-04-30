@@ -48,8 +48,7 @@ export default function GearAndSetupCard({ item }: GearAndSetupCardProps) {
                   ${index % 2 !== 0 ? "border-l border-default pl-4 sm:pl-8" : ""}
                 `}
               >
-                <p className="text-[10px] md:text-xs uppercase tracking-tight text-secondary flex items-center gap-1.5">
-                  {spec.name.toLowerCase() === 'chip' && <LuCpu size={13} className="text-blue" />}
+                <p className="text-[10px] md:text-xs uppercase tracking-tight text-secondary">
                   {spec.name}
                 </p>
                 <p className="text-sm text-primary font-medium leading-none">

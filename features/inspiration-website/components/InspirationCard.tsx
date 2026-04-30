@@ -38,7 +38,7 @@ export default function InspirationCard({ item, locale }: InspirationCardProps) 
           )}
         </div>
 
-        <p className="text-secondary flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm md:mt-0">
+        <p className="text-secondary flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm">
           {(item.role || item.company) && (
             <span className="flex items-center gap-1">
               <LuBriefcaseBusiness className="shrink-0" />
