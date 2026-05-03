@@ -7,7 +7,7 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import Section from "@/components/Section"
 import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
 import MiracleBanner from "@/components/miracle/Banner"
-import { LuMegaphone, LuArrowDown } from "react-icons/lu"
+import { LuMegaphone, LuArrowDown, LuMessagesSquare } from "react-icons/lu"
 import { useTranslations } from "next-intl"
 import { Message, MessageType } from "@/features/messages/types/messages.types"
 import { useInfiniteMessages } from "@/features/messages/hooks/useInfiniteMessages"
@@ -122,12 +122,12 @@ export default function LoungeContent({
           onScroll={handleScroll}
           className="flex-1 overflow-y-auto px-2 flex flex-col-reverse"
         >
-          <div className="flex flex-col-reverse gap-5">
+          <div className="flex flex-col-reverse gap-5 min-h-full">
             {isLoading ? (
               <div className="flex flex-col-reverse gap-5">
                 {[...Array(4)].map((_, i) => <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />)}
               </div>
-            ) : (
+            ) : messages.length < 0 ? (
               <>
                 {messages.map((message) => (
                   <MessageBubble 
@@ -146,6 +146,19 @@ export default function LoungeContent({
                 )}
                 <div ref={loadMoreRef} className="h-1" />
               </>
+            ) : (
+              // Empty State
+              <div className="flex-1 flex flex-col items-center justify-center text-center border border-primary border-dashed rounded-md">
+                <div className="mb-3">
+                  <LuMessagesSquare className="text-primary w-18 h-18 md:w-25 md:h-25"/>
+                </div>
+                <h3 className="text-primary text-lg font-semibold md:text-xl lg:text-2xl mb-1">
+                  {t("empty.title")}
+                </h3>
+                <p className="text-sm text-secondary max-w-[300px]">
+                  {t("empty.subtitle")}
+                </p>
+              </div>
             )}
           </div>
         </div>

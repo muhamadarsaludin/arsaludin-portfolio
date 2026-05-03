@@ -297,6 +297,10 @@
       "banner": {
         "title": "Welcome! 👋",
         "content": "Thanks for visiting! I’d love to hear your thoughts, feedback, or suggestions regarding the design and content of this site. Feel free to write in Indonesian or English. Your input is a huge part of this journey —thanks for being here! 🙌"
+      },
+      "empty": {
+        "title": "No Messages Yet",
+        "subtitle": "No activity here yet. Be the first to send a message."
       }
     },
     "privacy-policy": {

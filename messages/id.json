@@ -297,6 +297,10 @@
       "banner": {
         "title": "Selamat Datang! 👋",
         "content": "Terima kasih telah berkunjung. Saya sangat terbuka menerima masukan, saran, maupun kritik mengenai desain dan konten situs ini. Silakan tulis pesan Anda dalam Bahasa Indonesia atau Inggris. Masukan Anda sangat berarti bagi pengembangan situs ini ke depannya. Terima kasih! 🙌"
+      },
+      "empty": {
+        "title": "Belum Ada Pesan",
+        "subtitle": "Belum ada aktivitas di sini. Jadilah yang pertama untuk mengirimkan pesan Anda."
       }
     },
     "privacy-policy": {
