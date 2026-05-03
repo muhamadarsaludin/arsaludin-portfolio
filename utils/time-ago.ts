@@ -1,36 +1,46 @@
+import { formatDate } from "./format-date";
+
 /**
- * Converts a date string into a human-readable "time ago" format.
- * Provides short, localized labels for different time intervals.
- * @param date - The ISO date string or valid date format to compare.
- * @param locale - The language code ('id' or 'en') for the labels.
- * @returns A string representing the relative time (e.g., "5mnt", "2y", "baru saja").
- * @example
- * timeAgo("2023-10-01T12:00:00Z", "id") // returns "2thn"
- * timeAgo(new Date().toISOString(), "en") // returns "now"
- * @performance
- * Uses simple math divisors for high performance. For more complex
- * relative time needs, consider the native Intl.RelativeTimeFormat API.
+ * Formats a date into a concise relative time string.
+ * - Under 1 minute: {seconds}dtk / {seconds}s
+ * - Under 1 hour: {minutes}mnt / {minutes}m
+ * - Under 24 hours: {hours}jam / {hours}h
+ * - Up to 7 days: {days}h / {days}d
+ * - Beyond 7 days: Returns localized short date via formatDate()
+ *
+ * @param {Object} params - The parameters for time conversion.
+ * @param {string} params.date - The ISO date string to be converted.
+ * @param {string} params.locale - The language code ('id' or 'en').
+ * @returns {string} The formatted relative time or absolute short date.
  */
-export const timeAgo = ({ date, locale }: { date: string; locale: string }) => {
+export const timeAgo = ({ date, locale }: { date: string; locale: string }): string => {
   const seconds = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000)
 
-  const labels: Record<string, any> = {
-    id: { y: "thn", mo: "bln", d: "hr", h: "jam", m: "mnt", now: "baru saja" },
-    en: { y: "y", mo: "mo", d: "d", h: "h", m: "m", now: "now" },
+  const labels: Record<string, { s: string; m: string; h: string; d: string }> = {
+    id: { s: "dtk", m: "mnt", h: "jam", d: "h" },
+    en: { s: "s", m: "m", h: "h", d: "d" },
   }
 
   const l = labels[locale] || labels.en
 
-  let interval = seconds / 31536000
-  if (interval > 1) return Math.floor(interval) + l.y
-  interval = seconds / 2592000
-  if (interval > 1) return Math.floor(interval) + l.mo
-  interval = seconds / 86400
-  if (interval > 1) return Math.floor(interval) + l.d
-  interval = seconds / 3600
-  if (interval > 1) return Math.floor(interval) + l.h
-  interval = seconds / 60
-  if (interval > 1) return Math.floor(interval) + l.m
+  // Seconds (< 1 min)
+  if (seconds < 60) return `${seconds}${l.s}`
 
-  return l.now
+  // Minutes (< 1 hour)
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) return `${minutes}${l.m}`
+
+  // Hours (< 24 hours)
+  const hours = Math.floor(seconds / 3600)
+  if (hours < 24) return `${hours}${l.h}`
+
+  // Days (1 to 7 days)
+  const days = Math.floor(seconds / 86400)
+  if (days <= 7) return `${days}${l.d}`
+
+  return formatDate({ 
+    date, 
+    locale, 
+    dateStyle: "medium" 
+  })
 }

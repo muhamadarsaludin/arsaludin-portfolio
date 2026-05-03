@@ -34,7 +34,8 @@
         "projects": "Projects",
         "achievements": "Achievements",
         "articles": "Articles",
-        "forum": "Forum"
+        "roadmap": "Roadmap",
+        "lounge": "Lounge"
       },
       "cta": {
         "signIn": "Sign In",
@@ -50,7 +51,6 @@
       "copyright": "© {year} Muhamad Arsaludin. All rights reserved",
       "navigation": {
         "changelog": "Changelog",
-        "roadmap": "Roadmap",
         "gear-and-setup": "Gear & Setup",
         "inspiration-website": "Inspiration Website",
         "privacy-policy": "Privacy Policy"
@@ -109,7 +109,7 @@
         "auth": "Sign in to comment"
       },
       "input": {
-        "placeholder": "Tulis komentar...",
+        "placeholder": "Write a comment...",
         "replyingTo": "Replying to",
         "loginRequired": "Sign in to comment",
         "signIn": "Sign in with Google",
@@ -120,6 +120,31 @@
         "hide": "Hide replies",
         "loadMore":"View {count} more {count, plural, one {reply} other {replies}}",
         "fetching": "Loading replies..."
+      }
+    },
+    "message": {
+      "bubble": {
+        "reply": "Reply",
+        "action": "Action",
+        "delete": "Delete",
+        "replyingTo": "Replying to",
+        "modal": {
+          "delete": {
+            "title": "Delete Message",
+            "description": "Are you sure you want to delete this message? This action cannot be undone.",
+            "cancel": "Cancel",
+            "confirm": "Yes, Delete"
+          }
+        }
+      },
+      "input": {
+        "placeholder": "Write a message...",
+        "replyingTo": "Replying to",
+        "loginRequired": "Sign in to comment",
+        "signIn": "Sign in with Google",
+        "cancelReply": "Cancel reply",
+        "toSend": "to send",
+        "newLine": "for new line"
       }
     },
     "serviceCard": {
@@ -260,6 +285,18 @@
           "categories": "Categories"
         },
         "reset": "Reset all filters"
+      }
+    },
+    "lounge": {
+      "title": "Lounge",
+      "description": "An interactive space to chat together, share inspirations, and discuss engaging topics to strengthen connections and explore various creative ideas collectively.",
+      "breadcrumbs": {
+        "home": "Home",
+        "lounge": "Lounge"
+      },
+      "banner": {
+        "title": "Welcome! 👋",
+        "content": "Thanks for visiting! I’d love to hear your thoughts, feedback, or suggestions regarding the design and content of this site. Feel free to write in Indonesian or English. Your input is a huge part of this journey —thanks for being here! 🙌"
       }
     },
     "privacy-policy": {

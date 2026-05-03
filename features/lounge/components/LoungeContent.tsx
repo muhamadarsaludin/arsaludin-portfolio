@@ -1,0 +1,183 @@
+"use client"
+
+import { useEffect, useMemo, useRef, useState } from "react"
+import { useQueryClient } from "@tanstack/react-query"
+import { createClient } from "@/lib/supabase/client"
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
+import Section from "@/components/Section"
+import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
+import MiracleBanner from "@/components/miracle/Banner"
+import { LuMegaphone, LuArrowDown } from "react-icons/lu"
+import { useTranslations } from "next-intl"
+import { Message, MessageType } from "@/features/messages/types/messages.types"
+import { useInfiniteMessages } from "@/features/messages/hooks/useInfiniteMessages"
+import MessageBubble from "@/features/messages/components/MessageBubble"
+import MessageInput from "@/features/messages/components/MessageInput"
+import MessageBubbleSkeleton from "@/features/messages/components/MessageBubbleSkeleton"
+import clsx from "clsx"
+
+type LoungeContentProps = {
+  messageType: MessageType
+  pageSize: number
+}
+
+export default function LoungeContent({ 
+  messageType, 
+  pageSize 
+}: LoungeContentProps) {
+  const queryClient = useQueryClient()
+  const supabase = createClient()
+  const queryKey = ["messages", messageType, { pageSize }]
+
+  const [isBannerVisible, setIsBannerVisible] = useState(true)
+  const [repliedMessage, setRepliedMessage] = useState<Message | null>(null)
+  const [showScrollBottom, setShowScrollBottom] = useState(false)
+
+  const t = useTranslations("pages.lounge")
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const loadMoreRef = useRef<HTMLDivElement>(null)
+  const prevScrollHeightRef = useRef(0)
+
+  const {
+    data, 
+    fetchNextPage,
+    hasNextPage,
+    isError, 
+    isLoading, 
+    isFetchingNextPage,
+    refetch 
+  } = useInfiniteMessages({
+    type: messageType,
+    pageSize,
+  })
+  
+  const messages = useMemo(() => data?.pages.flatMap(p => p.data) ?? [], [data])
+
+  useIntersectionObserver({
+    targetRef: loadMoreRef,
+    onIntersect: () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        if (scrollContainerRef.current) {
+          prevScrollHeightRef.current = scrollContainerRef.current.scrollHeight
+        }
+        fetchNextPage()
+      }
+    },
+    enabled: !!hasNextPage && !isLoading,
+  })
+
+  useEffect(() => {
+    const el = scrollContainerRef.current
+    if (!el || isFetchingNextPage) return
+
+    const diff = el.scrollHeight - prevScrollHeightRef.current
+    if (diff > 0 && prevScrollHeightRef.current !== 0) {
+      el.scrollTop += diff
+    }
+  }, [messages.length, isFetchingNextPage])
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const offset = Math.abs(e.currentTarget.scrollTop)
+    setShowScrollBottom(offset > 100)
+  }
+
+  const scrollToBottom = () => {
+    scrollContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    const channel = supabase
+      .channel(`messages:${messageType}`)
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: `type=eq.${messageType}` }, 
+        () => { queryClient.invalidateQueries({ queryKey }) }
+      )
+      .subscribe()
+
+    return () => { supabase.removeChannel(channel) }
+  }, [queryKey, queryClient, messageType, supabase])
+
+  if (isError) return <ErrorStateCard onRetry={() => refetch()} />
+
+  return (
+    <Section className="relative flex flex-col h-[750px] border border-primary p-4 md:p-6 rounded-2xl gap-4 overflow-hidden">
+      {isBannerVisible && (
+        <MiracleBanner
+          color="blue"
+          variant="secondary"
+          startIcon={<LuMegaphone />}
+          isClearable
+          onClear={() => setIsBannerVisible(false)}
+          title={t("banner.title")}
+        >
+          <div className="text-sm">{t("banner.content")}</div>
+        </MiracleBanner>
+      )}
+
+      {/* WRAPPER FOR CHAT */}
+      <div className="relative flex-1 min-h-0 flex flex-col">
+        {/* CHAT CONTAINER */}
+        <div 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className="flex-1 overflow-y-auto px-2 flex flex-col-reverse"
+        >
+          <div className="flex flex-col-reverse gap-5">
+            {isLoading ? (
+              <div className="flex flex-col-reverse gap-5">
+                {[...Array(4)].map((_, i) => <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />)}
+              </div>
+            ) : (
+              <>
+                {messages.map((message) => (
+                  <MessageBubble 
+                    key={message.id}
+                    messageType={messageType}
+                    pageSize={pageSize}
+                    message={message}
+                    onReply={setRepliedMessage}
+                  />
+                ))}
+
+                {isFetchingNextPage && (
+                  <div className="py-4">
+                    {[...Array(3)].map((_, i) => <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />)}
+                  </div>
+                )}
+                <div ref={loadMoreRef} className="h-1" />
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* FLOATING BUTTON */}
+        <button
+          onClick={scrollToBottom}
+          aria-label="Scroll to bottom"
+          className={clsx(
+            "absolute right-0 bottom-6 z-50",
+            "flex h-10 w-10 items-center justify-center rounded-md",
+            "bg-primary-inv text-primary-inv shadow-lg",
+            "transition-all duration-300 ease-in-out",
+            "hover:scale-105 active:scale-95",
+            "hover:-translate-y-1 hover:transform active:translate-y-0",
+            "cursor-pointer",
+            showScrollBottom 
+              ? "translate-y-0 opacity-100 scale-100" 
+              : "translate-y-10 opacity-0 scale-50 pointer-events-none"
+          )}
+        >
+          <LuArrowDown className="h-5 w-5" />
+        </button>
+      </div>
+
+      {/* INPUT */}
+      <MessageInput 
+        messageType={messageType}
+        pageSize={pageSize}
+        repliedMessage={repliedMessage}
+        onClearReply={() => setRepliedMessage(null)}
+      />
+    </Section>
+  )
+}

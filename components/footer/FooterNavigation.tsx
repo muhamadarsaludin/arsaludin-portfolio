@@ -9,11 +9,6 @@ type FooterNavigationProps = {
 
 const navigationLinks = [
   {
-    label: "roadmap",
-    href: "/roadmap",
-    disabled: true,
-  },
-  {
     label: "changelog",
     href: "/changelog",
     disabled: false,

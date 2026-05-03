@@ -40,7 +40,7 @@ export type ReactionCount = {
 /**
  * Valid entity types that can receive reactions within the portfolio system.
  */
-export type ReactionTargetType = "project" | "comment" | "achievement" | "testimonial"
+export type ReactionTargetType = "project" | "comment" | "achievement" | "testimonial" | "message"
 
 /**
  * Comprehensive summary of reactions for a specific target, used in reaction pickers and previews.

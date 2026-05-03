@@ -34,7 +34,8 @@
         "projects": "Proyek",
         "achievements": "Pencapaian",
         "articles": "Artikel",
-        "forum": "Forum"
+        "roadmap": "Roadmap",
+        "lounge": "Lounge"
       },
       "cta": {
         "signIn": "Masuk",
@@ -50,7 +51,6 @@
       "copyright": "© {year} Muhamad Arsaludin. Hak cipta dilindungi.",
       "navigation": {
         "changelog": "Changelog",
-        "roadmap": "Roadmap",
         "gear-and-setup": "Gear & Setup",
         "inspiration-website": "Inspirasi Website",
         "privacy-policy": "Kebijakan Privasi"
@@ -110,7 +110,7 @@
       },
       "input": {
         "placeholder": "Tulis komentar...",
-        "replyingTo": "Replying to",
+        "replyingTo": "Balas ke",
         "loginRequired": "Masuk untuk berkomentar",
         "signIn": "Masuk dengan Google",
         "cancelReply": "Batalkan balasan"
@@ -120,6 +120,31 @@
         "hide": "Sembunyikan balasan",
         "loadMore": "Lihat {count} balasan lainnya",
         "fetching": "Memuat balasan..."
+      }
+    },
+    "message": {
+      "bubble": {
+        "reply": "Balas",
+        "action": "Aksi",
+        "delete": "Hapus",
+        "replyingTo": "Balas ke",
+        "modal": {
+          "delete": {
+            "title": "Hapus Pesan",
+            "description": "Apakah kamu yakin ingin menghapus pesan ini? Tindakan ini tidak dapat dibatalkan.",
+            "cancel": "Batal",
+            "confirm": "Ya, Hapus"
+          }
+        }
+      },
+      "input": {
+        "placeholder": "Tulis pesan...",
+        "replyingTo": "Balas ke",
+        "loginRequired": "Masuk untuk berkomentar",
+        "signIn": "Masuk dengan Google",
+        "cancelReply": "Batalkan balasan",
+        "toSend": "untuk mengirim",
+        "newLine": "baris baru"
       }
     },
     "serviceCard": {
@@ -260,6 +285,18 @@
           "categories": "Kategori"
         },
         "reset": "Reset semua filter"
+      }
+    },
+    "lounge": {
+      "title": "Lounge",
+      "description": "Ruang interaktif untuk ngobrol bareng, saling berbagi inspirasi, dan mendiskusikan topik menarik guna mempererat koneksi serta mengeksplorasi berbagai ide kreatif bersama.",
+      "breadcrumbs": {
+        "home": "Beranda",
+        "lounge": "Lounge"
+      },
+      "banner": {
+        "title": "Selamat Datang! 👋",
+        "content": "Terima kasih telah berkunjung. Saya sangat terbuka menerima masukan, saran, maupun kritik mengenai desain dan konten situs ini. Silakan tulis pesan Anda dalam Bahasa Indonesia atau Inggris. Masukan Anda sangat berarti bagi pengembangan situs ini ke depannya. Terima kasih! 🙌"
       }
     },
     "privacy-policy": {

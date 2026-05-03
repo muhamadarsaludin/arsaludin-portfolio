@@ -15,6 +15,7 @@ type UseCommentMutationParams = {
  * Custom hook to handle top-level comment mutations with optimistic updates.
  * @param targetId - The unique UUID of the parent entity (e.g., project_id).
  * @param targetType - The category used for query key mapping (e.g., "project").
+ * @param pageSize - Limits the number of comments returned in a single fetch.
  * @returns An object containing `add` and `remove` mutate functions, along with their pending states.
  */
 export function useCommentMutation({ 

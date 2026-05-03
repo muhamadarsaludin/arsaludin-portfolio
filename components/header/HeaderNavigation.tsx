@@ -30,10 +30,15 @@ const navigationLinks = [
     disabled: false,
   },
   {
-    label: "forum",
-    href: "/forum",
+    label: "roadmap",
+    href: "/roadmap",
     disabled: false,
   },
+  {
+    label: "lounge",
+    href: "/lounge",
+    disabled: false,
+  }
 ]
 
 export default function HeaderNavigation({ className, isSidebar }: HeaderNavigationProps) {

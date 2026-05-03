@@ -111,10 +111,7 @@ export default function MiracleBanner({
         <button
           onClick={onClear}
           type="button"
-          className={clsx(
-            "shrink-0 h-fit p-1 -mr-1 -mt-1 rounded-md transition-all active:scale-95 hover:bg-black/5 dark:hover:bg-white/10",
-            variant === "primary" ? "text-white/80" : "text-neutral-500 dark:text-neutral-400"
-          )}
+          className={clsx("shrink-0 h-fit p-1 -mr-1 -mt-1 rounded-md transition-all active:scale-95 hover:bg-black/5 dark:hover:bg-white/10 text-primary cursor-pointer")}
           aria-label="Dismiss"
         >
           <LuX size={18} />
