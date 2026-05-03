@@ -16,7 +16,7 @@ import { useAvailableCategories } from "@/features/categories/hooks/useAvailable
 import { CategoryTargetType } from "@/features/categories/types/categories.types"
 import { useUrlParams } from "@/hooks/useSearchParams"
 import MiracleBadge from "@/components/miracle/Badge"
-import { PROJECTS_PAGE_SIZE } from "../constants/projects.types"
+import { PROJECTS_PAGE_SIZE } from "../constants/projects.constans"
 import { useInfiniteProjects } from "../hooks/useInfiniteProjects"
 import ProjectCardSkeleton from "./ProjectCardSkeleton"
 import ProjectCard from "./ProjectCard"

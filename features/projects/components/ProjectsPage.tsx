@@ -7,7 +7,7 @@ import Heading from '@/components/Heading';
 import { Cursor } from '@/features/shared/types/index.types';
 import { getAvailableCategories } from '@/features/categories/services/categories';
 import { CategoryTargetType } from '@/features/categories/types/categories.types';
-import { PROJECTS_PAGE_SIZE } from '../constants/projects.types';
+import { PROJECTS_PAGE_SIZE } from '../constants/projects.constans';
 import { getPaginatedProjects } from '../services/projects';
 import ProjectsContent from './ProjectsContent';
 import Container from '@/components/Container';

@@ -6,7 +6,7 @@ import { Skill } from "@/features/skills/types/skills.types"
 import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 import { Category } from "@/features/categories/types/categories.types"
 import { Cursor } from "@/features/shared/types/index.types"
-import { PROJECTS_PAGE_SIZE } from "../constants/projects.types"
+import { PROJECTS_PAGE_SIZE } from "../constants/projects.constans"
 
 type ProjectRawResponse = Pick<
   ProjectEntity, 
