@@ -122,12 +122,12 @@ export default function LoungeContent({
           onScroll={handleScroll}
           className="flex-1 overflow-y-auto px-2 flex flex-col-reverse"
         >
-          <div className="flex flex-col-reverse gap-5 min-h-full">
+          <div className={clsx("flex flex-col-reverse gap-5", (!isLoading && messages.length === 0) && "min-h-full")}>
             {isLoading ? (
               <div className="flex flex-col-reverse gap-5">
                 {[...Array(4)].map((_, i) => <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />)}
               </div>
-            ) : messages.length < 0 ? (
+            ) : messages.length > 0 ? (
               <>
                 {messages.map((message) => (
                   <MessageBubble 
