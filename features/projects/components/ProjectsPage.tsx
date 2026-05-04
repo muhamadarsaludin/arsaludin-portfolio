@@ -12,6 +12,7 @@ import { getPaginatedProjects } from '../services/projects';
 import ProjectsContent from './ProjectsContent';
 import Container from '@/components/Container';
 import Article from '@/components/Article';
+import { normalizeArrayParam } from '@/utils/search-params';
 
 type ProjectsPageProps = {
   params: Promise<{ locale: string }>;
@@ -26,17 +27,10 @@ export default async function ProjectsPage(props: ProjectsPageProps) {
   const queryClient = new QueryClient()
   const targetType:CategoryTargetType = "project"
 
-  const parseArrayParam = (param: string | string[] | undefined) => {
-    if (!param) return undefined;
-    const arr = Array.isArray(param) ? param : param.split(",");
-    const filtered = arr.filter(Boolean);
-    return filtered.length > 0 ? filtered : undefined;
-  };
-
   const filters = {
     locale,
     search: typeof searchParams.search === 'string' && searchParams.search ? searchParams.search : undefined,
-    categorySlugs: parseArrayParam(searchParams.categories),
+    categorySlugs: normalizeArrayParam(searchParams.categories),
     pageSize: PROJECTS_PAGE_SIZE
   };
 
