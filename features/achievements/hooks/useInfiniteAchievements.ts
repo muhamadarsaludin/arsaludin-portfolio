@@ -1,9 +1,9 @@
 import { Cursor } from './../../shared/types/index.types';
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.types"
 import { getPaginatedAchievements } from "../services/achievements"
+import { ACHIEVEMENTS_PAGE_SIZE } from '../constants/achievements.constants';
 
-type UseAchievementsProps = {
+type UseAchievementsParams = {
   search?: string
   types?: string[]
   levels?: string[]
@@ -20,7 +20,7 @@ export function useInfiniteAchievements({
   categorySlugs,
   pageSize = ACHIEVEMENTS_PAGE_SIZE,
   enabled = true
-}: UseAchievementsProps = {}) {
+}: UseAchievementsParams = {}) {
   return useInfiniteQuery({
     queryKey: ["achievements", { search, types, levels, categorySlugs, pageSize}],
     queryFn: async ({ pageParam }) => {

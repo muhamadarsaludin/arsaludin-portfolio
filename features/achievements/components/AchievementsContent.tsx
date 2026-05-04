@@ -15,12 +15,13 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import AchievementCardSkeleton from "./AchievementCardSkeleton"
 import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
 import AchievementCard from "./AchievementCard"
-import { ACHIEVEMENTS_PAGE_SIZE, ACHIEVEMENTS_TYPES, ACHIEVEMENTS_LEVELS } from "../constants/achievements.types"
 import { useAvailableCategories } from "@/features/categories/hooks/useAvailableCategories"
 import { CategoryTargetType } from "@/features/categories/types/categories.types"
 import { useUrlParams } from "@/hooks/useSearchParams"
 import MiracleBadge from "@/components/miracle/Badge"
 import Section from "@/components/Section"
+import { CardType } from "@/features/cards/types/cards.types"
+import { ACHIEVEMENTS_LEVELS, ACHIEVEMENTS_PAGE_SIZE, ACHIEVEMENTS_TYPES } from "../constants/achievements.constants"
 
 type AchievementsContentProps = {
   targetType: CategoryTargetType

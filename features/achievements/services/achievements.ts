@@ -5,7 +5,7 @@ import { Achievement, AchievementEntity, PaginatedAchievements } from "../types/
 import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 import { Category } from "@/features/categories/types/categories.types"
 import { Cursor } from "@/features/shared/types/index.types"
-import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.types"
+import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.constants"
 
 type AchievementRawResponse = Pick<
   AchievementEntity, "id" | "name" | "type" | "level" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index" | "created_at"

@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { ACHIEVEMENTS_PAGE_SIZE } from '../constants/achievements.types';
+import { ACHIEVEMENTS_PAGE_SIZE } from '../constants/achievements.constants';
 import { getPaginatedAchievements } from '../services/achievements';
 import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs';
 import Section from '@/components/Section';
@@ -12,6 +12,7 @@ import { getAvailableCategories } from '@/features/categories/services/categorie
 import { CategoryTargetType } from '@/features/categories/types/categories.types';
 import Container from '@/components/Container';
 import Article from '@/components/Article';
+import { normalizeArrayParam } from '@/utils/search-params';
 
 type AchievementsPageProps = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -22,18 +23,11 @@ export default async function AchievementsPage({searchParams}: AchievementsPageP
   const queryClient = new QueryClient()
   const targetType:CategoryTargetType = "achievement"
 
-  const parseArrayParam = (param: string | string[] | undefined) => {
-    if (!param) return undefined;
-    const arr = Array.isArray(param) ? param : param.split(",");
-    const filtered = arr.filter(Boolean);
-    return filtered.length > 0 ? filtered : undefined;
-  };
-
   const filters = {
     search: typeof searchParams.search === 'string' && searchParams.search ? searchParams.search : undefined,
-    types: parseArrayParam(searchParams.types),
-    levels: parseArrayParam(searchParams.levels),
-    categorySlugs: parseArrayParam(searchParams.categories),
+    types: normalizeArrayParam(searchParams.types),
+    levels: normalizeArrayParam(searchParams.levels),
+    categorySlugs: normalizeArrayParam(searchParams.categories),
     pageSize: ACHIEVEMENTS_PAGE_SIZE
   };
 
