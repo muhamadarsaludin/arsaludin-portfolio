@@ -75,7 +75,7 @@ export default function MiracleModal({
   const modalElement = (
     <div
       className={clsx(
-        "fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-6 transition-all duration-300 ease-in-out",
+        "fixed inset-0 z-modal flex items-center justify-center p-4 md:p-6 transition-all duration-300 ease-in-out",
         isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
       )}
     >
@@ -92,7 +92,7 @@ export default function MiracleModal({
       {/* Box Modal */}
       <div
         className={clsx(
-          "bg-primary border-primary relative z-10 flex w-full flex-col rounded-3xl border shadow-2xl transition-all duration-300 ease-in-out dark:shadow-black",
+          "bg-primary border-primary relative z-modal flex w-full flex-col rounded-3xl border shadow-2xl transition-all duration-300 ease-in-out dark:shadow-black",
           sizeStyles[size],
           isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95 sm:translate-y-0",
           className

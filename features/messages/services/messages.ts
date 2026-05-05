@@ -28,6 +28,11 @@ type SendMessageParams = {
   content: string
   recipientId: string | null
   replyToId: string | null
+  recipient: Profile | null
+  repliedMessage: {
+    id: string
+    content: string
+  } | null
 }
 
 const MESSAGE_COLUMNS = `
@@ -160,6 +165,9 @@ export async function sendMessage({
   content,
   recipientId,
   replyToId,
+  // FOR OPTIMISTIC
+  recipient,
+  repliedMessage,
 }: SendMessageParams) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react"
 import { useTranslations, useLocale } from "next-intl"
 import Image from "next/image"
-import { LuTrash2, LuUserRound, LuChevronDown, LuChevronUp } from "react-icons/lu"
+import { LuTrash2 } from "react-icons/lu"
 import clsx from "clsx"
 
 import MiracleModal from "@/components/miracle/Modal"

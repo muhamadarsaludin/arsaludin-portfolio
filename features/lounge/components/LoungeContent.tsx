@@ -141,7 +141,7 @@ export default function LoungeContent({
 
                 {isFetchingNextPage && (
                   <div className="py-4">
-                    {[...Array(3)].map((_, i) => <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />)}
+                    {[...Array(2)].map((_, i) => <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />)}
                   </div>
                 )}
                 <div ref={loadMoreRef} className="h-1" />

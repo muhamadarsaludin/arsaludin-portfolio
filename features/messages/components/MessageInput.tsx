@@ -37,6 +37,8 @@ export default function MessageInput({
       content: cleanContent,
       replyToId: repliedMessage?.id ?? null,
       recipientId: repliedMessage?.user_id ?? null,
+      recipient: repliedMessage?.author ?? null,
+      repliedMessage: repliedMessage ?? null,
     })
     onClearReply()
     setText("")

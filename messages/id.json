@@ -25,6 +25,25 @@
         "intermediate": "Menengah",
         "beginner": "Pemula"
       }
+    },
+    "roadmap": {
+      "status": {
+        "ideas": "Ide",
+        "planned": "Direncanakan",
+        "in-progress": "Dikerjakan",
+        "released": "Rilis"
+      },
+      "types": {
+        "feature": "Fitur",
+        "bug": "Bug",
+        "improvement": "Improvement",
+        "refactor": "Refactor"
+      },
+      "priorities": {
+        "low": "Rendah",
+        "medium": "Menengah",
+        "high": "Tinggi"
+      }
     }
   },
   "components": {
@@ -145,6 +164,35 @@
         "cancelReply": "Batalkan balasan",
         "toSend": "untuk mengirim",
         "newLine": "baris baru"
+      }
+    },
+    "card": {
+      "item": {
+        "action": "Aksi",
+        "delete": "Hapus",
+        "update": "Ubah",
+        "modal": {
+          "delete": {
+            "title": "Hapus Kartu",
+            "description": "Apakah kamu yakin ingin menghapus kartu ini? Tindakan ini tidak dapat dibatalkan.",
+            "cancel": "Batal",
+            "confirm": "Ya, Hapus"
+          },
+          "detail": {
+            "title": "Detail Kartu",
+            "label": {
+              "priorities": "Priority",
+              "status": "Status",
+              "types": "Jenis",
+              "author": "Penulis",
+              "date": "Tanggal Dibuat"
+            }
+          }
+        }
+      },
+      "empty": {
+        "title": "Belum ada apa pun di sini",
+        "description": "Jadilah yang pertama untuk menyarankan sesuatu yang luar biasa!"
       }
     },
     "serviceCard": {
@@ -301,6 +349,28 @@
       "empty": {
         "title": "Belum Ada Pesan",
         "subtitle": "Belum ada aktivitas di sini. Jadilah yang pertama untuk mengirimkan pesan Anda."
+      }
+    },
+    "roadmap": {
+      "title": "Roadmap",
+      "description": "Pantau progres pengembangan saya, laporkan kendala yang ditemukan, atau sampaikan ide kreatif Anda. Aspirasi Anda sangat berarti dalam membantu saya menentukan prioritas fitur selanjutnya dan meningkatkan pengalaman di platform ini.",
+      "searchBarPlaceholder": "Cari kartu...",
+      "create": "Buat",
+      "not-allowed": "Hanya admin yang dapat membuat kartu",
+      "signIn": {
+        "label": "Masuk",
+        "tooltip": "Masuk dengan Google untuk membuat kartu baru"
+      },
+      "breadcrumbs": {
+        "home": "Home",
+        "roadmap": "Roadmap"
+      },
+      "filter": {
+        "label": {
+          "types": "Jenis",
+          "priorities": "Prioritas"
+        },
+        "reset": "Reset semua filter"
       }
     },
     "privacy-policy": {

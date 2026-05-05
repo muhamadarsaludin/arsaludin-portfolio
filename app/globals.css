@@ -164,7 +164,8 @@ body {
   @apply z-99;
 }
 
-.z-drawer {
+.z-drawer,
+.z-modal {
   @apply z-1000;
 }
 .z-drawer-overlay {
@@ -173,7 +174,7 @@ body {
 
 .z-tooltip,
 .z-popover {
-  @apply z-1000;
+  @apply z-9;
 }
 
 .clip-triangle {

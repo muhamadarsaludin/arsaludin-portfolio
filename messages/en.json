@@ -25,6 +25,25 @@
         "intermediate": "Intermediate",
         "beginner": "Beginner"
       }
+    },
+    "roadmap": {
+      "status": {
+        "ideas": "Ideas",
+        "planned": "Planned",
+        "in-progress": "In Progress",
+        "released": "Released"
+      },
+      "types": {
+        "feature": "Feature",
+        "bug": "Bug",
+        "improvement": "Improvement",
+        "refactor": "Refactor"
+      },
+      "priorities": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
     }
   },
   "components": {
@@ -145,6 +164,35 @@
         "cancelReply": "Cancel reply",
         "toSend": "to send",
         "newLine": "for new line"
+      }
+    },
+    "card": {
+      "item": {
+        "action": "Action",
+        "delete": "Delete",
+        "update": "Update",
+        "modal": {
+          "delete": {
+            "title": "Delete Card",
+            "description": "Are you sure you want to delete this card? This action cannot be undone.",
+            "cancel": "Cancel",
+            "confirm": "Yes, Delete"
+          },
+          "detail": {
+            "title": "Card Detail",
+            "label": {
+              "priorities": "Priorities",
+              "status": "Status",
+              "types": "Types",
+              "author": "Author",
+              "date": "Created At"
+            }
+          }
+        }
+      },
+      "empty": {
+        "title": "Nothing here yet",
+        "description": "Be the first to suggest something amazing!"
       }
     },
     "serviceCard": {
@@ -301,6 +349,28 @@
       "empty": {
         "title": "No Messages Yet",
         "subtitle": "No activity here yet. Be the first to send a message."
+      }
+    },
+    "roadmap": {
+      "title": "Roadmap",
+      "description": "Track my development progress, report any bugs, or share your creative ideas. Your feedback is essential in helping me decide what to build next and how to improve this experience.",
+      "searchBarPlaceholder": "Search cards...",
+      "create": "Create",
+      "not-allowed": "Only admin can create cards",
+      "signIn": {
+        "label": "Sign in",
+        "tooltip": "Sign in with Google to create a new card"
+      },
+      "breadcrumbs": {
+        "home": "Home",
+        "roadmap": "Roadmap"
+      },
+      "filter": {
+        "label": {
+          "types": "Types",
+          "priorities": "Priorities"
+        },
+        "reset": "Reset all filters"
       }
     },
     "privacy-policy": {

@@ -47,7 +47,8 @@ export function useMessageMutation({
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
         author: profile,
-        recipient: null,
+        recipient: variables.recipient ?? null,
+        replied_message: variables.repliedMessage ?? null,
         reaction_summary: {
           userReaction: null,
           allReactions: [],

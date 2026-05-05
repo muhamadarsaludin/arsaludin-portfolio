@@ -26,7 +26,6 @@ export function useCommentMutation({
   const queryClient = useQueryClient()
   const queryKey = ["comments", targetType, targetId, { pageSize }]
   const countKey = ["comment-count", targetType, targetId]
-
   const { user, profile } = useAuth()
 
   /**

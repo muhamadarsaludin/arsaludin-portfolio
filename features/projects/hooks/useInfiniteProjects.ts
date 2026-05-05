@@ -1,6 +1,6 @@
 import { Cursor } from '../../shared/types/index.types';
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { PROJECTS_PAGE_SIZE } from '../constants/projects.types';
+import { PROJECTS_PAGE_SIZE } from '../constants/projects.constans';
 import { getPaginatedProjects } from '../services/projects';
 
 type UseProjectsProps = {

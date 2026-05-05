@@ -2,6 +2,11 @@ import type { Profile } from "@/features/profile/types/profiles.types"
 import type { Cursor } from "@/features/shared/types/index.types"
 
 /**
+ * Valid entity types that can receive reactions within the portfolio system.
+ */
+export type ReactionTargetType = "project" | "comment" | "achievement" | "testimonial" | "message" | "card"
+
+/**
  * REACTION ENTITY
  * Raw data from 'reactions' table.
  * Implements a Multiple Nullable Foreign Key pattern for polymorphic relations.
@@ -17,6 +22,8 @@ export type ReactionEntity = {
   project_id: string | null
   achievement_id: string | null
   testimonial_id: string | null
+  message_id: string | null
+  card_id: string | null
 }
 
 /**
@@ -36,11 +43,6 @@ export type ReactionCount = {
   emoji: string
   count: number
 }
-
-/**
- * Valid entity types that can receive reactions within the portfolio system.
- */
-export type ReactionTargetType = "project" | "comment" | "achievement" | "testimonial" | "message"
 
 /**
  * Comprehensive summary of reactions for a specific target, used in reaction pickers and previews.

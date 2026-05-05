@@ -3,6 +3,11 @@ import type { ReactionSummary } from "@/features/reactions/types/reactions.types
 import type { Cursor } from "@/features/shared/types/index.types"
 
 /**
+ * Valid entity types that can receive comments within the portfolio system.
+ */
+export type CommentTargetType = "project" | "comment" | "card"
+
+/**
  * COMMENT ENTITY
  * Raw data from 'comments' table.
  * Implements a Multiple Nullable Foreign Key pattern for polymorphic relations.
@@ -19,6 +24,7 @@ export type CommentEntity = {
   reply_to_id: string | null
   // Nullable FK
   project_id: string | null
+  card_id: string | null
 }
 
 
@@ -38,11 +44,6 @@ export type CommentData = Pick<CommentEntity, "id" | "content" | "user_id" | "cr
     reply_count: number
     reaction_summary: ReactionSummary
   }
-
-/**
- * Valid entity types that can receive comments within the portfolio system.
- */
-export type CommentTargetType = "project" | "comment"
 
 /**
  * Paginated list of comments.

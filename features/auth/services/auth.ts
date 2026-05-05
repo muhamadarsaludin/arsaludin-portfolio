@@ -13,11 +13,19 @@ const supabase = createClient()
  */
 export async function signInWithGoogle() {
   try {
-    const redirectTo = process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL
+    const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL
+    const currentPath = window.location.pathname + window.location.search
+    const finalRedirectTo = `${baseUrl}?next=${encodeURIComponent(currentPath)}`
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo },
+      options: { 
+        redirectTo: finalRedirectTo,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'select_account',
+        }
+      }
     })
 
     if (error) {
