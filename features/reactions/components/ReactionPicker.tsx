@@ -118,7 +118,7 @@ export default function ReactionPicker({
           <button
             onClick={onShowDetail}
             type="button"
-            className="group/reaction-picker cursor-help min-w-6 py-1.5 flex"
+            className="group/reaction-picker cursor-help min-w-6 p-1.5 flex"
             aria-label={t("tooltip.seeDetail")}
           >
             <span className="text-secondary text-sm font-medium">

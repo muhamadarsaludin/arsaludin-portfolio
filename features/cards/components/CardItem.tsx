@@ -96,7 +96,10 @@ export default function CardItem({ card, onUpdate, className }: CardItemProps) {
                 open={isPopoverActionOpen}
                 onOpenChange={setIsPopoverActionOpen}          
                 trigger={
-                  <button className="text-secondary flex shrink-0 cursor-pointer items-center justify-center rounded-md p-1.5 transition-all duration-200 hover:bg-neutral-200 dark:hover:bg-neutral-800">
+                  <button 
+                    type="button" 
+                    aria-label={t("action")}
+                    className="text-secondary flex shrink-0 cursor-pointer items-center justify-center rounded-md p-1.5 transition-all duration-200 hover:bg-neutral-200 dark:hover:bg-neutral-800">
                     <LuEllipsis size={20} />
                   </button>
                 }
@@ -145,7 +148,7 @@ export default function CardItem({ card, onUpdate, className }: CardItemProps) {
             {card.author.full_name}
           </MiracleTooltip>
 
-          <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
             <ReactionGroup targetId={card.id} targetType="card" initialSummary={card.reaction_summary} />
             <CommentGroup targetId={card.id} targetType="card" initialCount={card.comment_count} />
           </div>
@@ -241,7 +244,7 @@ export default function CardItem({ card, onUpdate, className }: CardItemProps) {
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-1 mt-5 pt-2 border-t border-primary" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center justify-end mt-5 pt-2 border-t border-primary" onClick={(e) => e.stopPropagation()}>
             <ReactionGroup targetId={card.id} targetType="card" initialSummary={card.reaction_summary} />
             <CommentGroup targetId={card.id} targetType="card" initialCount={card.comment_count} />
           </div>
