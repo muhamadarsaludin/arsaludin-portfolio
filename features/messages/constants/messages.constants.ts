@@ -1,1 +1,1 @@
-export const MESSAGES_PAGE_SIZE = 5
+export const MESSAGES_PAGE_SIZE = 50

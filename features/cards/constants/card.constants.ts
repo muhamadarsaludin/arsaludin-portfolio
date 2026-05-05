@@ -1,6 +1,6 @@
 import { CardPriority, CardStatus, CardType } from "../types/cards.types"
 
-export const CARDS_PAGE_SIZE = 5
+export const CARDS_PAGE_SIZE = 10
 
 export const CARD_TYPES: CardType[] = [
   "feature",
