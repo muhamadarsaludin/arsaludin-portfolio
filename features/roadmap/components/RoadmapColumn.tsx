@@ -106,9 +106,9 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
   return (
     <div className={clsx("flex flex-col gap-4 w-full bg-secondary p-4 md:p-5 rounded-2xl", className)}>
       <div className="flex items-center justify-between px-1">
-        <h3 className="text-primary font-semibold text-md">
+        <h2 className="text-primary font-semibold text-md">
           {td(`roadmap.status.${status}`)}
-        </h3>
+        </h2>
         {renderActionButton()}
       </div>
 

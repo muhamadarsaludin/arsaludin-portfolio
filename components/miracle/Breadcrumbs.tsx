@@ -30,7 +30,7 @@ export default function MiracleBreadcrumbs({
     <nav 
       aria-label="Breadcrumb"
       className={clsx(
-        "bg-primary border-primary flex w-fit items-center rounded-2xl border px-4 py-2.5",
+        "bg-primary border-primary flex w-fit items-center rounded-2xl border px-4 py-1",
         className
       )}
     >
@@ -45,8 +45,9 @@ export default function MiracleBreadcrumbs({
                  <Link
                   href={item.href!}
                   aria-current={isLast ? "page" : undefined}
+                  aria-label={item.label}
                   className={clsx(
-                    "flex items-center gap-2 text-sm font-medium transition-all duration-200",
+                    "flex items-center gap-2 text-sm font-medium transition-all duration-200 p-1",
                     isLast
                       ? "text-blue"
                       : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"

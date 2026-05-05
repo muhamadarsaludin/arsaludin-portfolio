@@ -87,9 +87,9 @@ export default function CardItem({ card, onUpdate, className }: CardItemProps) {
         )}
       >
         <div className="flex items-start justify-between mb-2 gap-2">
-          <h4 className="text-primary text-md font-semibold tracking-tight line-clamp-2">
+          <h3 className="text-primary text-md font-semibold tracking-tight line-clamp-2">
             {card.title}
-          </h4>
+          </h3>
           {(isAdmin || isAuthor) && (
             <div onClick={(e) => e.stopPropagation()}>
               <MiraclePopover 
