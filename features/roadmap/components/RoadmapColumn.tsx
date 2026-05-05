@@ -1,8 +1,8 @@
 "use client"
 
-import React, { useMemo, useRef } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { useInfiniteCardsByStatus } from '@/features/cards/hooks/useInfiniteCardsByStatus'
-import { CardPriority, CardStatus, CardType } from '@/features/cards/types/cards.types'
+import { Card, CardPriority, CardStatus, CardType } from '@/features/cards/types/cards.types'
 import MiracleButton from '@/components/miracle/Button'
 import { useTranslations } from 'next-intl'
 import { LuLoader, LuPlus } from 'react-icons/lu'
@@ -17,6 +17,7 @@ import CardItemSkeleton from '@/features/cards/components/CardItemSkeleton'
 import ErrorStateCard from '@/features/shared/types/components/ErrorStateCard'
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import MiracleLoader from '@/components/miracle/Loader'
+import CardFormModal from '@/features/cards/components/CardFormModal'
 
 type RoadmapColumnProps = {
   status: CardStatus
@@ -34,6 +35,9 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
   const t = useTranslations("pages.roadmap")
   const { isSignedIn, profile } = useAuth()
   const isAdmin = profile?.role === "admin"
+
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null)
 
   const { 
     data, 
@@ -57,6 +61,11 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
     enabled: !!hasNextPage && !isLoading,
   })
 
+  const handleOpenForm = (card?: Card) => {
+    setSelectedCard(card || null)
+    setIsFormOpen(true)
+  }
+
   const handleSignIn = async () => {
     await signInWithGoogle()
   }
@@ -74,7 +83,7 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
 
     const handleClick = () => {
       if (isAuthAction) return handleSignIn()
-      // Logic create card di sini
+      handleOpenForm()
     }
 
     const buttonNode = (
@@ -117,7 +126,11 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
         ) : (
           <>
             {allCards.map((card) => (
-              <CardItem card={card} key={card.id} onUpdate={()=>{}}/>
+              <CardItem 
+                card={card} 
+                key={card.id} 
+                onUpdate={handleOpenForm}
+              />
             ))}
 
             {isFetchingNextPage && (
@@ -132,6 +145,13 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
           </>
         )}
       </div>
+
+      <CardFormModal 
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        initialData={selectedCard}
+        defaultStatus={status}
+      />
     </div>
   )
 }

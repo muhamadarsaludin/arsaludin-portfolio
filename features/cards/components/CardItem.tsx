@@ -15,8 +15,6 @@ import {
   LuPencil, 
   LuRocket, 
   LuTrash2,
-  LuInfo,
-  LuUser,
   LuCircleCheck
 } from 'react-icons/lu'
 import { formatDate } from '@/utils/format-date'
@@ -103,14 +101,16 @@ export default function CardItem({ card, onUpdate, className }: CardItemProps) {
                   </button>
                 }
               >
-                <div className="flex w-[150px] flex-col p-1 gap-1">
-                  <p className="text-secondary px-2 py-1 text-[10px] font-bold uppercase tracking-wider">{t("action")}</p>
-                  <MiracleButton size="sm" onClick={() => { setIsPopoverActionOpen(false); onUpdate?.(card); }} startIcon={<LuPencil />} className="justify-start font-medium" fullWidth variant="secondary">
-                    {t("update")}
-                  </MiracleButton>
-                  <MiracleButton size="sm" status="danger" onClick={() => { setIsPopoverActionOpen(false); setIsDeleteModalOpen(true); }} startIcon={<LuTrash2 />} className="justify-start font-medium" fullWidth variant="secondary">
-                    {t("delete")}
-                  </MiracleButton>
+                <div className="flex max-w-[150px] w-fit flex-col gap-1">
+                  <p className="text-secondary-inv text-[10px] font-bold uppercase">{t("action")}</p>
+                  <div className="flex item-center gap-1.5">
+                    <MiracleButton size="sm" onClick={() => { setIsPopoverActionOpen(false); onUpdate?.(card); }} startIcon={<LuPencil />} className="justify-start font-medium" variant="secondary">
+                      {t("update")}
+                    </MiracleButton>
+                    <MiracleButton size="sm" status="danger" onClick={() => { setIsPopoverActionOpen(false); setIsDeleteModalOpen(true); }} startIcon={<LuTrash2 />} className="justify-start font-medium">
+                      {t("delete")}
+                    </MiracleButton>
+                  </div>
                 </div>
               </MiraclePopover>
             </div>

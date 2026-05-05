@@ -163,7 +163,7 @@
         "signIn": "Masuk dengan Google",
         "cancelReply": "Batalkan balasan",
         "toSend": "untuk mengirim",
-        "newLine": "baris baru"
+        "newLine": "untuk baris baru"
       }
     },
     "card": {
@@ -193,6 +193,35 @@
       "empty": {
         "title": "Belum ada apa pun di sini",
         "description": "Jadilah yang pertama untuk menyarankan sesuatu yang luar biasa!"
+      },
+      "form": {
+        "title": {
+          "create": "Buat Kartu Baru",
+          "edit": "Ubah Kartu"
+        },
+        "label": {
+          "title": "Judul",
+          "description": "Deskripsi",
+          "type": "Tipe",
+          "priority": "Prioritas",
+          "status": "Status"
+        },
+        "placeholder": {
+          "title": "Masukkan judul ide atau bug...",
+          "description": "Ceritakan lebih lanjut tentang ide atau bug ini..."
+        },
+        "button": {
+          "cancel": "Batal",
+          "create": "Buat Kartu",
+          "update": "Simpan Perubahan"
+        },
+        "validation": {
+          "title": {
+            "required": "Judul wajib diisi",
+            "min": "Judul minimal harus 5 karakter",
+            "max": "Judul terlalu panjang"
+          }
+        }
       }
     },
     "serviceCard": {

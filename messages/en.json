@@ -193,6 +193,35 @@
       "empty": {
         "title": "Nothing here yet",
         "description": "Be the first to suggest something amazing!"
+      },
+      "form": {
+        "title": {
+          "create": "Create New Card",
+          "edit": "Edit Card"
+        },
+        "label": {
+          "title": "Title",
+          "description": "Description",
+          "type": "Type",
+          "priority": "Priority",
+          "status": "Status"
+        },
+        "placeholder": {
+          "title": "Enter idea or bug title...",
+          "description": "Tell us more about this idea or bug..."
+        },
+        "button": {
+          "cancel": "Cancel",
+          "create": "Create Card",
+          "update": "Save Changes"
+        },
+        "validation": {
+          "title": {
+            "required": "Title is required",
+            "min": "Title must be at least 5 characters",
+            "max": "Title is too long"
+          }
+        }
       }
     },
     "serviceCard": {
