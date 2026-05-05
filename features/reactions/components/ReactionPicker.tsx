@@ -19,6 +19,7 @@ import MiracleLoader from "@/components/miracle/Loader"
 // Hook & Types baru
 import { useReactionSummary } from "@/features/reactions/hooks/useReactionSummary"
 import type { ReactionSummary, ReactionTargetType } from "../types/reactions.types"
+import { formatCount } from "@/utils/format-number"
 
 // Dynamically import EmojiPicker to improve initial bundle size and performance
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), {
@@ -122,7 +123,7 @@ export default function ReactionPicker({
             aria-label={t("tooltip.seeDetail")}
           >
             <span className="text-secondary text-sm font-medium">
-              {dataSummary.totalReactions}
+              {formatCount(dataSummary.totalReactions)}
             </span>
           </button>
         }

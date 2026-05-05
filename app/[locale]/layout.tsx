@@ -11,6 +11,7 @@ import Footer from "@/components/footer/Footer"
 import BackToTop from "@/components/BackToTop"
 import { Providers } from "@/providers/Providers"
 import { createClient } from "@/lib/supabase/server"
+import { GoogleTagManager } from '@next/third-parties/google'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -30,6 +31,8 @@ export const viewport: Viewport = {
 
 export default async function LocaleLayout({ children, params }: LayoutProps) {
   const { locale } = await params
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID
+  const isProduction = process.env.NODE_ENV === 'production'
   
   let user = null
 
@@ -46,6 +49,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      {isProduction && gtmId && <GoogleTagManager gtmId={gtmId} />}
       <body
         className={`${geist.variable} ${geistMono.variable} ${outfit.variable} bg-primary text-primary antialiased max-w-screen overflow-x-hidden`}
       >

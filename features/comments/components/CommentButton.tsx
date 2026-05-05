@@ -1,4 +1,5 @@
 import MiracleTooltip, { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
+import { formatCount } from "@/utils/format-number"
 import { useTranslations } from "next-intl"
 import React from "react"
 import { LuMessageCircleMore } from "react-icons/lu"
@@ -39,7 +40,9 @@ export default function CommentButton({
             />
           </div>
           {commentCount > 0 && (
-            <span className="text-secondary text-sm font-medium">{commentCount}</span>
+            <span className="text-secondary text-sm font-medium">
+              {formatCount(commentCount)}
+            </span>
           )}
         </button>
       }
