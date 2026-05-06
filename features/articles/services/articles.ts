@@ -1,0 +1,238 @@
+"use server"
+
+import { createClient } from "@/lib/supabase/server"
+import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
+import { Category } from "@/features/categories/types/categories.types"
+import { Cursor } from "@/features/shared/types/index.types"
+import { Article, ArticleEntity, ArticleTranslationEntity, PaginatedArticles } from "../types/articles.types"
+import { Profile } from "@/features/profile/types/profiles.types"
+import { ARTICLES_PAGE_SIZE } from "../constants/articles.constans"
+
+type ArticleRawResponse = ArticleEntity
+  & {
+    translations: (Pick< ArticleTranslationEntity,"title" | "summary" | "content" >
+  & {
+    i18n: { locale: string }
+  })[]
+  author: Profile
+  categories: {
+    is_show: boolean
+    category: Category
+  }[]
+  comments: { count: number }[]
+  reaction_counts: ReactionCount[]
+  reactions: Reaction[]
+}
+
+const getColumns = (isFilteringCategory: boolean = false) => `
+  id,
+  slug,
+  thumbnail,
+  status,
+  is_show,
+  is_featured,
+  order_index,
+  user_id,
+  published_at,
+  created_at,
+  updated_at,
+  translations:article_translations!inner (
+    title,
+    summary,
+    content,
+    i18n!inner (
+      locale
+    )
+  ),
+  author:user_id (
+    id, 
+    email, 
+    full_name, 
+    role, 
+    avatar_url
+  ),
+  categories:article_categories${isFilteringCategory ? "!inner" : ""}(
+    is_show,
+    category:categories!inner(
+      id,
+      name,
+      slug,
+      is_show
+    )
+  ),
+  comments(count),
+  reaction_counts:article_reaction_counts(
+    emoji,
+    count
+  ),
+  reactions(
+    id,
+    emoji,
+    user_id,
+    created_at,
+    updated_at,
+    author:profiles(
+      id,
+      full_name,
+      email,
+      role,
+      avatar_url
+    )
+  )
+  `
+
+const mapToArticle = (article: ArticleRawResponse): Article => {
+  const t = article.translations?.[0]
+  const categories = article.categories?.map((pc) => pc.category).filter(Boolean) ?? [] 
+  const commentCount = article.comments?.[0]?.count ?? 0
+  const userReaction = article.reactions?.[0] ?? null
+  const allReactions = article.reaction_counts || []
+
+  return {
+    ...article,
+    thumbnail: article.thumbnail ?? null,
+    published_at: article.published_at ?? null,
+    title: t?.title,
+    summary: t?.summary ?? null,
+    content: t?.content ?? null,
+    author: article.author,
+    categories,
+    comment_count: commentCount,
+    reaction_summary: {
+      userReaction,
+      allReactions,
+      totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
+      totalEmojis: allReactions.length,
+    }
+  }
+}
+
+// --- MAIN FUNCTION ---
+export async function getFeaturedArticles({
+  locale
+}: {locale: string}): Promise<Article[]> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
+
+  const { data, error } = await supabase
+    .from("articles")
+    .select<string, ArticleRawResponse>(getColumns())
+    .eq("is_show", true)
+    .eq("is_featured", true)
+    .eq("status", "published")
+    .not("published_at", "is", null)
+    .eq("article_translations.i18n.locale", locale)
+    .eq("article_categories.is_show", true)
+    .eq("article_categories.categories.is_show", true)
+    .eq("reactions.user_id", userId)
+    .order("order_index", { ascending: true, nullsFirst: false })
+    .order("published_at", { ascending: false })
+    .order("id", { ascending: false })
+    .order("count", {
+      referencedTable: "article_reaction_counts",
+      ascending: false,
+    })
+    .limit(4)
+
+  if (error) {
+    console.error("Error fetching featured articles:", error)
+    throw error
+  }
+
+  return (data || []).map(mapToArticle)
+}
+
+type GetPaginatedArticlesParams = {
+  locale: string
+  search?: string
+  categorySlugs?: string[]
+  pageSize?: number
+  cursor?: Cursor
+}
+
+export async function getPaginatedArticles({
+  locale,
+  search,
+  categorySlugs,
+  pageSize = ARTICLES_PAGE_SIZE,
+  cursor,
+}: GetPaginatedArticlesParams): Promise<PaginatedArticles> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000";
+  const isFilteringCategory = !!(categorySlugs && categorySlugs.length > 0)
+
+  let query = supabase
+    .from("articles")
+    .select<string, ArticleRawResponse>(getColumns(isFilteringCategory))
+    .eq("is_show", true)
+    .eq("status", "published")
+    .not("published_at", "is", null)
+    .eq("article_translations.i18n.locale", locale)
+    .eq("article_categories.is_show", true)
+    .eq("article_categories.categories.is_show", true)
+    .eq("reactions.user_id", userId)
+    .order("order_index", { ascending: true, nullsFirst: false })
+    .order("published_at", { ascending: false })
+    .order("id", { ascending: false })
+    .order("count", {
+      referencedTable: "article_reaction_counts",
+      ascending: false,
+    })
+    .limit(pageSize + 1)
+
+  if (!search && !isFilteringCategory) {
+    query = query.eq("is_featured", false)
+  }
+
+  if (search) {
+    query = query.ilike("article_translations.title", `%${search}%`)
+  }
+
+  if (isFilteringCategory) {
+    query = query.in("article_categories.categories.slug", categorySlugs)
+  }
+
+  if (cursor && cursor.order_index !== undefined) {
+    query = query.or(
+      `order_index.gt.${cursor.order_index},` +
+      `and(order_index.eq.${cursor.order_index},published_at.lt.${cursor.published_at}),` +
+      `and(order_index.eq.${cursor.order_index},published_at.eq.${cursor.published_at},id.lt.${cursor.id})`
+    )
+  }
+
+  const { data, error } = await query
+
+  if (error) {
+    console.error(`[getPaginatedArticles] Error fetching articles:`, error)
+    throw error
+  }
+
+  if (!data || data.length === 0) {
+    return { 
+      data: [], 
+      nextCursor: null, 
+      hasMore: false 
+    }
+  }
+
+  const hasMore = data.length > pageSize
+  const trimmedData = hasMore ? data.slice(0, pageSize) : data
+  const mappedData = trimmedData.map(mapToArticle)
+  const lastItem = mappedData[mappedData.length - 1]
+
+  return {
+    data: mappedData,
+    nextCursor: hasMore
+      ? {
+          id: lastItem.id,
+          published_at: lastItem.published_at ?? undefined,
+          order_index: lastItem.order_index ?? 0,
+        }
+      : null,
+    hasMore,
+  }
+}

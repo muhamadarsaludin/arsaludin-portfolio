@@ -58,7 +58,7 @@ export default function Heading({
     2: "text-2xl md:text-3xl lg:text-4xl",
     3: "text-xl md:text-2xl lg:text-3xl",
     4: "text-lg md:text-xl lg:text-2xl",
-    5: "text-md md:text-lg lg:text-xl",
+    5: "text-base md:text-lg lg:text-xl",
   }
 
   const linkSizeClass: Record<number, string> = {

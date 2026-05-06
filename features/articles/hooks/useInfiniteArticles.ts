@@ -1,9 +1,9 @@
 import { Cursor } from '../../shared/types/index.types';
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { PROJECTS_PAGE_SIZE } from '../constants/projects.constans';
-import { getPaginatedProjects } from '../services/projects';
+import { ARTICLES_PAGE_SIZE } from '../constants/articles.constans';
+import { getPaginatedArticles } from '../services/articles';
 
-type UseProjectsParams = {
+type UseArticlesParams = {
   locale: string 
   search?: string
   categorySlugs?: string[]
@@ -12,17 +12,17 @@ type UseProjectsParams = {
   enabled?: boolean
 }
 
-export function useInfiniteProjects({
+export function useInfiniteArticles({
   locale,
   search,
   categorySlugs,
-  pageSize = PROJECTS_PAGE_SIZE,
+  pageSize = ARTICLES_PAGE_SIZE,
   enabled = true
-}: UseProjectsParams) {
+}: UseArticlesParams) {
   return useInfiniteQuery({
-    queryKey: ["projects", { locale, search, categorySlugs, pageSize}],
+    queryKey: ["articles", { locale, search, categorySlugs, pageSize}],
     queryFn: async ({ pageParam }) => {
-      return getPaginatedProjects({
+      return getPaginatedArticles({
         locale,
         search, 
         categorySlugs, 

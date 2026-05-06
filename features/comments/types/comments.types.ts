@@ -5,7 +5,7 @@ import type { Cursor } from "@/features/shared/types/index.types"
 /**
  * Valid entity types that can receive comments within the portfolio system.
  */
-export type CommentTargetType = "project" | "comment" | "card"
+export type CommentTargetType = "project" | "comment" | "card" | "article"
 
 /**
  * COMMENT ENTITY

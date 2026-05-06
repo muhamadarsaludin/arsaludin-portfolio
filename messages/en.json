@@ -364,6 +364,27 @@
         "reset": "Reset all filters"
       }
     },
+    "articles": {
+      "title": "Articles",
+      "description": "A collection of writings where I share insights, experiences, and thoughts on design, development, and technology.",
+      "searchBarPlaceholder": "Search articles...",
+      "noMoreData": "You've reached the end of the list!",
+      "featuredArticles": "Featured Articles",
+      "breadcrumbs": {
+        "home": "Home",
+        "articles": "Articles"
+      },
+      "filter": {
+        "label": {
+          "categories": "Categories"
+        },
+        "reset": "Reset all filters"
+      },
+      "banner": {
+        "title": "Layout Preview",
+        "description": "This page is currently in Beta. All articles shown are placeholder data for layout testing."
+      }
+    },
     "lounge": {
       "title": "Lounge",
       "description": "An interactive space to chat together, share inspirations, and discuss engaging topics to strengthen connections and explore various creative ideas collectively.",

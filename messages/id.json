@@ -364,6 +364,27 @@
         "reset": "Reset semua filter"
       }
     },
+    "articles": {
+      "title": "Artikel",
+      "description": "Kumpulan tulisan yang berisi insight, pengalaman, dan pemikiran saya tentang desain, pengembangan, dan teknologi.",
+      "searchBarPlaceholder": "Cari artikel...",
+      "noMoreData": "Anda telah melihat semua data!",
+      "featuredArticles": "Artikel Pilihan",
+      "breadcrumbs": {
+        "home": "Home",
+        "articles": "Artikel"
+      },
+      "filter": {
+        "label": {
+          "categories": "Kategori"
+        },
+        "reset": "Reset semua filter"
+      },
+      "banner": {
+        "title": "Pratinjau Tata Letak",
+        "description": "Halaman ini masih dalam tahap Beta. Semua artikel yang tampil adalah data dummy untuk pengujian layout."
+      }
+    },
     "lounge": {
       "title": "Lounge",
       "description": "Ruang interaktif untuk ngobrol bareng, saling berbagi inspirasi, dan mendiskusikan topik menarik guna mempererat koneksi serta mengeksplorasi berbagai ide kreatif bersama.",

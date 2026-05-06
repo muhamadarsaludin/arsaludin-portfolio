@@ -23,4 +23,4 @@ export type Category = Pick<CategoryEntity, "id" | "name" | "slug" | "is_show">
 /**
  * Valid entity types that can receive category within the portfolio system.
  */
-export type CategoryTargetType = "achievement" | "project" | "blog"
+export type CategoryTargetType = "achievement" | "project" | "blog" | "article"

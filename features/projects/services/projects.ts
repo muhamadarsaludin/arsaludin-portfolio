@@ -234,7 +234,7 @@ export async function getPaginatedProjects({
   const { data, error } = await query
 
   if (error) {
-    console.error(`[getPaginatedProjects] Error fetching achievements:`, error)
+    console.error(`[getPaginatedProjects] Error fetching projects:`, error)
     throw error
   }
 

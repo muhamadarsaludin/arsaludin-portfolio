@@ -4,7 +4,7 @@ import type { Cursor } from "@/features/shared/types/index.types"
 /**
  * Valid entity types that can receive reactions within the portfolio system.
  */
-export type ReactionTargetType = "project" | "comment" | "achievement" | "testimonial" | "message" | "card"
+export type ReactionTargetType = "project" | "comment" | "achievement" | "testimonial" | "message" | "card" | "article"
 
 /**
  * REACTION ENTITY
