@@ -1,5 +1,12 @@
 {
   "data": {
+    "stats": {
+      "experience": "Pengalaman",
+      "services": "Layanan",
+      "projects": "Proyek",
+      "achievements": "Pencapaian",
+      "articles": "Artikel"
+    },
     "categories": {
       "personal": "Proyek Pribadi",
       "professional": "Proyek Profesional",
@@ -316,12 +323,7 @@
     "home": {
       "profile": {
         "about": "UX Engineer dengan pengalaman lebih dari 4 tahun di front-end engineering dan design system. Berpengalaman dalam membangun UI library yang scalable, menerjemahkan kebutuhan produk serta desain UI/UX ke dalam kode berkualitas tinggi di platform web dan Android, serta menjembatani kolaborasi antara designer, product manager, dan developer.",
-        "caption": "Statistik Developer",
-        "experience": "Pengalaman",
-        "projects": "Proyek",
-        "stack": "Stack",
-        "certifications": "Sertifikasi",
-        "blogs": "Blog"
+        "caption": "Statistik Developer"
       },
       "skills-and-services": {
         "title": "Keahlian & Layanan",

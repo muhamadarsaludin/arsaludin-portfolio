@@ -1,4 +1,5 @@
 "use client"
+import { useStats } from "@/features/stats/hooks/useStats"
 import clsx from "clsx"
 import { useTranslations } from "next-intl"
 import { useState } from "react"
@@ -9,54 +10,65 @@ type ProfileStatsProps = {
 }
 
 export default function ProfileStats({ className }: ProfileStatsProps) {
-  const t = useTranslations("pages.home.profile")
+  const td = useTranslations("data.stats")
   const [isFinished, setIsFinished] = useState(false)
+  const { data: stats, isLoading, isError, refetch } = useStats()
+
+  const renderValue = (value: number | undefined) => {
+    if (isLoading) return <span className="animate-pulse text-muted-foreground text-sm">...</span>
+    if (isError) return <span className="text-destructive/50">0</span>
+    return <CountUp end={value ?? 0} duration={2} />
+  }
+
   return (
     <div className={clsx("max-w-full overflow-auto", className)}>
       <table className="border-separate border-spacing-0">
         <thead>
           <tr>
-            <th className="text-secondary min-w-20 p-1 text-center text-sm font-normal">
-              {t("experience")}
-            </th>
-            <th className="text-secondary min-w-20 p-1 text-center text-sm font-normal">
-              {t("projects")}
-            </th>
-            <th className="text-secondary min-w-20 p-1 text-center text-sm font-normal">
-              {t("stack")}
-            </th>
-            <th className="text-secondary min-w-20 p-1 text-center text-sm font-normal">
-              {t("certifications")}
-            </th>
-            <th className="text-secondary min-w-20 p-1 text-center text-sm font-normal">
-              {t("blogs")}
-            </th>
+            {["experience", "services", "projects", "achievements", "articles"].map((key) => (
+              <th key={key} className="text-secondary min-w-20 p-1 text-center text-sm font-normal">
+                {td(key)}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           <tr>
+            {/* Experience dengan logic Plus (+) */}
             <td className="min-w-20 p-1 text-center text-xl font-medium md:text-2xl lg:text-3xl">
-              <CountUp end={4} onEnd={() => setIsFinished(true)} />
-              <span
-                className={clsx(
-                  "transition-opacity duration-300",
-                  isFinished ? "opacity-100" : "opacity-0"
-                )}
-              >
-                +
-              </span>
+              {isLoading ? (
+                 <span className="animate-pulse text-muted-foreground text-sm">...</span>
+              ) : isError ? (
+                <span className="text-destructive/50">0</span>
+              ) : (
+                <>
+                  <CountUp 
+                    end={stats?.experience ?? 0} 
+                    onEnd={() => setIsFinished(true)} 
+                    duration={2}
+                  />
+                  <span
+                    className={clsx(
+                      "transition-opacity duration-500",
+                      isFinished ? "opacity-100" : "opacity-0"
+                    )}
+                  >
+                    +
+                  </span>
+                </>
+              )}
             </td>
             <td className="min-w-20 p-1 text-center text-xl font-medium md:text-2xl lg:text-3xl">
-              <CountUp end={10} />
+              {renderValue(stats?.services)}
             </td>
             <td className="min-w-20 p-1 text-center text-xl font-medium md:text-2xl lg:text-3xl">
-              <CountUp end={12} />
+              {renderValue(stats?.projects)}
             </td>
             <td className="min-w-20 p-1 text-center text-xl font-medium md:text-2xl lg:text-3xl">
-              <CountUp end={20} />
+              {renderValue(stats?.achievements)}
             </td>
             <td className="min-w-20 p-1 text-center text-xl font-medium md:text-2xl lg:text-3xl">
-              <CountUp end={4} />
+              {renderValue(stats?.articles)}
             </td>
           </tr>
         </tbody>

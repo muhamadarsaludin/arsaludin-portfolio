@@ -2,28 +2,37 @@ import Section from "@/components/Section"
 import ProfileHero from "./ProfileHero"
 import ProfileStats from "./ProfileStats"
 import ProfileInfo from "./ProfileInfo"
-import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
 import ProfileImage from "./ProfileImage"
 import clsx from "clsx"
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
+import { getStats } from "@/features/stats/services/stats"
 
-export default function ProfileSection({ className }: { className?: string }) {
-  const t = useTranslations("pages.home.profile")
+export default async function ProfileSection({ className }: { className?: string }) {
+  const t = await getTranslations("pages.home.profile")
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery({
+    queryKey: ["stats"],
+    queryFn: () => getStats(),
+  })
   return (
-    <Section className={clsx("relative", className)}>
-      <ProfileHero />
-      <div className="relative z-1 -mt-15 flex-col lg:-mt-20">
-        <div className="flex flex-col gap-4 md:flex-row lg:gap-6 xl:gap-8">
-          <ProfileImage className="ml-4 lg:ml-6 xl:ml-8" />
-          <div className="mt-0 flex flex-1 flex-row justify-between gap-6 pt-0 md:mt-15 md:pt-4 lg:mt-20 lg:gap-10 lg:pt-6 xl:pt-8">
-            <ProfileInfo className="shrink-0" />
-            <ProfileStats className="hidden lg:block" />
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Section className={clsx("relative", className)}>
+        <ProfileHero />
+        <div className="relative z-1 -mt-15 flex-col lg:-mt-20">
+          <div className="flex flex-col gap-4 md:flex-row lg:gap-6 xl:gap-8">
+            <ProfileImage className="ml-4 lg:ml-6 xl:ml-8" />
+            <div className="mt-0 flex flex-1 flex-row justify-between gap-6 pt-0 md:mt-15 md:pt-4 lg:mt-20 lg:gap-10 lg:pt-6 xl:pt-8">
+              <ProfileInfo className="shrink-0" />
+                <ProfileStats className="hidden lg:block" />
+            </div>
           </div>
+          <ProfileStats className="mt-4 block lg:hidden" />
+          <p className="text-secondary mt-6 max-w-full lg:mt-8 lg:max-w-7/12 xl:mt-10 text-sm md:text-base">
+            {t("about")}
+          </p>
         </div>
-        <ProfileStats className="mt-4 block lg:hidden" />
-        <p className="text-secondary mt-6 max-w-full lg:mt-8 lg:max-w-7/12 xl:mt-10 text-sm md:text-base">
-          {t("about")}
-        </p>
-      </div>
-    </Section>
+      </Section>
+    </HydrationBoundary>
   )
 }

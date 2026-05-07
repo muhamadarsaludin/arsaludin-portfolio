@@ -1,5 +1,12 @@
 {
   "data": {
+    "stats": {
+      "experience": "Experience",
+      "services": "Services",
+      "projects": "Projects",
+      "achievements": "Achievements",
+      "articles": "Articles"
+    },
     "categories": {
       "personal": "Personal Project",
       "professional": "Professional Project",
@@ -316,12 +323,7 @@
     "home": {
       "profile": {
         "about": "UX Engineer with 4+ years of experience in front end engineering and design systems. Specialized in building scalable UI libraries, translating product requirements and UI/UX designs into high-quality code across web and Android, and bridging collaboration between designers, product managers, and developers.",
-        "caption": "Developer stats",
-        "experience": "Experience",
-        "projects": "Projects",
-        "stack": "Stack",
-        "certifications": "Certifications",
-        "blogs": "Blog"
+        "caption": "Developer stats"
       },
       "skills-and-services": {
         "title": "Skills & Services",
