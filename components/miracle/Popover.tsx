@@ -67,7 +67,7 @@ export default function MiraclePopover({
     onOpenChange?.(false)
   }
 
-  // Logic Click Outside yang support Portal
+  // Handle Click Outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node
@@ -94,37 +94,51 @@ export default function MiraclePopover({
     const contentRect = contentRef.current.getBoundingClientRect()
     const scrollX = window.scrollX
     const scrollY = window.scrollY
+    const viewportWidth = window.innerWidth
+    const viewportHeight = window.innerHeight
+    const gap = 8
 
     let [side, align] = defaultPosition.split("-")
 
-    // Flip Logic (Sama seperti aslimu)
-    if (side === "top" && triggerRect.top - contentRect.height < 0) side = "bottom"
-    else if (side === "bottom" && triggerRect.bottom + contentRect.height > window.innerHeight) side = "top"
-    if (side === "left" && triggerRect.left - contentRect.width < 0) side = "right"
-    else if (side === "right" && triggerRect.right + contentRect.width > window.innerWidth) side = "left"
+    // --- 1. FLIP LOGIC ---
+    if (side === "top" && triggerRect.top - contentRect.height < gap) side = "bottom"
+    else if (side === "bottom" && triggerRect.bottom + contentRect.height > viewportHeight - gap) side = "top"
+    
+    if (side === "left" && triggerRect.left - contentRect.width < gap) side = "right"
+    else if (side === "right" && triggerRect.right + contentRect.width > viewportWidth - gap) side = "left"
 
     let top = 0
     let left = 0
 
-    // Kalkulasi Koordinat Y
-    if (side === "top") top = triggerRect.top + scrollY - contentRect.height - 8
-    else if (side === "bottom") top = triggerRect.bottom + scrollY + 8
+    // --- 2. COORDINATE CALCULATION ---
+    // Y Axis
+    if (side === "top") top = triggerRect.top + scrollY - contentRect.height - gap
+    else if (side === "bottom") top = triggerRect.bottom + scrollY + gap
     else {
       if (align === "start") top = triggerRect.top + scrollY
       else if (align === "end") top = triggerRect.bottom + scrollY - contentRect.height
       else top = triggerRect.top + scrollY + (triggerRect.height / 2) - (contentRect.height / 2)
     }
 
-    // Kalkulasi Koordinat X
-    if (side === "left") left = triggerRect.left + scrollX - contentRect.width - 8
-    else if (side === "right") left = triggerRect.right + scrollX + 8
+    // X Axis
+    if (side === "left") left = triggerRect.left + scrollX - contentRect.width - gap
+    else if (side === "right") left = triggerRect.right + scrollX + gap
     else {
       if (align === "start") left = triggerRect.left + scrollX
       else if (align === "end") left = triggerRect.left + scrollX + triggerRect.width - contentRect.width
       else left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2)
     }
 
-    setCoords({ top, left })
+    // --- 3. CLAMPING (Mencegah Keluar Layar) ---
+    const minLeft = scrollX + gap
+    const maxLeft = scrollX + viewportWidth - contentRect.width - gap
+    const safeLeft = Math.max(minLeft, Math.min(left, maxLeft))
+
+    const minTop = scrollY + gap
+    const maxTop = scrollY + viewportHeight - contentRect.height - gap
+    const safeTop = Math.max(minTop, Math.min(top, maxTop))
+
+    setCoords({ top: safeTop, left: safeLeft })
     setAdaptedPos(`${side}-${align}` as any)
   }
 
@@ -156,7 +170,7 @@ export default function MiraclePopover({
   }
 
   return (
-    <div ref={containerRef} className={clsx("relative flex", className)}>
+    <div ref={containerRef} className={clsx("relative inline-flex", className)}>
       <div onClick={handleToggle} className="cursor-pointer">
         {trigger}
       </div>
@@ -171,23 +185,24 @@ export default function MiraclePopover({
             zIndex: 9999,
           }}
           className={clsx(
-            "z-popover transition-[opacity,visibility] duration-300 ease-in-out",
-            isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
+            "transition-opacity duration-300 ease-in-out",
+            isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
           )}
         >
           <div
             className={clsx(
-              "text-primary-inv relative w-max min-w-max rounded-md",
-              !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
+              "text-primary-inv relative rounded-md",
+              "w-max max-w-[calc(100vw-32px)] break-words whitespace-normal", // Sangat penting untuk popover
+              !noShadow && "shadow-md shadow-black/20 dark:shadow-white/10",
               !noBackground && "bg-primary-inv",
-              !noPadding && "p-2"
+              !noPadding && "p-3" // Popover biasanya padding lebih besar dari tooltip
             )}
             onClick={(e) => e.stopPropagation()}
           >
             {!noArrow && (
               <div
                 className={clsx(
-                  "absolute z-1 h-2.5 w-2.5 rotate-45",
+                  "absolute z-[-1] h-2.5 w-2.5 rotate-45",
                   !noBackground && "bg-primary-inv",
                   arrowPositionClass[adaptedPos]
                 )}
