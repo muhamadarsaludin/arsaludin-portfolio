@@ -2,7 +2,7 @@
 
 import clsx from "clsx"
 import type { ReactNode } from "react"
-import { useEffect, useRef, useState, useLayoutEffect } from "react"
+import { useEffect, useRef, useState, useLayoutEffect, useCallback } from "react"
 import { createPortal } from "react-dom"
 
 export type TooltipDefaultPosition =
@@ -47,97 +47,104 @@ export default function MiracleTooltip({
     setMounted(true)
   }, [])
 
+  const handleClose = useCallback(() => {
+    setIsOpen(false)
+  }, [])
+
+  const updatePosition = useCallback(() => {
+    if (!containerRef.current || !contentRef.current || !isOpen) return
+
+    const triggerRect = containerRef.current.getBoundingClientRect()
+    const viewportWidth = window.innerWidth
+    const viewportHeight = window.innerHeight
+
+    // --- 1. AUTO CLOSE LOGIC ---
+    // Jika trigger scroll keluar layar, tutup tooltip
+    if (
+      triggerRect.bottom < 0 || 
+      triggerRect.top > viewportHeight ||
+      triggerRect.right < 0 ||
+      triggerRect.left > viewportWidth
+    ) {
+      handleClose()
+      return
+    }
+
+    const contentRect = contentRef.current.getBoundingClientRect()
+    const gap = 8
+    let [side, align] = defaultPosition.split("-")
+
+    // --- 2. SMART FLIP ---
+    if (side === "top" && triggerRect.top - contentRect.height - gap < 0) side = "bottom"
+    else if (side === "bottom" && triggerRect.bottom + contentRect.height + gap > viewportHeight) side = "top"
+
+    // --- 3. SMART ALIGNMENT ---
+    if (side === "top" || side === "bottom") {
+      const centerX = triggerRect.left + triggerRect.width / 2
+      if (centerX - contentRect.width / 2 < 0) align = "start"
+      else if (centerX + contentRect.width / 2 > viewportWidth) align = "end"
+    }
+
+    if (side === "left" || side === "right") {
+      if (triggerRect.left - contentRect.width - gap < 0) side = "right"
+      else if (triggerRect.right + contentRect.width + gap > viewportWidth) side = "left"
+    }
+
+    let top = 0
+    let left = 0
+
+    // --- 4. COORDINATE CALCULATION (Fixed) ---
+    if (side === "top") top = triggerRect.top - contentRect.height - gap
+    else if (side === "bottom") top = triggerRect.bottom + gap
+    else {
+      if (align === "start") top = triggerRect.top
+      else if (align === "end") top = triggerRect.bottom - contentRect.height
+      else top = triggerRect.top + (triggerRect.height / 2) - (contentRect.height / 2)
+    }
+
+    if (side === "left") left = triggerRect.left - contentRect.width - gap
+    else if (side === "right") left = triggerRect.right + gap
+    else {
+      if (align === "start") left = triggerRect.left
+      else if (align === "end") left = triggerRect.right - contentRect.width
+      else left = triggerRect.left + (triggerRect.width / 2) - (contentRect.width / 2)
+    }
+
+    // Clamping Safety
+    left = Math.max(gap, Math.min(left, viewportWidth - contentRect.width - gap))
+    top = Math.max(gap, Math.min(top, viewportHeight - contentRect.height - gap))
+
+    setCoords({ top, left })
+    setAdaptedPos(`${side}-${align}` as any)
+  }, [isOpen, defaultPosition, handleClose])
+
+  useLayoutEffect(() => {
+    if (isOpen) {
+      updatePosition()
+
+      // Tambahkan ResizeObserver untuk handle konten yang berubah ukuran
+      const resizeObserver = new ResizeObserver(() => updatePosition())
+      if (contentRef.current) resizeObserver.observe(contentRef.current)
+
+      window.addEventListener("scroll", updatePosition, true)
+      window.addEventListener("resize", updatePosition)
+
+      return () => {
+        resizeObserver.disconnect()
+        window.removeEventListener("scroll", updatePosition, true)
+        window.removeEventListener("resize", updatePosition)
+      }
+    }
+  }, [isOpen, updatePosition])
+
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
     setIsOpen(true)
   }
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false)
-    }, 100)
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 150)
   }
-
-  const updatePosition = () => {
-    if (!containerRef.current || !contentRef.current) return
-
-    const triggerRect = containerRef.current.getBoundingClientRect()
-    const contentRect = contentRef.current.getBoundingClientRect()
-    const scrollX = window.scrollX
-    const scrollY = window.scrollY
-    const viewportWidth = window.innerWidth
-    const viewportHeight = window.innerHeight
-    const gap = 8 // Jarak tooltip ke trigger
-
-    let [side, align] = defaultPosition.split("-")
-
-    // --- 1. FLIP LOGIC (Vertical) ---
-    if (side === "top" && triggerRect.top - contentRect.height < gap) {
-      side = "bottom"
-    } else if (side === "bottom" && triggerRect.bottom + contentRect.height > viewportHeight - gap) {
-      side = "top"
-    }
-
-    // --- 2. FLIP LOGIC (Horizontal) ---
-    if (side === "left" && triggerRect.left - contentRect.width < gap) {
-      side = "right"
-    } else if (side === "right" && triggerRect.right + contentRect.width > viewportWidth - gap) {
-      side = "left"
-    }
-
-    let top = 0
-    let left = 0
-
-    // --- 3. COORDINATE CALCULATION ---
-    // Calculate Top
-    if (side === "top") {
-      top = triggerRect.top + scrollY - contentRect.height - gap
-    } else if (side === "bottom") {
-      top = triggerRect.bottom + scrollY + gap
-    } else { // left or right
-      if (align === "start") top = triggerRect.top + scrollY
-      else if (align === "end") top = triggerRect.bottom + scrollY - contentRect.height
-      else top = triggerRect.top + scrollY + (triggerRect.height / 2) - (contentRect.height / 2)
-    }
-
-    // Calculate Left
-    if (side === "left") {
-      left = triggerRect.left + scrollX - contentRect.width - gap
-    } else if (side === "right") {
-      left = triggerRect.right + scrollX + gap
-    } else { // top or bottom
-      if (align === "start") left = triggerRect.left + scrollX
-      else if (align === "end") left = triggerRect.left + scrollX + triggerRect.width - contentRect.width
-      else left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2)
-    }
-
-    // --- 4. VIEWPORT BOUNDARY PROTECTION (Clamping) ---
-    // Mencegah tooltip keluar dari sisi kiri atau kanan layar
-    const minLeft = scrollX + gap
-    const maxLeft = scrollX + viewportWidth - contentRect.width - gap
-    const safeLeft = Math.max(minLeft, Math.min(left, maxLeft))
-
-    // Mencegah tooltip keluar dari sisi atas atau bawah layar
-    const minTop = scrollY + gap
-    const maxTop = scrollY + viewportHeight - contentRect.height - gap
-    const safeTop = Math.max(minTop, Math.min(top, maxTop))
-
-    setCoords({ top: safeTop, left: safeLeft })
-    setAdaptedPos(`${side}-${align}` as any)
-  }
-
-  useLayoutEffect(() => {
-    if (isOpen) {
-      updatePosition()
-      // Gunakan event capture true untuk scroll agar lebih akurat
-      window.addEventListener("scroll", updatePosition, true)
-      window.addEventListener("resize", updatePosition)
-    }
-    return () => {
-      window.removeEventListener("scroll", updatePosition, true)
-      window.removeEventListener("resize", updatePosition)
-    }
-  }, [isOpen, defaultPosition])
 
   const arrowPositionClass: Record<string, string> = {
     "top-start": "-bottom-[5px] left-3",
@@ -158,7 +165,7 @@ export default function MiracleTooltip({
     <>
       <div
         ref={containerRef}
-        className={clsx("group/tooltip relative inline-flex cursor-pointer", className)}
+        className={clsx("group/tooltip relative flex cursor-pointer", className)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -169,24 +176,24 @@ export default function MiracleTooltip({
         <div
           ref={contentRef}
           style={{
-            position: "absolute",
-            top: `${coords.top}px`,
-            left: `${coords.left}px`,
+            position: "fixed",
+            top: 0,
+            left: 0,
+            transform: `translate3d(${coords.left}px, ${coords.top}px, 0)`,
             zIndex: 9999,
+            pointerEvents: isOpen && hoverContent ? "auto" : "none",
           }}
           className={clsx(
-            "pointer-events-none transition-opacity duration-300 ease-in-out",
-            isOpen ? "opacity-100" : "opacity-0",
-            hoverContent && isOpen && "pointer-events-auto"
+            "transition-opacity duration-300 ease-in-out",
+            isOpen ? "visible opacity-100" : "invisible opacity-0"
           )}
           onMouseEnter={hoverContent ? handleMouseEnter : undefined}
           onMouseLeave={hoverContent ? handleMouseLeave : undefined}
         >
           <div
             className={clsx(
-              "text-primary-inv relative w-max rounded-md text-xs font-medium",
-              "max-w-[calc(100vw-32px)] break-words whitespace-normal", // Mencegah konten terlalu lebar di layar kecil
-              !noShadow && "shadow-md shadow-black/20 dark:shadow-white/10",
+              "text-primary-inv relative w-max min-w-max rounded-md text-xs font-medium",
+              !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
               !noBackground && "bg-primary-inv",
               !noPadding && "p-2"
             )}
@@ -194,7 +201,7 @@ export default function MiracleTooltip({
             {!noArrow && (
               <div
                 className={clsx(
-                  "absolute z-[-1] h-2.5 w-2.5 rotate-45",
+                  "absolute z-1 h-2.5 w-2.5 rotate-45",
                   !noBackground && "bg-primary-inv",
                   arrowPositionClass[adaptedPos]
                 )}

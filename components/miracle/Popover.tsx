@@ -2,7 +2,7 @@
 
 import clsx from "clsx"
 import type { ReactNode } from "react"
-import { useEffect, useRef, useState, useLayoutEffect } from "react"
+import { useEffect, useRef, useState, useLayoutEffect, useCallback } from "react"
 import { createPortal } from "react-dom"
 import type { TooltipDefaultPosition } from "./Tooltip"
 
@@ -36,7 +36,6 @@ export default function MiraclePopover({
   defaultOpen = false,
 }: MiraclePopoverProps) {
   const [internalOpen, setInternalOpen] = useState(defaultOpen)
-
   const isControlled = controlledOpen !== undefined
   const isOpen = isControlled ? controlledOpen : internalOpen
 
@@ -51,108 +50,117 @@ export default function MiraclePopover({
     setMounted(true)
   }, [])
 
+  const handleClose = useCallback(() => {
+    if (!isControlled) setInternalOpen(false)
+    onOpenChange?.(false)
+  }, [isControlled, onOpenChange])
+
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation()
     const nextState = !isOpen
-    if (!isControlled) {
-      setInternalOpen(nextState)
-    }
+    if (!isControlled) setInternalOpen(nextState)
     onOpenChange?.(nextState)
   }
 
-  const handleClose = () => {
-    if (!isControlled) {
-      setInternalOpen(false)
-    }
-    onOpenChange?.(false)
-  }
-
-  // Handle Click Outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node
-      const isOutsideTrigger = containerRef.current && !containerRef.current.contains(target)
-      const isOutsideContent = contentRef.current && !contentRef.current.contains(target)
-
-      if (isOutsideTrigger && isOutsideContent) {
-        handleClose()
-      }
-    }
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside)
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [isOpen])
-
-  const updatePosition = () => {
-    if (!containerRef.current || !contentRef.current) return
+  const updatePosition = useCallback(() => {
+    if (!containerRef.current || !contentRef.current || !isOpen) return
 
     const triggerRect = containerRef.current.getBoundingClientRect()
-    const contentRect = contentRef.current.getBoundingClientRect()
-    const scrollX = window.scrollX
-    const scrollY = window.scrollY
-    const viewportWidth = window.innerWidth
-    const viewportHeight = window.innerHeight
-    const gap = 8
+    const vW = window.innerWidth
+    const vH = window.innerHeight
 
+    // --- 1. AUTO CLOSE LOGIC ---
+    // Tutup popover jika pemicu scroll keluar dari pandangan
+    const isOffScreen = 
+      triggerRect.bottom < 0 || 
+      triggerRect.top > vH || 
+      triggerRect.right < 0 || 
+      triggerRect.left > vW
+
+    if (isOffScreen) {
+      handleClose()
+      return
+    }
+
+    const contentRect = contentRef.current.getBoundingClientRect()
+    const gap = 8
     let [side, align] = defaultPosition.split("-")
 
-    // --- 1. FLIP LOGIC ---
-    if (side === "top" && triggerRect.top - contentRect.height < gap) side = "bottom"
-    else if (side === "bottom" && triggerRect.bottom + contentRect.height > viewportHeight - gap) side = "top"
+    // --- 2. SMART FLIP (Collision Vertikal & Horizontal) ---
+    if (side === "top" && triggerRect.top - contentRect.height - gap < 0) side = "bottom"
+    else if (side === "bottom" && triggerRect.bottom + contentRect.height + gap > vH) side = "top"
     
-    if (side === "left" && triggerRect.left - contentRect.width < gap) side = "right"
-    else if (side === "right" && triggerRect.right + contentRect.width > viewportWidth - gap) side = "left"
+    if (side === "left" && triggerRect.left - contentRect.width - gap < 0) side = "right"
+    else if (side === "right" && triggerRect.right + contentRect.width + gap > vW) side = "left"
+
+    // --- 3. SMART ALIGNMENT (Koreksi Start/Center/End) ---
+    if (side === "top" || side === "bottom") {
+      const centerX = triggerRect.left + triggerRect.width / 2
+      if (centerX - contentRect.width / 2 < 0) align = "start"
+      else if (centerX + contentRect.width / 2 > vW) align = "end"
+    }
 
     let top = 0
     let left = 0
 
-    // --- 2. COORDINATE CALCULATION ---
-    // Y Axis
-    if (side === "top") top = triggerRect.top + scrollY - contentRect.height - gap
-    else if (side === "bottom") top = triggerRect.bottom + scrollY + gap
+    // --- 4. COORDINATE CALCULATION (Fixed Coordinates) ---
+    if (side === "top") top = triggerRect.top - contentRect.height - gap
+    else if (side === "bottom") top = triggerRect.bottom + gap
     else {
-      if (align === "start") top = triggerRect.top + scrollY
-      else if (align === "end") top = triggerRect.bottom + scrollY - contentRect.height
-      else top = triggerRect.top + scrollY + (triggerRect.height / 2) - (contentRect.height / 2)
+      if (align === "start") top = triggerRect.top
+      else if (align === "end") top = triggerRect.bottom - contentRect.height
+      else top = triggerRect.top + (triggerRect.height / 2) - (contentRect.height / 2)
     }
 
-    // X Axis
-    if (side === "left") left = triggerRect.left + scrollX - contentRect.width - gap
-    else if (side === "right") left = triggerRect.right + scrollX + gap
+    if (side === "left") left = triggerRect.left - contentRect.width - gap
+    else if (side === "right") left = triggerRect.right + gap
     else {
-      if (align === "start") left = triggerRect.left + scrollX
-      else if (align === "end") left = triggerRect.left + scrollX + triggerRect.width - contentRect.width
-      else left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2)
+      if (align === "start") left = triggerRect.left
+      else if (align === "end") left = triggerRect.right - contentRect.width
+      else left = triggerRect.left + (triggerRect.width / 2) - (contentRect.width / 2)
     }
 
-    // --- 3. CLAMPING (Mencegah Keluar Layar) ---
-    const minLeft = scrollX + gap
-    const maxLeft = scrollX + viewportWidth - contentRect.width - gap
-    const safeLeft = Math.max(minLeft, Math.min(left, maxLeft))
+    // Safety Clamp
+    left = Math.max(gap, Math.min(left, vW - contentRect.width - gap))
+    top = Math.max(gap, Math.min(top, vH - contentRect.height - gap))
 
-    const minTop = scrollY + gap
-    const maxTop = scrollY + viewportHeight - contentRect.height - gap
-    const safeTop = Math.max(minTop, Math.min(top, maxTop))
-
-    setCoords({ top: safeTop, left: safeLeft })
+    setCoords({ top, left })
     setAdaptedPos(`${side}-${align}` as any)
-  }
+  }, [isOpen, defaultPosition, handleClose])
+
+  // Click Outside Handler
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node
+      if (
+        containerRef.current && !containerRef.current.contains(target) &&
+        contentRef.current && !contentRef.current.contains(target)
+      ) {
+        handleClose()
+      }
+    }
+    if (isOpen) document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [isOpen, handleClose])
 
   useLayoutEffect(() => {
     if (isOpen) {
       updatePosition()
+
+      // Monitor perubahan ukuran (Misal: dari Loading ke EmojiPicker)
+      const resizeObserver = new ResizeObserver(() => updatePosition())
+      if (contentRef.current) resizeObserver.observe(contentRef.current)
+
       window.addEventListener("scroll", updatePosition, true)
       window.addEventListener("resize", updatePosition)
+
+      return () => {
+        resizeObserver.disconnect()
+        window.removeEventListener("scroll", updatePosition, true)
+        window.removeEventListener("resize", updatePosition)
+      }
     }
-    return () => {
-      window.removeEventListener("scroll", updatePosition, true)
-      window.removeEventListener("resize", updatePosition)
-    }
-  }, [isOpen, defaultPosition])
+  }, [isOpen, updatePosition])
 
   const arrowPositionClass: Record<string, string> = {
     "top-start": "-bottom-[5px] left-3",
@@ -179,9 +187,10 @@ export default function MiraclePopover({
         <div
           ref={contentRef}
           style={{
-            position: "absolute",
-            top: `${coords.top}px`,
-            left: `${coords.left}px`,
+            position: "fixed",
+            top: 0,
+            left: 0,
+            transform: `translate3d(${coords.left}px, ${coords.top}px, 0)`,
             zIndex: 9999,
           }}
           className={clsx(
@@ -192,10 +201,10 @@ export default function MiraclePopover({
           <div
             className={clsx(
               "text-primary-inv relative rounded-md",
-              "w-max max-w-[calc(100vw-32px)] break-words whitespace-normal", // Sangat penting untuk popover
-              !noShadow && "shadow-md shadow-black/20 dark:shadow-white/10",
+              "w-max max-w-[calc(100vw-32px)] break-words whitespace-normal",
+              !noShadow && "shadow-lg shadow-black/20 dark:shadow-white/10",
               !noBackground && "bg-primary-inv",
-              !noPadding && "p-3" // Popover biasanya padding lebih besar dari tooltip
+              !noPadding && "p-3"
             )}
             onClick={(e) => e.stopPropagation()}
           >

@@ -25,7 +25,7 @@ import { formatCount } from "@/utils/format-number"
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), {
   ssr: false,
   loading: () => (
-    <div className="bg-primary border-primary flex h-100 w-87.5 items-center justify-center rounded-lg border shadow-xl">
+    <div className="bg-primary border-primary flex h-[330px] w-[300px] items-center justify-center rounded-lg border shadow-xl">
       <MiracleLoader size={40} />
     </div>
   ),
