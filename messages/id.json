@@ -321,8 +321,9 @@
   },
   "pages": {
     "home": {
+      "description": "Arsaludin - UX Engineer dengan 4+ tahun pengalaman dalam frontend engineering dan sistem desain. Spesialis dalam membangun library UI yang scalable, menerjemahkan kebutuhan produk dan desain UI/UX menjadi kode berkualitas tinggi pada web dan Android, serta menjembatani kolaborasi antara desainer, manajer produk, dan developer.",
       "profile": {
-        "about": "UX Engineer dengan pengalaman lebih dari 4 tahun di front-end engineering dan design system. Berpengalaman dalam membangun UI library yang scalable, menerjemahkan kebutuhan produk serta desain UI/UX ke dalam kode berkualitas tinggi di platform web dan Android, serta menjembatani kolaborasi antara designer, product manager, dan developer.",
+        "about": "UX Engineer dengan pengalaman lebih dari 4 tahun di front-end engineering dan design system. Berpengalaman dalam membangun UI library yang scalable, menerjemahkan kebutuhan produk serta desain UI/UX ke dalam kode berkualitas tinggi pada platform web dan Android, serta menjembatani kolaborasi antara designer, product manager, dan developer.",
         "caption": "Statistik Developer"
       },
       "skills-and-services": {
@@ -348,6 +349,22 @@
         "cta": "Lihat semua ulasan"
       }
     },
+    "projects": {
+      "title": "Proyek",
+      "description": "Koleksi proyek yang merepresentasikan keahlian teknis saya sebagai UX Engineer, membahas proses serta keputusan teknis di baliknya.",
+      "searchBarPlaceholder": "Cari proyek...",
+      "noMoreData": "Anda telah melihat semua data!",
+      "breadcrumbs": {
+        "home": "Beranda",
+        "projects": "Proyek"
+      },
+      "filter": {
+        "label": {
+          "categories": "Kategori"
+        },
+        "reset": "Reset semua filter"
+      }
+    },
     "achievements": {
       "title": "Pencapaian",
       "description": "Koleksi sertifikasi dan penghargaan yang telah membentuk langkah dan keahlian saya sebagai UX Engineer.",
@@ -361,22 +378,6 @@
         "label": {
           "types": "Jenis",
           "levels": "Level",
-          "categories": "Kategori"
-        },
-        "reset": "Reset semua filter"
-      }
-    },
-    "projects": {
-      "title": "Proyek",
-      "description": "Koleksi proyek yang merepresentasikan keahlian teknis saya sebagai UX Engineer, membahas proses serta keputusan teknis di baliknya.",
-      "searchBarPlaceholder": "Cari proyek...",
-      "noMoreData": "Anda telah melihat semua data!",
-      "breadcrumbs": {
-        "home": "Beranda",
-        "projects": "Proyek"
-      },
-      "filter": {
-        "label": {
           "categories": "Kategori"
         },
         "reset": "Reset semua filter"
@@ -403,22 +404,6 @@
         "description": "Halaman ini masih dalam tahap Beta. Semua artikel yang tampil adalah data dummy untuk pengujian layout."
       }
     },
-    "lounge": {
-      "title": "Lounge",
-      "description": "Ruang interaktif untuk ngobrol bareng, saling berbagi inspirasi, dan mendiskusikan topik menarik guna mempererat koneksi serta mengeksplorasi berbagai ide kreatif bersama.",
-      "breadcrumbs": {
-        "home": "Beranda",
-        "lounge": "Lounge"
-      },
-      "banner": {
-        "title": "Selamat Datang! 👋",
-        "content": "Terima kasih telah berkunjung. Saya sangat terbuka menerima masukan, saran, maupun kritik mengenai desain dan konten situs ini. Silakan tulis pesan Anda dalam Bahasa Indonesia atau Inggris. Masukan Anda sangat berarti bagi pengembangan situs ini ke depannya. Terima kasih! 🙌"
-      },
-      "empty": {
-        "title": "Belum Ada Pesan",
-        "subtitle": "Belum ada aktivitas di sini. Jadilah yang pertama untuk mengirimkan pesan Anda."
-      }
-    },
     "roadmap": {
       "title": "Roadmap",
       "description": "Pantau progres pengembangan saya, laporkan kendala yang ditemukan, atau sampaikan ide kreatif Anda. Aspirasi Anda sangat berarti dalam membantu saya menentukan prioritas fitur selanjutnya dan meningkatkan pengalaman di platform ini.",
@@ -441,12 +426,29 @@
         "reset": "Reset semua filter"
       }
     },
-    "privacy-policy": {
+    "lounge": {
+      "title": "Lounge",
+      "description": "Ruang interaktif untuk ngobrol bareng, saling berbagi inspirasi, dan mendiskusikan topik menarik guna mempererat koneksi serta mengeksplorasi berbagai ide kreatif bersama.",
       "breadcrumbs": {
         "home": "Beranda",
-        "privacy-policy": "Kebijakan Privasi"
+        "lounge": "Lounge"
       },
-      "latestUpdate": "Pembaruan terbaru: {date}"
+      "banner": {
+        "title": "Selamat Datang! 👋",
+        "content": "Terima kasih telah berkunjung. Saya sangat terbuka menerima masukan, saran, maupun kritik mengenai desain dan konten situs ini. Silakan tulis pesan Anda dalam Bahasa Indonesia atau Inggris. Masukan Anda sangat berarti bagi pengembangan situs ini ke depannya. Terima kasih! 🙌"
+      },
+      "empty": {
+        "title": "Belum Ada Pesan",
+        "subtitle": "Belum ada aktivitas di sini. Jadilah yang pertama untuk mengirimkan pesan Anda."
+      }
+    },
+    "changelog": {
+      "title": "Changelog",
+      "description": "Lihat apa saja yang baru di portofolio saya, mulai dari fitur baru dan peningkatan hingga perbaikan bug terbaru.",
+      "breadcrumbs": {
+        "home": "Beranda",
+        "changelog": "Changelog"
+      }
     },
     "gear-and-setup": {
       "title": "Gear & Setup",
@@ -466,13 +468,14 @@
         "inspiration-website": "Inspirasi Website"
       }
     },
-    "changelog": {
-      "title": "Changelog",
-      "description": "Lihat apa saja yang baru di portofolio saya, mulai dari fitur baru dan peningkatan hingga perbaikan bug terbaru.",
+    "privacy-policy": {
+      "title": "Kebijakan Privasi",
+      "description": "Kebijakan Privasi ini merupakan bentuk komitmen saya, Muhamad Arsaludin, selaku pemilik situs dalam menjaga transparansi pengelolaan informasi Anda, khususnya saat menggunakan fitur interaktif di situs arsaludin.my.id.",
       "breadcrumbs": {
         "home": "Beranda",
-        "changelog": "Changelog"
-      }
+        "privacy-policy": "Kebijakan Privasi"
+      },
+      "latestUpdate": "Pembaruan terbaru: {date}"
     }
   }
 }

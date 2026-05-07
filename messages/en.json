@@ -321,6 +321,7 @@
   },
   "pages": {
     "home": {
+      "description": "Arsaludin - UX Engineer with 4+ years of experience in front end engineering and design systems. Specialized in building scalable UI libraries, translating product requirements and UI/UX designs into high-quality code across web and Android, and bridging collaboration between designers, product managers, and developers.",
       "profile": {
         "about": "UX Engineer with 4+ years of experience in front end engineering and design systems. Specialized in building scalable UI libraries, translating product requirements and UI/UX designs into high-quality code across web and Android, and bridging collaboration between designers, product managers, and developers.",
         "caption": "Developer stats"
@@ -348,6 +349,22 @@
         "cta": "View all testimonials"
       }
     },
+    "projects": {
+      "title": "Projects",
+      "description": "A collection of projects representing my technical expertise as a UX Engineer, highlighting the process and technical decisions.",
+      "searchBarPlaceholder": "Search projects...",
+      "noMoreData": "You've reached the end of the list!",
+      "breadcrumbs": {
+        "home": "Home",
+        "projects": "Projects"
+      },
+      "filter": {
+        "label": {
+          "categories": "Categories"
+        },
+        "reset": "Reset all filters"
+      }
+    },
     "achievements": {
       "title": "Achievements",
       "description": "A curated collection of certifications and awards that have shaped my path and expertise as a UX Engineer.",
@@ -361,22 +378,6 @@
         "label": {
           "types": "Types",
           "levels": "Levels",
-          "categories": "Categories"
-        },
-        "reset": "Reset all filters"
-      }
-    },
-    "projects": {
-      "title": "Projects",
-      "description": "A collection of projects representing my technical expertise as a UX Engineer, highlighting the process and technical decisions.",
-      "searchBarPlaceholder": "Search projects...",
-      "noMoreData": "You've reached the end of the list!",
-      "breadcrumbs": {
-        "home": "Home",
-        "projects": "Projects"
-      },
-      "filter": {
-        "label": {
           "categories": "Categories"
         },
         "reset": "Reset all filters"
@@ -403,22 +404,6 @@
         "description": "This page is currently in Beta. All articles shown are placeholder data for layout testing."
       }
     },
-    "lounge": {
-      "title": "Lounge",
-      "description": "An interactive space to chat together, share inspirations, and discuss engaging topics to strengthen connections and explore various creative ideas collectively.",
-      "breadcrumbs": {
-        "home": "Home",
-        "lounge": "Lounge"
-      },
-      "banner": {
-        "title": "Welcome! 👋",
-        "content": "Thanks for visiting! I’d love to hear your thoughts, feedback, or suggestions regarding the design and content of this site. Feel free to write in Indonesian or English. Your input is a huge part of this journey —thanks for being here! 🙌"
-      },
-      "empty": {
-        "title": "No Messages Yet",
-        "subtitle": "No activity here yet. Be the first to send a message."
-      }
-    },
     "roadmap": {
       "title": "Roadmap",
       "description": "Track my development progress, report any bugs, or share your creative ideas. Your feedback is essential in helping me decide what to build next and how to improve this experience.",
@@ -441,12 +426,29 @@
         "reset": "Reset all filters"
       }
     },
-    "privacy-policy": {
+    "lounge": {
+      "title": "Lounge",
+      "description": "An interactive space to chat together, share inspirations, and discuss engaging topics to strengthen connections and explore various creative ideas collectively.",
       "breadcrumbs": {
         "home": "Home",
-        "privacy-policy": "Privacy Policy"
+        "lounge": "Lounge"
       },
-      "latestUpdate": "Latest update: {date}"
+      "banner": {
+        "title": "Welcome! 👋",
+        "content": "Thanks for visiting! I’d love to hear your thoughts, feedback, or suggestions regarding the design and content of this site. Feel free to write in Indonesian or English. Your input is a huge part of this journey —thanks for being here! 🙌"
+      },
+      "empty": {
+        "title": "No Messages Yet",
+        "subtitle": "No activity here yet. Be the first to send a message."
+      }
+    },
+    "changelog": {
+      "title": "Changelog",
+      "description": "See what's new on my portfolio, from fresh features and improvements to the latest bug fixes.",
+      "breadcrumbs": {
+        "home": "Home",
+        "changelog": "Changelog"
+      }
     },
     "gear-and-setup": {
       "title": "Gear & Setup",
@@ -466,13 +468,14 @@
         "inspiration-website": "Inspiration Website"
       }
     },
-    "changelog": {
-      "title": "Changelog",
-      "description": "See what's new on my portfolio, from fresh features and improvements to the latest bug fixes.",
+    "privacy-policy": {
+      "title": "Privacy Policy",
+      "description": "This Privacy Policy represents the commitment of Muhamad Arsaludin, as the site owner, to maintain transparency regarding the management of your information, particularly when using interactive features on arsaludin.my.id.",
       "breadcrumbs": {
         "home": "Home",
-        "changelog": "Changelog"
-      }
+        "privacy-policy": "Privacy Policy"
+      },
+      "latestUpdate": "Latest update: {date}"
     }
   }
 }

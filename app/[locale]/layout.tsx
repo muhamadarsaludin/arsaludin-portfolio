@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next"
-import { metadata as metaConfig } from "@/configs/metadata"
 import { NextIntlClientProvider, hasLocale } from "next-intl"
 import { setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation"
@@ -12,13 +11,14 @@ import BackToTop from "@/components/BackToTop"
 import { Providers } from "@/providers/Providers"
 import { createClient } from "@/lib/supabase/server"
 import { GoogleTagManager } from '@next/third-parties/google'
+import { constructMetadata } from "@/configs/metadata"
 
 type LayoutProps = {
   children: React.ReactNode
   params: Promise<{ locale: string }>
 }
 
-export const metadata: Metadata = metaConfig
+export const metadata: Metadata = constructMetadata()
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,

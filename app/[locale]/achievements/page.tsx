@@ -1,11 +1,21 @@
+import { constructMetadata } from "@/configs/metadata";
 import AchievementsPage from "@/features/achievements/components/AchievementsPage";
+import { BasePageProps } from "@/types/page.types";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
-type AchievementsProps = {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
+export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations("pages.achievements");
 
-export default async function Achievements(props: AchievementsProps) {
+  return constructMetadata({
+    title: t("title"),
+    description: t("description"),
+    locale: locale,
+  });
+}
+
+export default async function Achievements(props: BasePageProps) {
   const searchParams = await props.searchParams;
   return <AchievementsPage searchParams={searchParams} />
 }
