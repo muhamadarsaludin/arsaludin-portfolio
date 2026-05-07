@@ -1,10 +1,7 @@
 import type { Metadata, Viewport } from "next"
 import { metadata as metaConfig } from "@/configs/metadata"
-import { NextIntlClientProvider, hasLocale } from "next-intl"
-import { setRequestLocale } from "next-intl/server"
-import { notFound } from "next/navigation"
-import { routing } from "@/i18n/routing"
-import { geist, geistMono, outfit } from "@/configs/font"
+import { NextIntlClientProvider } from "next-intl"
+import { geistMono, outfit } from "@/configs/font"
 import "../globals.css"
 import Header from "@/components/header/Header"
 import Footer from "@/components/footer/Footer"
@@ -51,7 +48,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
     <html lang={locale} suppressHydrationWarning>
       {isProduction && gtmId && <GoogleTagManager gtmId={gtmId} />}
       <body
-        className={`${geist.variable} ${geistMono.variable} ${outfit.variable} bg-primary text-primary antialiased max-w-screen overflow-x-hidden`}
+        className={`${geistMono.variable} ${outfit.variable} bg-primary text-primary antialiased max-w-screen overflow-x-hidden`}
       >
         <Providers initialUser={user}>
           <NextIntlClientProvider locale={locale}>

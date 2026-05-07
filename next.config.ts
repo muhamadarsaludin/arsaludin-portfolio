@@ -18,6 +18,19 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["react-icons", "three"],
   },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
   images: {
     minimumCacheTTL: 2592000,
     remotePatterns: [
