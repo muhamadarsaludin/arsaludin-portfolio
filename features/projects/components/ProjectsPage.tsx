@@ -13,13 +13,9 @@ import ProjectsContent from './ProjectsContent';
 import Container from '@/components/Container';
 import Article from '@/components/Article';
 import { normalizeArrayParam } from '@/utils/search-params';
+import { BasePageProps } from '@/types/page.types';
 
-type ProjectsPageProps = {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-export default async function ProjectsPage(props: ProjectsPageProps) {
+export default async function ProjectsPage(props: BasePageProps) {
   const {locale} = await props.params
   const searchParams = await props.searchParams;
 

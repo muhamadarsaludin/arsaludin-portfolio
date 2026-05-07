@@ -13,15 +13,13 @@ import { CategoryTargetType } from '@/features/categories/types/categories.types
 import Container from '@/components/Container';
 import Article from '@/components/Article';
 import { normalizeArrayParam } from '@/utils/search-params';
+import { BasePageProps } from '@/types/page.types';
 
-type AchievementsPageProps = {
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-export default async function AchievementsPage({searchParams}: AchievementsPageProps) {
+export default async function AchievementsPage(props: BasePageProps) {
   const t = await getTranslations("pages.achievements")
   const queryClient = new QueryClient()
   const targetType:CategoryTargetType = "achievement"
+  const searchParams = await props.searchParams
 
   const filters = {
     search: typeof searchParams.search === 'string' && searchParams.search ? searchParams.search : undefined,

@@ -13,16 +13,11 @@ import { ARTICLES_PAGE_SIZE } from '../constants/articles.constans';
 import { getFeaturedArticles, getPaginatedArticles } from '../services/articles';
 import ArticlesContent from './ArticlesContent';
 import MiracleBadge from '@/components/miracle/Badge';
-import { LuInfo, LuTriangleAlert } from 'react-icons/lu';
-import MiracleTooltip from '@/components/miracle/Tooltip';
+import { LuTriangleAlert } from 'react-icons/lu';
 import MiracleBanner from '@/components/miracle/Banner';
+import { BasePageProps } from '@/types/page.types';
 
-type ArticlesPageProps = {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-export default async function ArticlesPage(props: ArticlesPageProps) {
+export default async function ArticlesPage(props: BasePageProps) {
   const {locale} = await props.params
   const searchParams = await props.searchParams;
 

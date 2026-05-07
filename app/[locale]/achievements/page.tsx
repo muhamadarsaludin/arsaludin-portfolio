@@ -15,7 +15,6 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   });
 }
 
-export default async function Achievements(props: BasePageProps) {
-  const searchParams = await props.searchParams;
-  return <AchievementsPage searchParams={searchParams} />
+export default async function Achievements({params, searchParams}: BasePageProps) {
+  return <AchievementsPage params={params} searchParams={searchParams} />
 }

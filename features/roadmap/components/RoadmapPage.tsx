@@ -10,15 +10,11 @@ import MiracleBreadcrumbs from "@/components/miracle/Breadcrumbs";
 import Heading from "@/components/Heading";
 import { normalizeArrayParam } from "@/utils/search-params";
 import RoadmapContent from "./RoadmapContent";
+import { BasePageProps } from "@/types/page.types";
 
 const KANBAN_STATUSES: CardStatus[] = ["ideas", "planned", "in-progress", "released"];
 
-type RoadmapPageProps = {
-  params: Promise<{ locale: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
-export default async function RoadmapPage(props: RoadmapPageProps) {
+export default async function RoadmapPage(props: BasePageProps) {
   const { locale } = await props.params;
   const searchParams = await props.searchParams;
   const t = await getTranslations("pages.roadmap");
