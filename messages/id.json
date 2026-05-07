@@ -59,7 +59,15 @@
       "cta": {
         "signIn": "Masuk",
         "signOut": "Keluar",
-        "resume": "Unduh resume"
+        "resume": "Unduh resume",
+        "deleteAccount": "Hapus Akun"
+      },
+      "deleteAccount": {
+        "title": "Pengaturan Akun",
+        "confirmTitle": "Apakah Anda benar-benar yakin?",
+        "confirmDescription": "Tindakan ini akan menghapus akun Anda dan semua data terkait secara permanen. Tindakan ini tidak dapat dibatalkan.",
+        "confirmAction": "Ya, Hapus Akun Saya",
+        "cancelAction": "Mungkin Nanti"
       }
     },
     "footer": {

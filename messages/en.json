@@ -59,7 +59,15 @@
       "cta": {
         "signIn": "Sign In",
         "signOut": "Sign Out",
-        "resume": "Download resume"
+        "resume": "Download resume",
+        "deleteAccount": "Delete Account"
+      },
+      "deleteAccount": {
+        "title": "Account Management",
+        "confirmTitle": "Are you absolutely sure?",
+        "confirmDescription": "This action will permanently delete your account and all associated data. You cannot undo this action.",
+        "confirmAction": "Yes, Delete My Account",
+        "cancelAction": "Maybe Later"
       }
     },
     "footer": {

@@ -1,15 +1,22 @@
 "use client"
 
 import MiracleTooltip from "../miracle/Tooltip"
-import { signOut } from "@/features/auth/services/auth"
-import { LuLogOut, LuUserRound } from "react-icons/lu"
+import { deleteAccount, signOut } from "@/features/auth/services/auth"
+import { LuLogOut, LuTriangleAlert, LuUserRound, LuUserRoundX } from "react-icons/lu"
 import { useTranslations } from "next-intl"
-import Image from "next/image"
 import { useAuth } from "@/providers/AuthProvider"
 import MiracleBadge from "../miracle/Badge"
-import { getInitials } from "@/utils/initials"
+import MiracleButton from "../miracle/Button"
+import { useState } from "react"
+import UserAvatar from "@/features/auth/components/UserAvatar"
+import MiracleModal from "../miracle/Modal"
+import { useQueryClient } from "@tanstack/react-query"
 
 export default function HeaderAvatar() {
+  const queryClient = useQueryClient()
+  const [isOpen, setIsOpen] = useState(false)
+  const [isPending, setIsPending] = useState(false)
+  
   const { profile, isLoading } = useAuth()
   const t = useTranslations("components.header")
 
@@ -19,55 +26,86 @@ export default function HeaderAvatar() {
 
   if (!profile) return null
 
-  const initials = getInitials(profile.full_name)
-
   const handleSignOut = async () => {
     await signOut()
   }
 
+  const handleDeleteAccount = async () => {
+    setIsPending(true)
+    try {
+      await deleteAccount(profile.id)
+      queryClient.clear()
+      window.location.replace("/")
+    } catch (error) {
+      console.error(error)
+      setIsPending(false)
+    }
+  }
+
   return (
-    <MiracleTooltip
-      defaultPosition="bottom-end"
-      hoverContent
-      noPadding
-      trigger={
-        profile.avatar_url ? (
-          <Image
-            src={profile.avatar_url}
-            alt={profile.full_name}
-            width={32}
-            height={32}
-            priority
-            referrerPolicy="no-referrer"
-            className="border-primary h-8 w-8 rounded-full border object-cover"
-          />
-        ) : (
-          <div className="text-primary-inv border-primary bg-blue flex h-8 w-8 items-center justify-center rounded-full border font-semibold">
-            {initials || "?"}
+    <>
+      <MiracleTooltip
+        defaultPosition="bottom-end"
+        hoverContent
+        trigger={
+          <UserAvatar user={profile}/>
+        }
+      >
+        <div className="flex cursor-pointer flex-col gap-1">
+          <div className="border-primary border-b text-sm font-medium mb-2">
+            <MiracleBadge className="mb-0.5" startIcon={<LuUserRound />} color="blue" size="sm">
+              <span className="capitalize">{profile.role}</span>
+            </MiracleBadge>
+            <h3 className="text-primary-inv font-semibold text-base">{profile.full_name}</h3>
+            <p className="text-secondary-inv mt-0.5 text-xs">{profile.email}</p>
           </div>
-        )
-      }
-    >
-      <div className="m-1 flex cursor-pointer flex-col">
-        <div className="border-primary border-b p-2 text-sm font-medium">
-          <MiracleBadge className="mb-1.5" startIcon={<LuUserRound />} color="blue">
-            <span className="capitalize">{profile.role}</span>
-          </MiracleBadge>
-          {/* <span className="bg-blue text-primary-inv mb-2 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase">
-            <LuUserRound size={10} />
-            {profile.role}
-          </span> */}
-          <h3 className="text-primary-inv truncate font-semibold">{profile.full_name}</h3>
-          <p className="text-secondary-inv mt-0.5 text-xs font-normal">{profile.email}</p>
+          <MiracleButton onClick={handleSignOut} startIcon={<LuLogOut />} aria-label={t("cta.signOut")} variant="secondary" size="sm">
+            {t("cta.signOut")}
+          </MiracleButton>
+          <MiracleButton onClick={()=> setIsOpen(true)} startIcon={<LuUserRoundX />} aria-label={t("cta.deleteAccount")} status="danger" size="sm">
+            {t("cta.deleteAccount")}
+          </MiracleButton>
         </div>
-        <button
-          onClick={handleSignOut}
-          className="text-primary-inv my-1 flex cursor-pointer items-center gap-1 rounded-sm p-2 text-left text-sm transition-colors hover:bg-neutral-800 dark:hover:bg-neutral-200"
-        >
-          <LuLogOut />
-          {t("cta.signOut")}
-        </button>
-      </div>
-    </MiracleTooltip>
+      </MiracleTooltip>
+      
+      <MiracleModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title={t("deleteAccount.title")}
+        size="sm"
+      >
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-center text-center gap-2 py-2">
+            <div className="bg-red-100 dark:bg-red-900/30 p-3 rounded-full text-red-600">
+              <LuTriangleAlert size={32}/>
+            </div>
+            <h4 className="font-bold text-lg">{t("deleteAccount.confirmTitle")}</h4>
+            <p className="text-sm text-secondary-inv">
+              {t("deleteAccount.confirmDescription")}
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <MiracleButton
+              onClick={handleDeleteAccount}
+              status="danger"
+              loading={isPending}
+              disabled={isPending}
+              className="w-full"
+            >
+              {t("deleteAccount.confirmAction")}
+            </MiracleButton>
+            <MiracleButton
+              onClick={() => setIsOpen(false)}
+              variant="secondary"
+              disabled={isPending}
+              className="w-full"
+            >
+              {t("deleteAccount.cancelAction")}
+            </MiracleButton>
+          </div>
+        </div>
+      </MiracleModal>
+    </>
   )
 }
