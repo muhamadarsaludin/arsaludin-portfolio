@@ -59,10 +59,10 @@ export default function HeaderAvatar() {
             <h3 className="text-primary-inv font-semibold text-base">{profile.full_name}</h3>
             <p className="text-secondary-inv mt-0.5 text-xs">{profile.email}</p>
           </div>
-          <MiracleButton onClick={handleSignOut} startIcon={<LuLogOut />} aria-label={t("cta.signOut")} variant="secondary" size="sm">
+          <MiracleButton onClick={handleSignOut} startIcon={<LuLogOut />} variant="secondary" size="sm">
             {t("cta.signOut")}
           </MiracleButton>
-          <MiracleButton onClick={()=> setIsOpen(true)} startIcon={<LuUserRoundX />} aria-label={t("cta.deleteAccount")} status="danger" size="sm">
+          <MiracleButton onClick={()=> setIsOpen(true)} startIcon={<LuUserRoundX />} status="danger" size="sm">
             {t("cta.deleteAccount")}
           </MiracleButton>
         </div>

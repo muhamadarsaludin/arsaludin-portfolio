@@ -59,8 +59,16 @@
       "cta": {
         "signIn": "Masuk",
         "signOut": "Keluar",
-        "resume": "Unduh resume",
+        "resume": "Unduh Resume",
         "deleteAccount": "Hapus Akun"
+      },
+      "toggle": {
+        "ariaLabel": {
+          "language": "Switch Language",
+          "theme": "Switch Theme",
+          "closeMenu": "Tutup Menu",
+          "openMenu": "Buka Menu"
+        }
       },
       "deleteAccount": {
         "title": "Pengaturan Akun",

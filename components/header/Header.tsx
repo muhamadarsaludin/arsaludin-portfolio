@@ -1,7 +1,6 @@
 "use client"
 
 import clsx from "clsx"
-import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 import { Link, usePathname } from "@/i18n/navigation"
 import MenuToggle from "./toggle/MenuToggle"
@@ -20,10 +19,9 @@ type HeaderProps = {
 }
 
 export default function Header({ className }: HeaderProps) {
-  const t = useTranslations("components.header")
-  const [showMenu, setShowMenu] = useState(false)
   const { isSignedIn } = useAuth()
   const pathname = usePathname()
+  const [showMenu, setShowMenu] = useState(false)
   const handleToggle = () => {
     setShowMenu((prev) => !prev)
   }

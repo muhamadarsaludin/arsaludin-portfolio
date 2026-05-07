@@ -1,6 +1,7 @@
 import MiracleButton from "@/components/miracle/Button"
 import { signInWithGoogle } from "@/features/auth/services/auth"
 import { useTranslations } from "next-intl"
+import { SiGoogle } from "react-icons/si"
 
 export default function SignInButton() {
   const t = useTranslations("components.header")
@@ -9,7 +10,10 @@ export default function SignInButton() {
     return
   }
   return (
-    <MiracleButton variant="secondary" onClick={handleSignIn}>
+    <MiracleButton 
+      variant="secondary"
+      onClick={handleSignIn}
+      startIcon={<SiGoogle />}>
       {t("cta.signIn")}
     </MiracleButton>
   )

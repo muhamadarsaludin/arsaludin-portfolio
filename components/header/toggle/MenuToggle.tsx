@@ -1,6 +1,5 @@
-"use client"
-
 import clsx from "clsx"
+import { useTranslations } from "next-intl"
 import { LuMenu, LuX } from "react-icons/lu"
 
 type MenuToggleProps = {
@@ -10,6 +9,7 @@ type MenuToggleProps = {
 }
 
 export default function MenuToggle({ className, showMenu, handleToggle }: MenuToggleProps) {
+  const t = useTranslations("components.header.toggle")
   return (
     <button
       className={clsx(
@@ -17,7 +17,8 @@ export default function MenuToggle({ className, showMenu, handleToggle }: MenuTo
         className
       )}
       onClick={handleToggle}
-      aria-label="Menu Toggle"
+      aria-expanded={showMenu}
+      aria-label={showMenu ? t("ariaLabel.closeMenu") : t("ariaLabel.openMenu")}
     >
       {showMenu ? <LuX size={20} /> : <LuMenu size={20} />}
     </button>

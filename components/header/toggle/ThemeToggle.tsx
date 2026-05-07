@@ -1,10 +1,9 @@
-"use client"
-
 import { useTheme } from "@wrksz/themes/client"
 import { LuMoon, LuSun, LuMonitorCog, LuPalette } from "react-icons/lu"
 import clsx from "clsx"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import MiracleRadio from "@/components/miracle/Radio"
+import { useTranslations } from "next-intl"
 
 export type ThemeToggleProps = {
   className?: string
@@ -16,8 +15,8 @@ type ThemeData = {
 }
 
 export default function ThemeToggle({ className }: ThemeToggleProps) {
+  const t = useTranslations("components.header.toggle")
   const { theme, setTheme } = useTheme()
-
   const handleThemeChange = (theme: "light" | "dark" | "system") => {
     setTheme(theme)
   }
@@ -60,7 +59,7 @@ export default function ThemeToggle({ className }: ThemeToggleProps) {
             "cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out group-hover/tooltip:bg-neutral-200 dark:group-hover/tooltip:bg-neutral-800",
             className
           )}
-          aria-label="Theme Toggle"
+          aria-label={t("ariaLabel.theme")}
         >
           <LuPalette size={20} />
         </button>

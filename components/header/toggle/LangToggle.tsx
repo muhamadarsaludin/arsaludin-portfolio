@@ -1,7 +1,7 @@
 import MiracleRadio from "@/components/miracle/Radio"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import clsx from "clsx"
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import Image from "next/image"
 import { useRouter, usePathname } from "@/i18n/navigation"
 import { LuLanguages } from "react-icons/lu"
@@ -14,6 +14,7 @@ export default function LangToggle({ className }: LangToggleProps) {
   const locale = useLocale()
   const router = useRouter()
   const pathname = usePathname()
+  const t = useTranslations("components.header.toggle")
 
   const handleLocaleChange = (nextLocale: string) => {
     if (nextLocale === locale) return
@@ -43,7 +44,7 @@ export default function LangToggle({ className }: LangToggleProps) {
             "cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out group-hover/tooltip:bg-neutral-200 dark:group-hover/tooltip:bg-neutral-800",
             className
           )}
-          aria-label="Lang Toggle"
+          aria-label={t("ariaLabel.language")}
         >
           <LuLanguages size={20} />
         </button>

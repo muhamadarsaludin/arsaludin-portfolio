@@ -59,8 +59,16 @@
       "cta": {
         "signIn": "Sign In",
         "signOut": "Sign Out",
-        "resume": "Download resume",
+        "resume": "Download Resume",
         "deleteAccount": "Delete Account"
+      },
+      "toggle": {
+        "ariaLabel": {
+          "language": "Switch Language",
+          "theme": "Switch Theme",
+          "closeMenu": "Close Menu",
+          "openMenu": "Open Menu"
+        }
       },
       "deleteAccount": {
         "title": "Account Management",
