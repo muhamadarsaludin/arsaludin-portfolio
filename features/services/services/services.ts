@@ -8,13 +8,9 @@ type GetServicesParams = {
   locale: string
 }
 
-type GetServicesResponse = Pick<
-  ServiceEntity, 
-  "id" | "slug" | "level" | "order_index" | "is_show"
-> & {
-  translations: (Pick<
-    ServiceTranslationEntity, "name" | "description"
-  > & {
+type ServicesResponse = Pick<ServiceEntity, "id" | "slug" | "level" | "order_index" | "is_show"> 
+  & { translations: (Pick<ServiceTranslationEntity, "name" | "description"> 
+  & {
     i18n: { locale: string }
   })[]
   skills: {
@@ -25,10 +21,10 @@ type GetServicesResponse = Pick<
 }
 
 /**
- * Fetches services from the database with localized content.
+ * Fetches services from Supabase with localized content.
  * @param locale - The language code to filter translations (e.g., 'en', 'id').
  * @returns A promise that resolves to an array of formatted Service objects.
- * @throws Will throw an error if the Supabase query fails.
+ * @throws Will throw an error if Supabase query fails.
  */
 export async function getServices({
   locale,
@@ -62,7 +58,7 @@ export async function getServices({
 
   const { data, error } = await supabase
     .from("services")
-    .select<string, GetServicesResponse>(columns)
+    .select<string, ServicesResponse>(columns)
     .eq("is_show", true)
     .eq("service_skills.is_show", true)
     .eq("service_translations.i18n.locale", locale)
@@ -79,15 +75,12 @@ export async function getServices({
 
   if (!data) return []
 
-  return data.map((service: GetServicesResponse): Service => {
+  return data.map((service: ServicesResponse): Service => {
     const t = service.translations?.[0]
     const skills = service.skills?.map((ss) => ss.skill).filter(Boolean) ?? []
 
     return {
-      id: service.id,
-      slug: service.slug,
-      level: service.level ?? null,
-      order_index: service.order_index,
+      ...service,
       name: t?.name ?? "",
       description: t?.description ?? "",
       skills

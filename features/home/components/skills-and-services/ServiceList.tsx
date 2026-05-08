@@ -38,9 +38,6 @@ export function ServiceList({ locale }: { locale: string }) {
   )
 }
 
-/**
- * Skeleton Loader matches the grid layout.
- */
 export function ServiceListSkeleton() {
   return (
     <div className="max-w-full overflow-x-auto sm:overflow-x-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">

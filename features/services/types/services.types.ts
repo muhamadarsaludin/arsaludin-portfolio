@@ -3,13 +3,12 @@ import type { Skill } from "@/features/skills/types/skills.types"
 export type ServiceLevel = "expert" | "intermediate" | "beginner"
 
 /**
- * SERVICE ENTITY
  * Raw data from 'services' table.
  */
 export type ServiceEntity = {
   id: string
   slug: string
-  level: ServiceLevel | null
+  level: ServiceLevel
   order_index: number
   is_show: boolean
   user_id: string
@@ -18,7 +17,6 @@ export type ServiceEntity = {
 }
 
 /**
- * TRANSLATION ENTITY
  * Raw data from 'service_translations' table.
  */
 export type ServiceTranslationEntity = {
@@ -33,8 +31,7 @@ export type ServiceTranslationEntity = {
 }
 
 /**
- * SERVICE (Public)
- * Flattened object for UI Portfolio.
+ * Flattened Service object, merging core entity data with localized translations and skills.
  */
 export type Service = Pick<ServiceEntity, "id" | "slug" | "level" | "order_index"> 
   & Pick<ServiceTranslationEntity, "name" | "description"> 

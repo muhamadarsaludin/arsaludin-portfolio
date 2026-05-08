@@ -7,10 +7,6 @@ import { ServiceList } from "./ServiceList"
 import clsx from "clsx"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 
-/**
- * Server Component: Prefetches data and provides a hydration boundary for React Query.
- * Ensures the services data is available immediately on page load without client-side fetching.
- */
 export default async function SkillsAndServicesSection({ className }: { className?: string }) {
   const t = await getTranslations("pages.home.skills-and-services")
   const locale = await getLocale()
