@@ -14,6 +14,7 @@ import Container from '@/components/Container';
 import Article from '@/components/Article';
 import { normalizeArrayParam } from '@/utils/search-params';
 import { BasePageProps } from '@/types/page.types';
+import { MiracleReveal } from '@/components/miracle/Reveal';
 
 export default async function ProjectsPage(props: BasePageProps) {
   const {locale} = await props.params
@@ -67,23 +68,25 @@ export default async function ProjectsPage(props: BasePageProps) {
   return (
     <Container>
       <Article className="pb-13 lg:pb-23 w-full">
-        <MiracleBreadcrumbs 
-          locales={routing.locales}
-          overrides={{
-            home: t("breadcrumbs.home"),
-            projects: t("breadcrumbs.projects")
-          }}
-          className="mb-5 md:mb-6"
-        />
-        <header className="mb-8 lg:mb-10 xl:mb-12 w-full">
-          <Heading 
-            id={t("title")}
-            level={1}
-            className="font-semibold">
-              {t("title")}
-          </Heading>
-          <p className="mt-4 text-secondary">{t("description")}</p>
-        </header>
+        <MiracleReveal animation="fade-up">
+          <MiracleBreadcrumbs 
+            locales={routing.locales}
+            overrides={{
+              home: t("breadcrumbs.home"),
+              projects: t("breadcrumbs.projects")
+            }}
+            className="mb-5 md:mb-6"
+          />
+          <header className="mb-8 lg:mb-10 xl:mb-12 w-full">
+            <Heading 
+              id={t("title")}
+              level={1}
+              className="font-semibold">
+                {t("title")}
+            </Heading>
+            <p className="mt-4 text-secondary">{t("description")}</p>
+          </header>
+        </MiracleReveal>
         {/* Projects Content */}
         <HydrationBoundary state={dehydratedState}>
           <ProjectsContent locale={locale} targetType={targetType} />
