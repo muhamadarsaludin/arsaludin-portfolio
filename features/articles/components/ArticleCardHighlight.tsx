@@ -23,7 +23,7 @@ export default function ArticleCardHighlight({ article, locale, className }: Art
   return (
     <Link 
       href={`/articles/${article.slug}`}
-      className={clsx("group relative aspect-video overflow-hidden rounded-2xl", className)}
+      className={clsx("group relative block aspect-video overflow-hidden rounded-2xl", className)}
       aria-label={article.title}
     >
       {/* Background Image */}

@@ -219,12 +219,12 @@ export default function ProjectsContent({
 
       <div ref={loadMoreRef} className="flex w-full justify-center py-10">
         {!hasNextPage && !isLoading && projects.length > 0 && (
-        <MiracleReveal animation="zoom-in">
-          <p className="text-secondary text-sm italic flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5">
-            <LuTriangleAlert className="text-yellow-500"/>
-            {t("noMoreData")}
-          </p>
-        </MiracleReveal>
+          <MiracleReveal animation="zoom-in">
+            <p className="text-secondary text-sm italic flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5">
+              <LuTriangleAlert className="text-yellow-500"/>
+              {t("noMoreData")}
+            </p>
+          </MiracleReveal>
         )}
       </div>
     </Section>

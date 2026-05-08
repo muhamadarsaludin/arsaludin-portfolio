@@ -16,6 +16,7 @@ import MiracleBadge from '@/components/miracle/Badge';
 import { LuTriangleAlert } from 'react-icons/lu';
 import MiracleBanner from '@/components/miracle/Banner';
 import { BasePageProps } from '@/types/page.types';
+import { MiracleReveal } from '@/components/miracle/Reveal';
 
 export default async function ArticlesPage(props: BasePageProps) {
   const {locale} = await props.params
@@ -74,32 +75,34 @@ export default async function ArticlesPage(props: BasePageProps) {
   return (
     <Container>
       <Article className="pb-13 lg:pb-23 w-full">
-        <MiracleBreadcrumbs 
-          locales={routing.locales}
-          overrides={{
-            home: t("breadcrumbs.home"),
-            articles: t("breadcrumbs.articles")
-          }}
-          className="mb-5 md:mb-6"
-        />
-        <header className="mb-8 lg:mb-10 xl:mb-12 w-full">
-          <div className="flex gap-2 items-center">
-            <Heading 
-              id={t("title")}
-              level={1}
-              className="font-semibold flex gap-2 items-center">
-                {t("title")}
-            </Heading>
-            <MiracleBadge color="yellow" startIcon={<LuTriangleAlert />} variant="secondary">
-              Beta
-            </MiracleBadge>
-          </div>
-          <p className="mt-4 text-secondary">{t("description")}</p>
+        <MiracleReveal animation="fade-right">
+          <MiracleBreadcrumbs 
+            locales={routing.locales}
+            overrides={{
+              home: t("breadcrumbs.home"),
+              articles: t("breadcrumbs.articles")
+            }}
+            className="mb-5 md:mb-6"
+          />
+          <header className="mb-8 lg:mb-10 xl:mb-12 w-full">
+            <div className="flex gap-2 items-center">
+              <Heading 
+                id={t("title")}
+                level={1}
+                className="font-semibold flex gap-2 items-center">
+                  {t("title")}
+              </Heading>
+              <MiracleBadge color="yellow" startIcon={<LuTriangleAlert />} variant="secondary">
+                Beta
+              </MiracleBadge>
+            </div>
+            <p className="mt-4 text-secondary">{t("description")}</p>
 
-          <MiracleBanner color="yellow" startIcon={<LuTriangleAlert />} variant="secondary" title={t("banner.title")} className="mt-4">
-            {t("banner.description")}
-          </MiracleBanner>
-        </header>
+            <MiracleBanner color="yellow" startIcon={<LuTriangleAlert />} variant="secondary" title={t("banner.title")} className="mt-4">
+              {t("banner.description")}
+            </MiracleBanner>
+          </header>
+        </MiracleReveal>
 
         {/* Articles Content */}
         <HydrationBoundary state={dehydratedState}>
