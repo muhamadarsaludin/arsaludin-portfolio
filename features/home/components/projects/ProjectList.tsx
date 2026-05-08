@@ -20,7 +20,7 @@ export function ProjectList({ locale }: { locale: string }) {
   if (!projects || projects.length === 0) return <EmptyStateCard />
 
   return (
-    <div className="max-w-full overflow-x-auto sm:overflow-x-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
+    <div className="max-w-full overflow-x-auto sm:overflow-x-hidden overflow-y-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
       {projects.map((project, index) => (
         <MiracleReveal 
           animation={{
@@ -42,7 +42,7 @@ export function ProjectList({ locale }: { locale: string }) {
 
 export function ProjectListSkeleton() {
   return (
-    <div className="max-w-full overflow-x-auto sm:overflow-x-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
+    <div className="max-w-full overflow-x-auto sm:overflow-x-hidden overflow-y-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
       {Array.from({ length: 3 }).map((_, i) => (
         <ProjectCardSkeleton key={i} className="w-[75vw] sm:w-auto shrink-0 snap-start" />
       ))}

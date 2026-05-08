@@ -8,6 +8,7 @@ import clsx from "clsx"
 import { LuArrowRight } from "react-icons/lu"
 import { getFeaturedAchievements } from "@/features/achievements/services/achievements"
 import { AchievementList } from "./AchievementList"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 /**
  * Server Component: Prefetches featured achievement for optimal SEO and performance.
@@ -24,6 +25,7 @@ export default async function AchievementsSection({ className }: { className?: s
 
   return (
     <Section className={clsx(className)}>
+      <MiracleReveal animation="fade-right">
         <Heading
           id="featured-achievements"
           className="text-3xl md:text-4xl lg:text-5xl mb-8 lg:mb-10 xl:mb-12"
@@ -33,10 +35,12 @@ export default async function AchievementsSection({ className }: { className?: s
         >
           {t("title")}
         </Heading>
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <AchievementList />
-        </HydrationBoundary>
-        <div className="flex justify-center mt-6 lg:mt-8 xl:mt-10">
+      </MiracleReveal>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <AchievementList />
+      </HydrationBoundary>
+      <div className="flex justify-center mt-6 lg:mt-8 xl:mt-10">
+        <MiracleReveal animation="zoom-in">
           <Link href="/achievements" aria-label={t("cta")}>
             <MiracleButton 
               variant="secondary"
@@ -45,7 +49,8 @@ export default async function AchievementsSection({ className }: { className?: s
               {t("cta")}
             </MiracleButton>
           </Link>
-        </div>
-      </Section>
+        </MiracleReveal>
+      </div>
+    </Section>
   )
 }
