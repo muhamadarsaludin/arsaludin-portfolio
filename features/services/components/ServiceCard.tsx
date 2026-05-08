@@ -11,6 +11,7 @@ import SkillBadges from "@/features/skills/components/SkillBadges"
 import MiracleBadge, { BadgeColor } from "@/components/miracle/Badge"
 import { useTranslations } from "next-intl"
 import { LuCrown } from "react-icons/lu"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 const SERVICE_ILLUSTRATION_MAP: Record<string, React.ReactNode> = {
   "front-end": <FrontEndIllustration />,
@@ -27,12 +28,17 @@ const badgeColor: Record<ServiceLevel, BadgeColor> = {
   beginner: "green",
 }
 
-export default function ServiceCard({ service, className }: { service: Service, className?: string}) {
+type ServiceCardProps = {
+  service: Service
+  className?: string
+}
+
+export default function ServiceCard({ service, className }: ServiceCardProps) {
   const td = useTranslations("data.service")
   return (
     <div
       className={clsx(
-        "relative flex flex-col border-primary rounded-2xl border",
+        "relative flex flex-col rounded-2xl border border-primary bg-primary",
         className
       )}
     >

@@ -17,7 +17,7 @@ export default function ProfileStats({ className }: ProfileStatsProps) {
   const renderValue = (value: number | undefined) => {
     if (isLoading) return <span className="animate-pulse text-sm">...</span>
     if (isError) return <span>0</span>
-    return <CountUp end={value ?? 0} duration={2} />
+    return <CountUp end={value ?? 0} duration={2.5} delay={1} />
   }
 
   return (
@@ -45,7 +45,8 @@ export default function ProfileStats({ className }: ProfileStatsProps) {
                   <CountUp 
                     end={stats?.experience ?? 0} 
                     onEnd={() => setIsFinished(true)} 
-                    duration={2}
+                    duration={2.5}
+                    delay={1}
                   />
                   <span
                     className={clsx(

@@ -19,15 +19,17 @@ export default async function ProfileSection({ className }: { className?: string
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={clsx("relative", className)}>
-        <ProfileHero />
+        <MiracleReveal animation="fade-up">
+          <ProfileHero />
+        </MiracleReveal>
           {/* Container */}
         <div className="w-full grid grid-cols-1 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_auto] gap-4 md:gap-6 lg:gap-8 -mt-20 relative z-1">
           {/* Image */}
-          <MiracleReveal animation="fade-right" className="flex justify-start">
+          <MiracleReveal animation="fade-right" delay={0.5} className="flex justify-start">
             <ProfileImage className="ml-4 lg:ml-6 xl:ml-8"/>
           </MiracleReveal>
           {/* data */}
-          <MiracleReveal animation="fade-right" className="min-w-max md:mt-20 md:pt-6">
+          <MiracleReveal animation="fade-right" delay={0.5} className="min-w-max md:mt-20 md:pt-6">
             <ProfileInfo />
           </MiracleReveal>
           {/* stats */}
@@ -36,11 +38,12 @@ export default async function ProfileSection({ className }: { className?: string
               default: "fade-right",
               lg: "fade-left"
             }}
+            delay={0.5}
             className="md:col-span-full lg:col-auto max-w-full overflow-hidden lg:mt-20 lg:pt-6">
             <ProfileStats/>
           </MiracleReveal>
           {/* description */}
-          <MiracleReveal animation="fade-right" className="col-span-full">
+          <MiracleReveal animation="fade-right" delay={0.5} className="col-span-full">
             <p className="text-secondary max-w-full lg:max-w-7/12 text-sm md:text-base">
               {t("about")}
             </p>
