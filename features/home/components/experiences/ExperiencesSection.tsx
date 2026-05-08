@@ -5,6 +5,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { ExperienceList } from "./ExperienceList"
 import clsx from "clsx"
 import { getExperiences } from "@/features/experiences/services/experiences"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 /**
  * Server Component: Prefetches experience for optimal SEO and performance.
@@ -23,15 +24,17 @@ export default async function ExperiencesSection({ className }: { className?: st
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={clsx(className)}>
-        <Heading
-          id="experience"
-          className="text-3xl md:text-4xl lg:text-5xl mb-8 lg:mb-10 xl:mb-12"
-          linkClassName="text-[0.4em]!"
-          noMarginTop
-          fontWeight="semibold"
-        >
-          {t("title")}
-        </Heading>
+        <MiracleReveal animation="fade-right">
+          <Heading
+            id="experience"
+            className="text-3xl md:text-4xl lg:text-5xl mb-8 lg:mb-10 xl:mb-12"
+            linkClassName="text-[0.4em]!"
+            noMarginTop
+            fontWeight="semibold"
+          >
+            {t("title")}
+          </Heading>
+        </MiracleReveal>
         <ExperienceList locale={locale} />
       </Section>
     </HydrationBoundary>

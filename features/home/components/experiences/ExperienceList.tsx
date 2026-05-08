@@ -1,5 +1,6 @@
 "use client"
 
+import { MiracleReveal } from "@/components/miracle/Reveal"
 import { ExperienceCard } from "@/features/experiences/components/ExperienceCard"
 import { ExperienceCardSkeleton } from "@/features/experiences/components/ExperienceCardSkeleton"
 import { useExperiences } from "@/features/experiences/hooks/useExperiences"
@@ -23,7 +24,9 @@ export function ExperienceList({ locale }: { locale: string }) {
   return (
     <div className="flex flex-col gap-4">
       {experiences.map((experience, i) => (
-        <ExperienceCard key={experience.id} experience={experience} showDetail={i === 0} />
+        <MiracleReveal key={experience.id} animation="fade-up" delay={i * 0.2}>
+          <ExperienceCard experience={experience} showDetail={i === 0} />
+        </MiracleReveal>
       ))}
     </div>
   )
