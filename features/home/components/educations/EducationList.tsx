@@ -1,5 +1,6 @@
 "use client"
 
+import { MiracleReveal } from "@/components/miracle/Reveal"
 import { EducationCard } from "@/features/educations/components/EducationCard"
 import { EducationCardSkeleton } from "@/features/educations/components/EducationCardSkeleton"
 import { useEducations } from "@/features/educations/hooks/useEducations"
@@ -22,8 +23,10 @@ export function EducationList({ locale }: { locale: string }) {
 
   return (
     <div className="flex flex-col gap-4">
-      {educations.map((education) => (
-        <EducationCard key={education.id} education={education} />
+      {educations.map((education, index) => (
+        <MiracleReveal key={education.id} animation="fade-up" delay={index * 0.2}>
+          <EducationCard key={education.id} education={education} />
+        </MiracleReveal>
       ))}
     </div>
   )

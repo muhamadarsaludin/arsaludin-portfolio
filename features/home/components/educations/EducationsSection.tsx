@@ -5,6 +5,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { EducationList } from "./EducationList"
 import clsx from "clsx"
 import { getEducations } from "@/features/educations/services/educations"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 /**
  * Server Component: Prefetches education for optimal SEO and performance.
@@ -23,15 +24,17 @@ export default async function EducationsSection({ className }: { className?: str
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={clsx(className)}>
-        <Heading
-          id="education"
-          className="text-3xl md:text-4xl lg:text-5xl mb-8 lg:mb-10 xl:mb-12"
-          linkClassName="text-[0.4em]!"
-          noMarginTop
-          fontWeight="semibold"
-        >
-          {t("title")}
-        </Heading>
+        <MiracleReveal animation="fade-right">
+          <Heading
+            id="education"
+            className="text-3xl md:text-4xl lg:text-5xl mb-8 lg:mb-10 xl:mb-12"
+            linkClassName="text-[0.4em]!"
+            noMarginTop
+            fontWeight="semibold"
+          >
+            {t("title")}
+          </Heading>
+        </MiracleReveal>
         <EducationList locale={locale} />
       </Section>
     </HydrationBoundary>
