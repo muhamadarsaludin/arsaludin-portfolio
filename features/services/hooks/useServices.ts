@@ -9,7 +9,7 @@ type UseServicesProps = {
 /**
  * Custom hook to fetch and manage localized services.
  * @param props - The hook properties.
- * @param props.locale - The language code (e.g., 'en', 'id') for content translation.
+ * @param locale - The language code (e.g., 'en', 'id') for content translation.
  * @returns The query result containing an array of Service objects.
  */
 export function useServices({ locale }: UseServicesProps) {

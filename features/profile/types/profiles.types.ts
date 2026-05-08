@@ -1,5 +1,4 @@
 /**
- * PROFILE ENTITY
  * Raw data from 'profiles' table.
  */
 export type ProfileEntity = {
@@ -12,4 +11,7 @@ export type ProfileEntity = {
   updated_at: string
 }
 
+/**
+ * Flattened Profile object.
+ */
 export type Profile = Pick<ProfileEntity, "id" | "full_name" | "email" | "role" | "avatar_url">
