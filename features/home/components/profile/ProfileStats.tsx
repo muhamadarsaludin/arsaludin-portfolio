@@ -15,14 +15,14 @@ export default function ProfileStats({ className }: ProfileStatsProps) {
   const { data: stats, isLoading, isError, refetch } = useStats()
 
   const renderValue = (value: number | undefined) => {
-    if (isLoading) return <span className="animate-pulse text-muted-foreground text-sm">...</span>
-    if (isError) return <span className="text-destructive/50">0</span>
+    if (isLoading) return <span className="animate-pulse text-sm">...</span>
+    if (isError) return <span>0</span>
     return <CountUp end={value ?? 0} duration={2} />
   }
 
   return (
-    <div className={clsx("max-w-full overflow-auto", className)}>
-      <table className="border-separate border-spacing-0">
+    <div className={clsx("w-full overflow-x-auto", className)}>
+      <table className="border-separate border-spacing-0 lg:ml-auto">
         <thead>
           <tr>
             {["experience", "services", "projects", "achievements", "articles"].map((key) => (
@@ -37,9 +37,9 @@ export default function ProfileStats({ className }: ProfileStatsProps) {
             {/* Experience dengan logic Plus (+) */}
             <td className="min-w-20 p-1 text-center text-xl font-medium md:text-2xl lg:text-3xl">
               {isLoading ? (
-                 <span className="animate-pulse text-muted-foreground text-sm">...</span>
+                 <span className="animate-pulse text-sm">...</span>
               ) : isError ? (
-                <span className="text-destructive/50">0</span>
+                <span>0</span>
               ) : (
                 <>
                   <CountUp 

@@ -8,8 +8,6 @@ const ALL_ANIMATIONS: RevealAnimation[] = [
   "zoom-in", "zoom-out",
   "slide-blur-up", "slide-blur-down",
   "flip-up", "flip-down",
-  "skew-left", "skew-right",
-  "scale-in-bottom",
   "reveal-text"
 ];
 

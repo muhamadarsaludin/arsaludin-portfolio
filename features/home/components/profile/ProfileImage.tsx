@@ -1,5 +1,6 @@
 import Image from "next/image"
 import clsx from "clsx"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type ProfileImageProps = React.HTMLAttributes<HTMLDivElement> & {
   className?: string
@@ -12,7 +13,7 @@ export default function ProfileImage({ className, ...props }: ProfileImageProps)
       className={clsx(
         "relative overflow-hidden rounded-4xl lg:rounded-[60px]",
         "border-primary border-4 lg:border-6 xl:border-8",
-        "aspect-5/6 w-30 md:w-40 lg:w-45",
+        "aspect-4/5 w-30 md:w-40 lg:w-50",
         className
       )}
     >
