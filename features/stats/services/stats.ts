@@ -3,6 +3,9 @@
 import { createClient } from "@/lib/supabase/server"
 import { Stats } from "../types/stats.types";
 
+/**
+ * Fetches and calculates professional metrics and achievement stats from Supabase.
+ */
 export async function getStats(): Promise<Stats> {
   const supabase = await createClient()
 
