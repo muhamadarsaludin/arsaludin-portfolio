@@ -39,7 +39,9 @@ export default async function ProjectsSection({ className }: { className?: strin
             >
               {t("title")}
             </Heading>
-            <IoSparkles className="text-yellow absolute -top-3 -right-4 text-4xl md:-top-10 md:-right-5 md:text-5xl lg:text-6xl" />
+            <MiracleReveal animation="zoom-in" delay={0.5} className="absolute -top-3 -right-4 md:-top-10 md:-right-5">
+              <IoSparkles className="text-yellow text-4xl md:text-5xl lg:text-6xl" />
+            </MiracleReveal>
           </div>
         </MiracleReveal>
         <ProjectList locale={locale}/>

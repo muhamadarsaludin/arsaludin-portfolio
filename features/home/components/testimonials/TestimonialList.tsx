@@ -1,5 +1,6 @@
 "use client"
 
+import { MiracleReveal } from "@/components/miracle/Reveal"
 import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
 import TestimonialCard from "@/features/testimonials/components/TestimonialCard"
@@ -20,8 +21,20 @@ export function TestimonialList({locale}: {locale: string}) {
 
   return (
     <div className="max-w-full overflow-x-auto sm:overflow-x-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
-      {testimonials.map((testimonial) => (
-        <TestimonialCard testimonial={testimonial} key={testimonial.id} className="w-[75vw] sm:w-auto shrink-0 snap-start"/>
+      {testimonials.map((testimonial, index) => (
+        <MiracleReveal 
+          animation={{
+            default: "zoom-in",
+            sm: "fade-up"
+          }} 
+          delay={{
+            default: 0,
+            sm: index * 0.2
+          }} 
+          className="w-[75vw] sm:w-auto shrink-0 snap-start" 
+          key={testimonial.id}>
+          <TestimonialCard testimonial={testimonial} className="w-full h-full"/>
+        </MiracleReveal>
       ))}
     </div>
   )

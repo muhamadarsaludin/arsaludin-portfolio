@@ -20,7 +20,7 @@ export default async function SkillsAndServicesSection({ className }: { classNam
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={clsx(className)}>
-        <MiracleReveal animation="fade-up">
+        <MiracleReveal animation="slide-blur-up">
           <div className="mx-auto mb-8 lg:mb-10 xl:mb-12 flex w-full flex-col items-center text-center md:w-8/12 lg:w-6/12">
             <Heading
               id="skills-and-services"

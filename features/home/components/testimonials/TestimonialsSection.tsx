@@ -6,6 +6,7 @@ import clsx from "clsx"
 import { getFeaturedTestimonials } from "@/features/testimonials/services/testimonials"
 import { TestimonialList } from "./TestimonialList"
 import Quote from "@/features/testimonials/components/Quote"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 /**
  * Server Component: Prefetches featured testimonials for optimal SEO and performance.
@@ -24,23 +25,29 @@ export default async function TestimonialsSection({ className }: { className?: s
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={clsx(className)}>
-        <div className="relative flex w-fit mb-8 lg:mb-10 xl:mb-12">
-          <Heading
-            id="featured-projects"
-            className="text-3xl md:text-4xl lg:text-5xl"
-            linkClassName="text-[0.4em]!"
-            noMarginTop
-            fontWeight="semibold"
-          >
-            {t("title")}
-          </Heading>
-          <Quote className="text-primary absolute -top-4 -right-9 text-4xl md:-top-6 md:-right-12 lg:-right-15 md:text-5xl lg:text-6xl"/>
-        </div>
+        <MiracleReveal animation="fade-right">
+          <div className="relative flex w-fit mb-8 lg:mb-10 xl:mb-12">
+            <Heading
+              id="featured-projects"
+              className="text-3xl md:text-4xl lg:text-5xl"
+              linkClassName="text-[0.4em]!"
+              noMarginTop
+              fontWeight="semibold"
+            >
+              {t("title")}
+            </Heading>
+            <MiracleReveal animation="zoom-in" delay={0.5} className="absolute -top-4 -right-9 md:-top-6 md:-right-12 lg:-right-15">
+              <Quote className="text-primary text-4xl md:text-5xl lg:text-6xl"/>
+            </MiracleReveal>
+          </div>
+        </MiracleReveal>
         <TestimonialList locale={locale} />
         {/* <div className="mt-8 flex justify-center md:mt-10">
-          <Link href="/testimonials">
-            <MiracleButton variant="secondary">{t("cta")}</MiracleButton>
-          </Link>
+          <MiracleReveal animation="zoom-in">
+            <Link href="/testimonials">
+              <MiracleButton variant="secondary">{t("cta")}</MiracleButton>
+            </Link>
+          </MiracleReveal>
         </div> */}
       </Section>
     </HydrationBoundary>
