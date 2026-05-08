@@ -29,8 +29,8 @@ export function TestimonialList({locale}: {locale: string}) {
           }} 
           delay={{
             default: 0,
-            sm: (index % 2) * 0.2,
-            lg: (index % 3) * 0.2
+            sm: (index % 6) * 0.1,
+            lg: (index % 6) * 0.1
           }}
           className="w-[75vw] sm:w-auto shrink-0 snap-start" 
           key={testimonial.id}>

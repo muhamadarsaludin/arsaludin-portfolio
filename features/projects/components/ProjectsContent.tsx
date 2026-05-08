@@ -115,13 +115,13 @@ export default function ProjectsContent({
       <Section className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project, index) => (
           <MiracleReveal 
-          animation="fade-up"
-          delay={{
-            default: 0,
-            sm: (index % 2) * 0.2,
-            lg: (index % 3) * 0.2
-          }}
-          key={project.id}>
+            animation="fade-up"
+            delay={{
+              default: 0,
+              sm: (index % 6) * 0.1, 
+              lg: (index % 6) * 0.1
+            }}
+            key={project.id}>
             <ProjectCard project={project} className="h-full w-full" />
           </MiracleReveal>
         ))}
@@ -134,7 +134,7 @@ export default function ProjectsContent({
 
   return (
     <Section className="flex w-full flex-col gap-6 md:gap-8">
-      <MiracleReveal animation="fade-up">
+      <MiracleReveal animation="fade-right">
         <div className="flex w-full md:w-8/12 items-center gap-3 md:gap-4">
           <MiracleTextField 
             placeholder={t("searchBarPlaceholder")}

@@ -68,7 +68,7 @@ export default async function ProjectsPage(props: BasePageProps) {
   return (
     <Container>
       <Article className="pb-13 lg:pb-23 w-full">
-        <MiracleReveal animation="fade-up">
+        <MiracleReveal animation="fade-right">
           <MiracleBreadcrumbs 
             locales={routing.locales}
             overrides={{

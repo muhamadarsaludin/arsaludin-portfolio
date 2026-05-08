@@ -22,6 +22,7 @@ import MiracleBadge from "@/components/miracle/Badge"
 import Section from "@/components/Section"
 import { CardType } from "@/features/cards/types/cards.types"
 import { ACHIEVEMENTS_LEVELS, ACHIEVEMENTS_PAGE_SIZE, ACHIEVEMENTS_TYPES } from "../constants/achievements.constants"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type AchievementsContentProps = {
   targetType: CategoryTargetType
@@ -119,8 +120,17 @@ export default function AchievementsContent({
 
     return (
       <Section className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {achievements.map((achievement) => (
-          <AchievementCard key={achievement.id} achievement={achievement} />
+        {achievements.map((achievement, index) => (
+          <MiracleReveal 
+            animation="fade-up"
+            delay={{
+              default: 0,
+              sm: (index % 6) * 0.1, 
+              lg: (index % 6) * 0.1
+            }}
+            key={achievement.id}>
+            <AchievementCard achievement={achievement} className="h-full w-full" />
+          </MiracleReveal>
         ))}
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <AchievementCardSkeleton key={`more-${i}`} />)
@@ -131,143 +141,147 @@ export default function AchievementsContent({
 
   return (
     <Section className="flex w-full flex-col gap-6 md:gap-8">
-      <div className="flex w-full md:w-8/12 items-center gap-3 md:gap-4">
-        <MiracleTextField 
-          placeholder={t("searchBarPlaceholder")}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          startIcon={<LuSearch />}
-          fullWidth
-        />
-        <MiraclePopover
-          open={isOpenFilter}
-          onOpenChange={v => setIsOpenFilter(v)}
-          defaultPosition="bottom-end"
-          noPadding
-          trigger={
-            <MiracleButton 
-              startIcon={<LuFilter />}
-              endIcon={<LuChevronDown className={clsx("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
-            >
-              <div className="flex gap-2 items-center">
-                Filter 
-                {activeFiltersCount > 0 && (
-                  <MiracleBadge size="sm" variant="secondary">
-                    {activeFiltersCount}
-                  </MiracleBadge>
-                )}
-              </div>
-            </MiracleButton>
-          }
-        >
-          <div className="flex flex-col w-64 max-h-112.5 gap-4 overflow-y-auto p-4">
-            {/* Filter Types */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <MiracleCheckbox 
-                  invers
-                  checked={typeStatus.isAllSelected}
-                  indeterminate={typeStatus.isSomeSelected}
-                  onChange={() => handleToggleAll("types", ACHIEVEMENTS_TYPES as string[])}
-                />
-                <p className="text-xs font-semibold uppercase tracking-tight">
-                  {t("filter.label.types")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1 pl-4">
-                {ACHIEVEMENTS_TYPES.map((type) => (
-                  <MiracleCheckbox 
-                    key={type} 
-                    invers
-                    checked={types.includes(type)}
-                    onChange={() => handleToggleFilter("types", type)}
-                  >
-                    {td(`achievement.types.${type}`)}
-                  </MiracleCheckbox>
-                ))}
-              </div>
-            </div>
-
-            {/* Filter Levels */}
-            <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
-              <div className="flex items-center gap-2">
-                <MiracleCheckbox 
-                  invers
-                  checked={levelStatus.isAllSelected}
-                  indeterminate={levelStatus.isSomeSelected}
-                  onChange={() => handleToggleAll("levels", ACHIEVEMENTS_LEVELS as string[])}
-                />
-                <p className="text-xs font-semibold uppercase tracking-tight">
-                  {t("filter.label.levels")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1 pl-4">
-                {ACHIEVEMENTS_LEVELS.map((level) => (
-                  <MiracleCheckbox 
-                    key={level} 
-                    invers
-                    checked={levels.includes(level.toString())}
-                    onChange={() => handleToggleFilter("levels", level.toString())}
-                  >
-                    {td(`achievement.levels.${level}`)}
-                  </MiracleCheckbox>
-                ))}
-              </div>
-            </div>
-            
-            {/* Filter Categories */}
-            {categories && categories.length > 0 && (
-              <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
+      <MiracleReveal animation="fade-right">
+        <div className="flex w-full md:w-8/12 items-center gap-3 md:gap-4">
+          <MiracleTextField 
+            placeholder={t("searchBarPlaceholder")}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            startIcon={<LuSearch />}
+            fullWidth
+          />
+          <MiraclePopover
+            open={isOpenFilter}
+            onOpenChange={v => setIsOpenFilter(v)}
+            defaultPosition="bottom-end"
+            noPadding
+            trigger={
+              <MiracleButton 
+                startIcon={<LuFilter />}
+                endIcon={<LuChevronDown className={clsx("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
+              >
+                <div className="flex gap-2 items-center">
+                  Filter 
+                  {activeFiltersCount > 0 && (
+                    <MiracleBadge size="sm" variant="secondary">
+                      {activeFiltersCount}
+                    </MiracleBadge>
+                  )}
+                </div>
+              </MiracleButton>
+            }
+          >
+            <div className="flex flex-col w-64 max-h-112.5 gap-4 overflow-y-auto p-4">
+              {/* Filter Types */}
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
                   <MiracleCheckbox 
                     invers
-                    checked={categoryStatus.isAllSelected}
-                    indeterminate={categoryStatus.isSomeSelected}
-                    onChange={() => handleToggleAll("categories", categorySlugsList)}
+                    checked={typeStatus.isAllSelected}
+                    indeterminate={typeStatus.isSomeSelected}
+                    onChange={() => handleToggleAll("types", ACHIEVEMENTS_TYPES as string[])}
                   />
                   <p className="text-xs font-semibold uppercase tracking-tight">
-                    {t("filter.label.categories")}
+                    {t("filter.label.types")}
                   </p>
                 </div>
                 <div className="flex flex-col gap-1 pl-4">
-                  {categories.map((category) => (
+                  {ACHIEVEMENTS_TYPES.map((type) => (
                     <MiracleCheckbox 
-                      key={category.slug} 
+                      key={type} 
                       invers
-                      checked={categorySlugs.includes(category.slug)}
-                      onChange={() => handleToggleFilter("categories", category.slug)}
+                      checked={types.includes(type)}
+                      onChange={() => handleToggleFilter("types", type)}
                     >
-                      {category.name}
+                      {td(`achievement.types.${type}`)}
                     </MiracleCheckbox>
                   ))}
                 </div>
               </div>
-            )}
 
-            {(categorySlugs.length > 0 || types.length > 0 || levels.length > 0 || searchUrl) && (
-              <div className="w-full pt-4 border-t border-primary-inv">
-                <MiracleButton 
-                  status="danger" 
-                  size="sm" 
-                  onClick={handleReset} 
-                  fullWidth
-                >
-                  {t("filter.reset")}
-                </MiracleButton>
+              {/* Filter Levels */}
+              <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
+                <div className="flex items-center gap-2">
+                  <MiracleCheckbox 
+                    invers
+                    checked={levelStatus.isAllSelected}
+                    indeterminate={levelStatus.isSomeSelected}
+                    onChange={() => handleToggleAll("levels", ACHIEVEMENTS_LEVELS as string[])}
+                  />
+                  <p className="text-xs font-semibold uppercase tracking-tight">
+                    {t("filter.label.levels")}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1 pl-4">
+                  {ACHIEVEMENTS_LEVELS.map((level) => (
+                    <MiracleCheckbox 
+                      key={level} 
+                      invers
+                      checked={levels.includes(level.toString())}
+                      onChange={() => handleToggleFilter("levels", level.toString())}
+                    >
+                      {td(`achievement.levels.${level}`)}
+                    </MiracleCheckbox>
+                  ))}
+                </div>
               </div>
-            )}
-          </div>
-        </MiraclePopover> 
-      </div>
+              
+              {/* Filter Categories */}
+              {categories && categories.length > 0 && (
+                <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
+                  <div className="flex items-center gap-2">
+                    <MiracleCheckbox 
+                      invers
+                      checked={categoryStatus.isAllSelected}
+                      indeterminate={categoryStatus.isSomeSelected}
+                      onChange={() => handleToggleAll("categories", categorySlugsList)}
+                    />
+                    <p className="text-xs font-semibold uppercase tracking-tight">
+                      {t("filter.label.categories")}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-1 pl-4">
+                    {categories.map((category) => (
+                      <MiracleCheckbox 
+                        key={category.slug} 
+                        invers
+                        checked={categorySlugs.includes(category.slug)}
+                        onChange={() => handleToggleFilter("categories", category.slug)}
+                      >
+                        {category.name}
+                      </MiracleCheckbox>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {(categorySlugs.length > 0 || types.length > 0 || levels.length > 0 || searchUrl) && (
+                <div className="w-full pt-4 border-t border-primary-inv">
+                  <MiracleButton 
+                    status="danger" 
+                    size="sm" 
+                    onClick={handleReset} 
+                    fullWidth
+                  >
+                    {t("filter.reset")}
+                  </MiracleButton>
+                </div>
+              )}
+            </div>
+          </MiraclePopover> 
+        </div>
+      </MiracleReveal>
 
       <div className="w-full overflow-hidden">{renderContent()}</div>
 
       <div ref={loadMoreRef} className="flex w-full justify-center py-10">
         {!hasNextPage && !isLoading && achievements.length > 0 && (
-          <p className="text-secondary text-sm italic flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5">
-            <LuTriangleAlert className="text-yellow-500"/>
-            {t("noMoreData")}
-          </p>
+          <MiracleReveal animation="zoom-in">
+            <p className="text-secondary text-sm italic flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5">
+              <LuTriangleAlert className="text-yellow-500"/>
+              {t("noMoreData")}
+            </p>
+          </MiracleReveal>
         )}
       </div>
     </Section>
