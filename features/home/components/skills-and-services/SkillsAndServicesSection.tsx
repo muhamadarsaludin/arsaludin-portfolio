@@ -38,9 +38,7 @@ export default async function SkillsAndServicesSection({ className }: { classNam
             <p className="text-secondary mt-3 text-sm md:text-base">{t("description")}</p>
           </div>
         </MiracleReveal>
-        {/* <MiracleReveal animation="zoom-in"> */}
-          <ServiceList locale={locale} />
-        {/* </MiracleReveal> */}
+        <ServiceList locale={locale} />
       </Section>
     </HydrationBoundary>
   )

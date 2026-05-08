@@ -9,6 +9,7 @@ import { IoSparkles } from "react-icons/io5"
 import clsx from "clsx"
 import { LuArrowRight } from "react-icons/lu"
 import { getFeaturedProjects } from "@/features/projects/services/projects"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 /**
  * Server Component: Prefetches featured projects for optimal SEO and performance.
@@ -27,28 +28,32 @@ export default async function ProjectsSection({ className }: { className?: strin
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={clsx(className)}>
-        <div className="relative mb-8 lg:mb-10 xl:mb-12 flex w-fit">
-          <Heading
-            id="featured-projects"
-            className="max-w-[10ch] text-3xl md:text-4xl lg:text-5xl"
-            linkClassName="text-[0.4em]!"
-            noMarginTop
-            fontWeight="semibold"
-          >
-            {t("title")}
-          </Heading>
-          <IoSparkles className="text-yellow absolute -top-3 -right-4 text-4xl md:-top-10 md:-right-5 md:text-5xl lg:text-6xl" />
-        </div>
+        <MiracleReveal animation="fade-right">
+          <div className="relative mb-8 lg:mb-10 xl:mb-12 flex w-fit">
+            <Heading
+              id="featured-projects"
+              className="max-w-[10ch] text-3xl md:text-4xl lg:text-5xl"
+              linkClassName="text-[0.4em]!"
+              noMarginTop
+              fontWeight="semibold"
+            >
+              {t("title")}
+            </Heading>
+            <IoSparkles className="text-yellow absolute -top-3 -right-4 text-4xl md:-top-10 md:-right-5 md:text-5xl lg:text-6xl" />
+          </div>
+        </MiracleReveal>
         <ProjectList locale={locale}/>
         <div className="flex justify-center mt-6 lg:mt-8 xl:mt-10">
-          <Link href="/projects" aria-label={t("cta")}>
-            <MiracleButton 
-              variant="secondary"
-              endIcon={<LuArrowRight />}
-              tabIndex={-1}>
-                {t("cta")}
-              </MiracleButton>
-          </Link>
+          <MiracleReveal animation="zoom-in">
+            <Link href="/projects" aria-label={t("cta")}>
+              <MiracleButton 
+                variant="secondary"
+                endIcon={<LuArrowRight />}
+                tabIndex={-1}>
+                  {t("cta")}
+                </MiracleButton>
+            </Link>
+          </MiracleReveal>
         </div>
       </Section>
     </HydrationBoundary>
