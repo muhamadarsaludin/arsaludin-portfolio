@@ -12,6 +12,15 @@ type UseProjectsParams = {
   enabled?: boolean
 }
 
+/**
+* Custom hook for fetching paginated projects.
+* @param locale - Language code for localized content (e.g., 'en', 'id').
+* @param search - Optional string to filter projects by title or description.
+* @param categorySlugs - Array of category identifiers for filtering.
+* @param pageSize - Number of items to fetch per page.
+* @param enabled - Toggle to enable or disable the query.
+* @returns Infinite query object with project data, loading states, and pagination controls.
+*/
 export function useInfiniteProjects({
   locale,
   search,

@@ -36,7 +36,6 @@ type GetFeaturedProjectsParams = {
   locale: string
 }
 
-// --- HELPERS ---
 const getColumns = (isFilteringCategory: boolean = false) => `
   id,
   slug,
@@ -127,9 +126,8 @@ const mapToProject = (project: ProjectRawResponse): Project => {
   }
 }
 
-// --- MAIN FUNCTION ---
 /**
- * Fetches featured projects with localized content, associated skills, reactions, and comment counts.
+ * Fetches featured projects with localized content, associated skills, categories, comment counts and reaction summary.
  * @param locale - The language code to filter translations (e.g., 'en', 'id'). Defaults to the application's default locale.
  * @returns A promise that resolves to an array of formatted Project objects.
  * @throws Will throw an error if the Supabase query fails.

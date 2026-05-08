@@ -4,7 +4,6 @@ import { Cursor } from "@/features/shared/types/index.types"
 import type { Skill } from "@/features/skills/types/skills.types"
 
 /**
- * PROJECT ENTITY
  * Raw data from 'projects' table.
  */
 export type ProjectEntity = {
@@ -22,7 +21,6 @@ export type ProjectEntity = {
 }
 
 /**
- * TRANSLATION ENTITY
  * Raw data from 'project_translations' table.
  */
 export type ProjectTranslationEntity = {
@@ -40,8 +38,7 @@ export type ProjectTranslationEntity = {
 }
 
 /**
- * PROJECT (Public)
- * Flattened object for UI Portfolio.
+ * Flattened Project object, merging core entity data with localized translations, skills, categories, comment count and reaction summary.
  */
 export type Project = Pick<
   ProjectEntity,

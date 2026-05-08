@@ -7,7 +7,7 @@ type UseServicesProps = {
 }
 
 /**
- * Custom hook to fetch and manage localized services.
+ * Custom hook to fetch services.
  * @param props - The hook properties.
  * @param locale - The language code (e.g., 'en', 'id') for content translation.
  * @returns The query result containing an array of Service objects.
