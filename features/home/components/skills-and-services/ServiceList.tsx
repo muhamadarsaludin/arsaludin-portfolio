@@ -21,16 +21,18 @@ export function ServiceList({ locale }: { locale: string }) {
   return (
     <div className="max-w-full overflow-x-auto sm:overflow-x-hidden overflow-y-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
       {services.map((service, index) => (
-        <MiracleReveal animation={{
-          default: "zoom-in",
-          sm: "fade-up"
-        }} 
-        delay={{
-          default: 0,
-          sm: index * 0.2
-        }} 
-        className="w-[75vw] sm:w-auto shrink-0 snap-start" 
-        key={service.id}>
+        <MiracleReveal 
+          animation={{
+            default: "zoom-in",
+            sm: "fade-up"
+          }} 
+          delay={{
+            default: 0,
+            sm: (index % 2) * 0.2,
+            lg: (index % 3) * 0.2
+          }}
+          className="w-[75vw] sm:w-auto shrink-0 snap-start" 
+          key={service.id}>
           <ServiceCard service={service} className="w-full h-full"/>
         </MiracleReveal>
       ))}

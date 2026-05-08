@@ -23,8 +23,8 @@ export function EducationList({ locale }: { locale: string }) {
 
   return (
     <div className="flex flex-col gap-4">
-      {educations.map((education, index) => (
-        <MiracleReveal key={education.id} animation="fade-up" delay={index * 0.2}>
+      {educations.map((education) => (
+        <MiracleReveal key={education.id} animation="fade-up">
           <EducationCard key={education.id} education={education} />
         </MiracleReveal>
       ))}

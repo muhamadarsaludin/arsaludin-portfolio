@@ -24,7 +24,7 @@ export function ExperienceList({ locale }: { locale: string }) {
   return (
     <div className="flex flex-col gap-4">
       {experiences.map((experience, index) => (
-        <MiracleReveal key={experience.id} animation="fade-up" delay={index * 0.2}>
+        <MiracleReveal key={experience.id} animation="fade-up">
           <ExperienceCard experience={experience} showDetail={index === 0} />
         </MiracleReveal>
       ))}

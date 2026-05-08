@@ -29,12 +29,13 @@ export function AchievementList() {
           }} 
           delay={{
             default: 0,
-            sm: index * 0.2
-          }} 
+            sm: (index % 2) * 0.2,
+            lg: (index % 3) * 0.2
+          }}
           className="w-[75vw] sm:w-auto shrink-0 snap-start" 
           key={achievement.id}>
-            <AchievementCard achievement={achievement} className="w-full h-full" />
-          </MiracleReveal>
+          <AchievementCard achievement={achievement} className="w-full h-full" />
+        </MiracleReveal>
       ))}
     </div>
   )
