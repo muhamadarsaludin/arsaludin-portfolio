@@ -15,7 +15,7 @@ type AchievementRawResponse = Pick<
       is_show: boolean
       category: Category
     }[];
-    reaction_counts: ReactionCount[]
+    reaction_counts: ReactionCount []
     reactions: Reaction[]
   }
 

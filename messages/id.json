@@ -476,6 +476,13 @@
         "privacy-policy": "Kebijakan Privasi"
       },
       "latestUpdate": "Pembaruan terbaru: {date}"
+    },
+    "404": {
+      "title": "Halaman Tidak Ditemukan",
+      "description": "Sepertinya halaman yang Anda cari tidak tersedia atau mungkin sudah dipindahkan ke tempat lain.",
+      "backButton": "Kembali",
+      "homeButton": "Ke Beranda",
+      "debugMessage": "Silakan periksa kembali URL yang Anda masukkan."
     }
   }
 }

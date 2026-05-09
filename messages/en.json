@@ -476,6 +476,13 @@
         "privacy-policy": "Privacy Policy"
       },
       "latestUpdate": "Latest update: {date}"
+    },
+    "404": {
+      "title": "Page Not Found",
+      "description": "Looks like the page you’re trying to access doesn’t exist or may have been moved somewhere else.",
+      "backButton": "Go Back",
+      "homeButton": "Back to Home",
+      "debugMessage": "Please check the URL and try again."
     }
   }
 }

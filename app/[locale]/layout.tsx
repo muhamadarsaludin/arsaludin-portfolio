@@ -36,6 +36,10 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   
   let user = null
 
+  if (!routing.locales.includes(locale as any)) {
+    notFound();
+  }
+
   try {
     const supabase = await createClient()
     const { data, error } = await supabase.auth.getUser()
