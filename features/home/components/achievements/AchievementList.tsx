@@ -27,11 +27,7 @@ export function AchievementList() {
             default: "zoom-in",
             sm: "fade-up"
           }} 
-          delay={{
-            default: 0,
-            sm: (index % 6) * 0.1,
-            lg: (index % 6) * 0.1
-          }}
+          delay={(index % 6) * 0.1}
           className="w-[75vw] sm:w-auto shrink-0 snap-start" 
           key={achievement.id}>
           <AchievementCard achievement={achievement} className="w-full h-full" />

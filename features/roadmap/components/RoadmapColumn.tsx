@@ -18,6 +18,7 @@ import ErrorStateCard from '@/features/shared/types/components/ErrorStateCard'
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import MiracleLoader from '@/components/miracle/Loader'
 import CardFormModal from '@/features/cards/components/CardFormModal'
+import { MiracleReveal } from '@/components/miracle/Reveal'
 
 type RoadmapColumnProps = {
   status: CardStatus
@@ -27,10 +28,11 @@ type RoadmapColumnProps = {
     priorities?: CardPriority[];
     pageSize: number;
   },
+  columnDelay: number;
   className?: string;
 }
 
-export default function RoadmapColumn({ status, filters, className }: RoadmapColumnProps) {
+export default function RoadmapColumn({ status, filters, className, columnDelay }: RoadmapColumnProps) {
   const td = useTranslations("data")
   const t = useTranslations("pages.roadmap")
   const { isSignedIn, profile } = useAuth()
@@ -125,12 +127,13 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
           <CardEmpty />
         ) : (
           <>
-            {allCards.map((card) => (
-              <CardItem 
-                card={card} 
-                key={card.id} 
-                onUpdate={handleOpenForm}
-              />
+            {allCards.map((card,index) => (
+              <MiracleReveal key={card.id} animation="fade-up" delay={(columnDelay + 0.2) + (index % 6) * 0.1}>
+                <CardItem 
+                  card={card} 
+                  onUpdate={handleOpenForm}
+                />
+              </MiracleReveal>
             ))}
 
             {isFetchingNextPage && (

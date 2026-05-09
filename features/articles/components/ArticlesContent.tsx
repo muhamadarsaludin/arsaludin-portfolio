@@ -112,11 +112,7 @@ export default function ArticlesContent({
         {articles.map((article, index) => (
           <MiracleReveal 
             animation="fade-up"
-            delay={{
-              default: 0,
-              sm: (index % 6) * 0.1, 
-              lg: (index % 6) * 0.1
-            }}
+            delay={(index % 6) * 0.1}
             key={article.id}>
             <ArticleCard article={article} className="h-full w-full"/>
           </MiracleReveal>

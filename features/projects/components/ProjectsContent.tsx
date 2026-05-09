@@ -116,11 +116,7 @@ export default function ProjectsContent({
         {projects.map((project, index) => (
           <MiracleReveal 
             animation="fade-up"
-            delay={{
-              default: 0,
-              sm: (index % 6) * 0.1, 
-              lg: (index % 6) * 0.1
-            }}
+            delay={(index % 6) * 0.1}
             key={project.id}>
             <ProjectCard project={project} className="h-full w-full" />
           </MiracleReveal>

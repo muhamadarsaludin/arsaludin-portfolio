@@ -51,20 +51,17 @@ export default function FeaturedArticlesContent({ locale }: FeaturedArticleConte
               "custom-scrollbar"
             )}>
               {othersArticles.map((article, index) => (
-                <MiracleReveal key={article.id} 
+                <MiracleReveal 
+                  key={article.id} 
                   animation={{
                     default: "zoom-in",
                     lg: "fade-up"
                   }}
-                  delay={{
-                    default: 0,
-                    lg: (index % 6) * 0.1
-                  }}
+                  delay={(index % 6) * 0.1}
                   className="w-[75vw] md:w-full md:max-w-87.5 lg:max-w-full lg:h-full snap-start shrink-0 overflow-hidden">
                   <ArticleCardFeatured 
                     article={article} 
                     locale={locale} 
-                    key={article.id} 
                     className="h-full w-full"
                   />
                 </MiracleReveal>

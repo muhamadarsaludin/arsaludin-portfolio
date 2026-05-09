@@ -15,6 +15,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { LuChevronDown, LuFilter, LuSearch } from "react-icons/lu";
 import RoadmapColumn from "./RoadmapColumn";
+import { MiracleReveal } from "@/components/miracle/Reveal";
 
 type RoadmapContentProps = {
   kanbanStatuses: CardStatus[];
@@ -81,111 +82,119 @@ export default function RoadmapContent({ kanbanStatuses }: RoadmapContentProps) 
 
   return (
     <Section className="flex w-full flex-col gap-6 md:gap-8">
-      <div className="flex w-full md:w-8/12 items-center gap-3 md:gap-4">
-        <MiracleTextField 
-          placeholder={t("searchBarPlaceholder")}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          startIcon={<LuSearch />}
-          fullWidth
-        />
-        <MiraclePopover
-          open={isOpenFilter}
-          onOpenChange={v => setIsOpenFilter(v)}
-          defaultPosition="bottom-end"
-          noPadding
-          trigger={
-            <MiracleButton 
-              startIcon={<LuFilter />}
-              endIcon={<LuChevronDown className={clsx("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
-            >
-              <div className="flex gap-2 items-center">
-                Filter 
-                {activeFiltersCount > 0 && (
-                  <MiracleBadge size="sm" variant="secondary">
-                    {activeFiltersCount}
-                  </MiracleBadge>
-                )}
-              </div>
-            </MiracleButton>
-          }
-        >
-          <div className="flex flex-col w-64 max-h-112.5 gap-4 overflow-y-auto p-4">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <MiracleCheckbox 
-                  invers
-                  checked={typeStatus.isAllSelected}
-                  indeterminate={typeStatus.isSomeSelected}
-                  onChange={() => handleToggleAll("types", CARD_TYPES)}
-                />
-                <p className="text-xs font-semibold uppercase tracking-tight">
-                  {t("filter.label.types")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1 pl-4">
-                {CARD_TYPES.map((type) => (
-                  <MiracleCheckbox 
-                    key={type} 
-                    invers
-                    checked={types.includes(type)}
-                    onChange={() => handleToggleFilter("types", type)}
-                  >
-                    {td(`roadmap.types.${type}`)}
-                  </MiracleCheckbox>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
-              <div className="flex items-center gap-2">
-                <MiracleCheckbox 
-                  invers
-                  checked={priorityStatus.isAllSelected}
-                  indeterminate={priorityStatus.isSomeSelected}
-                  onChange={() => handleToggleAll("priorities", CARD_PRIORITIES)}
-                />
-                <p className="text-xs font-semibold uppercase tracking-tight">
-                  {t("filter.label.priorities")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1 pl-4">
-                {CARD_PRIORITIES.map((priority) => (
-                  <MiracleCheckbox 
-                    key={priority} 
-                    invers
-                    checked={priorities.includes(priority as CardPriority)}
-                    onChange={() => handleToggleFilter("priorities", priority)}
-                  >
-                    {td(`roadmap.priorities.${priority}`)}
-                  </MiracleCheckbox>
-                ))}
-              </div>
-            </div>
-
-            {(types.length > 0 || priorities.length > 0 || searchUrl) && (
-              <div className="w-full pt-4 border-t border-primary-inv">
-                <MiracleButton 
-                  status="danger" 
-                  size="sm" 
-                  onClick={handleReset} 
-                  fullWidth
-                >
-                  {t("filter.reset")}
-                </MiracleButton>
-              </div>
-            )}
-          </div>
-        </MiraclePopover> 
-      </div>
-      <div className="flex flex-nowrap gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 [&::-webkit-scrollbar]:hidden">
-        {kanbanStatuses.map((status) => (
-          <RoadmapColumn 
-            key={status} 
-            status={status} 
-            filters={currentFilters} 
-            className="w-[75vw] sm:flex-1 sm:min-w-[320px] shrink-0 snap-start"
+      <MiracleReveal animation="fade-right">
+        <div className="flex w-full md:w-8/12 items-center gap-3 md:gap-4">
+          <MiracleTextField 
+            placeholder={t("searchBarPlaceholder")}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            startIcon={<LuSearch />}
+            fullWidth
           />
+          <MiraclePopover
+            open={isOpenFilter}
+            onOpenChange={v => setIsOpenFilter(v)}
+            defaultPosition="bottom-end"
+            noPadding
+            trigger={
+              <MiracleButton 
+                startIcon={<LuFilter />}
+                endIcon={<LuChevronDown className={clsx("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
+              >
+                <div className="flex gap-2 items-center">
+                  Filter 
+                  {activeFiltersCount > 0 && (
+                    <MiracleBadge size="sm" variant="secondary">
+                      {activeFiltersCount}
+                    </MiracleBadge>
+                  )}
+                </div>
+              </MiracleButton>
+            }
+          >
+            <div className="flex flex-col w-64 max-h-112.5 gap-4 overflow-y-auto p-4">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <MiracleCheckbox 
+                    invers
+                    checked={typeStatus.isAllSelected}
+                    indeterminate={typeStatus.isSomeSelected}
+                    onChange={() => handleToggleAll("types", CARD_TYPES)}
+                  />
+                  <p className="text-xs font-semibold uppercase tracking-tight">
+                    {t("filter.label.types")}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1 pl-4">
+                  {CARD_TYPES.map((type) => (
+                    <MiracleCheckbox 
+                      key={type} 
+                      invers
+                      checked={types.includes(type)}
+                      onChange={() => handleToggleFilter("types", type)}
+                    >
+                      {td(`roadmap.types.${type}`)}
+                    </MiracleCheckbox>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
+                <div className="flex items-center gap-2">
+                  <MiracleCheckbox 
+                    invers
+                    checked={priorityStatus.isAllSelected}
+                    indeterminate={priorityStatus.isSomeSelected}
+                    onChange={() => handleToggleAll("priorities", CARD_PRIORITIES)}
+                  />
+                  <p className="text-xs font-semibold uppercase tracking-tight">
+                    {t("filter.label.priorities")}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1 pl-4">
+                  {CARD_PRIORITIES.map((priority) => (
+                    <MiracleCheckbox 
+                      key={priority} 
+                      invers
+                      checked={priorities.includes(priority as CardPriority)}
+                      onChange={() => handleToggleFilter("priorities", priority)}
+                    >
+                      {td(`roadmap.priorities.${priority}`)}
+                    </MiracleCheckbox>
+                  ))}
+                </div>
+              </div>
+
+              {(types.length > 0 || priorities.length > 0 || searchUrl) && (
+                <div className="w-full pt-4 border-t border-primary-inv">
+                  <MiracleButton 
+                    status="danger" 
+                    size="sm" 
+                    onClick={handleReset} 
+                    fullWidth
+                  >
+                    {t("filter.reset")}
+                  </MiracleButton>
+                </div>
+              )}
+            </div>
+          </MiraclePopover> 
+        </div>
+      </MiracleReveal>
+      <div className="flex flex-nowrap gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 [&::-webkit-scrollbar]:hidden">
+        {kanbanStatuses.map((status, index) => (
+          <MiracleReveal 
+            key={status}
+            animation="zoom-in"
+            delay={(index % 6) * 0.1}
+            >
+            <RoadmapColumn 
+              status={status} 
+              filters={currentFilters} 
+              columnDelay={(index % 6) * 0.1}
+              className="w-[75vw] sm:flex-1 sm:min-w-[320px] shrink-0 snap-start"
+            />
+          </MiracleReveal>
         ))}
       </div>
     </Section>

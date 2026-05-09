@@ -11,6 +11,7 @@ import Heading from "@/components/Heading";
 import { normalizeArrayParam } from "@/utils/search-params";
 import RoadmapContent from "./RoadmapContent";
 import { BasePageProps } from "@/types/page.types";
+import { MiracleReveal } from "@/components/miracle/Reveal";
 
 const KANBAN_STATUSES: CardStatus[] = ["ideas", "planned", "in-progress", "released"];
 
@@ -49,25 +50,27 @@ export default async function RoadmapPage(props: BasePageProps) {
   return (
     <Container>
       <Article className="pb-13 lg:pb-23">
-        <MiracleBreadcrumbs 
-          locales={routing.locales}
-          overrides={{
-            home: t("breadcrumbs.home"),
-            roadmap: t("breadcrumbs.roadmap")
-          }}
-          className="mb-5 md:mb-6"
-        />
-        
-        <div className="mb-6 md:mb-8 w-full">
-          <Heading 
-            id={t("title")}
-            level={1}
-            className="font-semibold"
-          >
-            {t("title")}
-          </Heading>
-          <p className="mt-4 text-secondary">{t("description")}</p>
-        </div>
+        <MiracleReveal animation="fade-right">
+          <MiracleBreadcrumbs 
+            locales={routing.locales}
+            overrides={{
+              home: t("breadcrumbs.home"),
+              roadmap: t("breadcrumbs.roadmap")
+            }}
+            className="mb-5 md:mb-6"
+          />
+          
+          <div className="mb-6 md:mb-8 w-full">
+            <Heading 
+              id={t("title")}
+              level={1}
+              className="font-semibold"
+            >
+              {t("title")}
+            </Heading>
+            <p className="mt-4 text-secondary">{t("description")}</p>
+          </div>
+        </MiracleReveal>
 
         <HydrationBoundary state={dehydratedState}>
           <RoadmapContent kanbanStatuses={KANBAN_STATUSES} />
