@@ -32,12 +32,14 @@ export default async function GearAndSetupPage({ params }: GearAndSetupPageProps
             }}
             className="mb-5 md:mb-6"
           />
-          <Heading 
-            id={t("title")}
-            level={1}>
-              {t("title")}
-          </Heading>
-          <p className='mt-4 text-secondary'>{t("description")}</p>
+          <header>
+            <Heading 
+              id={t("title")}
+              level={1}>
+                {t("title")}
+            </Heading>
+            <p className='mt-4 text-secondary'>{t("description")}</p>
+          </header>
         </MiracleReveal>
         <MiracleReveal animation="zoom-in">
           <div className="w-full aspect-16/6 bg-secondary border border-primary rounded-2xl mt-6 md:mt-8">

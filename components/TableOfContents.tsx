@@ -24,43 +24,69 @@ export default function TableOfContents({ title, className }: TOCProps) {
   const locale = useLocale()
 
   useEffect(() => {
-    const elements = Array.from(document.querySelectorAll("h1[id], h2[id], h3[id]"))
-      .map((elem) => ({
-        id: elem.id,
-        text: (elem as HTMLElement).innerText || "",
-        level: Number(elem.tagName.substring(1)),
-      }))
+    // FUNGSI SCAN (Logic Utama)
+    const getHeadings = () => {
+      const elements = Array.from(document.querySelectorAll("h1[id], h2[id], h3[id]"))
+        .map((elem) => ({
+          id: elem.id,
+          text: (elem as HTMLElement).innerText || "",
+          level: Number(elem.tagName.substring(1)),
+        }))
+      setHeadings(elements)
+      return elements
+    }
 
-    setHeadings(elements)
+    let currentHeadings = getHeadings()
+    let observer: IntersectionObserver
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id)
-          }
-        })
-      },
-      { 
-        rootMargin: "0% 0% -65% 0%", 
-        threshold: 1.0 
-      }
-    )
+    // FUNGSI UNTUK OBSERVE ULANG
+    const observeHeadings = (items: TOCItem[]) => {
+      if (observer) observer.disconnect()
+      
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveId(entry.target.id)
+            }
+          })
+        },
+        { rootMargin: "0% 0% -65% 0%", threshold: 1.0 }
+      )
 
-    elements.forEach((heading) => {
-      const el = document.getElementById(heading.id)
-      if (el) observer.observe(el)
+      items.forEach((heading) => {
+        const el = document.getElementById(heading.id)
+        if (el) observer.observe(el)
+      })
+    }
+
+    // Jalankan observasi pertama
+    observeHeadings(currentHeadings)
+
+    // REAKTIF LOGIC: Pantau perubahan DOM (nambah section/reveal baru muncul)
+    const mutationObserver = new MutationObserver(() => {
+      const newHeadings = getHeadings()
+      // Hanya re-observe kalau jumlah heading berubah atau teks berubah
+      observeHeadings(newHeadings)
     })
 
-    return () => observer.disconnect()
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    })
+
+    return () => {
+      if (observer) observer.disconnect()
+      mutationObserver.disconnect()
+    }
   }, [])
 
-  // Fungsi untuk Smooth Scroll saat klik
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault()
     const element = document.getElementById(id)
     if (element) {
-      const offset = 80 // Sesuaikan dengan tinggi header/navbar-mu jika ada
+      const offset = 80
       const bodyRect = document.body.getBoundingClientRect().top
       const elementRect = element.getBoundingClientRect().top
       const elementPosition = elementRect - bodyRect
@@ -71,7 +97,6 @@ export default function TableOfContents({ title, className }: TOCProps) {
         behavior: "smooth"
       })
       
-      // Update URL hash manual tanpa lompat (optional)
       window.history.pushState(null, "", `#${id}`)
     }
   }
@@ -82,12 +107,9 @@ export default function TableOfContents({ title, className }: TOCProps) {
     <nav className={clsx("flex flex-col max-h-[calc(100%-120px)] w-50 sticky top-20", className)}>
       <MiracleReveal animation="fade-left">
         <p className="mb-2 text-sm font-semibold uppercase text-primary">
-          {title || locale === "id" ? "Daftar isi" : "On this page"}
+          {title || (locale === "id" ? "Daftar isi" : "On this page")}
         </p>
-        <ul 
-          ref={navRef}
-          className="overflow-y-auto no-scrollbar"
-        >
+        <ul ref={navRef} className="overflow-y-auto no-scrollbar">
           {headings.map((heading) => {
             const isActive = activeId === heading.id
             const indentation = (heading.level - 1) * 1
