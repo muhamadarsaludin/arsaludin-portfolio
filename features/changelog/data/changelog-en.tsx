@@ -22,7 +22,7 @@ export const CHANGELOG_EN = [
 * [Home](/) page as the main entry point, providing a concise overview of profile, selected projects, and key information.  
 * [Projects](/projects) page to showcase and explore my work, with search and filter capabilities.  
 * [Achievements](/achievements) page to display my accomplishments, with search, filter, and modal-based detail views.  
-* [Articles](/articles) page to share my writings and insights, with search and filter features (currently using dummy data for development purposes)..  
+* [Articles](/articles) page to share my writings and insights, with search and filter features (currently using **!dummy data** for development purposes)..  
 * [Forum](/forum) page as a chat-based discussion space for sharing ideas and communicating with others.  
 * [Roadmap](/roadmap) page as a kanban board to track development progress and collect bug reports, feature requests, improvements, and changes.  
 * [Changelog](/changelog) page to document all updates, fixes, and new features across versions.  

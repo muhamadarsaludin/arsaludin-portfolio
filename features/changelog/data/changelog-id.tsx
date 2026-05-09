@@ -23,7 +23,7 @@ export const CHANGELOG_ID = [
 * Halaman [Beranda](/) sebagai titik masuk utama, yang menyajikan ringkasan profil, proyek pilihan, dan informasi penting secara singkat.
 * Halaman [Proyek](/projects) untuk menampilkan dan menjelajahi karya yang telah saya buat, dilengkapi dengan fitur pencarian dan filter.
 * Halaman [Pencapaian](/achievements) untuk menampilkan pencapaian saya, dilengkapi dengan fitur pencarian dan filter, serta detail yang dapat diakses melalui modal.
-* Halaman [Artikel](/articles) untuk membagikan tulisan dan insight saya, dilengkapi dengan fitur pencarian dan filter (saat ini masih menggunakan data dummy untuk keperluan pengembangan).
+* Halaman [Artikel](/articles) untuk membagikan tulisan dan insight saya, dilengkapi dengan fitur pencarian dan filter (saat ini masih menggunakan **!data dummy** untuk keperluan pengembangan).
 * Halaman [Forum](/forum) sebagai ruang diskusi interaktif berbasis chat untuk berbagi ide dan berkomunikasi secara langsung dengan pengguna lain.
 * Halaman [Roadmap](/roadmap) sebagai ruang kolaboratif berbasis kanban board untuk menampilkan progres pengembangan, serta mengumpulkan feedback, laporan bug, dan ide fitur dari pengguna.
 * Halaman [Changelog](/changelog) untuk mencatat seluruh pembaruan, perbaikan, dan penambahan fitur pada setiap versi.
