@@ -27,7 +27,10 @@ export function ProjectList({ locale }: { locale: string }) {
             default: "zoom-in",
             sm: "fade-up"
           }} 
-          delay={(index % 6) * 0.1}
+          delay={{
+            default: 0,
+            sm:(index % 6) * 0.1
+          }}
           className="w-[75vw] sm:w-auto shrink-0 snap-start" 
           key={project.id}>
           <ProjectCard project={project} className="w-full h-full" />
