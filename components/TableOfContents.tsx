@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react"
 import { Link } from "@/i18n/navigation"
 import clsx from "clsx"
 import { useLocale } from "next-intl"
+import { MiracleReveal } from "./miracle/Reveal"
 
 type TOCItem = {
   id: string
@@ -79,40 +80,42 @@ export default function TableOfContents({ title, className }: TOCProps) {
 
   return (
     <nav className={clsx("flex flex-col max-h-[calc(100%-120px)] w-50 sticky top-20", className)}>
-      <p className="mb-2 text-sm font-semibold uppercase text-primary">
-        {title || locale === "id" ? "Daftar isi" : "On this page"}
-      </p>
-      <ul 
-        ref={navRef}
-        className="overflow-y-auto no-scrollbar"
-      >
-        {headings.map((heading) => {
-          const isActive = activeId === heading.id
-          const indentation = (heading.level - 1) * 1
-          
-          return (
-            <li
-              key={heading.id}
-              data-active={isActive}
-              className={clsx("group list-none")}
-              style={{ paddingLeft: `${indentation}rem` }}
-            >
-              <Link
-                href={`#${heading.id}`}
-                onClick={(e) => handleClick(e, heading.id)}
-                className={clsx(
-                  "block border-l-2 py-1.5 pl-3 text-sm transition-all duration-300",
-                  isActive
-                    ? "border-blue font-medium text-blue"
-                    : "border-transparent text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 hover:dark:text-neutral-50 hover:font-medium"
-                )}
+      <MiracleReveal animation="fade-left">
+        <p className="mb-2 text-sm font-semibold uppercase text-primary">
+          {title || locale === "id" ? "Daftar isi" : "On this page"}
+        </p>
+        <ul 
+          ref={navRef}
+          className="overflow-y-auto no-scrollbar"
+        >
+          {headings.map((heading) => {
+            const isActive = activeId === heading.id
+            const indentation = (heading.level - 1) * 1
+            
+            return (
+              <li
+                key={heading.id}
+                data-active={isActive}
+                className={clsx("group list-none")}
+                style={{ paddingLeft: `${indentation}rem` }}
               >
-                {heading.text}
-              </Link>
-            </li>
-          )
-        })}
-      </ul>
+                <Link
+                  href={`#${heading.id}`}
+                  onClick={(e) => handleClick(e, heading.id)}
+                  className={clsx(
+                    "block border-l-2 py-1.5 pl-3 text-sm transition-all duration-300",
+                    isActive
+                      ? "border-blue font-medium text-blue"
+                      : "border-transparent text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 hover:dark:text-neutral-50 hover:font-medium"
+                  )}
+                >
+                  {heading.text}
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      </MiracleReveal>
     </nav>
   )
 }
