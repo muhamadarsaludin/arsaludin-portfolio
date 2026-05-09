@@ -57,7 +57,10 @@ export default function FeaturedArticlesContent({ locale }: FeaturedArticleConte
                     default: "zoom-in",
                     lg: "fade-up"
                   }}
-                  delay={(index % 6) * 0.1}
+                  delay={{
+                    default: 0,
+                    lg:(index % 6) * 0.1,
+                  }}
                   className="w-[75vw] md:w-full md:max-w-87.5 lg:max-w-full lg:h-full snap-start shrink-0 overflow-hidden">
                   <ArticleCardFeatured 
                     article={article} 

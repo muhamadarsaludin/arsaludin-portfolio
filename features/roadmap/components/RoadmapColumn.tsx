@@ -128,7 +128,7 @@ export default function RoadmapColumn({ status, filters, className, columnDelay 
         ) : (
           <>
             {allCards.map((card,index) => (
-              <MiracleReveal key={card.id} animation="fade-up" delay={(columnDelay + 0.2) + (index % 6) * 0.1}>
+              <MiracleReveal key={card.id} animation="fade-up" delay={(columnDelay + 0.1) + (index % 6) * 0.1}>
                 <CardItem 
                   card={card} 
                   onUpdate={handleOpenForm}

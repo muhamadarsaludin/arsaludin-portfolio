@@ -123,7 +123,10 @@ export default function AchievementsContent({
         {achievements.map((achievement, index) => (
           <MiracleReveal 
             animation="fade-up"
-            delay={(index % 6) * 0.1}
+            delay={{
+              default: 0,
+              sm:(index % 6) * 0.1,
+            }}
             key={achievement.id}>
             <AchievementCard achievement={achievement} className="h-full w-full" />
           </MiracleReveal>
