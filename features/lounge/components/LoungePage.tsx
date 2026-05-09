@@ -10,6 +10,7 @@ import { MessageType } from '@/features/messages/types/messages.types'
 import { MESSAGES_PAGE_SIZE } from '@/features/messages/constants/messages.constants'
 import { getPaginatedMessages } from '@/features/messages/services/messages'
 import LoungeContent from './LoungeContent'
+import { MiracleReveal } from '@/components/miracle/Reveal'
 
 type LoungePageProps = {
   params: Promise<{ locale: string }>;
@@ -42,25 +43,29 @@ export default async function LoungePage({params}: LoungePageProps) {
   return (
     <Container>
       <Article className="pb-13 lg:pb-23">
-        <MiracleBreadcrumbs 
-          locales={routing.locales}
-          overrides={{
-            home: t("breadcrumbs.home"),
-            lounge: t("breadcrumbs.lounge")
-          }}
-          className="mb-5 md:mb-6"
-        />
-        <div className="mb-6 md:mb-8 w-full">
-          <Heading 
-            id={t("title")}
-            level={1}
-            className="font-semibold">
-              {t("title")}
-          </Heading>
-          <p className="mt-4 text-secondary">{t("description")}</p>
-        </div>
+        <MiracleReveal animation="fade-right">
+          <MiracleBreadcrumbs 
+            locales={routing.locales}
+            overrides={{
+              home: t("breadcrumbs.home"),
+              lounge: t("breadcrumbs.lounge")
+            }}
+            className="mb-5 md:mb-6"
+          />
+          <div className="mb-6 md:mb-8 w-full">
+            <Heading 
+              id={t("title")}
+              level={1}
+              className="font-semibold">
+                {t("title")}
+            </Heading>
+            <p className="mt-4 text-secondary">{t("description")}</p>
+          </div>
+        </MiracleReveal>
         <HydrationBoundary state={dehydratedState}>
-          <LoungeContent messageType={messageType} pageSize={MESSAGES_PAGE_SIZE} />
+          <MiracleReveal animation="zoom-in">
+            <LoungeContent messageType={messageType} pageSize={MESSAGES_PAGE_SIZE} />
+          </MiracleReveal>
         </HydrationBoundary>
       </Article>
     </Container>

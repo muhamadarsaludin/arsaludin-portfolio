@@ -15,6 +15,7 @@ import MessageBubble from "@/features/messages/components/MessageBubble"
 import MessageInput from "@/features/messages/components/MessageInput"
 import MessageBubbleSkeleton from "@/features/messages/components/MessageBubbleSkeleton"
 import clsx from "clsx"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type LoungeContentProps = {
   messageType: MessageType
@@ -130,13 +131,14 @@ export default function LoungeContent({
             ) : messages.length > 0 ? (
               <>
                 {messages.map((message) => (
-                  <MessageBubble 
-                    key={message.id}
-                    messageType={messageType}
-                    pageSize={pageSize}
-                    message={message}
-                    onReply={setRepliedMessage}
-                  />
+                  <MiracleReveal key={message.id} animation="zoom-in">
+                    <MessageBubble 
+                      messageType={messageType}
+                      pageSize={pageSize}
+                      message={message}
+                      onReply={setRepliedMessage}
+                    />
+                  </MiracleReveal>
                 ))}
 
                 {isFetchingNextPage && (
