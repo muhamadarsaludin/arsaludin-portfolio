@@ -185,7 +185,7 @@ export default function RoadmapContent({ kanbanStatuses }: RoadmapContentProps) 
         {kanbanStatuses.map((status, index) => (
           <MiracleReveal 
             key={status}
-            animation="zoom-in"
+            animation="fade-up"
             delay={(index % 6) * 0.1}
             className="w-[75vw] sm:flex-1 sm:min-w-[320px] shrink-0 snap-start"
             >
