@@ -261,3 +261,47 @@ export async function getPaginatedProjects({
     hasMore,
   }
 }
+
+type GetProjectParams = {
+  slug?: string;
+  id?: string;
+  locale: string;
+};
+
+export async function getProject({
+  slug,
+  id,
+  locale,
+}: GetProjectParams): Promise<Project | null> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000";
+
+  // Inisialisasi query
+  let query = supabase
+    .from("projects")
+    .select<string, ProjectRawResponse>(getColumns())
+    .eq("project_translations.i18n.locale", locale)
+    .eq("reactions.user_id", userId)
+    .eq("project_skills.is_show", true)
+    .eq("project_categories.is_show", true)
+    .eq("project_categories.categories.is_show", true);
+
+  // Filter berdasarkan ID atau Slug
+  if (id) {
+    query = query.eq("id", id);
+  } else if (slug) {
+    query = query.eq("slug", slug);
+  } else {
+    return null;
+  }
+
+  const { data, error } = await query.single();
+
+  if (error) {
+    console.error(`[getProject] Error fetching project:`, error)
+    throw error
+  }
+
+  return data ? mapToProject(data) : null;
+}

@@ -365,6 +365,14 @@
         "reset": "Reset all filters"
       }
     },
+    "project-detail": {
+      "title": "Project Detail",
+      "description": "A technical deep-dive into the development process, architectural decisions, and challenges overcome.",
+      "breadcrumbs": {
+        "home": "Home",
+        "projects": "Projects"
+      }
+    },
     "achievements": {
       "title": "Achievements",
       "description": "A curated collection of certifications and awards that have shaped my path and expertise as a UX Engineer.",

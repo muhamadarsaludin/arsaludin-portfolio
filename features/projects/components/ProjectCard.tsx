@@ -12,21 +12,25 @@ import { useTranslations } from "next-intl"
 
 export default function ProjectCard({ project, className }: { project: Project, className?: string}) {
   const t = useTranslations("components.projectCard")
+
   return (
     <div
       className={clsx(
-        "relative flex flex-col border-primary rounded-2xl border",
+        "relative flex flex-col border-primary rounded-2xl border bg-card transition-all hover:shadow-md",
         className
       )}
     >
-      {/* Stretched Link for entire card */}
+      {/* STRETCHED LINK 
+          z-10 memastikan link ini berada di atas elemen gambar (z-auto) 
+          sehingga area gambar menjadi "clickable".
+      */}
       <Link
         href={`/projects/${project.slug}`}
-        className="absolute inset-0 rounded-2xl z-0"
-        aria-label={t("ariaLabel", {project: project.name})}
+        className="absolute inset-0 rounded-2xl z-10"
+        aria-label={t("ariaLabel", { project: project.name })}
       />
 
-      {/* Image */}
+      {/* Image Section */}
       <div className="relative flex aspect-4/3 w-full rounded-t-2xl overflow-hidden">
         {project.thumbnail ? (
           <Image
@@ -34,25 +38,31 @@ export default function ProjectCard({ project, className }: { project: Project, 
             src={project.thumbnail}
             alt={project.name}
             fill
-            sizes="450px"
+            sizes="(max-width: 768px) 100vw, 450px"
           />
         ) : (
-          <MiracleSkeleton className="h-full w-full rounded-none!" variant="med"/>
+          <MiracleSkeleton className="h-full w-full rounded-none!" variant="med" />
         )}
       </div>
-      {/* Body */}
+
+      {/* Body Section */}
       <div className="flex flex-1 flex-col p-5 md:p-6">
         <h3 className="text-primary mb-1 text-lg font-semibold md:text-xl xl:text-2xl">
           {project.name}
         </h3>
-        <p className="text-secondary mb-6 text-sm leading-relaxed">{project.description}</p>
-        <SkillBadges skills={project.skills} className="mb-auto relative z-2" />
+        <p className="text-secondary mb-6 text-sm leading-relaxed">
+          {project.description}
+        </p>
+
+        <SkillBadges skills={project.skills} className="relative z-20 mb-auto" />
       </div>
 
-      {/* Footer */}
+      {/* Footer Section */}
       <div
-        className="bg-secondary border-primary flex items-center justify-between rounded-b-2xl border-t px-5 py-3 md:px-6 relative z-1"
-        onClick={(e) => e.stopPropagation()}
+        className="bg-secondary border-primary relative z-20 flex items-center justify-between rounded-b-2xl border-t px-5 py-3 md:px-6"
+        onClick={(e) => {
+          e.stopPropagation()
+        }}
       >
         <ReactionGroup
           targetId={project.id}

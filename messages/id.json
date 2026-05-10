@@ -365,6 +365,14 @@
         "reset": "Reset semua filter"
       }
     },
+    "project-detail": {
+      "title": "Detail Proyek",
+      "description": "Pembahasan teknis mendalam mengenai proses pengembangan, keputusan arsitektur, dan tantangan yang berhasil diatasi.",
+      "breadcrumbs": {
+        "home": "Beranda",
+        "projects": "Proyek"
+      }
+    },
     "achievements": {
       "title": "Pencapaian",
       "description": "Koleksi sertifikasi dan penghargaan yang telah membentuk langkah dan keahlian saya sebagai UX Engineer.",
