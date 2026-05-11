@@ -256,11 +256,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
             </MiracleReveal>
           </div>
 
-
-          {/* Render MDX Content jika ada, jika tidak biarkan kosong */}
-          <div className="mt-4">
-            {Content && <Content />}
-          </div>
+          {Content && <Content />}
         </Article>
 
         <aside className="hidden lg:block sticky top-30 w-64 shrink-0">
