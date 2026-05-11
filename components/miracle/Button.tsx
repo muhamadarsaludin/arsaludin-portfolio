@@ -3,6 +3,7 @@
 import clsx from "clsx"
 import MiracleLoader from "@/components/miracle/Loader"
 import React from "react"
+import Link from "next/link"
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: React.ReactNode
@@ -15,6 +16,8 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   loading?: boolean
   disabled?: boolean
   isSquare?: boolean
+  href?: string
+  target?: string
 }
 
 export default function MiracleButton({
@@ -29,25 +32,20 @@ export default function MiracleButton({
   loading = false,
   disabled = false,
   isSquare = false,
+  href,
+  target,
   ...props
 }: ButtonProps) {
   const isDisabled = disabled || loading
 
   const baseStyles =
-    "flex items-center justify-center gap-1 font-medium transition-all duration-300 ease-in-out cursor-pointer rounded-md"
+    "flex items-center justify-center gap-1 font-medium transition-all duration-300 ease-in-out cursor-pointer rounded-md inline-flex"
 
   const sizeStyles = {
     xs: isSquare ? "p-1 h-6 w-6 text-[10px]" : "text-[10px] px-2 py-1 gap-1 rounded-sm",
     sm: isSquare ? "p-1.5 h-8 w-8 text-xs" : "text-xs px-2.5 py-1.5 gap-1",
     md: isSquare ? "p-2 h-10 w-10 text-sm" : "text-sm px-4 py-2 gap-1.5",
     lg: isSquare ? "p-3 h-12 w-12 text-base" : "text-base px-6 py-3 gap-2",
-  }
-
-  const loaderSizes = {
-    xs: 12,
-    sm: 14,
-    md: 18,
-    lg: 22,
   }
 
   const variantStyles = {
@@ -74,34 +72,51 @@ export default function MiracleButton({
     },
   }
 
-  const disabledStyles = "opacity-50 cursor-not-allowed pointer-events-none grayscale"
-  const widthClass = fullWidth && !isSquare ? "w-full" : ""
+  const styles = clsx(
+    baseStyles,
+    sizeStyles[size],
+    variantStyles[variant][status],
+    !isDisabled && hoverStyles[variant][status],
+    isDisabled && "opacity-50 grayscale cursor-not-allowed!",
+    fullWidth && !isSquare ? "w-full" : "",
+    className
+  )
 
-  return (
-    <button
-      disabled={isDisabled}
-      className={clsx(
-        baseStyles,
-        sizeStyles[size],
-        variantStyles[variant][status],
-        !isDisabled && hoverStyles[variant][status],
-        isDisabled && disabledStyles,
-        widthClass,
-        className
-      )}
-      {...props}
-    >
+  const content = (
+    <>
       {loading ? (
-        <MiracleLoader size={loaderSizes[size]} />
+        <MiracleLoader size={18} />
       ) : (
         <>
           {startIcon && <span className="flex shrink-0 items-center">{startIcon}</span>}
-
           {children && <span>{children}</span>}
-
           {endIcon && <span className="flex shrink-0 items-center">{endIcon}</span>}
         </>
       )}
+    </>
+  )
+
+  if (href) {
+    const isExternal = href.startsWith("http")
+    
+    if (isExternal) {
+      return (
+        <a href={href} target={target || "_blank"} rel="noopener noreferrer" className={styles}>
+          {content}
+        </a>
+      )
+    }
+
+    return (
+      <Link href={href} className={styles}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <button disabled={isDisabled} className={styles} {...props}>
+      {content}
     </button>
   )
 }

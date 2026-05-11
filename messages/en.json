@@ -368,9 +368,21 @@
     "project-detail": {
       "title": "Project Detail",
       "description": "A technical deep-dive into the development process, architectural decisions, and challenges overcome.",
+      "featured": "Featured",
+      "read": "read",
+      "views": "{count, plural, =1 {view} other {views}}",
+      "live-demo": "Live Demo",
+      "source-code": "Source Code",
+      "share": "Share Project",
       "breadcrumbs": {
         "home": "Home",
         "projects": "Projects"
+      },
+      "label": {
+        "author": "Author",
+        "date": "Created At",
+        "categories": "Categories",
+        "tech-stack": "Tech Stack"
       }
     },
     "achievements": {

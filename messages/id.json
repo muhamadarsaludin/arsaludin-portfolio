@@ -368,9 +368,20 @@
     "project-detail": {
       "title": "Detail Proyek",
       "description": "Pembahasan teknis mendalam mengenai proses pengembangan, keputusan arsitektur, dan tantangan yang berhasil diatasi.",
+      "featured": "Unggulan",
+      "read": "baca",
+      "views": "tayangan",
+      "live-demo": "Pratinjau Langsung",
+      "source-code": "Kode Sumber",
       "breadcrumbs": {
         "home": "Beranda",
         "projects": "Proyek"
+      },
+      "label": {
+        "author": "Penulis",
+        "date": "Tanggal Dibuat",
+        "categories": "Kategori",
+        "tech-stack": "Teknologi"
       }
     },
     "achievements": {

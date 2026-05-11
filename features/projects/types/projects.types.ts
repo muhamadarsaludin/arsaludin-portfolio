@@ -1,4 +1,5 @@
 import { Category } from "@/features/categories/types/categories.types"
+import { Profile } from "@/features/profile/types/profiles.types"
 import type { ReactionSummary } from "@/features/reactions/types/reactions.types"
 import { Cursor } from "@/features/shared/types/index.types"
 import type { Skill } from "@/features/skills/types/skills.types"
@@ -15,6 +16,7 @@ export type ProjectEntity = {
   is_show: boolean
   is_featured: boolean
   order_index: number
+  view_count: number
   user_id: string
   created_at: string
   updated_at: string
@@ -42,9 +44,10 @@ export type ProjectTranslationEntity = {
  */
 export type Project = Pick<
   ProjectEntity,
-  "id" | "slug" | "thumbnail" | "url" | "github_url" | "is_show" | "is_featured" | "order_index" | "created_at"> 
+  "id" | "slug" | "thumbnail" | "url" | "github_url" | "is_show" | "is_featured" | "order_index" | "view_count" | "created_at"> 
   & Pick<ProjectTranslationEntity, "name" | "description" | "content" | "additional_info" | "additional_info_label" > 
   & {
+    author: Profile
     skills: Skill[]
     categories: Category[]
     comment_count: number

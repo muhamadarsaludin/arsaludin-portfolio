@@ -11,6 +11,7 @@ export type BadgeProps = React.HTMLAttributes<HTMLSpanElement> & {
   color?: BadgeColor
   variant?: BadgeVariant
   size?: BadgeSize
+  pill?: boolean
 }
 
 export default function MiracleBadge({
@@ -21,10 +22,11 @@ export default function MiracleBadge({
   color = "default",
   variant = "primary",
   size = "md",
+  pill = false,
   ...props
 }: BadgeProps) {
   
-  const baseStyles = "inline-flex items-center gap-1.5 rounded-md font-medium transition-colors"
+  const baseStyles = clsx("inline-flex items-center gap-1.5 font-medium transition-colors", pill ? "rounded-full" : "rounded-md")
 
   const sizeStyles: Record<BadgeSize, string> = {
     sm: "px-2 py-0.5 text-[10px]",

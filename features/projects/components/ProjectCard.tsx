@@ -50,7 +50,7 @@ export default function ProjectCard({ project, className }: { project: Project, 
         <h3 className="text-primary mb-1 text-lg font-semibold md:text-xl xl:text-2xl">
           {project.name}
         </h3>
-        <p className="text-secondary mb-6 text-sm leading-relaxed">
+        <p className="text-secondary mb-6 text-sm line-clamp-3">
           {project.description}
         </p>
 

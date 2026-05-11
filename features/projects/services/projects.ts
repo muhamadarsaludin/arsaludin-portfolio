@@ -7,16 +7,18 @@ import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.ty
 import { Category } from "@/features/categories/types/categories.types"
 import { Cursor } from "@/features/shared/types/index.types"
 import { PROJECTS_PAGE_SIZE } from "../constants/projects.constans"
+import { Profile } from "@/features/profile/types/profiles.types"
 
 type ProjectRawResponse = Pick<
   ProjectEntity, 
-  "id" | "slug" | "thumbnail" | "url" | "github_url" | "is_show" | "is_featured" | "order_index" | "created_at"
+  "id" | "slug" | "thumbnail" | "url" | "github_url" | "is_show" | "is_featured" | "order_index" | "view_count" | "created_at"
 > & {
   translations: (Pick<
     ProjectTranslationEntity, "name" | "description" | "content" | "additional_info" | "additional_info_label"
   > & {
     i18n: { locale: string }
   })[]
+  author: Profile
   skills: {
     is_show: boolean
     order_index: number
@@ -45,6 +47,7 @@ const getColumns = (isFilteringCategory: boolean = false) => `
   is_show,
   is_featured,
   order_index,
+  view_count,
   created_at,
   translations:project_translations!inner (
     name,
@@ -55,6 +58,13 @@ const getColumns = (isFilteringCategory: boolean = false) => `
     i18n!inner (
       locale
     )
+  ),
+  author:user_id (
+    id, 
+    email, 
+    full_name, 
+    role, 
+    avatar_url
   ),
   skills:project_skills (
     is_show,
@@ -114,6 +124,7 @@ const mapToProject = (project: ProjectRawResponse): Project => {
     content: t?.content ?? null,
     additional_info: t?.additional_info ?? null,
     additional_info_label: t?.additional_info_label ?? null,
+    author: project.author,
     skills,
     categories,
     comment_count: commentCount,
