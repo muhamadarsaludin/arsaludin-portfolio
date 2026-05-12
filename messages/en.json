@@ -67,7 +67,8 @@
         "signIn": "Sign In",
         "signOut": "Sign Out",
         "resume": "Download Resume",
-        "deleteAccount": "Delete Account"
+        "deleteAccount": "Delete Account",
+        "privacy-policy": "Read Privacy Policy"
       },
       "toggle": {
         "ariaLabel": {
@@ -82,7 +83,9 @@
         "confirmTitle": "Are you absolutely sure?",
         "confirmDescription": "This action will permanently delete your account and all associated data. You cannot undo this action.",
         "confirmAction": "Yes, Delete My Account",
-        "cancelAction": "Maybe Later"
+        "cancelAction": "Maybe Later",
+        "privacy-policy": "Data Deletion Policy",
+        "privacy-policy-hash": "#data-deletion"
       }
     },
     "footer": {

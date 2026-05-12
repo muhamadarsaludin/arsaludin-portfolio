@@ -63,12 +63,23 @@ export const GEAR_AND_SETUP_DATA_EN: GearAndSetupGroup[] = [
         name: "PX UCH70",
         description: "A versatile connectivity hub that transforms a single port into a complete professional workstation. Its 7-in-1 integration and robust build quality make it a reliable bridge for all my peripherals, ensuring a seamless and productive workflow whether I’m working from home or on the go.",
         type: "Hub",
-        link: "https://px.id/products/px-uch70-multport-adapter-hub-7-in-1",
+        link: "https://www.blibli.com/p/hub-converter-type-c-3-1-laptop-macbook-to-hdmi-type-c-7-in-1-px-uch70/ps--FAS-20335-00339?ds=FAS-20335-00339-00001&source=SEARCH&sid=1bb89a9e84bd6d7b&cnc=false&pickupPointCode=FAS-20335-001&pid1=FAS-20335-00339",
         specs: [
           { name: "Output", value: "HDMI 4K @30Hz" },
           { name: "USB-C", value: "1x PD 100W & 1x Data" },
           { name: "USB Port", value: "2x USB 3.0 (5Gbps)" },
           { name: "Storage", value: "SD & MicroSD Slot" }
+        ]
+      },
+      {
+        name: "Rodenstock & Bossini",
+        description: "High-quality eyewear designed to protect vision during long engineering sessions. I use Rodenstock lenses for superior clarity and blue light protection, paired with a lightweight Bossini frame.",
+        type: "Eyewear",
+        link: "https://www.optikmelawai.com/product-knowledge/rodenstock-lenses-id",
+        specs: [
+          {name: "Lens", value: "Rodenstock"},
+          {name: "Frame", value: "Bossini"},
+          {name: "Feature", value: "Blue Light Protection"}
         ]
       },
       {
@@ -84,14 +95,15 @@ export const GEAR_AND_SETUP_DATA_EN: GearAndSetupGroup[] = [
         ]
       },
       {
-        name: "Rodenstock & Bossini",
-        description: "High-quality eyewear designed to protect vision during long engineering sessions. I use Rodenstock lenses for superior clarity and blue light protection, paired with a lightweight Bossini frame.",
-        type: "Eyewear",
-        link: "https://www.optikmelawai.com/product-knowledge/rodenstock-lenses-id",
+        name: "Eiger Lorenzt 25",
+        description: "A durable and ergonomic backpack designed to keep my essentials secure during daily urban commutes. Its weather-resistant material and streamlined silhouette make it a reliable companion for navigating the city or short weekend trips without compromising on comfort or style.",
+        type: "Backpack",
+        link: "https://www.eigeradventure.com/d/lorenzt-25-1-0",
         specs: [
-          {name: "Lens", value: "Rodenstock"},
-          {name: "Frame", value: "Bossini"},
-          {name: "Feature", value: "Blue Light Protection"}
+          { name: "Capacity", value: "25L" },
+          { name: "Material", value: "Polyester 600D" },
+          { name: "Laptop", value: "Up to 14 inch" },
+          { name: "Feature", value: "Water Repellent" }
         ]
       }
     ]
@@ -295,6 +307,17 @@ export const GEAR_AND_SETUP_DATA_ID: GearAndSetupGroup[] = [
         ]
       },
       {
+        name: "Rodenstock & Bossini",
+        description: "Kacamata berkualitas tinggi yang dirancang untuk menjaga penglihatan selama sesi engineering yang lama. Saya menggunakan lensa Rodenstock untuk kejelasan visual dan perlindungan cahaya biru, dipadukan dengan bingkai Bossini bermaterial Titanium untuk kenyamanan maksimal.",
+        type: "Kacamata",
+        link: "https://www.optikmelawai.com/product-knowledge/rodenstock-lenses-id",
+        specs: [
+          {name: "Lensa", value: "Rodenstock"},
+          {name: "Bingkai", value: "Bossini"},
+          {name: "Fitur", value: "Perlindungan Cahaya Biru"}
+        ]
+      },
+      {
         name: "Casio MTP-V002D-2B3",
         description: "Penunjuk waktu analog yang klasik dan andal, dirancang untuk penggunaan harian jangka panjang. Estetika profesional dan material stainless steel-nya menjadikannya pendamping sempurna untuk manajemen waktu yang konsisten.",
         type: "Jam Tangan",
@@ -308,14 +331,15 @@ export const GEAR_AND_SETUP_DATA_ID: GearAndSetupGroup[] = [
         ]
       },
       {
-        name: "Rodenstock & Bossini",
-        description: "Kacamata berkualitas tinggi yang dirancang untuk menjaga penglihatan selama sesi engineering yang lama. Saya menggunakan lensa Rodenstock untuk kejelasan visual dan perlindungan cahaya biru, dipadukan dengan bingkai Bossini bermaterial Titanium untuk kenyamanan maksimal.",
-        type: "Kacamata",
-        link: "https://www.optikmelawai.com/product-knowledge/rodenstock-lenses-id",
+        name: "Eiger Lorenzt 25",
+        description: "Ransel ergonomis dan tangguh yang menjaga perlengkapan tetap aman selama mobilitas harian di perkotaan. Material tahan cuaca dan siluetnya yang minimalis menjadikannya teman andalan untuk menjelajahi kota atau perjalanan singkat tanpa mengorbankan kenyamanan maupun gaya.",
+        type: "Backpack",
+        link: "https://www.eigeradventure.com/d/lorenzt-25-1-0",
         specs: [
-          {name: "Lensa", value: "Rodenstock"},
-          {name: "Bingkai", value: "Bossini"},
-          {name: "Fitur", value: "Perlindungan Cahaya Biru"}
+          { name: "Kapasitas", value: "25L" },
+          { name: "Material", value: "Polyester 600D" },
+          { name: "Laptop", value: "Hingga 14 inci" },
+          { name: "Fitur", value: "Water Repellent" }
         ]
       }
     ]

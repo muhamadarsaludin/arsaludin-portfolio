@@ -12,8 +12,7 @@ export default function SignInButton() {
   return (
     <MiracleButton 
       variant="secondary"
-      onClick={handleSignIn}
-      startIcon={<SiGoogle />}>
+      onClick={handleSignIn}>
       {t("cta.signIn")}
     </MiracleButton>
   )

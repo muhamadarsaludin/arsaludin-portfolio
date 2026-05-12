@@ -2,7 +2,7 @@
 
 import MiracleTooltip from "../miracle/Tooltip"
 import { deleteAccount, signOut } from "@/features/auth/services/auth"
-import { LuLogOut, LuTriangleAlert, LuUserRound, LuUserRoundX } from "react-icons/lu"
+import { LuCircleAlert, LuLogOut, LuTriangleAlert, LuUserRound, LuUserRoundX } from "react-icons/lu"
 import { useTranslations } from "next-intl"
 import { useAuth } from "@/providers/AuthProvider"
 import MiracleBadge from "../miracle/Badge"
@@ -11,6 +11,7 @@ import { useState } from "react"
 import UserAvatar from "@/features/auth/components/UserAvatar"
 import MiracleModal from "../miracle/Modal"
 import { useQueryClient } from "@tanstack/react-query"
+import { Link } from "@/i18n/navigation"
 
 export default function HeaderAvatar() {
   const queryClient = useQueryClient()
@@ -65,6 +66,10 @@ export default function HeaderAvatar() {
           <MiracleButton onClick={()=> setIsOpen(true)} startIcon={<LuUserRoundX />} status="danger" size="sm">
             {t("cta.deleteAccount")}
           </MiracleButton>
+          <Link href="/privacy-policy" className="flex gap-1 items-center text-blue-inv hover:underline font-medium w-full justify-center p-1 text-xs">
+            {t("cta.privacy-policy")}
+            <LuCircleAlert />
+          </Link>
         </div>
       </MiracleTooltip>
       
@@ -103,6 +108,10 @@ export default function HeaderAvatar() {
             >
               {t("deleteAccount.cancelAction")}
             </MiracleButton>
+            <Link onClick={()=> setIsOpen(false)} href={`/privacy-policy${t("deleteAccount.privacy-policy-hash")}`} className="flex gap-1 items-center text-blue hover:underline font-medium w-full justify-center p-1 text-sm">
+              {t("deleteAccount.privacy-policy")}
+              <LuCircleAlert />
+            </Link>
           </div>
         </div>
       </MiracleModal>

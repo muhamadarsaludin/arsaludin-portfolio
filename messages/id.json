@@ -67,7 +67,8 @@
         "signIn": "Masuk",
         "signOut": "Keluar",
         "resume": "Unduh Resume",
-        "deleteAccount": "Hapus Akun"
+        "deleteAccount": "Hapus Akun",
+        "privacy-policy": "Baca Kebijakan Privasi"
       },
       "toggle": {
         "ariaLabel": {
@@ -82,7 +83,9 @@
         "confirmTitle": "Apakah Anda benar-benar yakin?",
         "confirmDescription": "Tindakan ini akan menghapus akun Anda dan semua data terkait secara permanen. Tindakan ini tidak dapat dibatalkan.",
         "confirmAction": "Ya, Hapus Akun Saya",
-        "cancelAction": "Mungkin Nanti"
+        "cancelAction": "Mungkin Nanti",
+        "privacy-policy": "Kebijakan Penghapusan Data",
+        "privacy-policy-hash": "#penghapusan-data"
       }
     },
     "footer": {

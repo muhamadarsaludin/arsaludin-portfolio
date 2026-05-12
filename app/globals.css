@@ -123,6 +123,10 @@ body {
   @apply text-red-600 dark:text-red-400;
 }
 
+.text-blue-inv {
+  @apply text-blue-400 dark:text-blue-600;
+}
+
 /* Border */
 .border-primary {
   @apply border-gray-950/10 dark:border-white/10;
