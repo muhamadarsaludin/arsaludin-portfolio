@@ -60,6 +60,18 @@ export const GEAR_AND_SETUP_DATA_EN: GearAndSetupGroup[] = [
         ]
       },
       {
+        name: "PX UCH70",
+        description: "A versatile connectivity hub that transforms a single port into a complete professional workstation. Its 7-in-1 integration and robust build quality make it a reliable bridge for all my peripherals, ensuring a seamless and productive workflow whether I’m working from home or on the go.",
+        type: "Hub",
+        link: "https://px.id/products/px-uch70-multport-adapter-hub-7-in-1",
+        specs: [
+          { name: "Output", value: "HDMI 4K @30Hz" },
+          { name: "USB-C", value: "1x PD 100W & 1x Data" },
+          { name: "USB Port", value: "2x USB 3.0 (5Gbps)" },
+          { name: "Storage", value: "SD & MicroSD Slot" }
+        ]
+      },
+      {
         name: "Casio MTP-V002D-2B3",
         description: "A classic and reliable analog timepiece designed for long-term daily use. Its professional aesthetic and stainless steel build make it a perfect companion for consistent time management.",
         type: "Watch",
@@ -268,6 +280,18 @@ export const GEAR_AND_SETUP_DATA_ID: GearAndSetupGroup[] = [
           {name: "Kapasitas", value: "10000mAh"},
           {name: "Output", value: "22.5W"},
           {name: "Warna", value: "Hitam"}
+        ]
+      },
+      {
+        name: "PX UCH70",
+        description: "Solusi konektivitas ringkas yang mengubah satu port menjadi ruang kerja profesional yang lengkap. Integrasi 7-in-1 dan kualitas materialnya yang tangguh menjadikannya penghubung andalan untuk semua perangkat tambahan, memastikan alur kerja yang lancar dan produktif baik saat bekerja di rumah maupun saat bepergian.",
+        type: "Hub",
+        link: "https://px.id/products/px-uch70-multport-adapter-hub-7-in-1",
+        specs: [
+          { name: "Output", value: "HDMI 4K @30Hz" },
+          { name: "USB-C", value: "1x PD 100W & 1x Data" },
+          { name: "Port USB", value: "2x USB 3.0 (5Gbps)" },
+          { name: "Penyimpanan", value: "Slot SD & MicroSD" }
         ]
       },
       {

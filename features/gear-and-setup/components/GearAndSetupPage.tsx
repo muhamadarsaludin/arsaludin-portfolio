@@ -9,6 +9,7 @@ import { getTranslations } from 'next-intl/server';
 import { GEAR_AND_SETUP_DATA_EN, GEAR_AND_SETUP_DATA_ID } from '../data/gear-and-setup';
 import GearAndSetupCard from './GearAndSetupCard';
 import { MiracleReveal } from '@/components/miracle/Reveal';
+import Image from 'next/image';
 
 type GearAndSetupPageProps = {
   params: Promise<{ locale: string }>;
@@ -42,10 +43,14 @@ export default async function GearAndSetupPage({ params }: GearAndSetupPageProps
           </header>
         </MiracleReveal>
         <MiracleReveal animation="zoom-in">
-          <div className="w-full aspect-16/6 bg-secondary border border-primary rounded-2xl mt-6 md:mt-8">
-            <div className="flex items-center justify-center h-full">
-              <span className="text-sm font-medium text-secondary italic opacity-50">Setup Image Placeholder</span>
-            </div>
+          <div className="w-full aspect-video bg-secondary border border-primary rounded-2xl overflow-hidden mt-6 md:mt-8 relative">
+            <Image
+              src="/gear-and-setup/gear-and-setup.webp"
+              alt="My Gear and Setup"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 1200px"
+              />
           </div>
         </MiracleReveal>
 
