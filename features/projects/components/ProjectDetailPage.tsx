@@ -45,13 +45,15 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
 
   if (!project) notFound()
 
-  const { error: viewError } = await supabase.rpc('increment_view', { 
-    project_id: project.id 
-  });
+  if (process.env.NODE_ENV === 'production') {
+    const { error: viewError } = await supabase.rpc('increment_view', { 
+      project_id: project.id 
+    });
 
-  if (viewError) {
-    console.error("Error increment view:", viewError.message);
-  } 
+    if (viewError) {
+      console.error("Error incrementing view:", viewError.message);
+    }
+  }
 
   /**
    * Reading Time Calculation
@@ -59,7 +61,9 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
    */
   let rawContent = `${project.name} ${project.description}`;
   try {
-    const mdxDir = path.join(process.cwd(), 'src/app/[locale]/projects/markdown');
+    // Direct path from the project root to the markdown folder
+    const mdxDir = path.join(process.cwd(), 'features', 'projects', 'markdown');
+    
     const targetPath = path.join(mdxDir, `${slug}-${locale}.mdx`);
     const fallbackPath = path.join(mdxDir, `${slug}-en.mdx`);
 
@@ -67,12 +71,13 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
       rawContent += " " + fs.readFileSync(targetPath, 'utf8');
     } else if (locale !== 'en' && fs.existsSync(fallbackPath)) {
       rawContent += " " + fs.readFileSync(fallbackPath, 'utf8');
+    } else {
+      console.log("❌ MDX file not found.");
     }
   } catch (err) {
-    console.error("Gagal mengambil teks MDX:", err);
+    console.error("Failed to fetch MDX content:", err);
   }
-
-  // Hitung menit (angka)
+  
   const stats = getMdxReadingTime(rawContent);
   const displayReadingTime = formatReadingTime(stats.minutes, locale);
 
@@ -126,7 +131,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
 
             {/* Card Meta Data */}
             <MiracleReveal animation="fade-up" delay={0.1}>
-              <div className="bg-primary border border-primary md:-mt-40 relative z-1 md:mx-6 lg:mx-8 rounded-2xl">
+              <div className="bg-primary border border-primary md:-mt-40 lg:-mt-60 relative z-1 md:mx-6 lg:mx-8 rounded-2xl">
                 {project.thumbnail && (
                   <div className="w-full block md:hidden aspect-video relative rounded-t-2xl overflow-hidden shadow-sm">
                     <Image

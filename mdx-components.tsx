@@ -83,6 +83,17 @@ export const mdxComponents = {
     }
     return <Link href={href || "#"} className={styles} {...props} />
   },
+
+  // 7. Quotes
+  blockquote: (props: any) => (
+    <blockquote 
+      className={clsx(
+        "mt-6 border-l-2 border-blue",
+        "pl-4 italic text-primary!"
+      )} 
+      {...props} 
+    />
+  ),
 }
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
