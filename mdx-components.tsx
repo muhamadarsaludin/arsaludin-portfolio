@@ -5,9 +5,13 @@ import Heading from './components/Heading'
 import remarkGfm from 'remark-gfm'
 import rehypePrettyCode from 'rehype-pretty-code'
 import MiracleBadge from './components/miracle/Badge'
+import Image from 'next/image'
+import MiracleImagePreview from './components/miracle/ImagePreview'
 
 export const mdxComponents = {
   MiracleBadge,
+  Image,
+  MiracleImagePreview,
   // 1. Headings
   Heading,
   h1: (props: any) => <Heading level={1} className="text-primary" {...props} />,
