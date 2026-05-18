@@ -247,7 +247,8 @@
             "min": "Title must be at least 5 characters",
             "max": "Title is too long"
           }
-        }
+        },
+        "alert": "Only Administrators can change the status."
       }
     },
     "serviceCard": {

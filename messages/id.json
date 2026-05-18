@@ -207,7 +207,7 @@
           "detail": {
             "title": "Detail Kartu",
             "label": {
-              "priorities": "Priority",
+              "priorities": "Prioritas",
               "status": "Status",
               "types": "Jenis",
               "author": "Penulis",
@@ -247,7 +247,8 @@
             "min": "Judul minimal harus 5 karakter",
             "max": "Judul terlalu panjang"
           }
-        }
+        },
+        "alert": "Hanya Admin yang dapat mengubah status."
       }
     },
     "serviceCard": {

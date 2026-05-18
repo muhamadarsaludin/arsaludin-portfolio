@@ -15,6 +15,9 @@ import { useCardsMutation } from '@/features/cards/hooks/useCardMutation'
 import { useAuth } from '@/providers/AuthProvider'
 import clsx from 'clsx'
 import { CARD_PRIORITIES, CARD_STATUS, CARD_TYPES } from '../constants/card.constants'
+import MiracleBadge from '@/components/miracle/Badge'
+import { LuTriangleAlert } from 'react-icons/lu'
+import MiracleBanner from '@/components/miracle/Banner'
 
 type CardFormModalProps = {
   isOpen: boolean
@@ -148,7 +151,7 @@ export default function CardFormModal({
           )}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 gap-8">
           {/* Type Selection */}
           <div className="flex flex-col gap-3">
             {/* Style label disamakan dengan TextField */}
@@ -205,20 +208,18 @@ export default function CardFormModal({
 
         {/* Status Selection - Proteksi Admin */}
         <div className={clsx("flex flex-col gap-3 pt-6 border-t border-primary")}>
-          <div className="flex items-center justify-between">
-            <p className={clsx(
-              "text-sm font-medium select-none",
-              !isAdmin ? "text-secondary" : "text-primary"
-            )}>
-              Status
-              <span className="text-red ml-1">*</span>
-            </p>
-            {!isAdmin && (
-              <span className="text-[10px] text-secondary italic px-2 py-0.5 rounded border border-primary bg-secondary/30">
-                Admin Only
-              </span>
-            )}
-          </div>
+          {!isAdmin && (
+            <MiracleBanner color="yellow" variant="secondary" startIcon={<LuTriangleAlert />}>
+              {t("alert")}
+            </MiracleBanner>
+          )}
+          <p className={clsx(
+            "text-sm font-medium select-none",
+            !isAdmin ? "text-secondary" : "text-primary"
+          )}>
+            Status
+            <span className="text-red ml-1">*</span>
+          </p>
           <Controller
             name="status"
             control={control}
