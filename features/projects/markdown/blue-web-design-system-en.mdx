@@ -1,15 +1,95 @@
 ## Background
 
+This project was driven by the momentum of **Blibli's rebranding** on October 5, 2023, which brought many changes, as well as a comprehensive transformation of the company's visual identity and digital ecosystem. This change also prompted the need to update the **BLUE Web Design System** to align with the rebranding and the spirit of Blibli's new identity.
+
+At the same time, the **Vue 2** framework announced that December 31, 2023, would mark its *End of Life (EOL)*, meaning it would no longer receive feature updates, security patches, or bug fixes. This condition served as a crucial warning because the **BLUE Web Design System (BLUE 2.0)** codebase still relied on Vue 2 and posed potential technical and maintainability risks in the long run if maintained.
+
+In addition, in the previous version (**BLUE 2.0**), there was a difference in the design language between the customer and seller ecosystems. This condition triggered a strategic need to unify both ecosystems into a single centralized source through **BLUE 3.0**, making component management more efficient while ensuring a more consistent user experience across all Blibli services.
+
+Seeing these conditions, the **BLUE UX Engineer** team decided to make a major update to the <strong className="text-primary font-semibold">BLUE Web Design System</strong> from version **BLUE 2.0** to version **BLUE 3.0**. This strategic decision was taken to build a more adaptive component architecture to support the massive transition of the new visual identity, while simultaneously migrating to **Vue 3** to maintain security, stability, and optimal application performance at the production level without sacrificing the compatibility of existing systems.
+
 ## Problem Identification
 
-## Goals & Objectives
+Based on this background, there were several main challenges, including:
 
-## Role & Responsibilities
+* <strong className="text-primary font-semibold">Changes in Blibli's visual identity and digital ecosystem</strong> demanded an update of all web design system elements to align with the rebranding and the spirit of Blibli's new identity.
+* The reliance of the BLUE 2.0 codebase on the Vue 2 framework posed technical and security risks after the framework officially reached its *End of Life (EOL)*.
+* Differences in design language between the customer and seller ecosystems in the previous version (BLUE 2.0) made design system management less efficient and hindered user experience consistency across all Blibli services.
+* The migration process to Vue 3 and the unification of the design system ecosystems had the potential to cause *breaking changes* if not balanced with a mature code compatibility management strategy.
 
-## Process & Execution
+## Goals and Objectives
+
+The main goal of this project was to develop the Vue 3-based **BLUE Web Design System (BLUE 3.0)** to support the momentum of Blibli's rebranding while providing a more modern, consistent, and scalable design system foundation for the entire Blibli web ecosystem.
+
+To achieve this goal, several main objectives were established as follows:
+
+* Aligning the design system with Blibli's new visual identity post-rebranding.
+* Migrating from Vue 2 to Vue 3 to improve system stability, security, and sustainability.
+* Unifying the customer and seller ecosystems into a single centralized design system.
+* Providing a safe and gradual transition process for projects that have not yet migrated to Vue 3 so they can still adopt the visual direction of BLUE 3.0 without disrupting the stability of ongoing systems.
+
+## Roles and Responsibilities
+
+In this project, I acted as part of the **UX Engineer** team collaborating directly with designers, with responsibilities including:
+
+* Developing BLUE Web Design System (BLUE 3.0) components as the main foundation of the new Vue 3-based design system with a more modern, scalable, and consistent architecture.
+* Structuring the foundation of Design Tokens in BLUE 3.0 such as colors, typography, sizing, opacity, and elevation as the main standard of the design system, while ensuring architectural readiness for long-term development needs such as dark mode and design system scalability.
+* Developing and standardizing the Icon Library as part of the BLUE 3.0 ecosystem to ensure consistency of icon usage across all Blibli web products.
+* Adapting and updating the visual components in BLUE 2.5 to ensure alignment with the design direction of BLUE 3.0, so it remains compatible for use in Vue 2-based projects during the transition period.
+* Ensuring the quality and consistency of the design system through technical documentation, code reviews, testing, and regular evaluations.
+
+## Process and Execution
+
+The development of this project began with a discussion and alignment process attended by all stakeholders consisting of the UX Engineer and Designer teams to formulate the direction of the new design system development post-Blibli's rebranding. In this phase, we evaluated the previous design system structure, identified the needs for migrating to Vue 3, and formulated an implementation strategy so that the migration process could run more safely while maintaining compatibility with existing projects.
+
+Once the development direction was agreed upon, the execution process was carried out in parallel, covering the development of design tokens, icon library, component library, and adjustments to the previous design system as an effort to maintain backward compatibility.
+
+The development and implementation process carried out included the following:
+
+* Developing design tokens in BLUE 3.0 by converting JSON files from the Figma plugin [Token Studio](https://www.figma.com/community/plugin/843461159747178978) into SCSS format using the [Style Dictionary](https://styledictionary.com/) library.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-web-design-system/design-tokens.webp", alt: "Converting design tokens from JSON to SCSS format using Style Dictionary"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Converting design tokens from JSON to SCSS format using Style Dictionary.</p>
+  </div>
+</div>
+* Developing the icon library by converting SVG files from designers into Vue components, making them more flexible to use and facilitating color and styling adjustments.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-web-design-system/icon-library.webp", alt: "Converting SVG files into Vue components in the BLUE icon library"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Converting SVG files into Vue components in the BLUE icon library.</p>
+  </div>
+</div>
+* Developing the component library as the main part of the Vue 3-based BLUE Web Design System (BLUE 3.0) to support UI implementation consistency across various projects and Blibli's digital ecosystem.
+* Making adjustments to the old design system (BLUE 2.0) by aligning component visuals to match BLUE 3.0, then rebranding it as BLUE 2.5 to maintain backward compatibility with ongoing projects.
+* Conducting an initial implementation through pilot projects on several projects as a validation and adoption testing phase before the design system was applied to the larger ecosystem.
+
+The entire development process also went through regular code review and QA stages to ensure the quality, consistency, and stability of the components before they were widely used.
 
 ## Results
 
+The development of the [BLUE Web Design System (BLUE 3.0)](https://blue.blibli.com/blue3/) successfully supported Blibli's rebranding process through an updated design system that is more modern, consistent, and scalable for various projects in Blibli's digital ecosystem.
+
+The achievements resulting from this development include the following:
+
+* Successfully developed the main foundation of the Vue 3-based BLUE Web Design System (BLUE 3.0) through the development of integrated [design tokens](https://blue.blibli.com/blue3/foundation/tokens/guidelines), an [icon library](https://blue.blibli.com/blue3/components/icon/icon-library), and a [component library](https://blue.blibli.com/blue3/components) to support UI implementation consistency across various projects.
+* Successfully adjusted and rebranded BLUE 2.0 to BLUE 2.5 as a migration bridge to help maintain compatibility for projects that had not yet migrated to Vue 3.
+* Successfully validated the implementation through pilot projects as an early adoption phase before the design system was applied more broadly across Blibli's digital ecosystem.
+
 ## Impact
 
-## Lessons Learned
+### Impact on the Company
+* Helped support Blibli's rebranding process through the implementation of a more modern and consistent design system.
+* Improved design system management and user experience consistency across all Blibli services through the use of a centralized design system that unified the customer and seller ecosystems.
+* Helped the migration process to Vue 3 run more safely through the backward compatibility approach in BLUE 2.5.
+
+### Personal Impact
+* Deepened my experience in developing and managing large-scale, Vue 3-based design systems.
+* Improved my skills in building integrated design tokens, icon libraries, and component libraries.
+* Enhanced my understanding of designing backward compatibility strategies to maintain migration stability and cross-system compatibility.
