@@ -1,8 +1,8 @@
 ## Background
 
-As a **UX Engineer**, we are embedded directly within the **design team** structure to collaborate closely with designers every day. This proximity previously succeeded in birthing the mature and widely adopted [BLUE Web Design System](/projects/blue-web-design-system) across all *tribes*, even achieving a score of <strong className="text-primary font-semibold">8.48</strong> in reducing redundancy and <strong className="text-primary font-semibold">8.42</strong> in accelerating delivery based on the mid-2024 survey.
+As a **UX Engineer**, we are embedded directly within the **design team** structure to collaborate closely with designers every day. This proximity previously succeeded in birthing the mature and widely adopted [BLUE Web Design System](/projects/blue-web-design-system) across all tribes, even achieving a score of <strong className="text-primary font-semibold">8.48</strong> in reducing redundancy and <strong className="text-primary font-semibold">8.42</strong> in accelerating delivery based on the mid-2024 survey.
 
-However, the condition of the mobile design system is vastly different because its development was handled by developers outside the design team structure, who were more focused on feature development. As a result, <strong className="text-primary font-semibold">the mobile design system lagged behind the web</strong> and was still using the old standard (**BLUE 2.0**), with inconsistent design languages between the *Customer* and *Seller* ecosystems. In fact, over 85% of Blibli users access the application via mobile devices.
+However, the condition of the mobile design system is vastly different because its development was handled by developers outside the design team structure, who were more focused on feature development. As a result, <strong className="text-primary font-semibold">the mobile design system lagged behind the web</strong> and was still using the old standard (**BLUE 2.0**), with inconsistent design languages between the Customer and Seller ecosystems. In fact, over 85% of Blibli users access the application via mobile devices.
 
 Based on these conditions, we initiated the development of the <strong className="text-primary font-semibold">BLUE Android Design System</strong> to align the visual and technical standards across the entire Blibli application ecosystem through collaboration between UX Engineers, designers, and Android developers.
 
@@ -23,17 +23,17 @@ To achieve this goal, several key objectives were established as follows:
 
 * <strong className="text-primary font-semibold">Equalize the quality of the mobile design system with the web</strong> by strengthening cross-role collaboration (UX Engineer, designer, and Android developer).
 * Unify the Customer and Seller ecosystems into the **BLUE 3.0** standard to replace the old standard (**BLUE 2.0**).
-* Build a centralized design system as a *Single Source of Truth* (SSOT) to reduce redundancy and fragmentation in the maintenance process.
+* Build a centralized design system as a Single Source of Truth (SSOT) to reduce redundancy and fragmentation in the maintenance process.
 * Align the design language across platforms to ensure a consistent user experience throughout the Blibli application ecosystem.
 
 ## Roles and Responsibilities
 
 In this project, I acted as part of the **UX Engineer** team, collaborating directly with designers and Android developers, with responsibilities including:
 
-* Developing *reusable*, *scalable*, and consistently implemented BLUE Android components.
+* Developing reusable, scalable, and consistently implemented BLUE Android components.
 * Establishing the foundation of design tokens such as color, typography, sizing, opacity, and elevation to maintain visual consistency.
-* Developing an *icon library* to reduce asset redundancy and maintain visual consistency.
-* Ensuring the quality and consistency of the design system through technical documentation, *code reviews*, *testing*, and periodic evaluations.
+* Developing an icon library to reduce asset redundancy and maintain visual consistency.
+* Ensuring the quality and consistency of the design system through technical documentation, code reviews, testing, and periodic evaluations.
 * Supporting cross-platform design system synchronization to ensure a consistent user experience across the Blibli application ecosystem.
 
 ## Process and Execution
@@ -44,7 +44,7 @@ This project was executed through several main phases to ensure the design syste
 
 As a **UX Engineer** previously focused on web development, we were required to adapt to Android development through an exploratory and iterative approach.
 
-* Using the official [Android Developers](https://developer.android.com/courses) curriculum as the main foundation, covering Android View (XML), Jetpack Compose, and *interoperability*.
+* Using the official [Android Developers](https://developer.android.com/courses) curriculum as the main foundation, covering Android View (XML), Jetpack Compose, and interoperability.
 
 <div className="w-full flex items-center justify-center mt-4">
   <div className="w-full md:w-8/12">
@@ -57,16 +57,16 @@ As a **UX Engineer** previously focused on web development, we were required to 
 </div>
 
 * Supplementing understanding through external sources such as articles, YouTube videos, and courses on platforms like Udemy and Dicoding.
-* Studying Material Design to understand the component system, *theming*, and interaction patterns in the Android ecosystem.
-* Collaborating with Android Developers through internal sessions to align understanding of the *codebase* and technical implementation.
+* Studying Material Design to understand the component system, theming, and interaction patterns in the Android ecosystem.
+* Collaborating with Android Developers through internal sessions to align understanding of the codebase and technical implementation.
 
 ### 2. Project Kick-off and Alignment
 
-As the first step of the project, we held an inaugural meeting bringing together all key *stakeholders*, from PICs to managers from the UX Engineer, Designer, and Android Developer teams. This meeting served as a crucial starting point to align the intent, goals, and urgency of the BLUE Android Design System project so that all *stakeholders* shared the same understanding and vision.
+As the first step of the project, we held an inaugural meeting bringing together all key stakeholders, from PICs to managers from the UX Engineer, Designer, and Android Developer teams. This meeting served as a crucial starting point to align the intent, goals, and urgency of the BLUE Android Design System project so that all stakeholders shared the same understanding and vision.
 
 This discussion resulted in several key agreements:
 
-* Establishing project ownership as a **jointly owned project** with a ***centralized with contribution*** model, where the **UX Engineer** team acts as the primary manager, while Android Developers actively contribute to the implementation and development of the design system.
+* Establishing project ownership as a **jointly owned project** with a **centralized with contribution** model, where the **UX Engineer** team acts as the primary manager, while Android Developers actively contribute to the implementation and development of the design system.
 <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
   <div className="w-full">
     <MiracleImagePreview 
@@ -84,9 +84,9 @@ This discussion resulted in several key agreements:
   </div>
 </div>
 * Choosing **Jetpack Compose** as the main foundation for development because it supports modern approaches and interoperability with Android View (XML) to facilitate a gradual adoption process.
-* Migrating *design token scripts* and parts of the *component library* that were already based on BLUE 3.0 and built using Jetpack Compose to a new *repository* managed by the UX Engineer team.
-* The development process was conducted iteratively through several *sprints*, with a duration initially planned for every 2 weeks, then adjusted to 1 month to accommodate cross-team processes as well as the *code review* and *Design QA* cycles.
-* All development processes, both migration and the creation of new components or features, must go through a *code review* with approval from at least one representative from each team (UX Engineer, Android Dev CE, and Android Dev SE), and pass *Design QA* by designers before being implemented.
+* Migrating design token scripts and parts of the component library that were already based on BLUE 3.0 and built using Jetpack Compose to a new repository managed by the UX Engineer team.
+* The development process was conducted iteratively through several sprints, with a duration initially planned for every 2 weeks, then adjusted to 1 month to accommodate cross-team processes as well as the code review and Design QA cycles.
+* All development processes, both migration and the creation of new components or features, must go through a code review with approval from at least one representative from each team (UX Engineer, Android Dev CE, and Android Dev SE), and pass Design QA by designers before being implemented.
 <div className="w-full flex items-center justify-center mt-4">
   <div className="w-full md:w-6/12">
     <MiracleImagePreview 
@@ -99,22 +99,22 @@ This discussion resulted in several key agreements:
 
 ### 3. Development and Implementation
 
-The development and implementation of the BLUE Android Design System were carried out iteratively through several *sprints* with a collaborative and continuous approach. All processes ran in parallel and continued to evolve according to needs in each *sprint*.
+The development and implementation of the BLUE Android Design System were carried out iteratively through several sprints with a collaborative and continuous approach. All processes ran in parallel and continued to evolve according to needs in each sprint.
 
-* The initial phase focused on migrating the *design token script* and *component library* to a new *repository* as the main foundation of the design system.
+* The initial phase focused on migrating the design token script and component library to a new repository as the main foundation of the design system.
 * An audit was conducted on the migrated code and components to map their conformity with BLUE design system standards and identify areas that needed fixing or refinement.
-* Making *improvements* based on audit results through adjustments to token values and refining components both visually and in code.
-* Developing new components iteratively to complete the *library* needs, alongside the *bug fixing* process and standard adjustments.
-* The team also initiated an *icon library* as a new icon system on the Android platform to fulfill visual asset needs that were previously unavailable.
-* All development results must go through a cross-team *code review* process and *Design QA* before being implemented into production.
-* The team also built a CI/CD pipeline with the RnD team to automate the *build* process and distribution of the Android Design System *library*.
-* The *library release* process is carried out by the UX Engineer team through the CI/CD pipeline with artifact distribution to Google Artifact Registry (GAR), accompanied by *release notes* and *release announcements* to facilitate adoption by the developer team.
-* Implementation was carried out through *pilot projects* on several selected projects to validate the use of the design system in a real environment.
-* Each *sprint* concluded with a *retrospective* session to evaluate the workflow and improve the effectiveness of team collaboration.
+* Making improvements based on audit results through adjustments to token values and refining components both visually and in code.
+* Developing new components iteratively to complete the library needs, alongside the bug fixing process and standard adjustments.
+* The team also initiated an icon library as a new icon system on the Android platform to fulfill visual asset needs that were previously unavailable.
+* All development results must go through a cross-team code review process and Design QA before being implemented into production.
+* The team also built a CI/CD pipeline with the RnD team to automate the build process and distribution of the Android Design System library.
+* The library release process is carried out by the UX Engineer team through the CI/CD pipeline with artifact distribution to Google Artifact Registry (GAR), accompanied by release notes and release announcements to facilitate adoption by the developer team.
+* Implementation was carried out through pilot projects on several selected projects to validate the use of the design system in a real environment.
+* Each sprint concluded with a retrospective session to evaluate the workflow and improve the effectiveness of team collaboration.
 
 
 ## Results
-After approximately six months of development, the first version of the BLUE Android Design System was successfully released in July 2024. This release presented three main foundations consisting of the *Component Library*, *Design Tokens*, and *Icon Library* to support the standardization of Android development in a more consistent, modular, and centralized manner for all products within the Blibli application ecosystem.
+After approximately six months of development, the first version of the BLUE Android Design System was successfully released in July 2024. This release presented three main foundations consisting of the Component Library, Design Tokens, and Icon Library to support the standardization of Android development in a more consistent, modular, and centralized manner for all products within the Blibli application ecosystem.
 
 <div className="flex flex-col items-center">
   <div className="w-full aspect-12/4 bg-secondary border border-primary rounded-2xl overflow-hidden mt-6 relative">
@@ -129,7 +129,7 @@ After approximately six months of development, the first version of the BLUE And
 </div>
 
 ### Component Library
-The *Component Library* is the main foundation containing **over 30 ready-to-use UI components** based on Jetpack Compose. This *library* is also a significant step in Android UI modernization, aiming to reduce code redundancy and provide a centralized solution for all developers.
+The Component Library is the main foundation containing **over 30 ready-to-use UI components** based on Jetpack Compose. This library is also a significant step in Android UI modernization, aiming to reduce code redundancy and provide a centralized solution for all developers.
 <div className="w-full flex items-center justify-center mt-4">
   <div className="w-full md:w-3/12">
     <MiracleImagePreview 
@@ -141,14 +141,14 @@ The *Component Library* is the main foundation containing **over 30 ready-to-use
   </div>
 </div>
 
-For the full details of the component list, please refer to the [BLUE 3.0 documentation](https://blue.blibli.com/blue3/components). It should be noted that the components in this documentation are web-based, so implementation on Android has some adjustments due to differences in UI systems, *behaviors*, as well as the characteristics and limitations of each platform.
+For the full details of the component list, please refer to the [BLUE 3.0 documentation](https://blue.blibli.com/blue3/components). It should be noted that the components in this documentation are web-based, so implementation on Android has some adjustments due to differences in UI systems, behaviors, as well as the characteristics and limitations of each platform.
 
 ### Design Tokens
-*Design Tokens* act as a *single source of truth* for basic visual elements such as color, typography, sizing, spacing, and elevation. The token structure in BLUE Android adopts a tiered structure consisting of:
+Design Tokens act as a single source of truth for basic visual elements such as color, typography, sizing, spacing, and elevation. The token structure in BLUE Android adopts a tiered structure consisting of:
 
-* ***Global Tokens*** which serve to store base values (*raw values*) like primary colors and constant sizing numbers.
-* ***Alias Tokens*** which assign specific meanings or functions to global values, acting as the primary bridge for theming needs such as light mode and dark mode automatically.
-* ***Component Tokens*** which bind specific values directly to *component library* elements so that global changes do not break the structure of other components.
+* **Global Tokens** which serve to store base values (raw values) like primary colors and constant sizing numbers.
+* **Alias Tokens** which assign specific meanings or functions to global values, acting as the primary bridge for theming needs such as light mode and dark mode automatically.
+* **Component Tokens** which bind specific values directly to component library elements so that global changes do not break the structure of other components.
 
 <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
   <div className="w-full">
@@ -170,9 +170,9 @@ For the full details of the component list, please refer to the [BLUE 3.0 docume
 For more complete details regarding these governance guidelines, please refer to the official documentation in the [BLUE 3.0 Design Tokens Guidelines](https://blue.blibli.com/blue3/foundation/tokens/guidelines) and its mapping structure in [BLUE 3.0 Alias Tokens](https://blue.blibli.com/blue3/foundation/tokens/alias-tokens).
 
 ### Icon Library
-The *Icon Library* is a dedicated library that acts as the center for modular management of all icon assets on the Android platform. Through this initiation, the entire iconography system is distributed through a single gateway in the form of optimized Vector Drawables integrated directly into the Jetpack Compose code.
+The Icon Library is a dedicated library that acts as the center for modular management of all icon assets on the Android platform. Through this initiation, the entire iconography system is distributed through a single gateway in the form of optimized Vector Drawables integrated directly into the Jetpack Compose code.
 
-This system makes it easier for developers to use icons consistently, eliminates the manual import process of individual XML asset files that are prone to duplication, and significantly helps reduce the final size of the application installation file (*APK size optimization*).
+This system makes it easier for developers to use icons consistently, eliminates the manual import process of individual XML asset files that are prone to duplication, and significantly helps reduce the final size of the application installation file (APK size optimization).
 
 <div className="w-full flex items-center justify-center mt-4">
   <div className="w-full md:w-6/12">
@@ -193,20 +193,20 @@ The implementation and management of the BLUE Android Design System have a posit
 ### Impact on the Company
 
 * Visual and product interaction consistency improved through the standardization of the BLUE Android Design System.
-* Android feature *delivery* processes became faster by utilizing ready-to-use components from the centralized *library*.
-* Reduced asset duplication through the implementation of a centralized *icon library*, eliminating the need for additional scripts to detect asset duplication previously used by Android developers.
-* Supported the Blibli *rebranding* process on the Android platform through the implementation of a more consistent and standardized design system.
+* Android feature delivery processes became faster by utilizing ready-to-use components from the centralized library.
+* Reduced asset duplication through the implementation of a centralized icon library, eliminating the need for additional scripts to detect asset duplication previously used by Android developers.
+* Supported the Blibli rebranding process on the Android platform through the implementation of a more consistent and standardized design system.
 * Cross-team collaboration between UX Engineers, Android CEs, Android SEs, and Product Designers became more directed through standardized workflows.
 * Independent repository management under the UX Engineer team helped reduce cross-team dependencies and facilitated the maintenance of UI assets in the long term.
-* The library distribution process became more efficient through the implementation of CI/CD workflows and a standardized *release pipeline*.
+* The library distribution process became more efficient through the implementation of CI/CD workflows and a standardized release pipeline.
 
 ### Personal Impact
 
-* Enhanced technical understanding of implementing *design tokens* and *component libraries* based on Jetpack Compose on the Android platform.
+* Enhanced technical understanding of implementing design tokens and component libraries based on Jetpack Compose on the Android platform.
 * Honed skills in building and managing large-scale design systems from initiation to code quality standardization.
-* Strengthened experience in *technical governance* through cross-team *code review* processes and *Design QA* coordination.
+* Strengthened experience in technical governance through cross-team code review processes and Design QA coordination.
 * Sharpened analytical skills in conducting code audits and systematically refining components.
-* Provided new experience in managing *library release* processes, *CI/CD pipelines*, and distributing artifacts to the Google Artifact Registry (GAR).
+* Provided new experience in managing library release processes, CI/CD pipelines, and distributing artifacts to the Google Artifact Registry (GAR).
 
 ## Team and Appreciation
 
