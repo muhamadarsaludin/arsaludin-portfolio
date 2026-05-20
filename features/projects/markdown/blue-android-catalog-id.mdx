@@ -1,16 +1,100 @@
 ## Latar Belakang
+Setelah proses pengembangan [BLUE Android Design System](/projects/blue-android-design-system) selesai, tahap selanjutnya tim berfokus pada *maintenance*, pengembangan fitur, serta perbaikan bug secara berkelanjutan. Di saat yang sama, terdapat KPI internal untuk mengukur tingkat adopsi BLUE Android Design System di seluruh proyek Android.
+
+Dalam proses implementasinya, masih ditemukan tantangan dalam hal pemahaman dan adopsi komponen. Designer dan Android developer membutuhkan referensi yang lebih jelas mengenai bagaimana komponen digunakan dalam konteks nyata, baik dari sisi interaksi maupun implementasi, agar proses diskusi dan pengambilan keputusan desain dapat berjalan lebih efisien.
+
+Tanpa adanya media eksplorasi yang terstruktur, proses komunikasi antara designer dan developer sering memerlukan waktu lebih lama karena kurangnya acuan visual dan teknis yang dapat digunakan sebagai referensi bersama. Untuk menjawab kebutuhan tersebut, dibutuhkan sebuah solusi berupa **katalog interaktif** yang dapat menjembatani kedua peran dalam memahami BLUE Android Design System secara lebih praktis dan konsisten.
 
 ## Identifikasi Masalah
+Berdasarkan kondisi tersebut, terdapat beberapa permasalahan utama dalam proses adopsi BLUE Android Design System di antaranya:
+
+* Tingkat adopsi design system belum optimal, sehingga belum sepenuhnya mencapai KPI internal yang telah ditetapkan.
+* Developer membutuhkan referensi implementasi komponen yang lebih konkret dan mudah diakses tanpa harus mengacu pada dokumentasi yang tersebar di berbagai sumber atau proses eksplorasi manual.
+* Designer membutuhkan cara yang lebih cepat untuk memahami interaksi dan perilaku komponen secara langsung dalam bentuk yang lebih representatif dan mudah dieksplorasi.
+* Belum adanya satu media terpusat yang dapat digunakan sebagai referensi bersama untuk mengeksplorasi komponen, interaksi, dan implementasi design system secara konsisten.
 
 ## Tujuan & Sasaran
 
+Tujuan utama dari project ini adalah mengembangkan <strong className="text-primary font-semibold">BLUE Android Catalog</strong> sebagai media eksplorasi interaktif untuk meningkatkan adopsi BLUE Android Design System serta memperkuat pemahaman bersama antara designer dan developer.
+
+Untuk mencapai tujuan tersebut, ditetapkan beberapa sasaran utama sebagai berikut:
+
+* Meningkatkan tingkat adopsi BLUE Android Design System sesuai KPI internal yang telah ditetapkan.
+* Menyediakan referensi implementasi UI elements yang lebih mudah diakses dan mendekati *real usage* untuk membantu developer memahami penggunaan komponen secara lebih cepat dan akurat.
+* Menghadirkan media eksplorasi interaktif bagi designer dan developer untuk memahami perilaku, *state*, dan interaksi komponen secara langsung tanpa bergantung pada dokumentasi statis.
+
 ## Peran & Tanggung Jawab
 
+Dalam project ini, saya berperan sebagai UX Engineer sekaligus PIC (Person in Charge) yang bertanggung jawab atas pengembangan BLUE Android Catalog sebagai media eksplorasi design system.
+
+Adapun tanggung jawab yang dilakukan meliputi:
+
+* Mengembangkan BLUE Android Catalog sebagai aplikasi eksplorasi interaktif untuk memahami perilaku, *state*, dan interaksi pada komponen BLUE Android Design System.
+* Mengimplementasikan tampilan dan interaksi UI agar merepresentasikan perilaku komponen sesuai standar design system.
+* Menjadi PIC dalam project, termasuk mengoordinasikan kebutuhan, arah pengembangan, serta sinkronisasi dengan designer.
+* Berkolaborasi dengan designer dan Android developer untuk memastikan kesesuaian antara desain, perilaku, dan implementasi teknis.
+* Menyusun struktur katalog agar komponen, dokumentasi, dan contoh penggunaan dapat dieksplorasi dengan mudah oleh designer maupun developer.
+* Memastikan kualitas implementasi melalui code review, QA, serta iterasi berdasarkan feedback dari tim.
+
 ## Proses & Eksekusi
+Pengembangan BLUE Android Catalog dilakukan melalui beberapa tahap mulai dari perancangan struktur hingga distribusi aplikasi agar dapat digunakan sebagai media eksplorasi interaktif bagi designer dan Android developer.
+
+Adapun proses pengembangan dan eksekusi yang dilakukan meliputi:
+
+* Melakukan diskusi bersama designer untuk membahas desain, information architecture, dan user flow aplikasi.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-android-catalog/android-catalog-design.webp", alt: "Desain Aplikasi BLUE Android Catalog"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Desain Aplikasi BLUE Android Catalog</p>
+  </div>
+</div>
+
+* Mengembangkan seluruh halaman pada aplikasi BLUE Android Catalog, termasuk halaman komponen dan detail komponen untuk menampilkan daftar komponen, contoh penggunaan, dan *complex interaction cases* pada UI elements.
+* Menyusun dan mengimplementasikan contoh penggunaan serta case komponen yang mendekati real usage untuk menggambarkan perilaku, state, dan interaksi secara lebih nyata.
+* Melakukan code review dan QA design bersama designer untuk memastikan kesesuaian implementasi dengan desain yang telah ditentukan.
+* Menyiapkan proses build, CI/CD, dan distribusi aplikasi melalui jalur internal agar dapat diakses dengan mudah oleh user.
 
 ## Hasil
+Project ini berhasil menghasilkan <strong className="text-primary font-semibold">BLUE Android Catalog</strong>, sebuah aplikasi katalog interaktif untuk BLUE Android Design System yang dapat digunakan oleh designer dan Android developer sebagai media referensi implementasi komponen dan interaksi UI secara lebih mudah dan terstruktur.
+
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-3/12">
+    <video 
+      src="/projects/blue-android-catalog/android-catalog.mp4"
+      autoPlay 
+      loop 
+      muted 
+      playsInline
+      aria-label="Pratinjau Aplikasi BLUE Android Catalog"
+      className="w-full object-cover"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Pratinjau Aplikasi BLUE Android Catalog</p>
+  </div>
+</div>
+
+Aplikasi ini menyediakan beberapa halaman dan fitur utama yang meliputi:
+* Halaman beranda sebagai akses utama untuk menjelajahi BLUE Android Catalog.
+* Halaman daftar komponen untuk menampilkan seluruh daftar komponen pada BLUE Android Design System.
+* Halaman detail komponen yang menampilkan contoh penggunaan dan *case* interaksi yang kompleks pada UI elements.
+* Halaman changelog untuk menampilkan informasi pembaruan dan pengembangan aplikasi.
+* Halaman support (FAQ) untuk membantu user memahami penggunaan aplikasi dan komponen.
+* Halaman component icon untuk menampilkan daftar icon library yang tersedia pada BLUE Android Design System.
+* Fitur pencarian komponen untuk mempermudah proses pencarian komponen dalam aplikasi.
+
+Selain aplikasi BLUE Android Catalog itu sendiri, project ini juga mencakup media distribusi APK sehingga aplikasi dapat diakses dan diunduh dengan mudah oleh user melalui [Dokumentasi BLUE - App Catalog Page](https://blue.blibli.com/blue3/resources/app-catalog) secara internal.
 
 ## Dampak
 
-## Pembelajaran
+### Dampak bagi Perusahaan
+* Membantu mempercepat proses pemahaman dan eksplorasi BLUE Android Design System bagi designer dan Android developer.
+* Mempermudah proses kolaborasi dan penyelarasan implementasi komponen antara designer dan Android developer.
+* Menyediakan media referensi terpusat untuk mendukung konsistensi penggunaan design system dalam pengembangan aplikasi Android.
 
+### Dampak bagi Pribadi
+* Meningkatkan pemahaman dalam pengembangan aplikasi Android, termasuk navigasi, manajemen data antar halaman, theming, dan splash screen melalui proses pengembangan aplikasi secara *end-to-end*.
+* Memperluas pengalaman dalam proses implementasi dan distribusi aplikasi Android, serta memahami alur kerja pengembangan android dari sisi engineering.
+* Memperdalam pemahaman mengenai developer experience dengan mencoba langsung penggunaan komponen yang dikembangkan dalam BLUE Android Design System.
+* Mengembangkan kemampuan ownership sebagai PIC dalam mengoordinasikan kebutuhan, menjaga keselarasan implementasi, serta memastikan kualitas hasil pengembangan.
