@@ -1,6 +1,6 @@
 ## Latar Belakang
 
-Setelah berhasil menyelesaikan pengembangan [BLUE Android Design System](/projects/blue-android-design-system) dan [BLUE Android katalog](/projects/blue-android-catalog), tantangan berikutnya adalah meningkatkan *adoption*-nya di berbagai aplikasi Android dalam ekosistem Blibli.
+Setelah berhasil menyelesaikan pengembangan [BLUE Android Design System](/projects/blue-android-design-system) dan [BLUE Android katalog](/projects/blue-android-catalog), tantangan berikutnya adalah meningkatkan adoption-nya di berbagai aplikasi Android dalam ekosistem Blibli.
 
 Meskipun fondasi design system telah tersedia dan dapat digunakan di berbagai proyek, implementasinya masih terbatas pada beberapa halaman non-prioritas atau fitur dengan tingkat risiko yang relatif rendah. Berdasarkan diskusi dengan tim Android Developer, proses adopsi pada halaman utama di berbagai aplikasi masih menghadapi beberapa kendala, seperti keterbatasan *bandwidth* pengembangan, kekhawatiran terhadap potensi bug maupun *regression*, serta besarnya usaha implementasi manual dari desain ke kode aplikasi.
 
@@ -11,35 +11,35 @@ Di sisi lain, tim UX Engineer sebelumnya telah mengembangkan UXE Codegen, sebuah
 Berdasarkan kondisi implementasi BLUE Android Design System yang berjalan, ditemukan beberapa permasalahan utama yang menghambat adopsi pada berbagai aplikasi:
 
 * Adopsi design system masih terbatas pada halaman atau fitur non-prioritas yang memiliki tingkat risiko rendah, sehingga belum digunakan secara konsisten di halaman utama aplikasi.
-* Proses implementasi UI dari desain ke kode masih dilakukan secara manual, sehingga membutuhkan *effort* yang cukup besar dari Android developer.
-* Keterbatasan *bandwidth* pengembangan membuat prioritas implementasi design system sering tidak berada di urutan utama dibandingkan kebutuhan pengembangan fitur lainnya.
+* Proses implementasi UI dari desain ke kode masih dilakukan secara manual, sehingga membutuhkan effort yang cukup besar dari Android developer.
+* Keterbatasan bandwidth pengembangan membuat prioritas implementasi design system sering tidak berada di urutan utama dibandingkan kebutuhan pengembangan fitur lainnya.
 * Kekhawatiran terhadap risiko bug dan *regression* membuat tim lebih berhati-hati dalam mengadopsi komponen design system pada area dengan dampak tinggi.
 * Belum adanya mekanisme yang dapat secara signifikan mempercepat konversi desain Figma menjadi kode Android yang siap digunakan, sekaligus memastikan kualitas kode tetap sesuai standar.
 
 ## Tujuan & Sasaran
 
-Tujuan utama dari pengembangan ini adalah mempercepat adopsi BLUE Android Design System melalui peningkatan efisiensi proses implementasi UI dari desain ke kode pada berbagai aplikasi Android dalam ekosistem Blibli.
+Tujuan utama dari pengembangan ini adalah mempercepat adopsi BLUE Android Design System melalui peningkatan efisiensi proses implementasi UI dari desain ke kode di berbagai project Android dalam ekosistem Blibli.
 
-Adapun sasaran yang ingin dicapai meliputi:
+Untuk mencapai tujuan tersebut, ditetapkan beberapa sasaran utama sebagai berikut:
 
 * Mempercepat proses konversi desain Figma menjadi kode UI Android yang siap pakai.
-* Mengurangi *effort* Android developer dalam implementasi design system.
+* Mengurangi effort Android developer dalam implementasi design system.
 * Meningkatkan konsistensi implementasi UI antara desain dan aplikasi.
 * Mendukung percepatan adopsi design system pada halaman utama di berbagai aplikasi.
-* Menyediakan mekanisme *design-to-code* melalui UXE Codegen untuk mendukung *workflow* designer dan engineer, termasuk peningkatan kualitas hasil kode melalui *AI-based code refinement*.
+* Menyediakan mekanisme *design-to-code* melalui UXE Codegen untuk mendukung workflow designer dan engineer, termasuk peningkatan kualitas hasil kode melalui *AI-based code refinement*.
 
 ## Peran & Tanggung Jawab
 
-Pada proyek ini, saya berperan sebagai UX Engineer yang berfokus pada pengembangan dan perluasan kapabilitas UXE Codegen untuk mendukung platform Android.
+Dalam project ini, saya berperan sebagai bagian dari tim UX Engineer sekaligus PIC (Person in Charge) teknis yang bertanggung jawab atas pengembangan dan perluasan kapabilitas UXE Codegen untuk mendukung platform Android.
 
 Adapun tanggung jawab yang dilakukan meliputi:
 
-* Menganalisis alur kerja *existing* pada UXE Codegen yang sebelumnya hanya mendukung platform web berbasis Vue.
+* Menganalisis alur kerja existing pada UXE Codegen yang sebelumnya hanya mendukung platform web berbasis Vue.
 * Mengembangkan kapabilitas baru pada UXE Codegen untuk mendukung proses *design-to-code* pada platform Android berbasis Jetpack Compose.
-* Mengintegrasikan AI (Gemini) sebagai tahap *post-processing* untuk merapikan hasil *generated code*, menghapus redundansi, serta memastikan penerapan *best practice* Jetpack Compose.
+* Mengintegrasikan AI (Gemini) sebagai tahap *post-processing* untuk merapikan hasil *generated code*, menghapus redundansi, serta memastikan penerapan best practice Jetpack Compose.
 * Mengembangkan UI dan alur kerja pada UXE Codegen untuk mendukung proses *design-to-code* dari Figma ke Jetpack Compose.
-* Memastikan kualitas implementasi melalui *code review*, QA, serta iterasi berdasarkan *feedback* dari tim.
-* Mendukung proses eksplorasi *proof of concept* (POC) dalam penggunaan UXE Codegen untuk mempercepat adopsi design system.
+* Memastikan kualitas implementasi melalui code review, QA, serta iterasi berdasarkan feedback dari tim.
+* Mendukung proses eksplorasi *proof of concept (POC)* dalam penggunaan UXE Codegen untuk mempercepat adopsi design system.
 
 ## Proses & Eksekusi
 
@@ -47,12 +47,12 @@ Pengembangan UXE Codegen untuk Android dilakukan secara iteratif dengan fokus pa
 
 Adapun tahapan eksekusi yang dilakukan meliputi:
 
-* Analisis alur kerja *existing* pada UXE Codegen yang sebelumnya hanya mendukung platform web berbasis Vue.
+* Analisis alur kerja existing pada UXE Codegen yang sebelumnya hanya mendukung platform web berbasis Vue.
 * Pemetaan Figma nodes ke struktur Abstract Syntax Tree (AST) untuk merepresentasikan komponen design system dan struktur layout Jetpack Compose.
-* Transformasi AST menjadi kode Jetpack Compose serta konversi Figma properties menjadi design tokens melalui proses *code generation*.
+* Transformasi AST menjadi kode Jetpack Compose serta konversi Figma properties menjadi design tokens melalui proses code generation.
 * Pengembangan antarmuka pada Figma plugin UXE Codegen untuk mendukung proses *design-to-code* dari Figma ke Jetpack Compose.
-* Integrasi AI (Gemini) sebagai tahap optimasi hasil *generated code* untuk mengurangi redundansi, merapikan struktur kode, dan memastikan penerapan *best practice* Jetpack Compose.
-* Melakukan *code review* dan QA untuk memastikan kesesuaian implementasi terhadap desain yang telah ditentukan.
+* Integrasi AI (Gemini) sebagai tahap optimasi hasil *generated code* untuk mengurangi redundansi, merapikan struktur kode, dan memastikan penerapan best practice Jetpack Compose.
+* Melakukan code review dan QA untuk memastikan kesesuaian implementasi terhadap desain yang telah ditentukan.
 * Melakukan iterasi terhadap hasil implementasi untuk meningkatkan akurasi dan kesiapan kode yang dihasilkan.
 
 ## Hasil
