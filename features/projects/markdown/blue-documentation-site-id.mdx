@@ -1,16 +1,189 @@
 ## Latar Belakang
 
+Design system yang ideal tidak hanya bergantung pada kekuatan fondasinya, melainkan juga pada kejelasan dokumentasinya agar mudah dipahami dan diimplementasikan. Oleh karena itu, sejak fase inisiasi [BLUE Web Design System](/projects/blue-web-design-system), pengembangan fondasi dasar seperti design token, component library, dan icon library juga diiringi dengan pengembangan dokumentasinya.
+
+Pada tahap awal, dokumentasi sengaja dirancang sederhana dan teknis karena lebih difokuskan sebagai **technical preview** untuk mendukung pengembangan dan pengujian fondasi design system. Kontennya baru mencakup daftar komponen dan detail komponen, termasuk spesifikasi API serta contoh penggunaan dasar. Namun, seiring meningkatnya kompleksitas kebutuhan di berbagai proyek, pendekatan ini mulai dirasa belum sepenuhnya efektif dalam mendukung eksplorasi, pemahaman, dan implementasi design system.
+
+Seiring itu, ekspektasi terhadap dokumentasi juga berkembang. Tidak lagi hanya sebagai technical preview seperti Storybook, tetapi sebagai sumber referensi utama lintas peran yang tidak hanya membahas komponen, melainkan juga mengakomodasi berbagai konten lainnya seperti guidelines, foundations, dan resources dalam satu dokumentasi yang utuh.
+
+Oleh karena itu, <strong className="text-primary font-semibold">BLUE Documentation Site</strong> dikembangkan sebagai platform dokumentasi terpusat yang menyatukan seluruh elemen tersebut dalam satu sistem yang lebih terstruktur, konsisten, dan mudah dieksplorasi. Dengan pendekatan ini, BLUE Documentation Site tidak hanya berfungsi sebagai alat bantu implementasi, tetapi juga menjadi representasi standar kualitas dan cara kerja design system di ekosistem Blibli.
+
 ## Identifikasi Masalah
+
+Berdasarkan latar belakang tersebut, beberapa permasalahan utama yang berhasil diidentifikasi adalah sebagai berikut:
+
+* Dokumentasi awal yang hanya berfungsi sebagai technical preview dan masih terlalu bersifat teknis sehingga belum mengakomodasi kebutuhan lintas peran di luar aspek teknis.
+* Pendekatan dokumentasi yang sederhana membuat informasi masih terbatas, hanya mencakup daftar komponen dan detail komoponen, termasuk spesifikasi API serta contoh penggunaan dasar, sehingga belum menggambarkan skenario implementasi atau penggunaan pada kasus yang kompleks.
+* Struktur dokumentasi lama dirasa belum sepenuhnya efektif dalam mendukung eksplorasi, pemahaman, dan implementasi design system.
+* Berkembangnya ekspektasi terhadap dokumentasi yang tidak lagi hanya sebagai technical preview tetapi bisa menjadi sumber referensi utama lintas peran yang mengakomodasi berbagai kontent dalam satu dokumentasi yang utuh.
 
 ## Tujuan & Sasaran
 
+Tujuan utama dari proyek ini adalah menghadirkan <strong className="text-primary font-semibold">BLUE Documentation Site</strong> sebagai platform dokumentasi terpusat yang menyatukan seluruh elemen design system dalam satu sistem yang konsisten, terstruktur, dan mudah dieksplorasi.
+
+Untuk mencapai tujuan tersebut, ditetapkan beberapa sasaran utama sebagai berikut:
+
+* Mentransformasi dokumentasi dari yang awalnya sekadar technical preview komponen menjadi platform referensi utama yang mengakomodasi kebutuhan lintas peran.
+* Menyediakan panduan yang lebih komprehensif dengan menyertakan guidelines, foundations, resources, serta contoh skenario penggunaan pada kasus nyata yang lebih kompleks.
+* Membangun satu pusat informasi terpadu yang mudah diakses guna meminimalisasi fragmentasi di seluruh elemen design system.
+* Merancang struktur situs yang adaptif agar mampu mengimbangi pertumbuhan serta peningkatan kompleksitas komponen pada BLUE Web Design System di masa mendatang.
+
 ## Peran & Tanggung Jawab
+Dalam project ini, saya berperan sebagai bagian dari tim UX Engineer sekaligus PIC (Person in Charge) teknis yang bertanggung jawab atas pengembangan BLUE Documentation Site.
+
+Adapun tanggung jawab yang dilakukan meliputi:
+
+* Berdiskusi dan Berkolaborasi dengan seluruh stakeholders untuk menyelaraskan kebutuhan bisnis dan teknis dalam pengembangan platform.
+* Merancang arsitektur frontend dan struktur codebase BLUE Documentation Site agar scalable dan mudah dikembangkan.
+* Mengembangkan antarmuka BLUE Documentation Site berdasarkan desain dari designer.
+* Mengembangkan komponen kustom, micro interaction, dan animation untuk mendukung pengalaman penggunaan serta kebutuhan dokumentasi.
+* Mengimplementasikan *authentication*, *authorization*, dan mekanisme *hybrid content access* pada BLUE Documentaion Site.
+* Mengembangkan CMS (Content Management System) untuk mendukung pengelolaan konten dokumentasi yang lebih fleksibel dan terpusat.
+* Menjaga kualitas implementasi melalui proses code review, testing, quality assurance (QA), dan iterasi berdasarkan umpan balik pengguna.
+* Mengelola proses build, release, deployment, dan dokumentasi pembaruan sistem (*release notes*) pada BLUE Documentation Site.
 
 ## Proses & Eksekusi
+Pengembangan BLUE Documentation Site dilakukan secara bertahap melalui dua pendekatan utama mengikuti kebutuhan design system dan kompleksitas dokumentasi yang terus berkembang.
+
+### 1. Pengembangan Dokumentasi Statis
+Pada tahap awal, BLUE Documentation Site dikembangkan menggunakan pendekatan statis, di mana seluruh kontent dokumentasi seperti komponen, guidelines, foundation dan resources disajikan langsung melalui struktur frontend tanpa integrasi database maupun CMS. Pendekatan ini dipilih untuk mempercepat proses pengembangan awal sekaligus memberikan fleksibilitas tinggi dalam mengeksplorasi struktur dokumentasi, pola navigasi, dan pengalaman penggunaan platform.
+
+Fase ini diawali dengan proses eksplorasi struktur dokumentasi dan penyusunan arsitektur informasi bersama designer dan stakeholder lintas fungsi untuk memastikan dokumentasi dapat mendukung kebutuhan implementasi design system secara lebih luas. Fokus utama pada tahap ini adalah membangun pengalaman dokumentasi yang tidak hanya relevan untuk developer, tetapi juga mudah dipahami dan digunakan oleh designer maupun tim produk sebagai referensi bersama.
+
+Setelah struktur dan kebutuhan dokumentasi mulai terbentuk, proses pengembangan dilanjutkan ke tahap implementasi dan pengembangan fitur dokumentasi. Beberapa proses utama yang dilakukan pada tahap ini meliputi:
+
+* Melakukan setup awal project serta merancang struktur folder dan arsitektur codebase yang scalable dan maintainable.
+* Mengembangkan berbagai komponen kustom untuk mendukung kebutuhan antarmuka dokumentasi dan *content presentation*.
+* Mengembangkan tampilan dan antarmuka BLUE Documentation Site berdasarkan desain dan kebutuhan dokumentasi yang telah dirancang.
+* Mengembangkan micro interaction dan animasi untuk meningkatkan pengalaman penggunaan saat mengeksplorasi dokumentasi.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <video 
+      src="/projects/blue-documentation-site/animation.mp4"
+      autoPlay 
+      loop 
+      muted 
+      playsInline
+      aria-label="Contoh animasi pada BLUE Documentation Site"
+      className="w-full object-cover rounded-2xl"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Contoh animasi pada BLUE Documentation Site</p>
+  </div>
+</div>
+* Mengimplementasikan sistem theming berbasis design token untuk mendukung light mode dan dark mode sekaligus merepresentasikan implementasi token secara langsung pada komponen dan antarmuka dokumentasi.
+<div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+  <div className="w-full">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/light.webp", alt: "Tampilan light mode pada BLUE Documentation Site"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Tampilan light mode pada BLUE Documentation Site</p>
+  </div>
+  <div className="w-full">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/dark.webp", alt: "Tampilan dark mode pada BLUE Documentation Site"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Tampilan dark mode pada BLUE Documentation Site</p>
+  </div>
+</div>
+* Mengimplementasikan sistem hybrid content access dengan pendekatan network-based authorization melalui jaringan internal dan VPN untuk membatasi akses pada halaman dan konten yang bersifat confidential tanpa proses login tambahan.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/hybrid-content-access.webp", alt: "Tampilan halaman dengan konten yang dibatasi pada mode akses publik"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Tampilan halaman dengan konten yang dibatasi pada mode akses publik</p>
+  </div>
+</div>
+* Melakukan build, release, dan deployment documentation site secara berkala untuk mendukung proses validasi dan pengembangan berkelanjutan.
+
+Melalui pendekatan ini, BLUE Documentation Site berhasil berkembang dari platform dokumentasi sederhana menjadi fondasi dokumentasi design system yang lebih terstruktur, scalable, dan mampu mendukung kebutuhan implementasi lintas tim secara lebih efektif.
+
+### 2. Pengembangan CMS untuk Dokumentasi
+Seiring berkembangnya kebutuhan pengelolaan dokumentasi, terutama pada bagian *component usage guideline* yang memiliki frekuensi perubahan paling tinggi seiring evolusi komponen, pendekatan statis mulai menunjukkan keterbatasan dalam hal kecepatan pembaruan konten dan konsistensi pengelolaan antar halaman. Di sisi lain, adanya penyesuaian fokus resource UX Engineer yang lebih diarahkan ke pengembangan mobile juga berdampak pada berkurangnya kapasitas pengembangan di sisi documentation site, sehingga diperlukan pendekatan yang lebih efisien untuk pengelolaan konten.
+
+Untuk menjawab kebutuhan tersebut, BLUE Documentation Site kemudian diperluas dengan Content Management System (CMS) yang terintegrasi langsung dalam satu platform, khususnya pada bagian 8 yang memiliki frekuensi perubahan paling tinggi. Pendekatan ini memungkinkan pengelolaan dan pembaruan konten dilakukan langsung melalui mode edit pada halaman yang sama tanpa perlu mengubah codebase maupun berpindah ke sistem lain. Sementara itu, bagian dokumentasi lainnya tetap dipertahankan dalam pendekatan statis dan terus dievaluasi berdasarkan frekuensi perubahannya sebagai dasar penentuan kebutuhan implementasi CMS.
+
+Beberapa proses utama yang dilakukan pada tahap ini meliputi:
+
+* Merancang struktur data pada Cloud Firestore menggunakan pendekatan dokumen dan koleksi untuk mendukung pengelolaan component usage guideline secara terpusat.
+* Mengimplementasikan autentikasi menggunakan Microsoft Account dengan akses terbatas untuk memastikan hanya tim BLUE yang dapat mengakses dan mengelola konten CMS.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/auth.webp", alt: "Halaman login dengan Microsoft Account untuk mengakses CMS BLUE Documentation Site"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Halaman login dengan Microsoft Account untuk mengakses CMS BLUE Documentation Site</p>
+  </div>
+</div>
+* Mengamankan halaman login dan akses CMS melalui pembatasan jaringan internal dan VPN sebagai lapisan keamanan tambahan dalam proses pengelolaan konten.
+* Mengimplementasikan mode view, edit, dan draft untuk mendukung proses pengelolaan dan validasi konten sebelum dipublikasikan.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/cms.webp", alt: "Tampilan mode edit pada CMS BLUE Documentation Site"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Tampilan mode edit pada CMS BLUE Documentation Site</p>
+  </div>
+</div>
+* Mengembangkan mekanisme auto save draft berbasis local storage secara berkala untuk menyimpan perubahan sementara selama proses editing berlangsung.
+* Mengintegrasikan CMS dengan documentation site agar proses pembaruan konten dapat dilakukan langsung melalui halaman dokumentasi tanpa perlu mengubah codebase.
+* Menyusun struktur konten agar informasi component usage guideline tetap konsisten dan mudah dikembangkan seiring evolusi komponen.
+* Menjaga konsistensi tampilan dan pengalaman pengguna meskipun sebagian konten dikelola secara dinamis melalui CMS.
+* Melakukan implementasi dan migrasi secara bertahap untuk memastikan transisi dari pendekatan statis ke CMS tetap berjalan stabil tanpa mengganggu documentation site yang sudah digunakan.
 
 ## Hasil
+Melalui pengembangan ini, [BLUE Documentation Site](https://blue.blibli.com/blue3/) berhasil berkembang dari dokumentasi sederhana yang sebelumnya hanya berfungsi sebagai technical preview menjadi platform dokumentasi design system yang lebih terstruktur, scalable, dan mampu mengakomodasi kebutuhan lintas peran dalam satu sistem yang terpusat.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/home.webp", alt: "Tampilan halaman utama BLUE Documentation Site"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Tampilan halaman utama BLUE Documentation Site</p>
+  </div>
+</div>
+
+Beberapa hasil utama yang berhasil dicapai meliputi:
+
+* Menghadirkan platform dokumentasi terpusat yang menyatukan komponen, guidelines, foundations, dan resources dalam satu pengalaman dokumentasi yang lebih terintegrasi.
+* Meningkatkan kualitas eksplorasi dan pemahaman dokumentasi melalui struktur informasi, navigasi, dan pengalaman penggunaan yang lebih terorganisir.
+* Mendukung implementasi design system secara lebih luas dengan dokumentasi yang tidak hanya relevan untuk developer, tetapi juga designer dan tim produk.
+* Mengimplementasikan sistem theming berbasis design token yang sekaligus merepresentasikan penggunaan token secara langsung pada komponen dan antarmuka dokumentasi.
+* Mengimplementasikan mekanisme *hybrid content access* berbasis jaringan internal dan VPN untuk membatasi akses pada halaman dan konten yang bersifat confidential.
+* Mengembangkan CMS yang terintegrasi langsung dalam documentation site sehingga proses pengelolaan dan pembaruan konten dapat dilakukan tanpa perlu mengubah basis kode maupun berpindah ke sistem lain.
+* Mempermudah proses maintenance dan validasi konten melalui workflow view, edit, dan draft yang mendukung proses iterasi dokumentasi secara lebih efisien.
+* Menjaga stabilitas struktur utama documentation site dengan pendekatan kombinasi antara dokumentasi statis dan konten dinamis berbasis CMS.
+* Membangun fondasi platform dokumentasi yang lebih scalable dan mudah dikembangkan mengikuti pertumbuhan BLUE Web Design System di masa mendatang.
+
+Melalui pendekatan tersebut, BLUE Documentation Site tidak hanya berfungsi sebagai media dokumentasi, tetapi juga berkembang menjadi platform pengelolaan dokumentasi design system yang lebih modern, terintegrasi, dan mendukung kebutuhan implementasi lintas tim secara lebih efektif.
 
 ## Dampak
+### Dampak bagi Perusahaan
+Pengembangan BLUE Documentation Site memberikan dampak signifikan terhadap proses pengelolaan dan implementasi design system di lingkungan Blibli. Dokumentasi yang sebelumnya bersifat teknis dan terbatas kini berkembang menjadi platform referensi terpusat yang lebih mudah diakses, dipahami, dan digunakan oleh berbagai peran lintas tim.
 
-## Pembelajaran
+Beberapa dampak utama yang berhasil dicapai meliputi:
 
+* Membantu meningkatkan konsistensi implementasi design system melalui dokumentasi yang lebih terstruktur dan mudah dieksplorasi.
+* Mempermudah proses adopsi komponen dan guidelines pada berbagai proyek dengan penyediaan dokumentasi yang lebih komprehensif.
+* Mengurangi fragmentasi informasi dengan menyatukan berbagai elemen design system dalam satu platform dokumentasi terpusat.
+* Meningkatkan efisiensi proses pengelolaan dan pembaruan konten dokumentasi melalui integrasi CMS langsung pada documentation site.
+* Mendukung proses kolaborasi lintas tim dengan menyediakan referensi dokumentasi yang dapat digunakan bersama oleh developer, designer, dan tim produk.
+* Mendukung eksposur BLUE Web Design System secara lebih luas melalui pendekatan *hybrid content access* tanpa mengorbankan keamanan konten internal yang bersifat confidential.
+
+### Dampak bagi Personal
+Melalui proyek ini, saya memperoleh pengalaman yang lebih mendalam dalam membangun platform dokumentasi design system yang tidak hanya berfokus pada implementasi antarmuka, tetapi juga pada pengelolaan konten, arsitektur sistem, serta pengalaman penggunaan dokumentasi secara menyeluruh.
+
+Beberapa pengembangan kemampuan yang diperoleh dari proyek ini meliputi:
+
+* Memperdalam pemahaman terkait pengembangan platform dokumentasi dan arsitektur frontend yang scalable.
+* Mengembangkan kemampuan dalam merancang struktur dokumentasi dan pengalaman pengguna untuk kebutuhan lintas peran.
+* Meningkatkan kemampuan dalam mengimplementasikan sistem CMS yang terintegrasi langsung dengan platform dokumentasi.
+* Memperluas pengalaman dalam perancangan struktur data dan pengelolaan database menggunakan Cloud Firestore untuk kebutuhan CMS dan dokumentasi dinamis.
+* Memperluas pengalaman dalam pengelolaan *autentikasi*, *authorization*, serta mekanisme *hybrid content access* berbasis jaringan internal dan VPN.
+* Mengembangkan kemampuan kolaborasi lintas fungsi bersama designer, engineer, ux writer, dan stakeholder lain dalam proses pengembangan produk internal.
+* Memperkuat kemampuan dalam mengelola proses pengembangan end-to-end mulai dari perancangan, implementasi, deployment, hingga maintenance platform dokumentasi.

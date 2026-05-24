@@ -1,15 +1,189 @@
 ## Background
 
+The ideal design system relies not only on the strength of its foundation but also on the clarity of its documentation so that it is easy to understand and implement. Therefore, since the initiation phase of the [BLUE Web Design System](/projects/blue-web-design-system), the development of foundational elements such as design tokens, component libraries, and icon libraries was accompanied by the development of its documentation.
+
+In the early stages, the documentation was intentionally designed to be simple and technical because it focused more on serving as a **technical preview** to support the development and testing of the design system's foundation. The content initially covered only a list of components and component details, including API specifications and basic usage examples. However, as the complexity of needs across various projects increased, this approach began to feel less effective in supporting the exploration, understanding, and implementation of the design system.
+
+Along with this, expectations for the documentation also evolved. It was no longer expected to be just a technical preview like Storybook, but rather a primary cross-role reference source that not only discusses components but also accommodates various other content such as guidelines, foundations, and resources within a single unified documentation.
+
+Therefore, the <strong className="text-primary font-semibold">BLUE Documentation Site</strong> was developed as a centralized documentation platform that brings all these elements together into a more structured, consistent, and easy-to-explore system. With this approach, the BLUE Documentation Site functions not only as an implementation tool but also acts as a representation of the quality standards and workflows of the design system within the Blibli ecosystem.
+
 ## Problem Identification
+
+Based on this background, several main problems identified are as follows:
+
+* The initial documentation only functioned as a technical preview and was still too technical, thus failing to accommodate cross-role needs beyond technical aspects.
+* The simple documentation approach meant that information was still limited, covering only a list of components and component details, including API specifications and basic usage examples, which failed to depict implementation scenarios or usage in complex cases.
+* The old documentation structure was felt to be not fully effective in supporting the exploration, understanding, and implementation of the design system.
+* The growing expectation for documentation to no longer serve merely as a technical preview, but rather as a primary cross-role reference that accommodates various content within a single comprehensive documentation.
 
 ## Goals & Objectives
 
-## Role & Responsibilities
+The main goal of this project is to present the <strong className="text-primary font-semibold">BLUE Documentation Site</strong> as a centralized documentation platform that unifies all design system elements into a consistent, structured, and easy-to-explore system.
+
+To achieve this goal, several main objectives were established as follows:
+
+* Transform the documentation from simply a technical preview of components into a primary reference platform that accommodates cross-role needs.
+* Provide more comprehensive guidance by including guidelines, foundations, resources, and examples of usage scenarios in more complex real-world cases.
+* Build a unified information center that is easily accessible to minimize fragmentation across all elements of the design system.
+* Design an adaptive site structure capable of keeping pace with the future growth and increasing complexity of components in the BLUE Web Design System.
+
+## Roles & Responsibilities
+In this project, I served as part of the UX Engineer team and as the technical PIC (Person in Charge) responsible for the development of the BLUE Documentation Site.
+
+The responsibilities undertaken included:
+
+* Discussing and collaborating with all stakeholders to align business and technical needs in platform development.
+* Designing the frontend architecture and codebase structure of the BLUE Documentation Site to be scalable and maintainable.
+* Developing the BLUE Documentation Site interface based on the designer's specifications.
+* Developing custom components, micro interactions, and animations to support the user experience and documentation needs.
+* Implementing authentication, authorization, and hybrid content access mechanisms on the BLUE Documentation Site.
+* Developing a CMS (Content Management System) to support more flexible and centralized management of documentation content.
+* Maintaining implementation quality through code review, testing, quality assurance (QA) processes, and iterations based on user feedback.
+* Managing the build, release, deployment, and system update documentation (release notes) on the BLUE Documentation Site.
 
 ## Process & Execution
+The development of the BLUE Documentation Site was carried out in stages using two main approaches, following the evolving needs of the design system and the increasing complexity of the documentation.
+
+### 1. Static Documentation Development
+In the initial stage, the BLUE Documentation Site was developed using a static approach, where all documentation content such as components, guidelines, foundations, and resources were presented directly through the frontend structure without database or CMS integration. This approach was chosen to accelerate the initial development process while providing high flexibility in exploring the documentation structure, navigation patterns, and platform user experience.
+
+This phase began with exploring the documentation structure and compiling the information architecture alongside designers and cross-functional stakeholders to ensure the documentation could support broader design system implementation needs. The main focus at this stage was to build a documentation experience that was not only relevant for developers but also easy to understand and use by designers and product teams as a shared reference.
+
+Once the structure and documentation needs began to take shape, the development process proceeded to the implementation and documentation feature development stage. Some of the main processes carried out at this stage included:
+
+* Performing initial project setup and designing a scalable and maintainable folder structure and codebase architecture.
+* Developing various custom components to support the documentation interface and content presentation needs.
+* Developing the appearance and interface of the BLUE Documentation Site based on the provided designs and documentation needs.
+* Developing micro interactions and animations to enhance the user experience when exploring the documentation.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <video 
+      src="/projects/blue-documentation-site/animation.mp4"
+      autoPlay 
+      loop 
+      muted 
+      playsInline
+      aria-label="Animation example on the BLUE Documentation Site"
+      className="w-full object-cover rounded-2xl"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Animation example on the BLUE Documentation Site</p>
+  </div>
+</div>
+* Implementing a design token-based theming system to support light mode and dark mode while directly representing token implementation on components and documentation interfaces.
+<div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+  <div className="w-full">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/light.webp", alt: "Light mode appearance on the BLUE Documentation Site"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Light mode appearance on the BLUE Documentation Site</p>
+  </div>
+  <div className="w-full">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/dark.webp", alt: "Dark mode appearance on the BLUE Documentation Site"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Dark mode appearance on the BLUE Documentation Site</p>
+  </div>
+</div>
+* Implementing a hybrid content access system using a network-based authorization approach via internal networks and VPNs to restrict access to confidential pages and content without an additional login process.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/hybrid-content-access.webp", alt: "Page appearance with restricted content in public access mode"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Page appearance with restricted content in public access mode</p>
+  </div>
+</div>
+* Conducting periodic builds, releases, and deployments of the documentation site to support the continuous validation and development process.
+
+Through this approach, the BLUE Documentation Site successfully evolved from a simple documentation platform into a more structured, scalable design system documentation foundation capable of supporting cross-team implementation needs more effectively.
+
+### 2. CMS Development for Documentation
+As documentation management needs grew, particularly in the component usage guideline section which experiences the highest frequency of changes alongside component evolution, the static approach began to show limitations regarding content update speed and cross-page management consistency. Additionally, the shift in UX Engineer resource focus toward mobile development reduced the development capacity for the documentation site, necessitating a more efficient content management approach.
+
+To address these needs, the BLUE Documentation Site was expanded with a Content Management System (CMS) integrated directly into the platform, specifically for the section with the highest frequency of changes. This approach allows content management and updates to be performed directly through an edit mode on the same page without needing to alter the codebase or switch to another system. Meanwhile, the rest of the documentation is maintained using the static approach and continuously evaluated based on change frequency to determine future CMS implementation needs.
+
+Some of the main processes carried out at this stage included:
+
+* Designing the data structure on Cloud Firestore using a document and collection approach to support centralized management of component usage guidelines.
+* Implementing authentication using a Microsoft Account with restricted access to ensure that only the BLUE team can access and manage CMS content.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/auth.webp", alt: "Login page with Microsoft Account to access the BLUE Documentation Site CMS"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Login page with Microsoft Account to access the BLUE Documentation Site CMS</p>
+  </div>
+</div>
+* Securing the login page and CMS access through internal network and VPN restrictions as an additional security layer in the content management process.
+* Implementing view, edit, and draft modes to support the content management and validation process prior to publishing.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/cms.webp", alt: "Edit mode appearance on the BLUE Documentation Site CMS"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Edit mode appearance on the BLUE Documentation Site CMS</p>
+  </div>
+</div>
+* Developing an auto save draft mechanism utilizing local storage periodically to secure temporary changes during the editing process.
+* Integrating the CMS with the documentation site so that content updates can be executed directly through the documentation page without modifying the codebase.
+* Structuring content to ensure component usage guideline information remains consistent and easy to scale as components evolve.
+* Maintaining interface consistency and user experience even though parts of the content are managed dynamically through the CMS.
+* Carrying out a gradual implementation and migration process to ensure the transition from the static approach to the CMS remains stable without disrupting the active documentation site.
 
 ## Results
+Through this development, the [BLUE Documentation Site](https://blue.blibli.com/blue3/) successfully evolved from a simple documentation that previously only functioned as a technical preview into a more structured, scalable design system documentation platform capable of accommodating cross-role needs within a centralized system.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/blue-documentation-site/home.webp", alt: "BLUE Documentation Site main page appearance"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">BLUE Documentation Site main page appearance</p>
+  </div>
+</div>
+
+Some of the main results achieved include:
+
+* Presenting a centralized documentation platform that unifies components, guidelines, foundations, and resources into a more integrated documentation experience.
+* Improving the quality of documentation exploration and understanding through a more organized information structure, navigation, and user experience.
+* Supporting wider design system implementation with documentation that is relevant not only for developers but also for designers and product teams.
+* Implementing a design token-based theming system that simultaneously represents direct token usage across components and documentation interfaces.
+* Implementing a hybrid content access mechanism based on internal networks and VPNs to restrict access to confidential pages and content.
+* Developing a CMS integrated directly into the documentation site so that content management and updates can be performed without altering the codebase or switching systems.
+* Simplifying the content maintenance and validation process through view, edit, and draft workflows that support more efficient documentation iterations.
+* Maintaining the stability of the main documentation site structure using a combined approach of static documentation and dynamic CMS-based content.
+* Building a more scalable documentation platform foundation that is easy to expand in alignment with the future growth of the BLUE Web Design System.
+
+Through this approach, the BLUE Documentation Site not only serves as a documentation medium but has also evolved into a more modern, integrated design system documentation management platform that supports cross-team implementation needs more effectively.
 
 ## Impact
+### Impact on the Company
+The development of the BLUE Documentation Site had a significant impact on the design system management and implementation process within the Blibli ecosystem. Documentation that was previously highly technical and limited has now evolved into a centralized reference platform that is easier to access, understand, and utilize by various roles across teams.
 
-## Lessons Learned
+Some of the main impacts achieved include:
+
+* Helping to improve the consistency of design system implementation through a more structured and easily exploratory documentation.
+* Streamlining the adoption process for components and guidelines across projects by providing more comprehensive documentation.
+* Reducing information fragmentation by unifying various design system elements within a single centralized documentation platform.
+* Increasing the efficiency of the documentation content management and update process through direct CMS integration on the site.
+* Supporting cross-team collaboration by providing a documentation reference that can be shared by developers, designers, and product teams.
+* Supporting wider exposure of the BLUE Web Design System via a hybrid content access approach without compromising the security of confidential internal content.
+
+### Personal Impact
+Through this project, I gained profound experience in building a design system documentation platform that focuses not only on interface implementation but also on content management, system architecture, and overall user experience.
+
+Some of the skill developments acquired from this project include:
+
+* Deepening understanding related to the development of documentation platforms and scalable frontend architectures.
+* Developing the ability to design documentation structures and user experiences tailored for cross-role needs.
+* Enhancing the ability to implement a CMS system integrated directly with a documentation platform.
+* Broadening experience in data structure design and database management using Cloud Firestore for CMS and dynamic documentation requirements.
+* Expanding experience in managing authentication, authorization, and hybrid content access mechanisms based on internal networks and VPNs.
+* Developing cross-functional collaboration skills alongside designers, engineers, UX writers, and other stakeholders during internal product development processes.
+* Strengthening the ability to manage the end-to-end development lifecycle, ranging from design, implementation, and deployment to the maintenance of a documentation platform.
