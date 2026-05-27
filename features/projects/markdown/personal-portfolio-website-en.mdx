@@ -1,0 +1,218 @@
+## Background
+This project was born from the realization that for years I have spent a lot of time developing various digital products for companies, but never really built a **digital home** for myself — a <strong className="text-primary font-semibold">personal portfolio website</strong>.
+
+My desire to create a portfolio has actually been around for a long time, but every time I wanted to start, there was always an excuse to delay. Whether it was being tired after work, or honestly just being lazy. But the main problem wasn't that, the biggest enemy came from myself, which is my perfectionist nature that made everything have to be perfect so this project was never really finished.
+
+Until finally I was affected by a layoff and lost access to various work results I had created at the company because all data was stored on internal systems. This made it increasingly difficult for me to build a portfolio because I no longer had access to my work or documentation of the experiences I had previously worked on, while also lowering my confidence in applying for jobs because I had no representation to show.
+
+From there, I realized the importance of having a personal portfolio to document my professional journey more comprehensively, not just limited to the work, but also the experiences, learning processes, and other things that shaped my journey as a UX Engineer. Based on this awareness, I started to gradually rebuild this portfolio by utilizing materials I could still gather, while respecting Non-Disclosure Agreements (NDA) and company confidentiality. Besides serving as a documentation medium, this portfolio is also designed as a more interactive and explorative space, so visitors can experience more than just viewing a collection of work, allowing for more open interaction, feedback, and connections in the future.
+
+## Problem Identification
+Based on this background, several main problems identified are as follows:
+
+* The absence of a personal portfolio documenting work, experience, and the professional journey as a whole.
+* Limited access to work results and documentation of work experiences because all data is stored on internal company systems.
+* Lack of representation that can show my full capabilities, both in terms of work, process, and experience.
+* The tendency to procrastinate in starting a portfolio due to busyness, laziness, and perfectionism.
+* The need for a portfolio that does not only function as a documentation medium, but also as a space that can display experiences more broadly, interactively, and exploratively.
+
+## Goals & Objectives
+The main goal of this project is to build a personal portfolio that can be used to document my work, experiences, and professional journey, while also serving as a representation that can be displayed more openly.
+
+To achieve this goal, several main objectives were set as follows:
+
+* Gather accessible work and materials without violating NDAs and company confidentiality.
+* Structure a portfolio that contains not only work, but also the experience and context behind it in a structured and easy-to-understand manner.
+* Provide a medium to represent my capabilities as a UX Engineer through a combination of work, process, and experience.
+* Build the portfolio gradually despite limited access to previous work results.
+* Develop the portfolio as a space that is not only documentative, but also interactive, explorative, and sustainable.
+
+## Roles & Responsibilities
+In this project, I act as the sole party responsible for the entire process, from planning, designing, gathering materials, to gradual portfolio implementation.
+
+The responsibilities undertaken include:
+
+* Determining the direction and basic concept of the portfolio as a medium for documenting work, experiences, and the professional journey.
+* Identifying and gathering work materials and documentation that can still be used without violating NDAs and company confidentiality.
+* Structuring information so the portfolio is easy to understand and can represent the context behind each work and experience.
+* Designing interactive and explorative user experiences.
+* Carrying out the design process and implementing the portfolio gradually until the first version can be used.
+
+## Process & Execution
+
+The portfolio development process was carried out gradually, starting from gathering materials to implementing the first usable version. The main focus at this stage was to build a portfolio foundation that can represent work, experiences, and the professional journey in a more structured manner.
+
+This development was also divided into several main stages so the process was more directed, starting from preparation, design, to implementation. Each stage has a different focus and goal but is interrelated in building a complete final result.
+
+### 1. Preparation
+This stage focused on gathering available materials and determining the boundaries of material usage to comply with Non-Disclosure Agreements (NDA) and company confidentiality.
+
+The processes carried out at this stage included:
+
+* Gathering work and materials that could still be accessed from previous work experiences.
+* Reaching out to colleagues to request materials that are safe to publish, such as screenshots of project interfaces I had worked on or other non-sensitive supporting materials.
+<div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+  <div className="w-full">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/personal-portfolio-website/reaching-out.webp", alt: "Process of reaching out to colleagues to request supporting portfolio materials"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm text-center text-secondary">Process of reaching out to colleagues to request supporting portfolio materials</p>
+  </div>
+  <div className="w-full">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/personal-portfolio-website/material.webp", alt: "Re-collecting supporting portfolio materials"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Re-collecting supporting portfolio materials</p>
+  </div>
+</div>
+* Ensuring the feasibility of the content to be published according to NDA provisions and company policies.
+* Determining the initial direction and goal of the portfolio as a medium for documenting work, experiences, and the professional journey.
+* Identifying the main needs to be displayed in the portfolio, both in terms of content and user experience.
+* Determining the initial scope of development so the working process is more realistic and can be done gradually.
+
+### 2. Product & System Design
+After the material gathering process, the next stage focused on the overall product design process, both in terms of user experience, information structure, and the system architecture to be used during development.
+
+The design process was done before implementation began so the application structure is more directed, scalable, and easy to develop gradually in the future. At this stage, the design was not only focused on visual appearance but also included data structure, interaction flow, and the technical approach used in application development.
+
+Several processes carried out at this stage included:
+
+* Structuring information (information architecture) so content and pages are more organized and easy to understand.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-8/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/personal-portfolio-website/sitemap.webp", alt: "Sitemap of the portfolio website page structure"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Sitemap of the portfolio website page structure</p>
+  </div>
+</div>
+* Determining page structure, content hierarchy, and feature distribution so the application navigation and exploration experience feels more organized and intuitive.
+* Designing the user flow so navigation and interaction can run more intuitively.
+* Determining key features that can support a more interactive, personal, and sustainable user experience.
+* Exploring design references, interaction patterns, and visual approaches to help determine the direction of the application's appearance.
+* Exploring design, interaction patterns, and visual approaches from several websites I used as references and inspiration, which I then documented on the [Website Inspiration](/inspiration-website) page.
+* Designing the database schema and relationships between tables to support content management and interactive features. Detailed database schema can be seen through the diagram [here](https://dbdiagram.io/d/arsaludin-portfolio-6a157a42dfb20dafcdf5798b).
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/personal-portfolio-website/database-schema.webp", alt: "Diagram of database schema and relationships between tables"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Diagram of database schema and relationships between tables</p>
+  </div>
+</div>
+* Determining application architecture and data management approach so the system remains structured, scalable, and easy to develop in the future.
+* Determining the technologies and tools used based on development needs, maintainability, performance, and application flexibility.
+* Designing a High-Level Architecture (HLA) to map the application structure, data flow, and service integration comprehensively as the foundation for application development.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/personal-portfolio-website/HLA.webp", alt: "High-level architecture diagram of the portfolio website"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">High-level architecture diagram of the portfolio website</p>
+  </div>
+</div>
+* Determining a gradual development approach so new features and pages can be developed sustainably without changing the main application structure.
+
+### 3. Implementation & Development
+
+After the design process was completed, the next stage focused on system implementation and gradual feature development until the application could be used properly.
+
+At this stage, the development process started from building the application foundation, integrating main services, to implementing various interactive features that had been designed previously. Development was done iteratively so the application could continue to evolve without having to wait for all features to be finished at once.
+
+Several processes carried out at this stage included:
+
+* Setting up and configuring the project using Next.js, TypeScript, and Tailwind CSS as the main foundation for application development.
+* Implementing routing structure, layouts, and basic application configuration to support multi-page development.
+* Integrating Supabase as a backend service for database, authentication, and application data management needs.
+* Developing an authentication system using Google OAuth so users can log in and interact within the application.
+* Implementing data management and server state using TanStack Query to help fetch, cache, and synchronize data.
+* Developing various main pages and features gradually according to the structure and needs of the application.
+* Implementing interactive features such as comments, reactions, roadmap, and lounge as user interaction spaces.
+* Developing a multilingual system (i18n) using next-intl so the application can support more than one language.
+* Implementing a theme switching system and dark or light mode to increase the flexibility of the user experience.
+* Developing reusable components and an internal design system named **Miracle** to help maintain visual consistency and efficiency in the application development process.
+* Implementing interface animations and transitions using Motion to create a more dynamic user experience.
+* Optimizing responsive layouts so the application can be used properly across various device sizes.
+* Conducting gradual testing and improvements on the appearance, performance, and stability of the application during the development process.
+
+Through this gradual development approach, the application can continue to grow sustainably while maintaining system structure and user experience consistently.
+
+### 4. Evaluation & Continuous Improvement
+
+After initial implementation was complete, the portfolio development process did not stop at the release of the first version. The application continues to be evaluated and developed gradually based on needs, exploration of new features, and user experience during the development process.
+
+This approach was taken so the portfolio can continue to grow sustainably, both in terms of user experience, system quality, and available features. Besides serving as a medium for documentation and professional representation, this portfolio was also developed as an exploration space allowing for continuous learning, experimentation, and open feature development over time.
+
+Several processes carried out at this stage included:
+
+* Evaluating the application structure, user experience, and system performance regularly.
+* Identifying areas that can still be improved in terms of design, interaction, and technical implementation.
+* Fixing bugs and refining features gradually as the development process continues.
+* Adding new features and pages based on future application development needs.
+* Utilizing the [roadmap](/roadmap) page as a medium for development transparency as well as a space to receive ideas, input, and feedback to consider in the continuous evaluation and development process of the application.
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/personal-portfolio-website/roadmap.webp", alt: "Portfolio website roadmap page"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Portfolio website roadmap page</p>
+  </div>
+</div>
+* Using the portfolio as an exploration space to continuously try new approaches, technologies, and interaction patterns.
+
+Through this process of continuous evaluation and development, the portfolio not only becomes a medium for documenting work but also evolves as a space for exploration, learning, and representation of a professional journey that continues to grow over time.
+
+## Results
+
+<div className="w-full flex items-center justify-center mt-4">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview 
+      images={[{image_url: "/projects/personal-portfolio-website/home.webp", alt: "Portfolio website home page"}]}
+      sizes = "(max-width: 768px) 100vw, 750px"
+    />
+    <p className="mt-3 text-sm italic text-center text-secondary">Portfolio website home page</p>
+  </div>
+</div>
+This project successfully produced a [personal portfolio website](/) built as a space to document my work, experiences, learning processes, and professional journey more comprehensively and structured.
+
+Unlike typical portfolios that only focus on the final results, this portfolio was developed with a more open, interactive, and sustainable approach, making it not only a medium for professional representation but also a space that can continue to evolve along with the journey and development process undertaken.
+
+Some of the development results successfully implemented in this portfolio include:
+
+* Establishing a portfolio structure capable of documenting projects, experiences, achievements, articles, and the professional journey more organizationally.
+* Implementing various main pages and features that support a more interactive and structured application exploration experience.
+* Creating an articles system as a medium for sharing experiences, learnings, and explorations during the development process.
+* Building an open roadmap to display the progress and direction of application development more transparently.
+* Implementing a lounge as an interaction and communication space allowing users to connect more openly.
+* Creating a user interaction experience through comments, reactions, and user authentication using Google OAuth.
+* Implementing multilingual support (i18n) and theme switching to increase the flexibility of the application user experience.
+* Providing a changelog as a medium for documenting regular application updates.
+* Building a gear & setup page to share the devices, tools, and workflows used during the work and development process.
+* Implementing an internal design system named **Miracle**, developed independently as the foundation for reusable components and application interface consistency.
+* Building a more structured application foundation through a modular approach, reusable components, and a system architecture that supports long-term development more scalably and maintainably.
+
+Through this project, the portfolio no longer serves only as a place to display work, but has also grown into a personal space representing my way of thinking, working process, development approach, and journey as a UX Engineer.
+
+## Impact
+
+Through the process of developing this portfolio, the project not only produced a professional representation medium but also impacted my learning process, technical development, and how I document my professional journey more structured.
+
+Several impacts felt through the development of this project include:
+
+* Having a professional representation medium that can be used to document work, experiences, learning processes, and career journeys more openly and structured.
+* Increasing confidence in displaying work results, capabilities, and work approaches to external parties, including during the recruitment process.
+* Helping build a habit of consistently documenting the development process, learnings, and explorations.
+* Becoming an exploration space to try various development approaches, application architectures, and interaction patterns more freely and sustainably.
+* Opening up opportunities for broader interaction and connection through a portfolio that is more open, interactive, and communicative.
+* Providing experience in designing and building applications end-to-end, starting from product design, system structure, to direct application implementation.
+* Increasing understanding of building Next.js-based application architectures, including routing management, page structure, and modular application organization.
+* Implementing a component-based architecture approach and reusable components to improve interface consistency and application maintainability.
+* Deepening understanding of frontend integration with databases and backend services to dynamically support content management and interactive features.
+* Increasing understanding of user authentication management, state management, internationalization (i18n), and modern web-based interactive feature development.
+* Becoming a foundation for long-term development that allows the application to continue evolving along with experiences, explorations, and future development needs.
