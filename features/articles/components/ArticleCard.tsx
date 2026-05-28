@@ -39,40 +39,40 @@ export default function ArticleCard({ article, className }: { article: Article, 
       </Link>
 
       {/* Footer */}
-      <div className="flex items-start justify-between gap-4 pt-5">
-        <div className="flex flex-col items-start">
+      <div className="flex flex-col items-start pt-5">
+        <div className=" w-full flex items-center justify-between gap-4">
           {article.published_at && (
-            <p className="text-secondary flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs mb-2">
+            <p className="text-secondary flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm">
               <span className="flex items-center gap-1">
                 <LuCalendar className="shrink-0" />
                 {formatDate({date: article.published_at, locale, dateStyle: "medium"})}
               </span>
             </p>
           )}
-          <Link href={`/articles/${article.slug}`} className="group/title">
-            <h3
-              className="text-primary font-semibold tracking-tight line-clamp-1 text-base md:text-lg lg:text-xl group-hover/title:underline transition-all duration-300">
-              {article.title}
-            </h3>
-          </Link>
-          {article.summary && (
-            <div className="text-secondary text-sm line-clamp-2 mt-0.5">
-              {article.summary}
-            </div>
-          )}
+          <div className="shrink-0 relative flex items-center">
+            <ReactionGroup
+              targetId={article.id}
+              targetType="article"
+              initialSummary={article.reaction_summary}
+            />
+            <CommentGroup
+              targetId={article.id}
+              targetType="article"
+              initialCount={article.comment_count}
+            />
+          </div>
         </div>
-        <div className="shrink-0 relative flex items-center">
-          <ReactionGroup
-            targetId={article.id}
-            targetType="article"
-            initialSummary={article.reaction_summary}
-          />
-          <CommentGroup
-            targetId={article.id}
-            targetType="article"
-            initialCount={article.comment_count}
-          />
-        </div>
+        <Link href={`/articles/${article.slug}`} className="group/title">
+          <h3
+            className="text-primary font-semibold tracking-tight line-clamp-1 text-base md:text-lg lg:text-xl group-hover/title:underline transition-all duration-300">
+            {article.title}
+          </h3>
+        </Link>
+        {article.summary && (
+          <div className="text-secondary text-sm line-clamp-2 mt-0.5">
+            {article.summary}
+          </div>
+        )}
       </div>
     </div>
   )

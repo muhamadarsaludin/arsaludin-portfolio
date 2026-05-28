@@ -422,10 +422,22 @@
           "categories": "Categories"
         },
         "reset": "Reset all filters"
+      }
+    },
+    "article-detail": {
+      "title": "Article Details",
+      "description": "In-depth explanation of the ideas, insights, and context of this article.",
+      "featured": "Featured",
+      "read": "Read",
+      "views": "{count, plural, =1 {view} other {views}}",
+      "breadcrumbs": {
+        "home": "Home",
+        "articles": "Articles"
       },
-      "banner": {
-        "title": "Layout Preview",
-        "description": "This page is currently in Beta. All articles shown are placeholder data for layout testing."
+      "label": {
+        "author": "Author",
+        "date": "Published on",
+        "categories": "Categories"
       }
     },
     "roadmap": {

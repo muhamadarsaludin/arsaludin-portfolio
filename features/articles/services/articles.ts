@@ -33,6 +33,7 @@ const getColumns = (isFilteringCategory: boolean = false) => `
   is_featured,
   order_index,
   user_id,
+  view_count,
   published_at,
   created_at,
   updated_at,
@@ -184,10 +185,6 @@ export async function getPaginatedArticles({
     })
     .limit(pageSize + 1)
 
-  if (!search && !isFilteringCategory) {
-    query = query.eq("is_featured", false)
-  }
-
   if (search) {
     query = query.ilike("article_translations.title", `%${search}%`)
   }
@@ -235,4 +232,45 @@ export async function getPaginatedArticles({
       : null,
     hasMore,
   }
+}
+
+
+type GetArticleParams = {
+  slug?: string;
+  id?: string;
+  locale: string;
+};
+export async function getArticle({
+  slug,
+  id,
+  locale,
+}: GetArticleParams): Promise<Article | null> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000";
+
+  let query = supabase
+    .from("articles")
+    .select<string, ArticleRawResponse>(getColumns())
+    .eq("article_translations.i18n.locale", locale)
+    .eq("reactions.user_id", userId)
+    .eq("article_categories.is_show", true)
+    .eq("article_categories.categories.is_show", true)
+
+  if (id) {
+    query = query.eq("id", id);
+  } else if (slug) {
+    query = query.eq("slug", slug);
+  } else {
+    return null;
+  }
+
+  const { data, error } = await query.single();
+
+  if (error) {
+    console.error(`[getArticle] Error fetching article:`, error)
+    throw error
+  }
+
+  return data ? mapToArticle(data) : null;
 }

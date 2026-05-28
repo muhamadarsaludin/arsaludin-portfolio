@@ -7,7 +7,7 @@ interface ProjectShareButtonProps {
   description: string
 }
 
-export default function ProjectShareButton({ title, description }: ProjectShareButtonProps) {
+export default function ArticleShareButton({ title, description }: ProjectShareButtonProps) {
   const handleShare = async () => {
     const shareData = {
       title: title,
@@ -29,7 +29,7 @@ export default function ProjectShareButton({ title, description }: ProjectShareB
   return (
     <button
       onClick={handleShare}
-      aria-label="share project"
+      aria-label="share article"
       className="cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 focus:outline-none dark:hover:bg-neutral-800"
     >
       <LuShare2 size={20} className="cursor-pointer transition-transform duration-500 ease-in-out" />

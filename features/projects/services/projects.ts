@@ -304,7 +304,6 @@ export async function getProject({
     .eq("project_categories.is_show", true)
     .eq("project_categories.categories.is_show", true);
 
-  // Filter berdasarkan ID atau Slug
   if (id) {
     query = query.eq("id", id);
   } else if (slug) {

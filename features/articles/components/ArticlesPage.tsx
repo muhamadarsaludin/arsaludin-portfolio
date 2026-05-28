@@ -85,22 +85,13 @@ export default async function ArticlesPage(props: BasePageProps) {
             className="mb-5 md:mb-6"
           />
           <header className="mb-8 lg:mb-10 xl:mb-12 w-full">
-            <div className="flex gap-2 items-center">
-              <Heading 
-                id={t("title")}
-                level={1}
-                className="font-semibold flex gap-2 items-center">
-                  {t("title")}
-              </Heading>
-              <MiracleBadge color="yellow" startIcon={<LuTriangleAlert />} variant="secondary">
-                Beta
-              </MiracleBadge>
-            </div>
+            <Heading 
+              id={t("title")}
+              level={1}
+              className="font-semibold flex gap-2 items-center">
+                {t("title")}
+            </Heading>
             <p className="mt-4 text-secondary">{t("description")}</p>
-
-            <MiracleBanner color="yellow" startIcon={<LuTriangleAlert />} variant="secondary" title={t("banner.title")} className="mt-4">
-              {t("banner.description")}
-            </MiracleBanner>
           </header>
         </MiracleReveal>
 

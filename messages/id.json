@@ -421,10 +421,22 @@
           "categories": "Kategori"
         },
         "reset": "Reset semua filter"
+      }
+    },
+    "article-detail": {
+      "title": "Detail Artikel",
+      "description": "Penjelasan mendalam mengenai ide, insight, dan konteks artikel ini.",
+      "featured": "Unggulan",
+      "read": "baca",
+      "views": "tayangan",
+      "breadcrumbs": {
+        "home": "Beranda",
+        "articles": "Artikel"
       },
-      "banner": {
-        "title": "Pratinjau Tata Letak",
-        "description": "Halaman ini masih dalam tahap Beta. Semua artikel yang tampil adalah data dummy untuk pengujian layout."
+      "label": {
+        "author": "Penulis",
+        "date": "Diterbitkan pada",
+        "categories": "Kategori"
       }
     },
     "roadmap": {

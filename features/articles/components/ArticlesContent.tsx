@@ -19,8 +19,6 @@ import MiracleBadge from "@/components/miracle/Badge"
 import { ARTICLES_PAGE_SIZE } from "../constants/articles.constans"
 import { useInfiniteArticles } from "../hooks/useInfiniteArticles"
 import Section from "@/components/Section"
-import { useFeaturedArticles } from "../hooks/useFeaturedArticles"
-import FeaturedArticleContent from "./FeaturedArticlesContent"
 import ArticleCard from "./ArticleCard"
 import ArticleCardSkeleton from "./ArticleCardSkeleton"
 import { MiracleReveal } from "@/components/miracle/Reveal"
@@ -211,10 +209,11 @@ export default function ArticlesContent({
       </MiracleReveal>
       
       {/* Content */}
-      {!searchUrl && categorySlugs.length === 0 && (
+      {/* {!searchUrl && categorySlugs.length === 0 && (
         <FeaturedArticleContent locale={locale} />
-      )}
+      )} */}
       <Section className="w-full overflow-hidden">{renderContent()}</Section>
+
       <div ref={loadMoreRef} className="flex w-full justify-center py-10">
         {!hasNextPage && !isLoading && articles.length > 0 && (
           <MiracleReveal animation="zoom-in">

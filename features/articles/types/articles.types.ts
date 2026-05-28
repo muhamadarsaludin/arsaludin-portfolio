@@ -18,6 +18,7 @@ export type ArticleEntity = {
   is_featured: boolean
   order_index: number
   user_id: string
+  view_count: number
   published_at: string | null
   created_at: string
   updated_at: string
