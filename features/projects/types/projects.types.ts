@@ -4,6 +4,8 @@ import type { ReactionSummary } from "@/features/reactions/types/reactions.types
 import { Cursor } from "@/features/shared/types/index.types"
 import type { Skill } from "@/features/skills/types/skills.types"
 
+export type ProjectStatus = "draft" | "published" | "archived"
+
 /**
  * Raw data from 'projects' table.
  */
@@ -11,6 +13,7 @@ export type ProjectEntity = {
   id: string
   slug: string
   thumbnail: string | null
+  status: ProjectStatus
   url: string | null
   github_url: string | null
   is_show: boolean
@@ -18,6 +21,7 @@ export type ProjectEntity = {
   order_index: number
   view_count: number
   user_id: string
+  published_at: string | null
   created_at: string
   updated_at: string
 }
@@ -42,9 +46,7 @@ export type ProjectTranslationEntity = {
 /**
  * Flattened Project object, merging core entity data with localized translations, skills, categories, comment count and reaction summary.
  */
-export type Project = Pick<
-  ProjectEntity,
-  "id" | "slug" | "thumbnail" | "url" | "github_url" | "is_show" | "is_featured" | "order_index" | "view_count" | "created_at"> 
+export type Project = ProjectEntity
   & Pick<ProjectTranslationEntity, "name" | "description" | "content" | "additional_info" | "additional_info_label" > 
   & {
     author: Profile

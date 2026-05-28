@@ -384,7 +384,7 @@
       },
       "label": {
         "author": "Author",
-        "date": "Created At",
+        "date": "Published on",
         "categories": "Categories",
         "tech-stack": "Tech Stack"
       }

@@ -263,15 +263,17 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                   </div>
 
                   {/* Date Created*/}
-                  <div className="flex flex-col gap-2">
-                    <p className="text-xs uppercase tracking-tight text-secondary">
-                      {t("label.date")}
-                    </p>
-                    <div className="flex items-center gap-2 text-sm text-primary font-medium">
-                      <LuCalendar size={16} className="text-secondary" />
-                      {formatDate({ date: project.created_at, locale, dateStyle: "full" })}
+                  {project.published_at && (
+                    <div className="flex flex-col gap-2">
+                      <p className="text-xs uppercase tracking-tight text-secondary">
+                        {t("label.date")}
+                      </p>
+                      <div className="flex items-center gap-2 text-sm text-primary font-medium">
+                        <LuCalendar size={16} className="text-secondary" />
+                        {formatDate({ date: project.published_at, locale, dateStyle: "full" })}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Categories */}
                   <div className="flex flex-col gap-2 col-span-full">

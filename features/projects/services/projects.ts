@@ -9,10 +9,7 @@ import { Cursor } from "@/features/shared/types/index.types"
 import { PROJECTS_PAGE_SIZE } from "../constants/projects.constans"
 import { Profile } from "@/features/profile/types/profiles.types"
 
-type ProjectRawResponse = Pick<
-  ProjectEntity, 
-  "id" | "slug" | "thumbnail" | "url" | "github_url" | "is_show" | "is_featured" | "order_index" | "view_count" | "created_at"
-> & {
+type ProjectRawResponse = ProjectEntity & {
   translations: (Pick<
     ProjectTranslationEntity, "name" | "description" | "content" | "additional_info" | "additional_info_label"
   > & {
@@ -42,13 +39,17 @@ const getColumns = (isFilteringCategory: boolean = false) => `
   id,
   slug,
   thumbnail,
+  status,
   url,
   github_url,
   is_show,
   is_featured,
   order_index,
   view_count,
+  user_id,
+  published_at,
   created_at,
+  updated_at,
   translations:project_translations!inner (
     name,
     description,
@@ -119,6 +120,7 @@ const mapToProject = (project: ProjectRawResponse): Project => {
     url: project.url ?? null,
     github_url: project.github_url ?? null,
     thumbnail: project.thumbnail ?? null,
+    published_at: project.published_at ?? null,
     name: t?.name ?? "",
     description: t?.description ?? "",
     content: t?.content ?? null,
@@ -155,13 +157,15 @@ export async function getFeaturedProjects({
     .select<string, ProjectRawResponse>(getColumns())
     .eq("is_show", true)
     .eq("is_featured", true)
+    .eq("status", "published")
+    .not("published_at", "is", null)
     .eq("project_translations.i18n.locale", locale)
-    .eq("project_skills.is_show", true)
+    .eq("project_skills.is_show", true) 
     .eq("project_categories.is_show", true)
     .eq("project_categories.categories.is_show", true)
     .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
-    .order("created_at", { ascending: false })
+    .order("published_at", { ascending: false })
     .order("id", { ascending: false })
     .order("order_index", {
       referencedTable: "project_skills",
@@ -206,13 +210,15 @@ export async function getPaginatedProjects({
     .from("projects")
     .select<string, ProjectRawResponse>(getColumns(isFilteringCategory))
     .eq("is_show", true)
+    .eq("status", "published")
+    .not("published_at", "is", null)
     .eq("project_translations.i18n.locale", locale)
     .eq("project_skills.is_show", true)
     .eq("project_categories.is_show", true)
     .eq("project_categories.categories.is_show", true)
     .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
-    .order("created_at", { ascending: false })
+    .order("published_at", { ascending: false })
     .order("id", { ascending: false })
     .order("order_index", {
       referencedTable: "project_skills",
@@ -235,8 +241,8 @@ export async function getPaginatedProjects({
   if (cursor && cursor.order_index !== undefined) {
     query = query.or(
       `order_index.gt.${cursor.order_index},` +
-      `and(order_index.eq.${cursor.order_index},created_at.lt.${cursor.created_at}),` +
-      `and(order_index.eq.${cursor.order_index},created_at.eq.${cursor.created_at},id.lt.${cursor.id})`
+      `and(order_index.eq.${cursor.order_index},published_at.lt.${cursor.published_at}),` +
+      `and(order_index.eq.${cursor.order_index},published_at.eq.${cursor.published_at},id.lt.${cursor.id})`
     )
   }
 
@@ -264,8 +270,8 @@ export async function getPaginatedProjects({
     data: mappedData,
     nextCursor: hasMore
       ? {
-          created_at: lastItem.created_at,
           id: lastItem.id,
+          published_at: lastItem.published_at ?? undefined,
           order_index: lastItem.order_index ?? 0,
         }
       : null,
