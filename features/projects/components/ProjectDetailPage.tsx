@@ -14,7 +14,16 @@ import TableOfContents from '@/components/TableOfContents'
 import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs'
 import { MiracleReveal } from '@/components/miracle/Reveal'
 import Image from 'next/image'
-import { LuArrowUpRight, LuCalendar, LuCrown, LuEye, LuGithub, LuShare2, LuTimer, LuTriangleAlert } from 'react-icons/lu'
+import {
+  LuArrowUpRight,
+  LuCalendar,
+  LuCrown,
+  LuEye,
+  LuGithub,
+  LuTimer,
+  LuTriangleAlert
+} from 'react-icons/lu'
+
 import MiracleBadge from '@/components/miracle/Badge'
 import ReactionGroup from '@/features/reactions/components/ReactionGroup'
 import CommentGroup from '@/features/comments/components/CommentGroup'
@@ -22,22 +31,57 @@ import { formatDate } from '@/utils/format-date'
 import UserAvatar from '@/features/auth/components/UserAvatar'
 import SkillBadges from '@/features/skills/components/SkillBadges'
 import MiracleButton from '@/components/miracle/Button'
-import clsx from 'clsx'
 import { createClient } from '@/lib/supabase/server'
+
 import path from 'path'
-import fs from "fs"
+import fs from 'fs'
+
 import { formatReadingTime, getMdxReadingTime } from '@/utils/reading-time'
 import MiracleBanner from '@/components/miracle/Banner'
 import ProjectShareButton from './ProjectShareButton'
 
+/* -------------------------------
+   FALLBACK CONFIG
+--------------------------------*/
+const FALLBACK_LOCALES = ['en', 'id']
+
+/* -------------------------------
+   MDX RESOLVER (locale → fallback → null)
+--------------------------------*/
+async function resolveMdx(slug: string, locale: string) {
+  const localesToTry = [
+    locale,
+    ...FALLBACK_LOCALES.filter((l) => l !== locale),
+  ]
+
+  for (const loc of localesToTry) {
+    try {
+      const mod = await import(`../markdown/${slug}-${loc}.mdx`)
+      return {
+        Content: mod.default,
+        mdxLocale: loc,
+      }
+    } catch {
+      continue
+    }
+  }
+
+  return {
+    Content: null,
+    mdxLocale: null,
+  }
+}
+
 export default async function ProjectDetailPage({ params }: BasePageProps) {
   const t = await getTranslations("pages.project-detail")
   const { locale, slug } = await params
+
   const supabase = await createClient()
-  
+
   if (!slug) notFound()
 
   const queryClient = new QueryClient()
+
   const project = await queryClient.fetchQuery({
     queryKey: ["project", slug, locale],
     queryFn: () => getProject({ locale, slug }),
@@ -45,69 +89,69 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
 
   if (!project) notFound()
 
+  /* -------------------------------
+     VIEW INCREMENT
+  --------------------------------*/
   if (process.env.NODE_ENV === 'production') {
-    const { error: viewError } = await supabase.rpc('increment_view', { 
-      project_id: project.id 
-    });
+    const { error: viewError } = await supabase.rpc('increment_view', {
+      project_id: project.id
+    })
 
     if (viewError) {
-      console.error("Error incrementing view:", viewError.message);
+      console.error("Error incrementing view:", viewError.message)
     }
   }
 
-  /**
-   * Reading Time Calculation
-   * Get string from Title + Description + Raw MDX
-   */
-  let rawContent = `${project.name} ${project.description}`;
-  try {
-    // Direct path from the project root to the markdown folder
-    const mdxDir = path.join(process.cwd(), 'features', 'projects', 'markdown');
-    
-    const targetPath = path.join(mdxDir, `${slug}-${locale}.mdx`);
-    const fallbackPath = path.join(mdxDir, `${slug}-en.mdx`);
+  /* -------------------------------
+     MDX LOAD (FIXED FALLBACK)
+  --------------------------------*/
+  const { Content, mdxLocale } = await resolveMdx(slug, locale)
 
-    if (fs.existsSync(targetPath)) {
-      rawContent += " " + fs.readFileSync(targetPath, 'utf8');
-    } else if (locale !== 'en' && fs.existsSync(fallbackPath)) {
-      rawContent += " " + fs.readFileSync(fallbackPath, 'utf8');
-    } else {
-      console.log("❌ MDX file not found.");
-    }
-  } catch (err) {
-    console.error("Failed to fetch MDX content:", err);
-  }
-  
-  const stats = getMdxReadingTime(rawContent);
-  const displayReadingTime = formatReadingTime(stats.minutes, locale);
+  let mdxText = ''
 
-  /**
-   * Load MDX Content
-   */
-  const Content = await import(`../markdown/${slug}-${locale}.mdx`)
-    .then((mod) => mod.default)
-    .catch(async () => {
-      try {
-        if (locale !== 'en') {
-          return (await import(`../markdown/${slug}-en.mdx`)).default
-        }
-        return null
-      } catch (err) {
-        return null
+  if (Content && mdxLocale) {
+    try {
+      const mdxDir = path.join(process.cwd(), 'features', 'projects', 'markdown')
+
+      const filePath = path.join(mdxDir, `${slug}-${mdxLocale}.mdx`)
+
+      if (fs.existsSync(filePath)) {
+        mdxText = fs.readFileSync(filePath, 'utf8')
       }
-    })
+    } catch (err) {
+      console.error("MDX read error:", err)
+    }
+  }
+
+  /* -------------------------------
+     RAW CONTENT (READING TIME INPUT)
+  --------------------------------*/
+  const rawContent = [
+    project.name,
+    project.description,
+    mdxText
+  ]
+    .filter(Boolean)
+    .join(' ')
+
+  const stats = getMdxReadingTime(rawContent)
+
+  const displayReadingTime = stats?.minutes
+    ? formatReadingTime(stats.minutes, locale)
+    : ''
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Container className="flex flex-col lg:flex-row gap-8 items-start py-6">
         <Article className="pb-13 lg:pb-23 flex-1 w-full">
+
           <MiracleReveal animation="fade-right">
-            <MiracleBreadcrumbs 
+            <MiracleBreadcrumbs
               locales={routing.locales}
               overrides={{
                 home: t("breadcrumbs.home"),
                 projects: t("breadcrumbs.projects"),
-                [slug]: project.name 
+                [slug]: project.name
               }}
               className="mb-6"
             />
@@ -132,6 +176,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
             {/* Card Meta Data */}
             <MiracleReveal animation="fade-up" delay={0.1}>
               <div className="bg-primary border border-primary md:-mt-40 lg:-mt-60 relative z-1 md:mx-6 lg:mx-8 rounded-2xl">
+
                 {project.thumbnail && (
                   <div className="w-full block md:hidden aspect-video relative rounded-t-2xl overflow-hidden shadow-sm">
                     <Image
@@ -156,12 +201,13 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                           {t("featured")}
                         </MiracleBadge>
                       )}
-                      
-                      <Heading 
+
+                      <Heading
                         id={slug}
                         level={1}
                         className="text-2xl! md:text-3xl! lg:text-4xl! font-bold"
-                        linkClassName="text-[0.5em]!">
+                        linkClassName="text-[0.5em]!"
+                      >
                         {project.name}
                       </Heading>
 
@@ -170,24 +216,32 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                           <LuEye className="shrink-0" />
                           {project.view_count + 1} {t("views", { count: project.view_count + 1 })}
                         </span>
+
                         <span className="flex items-center gap-1">
                           <LuTimer className="shrink-0" />
                           {displayReadingTime} {t("read")}
                         </span>
                       </p>
                     </div>
-                    
-                    <ProjectShareButton title={project.name} description={project.description}/>
+
+                    <ProjectShareButton
+                      title={project.name}
+                      description={project.description}
+                    />
                   </header>
 
                   <p className="mt-2 text-secondary text-sm">
                     {project.description}
                   </p>
 
-                  {/* Banner */}
                   {(project.additional_info || project.additional_info_label) && (
                     <div className="col-span-full mt-4">
-                      <MiracleBanner color="yellow" variant="secondary" startIcon={<LuTriangleAlert />} title={project.additional_info_label ?? undefined}>
+                      <MiracleBanner
+                        color="yellow"
+                        variant="secondary"
+                        startIcon={<LuTriangleAlert />}
+                        title={project.additional_info_label ?? undefined}
+                      >
                         {project.additional_info ?? undefined}
                       </MiracleBanner>
                     </div>
@@ -207,7 +261,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                       </p>
                     </div>
                   </div>
-      
+
                   {/* Date Created*/}
                   <div className="flex flex-col gap-2">
                     <p className="text-xs uppercase tracking-tight text-secondary">
@@ -224,6 +278,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                     <p className="text-xs uppercase tracking-tight text-secondary">
                       {t("label.categories")}
                     </p>
+
                     <div className="flex flex-wrap items-center gap-2 text-sm text-primary font-medium">
                       {project.categories.map((category, index) => (
                         <MiracleBadge key={index} className="capitalize" color="blue" variant="secondary" pill>
@@ -240,7 +295,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                     </p>
                     <SkillBadges skills={project.skills} />
                   </div>
-                  
+
                   {/* Actions */}
                   <div className="flex flex-col md:flex-row gap-2 col-span-full mt-1">
                     <MiracleButton href={project.url ?? undefined} endIcon={<LuArrowUpRight />} disabled={!project.url} fullWidth>
@@ -250,13 +305,22 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                       {t("source-code")}
                     </MiracleButton>
                   </div>
-                </div>  
+                </div>
 
                 {/* Bottom */}
                 <div className="flex items-center justify-end px-5 md:px-6 py-3 border-t border-primary">
-                  <ReactionGroup targetId={project.id} targetType="project" initialSummary={project.reaction_summary} />
-                  <CommentGroup targetId={project.id} targetType="project" initialCount={project.comment_count} />
-                </div>              
+                  <ReactionGroup
+                    targetId={project.id}
+                    targetType="project"
+                    initialSummary={project.reaction_summary}
+                  />
+                  <CommentGroup
+                    targetId={project.id}
+                    targetType="project"
+                    initialCount={project.comment_count}
+                  />
+                </div>
+
               </div>
             </MiracleReveal>
           </div>
