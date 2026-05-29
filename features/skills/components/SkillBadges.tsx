@@ -111,11 +111,11 @@ export default function SkillBadges({
                   return (
                     <a
                       key={i}
+                      aria-label={`${t("ariaPrefix")} ${skill.name}`}
                       href={skill.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="no-underline"
-                      aria-label={skill.name}
                     >
                       {ItemContent}
                     </a>

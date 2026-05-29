@@ -67,12 +67,12 @@ export default function AchievementCard({ achievement, className }: { achievemen
             )}
           </div>
           <div className="flex flex-col items-start">
-            <a
+            <h3
               onClick={() => setIsModalOpen(true)}
               aria-label={t("viewDetail")}
-              className="text-primary text-md font-semibold tracking-tight line-clamp-1 cursor-pointer hover:underline transform-all duration-300 ease-in-out">
+              className="text-primary text-md font-semibold tracking-tight line-clamp-1 cursor-pointer">
               {achievement.name}
-            </a>
+            </h3>
             <div className="text-secondary text-sm tracking-tight flex items-center gap-1">
               <span>{achievement.issuing_organization}</span>
               |
