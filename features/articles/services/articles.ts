@@ -302,3 +302,21 @@ export async function getArticle({
 
   return data ? mapToArticle(data) : null;
 }
+
+export async function getAllArticlesSlugs() {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("articles")
+    .select("slug, updated_at")
+    .eq("is_show", true)
+    .eq("status", "published")
+    .not("published_at", "is", null);
+
+  if (error) {
+    console.error("[getAllArticlesSlugs] Error:", error);
+    throw error;
+  }
+
+  return data ?? [];
+}

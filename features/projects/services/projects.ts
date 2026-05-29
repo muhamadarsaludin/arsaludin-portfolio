@@ -349,3 +349,21 @@ export async function getProject({
 
   return data ? mapToProject(data) : null;
 }
+
+export async function getAllProjectsSlugs() {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("projects")
+    .select("slug, updated_at")
+    .eq("is_show", true)
+    .eq("status", "published")
+    .not("published_at", "is", null);
+
+  if (error) {
+    console.error("[getAllProjectsSlugs] Error:", error);
+    throw error;
+  }
+
+  return data ?? [];
+}
