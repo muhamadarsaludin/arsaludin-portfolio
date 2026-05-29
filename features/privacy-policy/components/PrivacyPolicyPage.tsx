@@ -42,7 +42,7 @@ export default async function PrivacyPolicyPage({ params }: PrivacyPolicyPagePro
       }
     });
 
-  const LATEST_UPDATE_DATE = "30-04-2026";
+  const LATEST_UPDATE_DATE = "29-05-2026";
 
   return (
     <Container className="flex gap-6 md:gap-8 items-start">
