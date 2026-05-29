@@ -43,7 +43,7 @@ export default function ProjectsContent({
   const debouncedSearch = useDebounce(search, 500)
   const [isOpenFilter, setIsOpenFilter] = useState(false)
 
-  const { data: categories } = useAvailableCategories({ targetType })
+  const { data: categories } = useAvailableCategories({ locale, targetType })
   const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
   useEffect(() => { setSearch(searchUrl) }, [searchUrl])

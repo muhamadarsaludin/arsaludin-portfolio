@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server"
 import type { PaginatedProjects, Project, ProjectEntity, ProjectTranslationEntity } from "../types/projects.types"
 import { Skill } from "@/features/skills/types/skills.types"
 import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
-import { Category } from "@/features/categories/types/categories.types"
+import { Category, CategoryEntity } from "@/features/categories/types/categories.types"
 import { Cursor } from "@/features/shared/types/index.types"
 import { PROJECTS_PAGE_SIZE } from "../constants/projects.constans"
 import { Profile } from "@/features/profile/types/profiles.types"
@@ -23,7 +23,14 @@ type ProjectRawResponse = ProjectEntity & {
   }[]
   categories: {
     is_show: boolean
-    category: Category
+    category: Pick<CategoryEntity, "id" | "slug" | "is_show"> & {
+      category_translations: {
+        name: string
+        i18n: {
+          locale: string
+        }
+      }[]
+    }
   }[]
   comments: { count: number }[]
   reaction_counts: ReactionCount[]
@@ -81,9 +88,14 @@ const getColumns = (isFilteringCategory: boolean = false) => `
     is_show,
     category:categories!inner(
       id,
-      name,
       slug,
-      is_show
+      is_show,
+      category_translations!inner(
+        name,
+        i18n!inner(
+          locale
+        )
+      )
     )
   ),
   comments(count),
@@ -110,7 +122,20 @@ const getColumns = (isFilteringCategory: boolean = false) => `
 const mapToProject = (project: ProjectRawResponse): Project => {
   const t = project.translations?.[0]
   const skills = project.skills?.map((ps) => ps.skill).filter(Boolean) ?? []
-  const categories = project.categories?.map((pc) => pc.category).filter(Boolean) ?? [] 
+  const categories: Category[] = project.categories
+    ?.map((pc) => {
+      const cat = pc.category
+      if (!cat) return null
+      const translation = cat.category_translations?.[0]
+
+      return {
+        id: cat.id,
+        slug: cat.slug,
+        is_show: cat.is_show,
+        name: translation?.name ?? "",
+      }
+    })
+    .filter((cat): cat is Category => cat !== null) ?? []
   const commentCount = project.comments?.[0]?.count ?? 0
   const userReaction = project.reactions?.[0] ?? null
   const allReactions = project.reaction_counts || []
@@ -159,10 +184,11 @@ export async function getFeaturedProjects({
     .eq("is_featured", true)
     .eq("status", "published")
     .not("published_at", "is", null)
-    .eq("project_translations.i18n.locale", locale)
-    .eq("project_skills.is_show", true) 
-    .eq("project_categories.is_show", true)
-    .eq("project_categories.categories.is_show", true)
+    .eq("translations.i18n.locale", locale)
+    .eq("skills.is_show", true) 
+    .eq("categories.is_show", true)
+    .eq("categories.category.is_show", true)
+    .eq("categories.category.category_translations.i18n.locale", locale) 
     .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
@@ -212,10 +238,11 @@ export async function getPaginatedProjects({
     .eq("is_show", true)
     .eq("status", "published")
     .not("published_at", "is", null)
-    .eq("project_translations.i18n.locale", locale)
-    .eq("project_skills.is_show", true)
-    .eq("project_categories.is_show", true)
-    .eq("project_categories.categories.is_show", true)
+    .eq("translations.i18n.locale", locale)
+    .eq("skills.is_show", true)
+    .eq("categories.is_show", true)
+    .eq("categories.category.is_show", true)
+    .eq("categories.category.category_translations.i18n.locale", locale) 
     .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
@@ -298,11 +325,12 @@ export async function getProject({
   let query = supabase
     .from("projects")
     .select<string, ProjectRawResponse>(getColumns())
-    .eq("project_translations.i18n.locale", locale)
+    .eq("translations.i18n.locale", locale)
     .eq("reactions.user_id", userId)
-    .eq("project_skills.is_show", true)
-    .eq("project_categories.is_show", true)
-    .eq("project_categories.categories.is_show", true);
+    .eq("skills.is_show", true)
+    .eq("categories.is_show", true)
+    .eq("categories.category.is_show", true)
+    .eq("categories.category.category_translations.i18n.locale", locale) 
 
   if (id) {
     query = query.eq("id", id);

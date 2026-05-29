@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs';
-import Section from '@/components/Section';
 import { routing } from '@/i18n/routing';
 import Heading from '@/components/Heading';
 import { Cursor } from '@/features/shared/types/index.types';
@@ -44,8 +43,8 @@ export default async function ProjectsPage(props: BasePageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", targetType],
-      queryFn: () => getAvailableCategories({ targetType }),
+      queryKey: ["available-categories", {locale, targetType}],
+      queryFn: () => getAvailableCategories({ locale, targetType }),
     })
   ])
 
