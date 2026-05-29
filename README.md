@@ -1,6 +1,6 @@
 # arsaludin.my.id
 
-A personal portfolio website that documents my journey, experience, and work, representing my skills, character, and approach to building digital solutions.
+A personal portfolio website that documents my journey, experiences, and work in a comprehensive way, and represents my skills, character, and approach to building digital solutions.
 
 Feel free to explore the project and take a look around. If you find it interesting or useful, consider giving it a star ⭐
 
