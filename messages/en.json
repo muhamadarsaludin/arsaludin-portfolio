@@ -480,7 +480,7 @@
     },
     "changelog": {
       "title": "Changelog",
-      "description": "See what's new on my portfolio, from fresh features and improvements to the latest bug fixes.",
+      "description": "See what's new in my portfolio, from fresh features and improvements to the latest bug fixes.",
       "breadcrumbs": {
         "home": "Home",
         "changelog": "Changelog"
