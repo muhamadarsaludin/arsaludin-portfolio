@@ -7,13 +7,13 @@ import { useFeaturedAchievements } from "@/features/achievements/hooks/useFeatur
 import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
 
-export function AchievementList() {
+export function AchievementList({ locale }: { locale: string }) {
   const {
     data: achievements,
     isLoading,
     isError,
     refetch
-  } = useFeaturedAchievements()
+  } = useFeaturedAchievements({ locale })
 
   if (isLoading) return <ProjectListSkeleton />
   if (isError) return <ErrorStateCard onRetry={refetch} />

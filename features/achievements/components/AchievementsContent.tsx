@@ -25,10 +25,12 @@ import { ACHIEVEMENTS_LEVELS, ACHIEVEMENTS_PAGE_SIZE, ACHIEVEMENTS_TYPES } from 
 import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type AchievementsContentProps = {
+  locale: string
   targetType: CategoryTargetType
 }
 
 export default function AchievementsContent({
+  locale,
   targetType
 }: AchievementsContentProps) {
   const t = useTranslations("pages.achievements")
@@ -82,6 +84,7 @@ export default function AchievementsContent({
   }
 
   const currentFilters = useMemo(() => ({
+    locale,
     search: searchUrl || undefined,
     types: types.length ? types : undefined,
     levels: levels.length ? levels : undefined,

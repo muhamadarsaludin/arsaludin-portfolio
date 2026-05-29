@@ -1,15 +1,26 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server";
-import { Category, CategoryTargetType } from "../types/categories.types";
+import { Category, CategoryEntity, CategoryTargetType } from "../types/categories.types";
 
 type GetAvailableCategoriesParams = {
+  locale: string
   targetType: CategoryTargetType
 }
 
-type GetAvailableCategoriesResponse = Category & Record<string, { id: string, is_show: boolean}[]>
+type GetAvailableCategoriesResponse = Pick<CategoryEntity, "id" | "slug" | "is_show">
+  & {
+    category_translations: {
+      name: string
+      i18n: {
+        locale: string
+      }
+    }[]
+  }
+  & Record<string, { id: string, is_show: boolean}[]>
 
 export async function getAvailableCategories({ 
+  locale,
   targetType 
 }: GetAvailableCategoriesParams): Promise<Category[]> {
   const supabase = await createClient();
@@ -19,17 +30,23 @@ export async function getAvailableCategories({
     .from("categories")
     .select<string, GetAvailableCategoriesResponse>(`
       id,
-      name,
       slug,
       is_show,
+      category_translations!inner(
+        name,
+        i18n!inner(
+          locale
+        )
+      ),
       ${relationTable}!inner(
         id,
         is_show
       )
     `)
     .eq("is_show", true)
+    .eq("category_translations.i18n.locale", locale)
     .eq(`${relationTable}.is_show`, true)
-    .order("name", { ascending: true });
+    .order("slug", { ascending: true })
 
   if (error) {
     console.error(`[getAvailableCategories] Error:`, error);
@@ -38,14 +55,13 @@ export async function getAvailableCategories({
 
   if (!data) return []
 
-  const uniqueCategories: Category[] = Array.from(
-    new Map(data.map((item) => [item.id, item])).values()
-  ).map((cat) => ({
-    id: cat.id,
-    name: cat.name,
-    slug: cat.slug,
-    is_show: cat.is_show,
-  }));
-
-  return uniqueCategories;
+  return data.map((item) => {
+    const translation = item.category_translations?.[0]
+    return {
+      id: item.id,
+      slug: item.slug,
+      is_show: item.is_show,
+      name: translation?.name ?? "",
+    }
+  })
 }

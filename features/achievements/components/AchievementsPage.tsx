@@ -17,12 +17,14 @@ import { BasePageProps } from '@/types/page.types';
 import { MiracleReveal } from '@/components/miracle/Reveal';
 
 export default async function AchievementsPage(props: BasePageProps) {
+  const {locale} = await props.params
   const t = await getTranslations("pages.achievements")
   const queryClient = new QueryClient()
   const targetType:CategoryTargetType = "achievement"
   const searchParams = await props.searchParams
 
   const filters = {
+    locale,
     search: typeof searchParams.search === 'string' && searchParams.search ? searchParams.search : undefined,
     types: normalizeArrayParam(searchParams.types),
     levels: normalizeArrayParam(searchParams.levels),
@@ -44,7 +46,7 @@ export default async function AchievementsPage(props: BasePageProps) {
 
     queryClient.prefetchQuery({
       queryKey: ["available-categories", targetType],
-      queryFn: () => getAvailableCategories({ targetType }),
+      queryFn: () => getAvailableCategories({ targetType, locale }),
     })
   ])
 
@@ -88,7 +90,7 @@ export default async function AchievementsPage(props: BasePageProps) {
         </MiracleReveal>
         {/* Achievements Content */}
         <HydrationBoundary state={dehydratedState}>
-          <AchievementsContent targetType={targetType} />
+          <AchievementsContent locale={locale} targetType={targetType} />
         </HydrationBoundary>
       </Article>
     </Container>

@@ -3,21 +3,38 @@
 import { createClient } from "@/lib/supabase/server"
 import { Achievement, AchievementEntity, PaginatedAchievements } from "../types/achievements.types"
 import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
-import { Category } from "@/features/categories/types/categories.types"
+import { CategoryEntity, Category } from "@/features/categories/types/categories.types"
 import { Cursor } from "@/features/shared/types/index.types"
 import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.constants"
 
 type AchievementRawResponse = Pick<
-  AchievementEntity, "id" | "name" | "type" | "level" | "image" | "issuing_organization" | "organization_logo" | "credential_url" | "credential_id" | "issue_date" | "expiration_date" | "is_show" | "is_featured" | "order_index" | "created_at"
->
-  & {
-    categories: {
-      is_show: boolean
-      category: Category
-    }[];
-    reaction_counts: ReactionCount []
-    reactions: Reaction[]
-  }
+  AchievementEntity, 
+  | "id" | "name" | "type" | "level" | "image" | "issuing_organization" 
+  | "organization_logo" | "credential_url" | "credential_id" | "issue_date" 
+  | "expiration_date" | "is_show" | "is_featured" | "order_index" | "created_at"
+> & {
+  categories: {
+    is_show: boolean
+    category: Pick<CategoryEntity, "id" | "slug" | "is_show"> & {
+      category_translations: {
+        name: string
+        i18n: {
+          locale: string
+        }
+      }[]
+    }
+  }[]
+  reaction_counts: ReactionCount[]
+  reactions: (Reaction & {
+    author: {
+      id: string
+      full_name: string
+      email: string
+      role: string
+      avatar_url: string
+    } | null
+  })[]
+}
 
 // --- HELPERS ---
 const getColumns = (isFilteringCategory: boolean = false) => `
@@ -40,9 +57,14 @@ const getColumns = (isFilteringCategory: boolean = false) => `
       is_show,
       category:categories!inner(
         id,
-        name,
         slug,
-        is_show
+        is_show,
+        category_translations!inner(
+          name,
+          i18n!inner(
+            locale
+          )
+        )
       )
     ),
     reaction_counts:achievement_reaction_counts(
@@ -66,7 +88,21 @@ const getColumns = (isFilteringCategory: boolean = false) => `
   `
 
 const mapToAchievement = (achievement: AchievementRawResponse): Achievement => {
-  const categories = achievement.categories?.map((ac) => ac.category).filter(Boolean) ?? []
+  const categories: Category[] = achievement.categories
+    ?.map((ac) => {
+      const cat = ac.category
+      if (!cat) return null
+      const translation = cat.category_translations?.[0]
+
+      return {
+        id: cat.id,
+        slug: cat.slug,
+        is_show: cat.is_show,
+        name: translation?.name ?? "",
+      }
+    })
+    .filter((cat): cat is Category => cat !== null) ?? []
+
   const userReaction = achievement.reactions?.[0] ?? null
   const allReactions = achievement.reaction_counts || []
   
@@ -86,7 +122,9 @@ const mapToAchievement = (achievement: AchievementRawResponse): Achievement => {
 }
 
 // --- MAIN FUNCTION ---
-export async function getFeaturedAchievements(): Promise<Achievement[]> {
+export async function getFeaturedAchievements({
+  locale
+}: { locale: string }): Promise<Achievement[]> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
@@ -96,8 +134,9 @@ export async function getFeaturedAchievements(): Promise<Achievement[]> {
     .select<string, AchievementRawResponse>(getColumns())
     .eq("is_show", true)
     .eq("is_featured", true)
-    .eq("achievement_categories.is_show", true)
-    .eq("achievement_categories.categories.is_show", true)
+    .eq("categories.is_show", true)
+    .eq("categories.category.is_show", true)
+    .eq("categories.category.category_translations.i18n.locale", locale) 
     .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("issue_date", { ascending: false })
@@ -117,6 +156,7 @@ export async function getFeaturedAchievements(): Promise<Achievement[]> {
 }
 
 type GetPaginatedAchievementsParams = {
+  locale: string
   search?: string
   types?: string[]
   levels?: string[]
@@ -126,6 +166,7 @@ type GetPaginatedAchievementsParams = {
 }
 
 export async function getPaginatedAchievements({
+  locale,
   search,
   types,
   levels,
@@ -144,8 +185,9 @@ export async function getPaginatedAchievements({
     .from("achievements")
     .select<string, AchievementRawResponse>(getColumns(isFilteringCategory))
     .eq("is_show", true)
-    .eq("achievement_categories.is_show", true)
-    .eq("achievement_categories.categories.is_show", true)
+    .eq("categories.is_show", true)
+    .eq("categories.category.is_show", true)
+    .eq("categories.category.category_translations.i18n.locale", locale) 
     .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("issue_date", { ascending: false })

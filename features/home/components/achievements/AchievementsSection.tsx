@@ -1,6 +1,6 @@
 import Heading from "@/components/Heading"
 import Section from "@/components/Section"
-import { getTranslations } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
 import MiracleButton from "@/components/miracle/Button"
 import Link from "next/link"
@@ -16,11 +16,12 @@ import { MiracleReveal } from "@/components/miracle/Reveal"
  */
 export default async function AchievementsSection({ className }: { className?: string }) {
   const t = await getTranslations("pages.home.achievements")
+  const locale = await getLocale()
   const queryClient = new QueryClient()
 
   await queryClient.prefetchQuery({
-    queryKey: ["featured-achievements"],
-    queryFn: () => getFeaturedAchievements(),
+    queryKey: ["featured-achievements", locale],
+    queryFn: () => getFeaturedAchievements({ locale }),
   })
 
   return (
@@ -37,7 +38,7 @@ export default async function AchievementsSection({ className }: { className?: s
         </Heading>
       </MiracleReveal>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <AchievementList />
+        <AchievementList locale={locale} />
       </HydrationBoundary>
       <div className="flex justify-center mt-6 lg:mt-8 xl:mt-10">
         <MiracleReveal animation="zoom-in">
