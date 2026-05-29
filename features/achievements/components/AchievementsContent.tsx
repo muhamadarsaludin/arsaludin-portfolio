@@ -23,6 +23,7 @@ import Section from "@/components/Section"
 import { CardType } from "@/features/cards/types/cards.types"
 import { ACHIEVEMENTS_LEVELS, ACHIEVEMENTS_PAGE_SIZE, ACHIEVEMENTS_TYPES } from "../constants/achievements.constants"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { ca } from "zod/v4/locales"
 
 type AchievementsContentProps = {
   locale: string
@@ -46,7 +47,7 @@ export default function AchievementsContent({
   const debouncedSearch = useDebounce(search, 500)
   const [isOpenFilter, setIsOpenFilter] = useState(false)
 
-  const { data: categories } = useAvailableCategories({ targetType })
+  const { data: categories } = useAvailableCategories({ locale, targetType })
   const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
   useEffect(() => { setSearch(searchUrl) }, [searchUrl])

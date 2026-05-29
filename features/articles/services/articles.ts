@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
-import { Category } from "@/features/categories/types/categories.types"
+import { Category, CategoryEntity } from "@/features/categories/types/categories.types"
 import { Cursor } from "@/features/shared/types/index.types"
 import { Article, ArticleEntity, ArticleTranslationEntity, PaginatedArticles } from "../types/articles.types"
 import { Profile } from "@/features/profile/types/profiles.types"
@@ -17,7 +17,14 @@ type ArticleRawResponse = ArticleEntity
   author: Profile
   categories: {
     is_show: boolean
-    category: Category
+    category: Pick<CategoryEntity, "id" | "slug" | "is_show"> & {
+      category_translations: {
+        name: string
+        i18n: {
+          locale: string
+        }
+      }[]
+    }
   }[]
   comments: { count: number }[]
   reaction_counts: ReactionCount[]
@@ -56,9 +63,14 @@ const getColumns = (isFilteringCategory: boolean = false) => `
     is_show,
     category:categories!inner(
       id,
-      name,
       slug,
-      is_show
+      is_show,
+      category_translations!inner(
+        name,
+        i18n!inner(
+          locale
+        )
+      )
     )
   ),
   comments(count),
@@ -84,7 +96,20 @@ const getColumns = (isFilteringCategory: boolean = false) => `
 
 const mapToArticle = (article: ArticleRawResponse): Article => {
   const t = article.translations?.[0]
-  const categories = article.categories?.map((pc) => pc.category).filter(Boolean) ?? [] 
+  const categories: Category[] = article.categories
+    ?.map((ac) => {
+      const cat = ac.category
+      if (!cat) return null
+      const translation = cat.category_translations?.[0]
+
+      return {
+        id: cat.id,
+        slug: cat.slug,
+        is_show: cat.is_show,
+        name: translation?.name ?? "",
+      }
+    })
+    .filter((cat): cat is Category => cat !== null) ?? []
   const commentCount = article.comments?.[0]?.count ?? 0
   const userReaction = article.reactions?.[0] ?? null
   const allReactions = article.reaction_counts || []
@@ -123,9 +148,10 @@ export async function getFeaturedArticles({
     .eq("is_featured", true)
     .eq("status", "published")
     .not("published_at", "is", null)
-    .eq("article_translations.i18n.locale", locale)
-    .eq("article_categories.is_show", true)
-    .eq("article_categories.categories.is_show", true)
+    .eq("translations.i18n.locale", locale)
+    .eq("categories.is_show", true)
+    .eq("categories.category.is_show", true)
+    .eq("categories.category.category_translations.i18n.locale", locale) 
     .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
@@ -172,9 +198,10 @@ export async function getPaginatedArticles({
     .eq("is_show", true)
     .eq("status", "published")
     .not("published_at", "is", null)
-    .eq("article_translations.i18n.locale", locale)
-    .eq("article_categories.is_show", true)
-    .eq("article_categories.categories.is_show", true)
+    .eq("translations.i18n.locale", locale)
+    .eq("categories.is_show", true)
+    .eq("categories.category.is_show", true)
+    .eq("categories.category.category_translations.i18n.locale", locale) 
     .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
@@ -252,10 +279,11 @@ export async function getArticle({
   let query = supabase
     .from("articles")
     .select<string, ArticleRawResponse>(getColumns())
-    .eq("article_translations.i18n.locale", locale)
+    .eq("translations.i18n.locale", locale)
     .eq("reactions.user_id", userId)
-    .eq("article_categories.is_show", true)
-    .eq("article_categories.categories.is_show", true)
+    .eq("categories.is_show", true)
+    .eq("categories.category.is_show", true)
+    .eq("categories.category.category_translations.i18n.locale", locale) 
 
   if (id) {
     query = query.eq("id", id);

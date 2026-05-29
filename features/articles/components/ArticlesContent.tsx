@@ -43,7 +43,7 @@ export default function ArticlesContent({
   const debouncedSearch = useDebounce(search, 500)
   const [isOpenFilter, setIsOpenFilter] = useState(false)
 
-  const { data: categories } = useAvailableCategories({ targetType })
+  const { data: categories } = useAvailableCategories({ locale, targetType })
   const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
   useEffect(() => { setSearch(searchUrl) }, [searchUrl])
@@ -207,11 +207,7 @@ export default function ArticlesContent({
           </MiraclePopover> 
         </div>
       </MiracleReveal>
-      
-      {/* Content */}
-      {/* {!searchUrl && categorySlugs.length === 0 && (
-        <FeaturedArticleContent locale={locale} />
-      )} */}
+
       <Section className="w-full overflow-hidden">{renderContent()}</Section>
 
       <div ref={loadMoreRef} className="flex w-full justify-center py-10">

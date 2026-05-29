@@ -12,9 +12,6 @@ import { normalizeArrayParam } from '@/utils/search-params';
 import { ARTICLES_PAGE_SIZE } from '../constants/articles.constans';
 import { getFeaturedArticles, getPaginatedArticles } from '../services/articles';
 import ArticlesContent from './ArticlesContent';
-import MiracleBadge from '@/components/miracle/Badge';
-import { LuTriangleAlert } from 'react-icons/lu';
-import MiracleBanner from '@/components/miracle/Banner';
 import { BasePageProps } from '@/types/page.types';
 import { MiracleReveal } from '@/components/miracle/Reveal';
 
@@ -35,11 +32,6 @@ export default async function ArticlesPage(props: BasePageProps) {
 
 
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: ["featured-articles", locale],
-      queryFn: () => getFeaturedArticles({ locale }),
-    }),
-
     queryClient.prefetchInfiniteQuery({
       queryKey: ["articles", filters],
       queryFn: ({ pageParam }) => 
@@ -51,8 +43,8 @@ export default async function ArticlesPage(props: BasePageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", targetType],
-      queryFn: () => getAvailableCategories({ targetType }),
+      queryKey: ["available-categories", {locale, targetType}],
+      queryFn: () => getAvailableCategories({ locale, targetType }),
     })
   ])
 

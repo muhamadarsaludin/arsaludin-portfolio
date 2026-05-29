@@ -45,7 +45,7 @@ export default async function AchievementsPage(props: BasePageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", targetType],
+      queryKey: ["available-categories", {locale, targetType}],
       queryFn: () => getAvailableCategories({ targetType, locale }),
     })
   ])
