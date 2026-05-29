@@ -18,7 +18,12 @@ type LayoutProps = {
   params: Promise<{ locale: string }>
 }
 
-export const metadata: Metadata = constructMetadata()
+export const metadata: Metadata = {
+  ...constructMetadata(),
+  verification: {
+    google: "UWxCJFdu6ayRQnwufHhWw2vEaGKQhsE01FHsQ_65334",
+  },
+}
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
