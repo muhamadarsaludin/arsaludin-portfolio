@@ -1,7 +1,7 @@
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 import clsx from "clsx"
 
-export default function AchievementCardSkeleton({className}: {className?: string}) {
+export default function AchievementCardSkeleton({ className }: { className?: string }) {
   return (
     <div
       className={clsx(
@@ -9,14 +9,30 @@ export default function AchievementCardSkeleton({className}: {className?: string
         className
       )}
     >
-      <MiracleSkeleton className="aspect-7/5 w-full rounded-2xl!" variant="med" />
-      <div className="flex flex-1 gap-2 pt-5 items-center">
-        <MiracleSkeleton className="h-10 w-10" variant="med" />
-        <div className="flex flex-col flex-1">
-          <MiracleSkeleton className="mb-2 h-4 w-full" variant="med" />
-          <MiracleSkeleton className="h-3 w-3/4" />
+      <MiracleSkeleton className="aspect-7/5 w-full rounded-2xl!" />
+      
+      {/* Footer Meta Layout */}
+      <div className="flex items-center justify-between gap-4 pt-5">
+        <div className="flex gap-2 items-start min-w-0 flex-1">
+          {/* Organization Brand Avatar Stub */}
+          <MiracleSkeleton className="h-10 w-10 shrink-0 rounded-lg!" />
+          
+          {/* Metadata Stack Stubs */}
+          <div className="flex flex-col items-start flex-1 gap-1.5 pt-0.5">
+            {/* Title Line Placeholder */}
+            <MiracleSkeleton className="h-4 w-11/12 rounded!" />
+            
+            {/* Issuing Organization & Type Badge Double Placeholder Inline Row */}
+            <div className="flex items-center gap-1.5 w-full">
+              <MiracleSkeleton className="h-4 w-1/2 rounded!" />
+              <MiracleSkeleton className="h-4 w-14 rounded-full!" />
+            </div>
+          </div>
         </div>
-        <MiracleSkeleton className="h-6 w-6 rounded-full! ml-2" variant="med" />
+
+        <div className="shrink-0">
+          <MiracleSkeleton className="h-5 w-5 m-1 rounded-full!" />
+        </div>
       </div>
     </div>
   )

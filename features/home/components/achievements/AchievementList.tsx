@@ -15,7 +15,7 @@ export function AchievementList({ locale }: { locale: string }) {
     refetch
   } = useFeaturedAchievements({ locale })
 
-  if (isLoading) return <ProjectListSkeleton />
+  if (isLoading) return <AchievementListSkeleton />
   if (isError) return <ErrorStateCard onRetry={refetch} />
   if (!achievements || achievements.length === 0) return <EmptyStateCard />
 
@@ -41,7 +41,7 @@ export function AchievementList({ locale }: { locale: string }) {
   )
 }
 
-export function ProjectListSkeleton() {
+export function AchievementListSkeleton() {
   return (
     <div className="max-w-full overflow-x-auto sm:overflow-x-hidden overflow-y-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
       {Array.from({ length: 3 }).map((_, i) => (

@@ -31,8 +31,8 @@ export default function ProjectCardSkeleton({ className }: { className?: string 
       
       {/* Skeleton Footer Section */}
       <div className="border-t border-primary bg-secondary px-5 py-3 md:px-6 flex items-center justify-between">
-        <MiracleSkeleton className="h-5 w-5 m-1 rounded-full" variant="med" />
-        <MiracleSkeleton className="h-5 w-5 m-1 rounded-full" variant="med" />
+        <MiracleSkeleton className="h-5 w-5 m-1 rounded-full!" variant="med" />
+        <MiracleSkeleton className="h-5 w-5 m-1 rounded-full!" variant="med" />
       </div>
     </div>
   )

@@ -174,17 +174,19 @@ export const ExperienceCard = ({
       </div>
 
       {/* --- INTEGRASI SHARED GALLERY MODAL --- */}
-      <ModalGallery
-        isOpen={selectedIndex !== null}
-        onClose={() => setSelectedIndex(null)}
-        title={`${experience.company} ${t("gallery")}`}
-        images={experience.images || []}
-        initialIndex={selectedIndex ?? 0}
-        metaTitle={selectedIndex !== null ? experience.images?.[selectedIndex]?.alt : undefined}
-        startDate={startDate}
-        endDate={endDate}
-        location={experience.location}
-      />
+      {selectedIndex !== null && (
+        <ModalGallery
+          isOpen={selectedIndex !== null}
+          onClose={() => setSelectedIndex(null)}
+          title={`${experience.company} ${t("gallery")}`}
+          images={experience.images || []}
+          initialIndex={selectedIndex ?? 0}
+          metaTitle={selectedIndex !== null ? experience.images?.[selectedIndex]?.alt : undefined}
+          startDate={startDate}
+          endDate={endDate}
+          location={experience.location}
+        />
+      )}
     </div>
   )
 }
