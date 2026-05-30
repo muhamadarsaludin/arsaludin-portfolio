@@ -7,26 +7,26 @@ export const ExperienceCardSkeleton = () => {
         <div className="flex flex-col gap-3 md:flex-row md:gap-6 w-full">
           
           {/* Company Logo Placeholder */}
-          <MiracleSkeleton className="border-primary h-12 w-12 md:h-20 md:w-20 shrink-0 rounded-full! border"/>
+          <MiracleSkeleton className="border-primary h-12 w-12 md:h-20 md:w-20 shrink-0 rounded-full border"/>
 
           <div className="flex w-full max-w-md flex-col gap-1.5 md:gap-2">
             {/* Job Role */}
-            <MiracleSkeleton className="h-6 w-3/4 rounded-md" />
+            <MiracleSkeleton className="h-6 w-3/4" />
             
             {/* Company Name */}
-            <MiracleSkeleton className="h-4 w-1/2 rounded-sm" />
+            <MiracleSkeleton className="h-4 w-1/2" />
             
             {/* Context Metadata Row (Calendar, Location, Employment Type) */}
             <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1.5">
-              <MiracleSkeleton className="h-4 w-24 rounded-sm" />
-              <MiracleSkeleton className="h-4 w-20 rounded-sm" />
-              <MiracleSkeleton className="h-4 w-16 rounded-sm" />
+              <MiracleSkeleton className="h-4 w-24" />
+              <MiracleSkeleton className="h-4 w-20" />
+              <MiracleSkeleton className="h-4 w-16" />
             </div>
           </div>
         </div>
 
         {/* Action Toggle Button Placeholder */}
-        <MiracleSkeleton className="h-9 w-9 shrink-0 rounded-md!" />
+        <MiracleSkeleton className="h-9 w-9 shrink-0" />
       </div>
     </div>
   )

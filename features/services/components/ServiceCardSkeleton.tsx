@@ -13,7 +13,7 @@ export default function ServiceCardSkeleton({ className }: { className?: string 
       
       <div className="flex flex-1 flex-col p-5 md:p-6">
         {/* Skeleton Level Badge & Title */}
-        <MiracleSkeleton className="mb-2.5 h-5 w-20 rounded-md"/>
+        <MiracleSkeleton className="mb-2.5 h-5 w-20"/>
         <MiracleSkeleton className="mb-3 h-6 w-3/4"/>
         
         {/* Skeleton Description */}
@@ -23,7 +23,7 @@ export default function ServiceCardSkeleton({ className }: { className?: string 
         {/* Skeleton Skill Badges */}
         <div className="mt-6 flex flex-wrap items-center gap-2">
           {Array.from({ length: 4 }).map((_, j) => (
-            <MiracleSkeleton key={`skill-skeleton-${j}`} className="h-6 w-14 rounded-full" />
+            <MiracleSkeleton key={`skill-skeleton-${j}`} className="h-6 w-14" />
           ))}
         </div>
       </div>

@@ -15,11 +15,11 @@ export default function ProjectCardSkeleton({ className }: { className?: string 
       {/* Skeleton Body Section */}
       <div className="flex flex-1 flex-col p-5 md:p-6">
         {/* Title */}
-        <MiracleSkeleton className="mb-2 h-6 w-3/4 rounded-md" /> 
+        <MiracleSkeleton className="mb-2 h-6 w-3/4" /> 
 
         {/* Description */}
-        <MiracleSkeleton className="mb-2 h-4 w-full rounded-sm" /> 
-        <MiracleSkeleton className="mb-6 h-4 w-2/4 rounded-sm" /> 
+        <MiracleSkeleton className="mb-2 h-4 w-full" /> 
+        <MiracleSkeleton className="mb-6 h-4 w-2/4" /> 
         
         {/* Skeleton Skill Badges */}
         <div className="mt-auto flex flex-wrap items-center gap-2">
@@ -31,8 +31,8 @@ export default function ProjectCardSkeleton({ className }: { className?: string 
       
       {/* Skeleton Footer Section */}
       <div className="border-t border-primary bg-secondary px-5 py-3 md:px-6 flex items-center justify-between">
-        <MiracleSkeleton className="h-5 w-5 m-1 rounded-full!" variant="med" />
-        <MiracleSkeleton className="h-5 w-5 m-1 rounded-full!" variant="med" />
+        <MiracleSkeleton className="h-5 w-5 m-1 rounded-full" variant="med" />
+        <MiracleSkeleton className="h-5 w-5 m-1 rounded-full" variant="med" />
       </div>
     </div>
   )

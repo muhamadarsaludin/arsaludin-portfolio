@@ -8,30 +8,26 @@ export const EducationCardSkeleton = () => {
           
           {/* Institution Logo Placeholder */}
           <MiracleSkeleton
-            className="border-primary h-12 w-12 md:h-20 md:w-20 shrink-0 rounded-full! border"
-            variant="med"
+            className="border-primary h-12 w-12 md:h-20 md:w-20 shrink-0 rounded-full border"
           />
 
           <div className="flex w-full max-w-md flex-col gap-1.5 md:gap-2 items-start">
             {/* School / Institution Name Line */}
-            <MiracleSkeleton className="h-6 w-3/4 rounded-md" variant="med" />
+            <MiracleSkeleton className="h-6 w-3/4" />
             
             {/* Degree and Field Subtitle Line */}
-            <MiracleSkeleton className="h-4 w-1/2 rounded-sm" />
+            <MiracleSkeleton className="h-4 w-1/2" />
             
             {/* Context Metadata Row (Calendar Timeline, Location) */}
             <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1.5">
-              <MiracleSkeleton className="h-4 w-24 rounded-sm" />
-              <MiracleSkeleton className="h-4 w-20 rounded-sm" />
+              <MiracleSkeleton className="h-4 w-25" />
+              <MiracleSkeleton className="h-4 w-25" />
             </div>
-            
-            {/* Academic Grade Ribbon Badge Placeholder */}
-            <MiracleSkeleton className="mt-2 h-6 w-28 rounded-md" variant="med" />
           </div>
         </div>
 
         {/* Action Toggle Button Placeholder */}
-        <MiracleSkeleton className="h-9 w-9 shrink-0 rounded-md!" variant="med" />
+        <MiracleSkeleton className="h-9 w-9 shrink-0" />
       </div>
     </div>
   )

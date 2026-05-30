@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 type MiracleSkeletonProps = React.HTMLAttributes<HTMLDivElement> & {
   variant?: "low" | "med" | "high"
@@ -13,7 +13,7 @@ export function MiracleSkeleton({ className, variant = "low", ...props }: Miracl
 
   return (
     <div
-      className={clsx("animate-pulse rounded-md", variantClasses[variant], className)}
+      className={cn("animate-pulse rounded-md", variantClasses[variant], className)}
       {...props}
     />
   )
