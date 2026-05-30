@@ -8,10 +8,11 @@ import clsx from "clsx"
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
 import { getStats } from "@/features/stats/services/stats"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { getQueryClient } from "@/lib/query-client"
 
 export default async function ProfileSection({ className }: { className?: string }) {
   const t = await getTranslations("pages.home.profile")
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
   await queryClient.prefetchQuery({
     queryKey: ["stats"],
     queryFn: () => getStats(),

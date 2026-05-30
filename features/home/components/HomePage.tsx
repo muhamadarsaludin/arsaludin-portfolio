@@ -1,12 +1,12 @@
 import Container from "@/components/Container"
-import AchievementsSection from "./achievements/AchievementsSection"
-import EducationsSection from "./educations/EducationsSection"
-import ExperiencesSection from "./experiences/ExperiencesSection"
-import ProfileSection from "./profile/ProfileSection"
-import ProjectsSection from "./projects/ProjectsSection"
-import SkillsAndServicesSection from "./skills-and-services/SkillsAndServicesSection"
-import TestimonialsSection from "./testimonials/TestimonialsSection"
 import Article from "@/components/Article"
+import ProfileSection from "./profile/ProfileSection"
+import SkillsAndServicesSection from "./skills-and-services/SkillsAndServicesSection"
+import ProjectsSection from "./projects/ProjectsSection"
+import ExperiencesSection from "./experiences/ExperiencesSection"
+import EducationsSection from "./educations/EducationsSection"
+import AchievementsSection from "./achievements/AchievementsSection"
+import TestimonialsSection from "./testimonials/TestimonialsSection"
 
 export default function HomePage() {
   return (

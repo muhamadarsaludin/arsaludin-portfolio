@@ -2,7 +2,6 @@
 
 import clsx from "clsx"
 import type { InputHTMLAttributes, ReactNode } from "react"
-import { useId } from "react"
 
 export type RadioProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
   description?: ReactNode
@@ -16,26 +15,22 @@ export default function MiracleRadio({
   description,
   iconStart,
   className,
-  id,
   disabled,
   onChange,
   invers = false,
   ...props
 }: RadioProps) {
-  const generatedId = useId()
-  const radioId = id || generatedId
-
+  // Kita tidak wajib pakai useId() lagi jika input berada di dalam label
   return (
-    <div
+    <label
       className={clsx(
         "grid cursor-pointer grid-cols-[auto_auto_1fr] items-center gap-x-2 gap-y-1",
-        disabled && "pointer-events-none opacity-50",
+        disabled ? "pointer-events-none opacity-50" : "",
         className
       )}
     >
       <input
         type="radio"
-        id={radioId}
         className={clsx(
           "h-4 w-4 cursor-pointer",
           invers ? "accent-blue-400 dark:accent-blue-600" : "accent-blue-600 dark:accent-blue-400"
@@ -47,15 +42,16 @@ export default function MiracleRadio({
 
       {iconStart && <span className="flex shrink-0">{iconStart}</span>}
 
-      <label htmlFor={radioId} className="cursor-pointer text-sm select-none">
+      {/* Ubah div di bawah menjadi span atau fragment agar valid secara HTML */}
+      <span className="text-sm select-none">
         {children}
-      </label>
+      </span>
 
       {description && (
-        <span className="text-secondary col-span-2 col-start-2 cursor-pointer text-sm">
+        <span className="text-secondary col-span-2 col-start-2 text-sm">
           {description}
         </span>
       )}
-    </div>
+    </label>
   )
 }

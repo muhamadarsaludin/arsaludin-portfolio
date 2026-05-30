@@ -1,6 +1,5 @@
 import Image from "next/image"
 import clsx from "clsx"
-import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type ProfileImageProps = React.HTMLAttributes<HTMLDivElement> & {
   className?: string

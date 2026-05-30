@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { NextIntlClientProvider, hasLocale } from "next-intl"
+import { NextIntlClientProvider } from "next-intl" 
 import { setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { routing } from "@/i18n/routing"
@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     google: "UWxCJFdu6ayRQnwufHhWw2vEaGKQhsE01FHsQ_65334",
   },
 }
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -36,14 +37,15 @@ export const viewport: Viewport = {
 
 export default async function LocaleLayout({ children, params }: LayoutProps) {
   const { locale } = await params
+  if (!routing.locales.includes(locale as any)) {
+    notFound()
+  }
+  setRequestLocale(locale)
+
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID
   const isProduction = process.env.NODE_ENV === 'production'
   
   let user = null
-
-  if (!routing.locales.includes(locale as any)) {
-    notFound();
-  }
 
   try {
     const supabase = await createClient()

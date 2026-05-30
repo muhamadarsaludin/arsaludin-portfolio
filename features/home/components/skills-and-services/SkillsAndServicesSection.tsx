@@ -1,16 +1,17 @@
 import Section from "@/components/Section"
 import Heading from "@/components/Heading"
 import { getLocale, getTranslations } from "next-intl/server"
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { getServices } from "@/features/services/services/services"
 import { ServiceList } from "./ServiceList"
 import clsx from "clsx"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { getQueryClient } from "@/lib/query-client"
 
 export default async function SkillsAndServicesSection({ className }: { className?: string }) {
   const t = await getTranslations("pages.home.skills-and-services")
   const locale = await getLocale()
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery({
     queryKey: ["services", locale],
