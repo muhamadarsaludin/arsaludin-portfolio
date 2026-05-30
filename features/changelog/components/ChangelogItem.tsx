@@ -105,14 +105,16 @@ export default function ChangelogItem({
           </div>
           {/* Body */}
           <div className={clsx(
-            "max-h-0 transition-all overflow-hidden duration-500 ease-in-out",
-            isOpen && "max-h-250"
-            )}>
-            <div className="border-primary mt-5 flex flex-col gap-4 border-t pt-5 sm:mt-6 sm:pt-6">
-              <div className="flex flex-col gap-3">
-                <h4 className="text-sm font-bold uppercase">{t("changes")} :</h4>
-                <div className="text-secondary max-w-full">
-                  {children}
+            "grid transition-all duration-500 ease-in-out",
+            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          )}>
+            <div className="overflow-hidden">
+              <div className="border-primary mt-5 flex flex-col gap-4 border-t pt-5 sm:mt-6 sm:pt-6">
+                <div className="flex flex-col gap-3">
+                  <h4 className="text-sm font-bold uppercase">{t("changes")} :</h4>
+                  <div className="text-secondary max-w-full">
+                    {children}
+                  </div>
                 </div>
               </div>
             </div>

@@ -31,6 +31,7 @@ export function AchievementList({ locale }: { locale: string }) {
             default: 0,
             sm:(index % 6) * 0.1
           }}
+          threshold={0}
           className="w-[75vw] sm:w-auto shrink-0 snap-start" 
           key={achievement.id}>
           <AchievementCard achievement={achievement} className="w-full h-full" />

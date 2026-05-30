@@ -134,47 +134,50 @@ export const EducationCard = ({
       {/* --- CONTENT SECTION ---*/}
       <div
         className={clsx(
-          "transition-all duration-500 ease-in-out overflow-hidden",
-          isOpen ? "max-h-300 opacity-100" : "max-h-0 opacity-0"
+          "grid transition-all duration-500 ease-in-out",
+          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         )}
       >
-        <div className="border-primary mt-5 flex flex-col gap-4 border-t pt-5 sm:mt-6 sm:pt-6">
-          {education.description && (
-            <div className="flex flex-col gap-3">
-              <h4 className="text-sm font-bold uppercase">{t("description")} :</h4>
-              <div className="text-secondary flex max-w-full flex-col gap-1.5 pl-4 xl:max-w-11/12">
-                {education.description.map((point, index) => (
-                  <div key={index} className="flex gap-4">
-                    <span className="mt-2.25 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-600 dark:bg-neutral-400" />
-                    <MiracleMarkdown content={point} className="" />
-                  </div>
-                ))}
+        <div className="overflow-hidden">
+          <div className="border-primary mt-5 flex flex-col gap-4 border-t pt-5 sm:mt-6 sm:pt-6">
+            {education.description && (
+              <div className="flex flex-col gap-3">
+                <h4 className="text-sm font-bold uppercase">{t("description")} :</h4>
+                <div className="text-secondary flex max-w-full flex-col gap-1.5 pl-4 xl:max-w-11/12">
+                  {education.description.map((point, index) => (
+                    <div key={index} className="flex gap-4">
+                      <span className="mt-2.25 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-600 dark:bg-neutral-400" />
+                      <MiracleMarkdown content={point} className="" />
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-          {/* Gallery */}
-          {education.images && education.images.length > 0 && (
-            <div className="flex flex-col gap-3">
-              <h4 className="text-sm font-bold uppercase">{t("gallery")} :</h4>
-              <div className="scrollbar-hide snap-x snap-mandatory overflow-x-auto flex gap-4">
-                {education.images.map((asset, index) => (
-                  <button 
-                    key={asset.id} 
-                    onClick={() => setSelectedIndex(index)}
-                    className="group relative aspect-3/2 shrink-0 snap-start overflow-hidden rounded-xl border border-primary cursor-pointer w-[75%] md:w-[85%] max-w-75"
-                  >
-                    <Image
-                      src={asset.image_url}
-                      alt={asset.alt}
-                      fill
-                      sizes="(max-width: 768px) 260px, 300px"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </button>
-                ))}
+            )}
+            
+            {/* Gallery */}
+            {education.images && education.images.length > 0 && (
+              <div className="flex flex-col gap-3">
+                <h4 className="text-sm font-bold uppercase">{t("gallery")} :</h4>
+                <div className="scrollbar-hide snap-x snap-mandatory overflow-x-auto flex gap-4">
+                  {education.images.map((asset, index) => (
+                    <button 
+                      key={asset.id} 
+                      onClick={() => setSelectedIndex(index)}
+                      className="group relative aspect-3/2 shrink-0 snap-start overflow-hidden rounded-xl border border-primary cursor-pointer w-[75%] md:w-[85%] max-w-75"
+                    >
+                      <Image
+                        src={asset.image_url}
+                        alt={asset.alt}
+                        fill
+                        sizes="(max-width: 768px) 260px, 300px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 

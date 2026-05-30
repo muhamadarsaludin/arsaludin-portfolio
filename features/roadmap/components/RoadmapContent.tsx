@@ -187,6 +187,7 @@ export default function RoadmapContent({ kanbanStatuses }: RoadmapContentProps) 
             key={status}
             animation="fade-up"
             delay={(index % 6) * 0.1}
+            threshold={ 0 }
             className="w-[75vw] sm:flex-1 sm:min-w-[320px] shrink-0 snap-start"
             >
             <RoadmapColumn 
