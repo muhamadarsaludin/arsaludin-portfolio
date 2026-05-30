@@ -4,8 +4,8 @@ import { MiracleReveal } from "@/components/miracle/Reveal"
 import ProjectCard from "@/features/projects/components/ProjectCard"
 import ProjectCardSkeleton from "@/features/projects/components/ProjectCardSkeleton"
 import { useFeaturedProjects } from "@/features/projects/hooks/useFeaturedProjects"
-import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
-import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
+import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
+import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 
 export function ProjectList({ locale }: { locale: string }) {
   const { 

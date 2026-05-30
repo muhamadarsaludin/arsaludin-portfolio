@@ -4,8 +4,8 @@ import { MiracleReveal } from "@/components/miracle/Reveal"
 import { ExperienceCard } from "@/features/experiences/components/ExperienceCard"
 import { ExperienceCardSkeleton } from "@/features/experiences/components/ExperienceCardSkeleton"
 import { useExperiences } from "@/features/experiences/hooks/useExperiences"
-import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
-import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
+import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
+import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 
 export function ExperienceList({ locale }: { locale: string }) {
   const {

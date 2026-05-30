@@ -4,8 +4,8 @@ import { MiracleReveal } from "@/components/miracle/Reveal"
 import { EducationCard } from "@/features/educations/components/EducationCard"
 import { EducationCardSkeleton } from "@/features/educations/components/EducationCardSkeleton"
 import { useEducations } from "@/features/educations/hooks/useEducations"
-import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
-import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
+import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
+import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 
 export function EducationList({ locale }: { locale: string }) {
   const {

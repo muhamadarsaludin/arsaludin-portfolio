@@ -4,8 +4,8 @@ import { MiracleReveal } from "@/components/miracle/Reveal"
 import AchievementCard from "@/features/achievements/components/AchievementCard"
 import AchievementCardSkeleton from "@/features/achievements/components/AchievementCardSkeleton"
 import { useFeaturedAchievements } from "@/features/achievements/hooks/useFeaturedAchievements"
-import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
-import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
+import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
+import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 
 export function AchievementList({ locale }: { locale: string }) {
   const {

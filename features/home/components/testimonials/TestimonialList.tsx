@@ -1,8 +1,8 @@
 "use client"
 
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
-import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
+import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
+import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 import TestimonialCard from "@/features/testimonials/components/TestimonialCard"
 import TestimonialCardSkeleton from "@/features/testimonials/components/TestimonialCardSkeleton"
 import { useFeaturedTestimonials } from "@/features/testimonials/hooks/useFeaturedTestimonials"

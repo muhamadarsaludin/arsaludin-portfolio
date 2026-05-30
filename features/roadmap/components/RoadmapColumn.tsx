@@ -14,7 +14,7 @@ import { SiGoogle } from 'react-icons/si'
 import MiracleTooltip from '@/components/miracle/Tooltip'
 import CardEmpty from '@/features/cards/components/CardEmpty'
 import CardItemSkeleton from '@/features/cards/components/CardItemSkeleton'
-import ErrorStateCard from '@/features/shared/types/components/ErrorStateCard'
+import ErrorStateCard from '@/features/shared/components/ErrorStateCard'
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import MiracleLoader from '@/components/miracle/Loader'
 import CardFormModal from '@/features/cards/components/CardFormModal'

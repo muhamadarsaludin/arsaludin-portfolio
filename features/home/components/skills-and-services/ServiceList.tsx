@@ -4,8 +4,8 @@ import { MiracleReveal } from "@/components/miracle/Reveal"
 import ServiceCard from "@/features/services/components/ServiceCard"
 import ServiceCardSkeleton from "@/features/services/components/ServiceCardSkeleton"
 import { useServices } from "@/features/services/hooks/useServices"
-import EmptyStateCard from "@/features/shared/types/components/EmptyStateCard"
-import ErrorStateCard from "@/features/shared/types/components/ErrorStateCard"
+import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
+import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 
 export function ServiceList({ locale }: { locale: string }) {
   const { 
