@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import Image from "next/image"
 import clsx from "clsx"
 import { useTranslations } from "use-intl"
@@ -47,6 +47,10 @@ export default function ModalGallery({
   const [zoomScale, setZoomScale] = useState<number>(1)
   const t = useTranslations("components.experienceCard")
 
+  // Refs to orchestrate the thumbnail slider auto-centering feature
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([])
+
   const currentImage = images[selectedIndex]
 
   const handleNext = useCallback(() => {
@@ -63,9 +67,23 @@ export default function ModalGallery({
     }
   }, [images.length])
 
+  // Automatically adjust thumbnail scroll position whenever the selectedIndex changes
+  useEffect(() => {
+    if (isOpen && thumbnailRefs.current[selectedIndex]) {
+      thumbnailRefs.current[selectedIndex]?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      })
+    }
+  }, [selectedIndex, isOpen])
+
   useEffect(() => {
     setSelectedIndex(initialIndex)
     setZoomScale(1)
+    if (!isOpen) {
+      thumbnailRefs.current = []
+    }
   }, [initialIndex, isOpen])
 
   useEffect(() => {
@@ -92,7 +110,7 @@ export default function ModalGallery({
     >
       <div className="flex h-full w-full flex-col md:flex-row overflow-hidden bg-primary rounded-b-3xl"> 
         
-        {/* --- Left Side --- */}
+        {/* --- LEFT SIDE: VIEWPORT & AUTOSCROLL THUMBNAILS --- */}
         <div className="w-full h-full flex flex-col overflow-hidden">
           
           {/* Main Image Preview Window */}
@@ -152,10 +170,14 @@ export default function ModalGallery({
           {/* Bottom Thumbnail Navigation Carousel */}
           {images.length > 1 && (
             <div className="shrink-0 border-t border-primary flex items-center px-5 md:px-6 py-2 bg-card">
-              <div className="scrollbar-hide snap-x snap-mandatory flex items-center gap-2 overflow-x-auto min-h-12 md:min-h-20 w-full [&::-webkit-scrollbar]:hidden">
+              <div 
+                ref={scrollContainerRef} 
+                className="scrollbar-hide snap-x snap-mandatory flex items-center gap-2 overflow-x-auto min-h-12 md:min-h-20 w-full [&::-webkit-scrollbar]:hidden"
+              >
                 {images.map((img, idx) => (
                   <button
                     key={img.id}
+                    ref={(el) => { thumbnailRefs.current[idx] = el }}
                     onClick={() => { setZoomScale(1); setSelectedIndex(idx); }}
                     className={clsx(
                       "relative snap-start aspect-3/2 shrink-0 rounded-md overflow-hidden transition-all cursor-pointer",
@@ -172,7 +194,7 @@ export default function ModalGallery({
           )}
         </div>
 
-        {/* --- Right Side --- */}
+        {/* --- RIGHT SIDE: DETAILED METADATA PANEL --- */}
         {(metaTitle || startDate || location) && (
           <div className="w-full md:w-75 h-fit md:h-full border-t md:border-t-0 md:border-l border-primary p-5 md:p-6 flex flex-col bg-primary shrink-0">
             <h3 className="md:text-lg font-semibold leading-tight text-primary mb-3 md:mb-6">

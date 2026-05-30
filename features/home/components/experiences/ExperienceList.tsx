@@ -33,10 +33,6 @@ export function ExperienceList({ locale }: { locale: string }) {
           />
         </MiracleReveal>
       ))}
-
-      {Array.from({ length: 3 }).map((_, i) => (
-        <ExperienceCardSkeleton key={i} />
-      ))}
     </div>
   )
 }
@@ -45,7 +41,7 @@ export function ExperienceListSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       {Array.from({ length: 3 }).map((_, i) => (
-        <ExperienceCardSkeleton key={i} />
+        <ExperienceCardSkeleton key={`exp-skel-${i}`} />
       ))}
     </div>
   )

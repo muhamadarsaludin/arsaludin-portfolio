@@ -13,9 +13,7 @@ export function EducationList({ locale }: { locale: string }) {
     isLoading,
     isError,
     refetch
-  } = useEducations({
-    locale
-  })
+  } = useEducations({ locale })
 
   if (isLoading) return <EducationListSkeleton />
   if (isError) return <ErrorStateCard onRetry={refetch} />
@@ -24,9 +22,16 @@ export function EducationList({ locale }: { locale: string }) {
   return (
     <div className="flex flex-col gap-4">
       {educations.map((education, index) => (
-        <MiracleReveal key={education.id} animation="fade-up" delay={(index % 6) * 0.1}>
+        <MiracleReveal 
+          key={education.id} 
+          animation="fade-up" 
+          delay={(index % 6) * 0.1}
+        >
           <EducationCard education={education} />
         </MiracleReveal>
+      ))}
+      {Array.from({ length: 2 }).map((_, i) => (
+        <EducationCardSkeleton key={`edu-skel-${i}`} />
       ))}
     </div>
   )
@@ -35,8 +40,8 @@ export function EducationList({ locale }: { locale: string }) {
 export function EducationListSkeleton() {
   return (
     <div className="flex flex-col gap-4">
-      {Array.from({ length: 3 }).map((_, i) => (
-        <EducationCardSkeleton key={i} />
+      {Array.from({ length: 2 }).map((_, i) => (
+        <EducationCardSkeleton key={`edu-skel-${i}`} />
       ))}
     </div>
   )
