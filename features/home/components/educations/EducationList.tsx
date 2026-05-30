@@ -30,9 +30,6 @@ export function EducationList({ locale }: { locale: string }) {
           <EducationCard education={education} />
         </MiracleReveal>
       ))}
-      {Array.from({ length: 2 }).map((_, i) => (
-        <EducationCardSkeleton key={`edu-skel-${i}`} />
-      ))}
     </div>
   )
 }
