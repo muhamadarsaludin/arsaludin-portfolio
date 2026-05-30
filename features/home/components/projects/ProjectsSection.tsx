@@ -1,7 +1,7 @@
 import Heading from "@/components/Heading"
 import Section from "@/components/Section"
 import { getLocale, getTranslations } from "next-intl/server"
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { ProjectList } from "./ProjectList"
 import MiracleButton from "@/components/miracle/Button"
 import Link from "next/link"
@@ -10,15 +10,12 @@ import clsx from "clsx"
 import { LuArrowRight } from "react-icons/lu"
 import { getFeaturedProjects } from "@/features/projects/services/projects"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { getQueryClient } from "@/lib/query-client"
 
-/**
- * Server Component: Prefetches featured projects for optimal SEO and performance.
- * Uses HydrationBoundary to pass data to the client-side TanStack Query cache.
- */
 export default async function ProjectsSection({ className }: { className?: string }) {
   const t = await getTranslations("pages.home.projects")
   const locale = await getLocale()
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery({
     queryKey: ["featured-projects", locale],
@@ -44,17 +41,18 @@ export default async function ProjectsSection({ className }: { className?: strin
             </MiracleReveal>
           </div>
         </MiracleReveal>
+
         <ProjectList locale={locale}/>
+
         <div className="flex justify-center mt-6 lg:mt-8 xl:mt-10">
           <MiracleReveal animation="zoom-in">
-            <Link href="/projects" aria-label={t("cta")}>
-              <MiracleButton 
-                variant="secondary"
-                endIcon={<LuArrowRight />}
-                tabIndex={-1}>
-                  {t("cta")}
-                </MiracleButton>
-            </Link>
+            <MiracleButton 
+              href="/projects"
+              variant="secondary"
+              endIcon={<LuArrowRight />}
+            >
+              {t("cta")}
+            </MiracleButton>
           </MiracleReveal>
         </div>
       </Section>

@@ -16,29 +16,26 @@ export default function ProjectCard({ project, className }: { project: Project, 
   return (
     <div
       className={clsx(
-        "relative flex flex-col border-primary rounded-2xl border bg-card transition-all hover:shadow-md",
+        "relative flex flex-col border border-primary rounded-2xl bg-card transition-all hover:shadow-md overflow-hidden",
         className
       )}
     >
-      {/* STRETCHED LINK 
-          z-10 memastikan link ini berada di atas elemen gambar (z-auto) 
-          sehingga area gambar menjadi "clickable".
-      */}
+      {/* STRETCHED LINK */}
       <Link
         href={`/projects/${project.slug}`}
-        className="absolute inset-0 rounded-2xl z-10"
+        className="absolute inset-0 z-10 rounded-2xl"
         aria-label={t("ariaLabel", { project: project.name })}
       />
 
       {/* Image Section */}
-      <div className="relative flex aspect-4/3 w-full rounded-t-2xl overflow-hidden">
+      <div className="relative flex aspect-4/3 w-full overflow-hidden">
         {project.thumbnail ? (
           <Image
             className="object-cover"
             src={project.thumbnail}
             alt={project.name}
             fill
-            sizes="(max-width: 768px) 100vw, 450px"
+            sizes="(max-width: 768px) 100vw, 400px"
           />
         ) : (
           <MiracleSkeleton className="h-full w-full rounded-none!" variant="med" />
@@ -59,7 +56,7 @@ export default function ProjectCard({ project, className }: { project: Project, 
 
       {/* Footer Section */}
       <div
-        className="bg-secondary border-primary relative z-20 flex items-center justify-between rounded-b-2xl border-t px-5 py-3 md:px-6"
+        className="bg-secondary border-t border-primary relative z-20 flex items-center justify-between px-5 py-3 md:px-6 pointer-events-auto"
         onClick={(e) => {
           e.stopPropagation()
         }}

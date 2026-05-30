@@ -13,7 +13,7 @@ export function ProjectList({ locale }: { locale: string }) {
     isLoading, 
     isError,
     refetch
-   } = useFeaturedProjects({locale})
+  } = useFeaturedProjects({ locale })
 
   if (isLoading) return <ProjectListSkeleton />
   if (isError) return <ErrorStateCard onRetry={refetch}/>
@@ -29,11 +29,12 @@ export function ProjectList({ locale }: { locale: string }) {
           }} 
           delay={{
             default: 0,
-            sm:(index % 6) * 0.1
+            sm: (index % 6) * 0.1
           }}
           threshold={0}
           className="w-[75vw] sm:w-auto shrink-0 snap-start" 
-          key={project.id}>
+          key={project.id}
+        >
           <ProjectCard project={project} className="w-full h-full" />
         </MiracleReveal>
       ))}

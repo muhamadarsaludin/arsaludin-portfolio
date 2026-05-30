@@ -1,3 +1,5 @@
+"use client"
+
 import MiracleBadge from "@/components/miracle/Badge"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import clsx from "clsx"
@@ -21,13 +23,14 @@ export default function SkillBadges({
 
   const hasMore = skills.length > limit
   const topSkills = skills.slice(0, limit)
-  const remainingCount = skills.length - limit
+  const remainingSkills = skills.slice(limit) 
+  const remainingCount = remainingSkills.length
   const t = useTranslations("components.skillBadges")
 
   return (
     <div className={clsx("flex flex-wrap items-center gap-2 relative", className)}>
       {/* RENDER TOP SKILLS */}
-      {topSkills.map((skill, i) => {
+      {topSkills.map((skill) => {
         const IconComponent = skill.icon ? SKILL_ICON_MAP[skill.icon] : null
 
         const BadgeComponent = (
@@ -53,7 +56,7 @@ export default function SkillBadges({
         if (skill.link) {
           return (
             <a
-              key={i}
+              key={skill.id}
               href={skill.link}
               target="_blank"
               rel="noopener noreferrer"
@@ -65,7 +68,7 @@ export default function SkillBadges({
           )
         }
 
-        return <div key={i}>{BadgeComponent}</div>
+        return <div key={skill.id}>{BadgeComponent}</div>
       })}
 
       {/* RENDER TOOLTIP FOR REMAINING SKILLS */}
@@ -79,10 +82,10 @@ export default function SkillBadges({
           noPadding
           hoverContent
         >
-          <div className="flex max-h-[250px] w-[180px] flex-col p-3">
+          <div className="flex max-h-62.5 w-45 flex-col p-3">
             <p className="mb-2 text-[10px] font-bold uppercase">{t("title")}</p>
             <div className="flex flex-col gap-1 overflow-y-auto pr-1">
-              {skills.map((skill, i) => {
+              {remainingSkills.map((skill) => {
                 const IconComponent = skill.icon ? SKILL_ICON_MAP[skill.icon] : null
 
                 const ItemContent = (
@@ -110,7 +113,7 @@ export default function SkillBadges({
                 if (skill.link) {
                   return (
                     <a
-                      key={i}
+                      key={skill.id}
                       aria-label={`${t("ariaPrefix")} ${skill.name}`}
                       href={skill.link}
                       target="_blank"
@@ -122,7 +125,7 @@ export default function SkillBadges({
                   )
                 }
 
-                return <div key={i}>{ItemContent}</div>
+                return <div key={skill.id}>{ItemContent}</div>
               })}
             </div>
           </div>
