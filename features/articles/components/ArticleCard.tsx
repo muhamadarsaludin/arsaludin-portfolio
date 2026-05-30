@@ -64,7 +64,7 @@ export default function ArticleCard({ article, className }: { article: Article, 
         </div>
         <Link href={`/articles/${article.slug}`} className="group/title">
           <h3
-            className="text-primary font-semibold tracking-tight line-clamp-1 text-base md:text-lg lg:text-xl group-hover/title:underline transition-all duration-300">
+            className="text-primary font-semibold tracking-tight line-clamp-1 text-base md:text-lg lg:text-xl transition-all duration-300">
             {article.title}
           </h3>
         </Link>
