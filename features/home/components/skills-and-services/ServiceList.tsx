@@ -1,11 +1,27 @@
 "use client"
 
+import React from "react"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import ServiceCard from "@/features/services/components/ServiceCard"
 import ServiceCardSkeleton from "@/features/services/components/ServiceCardSkeleton"
 import { useServices } from "@/features/services/hooks/useServices"
 import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
+import FrontEndIllustration from "@/features/services/components/illustrations/FrontEndIllustration"
+import BackEndIllustration from "@/features/services/components/illustrations/BackEndIllustration"
+import UiUxIllustration from "@/features/services/components/illustrations/UiUxIllustration"
+import AndroidIllustration from "@/features/services/components/illustrations/AndroidIllustration"
+import PmIllustration from "@/features/services/components/illustrations/PmIllustration"
+import DevOpsIllustration from "@/features/services/components/illustrations/DevOpsIllustration"
+
+const SERVICE_ILLUSTRATION_MAP: Record<string, React.ReactNode> = {
+  "front-end": <FrontEndIllustration />,
+  "back-end": <BackEndIllustration />,
+  "ui-ux": <UiUxIllustration />,
+  android: <AndroidIllustration />,
+  pm: <PmIllustration />,
+  devops: <DevOpsIllustration />,
+}
 
 export function ServiceList({ locale }: { locale: string }) {
   const { 
@@ -18,6 +34,7 @@ export function ServiceList({ locale }: { locale: string }) {
   if (isLoading) return <ServiceListSkeleton />
   if (isError) return <ErrorStateCard onRetry={refetch}/>
   if (!services || services.length === 0) return <EmptyStateCard />
+
   return (
     <div className="max-w-full overflow-x-auto sm:overflow-x-hidden overflow-y-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
       {services.map((service, index) => (
@@ -28,12 +45,17 @@ export function ServiceList({ locale }: { locale: string }) {
           }} 
           delay={{
             default: 0,
-            sm:(index % 6) * 0.1
+            sm: (index % 6) * 0.1
           }}
           threshold={0}
           className="w-[75vw] sm:w-auto shrink-0 snap-start" 
-          key={service.id}>
-          <ServiceCard service={service} className="w-full h-full"/>
+          key={service.id}
+        >
+          <ServiceCard 
+            service={service} 
+            illustration={SERVICE_ILLUSTRATION_MAP[service.slug]}
+            className="w-full h-full"
+          />
         </MiracleReveal>
       ))}
     </div>

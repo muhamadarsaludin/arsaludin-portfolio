@@ -1,26 +1,10 @@
 import clsx from "clsx"
 import React from "react"
-import FrontEndIllustration from "./illustrations/FrontEndIllustration"
-import BackEndIllustration from "./illustrations/BackEndIllustration"
-import UiUxIllustration from "./illustrations/UiUxIllustration"
-import AndroidIllustration from "./illustrations/AndroidIllustration"
-import PmIllustration from "./illustrations/PmIllustration"
-import DevOpsIllustration from "./illustrations/DevOpsIllustration"
 import type { Service, ServiceLevel } from "../types/services.types"
 import SkillBadges from "@/features/skills/components/SkillBadges"
 import MiracleBadge, { BadgeColor } from "@/components/miracle/Badge"
 import { useTranslations } from "next-intl"
 import { LuCrown } from "react-icons/lu"
-import { MiracleReveal } from "@/components/miracle/Reveal"
-
-const SERVICE_ILLUSTRATION_MAP: Record<string, React.ReactNode> = {
-  "front-end": <FrontEndIllustration />,
-  "back-end": <BackEndIllustration />,
-  "ui-ux": <UiUxIllustration />,
-  android: <AndroidIllustration />,
-  pm: <PmIllustration />,
-  devops: <DevOpsIllustration />,
-}
 
 const badgeColor: Record<ServiceLevel, BadgeColor> = {
   expert: "yellow",
@@ -30,11 +14,13 @@ const badgeColor: Record<ServiceLevel, BadgeColor> = {
 
 type ServiceCardProps = {
   service: Service
+  illustration?: React.ReactNode
   className?: string
 }
 
-export default function ServiceCard({ service, className }: ServiceCardProps) {
+export default function ServiceCard({ service, illustration, className }: ServiceCardProps) {
   const td = useTranslations("data.service")
+  
   return (
     <div
       className={clsx(
@@ -43,14 +29,18 @@ export default function ServiceCard({ service, className }: ServiceCardProps) {
       )}
     >
       <div className="relative flex aspect-video w-full items-center justify-center p-5 md:p-6">
-        {SERVICE_ILLUSTRATION_MAP[service.slug]}
+        {illustration}
         <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#80808035_1px,transparent_1px)] mask-[radial-gradient(ellipse_60%_60%_at_50%_20%,#000_70%,transparent_100%)] bg-size-[16px_16px]" />
       </div>
+      
       <div className="flex flex-1 flex-col p-5 md:p-6 items-start">
         {service.level && (
-          <MiracleBadge color={badgeColor[service.level]} variant="secondary" className="mb-2" startIcon={service.level === "expert" ? (
-            <LuCrown />
-          ) : undefined}>
+          <MiracleBadge 
+            color={badgeColor[service.level]} 
+            variant="secondary" 
+            className="mb-2" 
+            startIcon={service.level === "expert" ? <LuCrown /> : undefined}
+          >
             {td("levels." + service.level)}
           </MiracleBadge>
         )}
