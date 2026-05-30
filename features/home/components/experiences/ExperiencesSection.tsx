@@ -1,20 +1,17 @@
 import Heading from "@/components/Heading"
 import Section from "@/components/Section"
 import { getLocale, getTranslations } from "next-intl/server"
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { ExperienceList } from "./ExperienceList"
 import clsx from "clsx"
 import { getExperiences } from "@/features/experiences/services/experiences"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { getQueryClient } from "@/lib/query-client"
 
-/**
- * Server Component: Prefetches experience for optimal SEO and performance.
- * Uses HydrationBoundary to pass data to the client-side TanStack Query cache.
- */
 export default async function ExperiencesSection({ className }: { className?: string }) {
   const t = await getTranslations("pages.home.experiences")
   const locale = await getLocale()
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery({
     queryKey: ["experiences", locale],

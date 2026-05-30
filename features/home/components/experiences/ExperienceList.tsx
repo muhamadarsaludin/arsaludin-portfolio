@@ -13,9 +13,7 @@ export function ExperienceList({ locale }: { locale: string }) {
     isLoading,
     isError,
     refetch
-  } = useExperiences({
-    locale
-  })
+  } = useExperiences({ locale })
 
   if (isLoading) return <ExperienceListSkeleton />
   if (isError) return <ErrorStateCard onRetry={refetch} />
@@ -24,9 +22,20 @@ export function ExperienceList({ locale }: { locale: string }) {
   return (
     <div className="flex flex-col gap-4">
       {experiences.map((experience, index) => (
-        <MiracleReveal key={experience.id} animation="fade-up" delay={(index % 6) * 0.1}>
-          <ExperienceCard experience={experience} showDetail={index === 0}/>
+        <MiracleReveal 
+          key={experience.id} 
+          animation="fade-up" 
+          delay={(index % 6) * 0.1}
+        >
+          <ExperienceCard 
+            experience={experience}
+            showDetail={index === 0}
+          />
         </MiracleReveal>
+      ))}
+
+      {Array.from({ length: 3 }).map((_, i) => (
+        <ExperienceCardSkeleton key={i} />
       ))}
     </div>
   )
