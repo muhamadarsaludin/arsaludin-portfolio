@@ -1,12 +1,13 @@
 import Heading from "@/components/Heading"
 import Section from "@/components/Section"
 import { getLocale, getTranslations } from "next-intl/server"
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import clsx from "clsx"
 import { getFeaturedTestimonials } from "@/features/testimonials/services/testimonials"
 import { TestimonialList } from "./TestimonialList"
 import Quote from "@/features/testimonials/components/Quote"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { getQueryClient } from "@/lib/query-client"
 
 /**
  * Server Component: Prefetches featured testimonials for optimal SEO and performance.
@@ -15,7 +16,7 @@ import { MiracleReveal } from "@/components/miracle/Reveal"
 export default async function TestimonialsSection({ className }: { className?: string }) {
   const t = await getTranslations("pages.home.testimonials")
   const locale = await getLocale()
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery({
     queryKey: ["featured-testimonials", locale],
@@ -28,7 +29,7 @@ export default async function TestimonialsSection({ className }: { className?: s
         <MiracleReveal animation="fade-right">
           <div className="relative flex w-fit mb-8 lg:mb-10 xl:mb-12">
             <Heading
-              id="featured-projects"
+              id="featured-testimonials"
               className="text-3xl md:text-4xl lg:text-5xl"
               linkClassName="text-[0.4em]!"
               noMarginTop
@@ -36,19 +37,16 @@ export default async function TestimonialsSection({ className }: { className?: s
             >
               {t("title")}
             </Heading>
-            <MiracleReveal animation="zoom-in" delay={0.5} className="absolute -top-4 -right-9 md:-top-6 md:-right-12 lg:-right-15">
+            <MiracleReveal 
+              animation="zoom-in" 
+              delay={0.5} 
+              className="absolute -top-4 -right-9 md:-top-6 md:-right-12 lg:-right-15"
+            >
               <Quote className="text-primary text-4xl md:text-5xl lg:text-6xl"/>
             </MiracleReveal>
           </div>
         </MiracleReveal>
         <TestimonialList locale={locale} />
-        {/* <div className="mt-8 flex justify-center md:mt-10">
-          <MiracleReveal animation="zoom-in">
-            <Link href="/testimonials">
-              <MiracleButton variant="secondary">{t("cta")}</MiracleButton>
-            </Link>
-          </MiracleReveal>
-        </div> */}
       </Section>
     </HydrationBoundary>
   )

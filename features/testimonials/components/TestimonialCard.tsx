@@ -1,10 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import Image from "next/image"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
-import { useLocale } from "next-intl"
 import { useTranslations } from "use-intl"
 import { Testimonial } from "../types/testimonials.types"
 import { getInitials } from "@/utils/initials"
@@ -19,7 +18,7 @@ export default function TestimonialCard({ testimonial, className }: { testimonia
   const initials = getInitials(testimonial.name)
 
   return (
-    <div className={clsx(
+    <div className={cn(
         "relative flex flex-col",
         className
       )}>
@@ -30,7 +29,7 @@ export default function TestimonialCard({ testimonial, className }: { testimonia
         </p>
         {/* Rectangle */}
         <div
-          className={clsx(
+          className={cn(
             "absolute z-1 h-3 w-3 rotate-45",
             "bg-primary-inv",
             "-bottom-1.5 left-4"

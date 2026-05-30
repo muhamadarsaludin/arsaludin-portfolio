@@ -7,13 +7,13 @@ import TestimonialCard from "@/features/testimonials/components/TestimonialCard"
 import TestimonialCardSkeleton from "@/features/testimonials/components/TestimonialCardSkeleton"
 import { useFeaturedTestimonials } from "@/features/testimonials/hooks/useFeaturedTestimonials"
 
-export function TestimonialList({locale}: {locale: string}) {
+export function TestimonialList({ locale }: { locale: string }) {
   const {
     data: testimonials,
     isLoading,
     isError,
     refetch
-  } = useFeaturedTestimonials({locale})
+  } = useFeaturedTestimonials({ locale })
 
   if (isLoading) return <TestimonialListSkeleton />
   if (isError) return <ErrorStateCard onRetry={refetch}/>
