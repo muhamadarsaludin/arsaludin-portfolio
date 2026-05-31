@@ -15,7 +15,6 @@ import { useCardsMutation } from '@/features/cards/hooks/useCardMutation'
 import { useAuth } from '@/providers/AuthProvider'
 import { cn } from "@/utils/class-name"
 import { CARD_PRIORITIES, CARD_STATUS, CARD_TYPES } from '../constants/card.constants'
-import MiracleBadge from '@/components/miracle/Badge'
 import { LuTriangleAlert } from 'react-icons/lu'
 import MiracleBanner from '@/components/miracle/Banner'
 
@@ -57,6 +56,14 @@ export default function CardFormModal({
 
   type CardFormValues = z.infer<typeof cardSchema>
 
+  const defaultFormValues = useMemo<CardFormValues>(() => ({
+    title: "",
+    description: "",
+    type: "feature",
+    priority: "medium",
+    status: defaultStatus
+  }), [defaultStatus])
+
   // 2. Setup React Hook Form
   const { 
     control, 
@@ -65,16 +72,10 @@ export default function CardFormModal({
     formState: { errors } 
   } = useForm<CardFormValues>({
     resolver: zodResolver(cardSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      type: "feature",
-      priority: "medium",
-      status: defaultStatus
-    }
+    defaultValues: defaultFormValues
   })
 
-  // 3. Reset logic (Edit vs Create)
+  // 3. Reset logic
   useEffect(() => {
     if (isOpen) {
       if (initialData) {
@@ -86,16 +87,12 @@ export default function CardFormModal({
           status: initialData.status
         })
       } else {
-        reset({
-          title: "",
-          description: "",
-          type: "feature",
-          priority: "medium",
-          status: defaultStatus
-        })
+        reset(defaultFormValues)
       }
+    } else {
+      reset(defaultFormValues)
     }
-  }, [initialData, isOpen, reset, defaultStatus])
+  }, [initialData, isOpen, reset, defaultFormValues])
 
   // 4. Submit handler
   const onSubmit = (values: CardFormValues) => {
@@ -154,7 +151,6 @@ export default function CardFormModal({
         <div className="grid grid-cols-2 gap-8">
           {/* Type Selection */}
           <div className="flex flex-col gap-3">
-            {/* Style label disamakan dengan TextField */}
             <p className={cn("text-sm font-medium select-none text-primary")}>
               {t("label.type") || "Type"}
               <span className="text-red ml-1">*</span>

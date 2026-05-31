@@ -1,6 +1,7 @@
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { getQueryClient } from "@/lib/query-client";
 import { getTranslations } from "next-intl/server";
-import { getPaginatedCardsByStatus } from "@/features/cards/services/cards"; // Adjust path
+import { getPaginatedCardsByStatus } from "@/features/cards/services/cards";
 import { CardPriority, CardStatus, CardType } from "@/features/cards/types/cards.types";
 import { CARDS_PAGE_SIZE } from "@/features/cards/constants/card.constants";
 import { routing } from "@/i18n/routing";
@@ -19,7 +20,7 @@ export default async function RoadmapPage(props: BasePageProps) {
   const { locale } = await props.params;
   const searchParams = await props.searchParams;
   const t = await getTranslations("pages.roadmap");
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
   const filters = {
     search: typeof searchParams.search === 'string' && searchParams.search ? searchParams.search : undefined,
@@ -28,7 +29,6 @@ export default async function RoadmapPage(props: BasePageProps) {
     pageSize: CARDS_PAGE_SIZE
   }
 
-  // Prefetch each column status for SEO and faster initial load
   await Promise.all(
     KANBAN_STATUSES.map((status) =>
       queryClient.prefetchInfiniteQuery({

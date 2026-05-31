@@ -5,7 +5,7 @@ import { useInfiniteCardsByStatus } from '@/features/cards/hooks/useInfiniteCard
 import { Card, CardPriority, CardStatus, CardType } from '@/features/cards/types/cards.types'
 import MiracleButton from '@/components/miracle/Button'
 import { useTranslations } from 'next-intl'
-import { LuLoader, LuPlus } from 'react-icons/lu'
+import { LuPlus } from 'react-icons/lu'
 import { cn } from "@/utils/class-name"
 import { useAuth } from '@/providers/AuthProvider'
 import CardItem from '@/features/cards/components/CardItem'
@@ -97,7 +97,7 @@ export default function RoadmapColumn({ status, filters, className, columnDelay 
     if (isAuthAction) {
       return (
         <MiracleTooltip trigger={buttonNode}>
-          <div className="max-w-[180px] text-center">{tooltipMessage}</div>
+          <div className="max-w-45 text-center">{tooltipMessage}</div>
         </MiracleTooltip>
       )
     }
@@ -116,18 +116,16 @@ export default function RoadmapColumn({ status, filters, className, columnDelay 
 
       <div className="flex flex-col gap-3 min-h-150 max-h-150 overflow-y-auto">
         {isLoading ? (
-          <>
-            {Array.from({ length: 3 }).map((_, i) => (
-              <CardItemSkeleton key={i} />
-            ))}  
-          </>
+          Array.from({ length: 3 }).map((_, i) => (
+            <CardItemSkeleton key={i} />
+          ))  
         ) : isError ? (
           <ErrorStateCard onRetry={() => refetch()}/>
         ) : allCards.length === 0 ? (
           <CardEmpty />
         ) : (
           <>
-            {allCards.map((card, index) => (
+            {allCards.map((card) => (
               <MiracleReveal key={card.id} animation="zoom-in">
                 <CardItem 
                   card={card} 
@@ -143,7 +141,7 @@ export default function RoadmapColumn({ status, filters, className, columnDelay 
             )}
 
             <div ref={loadMoreRef} className="h-4 w-full flex items-center justify-center">
-              {isFetchingNextPage &&  <MiracleLoader size={20}/>}
+              {isFetchingNextPage && <MiracleLoader size={20}/>}
             </div>
           </>
         )}

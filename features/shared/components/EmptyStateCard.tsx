@@ -1,6 +1,5 @@
 import Section from "@/components/Section"
 import { useTranslations } from "next-intl"
-import React from "react"
 
 export default function EmptyStateCard({ emptyMessage }: { emptyMessage?: string }) {
   const t = useTranslations("components.emptyStateCard")
