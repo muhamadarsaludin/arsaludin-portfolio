@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { LuChevronDown, LuFilter, LuSearch, LuTriangleAlert } from "react-icons/lu"
 import MiraclePopover from "@/components/miracle/Popover"
 import MiracleTextField from "@/components/miracle/TextField"
@@ -20,10 +20,8 @@ import { CategoryTargetType } from "@/features/categories/types/categories.types
 import { useUrlParams } from "@/hooks/useSearchParams"
 import MiracleBadge from "@/components/miracle/Badge"
 import Section from "@/components/Section"
-import { CardType } from "@/features/cards/types/cards.types"
 import { ACHIEVEMENTS_LEVELS, ACHIEVEMENTS_PAGE_SIZE, ACHIEVEMENTS_TYPES } from "../constants/achievements.constants"
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import { ca } from "zod/v4/locales"
 
 type AchievementsContentProps = {
   locale: string
@@ -123,13 +121,13 @@ export default function AchievementsContent({
     if (achievements.length === 0) return <EmptyStateCard />
 
     return (
-      <Section className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {achievements.map((achievement, index) => (
           <MiracleReveal 
             animation="fade-up"
             delay={{
               default: 0,
-              sm:(index % 6) * 0.1,
+              sm: (index % 6) * 0.1,
             }}
             key={achievement.id}>
             <AchievementCard achievement={achievement} className="h-full w-full" />
@@ -138,7 +136,7 @@ export default function AchievementsContent({
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <AchievementCardSkeleton key={`more-${i}`} />)
         }
-      </Section>
+      </div>
     )
   }
 
@@ -161,7 +159,7 @@ export default function AchievementsContent({
             trigger={
               <MiracleButton 
                 startIcon={<LuFilter />}
-                endIcon={<LuChevronDown className={clsx("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
+                endIcon={<LuChevronDown className={cn("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
               >
                 <div className="flex gap-2 items-center">
                   Filter 

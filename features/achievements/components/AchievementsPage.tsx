@@ -1,9 +1,9 @@
 import { getTranslations } from 'next-intl/server';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { getQueryClient } from "@/lib/query-client";
 import { ACHIEVEMENTS_PAGE_SIZE } from '../constants/achievements.constants';
 import { getPaginatedAchievements } from '../services/achievements';
 import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs';
-import Section from '@/components/Section';
 import { routing } from '@/i18n/routing';
 import Heading from '@/components/Heading';
 import AchievementsContent from './AchievementsContent';
@@ -17,11 +17,11 @@ import { BasePageProps } from '@/types/page.types';
 import { MiracleReveal } from '@/components/miracle/Reveal';
 
 export default async function AchievementsPage(props: BasePageProps) {
-  const {locale} = await props.params
-  const t = await getTranslations("pages.achievements")
-  const queryClient = new QueryClient()
-  const targetType:CategoryTargetType = "achievement"
+  const { locale } = await props.params
   const searchParams = await props.searchParams
+  const t = await getTranslations("pages.achievements")
+  const targetType: CategoryTargetType = "achievement"
+  const queryClient = getQueryClient()
 
   const filters = {
     locale,
@@ -31,7 +31,6 @@ export default async function AchievementsPage(props: BasePageProps) {
     categorySlugs: normalizeArrayParam(searchParams.categories),
     pageSize: ACHIEVEMENTS_PAGE_SIZE
   };
-
 
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
@@ -45,7 +44,7 @@ export default async function AchievementsPage(props: BasePageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", {locale, targetType}],
+      queryKey: ["available-categories", { locale, targetType }],
       queryFn: () => getAvailableCategories({ targetType, locale }),
     })
   ])
