@@ -2,7 +2,7 @@ import { constructMetadata } from "@/configs/metadata";
 import ProjectsPage from "@/features/projects/components/ProjectsPage";
 import { BasePageProps } from "@/types/page.types";
 import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { locale } = await params;
@@ -15,6 +15,8 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   });
 }
 
-export default async function Projects({params, searchParams}: BasePageProps) {
-  return <ProjectsPage params={params} searchParams={searchParams} />
+export default async function Projects({ params, searchParams }: BasePageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  return <ProjectsPage params={params} searchParams={searchParams} />;
 }

@@ -1,22 +1,21 @@
 import { constructMetadata } from "@/configs/metadata";
-import ProjectsPage from "@/features/projects/components/ProjectsPage";
+import HomePage from "@/features/home/components/HomePage"
 import { BasePageProps } from "@/types/page.types";
 import { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations("pages.projects");
-
+  const t = await getTranslations("pages.home");
   return constructMetadata({
-    title: t("title"),
     description: t("description"),
     locale: locale,
   });
 }
 
-export default async function Projects({ params, searchParams }: BasePageProps) {
+export default async function Home({ params }: BasePageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <ProjectsPage params={params} searchParams={searchParams} />;
+  
+  return <HomePage />
 }
