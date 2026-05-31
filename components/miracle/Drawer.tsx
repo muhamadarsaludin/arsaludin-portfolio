@@ -2,7 +2,7 @@
 
 import { createPortal } from "react-dom"
 import { useScrollLock } from "@/hooks/useScrollLock"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import type { ReactNode } from "react"
 import { useEffect, useState } from "react"
 import { LuX } from "react-icons/lu"
@@ -35,10 +35,31 @@ export default function MiracleDrawer({
   scrimClassName,
 }: MiracleDrawerProps) {
   const [isMounted, setIsMounted] = useState(false)
+  
+  const [isRendered, setIsRendered] = useState(false)
+  const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsRendered(true)
+      const frameId = requestAnimationFrame(() => {
+        setAnimate(true)
+      })
+      return () => cancelAnimationFrame(frameId)
+    } else {
+      setAnimate(false)
+    }
+  }, [isOpen])
+
+  const handleTransitionEnd = () => {
+    if (!isOpen) {
+      setIsRendered(false)
+    }
+  }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -54,9 +75,9 @@ export default function MiracleDrawer({
 
   useScrollLock(isOpen)
 
-  if (!isMounted) return null
+  if (!isMounted || !isRendered) return null
 
-  // --- Styles Logic ---
+  // --- Styles Logic (100% Asli Kode Lu) ---
   const borderStyles = {
     top: "border-b border-primary",
     bottom: "border-t border-primary",
@@ -71,7 +92,6 @@ export default function MiracleDrawer({
     right: "right-0 inset-y-0 w-80 h-full max-w-[90vw]",
   }
 
-  // Gabungkan transform dan opacity untuk transisi
   const translateOpen = "translate-x-0 translate-y-0 opacity-100"
   const translateClosed = {
     top: "-translate-y-full opacity-0",
@@ -93,28 +113,30 @@ export default function MiracleDrawer({
   }
 
   const drawerContent = (
-    <>
+    <div 
+      onTransitionEnd={handleTransitionEnd}
+      className={cn(
+        "fixed inset-0 z-[9998] transition-all duration-300 ease-in-out",
+        animate ? "visible" : "pointer-events-none invisible"
+      )}
+    >
       {/* Scrim Overlay */}
       <div
-        className={clsx(
-          "fixed inset-0 z-[9998] bg-black/50 backdrop-blur-sm transition-all duration-300 ease-in-out",
-          isOpen 
-            ? "visible opacity-100" 
-            : "invisible opacity-0 delay-300" // Delay visibility pas nutup
+        className={cn(
+          "fixed inset-0 bg-black/50 backdrop-blur-sm transition-all duration-300 ease-in-out",
+          animate ? "opacity-100" : "opacity-0",
+          scrimClassName
         )}
         onClick={closeOnScrimClick ? onClose : undefined}
       />
 
       {/* Drawer Panel */}
       <div
-        className={clsx(
+        className={cn(
           "fixed z-[9999] flex flex-col bg-white dark:bg-neutral-900 shadow-2xl transition-all duration-300 ease-in-out",
           borderStyles[position],
           positionStyles[position],
-          // TRIK: Gunakan delay pada visibility saat drawer ditutup
-          isOpen 
-            ? `visible ${translateOpen}` 
-            : `invisible ${translateClosed[position]} delay-[0ms,300ms,300ms,300ms]`, // visibility jangan didelay pas buka, tapi delay pas tutup
+          animate ? translateOpen : translateClosed[position],
           className
         )}
         style={customStyle}
@@ -149,7 +171,7 @@ export default function MiracleDrawer({
           </div>
         )}
       </div>
-    </>
+    </div>
   )
 
   return createPortal(drawerContent, document.body)

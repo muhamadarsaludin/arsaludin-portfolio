@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "@/utils/class-name"
+import { useEffect, useState } from "react" // 👈 Suntik hooks standar buat delay unmount
 import HeaderNavigation from "./HeaderNavigation"
 import SignInButton from "./button/SignInButton"
 import DownloadResumeButton from "./button/DownloadResumeButton"
@@ -12,16 +13,40 @@ type MobileDrawerProps = {
 }
 
 export default function HeaderMobileDrawer({ showMenu, isSignedIn, onClose }: MobileDrawerProps) {
+  const [isRendered, setIsRendered] = useState(false)
+  const [animate, setAnimate] = useState(false)
+
+  useEffect(() => {
+    if (showMenu) {
+      setIsRendered(true)
+      const frameId = requestAnimationFrame(() => {
+        setAnimate(true)
+      })
+      return () => cancelAnimationFrame(frameId)
+    } else {
+      setAnimate(false)
+    }
+  }, [showMenu])
+
+  const handleTransitionEnd = () => {
+    if (!showMenu) {
+      setIsRendered(false)
+    }
+  }
+
+  if (!isRendered) return null
+
   return (
     <>
       {/* Drawer aside */}
       <aside
+        onTransitionEnd={handleTransitionEnd}
         className={cn(
           "z-header fixed top-17.25 bottom-0 left-0 w-fit p-4 lg:hidden",
           "flex flex-col justify-between gap-6 min-w-[220px]",
           "bg-primary border-primary border-r",
-          "-translate-x-full transform transition-transform duration-300 ease-in-out",
-          showMenu && "translate-x-0"
+          "transform transition-transform duration-300 ease-in-out",
+          animate ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <HeaderNavigation className="flex flex-col items-start" isSidebar />
@@ -35,8 +60,8 @@ export default function HeaderMobileDrawer({ showMenu, isSignedIn, onClose }: Mo
       <div
         className={cn(
           "bg-overlay z-header-overlay fixed top-17.25 right-0 bottom-0 left-0 lg:hidden",
-          "invisible opacity-0 transition-opacity duration-300 ease-in-out",
-          showMenu && "visible opacity-100"
+          "transition-opacity duration-300 ease-in-out",
+          animate ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
         )}
         onClick={onClose}
       />
