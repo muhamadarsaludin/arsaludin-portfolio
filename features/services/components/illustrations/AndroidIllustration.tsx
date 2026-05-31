@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import MobileIllustration from "./MobileIllustration"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 export default function AndroidIllustration() {
   const colors = ["bg-red", "bg-blue", "bg-green", "bg-yellow"]
@@ -36,7 +36,7 @@ export default function AndroidIllustration() {
             {Array.from({ length: 3 }).map((_, i) => (
               <div key={`gr-${i}`} className="bg-secondary relative h-6 overflow-hidden rounded">
                 <div
-                  className={clsx(
+                  className={cn(
                     "absolute right-0 bottom-0 left-0 h-1",
                     colors[(i + 1) % colors.length]
                   )}
@@ -51,7 +51,7 @@ export default function AndroidIllustration() {
               {[4, 7, 3, 6, 5].map((h, i) => (
                 <motion.div
                   key={`bar-${i}`}
-                  className={clsx("w-full rounded-sm", colors[i % colors.length])}
+                  className={cn("w-full rounded-sm", colors[i % colors.length])}
                   initial={{ height: 0 }}
                   animate={{ height: `${h * 4}px` }}
                   transition={{

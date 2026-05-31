@@ -6,7 +6,7 @@ import { Card, CardPriority, CardStatus, CardType } from '@/features/cards/types
 import MiracleButton from '@/components/miracle/Button'
 import { useTranslations } from 'next-intl'
 import { LuLoader, LuPlus } from 'react-icons/lu'
-import clsx from 'clsx'
+import { cn } from "@/utils/class-name"
 import { useAuth } from '@/providers/AuthProvider'
 import CardItem from '@/features/cards/components/CardItem'
 import { signInWithGoogle } from '@/features/auth/services/auth'
@@ -106,7 +106,7 @@ export default function RoadmapColumn({ status, filters, className, columnDelay 
   }
 
   return (
-    <div className={clsx("flex flex-col gap-4 w-full bg-secondary p-4 md:p-5 rounded-2xl", className)}>
+    <div className={cn("flex flex-col gap-4 w-full bg-secondary p-4 md:p-5 rounded-2xl", className)}>
       <div className="flex items-center justify-between px-1">
         <h2 className="text-primary font-semibold text-md">
           {td(`roadmap.status.${status}`)}

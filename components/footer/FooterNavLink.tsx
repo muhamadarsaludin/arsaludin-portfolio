@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation"
 import { useLocalizedPathname } from "@/hooks/useLocalizedPathname"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 type FooterNavLinkProps = {
   label: string
@@ -17,7 +17,7 @@ export default function FooterNavLink({ href, label, disabled = false }: FooterN
   }
   return (
     <Link
-      className={clsx(
+      className={cn(
         "py-2 text-sm transition-colors duration-300 ease-in-out",
         isActive
           ? "text-blue font-medium"

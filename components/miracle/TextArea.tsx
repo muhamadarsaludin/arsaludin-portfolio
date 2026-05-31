@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import type { TextareaHTMLAttributes, ReactNode } from "react"
 import { useId, useRef, useState, useEffect } from "react"
 import { LuX } from "react-icons/lu"
@@ -84,11 +84,11 @@ export default function MiracleTextArea({
   const showClear = clearable && (props.value !== undefined ? String(props.value).length > 0 : hasValue)
 
   return (
-    <div className={clsx("flex flex-col gap-1.5", fullWidth && "w-full", className)}>
+    <div className={cn("flex flex-col gap-1.5", fullWidth && "w-full", className)}>
       {label && (
         <label
           htmlFor={inputId}
-          className={clsx(
+          className={cn(
             "text-sm font-medium select-none",
             disabled ? "text-neutral-500" : "text-neutral-900 dark:text-neutral-100"
           )}
@@ -99,7 +99,7 @@ export default function MiracleTextArea({
       )}
 
       <div
-        className={clsx(
+        className={cn(
           "relative flex rounded-md border transition-colors duration-200 ease-in-out",
           disabled ? "bg-neutral-100 opacity-50 dark:bg-neutral-900" : "bg-transparent",
           isError
@@ -111,7 +111,7 @@ export default function MiracleTextArea({
           id={inputId}
           ref={textareaRef}
           disabled={disabled}
-          className={clsx(
+          className={cn(
             "placeholder:text-neutral-400 w-full bg-transparent px-3 py-2 text-sm outline-none disabled:cursor-not-allowed resize-none",
             showClear && "pr-10"
           )}
@@ -137,7 +137,7 @@ export default function MiracleTextArea({
       </div>
 
       {(helperText || typeof error === "string") && (
-        <span className={clsx("text-xs", isError ? "text-red-500" : "text-neutral-500")}>
+        <span className={cn("text-xs", isError ? "text-red-500" : "text-neutral-500")}>
           {typeof error === "string" ? error : helperText}
         </span>
       )}

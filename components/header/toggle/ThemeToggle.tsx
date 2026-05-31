@@ -1,6 +1,6 @@
 import { useTheme } from "@wrksz/themes/client"
 import { LuMoon, LuSun, LuMonitorCog, LuPalette } from "react-icons/lu"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import MiracleRadio from "@/components/miracle/Radio"
 import { useTranslations } from "next-intl"
@@ -55,7 +55,7 @@ export default function ThemeToggle({ className }: ThemeToggleProps) {
       hoverContent
       trigger={
         <button
-          className={clsx(
+          className={cn(
             "cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out group-hover/tooltip:bg-neutral-200 dark:group-hover/tooltip:bg-neutral-800",
             className
           )}

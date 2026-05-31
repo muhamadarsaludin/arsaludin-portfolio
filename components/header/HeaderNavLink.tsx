@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation"
 import { useLocalizedPathname } from "@/hooks/useLocalizedPathname"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 type HeaderNavLinkProps = {
   label: string
@@ -18,7 +18,7 @@ export default function HeaderNavLink({ href, label, isSidebar, disabled = false
   }
   return (
     <Link
-      className={clsx(
+      className={cn(
         "py-2 text-sm transition-colors duration-300 ease-in-out w-full",
         isSidebar && "hover:bg-neutral-100 dark:hover:bg-neutral-900 p-2 rounded-md",
         isSidebar && isActive && "bg-blue-100 dark:bg-blue-950 hover:bg-blue-100! dark:hover:bg-blue-950! text-primary-inv",

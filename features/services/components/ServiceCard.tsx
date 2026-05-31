@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import React from "react"
 import type { Service, ServiceLevel } from "../types/services.types"
 import SkillBadges from "@/features/skills/components/SkillBadges"
@@ -23,7 +23,7 @@ export default function ServiceCard({ service, illustration, className }: Servic
   
   return (
     <div
-      className={clsx(
+      className={cn(
         "relative flex flex-col rounded-2xl border border-primary bg-primary",
         className
       )}

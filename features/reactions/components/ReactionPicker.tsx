@@ -5,7 +5,7 @@ import dynamic from "next/dynamic"
 import { TbMoodPlus } from "react-icons/tb"
 import { useTranslations } from "next-intl"
 import { Theme } from "emoji-picker-react"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 import { useAuth } from "@/providers/AuthProvider"
 import { useTheme } from "@wrksz/themes/client"
@@ -90,7 +90,7 @@ export default function ReactionPicker({
             />
             {/* Indikator dot merah kalau user sudah react */}
             <span
-              className={clsx(
+              className={cn(
                 "bg-red absolute top-0 right-0 h-1.5 w-1.5 rounded-full",
                 "transition-opacity duration-300",
                 dataSummary?.userReaction ? "opacity-100" : "opacity-0"

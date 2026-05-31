@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import React from "react"
 
 export type BadgeColor = "default" | "red" | "green" | "blue" | "yellow"
@@ -26,7 +26,7 @@ export default function MiracleBadge({
   ...props
 }: BadgeProps) {
   
-  const baseStyles = clsx("inline-flex items-center gap-1.5 font-medium transition-colors", pill ? "rounded-full" : "rounded-md")
+  const baseStyles = cn("inline-flex items-center gap-1.5 font-medium transition-colors", pill ? "rounded-full" : "rounded-md")
 
   const sizeStyles: Record<BadgeSize, string> = {
     sm: "px-2 py-0.5 text-[10px]",
@@ -61,7 +61,7 @@ export default function MiracleBadge({
 
   return (
     <span 
-      className={clsx(baseStyles, selectedSize, selectedStyles, className)} 
+      className={cn(baseStyles, selectedSize, selectedStyles, className)} 
       {...props}
     >
       {startIcon && <span className="shrink-0 flex items-center justify-center">{startIcon}</span>}

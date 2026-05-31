@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { LuChevronDown, LuFilter, LuSearch, LuTriangleAlert } from "react-icons/lu"
 import MiraclePopover from "@/components/miracle/Popover"
 import MiracleTextField from "@/components/miracle/TextField"
@@ -144,7 +144,7 @@ export default function ArticlesContent({
             trigger={
               <MiracleButton 
                 startIcon={<LuFilter />}
-                endIcon={<LuChevronDown className={clsx("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
+                endIcon={<LuChevronDown className={cn("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
               >
                 <div className="flex gap-2 items-center">
                   Filter 

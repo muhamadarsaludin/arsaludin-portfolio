@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { useTranslations } from "next-intl"
 import { LuMenu, LuX } from "react-icons/lu"
 
@@ -12,7 +12,7 @@ export default function MenuToggle({ className, showMenu, handleToggle }: MenuTo
   const t = useTranslations("components.header.toggle")
   return (
     <button
-      className={clsx(
+      className={cn(
         "cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800",
         className
       )}

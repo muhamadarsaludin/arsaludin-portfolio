@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import type { Experience } from "../types/experiences.types"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { formatDate } from "@/utils/format-date"
 import { useLocale } from "next-intl"
 import { useTranslations } from "use-intl"
@@ -113,7 +113,7 @@ export const ExperienceCard = ({
           >
             <LuChevronDown
               size={20}
-              className={clsx("transition-transform duration-500", isOpen && "-rotate-180")}
+              className={cn("transition-transform duration-500", isOpen && "-rotate-180")}
             />
           </button>
         )}
@@ -122,7 +122,7 @@ export const ExperienceCard = ({
       {/* --- CONTENT SECTION --- */}
       <div 
         onTransitionEnd={handleTransitionEnd} 
-        className={clsx(
+        className={cn(
           "grid transition-all duration-500 ease-in-out",
           isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         )}

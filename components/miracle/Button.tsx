@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import MiracleLoader from "@/components/miracle/Loader"
 import React from "react"
 import Link from "next/link"
@@ -72,7 +72,7 @@ export default function MiracleButton({
     },
   }
 
-  const styles = clsx(
+  const styles = cn(
     baseStyles,
     sizeStyles[size],
     variantStyles[variant][status],

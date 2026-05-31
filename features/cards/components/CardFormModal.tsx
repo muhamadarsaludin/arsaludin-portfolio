@@ -13,7 +13,7 @@ import MiracleRadio from '@/components/miracle/Radio'
 import { useTranslations } from 'next-intl'
 import { useCardsMutation } from '@/features/cards/hooks/useCardMutation'
 import { useAuth } from '@/providers/AuthProvider'
-import clsx from 'clsx'
+import { cn } from "@/utils/class-name"
 import { CARD_PRIORITIES, CARD_STATUS, CARD_TYPES } from '../constants/card.constants'
 import MiracleBadge from '@/components/miracle/Badge'
 import { LuTriangleAlert } from 'react-icons/lu'
@@ -155,7 +155,7 @@ export default function CardFormModal({
           {/* Type Selection */}
           <div className="flex flex-col gap-3">
             {/* Style label disamakan dengan TextField */}
-            <p className={clsx("text-sm font-medium select-none text-primary")}>
+            <p className={cn("text-sm font-medium select-none text-primary")}>
               {t("label.type") || "Type"}
               <span className="text-red ml-1">*</span>
             </p>
@@ -181,7 +181,7 @@ export default function CardFormModal({
 
           {/* Priority Selection */}
           <div className="flex flex-col gap-3">
-            <p className={clsx("text-sm font-medium select-none text-primary")}>
+            <p className={cn("text-sm font-medium select-none text-primary")}>
               {t("label.priority") || "Priority"}
               <span className="text-red ml-1">*</span>
             </p>
@@ -207,13 +207,13 @@ export default function CardFormModal({
         </div>
 
         {/* Status Selection - Proteksi Admin */}
-        <div className={clsx("flex flex-col gap-3 pt-6 border-t border-primary")}>
+        <div className={cn("flex flex-col gap-3 pt-6 border-t border-primary")}>
           {!isAdmin && (
             <MiracleBanner color="yellow" variant="secondary" startIcon={<LuTriangleAlert />}>
               {t("alert")}
             </MiracleBanner>
           )}
-          <p className={clsx(
+          <p className={cn(
             "text-sm font-medium select-none",
             !isAdmin ? "text-secondary" : "text-primary"
           )}>
@@ -224,7 +224,7 @@ export default function CardFormModal({
             name="status"
             control={control}
             render={({ field }) => (
-              <div className={clsx("flex flex-wrap gap-x-6 gap-y-3", !isAdmin && "opacity-60")}>
+              <div className={cn("flex flex-wrap gap-x-6 gap-y-3", !isAdmin && "opacity-60")}>
                 {CARD_STATUS.map((val) => (
                   <MiracleRadio
                     key={val}

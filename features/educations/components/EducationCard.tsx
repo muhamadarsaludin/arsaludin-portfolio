@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import type { Education } from "../types/educations.types"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { formatDate } from "@/utils/format-date"
 import { useLocale } from "next-intl"
 import { useTranslations } from "use-intl"
@@ -115,7 +115,7 @@ export const EducationCard = ({
           >
             <LuChevronDown
               size={20}
-              className={clsx(
+              className={cn(
                 "cursor-pointer transition-transform duration-500 ease-in-out",
                 isOpen && "-rotate-180"
               )}
@@ -127,7 +127,7 @@ export const EducationCard = ({
       {/* --- CONTENT SECTION (ACCORDION EFFECT) --- */}
       <div
         onTransitionEnd={handleTransitionEnd}
-        className={clsx(
+        className={cn(
           "grid transition-all duration-500 ease-in-out",
           isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         )}

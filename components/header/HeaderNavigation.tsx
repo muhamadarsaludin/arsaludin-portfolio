@@ -1,7 +1,7 @@
 "use client"
 import { useTranslations } from "next-intl"
 import HeaderNavLink from "./HeaderNavLink"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 type HeaderNavigationProps = {
   className?: string
@@ -45,7 +45,7 @@ export default function HeaderNavigation({ className, isSidebar }: HeaderNavigat
   const t = useTranslations("components.header.navigation")
 
   return (
-    <nav className={clsx(
+    <nav className={cn(
       "flex items-center", 
       isSidebar ? "gap-4" : "gap-6",
       className)}>

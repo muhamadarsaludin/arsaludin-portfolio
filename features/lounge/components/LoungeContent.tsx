@@ -14,7 +14,7 @@ import { useInfiniteMessages } from "@/features/messages/hooks/useInfiniteMessag
 import MessageBubble from "@/features/messages/components/MessageBubble"
 import MessageInput from "@/features/messages/components/MessageInput"
 import MessageBubbleSkeleton from "@/features/messages/components/MessageBubbleSkeleton"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type LoungeContentProps = {
@@ -123,7 +123,7 @@ export default function LoungeContent({
           onScroll={handleScroll}
           className="flex-1 overflow-y-auto px-2 flex flex-col-reverse"
         >
-          <div className={clsx("flex flex-col-reverse gap-5", (!isLoading && messages.length === 0) && "min-h-full")}>
+          <div className={cn("flex flex-col-reverse gap-5", (!isLoading && messages.length === 0) && "min-h-full")}>
             {isLoading ? (
               <div className="flex flex-col-reverse gap-5">
                 {[...Array(4)].map((_, i) => <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />)}
@@ -169,7 +169,7 @@ export default function LoungeContent({
         <button
           onClick={scrollToBottom}
           aria-label="Scroll to bottom"
-          className={clsx(
+          className={cn(
             "absolute right-0 bottom-6 z-50",
             "flex h-10 w-10 items-center justify-center rounded-md",
             "bg-primary-inv text-primary-inv shadow-lg",

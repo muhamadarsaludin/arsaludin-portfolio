@@ -10,7 +10,7 @@ import { CARD_PRIORITIES, CARD_TYPES, CARDS_PAGE_SIZE } from "@/features/cards/c
 import { CardPriority, CardStatus, CardType } from "@/features/cards/types/cards.types";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useUrlParams } from "@/hooks/useSearchParams";
-import clsx from "clsx";
+import { cn } from "@/utils/class-name";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { LuChevronDown, LuFilter, LuSearch } from "react-icons/lu";
@@ -99,7 +99,7 @@ export default function RoadmapContent({ kanbanStatuses }: RoadmapContentProps) 
             trigger={
               <MiracleButton 
                 startIcon={<LuFilter />}
-                endIcon={<LuChevronDown className={clsx("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
+                endIcon={<LuChevronDown className={cn("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
               >
                 <div className="flex gap-2 items-center">
                   Filter 

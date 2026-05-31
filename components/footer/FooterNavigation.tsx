@@ -1,6 +1,6 @@
 "use client"
 import { useTranslations } from "next-intl"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import FooterNavLink from "./FooterNavLink"
 
 type FooterNavigationProps = {
@@ -34,7 +34,7 @@ export default function FooterNavigation({ className }: FooterNavigationProps) {
   const t = useTranslations("components.footer.navigation")
 
   return (
-    <nav className={clsx("flex items-center justify-center gap-y-1 gap-x-3 md:gap-x-6 flex-wrap", className)}>
+    <nav className={cn("flex items-center justify-center gap-y-1 gap-x-3 md:gap-x-6 flex-wrap", className)}>
       {navigationLinks.map((link, index) => (
         <FooterNavLink
           key={index}

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Heading from '@/components/Heading';
-import clsx from 'clsx';
+import { cn } from "@/utils/class-name";
 import { LuCalendar, LuChevronDown, LuOrbit, LuPartyPopper, LuRefreshCcwDot } from 'react-icons/lu';
 import MiracleBadge from '@/components/miracle/Badge';
 import { useLocale, useTranslations } from 'next-intl';
@@ -34,7 +34,7 @@ export default function ChangelogItem({
 
   return (
     <Section className="pl-4 md:pl-5">
-      <div className={clsx(
+      <div className={cn(
         "flex w-full relative border-l-2 pl-8 md:pl-10 pb-6 md:pb-8 last:pb-0 transition-all duration-500 ease-in-out",
         isOpen ? "border-blue" : "border-primary"
         )}>
@@ -42,7 +42,7 @@ export default function ChangelogItem({
         <button 
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle version details"
-          className={clsx(
+          className={cn(
             "absolute -left-4.25 md:-left-5.25 top-0 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full transition-all duration-500 ease-in-out cursor-pointer border-2",
             isOpen 
               ? "bg-blue text-primary-inv border-primary" 
@@ -50,13 +50,13 @@ export default function ChangelogItem({
           )}
         >
           <LuOrbit
-            className={clsx(
+            className={cn(
               "transition-transform duration-500 ease-in-out size-4 md:size-5",
               isOpen ? "rotate-180" : "rotate-0"
             )} 
           />
         </button>
-        <div className={clsx("flex w-full flex-col border border-primary bg-primary p-5 md:p-6 rounded-2xl")}> 
+        <div className={cn("flex w-full flex-col border border-primary bg-primary p-5 md:p-6 rounded-2xl")}> 
           {/* Header */}
           <div className="flex items-start justify-between gap-3">
             <div className="w-full flex flex-col items-start">
@@ -96,7 +96,7 @@ export default function ChangelogItem({
             >
               <LuChevronDown
                 size={20}
-                className={clsx(
+                className={cn(
                   "cursor-pointer transition-transform duration-500 ease-in-out",
                   isOpen && "-rotate-180"
                 )}
@@ -104,7 +104,7 @@ export default function ChangelogItem({
             </button>
           </div>
           {/* Body */}
-          <div className={clsx(
+          <div className={cn(
             "grid transition-all duration-500 ease-in-out",
             isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
           )}>

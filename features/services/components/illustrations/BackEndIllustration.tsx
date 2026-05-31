@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import BrowserIllustration from "./BrowserIllustration"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 export default function BackEndIllustration() {
   const colors = ["bg-red", "bg-blue", "bg-green", "bg-yellow"]
@@ -59,7 +59,7 @@ export default function BackEndIllustration() {
             {Array.from({ length: 2 }).map((_, i) => (
               <motion.div
                 key={`status-${i}`}
-                className={clsx("h-1 w-1 rounded-full", i === 0 ? "bg-green" : "bg-blue")}
+                className={cn("h-1 w-1 rounded-full", i === 0 ? "bg-green" : "bg-blue")}
                 animate={{ opacity: [0.3, 1, 0.3] }} // Opacity di motion tetap oke karena ini animasi visual
                 transition={{ duration: 1, delay: i * 0.5, repeat: Infinity }}
               />
@@ -72,7 +72,7 @@ export default function BackEndIllustration() {
           {Array.from({ length: 3 }).map((_, i) => (
             <div key={`line-${i}`} className="bg-neutral-med relative h-full w-px">
               <motion.div
-                className={clsx(
+                className={cn(
                   "absolute left-1/2 h-1 w-1 -translate-x-1/2 rounded-full shadow-sm",
                   colors[i % colors.length]
                 )}

@@ -3,7 +3,7 @@ import Section from "@/components/Section"
 import { getLocale, getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import MiracleButton from "@/components/miracle/Button"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { LuArrowRight } from "react-icons/lu"
 import { getFeaturedAchievements } from "@/features/achievements/services/achievements"
 import { AchievementList } from "./AchievementList"
@@ -22,7 +22,7 @@ export default async function AchievementsSection({ className }: { className?: s
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Section className={clsx(className)}>
+      <Section className={cn(className)}>
         <MiracleReveal animation="fade-right">
           <Heading
             id="featured-achievements"

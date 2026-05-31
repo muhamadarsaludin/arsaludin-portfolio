@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import type { InputHTMLAttributes, ReactNode } from "react"
 import { useEffect, useId, useRef } from "react"
 
@@ -34,7 +34,7 @@ export default function MiracleCheckbox({
 
   return (
     <div
-      className={clsx(
+      className={cn(
         "flex cursor-pointer items-center gap-2",
         disabled && "pointer-events-none opacity-50",
         className
@@ -44,7 +44,7 @@ export default function MiracleCheckbox({
         ref={inputRef}
         type="checkbox"
         id={checkboxId}
-        className={clsx(
+        className={cn(
           "h-4 w-4 cursor-pointer rounded-sm",
           invers ? "accent-blue-400 dark:accent-blue-600" : "accent-blue-600 dark:accent-blue-400"
         )}

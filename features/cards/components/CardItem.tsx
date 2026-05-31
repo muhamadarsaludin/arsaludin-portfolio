@@ -4,7 +4,7 @@ import React, { ReactNode, useState, useMemo } from 'react'
 import { Card, CardPriority, CardStatus, CardType } from '@/features/cards/types/cards.types'
 import { useLocale, useTranslations } from 'next-intl'
 import Image from "next/image"
-import clsx from 'clsx'
+import { cn } from "@/utils/class-name"
 import { useAuth } from '@/providers/AuthProvider'
 import { 
   LuBug, 
@@ -81,7 +81,7 @@ export default function CardItem({ card, onUpdate, className }: CardItemProps) {
     <>
       <div 
         onClick={() => setIsDetailModalOpen(true)}
-        className={clsx(
+        className={cn(
           "group flex flex-col p-4 bg-primary border border-gray-950/10 dark:border-white/10 hover:border-blue-600 hover:dark:border-blue-400 rounded-xl transition-all duration-200 cursor-pointer",
           className
         )}

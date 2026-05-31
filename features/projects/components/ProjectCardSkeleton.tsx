@@ -1,10 +1,10 @@
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 export default function ProjectCardSkeleton({ className }: { className?: string }) {
   return (
     <div
-      className={clsx(
+      className={cn(
         "flex flex-col rounded-2xl border border-primary overflow-hidden bg-card",
         className
       )}

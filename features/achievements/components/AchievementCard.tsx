@@ -8,7 +8,7 @@ import AchievementModal from "./AchievementModal"
 import { useTranslations } from "use-intl"
 import { LuAward } from "react-icons/lu"
 import MiracleBadge, { BadgeColor } from "@/components/miracle/Badge"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 export default function AchievementCard({ achievement, className }: { achievement: Achievement, className?: string}) {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -22,7 +22,7 @@ export default function AchievementCard({ achievement, className }: { achievemen
   const td = useTranslations("data.achievement")
 
   return (
-    <div className={clsx(
+    <div className={cn(
       "relative flex flex-col",
       className
     )}>

@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import type { ReactNode } from "react"
 import { useEffect, useRef, useState, useLayoutEffect, useCallback } from "react"
 import { createPortal } from "react-dom"
@@ -178,7 +178,7 @@ export default function MiraclePopover({
   }
 
   return (
-    <div ref={containerRef} className={clsx("relative inline-flex", className)}>
+    <div ref={containerRef} className={cn("relative inline-flex", className)}>
       <div onClick={handleToggle} className="cursor-pointer">
         {trigger}
       </div>
@@ -193,13 +193,13 @@ export default function MiraclePopover({
             transform: `translate3d(${coords.left}px, ${coords.top}px, 0)`,
             zIndex: 9999,
           }}
-          className={clsx(
+          className={cn(
             "transition-opacity duration-300 ease-in-out",
             isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
           )}
         >
           <div
-            className={clsx(
+            className={cn(
               "text-primary-inv relative rounded-md",
               "w-max max-w-[calc(100vw-32px)] break-words whitespace-normal",
               !noShadow && "shadow-lg shadow-black/20 dark:shadow-white/10",
@@ -210,7 +210,7 @@ export default function MiraclePopover({
           >
             {!noArrow && (
               <div
-                className={clsx(
+                className={cn(
                   "absolute z-[-1] h-2.5 w-2.5 rotate-45",
                   !noBackground && "bg-primary-inv",
                   arrowPositionClass[adaptedPos]

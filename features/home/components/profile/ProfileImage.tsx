@@ -1,5 +1,5 @@
 import Image from "next/image"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 type ProfileImageProps = React.HTMLAttributes<HTMLDivElement> & {
   className?: string
@@ -9,7 +9,7 @@ export default function ProfileImage({ className, ...props }: ProfileImageProps)
   return (
     <div
       {...props}
-      className={clsx(
+      className={cn(
         "relative overflow-hidden rounded-4xl lg:rounded-[60px]",
         "border-primary border-4 lg:border-6 xl:border-8",
         "aspect-4/5 w-30 md:w-40 lg:w-50",

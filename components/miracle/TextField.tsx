@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import type { InputHTMLAttributes, ReactNode } from "react"
 import { useId, useRef, useState } from "react"
 import { LuX } from "react-icons/lu"
@@ -63,11 +63,11 @@ export default function MiracleTextField({
   const showClear = hasClearFeature && (props.value !== undefined ? String(props.value).length > 0 : hasValue)
 
   return (
-    <div className={clsx("flex flex-col gap-1.5", fullWidth && "w-full", className)}>
+    <div className={cn("flex flex-col gap-1.5", fullWidth && "w-full", className)}>
       {label && (
         <label
           htmlFor={inputId}
-          className={clsx(
+          className={cn(
             "text-sm font-medium select-none",
             disabled ? "text-secondary" : "text-primary"
           )}
@@ -78,7 +78,7 @@ export default function MiracleTextField({
       )}
 
       <div
-        className={clsx(
+        className={cn(
           "relative flex items-center rounded-md border transition-colors duration-200 ease-in-out",
           disabled ? "bg-neutral-100 opacity-50 dark:bg-neutral-900" : "bg-transparent",
           isError
@@ -92,7 +92,7 @@ export default function MiracleTextField({
           id={inputId}
           ref={inputRef}
           disabled={disabled}
-          className={clsx(
+          className={cn(
             "placeholder:text-secondary w-full bg-transparent px-3 py-2 text-sm outline-none disabled:cursor-not-allowed",
             startIcon && "pl-2",
             (endIcon || hasClearFeature) && "pr-2"
@@ -109,7 +109,7 @@ export default function MiracleTextField({
                 tabIndex={-1}
               onClick={handleClear}
                 disabled={disabled}
-                className={clsx(
+                className={cn(
                   "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 hover:dark:text-neutral-50 hover:bg-neutral-100 hover:dark:bg-neutral-900 flex items-center justify-center outline-none transition-all disabled:cursor-not-allowed cursor-pointer p-1 rounded-full",
                   showClear ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
                 )}
@@ -124,7 +124,7 @@ export default function MiracleTextField({
       </div>
 
       {(helperText || typeof error === "string") && (
-        <span className={clsx("text-xs", isError ? "text-red" : "text-secondary")}>
+        <span className={cn("text-xs", isError ? "text-red" : "text-secondary")}>
           {typeof error === "string" ? error : helperText}
         </span>
       )}

@@ -1,6 +1,6 @@
 import MiracleRadio from "@/components/miracle/Radio"
 import MiracleTooltip from "@/components/miracle/Tooltip"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { useLocale, useTranslations } from "next-intl"
 import Image from "next/image"
 import { useRouter, usePathname } from "@/i18n/navigation"
@@ -52,7 +52,7 @@ export default function LangToggle({ className }: LangToggleProps) {
       hoverContent
       trigger={
         <button
-          className={clsx(
+          className={cn(
             "cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out group-hover/tooltip:bg-neutral-200 dark:group-hover/tooltip:bg-neutral-800",
             isPending && "opacity-70",
             className
@@ -67,7 +67,7 @@ export default function LangToggle({ className }: LangToggleProps) {
         </button>
       }
     >
-      <div className={clsx("flex flex-col gap-2", isPending && "pointer-events-none opacity-60")}>
+      <div className={cn("flex flex-col gap-2", isPending && "pointer-events-none opacity-60")}>
         {LOCALES_DATA.map((localeData) => (
           <MiracleRadio
             key={localeData.value}

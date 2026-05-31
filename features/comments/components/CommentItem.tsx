@@ -4,7 +4,7 @@ import { useState, useCallback } from "react"
 import { useTranslations, useLocale } from "next-intl"
 import Image from "next/image"
 import { LuTrash2 } from "react-icons/lu"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 import MiracleModal from "@/components/miracle/Modal"
 import MiracleButton from "@/components/miracle/Button"
@@ -74,14 +74,14 @@ export default function CommentItem({
 
   return (
     <li
-      className={clsx(
+      className={cn(
         "flex flex-col gap-2 transition-opacity",
         isDeleting && "pointer-events-none opacity-50"
       )}
     >
       <div className="group/comment flex items-start justify-between gap-3">
         <div className="flex flex-1 gap-3">
-          <div className={clsx(
+          <div className={cn(
             "bg-blue text-primary-inv relative shrink-0 overflow-hidden rounded-full",
             isReply ? "h-5 w-5 md:h-6 md:w-6" : "h-6 w-6 md:h-8 md:w-8"
             )}>

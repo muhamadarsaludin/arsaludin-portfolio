@@ -4,7 +4,7 @@ import ProfileStats from "./ProfileStats"
 import ProfileInfo from "./ProfileInfo"
 import { getTranslations } from "next-intl/server"
 import ProfileImage from "./ProfileImage"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
 import { getStats } from "@/features/stats/services/stats"
 import { MiracleReveal } from "@/components/miracle/Reveal"
@@ -19,7 +19,7 @@ export default async function ProfileSection({ className }: { className?: string
   })
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Section className={clsx("relative", className)}>
+      <Section className={cn("relative", className)}>
         <MiracleReveal animation="fade-up">
           <ProfileHero />
         </MiracleReveal>

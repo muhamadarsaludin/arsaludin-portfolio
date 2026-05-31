@@ -10,7 +10,7 @@ import {
   LuChevronRight, 
   LuMaximize2 
 } from "react-icons/lu";
-import clsx from "clsx";
+import { cn } from "@/utils/class-name";
 
 interface ImageItem {
   image_url: string;
@@ -73,7 +73,7 @@ export default function MiracleImagePreview({
           setSelectedIndex(index);
           setIsOpen(true);
         }}
-        className={clsx(
+        className={cn(
           "group relative cursor-pointer overflow-hidden rounded-xl border border-primary bg-secondary shadow-sm transition-all hover:shadow-md h-auto w-full",
           className
         )}
@@ -82,7 +82,7 @@ export default function MiracleImagePreview({
         <img
           src={img.image_url}
           alt={img.alt || "Preview Image"}
-          className={clsx("w-full h-auto transition-transform duration-500 group-hover:scale-110", imageClassName)}
+          className={cn("w-full h-auto transition-transform duration-500 group-hover:scale-110", imageClassName)}
         />
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 backdrop-blur-[2px] transition-all group-hover:opacity-100">
           <div className="rounded-full bg-white/10 p-3 backdrop-blur-md border border-white/20 text-white shadow-xl">
@@ -116,7 +116,7 @@ export default function MiracleImagePreview({
           <div className="flex-1 flex w-full p-5 md:p-6 overflow-hidden relative group/preview">
             <div className="h-full w-full flex items-center justify-center overflow-hidden bg-secondary rounded-2xl relative">
               <div
-                className={clsx(
+                className={cn(
                   "relative h-full w-full flex items-center justify-center",
                   zoomScale > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-default"
                 )}
@@ -179,7 +179,7 @@ export default function MiracleImagePreview({
                       setZoomScale(1);
                       setSelectedIndex(idx);
                     }}
-                    className={clsx(
+                    className={cn(
                       "relative snap-start aspect-3/2 shrink-0 rounded-md overflow-hidden transition-all cursor-pointer",
                       selectedIndex === idx
                         ? "border-2 border-blue h-12 md:h-20"

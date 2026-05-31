@@ -2,7 +2,7 @@
 
 import ReactMarkdown from "react-markdown"
 import Link from "next/link"
-import { clsx } from "clsx"
+import { cn } from "@/utils/class-name"
 
 interface MarkdownProps {
   content: string
@@ -11,7 +11,7 @@ interface MarkdownProps {
 
 export const MiracleMarkdown = ({ content, className }: MarkdownProps) => {
   return (
-    <div className={clsx("flex flex-col gap-3", className)}>
+    <div className={cn("flex flex-col gap-3", className)}>
       <ReactMarkdown
         components={{
           // Paragraph
@@ -45,7 +45,7 @@ export const MiracleMarkdown = ({ content, className }: MarkdownProps) => {
               (node.position.start.line === node.position.end.line && !content.includes("\n"))
             return (
               <code
-                className={clsx(
+                className={cn(
                   "rounded px-1.5 py-0.5 font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
                   "font-mono text-[0.85rem]"
                 )}

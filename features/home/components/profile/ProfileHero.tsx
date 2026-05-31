@@ -3,7 +3,7 @@
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import BlurText from "@/components/react-bits/BlurText"
 import LiquidEther from "@/components/react-bits/LiquidEther"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import Image from "next/image"
 
 type ProfileHeroProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -14,7 +14,7 @@ export default function ProfileHero({ className, ...props }: ProfileHeroProps) {
   return (
     <div
       {...props}
-      className={clsx("border-primary relative w-full overflow-hidden rounded-2xl border bg-black h-50 md:h-70 lg:h-85 xl:h-100", className)}
+      className={cn("border-primary relative w-full overflow-hidden rounded-2xl border bg-black h-50 md:h-70 lg:h-85 xl:h-100", className)}
     >
       <div
         style={{ width: "100%", height: "100%", position: "relative" }}

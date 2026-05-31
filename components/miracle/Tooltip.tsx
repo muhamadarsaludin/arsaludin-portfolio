@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import type { ReactNode } from "react"
 import { useEffect, useRef, useState, useLayoutEffect, useCallback } from "react"
 import { createPortal } from "react-dom"
@@ -165,7 +165,7 @@ export default function MiracleTooltip({
     <>
       <div
         ref={containerRef}
-        className={clsx("group/tooltip relative flex cursor-pointer", className)}
+        className={cn("group/tooltip relative flex cursor-pointer", className)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -183,7 +183,7 @@ export default function MiracleTooltip({
             zIndex: 9999,
             pointerEvents: isOpen && hoverContent ? "auto" : "none",
           }}
-          className={clsx(
+          className={cn(
             "transition-opacity duration-300 ease-in-out",
             isOpen ? "visible opacity-100" : "invisible opacity-0"
           )}
@@ -191,7 +191,7 @@ export default function MiracleTooltip({
           onMouseLeave={hoverContent ? handleMouseLeave : undefined}
         >
           <div
-            className={clsx(
+            className={cn(
               "text-primary-inv relative w-max min-w-max rounded-md text-xs font-medium",
               !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
               !noBackground && "bg-primary-inv",
@@ -200,7 +200,7 @@ export default function MiracleTooltip({
           >
             {!noArrow && (
               <div
-                className={clsx(
+                className={cn(
                   "absolute z-1 h-2.5 w-2.5 rotate-45",
                   !noBackground && "bg-primary-inv",
                   arrowPositionClass[adaptedPos]

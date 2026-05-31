@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import type { InputHTMLAttributes, ReactNode } from "react"
 
 export type RadioProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
@@ -23,7 +23,7 @@ export default function MiracleRadio({
   // Kita tidak wajib pakai useId() lagi jika input berada di dalam label
   return (
     <label
-      className={clsx(
+      className={cn(
         "grid cursor-pointer grid-cols-[auto_auto_1fr] items-center gap-x-2 gap-y-1",
         disabled ? "pointer-events-none opacity-50" : "",
         className
@@ -31,7 +31,7 @@ export default function MiracleRadio({
     >
       <input
         type="radio"
-        className={clsx(
+        className={cn(
           "h-4 w-4 cursor-pointer",
           invers ? "accent-blue-400 dark:accent-blue-600" : "accent-blue-600 dark:accent-blue-400"
         )}

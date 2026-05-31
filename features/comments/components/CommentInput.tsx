@@ -7,7 +7,7 @@ import { useAuth } from "@/providers/AuthProvider"
 import MiracleTextField from "@/components/miracle/TextField"
 import MiracleButton from "@/components/miracle/Button"
 import { LuSend, LuX } from "react-icons/lu"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { useTranslations } from "next-intl"
 import { SiGoogle } from "react-icons/si"
 import { signInWithGoogle } from "@/features/auth/services/auth"
@@ -74,7 +74,7 @@ export default function CommentInput({
   }
 
   return (
-    <div className={clsx("flex flex-col gap-3", className)}>
+    <div className={cn("flex flex-col gap-3", className)}>
       {repliedComment && (
         <div className="bg-primary animate-in fade-in slide-in-from-bottom-2 flex items-start gap-2 duration-300">
           <div className="border-blue flex flex-1 flex-col gap-1.5 border-l-4 py-1 pl-3">

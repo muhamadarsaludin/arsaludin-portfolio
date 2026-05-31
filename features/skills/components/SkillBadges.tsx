@@ -2,7 +2,7 @@
 
 import MiracleBadge from "@/components/miracle/Badge"
 import MiracleTooltip from "@/components/miracle/Tooltip"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import type { Skill } from "../types/skills.types"
 import { SKILL_ICON_MAP } from "../services/skills"
 import { useTranslations } from "next-intl"
@@ -28,7 +28,7 @@ export default function SkillBadges({
   const t = useTranslations("components.skillBadges")
 
   return (
-    <div className={clsx("flex flex-wrap items-center gap-2 relative", className)}>
+    <div className={cn("flex flex-wrap items-center gap-2 relative", className)}>
       {/* RENDER TOP SKILLS */}
       {topSkills.map((skill) => {
         const IconComponent = skill.icon ? SKILL_ICON_MAP[skill.icon] : null
@@ -36,13 +36,13 @@ export default function SkillBadges({
         const BadgeComponent = (
           <MiracleBadge
             variant="secondary"
-            className={clsx(
+            className={cn(
               skill.link && "group/badge cursor-pointer transition-all active:scale-95"
             )}
             startIcon={
               IconComponent && (
                 <IconComponent
-                  className={clsx(
+                  className={cn(
                     skill.link && "transition-transform duration-300 group-hover/badge:scale-110"
                   )}
                 />
@@ -90,7 +90,7 @@ export default function SkillBadges({
 
                 const ItemContent = (
                   <div
-                    className={clsx(
+                    className={cn(
                       "group/badge flex items-center gap-2 p-1.5 rounded-md",
                       "hover:bg-neutral-900 hover:dark:bg-neutral-100 transition-colors duration-300 ease-in-out"
                     )}
@@ -99,7 +99,7 @@ export default function SkillBadges({
                       <IconComponent className="text-secondary-inv h-3 w-3 transition-transform duration-300 group-hover/badge:scale-110" />
                     )}
                     <span
-                      className={clsx(
+                      className={cn(
                         "text-secondary-inv",
                         skill.link &&
                           "transition-all duration-300 ease-in-out group-hover/badge:underline"

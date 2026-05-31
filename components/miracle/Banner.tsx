@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import React from "react"
 import { LuX } from "react-icons/lu"
 
@@ -81,13 +81,13 @@ export default function MiracleBanner({
 
   return (
     <div 
-      className={clsx(baseStyles, selectedStyles, className)} 
+      className={cn(baseStyles, selectedStyles, className)} 
       role="alert"
       {...props}
     >
       {/* Start Icon Slot */}
       {startIcon && (
-        <div className={clsx("shrink-0 text-lg", selectedIconStyles)}>
+        <div className={cn("shrink-0 text-lg", selectedIconStyles)}>
           {startIcon}
         </div>
       )}
@@ -100,7 +100,7 @@ export default function MiracleBanner({
           </h4>
         )}
         {children && (
-          <div className={clsx("text-sm", variant === "primary" ? "text-primary-inv" : "text-secondary")}>
+          <div className={cn("text-sm", variant === "primary" ? "text-primary-inv" : "text-secondary")}>
             {children}
           </div>
         )}
@@ -111,7 +111,7 @@ export default function MiracleBanner({
         <button
           onClick={onClear}
           type="button"
-          className={clsx("shrink-0 h-fit p-1 -mr-1 -mt-1 rounded-md transition-all active:scale-95 hover:bg-black/5 dark:hover:bg-white/10 text-primary cursor-pointer")}
+          className={cn("shrink-0 h-fit p-1 -mr-1 -mt-1 rounded-md transition-all active:scale-95 hover:bg-black/5 dark:hover:bg-white/10 text-primary cursor-pointer")}
           aria-label="Dismiss"
         >
           <LuX size={18} />

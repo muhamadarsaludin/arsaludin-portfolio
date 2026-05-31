@@ -3,7 +3,7 @@ import Section from "@/components/Section"
 import { getLocale, getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { EducationList } from "./EducationList"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { getEducations } from "@/features/educations/services/educations"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import { getQueryClient } from "@/lib/query-client"
@@ -20,7 +20,7 @@ export default async function EducationsSection({ className }: { className?: str
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Section className={clsx(className)}>
+      <Section className={cn(className)}>
         <MiracleReveal animation="fade-right">
           <Heading
             id="education"

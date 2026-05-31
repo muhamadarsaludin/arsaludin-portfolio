@@ -1,10 +1,10 @@
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 export default function AchievementCardSkeleton({ className }: { className?: string }) {
   return (
     <div
-      className={clsx(
+      className={cn(
         "relative flex flex-col",
         className
       )}

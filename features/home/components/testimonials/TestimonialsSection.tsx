@@ -2,7 +2,7 @@ import Heading from "@/components/Heading"
 import Section from "@/components/Section"
 import { getLocale, getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { getFeaturedTestimonials } from "@/features/testimonials/services/testimonials"
 import { TestimonialList } from "./TestimonialList"
 import Quote from "@/features/testimonials/components/Quote"
@@ -25,7 +25,7 @@ export default async function TestimonialsSection({ className }: { className?: s
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Section className={clsx(className)}>
+      <Section className={cn(className)}>
         <MiracleReveal animation="fade-right">
           <div className="relative flex w-fit mb-8 lg:mb-10 xl:mb-12">
             <Heading

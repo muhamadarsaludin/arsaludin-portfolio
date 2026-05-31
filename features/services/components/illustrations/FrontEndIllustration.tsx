@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import BrowserIllustration from "./BrowserIllustration"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 export default function FrontEndIllustration() {
   const colors = ["bg-red", "bg-blue", "bg-green", "bg-yellow"]
@@ -38,7 +38,7 @@ export default function FrontEndIllustration() {
               {Array.from({ length: 5 }).map((_, i) => (
                 <div
                   key={`nb-${i}`}
-                  className={clsx("h-0.5 w-3 rounded-full", i === 0 ? "bg-blue" : "bg-neutral-med")}
+                  className={cn("h-0.5 w-3 rounded-full", i === 0 ? "bg-blue" : "bg-neutral-med")}
                 />
               ))}
             </div>
@@ -61,7 +61,7 @@ export default function FrontEndIllustration() {
               {Array.from({ length: 3 }).map((_, i) => (
                 <div key={`gr-${i}`} className="bg-secondary relative h-6 overflow-hidden rounded">
                   <div
-                    className={clsx(
+                    className={cn(
                       "absolute inset-x-0 bottom-0 h-1",
                       colors[(i + 1) % colors.length]
                     )}
@@ -76,7 +76,7 @@ export default function FrontEndIllustration() {
                 {[4, 7, 3, 6, 5].map((h, i) => (
                   <motion.div
                     key={`ch-${i}`}
-                    className={clsx("w-1 rounded-sm", colors[i % colors.length])}
+                    className={cn("w-1 rounded-sm", colors[i % colors.length])}
                     initial={{ height: 0 }}
                     animate={{ height: `${h * 4}px` }}
                     transition={{

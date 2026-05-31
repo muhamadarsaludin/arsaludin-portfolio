@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react"
 import { Link } from "@/i18n/navigation"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { useLocale } from "next-intl"
 import { MiracleReveal } from "./miracle/Reveal"
 
@@ -104,7 +104,7 @@ export default function TableOfContents({ title, className }: TOCProps) {
   if (headings.length === 0) return null
 
   return (
-    <nav className={clsx("flex flex-col max-h-[calc(100%-120px)] w-50 sticky top-20", className)}>
+    <nav className={cn("flex flex-col max-h-[calc(100%-120px)] w-50 sticky top-20", className)}>
       <MiracleReveal animation="fade-left">
         <p className="mb-2 text-sm font-semibold uppercase text-primary">
           {title || (locale === "id" ? "Daftar isi" : "On this page")}
@@ -118,13 +118,13 @@ export default function TableOfContents({ title, className }: TOCProps) {
               <li
                 key={heading.id}
                 data-active={isActive}
-                className={clsx("group list-none")}
+                className={cn("group list-none")}
                 style={{ paddingLeft: `${indentation}rem` }}
               >
                 <Link
                   href={`#${heading.id}`}
                   onClick={(e) => handleClick(e, heading.id)}
-                  className={clsx(
+                  className={cn(
                     "block border-l-2 py-1.5 pl-3 text-sm transition-all duration-300",
                     isActive
                       ? "border-blue font-medium text-blue"

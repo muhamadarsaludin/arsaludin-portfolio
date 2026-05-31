@@ -1,7 +1,7 @@
 "use client"
 
 import { useStats } from "@/features/stats/hooks/useStats"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { useTranslations } from "next-intl"
 import CountUp from "react-countup"
 
@@ -28,7 +28,7 @@ export default function ProfileStats({ className }: ProfileStatsProps) {
   }
 
   return (
-    <div className={clsx("w-full overflow-x-auto", className)}>
+    <div className={cn("w-full overflow-x-auto", className)}>
       <table className="border-separate border-spacing-0 lg:ml-auto">
         <thead>
           <tr>

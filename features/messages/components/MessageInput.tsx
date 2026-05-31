@@ -3,7 +3,7 @@ import { Message, MessageType } from "../types/messages.types";
 import { useAuth } from "@/providers/AuthProvider";
 import { useTranslations } from "next-intl";
 import { useMessageMutation } from "../hooks/useMessageMutation";
-import clsx from "clsx";
+import { cn } from "@/utils/class-name";
 import { LuSend, LuX } from "react-icons/lu";
 import MiracleTextArea from "@/components/miracle/TextArea";
 import MiracleButton from "@/components/miracle/Button";
@@ -49,7 +49,7 @@ export default function MessageInput({
   }
 
   return (
-    <div className={clsx("flex flex-col gap-3 border-t border-primary pt-5 md:pt-6", className)}>
+    <div className={cn("flex flex-col gap-3 border-t border-primary pt-5 md:pt-6", className)}>
       {repliedMessage && (
         <div className="bg-primary animate-in fade-in slide-in-from-bottom-2 flex items-start gap-2 duration-300">
           <div className="border-blue flex flex-1 flex-col gap-1.5 border-l-4 py-1 pl-3">

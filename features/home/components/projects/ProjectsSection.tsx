@@ -5,7 +5,7 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { ProjectList } from "./ProjectList"
 import MiracleButton from "@/components/miracle/Button"
 import { IoSparkles } from "react-icons/io5"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { LuArrowRight } from "react-icons/lu"
 import { getFeaturedProjects } from "@/features/projects/services/projects"
 import { MiracleReveal } from "@/components/miracle/Reveal"
@@ -23,7 +23,7 @@ export default async function ProjectsSection({ className }: { className?: strin
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Section className={clsx(className)}>
+      <Section className={cn(className)}>
         <MiracleReveal animation="fade-right">
           <div className="relative mb-8 lg:mb-10 xl:mb-12 flex w-fit">
             <Heading

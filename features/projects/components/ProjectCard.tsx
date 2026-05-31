@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import Image from "next/image"
 import type { Project } from "../types/projects.types"
 import { Link } from "@/i18n/navigation"
@@ -15,7 +15,7 @@ export default function ProjectCard({ project, className }: { project: Project, 
 
   return (
     <div
-      className={clsx(
+      className={cn(
         "relative flex flex-col border border-primary rounded-2xl bg-card transition-all hover:shadow-md overflow-hidden",
         className
       )}

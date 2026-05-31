@@ -1,6 +1,6 @@
 import type { MDXComponents } from 'mdx/types'
 import Link from 'next/link'
-import { clsx } from 'clsx'
+import { cn } from "@/utils/class-name"
 import Heading from './components/Heading'
 import remarkGfm from 'remark-gfm'
 import rehypePrettyCode from 'rehype-pretty-code'
@@ -41,7 +41,7 @@ export const mdxComponents = {
   ),
   li: (props: any) => (
     <li 
-      className={clsx(
+      className={cn(
         "text-secondary relative pl-5.5",
         "before:content-[''] before:absolute before:left-0", 
         "before:mt-2.25 before:h-1.5 before:w-1.5 before:rounded-full",
@@ -91,7 +91,7 @@ export const mdxComponents = {
   // 7. Quotes
   blockquote: (props: any) => (
     <blockquote 
-      className={clsx(
+      className={cn(
         "mt-6 border-l-2 border-blue",
         "pl-4 italic text-primary!"
       )} 

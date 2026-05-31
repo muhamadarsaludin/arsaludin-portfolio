@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import Image from "next/image"
-import { cn } from "@/utils/class-name" // 👈 Swapped clsx with your custom className helper
+import { cn } from "@/utils/class-name"
 import { useTranslations } from "use-intl"
 import MiracleModal from "@/components/miracle/Modal"
 import { 

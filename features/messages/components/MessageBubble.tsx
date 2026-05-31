@@ -1,7 +1,7 @@
 "use client"
 
 import { useAuth } from "@/providers/AuthProvider"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { LuTrash2, LuPin, LuReply } from "react-icons/lu"
 import { getInitials } from "@/utils/initials"
 import Image from "next/image"
@@ -64,17 +64,17 @@ export default function MessageBubble({
   return (
     <div
       id={`message-${message.id}`}
-      className={clsx(
+      className={cn(
         "flex flex-col w-full relative",
         isAuthor ? "items-end" : "items-start"
       )}
     >
-      <div className={clsx(
+      <div className={cn(
         "group/message flex flex-col max-w-[90%] md:max-w-125 lg:max-w-140",
         isAuthor ? "items-end" : "items-start",    
         )}>
         {/* Name */}
-        <div className={clsx(
+        <div className={cn(
           "flex items-center gap-2 mb-1.5",
           isAuthor ? "pr-11" : "pl-11",
           )}>
@@ -86,7 +86,7 @@ export default function MessageBubble({
           )}
         </div>
         {/* Body */}
-        <div className={clsx(
+        <div className={cn(
           "flex gap-3 items-end",
           isAuthor ? "flex-row-reverse" : "flex-row"
           )}>
@@ -108,10 +108,10 @@ export default function MessageBubble({
             )}
           </div>
           {/* Bubble */}
-          <div className={clsx("flex flex-col relative bg-secondary max-w-full p-3 rounded-md text-sm text-secondary whitespace-pre-wrap", colorClass)}>
+          <div className={cn("flex flex-col relative bg-secondary max-w-full p-3 rounded-md text-sm text-secondary whitespace-pre-wrap", colorClass)}>
             {/* Arrow */}
             <div
-              className={clsx(
+              className={cn(
                 "absolute z-1 h-2.5 w-2.5",
                 colorClass,
                 arrowPositionClass,
@@ -120,7 +120,7 @@ export default function MessageBubble({
             />
 
             {/* Reply Button*/}
-            <div className={clsx(
+            <div className={cn(
                 "absolute z-1 top-1/2 -translate-y-1/2 opacity-0 group-hover/message:opacity-100 transition-all duration-300  ease-in-out",
                 isAuthor ? "-left-12" : "-right-12"
               )}>
@@ -129,12 +129,12 @@ export default function MessageBubble({
                   <button 
                     aria-label="Reply Message"
                     onClick={() => onReply?.(message)}
-                    className={clsx(
+                    className={cn(
                       "rounded-full w-8 h-8 flex justify-center items-center hover:scale-110 transition-all duration-300  ease-in-out cursor-pointer",
                       colorClass
                     )}
                   >
-                    <LuReply size={18} className={clsx(isAuthor ? "scale-x-[-1]" : "")} />
+                    <LuReply size={18} className={cn(isAuthor ? "scale-x-[-1]" : "")} />
                   </button>
                 }
               >
@@ -152,7 +152,7 @@ export default function MessageBubble({
                   {t("replyingTo")}:
                   <span className="text-blue">@{message.recipient.full_name}</span>
                 </p>
-                <div className={clsx("w-full overflow-hidden rounded-lg p-2", isAuthor ? "bg-secondary" : "bg-blue-low")}>
+                <div className={cn("w-full overflow-hidden rounded-lg p-2", isAuthor ? "bg-secondary" : "bg-blue-low")}>
                   <p className="text-secondary line-clamp-2 text-[11px] leading-relaxed italic text-start">
                     "{message.replied_message.content}"
                   </p>
@@ -164,7 +164,7 @@ export default function MessageBubble({
           </div>
         </div>
         {/* footer */}
-        <div className={clsx(
+        <div className={cn(
           "flex items-center pl-11 mt-0.5",
           isAuthor ? "pr-11 flex-row-reverse" : "pl-11 flex-row",
           )}>
@@ -172,7 +172,7 @@ export default function MessageBubble({
             targetId={message.id} 
             targetType="message" 
             initialSummary={message.reaction_summary} />
-          <div className={clsx("flex items-center gap-2", isAuthor ? "flex-row-reverse" : "flex-row")}>
+          <div className={cn("flex items-center gap-2", isAuthor ? "flex-row-reverse" : "flex-row")}>
             <span className="text-secondary text-[11px] opacity-60">
               {timeAgo({
                 date: message.created_at,

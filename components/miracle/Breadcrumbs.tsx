@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Fragment } from "react"
@@ -29,7 +29,7 @@ export default function MiracleBreadcrumbs({
   return (
     <nav 
       aria-label="Breadcrumb"
-      className={clsx(
+      className={cn(
         "bg-primary border-primary flex w-fit items-center rounded-2xl border px-4 py-1",
         className
       )}
@@ -46,7 +46,7 @@ export default function MiracleBreadcrumbs({
                   href={item.href!}
                   aria-current={isLast ? "page" : undefined}
                   aria-label={item.label}
-                  className={clsx(
+                  className={cn(
                     "flex items-center gap-2 text-sm font-medium transition-all duration-200 p-1",
                     isLast
                       ? "text-blue"

@@ -1,15 +1,15 @@
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 
 export default function TestimonialCardSkeleton({className}: {className?: string}) {
   return (
-    <div className={clsx(
+    <div className={cn(
       "relative flex flex-col",
       className
     )}>
       <MiracleSkeleton className="w-full h-35 rounded-2xl relative" >
         <MiracleSkeleton
-          className={clsx(
+          className={cn(
             "absolute z-1 h-3 w-3 rotate-45 rounded-none",
             "-bottom-1.5 left-4"
           )}

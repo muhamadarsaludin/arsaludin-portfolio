@@ -1,6 +1,6 @@
 import { Profile } from '@/features/profile/types/profiles.types'
 import { getInitials } from '@/utils/initials'
-import clsx from 'clsx'
+import { cn } from "@/utils/class-name"
 import Image from 'next/image'
 import React from 'react'
 
@@ -25,7 +25,7 @@ export default function UserAvatar({
   }
 
   return (
-    <div className={clsx(
+    <div className={cn(
       "bg-blue text-primary-inv relative shrink-0 overflow-hidden rounded-full",
       getAvatarSize[size],
       className

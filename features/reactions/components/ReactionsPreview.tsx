@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import MiraclePopover from "@/components/miracle/Popover"
 import MiracleButton from "@/components/miracle/Button"
 import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
@@ -76,7 +76,7 @@ export default function ReactionsPreview({
                 : `${t("tooltip.edit")} ${reaction.emoji}`
               : `${t("tooltip.add")} ${reaction.emoji}`
           }
-          className={clsx(
+          className={cn(
             "group/emoji bg-secondary flex h-8 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
             "min-w-8 px-1.5 gap-0",
             "hover:gap-1 hover:px-3",
@@ -90,7 +90,7 @@ export default function ReactionsPreview({
         >
           <span className="shrink-0 text-xs">{reaction.emoji}</span>
           <span
-            className={clsx(
+            className={cn(
               "text-secondary overflow-hidden text-xs font-semibold transition-all duration-300 ease-in-out",
               "invisible max-w-0 opacity-0",
               "group-hover/emoji:visible group-hover/emoji:max-w-35 group-hover/emoji:opacity-100"
@@ -114,7 +114,7 @@ export default function ReactionsPreview({
               trigger={
                 <button
                   type="button"
-                  className={clsx(
+                  className={cn(
                     "group/emoji border-primary bg-secondary flex h-8 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
                     "min-w-8 px-1.5 gap-0",
                     "hover:gap-1 hover:px-3"
@@ -122,7 +122,7 @@ export default function ReactionsPreview({
                   style={{ zIndex: zIndexBase + topReactions.length + 1 }}
                 >
                   <span
-                    className={clsx(
+                    className={cn(
                       "text-secondary overflow-hidden text-sm transition-all duration-300 ease-in-out shrink-0",
                       "invisible max-w-0 opacity-0",
                       "group-hover/emoji:visible group-hover/emoji:max-w-10 group-hover/emoji:opacity-100"
@@ -152,7 +152,7 @@ export default function ReactionsPreview({
                   variant="secondary"
                   key={reaction.emoji}
                   size="sm"
-                  className={clsx(
+                  className={cn(
                     reaction.emoji === dataSummary.userReaction?.emoji && "border-blue border-2"
                   )}
                   onClick={() => handleSelectedIcon(reaction.emoji)}

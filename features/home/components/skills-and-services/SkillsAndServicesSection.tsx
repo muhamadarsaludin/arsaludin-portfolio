@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { getServices } from "@/features/services/services/services"
 import { ServiceList } from "./ServiceList"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import { getQueryClient } from "@/lib/query-client"
 
@@ -20,7 +20,7 @@ export default async function SkillsAndServicesSection({ className }: { classNam
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Section className={clsx(className)}>
+      <Section className={cn(className)}>
         <MiracleReveal animation="slide-blur-up">
           <div className="mx-auto mb-8 lg:mb-10 xl:mb-12 flex w-full flex-col items-center text-center md:w-8/12 lg:w-6/12">
             <Heading

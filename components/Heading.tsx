@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { toKebabCase } from "@/utils/string-case"
 import type { JSX } from "react"
 import React from "react"
@@ -80,7 +80,7 @@ export default function Heading({
   return (
     <Tag
       id={headingId}
-      className={clsx(
+      className={cn(
         "group/heading relative w-fit scroll-mt-24 leading-tight font-semibold",
         fontSizeClass[level],
         fontWeightClass[fontWeight],
@@ -102,7 +102,7 @@ export default function Heading({
                   e.stopPropagation()
                   handleCopy()
                 }}
-                className={clsx(
+                className={cn(
                   linkSizeClass[level],
                   "relative z-20 cursor-pointer rounded-full p-1.5 text-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-100 dark:text-blue-400 dark:hover:bg-blue-900",
                   linkClassName

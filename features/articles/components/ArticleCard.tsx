@@ -3,7 +3,7 @@
 import Image from "next/image"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import { formatDate } from "@/utils/format-date"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { Article } from "../types/articles.types"
 import Link from "next/link"
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
@@ -15,7 +15,7 @@ export default function ArticleCard({ article, className }: { article: Article, 
   const locale = useLocale()
 
   return (
-    <div className={clsx(
+    <div className={cn(
       "relative flex flex-col",
       className
     )}>

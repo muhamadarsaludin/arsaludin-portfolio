@@ -1,5 +1,5 @@
 import Heading from "@/components/Heading"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { LuMapPin } from "react-icons/lu"
 
 type ProfileInfoProps = {
@@ -8,7 +8,7 @@ type ProfileInfoProps = {
 
 export default function ProfileInfo({ className }: ProfileInfoProps) {
   return (
-    <div className={clsx("flex flex-col gap-1", className)}>
+    <div className={cn("flex flex-col gap-1", className)}>
       <Heading level={1} noMarginTop fontWeight="semibold" id="profile">
         Muhamad Arsaludin
       </Heading>
