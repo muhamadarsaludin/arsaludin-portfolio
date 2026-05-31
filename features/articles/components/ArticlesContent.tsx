@@ -99,20 +99,20 @@ export default function ArticlesContent({
     if (isError) return <ErrorStateCard onRetry={() => refetch()} />
     if (isLoading) {
       return (
-        <Section className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => <ArticleCardSkeleton key={i} />)}
-        </Section>
+        </div>
       )
     }
     if (articles.length === 0) return <EmptyStateCard />
     return (
-      <Section className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {articles.map((article, index) => (
           <MiracleReveal 
             animation="fade-up"
             delay={{
               default: 0,
-              sm:(index % 6) * 0.1,
+              sm: (index % 6) * 0.1,
             }}
             key={article.id}>
             <ArticleCard article={article} className="h-full w-full"/>
@@ -121,7 +121,7 @@ export default function ArticlesContent({
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <ArticleCardSkeleton key={i} />)
         }
-      </Section>
+      </div>
     )
   }
 
@@ -208,7 +208,7 @@ export default function ArticlesContent({
         </div>
       </MiracleReveal>
 
-      <Section className="w-full overflow-hidden">{renderContent()}</Section>
+      <div className="w-full overflow-hidden">{renderContent()}</div>
 
       <div ref={loadMoreRef} className="flex w-full justify-center py-10">
         {!hasNextPage && !isLoading && articles.length > 0 && (
@@ -223,6 +223,3 @@ export default function ArticlesContent({
     </Section>
   )
 }
-
-
-

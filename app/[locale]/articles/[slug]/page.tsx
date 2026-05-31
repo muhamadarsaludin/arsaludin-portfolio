@@ -3,7 +3,7 @@ import ArticleDetailPage from "@/features/articles/components/ArticleDetailPage"
 import { getArticle } from "@/features/articles/services/articles";
 import { BasePageProps } from "@/types/page.types";
 import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { locale, slug } = await params;
@@ -20,10 +20,11 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
     title: article.title,
     description: article.summary ?? t("description"),
     locale: locale,
-  });
-  
+  }); 
 }
 
 export default async function ProjectDetail({params, searchParams}: BasePageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   return <ArticleDetailPage params={params} searchParams={searchParams} />
 }

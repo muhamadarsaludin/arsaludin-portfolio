@@ -1,10 +1,10 @@
+import React from 'react'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
-
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { BasePageProps } from '@/types/page.types'
 import { routing } from '@/i18n/routing'
-
+import { getQueryClient } from "@/lib/query-client"
 import Article from '@/components/Article'
 import Container from '@/components/Container'
 import Heading from '@/components/Heading'
@@ -18,17 +18,14 @@ import {
   LuEye,
   LuTimer,
 } from 'react-icons/lu'
-
 import MiracleBadge from '@/components/miracle/Badge'
 import ReactionGroup from '@/features/reactions/components/ReactionGroup'
 import CommentGroup from '@/features/comments/components/CommentGroup'
 import { formatDate } from '@/utils/format-date'
 import UserAvatar from '@/features/auth/components/UserAvatar'
 import { createClient } from '@/lib/supabase/server'
-
 import path from 'path'
-import fs from 'fs'
-
+import { promises as fs } from 'fs'
 import { formatReadingTime, getMdxReadingTime } from '@/utils/reading-time'
 import { getArticle } from '../services/articles'
 import ArticleShareButton from './ArticleShareButton'
@@ -73,7 +70,7 @@ export default async function ArticleDetailPage({ params }: BasePageProps) {
 
   if (!slug) notFound()
 
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
 
   const article = await queryClient.fetchQuery({
     queryKey: ["article", slug, locale],
@@ -96,7 +93,7 @@ export default async function ArticleDetailPage({ params }: BasePageProps) {
   }
 
   /* -------------------------------
-     MDX LOAD (FIXED FALLBACK)
+     MDX LOAD (ASYNC NON-BLOCKING FALLBACK)
   --------------------------------*/
   const { Content, mdxLocale } = await resolveMdx(slug, locale)
 
@@ -105,11 +102,11 @@ export default async function ArticleDetailPage({ params }: BasePageProps) {
   if (Content && mdxLocale) {
     try {
       const mdxDir = path.join(process.cwd(), 'features', 'articles', 'markdown')
-
       const filePath = path.join(mdxDir, `${slug}-${mdxLocale}.mdx`)
 
-      if (fs.existsSync(filePath)) {
-        mdxText = fs.readFileSync(filePath, 'utf8')
+      const fileExists = await fs.access(filePath).then(() => true).catch(() => false)
+      if (fileExists) {
+        mdxText = await fs.readFile(filePath, 'utf8')
       }
     } catch (err) {
       console.error("MDX read error:", err)

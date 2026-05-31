@@ -26,6 +26,5 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
 export default async function ProjectDetail({ params, searchParams }: BasePageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-
   return <ProjectDetailPage params={params} searchParams={searchParams} />;
 }

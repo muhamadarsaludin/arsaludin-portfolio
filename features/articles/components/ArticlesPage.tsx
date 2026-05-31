@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { getQueryClient } from "@/lib/query-client";
 import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs';
 import { routing } from '@/i18n/routing';
 import Heading from '@/components/Heading';
@@ -10,18 +11,17 @@ import Container from '@/components/Container';
 import Article from '@/components/Article';
 import { normalizeArrayParam } from '@/utils/search-params';
 import { ARTICLES_PAGE_SIZE } from '../constants/articles.constans';
-import { getFeaturedArticles, getPaginatedArticles } from '../services/articles';
+import { getPaginatedArticles } from '../services/articles';
 import ArticlesContent from './ArticlesContent';
 import { BasePageProps } from '@/types/page.types';
 import { MiracleReveal } from '@/components/miracle/Reveal';
 
 export default async function ArticlesPage(props: BasePageProps) {
-  const {locale} = await props.params
+  const { locale } = await props.params;
   const searchParams = await props.searchParams;
-
-  const t = await getTranslations("pages.articles")
-  const queryClient = new QueryClient()
-  const targetType:CategoryTargetType = "article"
+  const t = await getTranslations("pages.articles");
+  const queryClient = getQueryClient();
+  const targetType: CategoryTargetType = "article";
 
   const filters = {
     locale,
@@ -29,7 +29,6 @@ export default async function ArticlesPage(props: BasePageProps) {
     categorySlugs: normalizeArrayParam(searchParams.categories),
     pageSize: ARTICLES_PAGE_SIZE
   };
-
 
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
@@ -43,10 +42,10 @@ export default async function ArticlesPage(props: BasePageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", {locale, targetType}],
+      queryKey: ["available-categories", { locale, targetType }],
       queryFn: () => getAvailableCategories({ locale, targetType }),
     })
-  ])
+  ]);
 
   const dehydratedState = dehydrate(queryClient);
   
@@ -93,5 +92,5 @@ export default async function ArticlesPage(props: BasePageProps) {
         </HydrationBoundary>
       </Article>
     </Container>
-  )
+  );
 }

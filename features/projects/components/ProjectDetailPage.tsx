@@ -31,7 +31,7 @@ import SkillBadges from '@/features/skills/components/SkillBadges'
 import MiracleButton from '@/components/miracle/Button'
 import { createClient } from '@/lib/supabase/server'
 import path from 'path'
-import fs from 'fs'
+import { promises as fs } from 'fs'
 import { formatReadingTime, getMdxReadingTime } from '@/utils/reading-time'
 import MiracleBanner from '@/components/miracle/Banner'
 import ProjectShareButton from './ProjectShareButton'
@@ -71,7 +71,6 @@ async function resolveMdx(slug: string, locale: string) {
 export default async function ProjectDetailPage({ params }: BasePageProps) {
   const t = await getTranslations("pages.project-detail")
   const { locale, slug } = await params
-
   const supabase = await createClient()
 
   if (!slug) notFound()
@@ -99,7 +98,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
   }
 
   /* -------------------------------
-     MDX LOAD (FIXED FALLBACK)
+     MDX LOAD (ASYNC NON-BLOCKING FALLBACK)
   --------------------------------*/
   const { Content, mdxLocale } = await resolveMdx(slug, locale)
 
@@ -110,8 +109,9 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
       const mdxDir = path.join(process.cwd(), 'features', 'projects', 'markdown')
       const filePath = path.join(mdxDir, `${slug}-${mdxLocale}.mdx`)
 
-      if (fs.existsSync(filePath)) {
-        mdxText = fs.readFileSync(filePath, 'utf8')
+      const fileExists = await fs.access(filePath).then(() => true).catch(() => false)
+      if (fileExists) {
+        mdxText = await fs.readFile(filePath, 'utf8')
       }
     } catch (err) {
       console.error("MDX read error:", err)
