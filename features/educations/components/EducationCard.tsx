@@ -179,19 +179,17 @@ export const EducationCard = ({
       </div>
 
       {/* --- INTEGRATED REUSABLE SHARED GALLERY MODAL --- */}
-      {selectedIndex !== null && (
-        <ModalGallery
-          isOpen={selectedIndex !== null}
-          onClose={() => setSelectedIndex(null)}
-          title={`${education.school} ${t("gallery")}`}
-          images={education.images || []}
-          initialIndex={selectedIndex ?? 0}
-          metaTitle={selectedIndex !== null ? education.images?.[selectedIndex]?.alt : undefined}
-          startDate={startDate}
-          endDate={endDate}
-          location={education.location}
-        />
-      )}
+      <ModalGallery
+        isOpen={selectedIndex !== null}
+        onClose={() => setSelectedIndex(null)}
+        title={`${education.school} ${t("gallery")}`}
+        images={education.images || []}
+        initialIndex={selectedIndex ?? 0}
+        metaTitle={selectedIndex !== null ? education.images?.[selectedIndex]?.alt : undefined}
+        startDate={startDate}
+        endDate={endDate}
+        location={education.location}
+      />
     </div>
   )
 }

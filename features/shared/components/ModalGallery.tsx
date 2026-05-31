@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import Image from "next/image"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name" // 👈 Swapped clsx with your custom className helper
 import { useTranslations } from "use-intl"
 import MiracleModal from "@/components/miracle/Modal"
 import { 
@@ -47,7 +47,6 @@ export default function ModalGallery({
   const [zoomScale, setZoomScale] = useState<number>(1)
   const t = useTranslations("components.experienceCard")
 
-  // Refs to orchestrate the thumbnail slider auto-centering feature
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([])
 
@@ -67,7 +66,6 @@ export default function ModalGallery({
     }
   }, [images.length])
 
-  // Automatically adjust thumbnail scroll position whenever the selectedIndex changes
   useEffect(() => {
     if (isOpen && thumbnailRefs.current[selectedIndex]) {
       thumbnailRefs.current[selectedIndex]?.scrollIntoView({
@@ -86,22 +84,24 @@ export default function ModalGallery({
     }
   }, [initialIndex, isOpen])
 
+  // ⌨️ Clean Navigation Keyboard Event Listeners
   useEffect(() => {
     if (!isOpen) return
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") handleNext()
       if (e.key === "ArrowLeft") handlePrev()
-      if (e.key === "Escape") onClose()
+      // Note: Escape key handling is now completely offloaded to MiracleModal
     }
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [isOpen, handleNext, handlePrev, onClose])
+  }, [isOpen, handleNext, handlePrev])
 
-  if (!isOpen || !currentImage) return null
+  // 🛡️ Safety Gate: Only prevent rendering if data is genuinely corrupted or empty
+  if (!images.length || !currentImage) return null
 
   return (
     <MiracleModal
-      isOpen={isOpen}
+      isOpen={isOpen} // 👈 Pass the open gate cleanly to let internal states handle animations
       onClose={onClose}
       size="full"
       title={title}
@@ -179,7 +179,7 @@ export default function ModalGallery({
                     key={img.id}
                     ref={(el) => { thumbnailRefs.current[idx] = el }}
                     onClick={() => { setZoomScale(1); setSelectedIndex(idx); }}
-                    className={clsx(
+                    className={cn(
                       "relative snap-start aspect-3/2 shrink-0 rounded-md overflow-hidden transition-all cursor-pointer",
                       selectedIndex === idx 
                         ? "border-2 border-blue h-12 md:h-20" 
@@ -233,7 +233,7 @@ export default function ModalGallery({
                 <span className="text-secondary font-medium">
                   {t("imageCounter", { current: selectedIndex + 1, total: images.length })}
                 </span>
-                <div className={clsx(
+                <div className={cn(
                   "h-1 w-4 rounded-full transition-colors duration-300",
                   zoomScale > 1 ? "bg-blue-500" : "bg-neutral-med"
                 )} />

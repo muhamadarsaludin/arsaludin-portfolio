@@ -1,7 +1,7 @@
 "use client"
 
 import { useScrollLock } from "@/hooks/useScrollLock"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import type { ReactNode } from "react"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
@@ -45,10 +45,30 @@ export default function MiracleModal({
   noContentPadding = false,
 }: MiracleModalProps) {
   const [isMounted, setIsMounted] = useState(false)
+  const [isRendered, setIsRendered] = useState(false)
+  const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsRendered(true)
+      const frameId = requestAnimationFrame(() => {
+        setAnimate(true)
+      })
+      return () => cancelAnimationFrame(frameId)
+    } else {
+      setAnimate(false)
+    }
+  }, [isOpen])
+
+  const handleTransitionEnd = () => {
+    if (!isOpen) {
+      setIsRendered(false)
+    }
+  }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -62,7 +82,7 @@ export default function MiracleModal({
 
   useScrollLock(isOpen)
 
-  if (!isMounted) return null
+  if (!isMounted || !isRendered) return null
 
   const sizeStyles = {
     sm: "max-w-sm",
@@ -74,16 +94,17 @@ export default function MiracleModal({
 
   const modalElement = (
     <div
-      className={clsx(
+      onTransitionEnd={handleTransitionEnd} 
+      className={cn(
         "fixed inset-0 z-modal flex items-center justify-center p-4 md:p-6 transition-all duration-300 ease-in-out",
-        isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
+        animate ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
       )}
     >
       {/* Overlay */}
       <div
-        className={clsx(
+        className={cn(
           "fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ease-in-out",
-          isOpen ? "opacity-100" : "opacity-0",
+          animate ? "opacity-100" : "opacity-0",
           overlayClassName
         )}
         onClick={closeOnOutsideClick ? onClose : undefined}
@@ -91,10 +112,10 @@ export default function MiracleModal({
 
       {/* Box Modal */}
       <div
-        className={clsx(
+        className={cn(
           "bg-primary border-primary relative z-modal flex w-full flex-col rounded-3xl border shadow-2xl transition-all duration-300 ease-in-out dark:shadow-black",
           sizeStyles[size],
-          isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95 sm:translate-y-0",
+          animate ? "translate-y-0 scale-100" : "translate-y-12 scale-95 sm:translate-y-0",
           className
         )}
         role="dialog"
@@ -104,7 +125,7 @@ export default function MiracleModal({
           <div className="border-primary flex shrink-0 items-center justify-between border-b px-5 md:px-6 py-4 gap-6">
             <div className="flex flex-col gap-0.5">
               {title && (
-                <div className={clsx("text-lg leading-tight font-semibold", statusColors[status])}>
+                <div className={cn("text-lg leading-tight font-semibold", statusColors[status])}>
                   {title}
                 </div>
               )}
@@ -125,7 +146,9 @@ export default function MiracleModal({
           </div>
         )}
 
-        <div className={clsx("scrollbar-hide flex-1 overflow-y-auto", noContentPadding ? "p-0" : "p-5 md:p-6")}>{children}</div>
+        <div className={cn("scrollbar-hide flex-1 overflow-y-auto", noContentPadding ? "p-0" : "p-5 md:p-6")}>
+          {children}
+        </div>
       </div>
     </div>
   )

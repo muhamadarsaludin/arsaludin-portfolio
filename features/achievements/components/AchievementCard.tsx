@@ -83,13 +83,11 @@ export default function AchievementCard({ achievement, className }: { achievemen
         </div>
       </div>
 
-      {isModalOpen && (
-        <AchievementModal 
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          achievement={achievement}
-        />
-      )}
+      <AchievementModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        achievement={achievement}
+      />
     </div>
   )
 }
