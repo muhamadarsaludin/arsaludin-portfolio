@@ -3,31 +3,29 @@
 import MiracleButton from "@/components/miracle/Button"
 import { FaGithub, FaLinkedinIn, FaInstagram, FaXTwitter, FaCode } from "react-icons/fa6"
 import { useEffect, useState } from "react"
-import { useTranslations } from "next-intl"
-import clsx from "clsx"
+import { useTranslations } from "use-intl"
+import { cn } from "@/utils/class-name"
 import FooterNavigation from "./FooterNavigation"
+
+const SOCMEDS = [
+  {
+    name: "Linkedin",
+    icon: FaLinkedinIn,
+    href: "https://www.linkedin.com/in/muhamad-arsaludin/",
+  },
+  { name: "Github", icon: FaGithub, href: "https://github.com/muhamadarsaludin" },
+  {
+    name: "Google Developer",
+    icon: FaCode,
+    href: "https://developers.google.com/profile/u/arsaludin",
+  },
+  { name: "Instagram", icon: FaInstagram, href: "https://www.instagram.com/muhamadarsaludin/" },
+  { name: "X", icon: FaXTwitter, href: "https://x.com/Arsaludin71" },
+]
 
 export default function Footer() {
   const t = useTranslations("components.footer")
-
-  const socmeds = [
-    {
-      name: "Linkedin",
-      icon: FaLinkedinIn,
-      href: "https://www.linkedin.com/in/muhamad-arsaludin/",
-    },
-    { name: "Github", icon: FaGithub, href: "https://github.com/muhamadarsaludin" },
-    {
-      name: "Google Developer",
-      icon: FaCode,
-      href: "https://developers.google.com/profile/u/arsaludin",
-    },
-    { name: "Instagram", icon: FaInstagram, href: "https://www.instagram.com/muhamadarsaludin/" },
-    { name: "X", icon: FaXTwitter, href: "https://x.com/Arsaludin71" },
-  ]
-
   const year = new Date().getFullYear()
-
   const [localTime, setLocalTime] = useState("")
 
   useEffect(() => {
@@ -70,7 +68,7 @@ export default function Footer() {
             {t("timeLabel")} <time className="text-primary font-medium">{localTime}</time>
           </p>
           <div className="flex gap-3 md:gap-4">
-            {socmeds.map((socmed) => {
+            {SOCMEDS.map((socmed) => {
               const Icon = socmed.icon
               return (
                 <a
@@ -79,7 +77,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={socmed.name}
-                  className={clsx(
+                  className={cn(
                     "flex items-center justify-center rounded-md p-2",
                     "transition-all duration-300 ease-in-out hover:-translate-y-1",
                     "border-primary border",
