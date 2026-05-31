@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import clsx from "clsx"
+import { cn } from "@/utils/class-name"
 import { LuChevronDown, LuFilter, LuSearch, LuTriangleAlert } from "react-icons/lu"
 import MiraclePopover from "@/components/miracle/Popover"
 import MiracleTextField from "@/components/miracle/TextField"
@@ -104,21 +104,21 @@ export default function ProjectsContent({
     if (isError) return <ErrorStateCard onRetry={() => refetch()} />
     if (isLoading) {
       return (
-        <Section className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => <ProjectCardSkeleton key={i} />)}
-        </Section>
+        </div>
       )
     }
     if (projects.length === 0) return <EmptyStateCard />
 
     return (
-      <Section className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project, index) => (
           <MiracleReveal 
             animation="fade-up"
             delay={{
               default: 0,
-              sm:(index % 6) * 0.1,
+              sm: (index % 6) * 0.1,
             }}
             key={project.id}>
             <ProjectCard project={project} className="h-full w-full" />
@@ -127,7 +127,7 @@ export default function ProjectsContent({
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <ProjectCardSkeleton key={`more-${i}`} />)
         }
-      </Section>
+      </div>
     )
   }
 
@@ -150,7 +150,7 @@ export default function ProjectsContent({
             trigger={
               <MiracleButton 
                 startIcon={<LuFilter />}
-                endIcon={<LuChevronDown className={clsx("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
+                endIcon={<LuChevronDown className={cn("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
               >
                 <div className="flex gap-2 items-center">
                   Filter 

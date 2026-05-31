@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { getQueryClient } from "@/lib/query-client";
 import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs';
 import { routing } from '@/i18n/routing';
 import Heading from '@/components/Heading';
@@ -16,12 +17,12 @@ import { BasePageProps } from '@/types/page.types';
 import { MiracleReveal } from '@/components/miracle/Reveal';
 
 export default async function ProjectsPage(props: BasePageProps) {
-  const {locale} = await props.params
-  const searchParams = await props.searchParams;
+  const { locale } = await props.params
+  const searchParams = await props.searchParams
 
   const t = await getTranslations("pages.projects")
-  const queryClient = new QueryClient()
-  const targetType:CategoryTargetType = "project"
+  const queryClient = getQueryClient()
+  const targetType: CategoryTargetType = "project"
 
   const filters = {
     locale,
@@ -29,7 +30,6 @@ export default async function ProjectsPage(props: BasePageProps) {
     categorySlugs: normalizeArrayParam(searchParams.categories),
     pageSize: PROJECTS_PAGE_SIZE
   };
-
 
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
@@ -43,7 +43,7 @@ export default async function ProjectsPage(props: BasePageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", {locale, targetType}],
+      queryKey: ["available-categories", { locale, targetType }],
       queryFn: () => getAvailableCategories({ locale, targetType }),
     })
   ])
