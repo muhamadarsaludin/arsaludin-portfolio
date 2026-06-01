@@ -12,32 +12,33 @@ import { LuInfo } from "react-icons/lu"
 import { FaLinkedin } from "react-icons/fa6"
 import Quote from "./Quote"
 
-export default function TestimonialCard({ testimonial, className }: { testimonial: Testimonial, className?: string}) {
+export default function TestimonialCard({
+  testimonial,
+  className,
+}: {
+  testimonial: Testimonial
+  className?: string
+}) {
   const t = useTranslations("components.testimonialCard")
   const [avatar, setAvatar] = useState(testimonial.avatar_url || "/dummy.webp")
   const initials = getInitials(testimonial.name)
 
   return (
-    <div className={cn(
-        "relative flex flex-col",
-        className
-      )}>
-      <div className="p-4 border border-primary rounded-md flex-1 bg-primary-inv relative flex flex-col gap-2">
-        <Quote className="text-primary-inv text-2xl"/>
+    <div className={cn("relative flex flex-col", className)}>
+      <div className="border-primary bg-primary-inv relative flex flex-1 flex-col gap-2 rounded-md border p-4">
+        <Quote className="text-primary-inv text-2xl" />
         <p className="text-secondary-inv text-sm">
-          {"“"}{testimonial.content}{"”"}
+          {"“"}
+          {testimonial.content}
+          {"”"}
         </p>
         {/* Rectangle */}
         <div
-          className={cn(
-            "absolute z-1 h-3 w-3 rotate-45",
-            "bg-primary-inv",
-            "-bottom-1.5 left-4"
-          )}
+          className={cn("absolute z-1 h-3 w-3 rotate-45", "bg-primary-inv", "-bottom-1.5 left-4")}
         />
       </div>
       <div className="flex items-center justify-between gap-4 pt-4">
-        <div className="flex gap-2 items-center min-w-0">
+        <div className="flex min-w-0 items-center gap-2">
           <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full">
             {testimonial.avatar_url ? (
               <Image
@@ -49,42 +50,42 @@ export default function TestimonialCard({ testimonial, className }: { testimonia
                 onError={() => setAvatar("/dummy.webp")}
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-primary-inv bg-blue font-semibold">
+              <div className="text-primary-inv bg-blue flex h-full w-full items-center justify-center font-semibold">
                 {initials}
               </div>
             )}
           </div>
-          <div className="flex flex-col min-w-0">
-            <p className="text-primary text-md font-semibold tracking-tight line-clamp-1">
+          <div className="flex min-w-0 flex-col">
+            <p className="text-primary text-md line-clamp-1 font-semibold tracking-tight">
               {testimonial.name}
             </p>
             <div className="flex items-center gap-1">
-              <p className="text-secondary text-sm tracking-tight line-clamp-1">
+              <p className="text-secondary line-clamp-1 text-sm tracking-tight">
                 {testimonial.role} {t("at")} {testimonial.company}
               </p>
               {testimonial.additional_info && (
                 <MiracleTooltip
                   className="shrink-0"
                   trigger={
-                    <LuInfo className="text-sm text-blue hover:scale-110 transition-all duration-300 ease-in-out" />
-                  }>
-                    <div className="max-w-45">
-                      {testimonial.additional_info}
-                    </div>
+                    <LuInfo className="text-blue text-sm transition-all duration-300 ease-in-out hover:scale-110" />
+                  }
+                >
+                  <div className="max-w-45">{testimonial.additional_info}</div>
                 </MiracleTooltip>
               )}
             </div>
           </div>
         </div>
-        <div className="shrink-0 flex gap-1 items-center">
+        <div className="flex shrink-0 items-center gap-1">
           {testimonial.linkedin && (
-            <a 
-              href={testimonial.linkedin} 
-              target="_blank" 
+            <a
+              href={testimonial.linkedin}
+              target="_blank"
               rel="noopener noreferrer"
               aria-label={`View ${testimonial.name}'s LinkedIn profile`}
-              className="flex items-center justify-center cursor-pointer hover:scale-105 text-neutral-600 dark:text-neutral-400 hover:text-blue-600 hover:dark:text-blue-400 transition-all duration-300 ease-in-out p-1">
-              <FaLinkedin size={20}/>
+              className="flex cursor-pointer items-center justify-center p-1 text-neutral-600 transition-all duration-300 ease-in-out hover:scale-105 hover:text-blue-600 dark:text-neutral-400 hover:dark:text-blue-400"
+            >
+              <FaLinkedin size={20} />
             </a>
           )}
           <ReactionGroup
@@ -93,7 +94,6 @@ export default function TestimonialCard({ testimonial, className }: { testimonia
             initialSummary={testimonial.reaction_summary}
           />
         </div>
-        
       </div>
     </div>
   )

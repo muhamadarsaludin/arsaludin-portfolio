@@ -33,6 +33,5 @@ export type ServiceTranslationEntity = {
 /**
  * Flattened Service object, merging core entity data with localized translations and skills.
  */
-export type Service = Pick<ServiceEntity, "id" | "slug" | "level" | "order_index"> 
-  & Pick<ServiceTranslationEntity, "name" | "description"> 
-  & { skills: Skill[] }
+export type Service = Pick<ServiceEntity, "id" | "slug" | "level" | "order_index"> &
+  Pick<ServiceTranslationEntity, "name" | "description"> & { skills: Skill[] }

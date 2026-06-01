@@ -22,10 +22,7 @@ type LoungeContentProps = {
   pageSize: number
 }
 
-export default function LoungeContent({ 
-  messageType, 
-  pageSize 
-}: LoungeContentProps) {
+export default function LoungeContent({ messageType, pageSize }: LoungeContentProps) {
   const queryClient = useQueryClient()
   const supabase = createClient()
   const queryKey = useMemo(() => ["messages", messageType, { pageSize }], [messageType, pageSize])
@@ -40,20 +37,13 @@ export default function LoungeContent({
   const loadMoreRef = useRef<HTMLDivElement>(null)
   const prevScrollHeightRef = useRef(0)
 
-  const {
-    data, 
-    fetchNextPage,
-    hasNextPage,
-    isError, 
-    isLoading, 
-    isFetchingNextPage,
-    refetch 
-  } = useInfiniteMessages({
-    type: messageType,
-    pageSize,
-  })
-  
-  const messages = useMemo(() => data?.pages.flatMap(p => p.data) ?? [], [data])
+  const { data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch } =
+    useInfiniteMessages({
+      type: messageType,
+      pageSize,
+    })
+
+  const messages = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
 
   useIntersectionObserver({
     targetRef: loadMoreRef,
@@ -90,23 +80,27 @@ export default function LoungeContent({
   useEffect(() => {
     const channel = supabase
       .channel(`messages:${messageType}`)
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: `type=eq.${messageType}` }, 
-        () => { 
-          queryClient.invalidateQueries({ 
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages", filter: `type=eq.${messageType}` },
+        () => {
+          queryClient.invalidateQueries({
             queryKey,
-            refetchType: "active"
-          }) 
+            refetchType: "active",
+          })
         }
       )
       .subscribe()
 
-    return () => { supabase.removeChannel(channel) }
+    return () => {
+      supabase.removeChannel(channel)
+    }
   }, [queryKey, queryClient, messageType, supabase])
 
   if (isError) return <ErrorStateCard onRetry={() => refetch()} />
 
   return (
-    <Section className="relative flex flex-col h-187.5 border border-primary p-4 md:p-6 rounded-2xl gap-4 overflow-hidden bg-primary">
+    <Section className="border-primary bg-primary relative flex h-187.5 flex-col gap-4 overflow-hidden rounded-2xl border p-4 md:p-6">
       {isBannerVisible && (
         <MiracleBanner
           color="blue"
@@ -121,14 +115,19 @@ export default function LoungeContent({
       )}
 
       {/* WRAPPER FOR CHAT */}
-      <div className="relative flex-1 min-h-0 flex flex-col">
+      <div className="relative flex min-h-0 flex-1 flex-col">
         {/* CHAT CONTAINER */}
-        <div 
+        <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto px-2 flex flex-col-reverse"
+          className="flex flex-1 flex-col-reverse overflow-y-auto px-2"
         >
-          <div className={cn("flex flex-col-reverse gap-5", (!isLoading && messages.length === 0) && "min-h-full")}>
+          <div
+            className={cn(
+              "flex flex-col-reverse gap-5",
+              !isLoading && messages.length === 0 && "min-h-full"
+            )}
+          >
             {isLoading ? (
               Array.from({ length: 3 }).map((_, i) => (
                 <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />
@@ -137,7 +136,7 @@ export default function LoungeContent({
               <>
                 {messages.map((message) => (
                   <MiracleReveal key={message.id} animation="zoom-in">
-                    <MessageBubble 
+                    <MessageBubble
                       messageType={messageType}
                       pageSize={pageSize}
                       message={message}
@@ -145,24 +144,21 @@ export default function LoungeContent({
                     />
                   </MiracleReveal>
                 ))}
-                {isFetchingNextPage && (
+                {isFetchingNextPage &&
                   Array.from({ length: 2 }).map((_, i) => (
                     <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />
-                  ))
-                )}
+                  ))}
                 <div ref={loadMoreRef} className="h-1" />
               </>
             ) : (
-              <div className="flex-1 flex flex-col items-center justify-center text-center border border-primary border-dashed rounded-md p-6">
+              <div className="border-primary flex flex-1 flex-col items-center justify-center rounded-md border border-dashed p-6 text-center">
                 <div className="mb-3">
-                  <LuMessagesSquare className="text-primary w-18 h-18 md:w-25 md:h-25"/>
+                  <LuMessagesSquare className="text-primary h-18 w-18 md:h-25 md:w-25" />
                 </div>
-                <h3 className="text-primary text-lg font-semibold md:text-xl lg:text-2xl mb-1">
+                <h3 className="text-primary mb-1 text-lg font-semibold md:text-xl lg:text-2xl">
                   {t("empty.title")}
                 </h3>
-                <p className="text-sm text-secondary max-w-75">
-                  {t("empty.subtitle")}
-                </p>
+                <p className="text-secondary max-w-75 text-sm">{t("empty.subtitle")}</p>
               </div>
             )}
           </div>
@@ -180,9 +176,9 @@ export default function LoungeContent({
             "hover:scale-105 active:scale-95",
             "hover:-translate-y-1 hover:transform active:translate-y-0",
             "cursor-pointer",
-            showScrollBottom 
-              ? "translate-y-0 opacity-100 scale-100" 
-              : "translate-y-10 opacity-0 scale-50 pointer-events-none"
+            showScrollBottom
+              ? "translate-y-0 scale-100 opacity-100"
+              : "pointer-events-none translate-y-10 scale-50 opacity-0"
           )}
         >
           <LuArrowDown className="h-5 w-5" />
@@ -190,7 +186,7 @@ export default function LoungeContent({
       </div>
 
       {/* INPUT */}
-      <MessageInput 
+      <MessageInput
         messageType={messageType}
         pageSize={pageSize}
         repliedMessage={repliedMessage}

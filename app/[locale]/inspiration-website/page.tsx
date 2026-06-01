@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   })
 }
 
-export default async function InspirationWebsite({params}: BasePageProps) {
+export default async function InspirationWebsite({ params }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
-  return <InspirationWebsitePage params={params}/>
+  return <InspirationWebsitePage params={params} />
 }

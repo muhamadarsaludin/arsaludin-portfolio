@@ -8,9 +8,8 @@ type GetServicesParams = {
   locale: string
 }
 
-type ServicesResponse = Pick<ServiceEntity, "id" | "slug" | "level" | "order_index" | "is_show"> 
-  & { translations: (Pick<ServiceTranslationEntity, "name" | "description"> 
-  & {
+type ServicesResponse = Pick<ServiceEntity, "id" | "slug" | "level" | "order_index" | "is_show"> & {
+  translations: (Pick<ServiceTranslationEntity, "name" | "description"> & {
     i18n: { locale: string }
   })[]
   skills: {
@@ -26,9 +25,7 @@ type ServicesResponse = Pick<ServiceEntity, "id" | "slug" | "level" | "order_ind
  * @returns A promise that resolves to an array of formatted Service objects.
  * @throws Will throw an error if Supabase query fails.
  */
-export async function getServices({
-  locale,
-}: GetServicesParams): Promise<Service[]> {
+export async function getServices({ locale }: GetServicesParams): Promise<Service[]> {
   const supabase = await createClient()
 
   const columns = `
@@ -83,7 +80,7 @@ export async function getServices({
       ...service,
       name: t?.name ?? "",
       description: t?.description ?? "",
-      skills
+      skills,
     }
   })
 }

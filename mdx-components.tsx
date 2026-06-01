@@ -41,34 +41,20 @@ export const mdxComponents: MDXComponents = {
   MiracleImagePreview,
   Heading,
   // 1. Headings
-  h1: (props: HeadingProps) => (
-    <Heading level={1} className="text-primary" {...props} />
-  ),
+  h1: (props: HeadingProps) => <Heading level={1} className="text-primary" {...props} />,
 
-  h2: (props: HeadingProps) => (
-    <Heading level={2} className="text-primary" {...props} />
-  ),
+  h2: (props: HeadingProps) => <Heading level={2} className="text-primary" {...props} />,
 
-  h3: (props: HeadingProps) => (
-    <Heading level={3} className="text-primary" {...props} />
-  ),
+  h3: (props: HeadingProps) => <Heading level={3} className="text-primary" {...props} />,
 
-  h4: (props: HeadingProps) => (
-    <Heading level={4} className="text-primary" {...props} />
-  ),
+  h4: (props: HeadingProps) => <Heading level={4} className="text-primary" {...props} />,
 
-  h5: (props: HeadingProps) => (
-    <Heading level={5} className="text-primary" {...props} />
-  ),
+  h5: (props: HeadingProps) => <Heading level={5} className="text-primary" {...props} />,
 
   // Text
-  p: (props: ParagraphProps) => (
-    <p className="text-secondary mt-4" {...props} />
-  ),
+  p: (props: ParagraphProps) => <p className="text-secondary mt-4" {...props} />,
 
-  small: (props: SmallProps) => (
-    <small className="text-secondary text-sm mt-4" {...props} />
-  ),
+  small: (props: SmallProps) => <small className="text-secondary mt-4 text-sm" {...props} />,
 
   strong: ({ children, ...props }: StrongProps) => {
     const text = typeof children === "string" ? children : ""
@@ -89,15 +75,13 @@ export const mdxComponents: MDXComponents = {
   },
 
   // Lists
-  ul: (props: UlProps) => (
-    <ul className="flex flex-col gap-1.5 list-none mt-4" {...props} />
-  ),
+  ul: (props: UlProps) => <ul className="mt-4 flex list-none flex-col gap-1.5" {...props} />,
 
   li: (props: LiProps) => (
     <li
       className={cn(
         "text-secondary relative pl-5.5",
-        "before:content-[''] before:absolute before:left-0",
+        "before:absolute before:left-0 before:content-['']",
         "before:mt-2.25 before:h-1.5 before:w-1.5 before:rounded-full",
         "before:bg-neutral-600 dark:before:bg-neutral-400"
       )}
@@ -107,7 +91,7 @@ export const mdxComponents: MDXComponents = {
 
   ol: (props: OlProps) => (
     <ol
-      className="mt-4 flex flex-col gap-3 list-decimal list-inside text-secondary text-base"
+      className="text-secondary mt-4 flex list-inside list-decimal flex-col gap-3 text-base"
       {...props}
     />
   ),
@@ -121,22 +105,19 @@ export const mdxComponents: MDXComponents = {
 
   th: (props: ThProps) => (
     <th
-      className="border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-4 py-3 font-semibold text-left"
+      className="border-b border-neutral-200 bg-neutral-50 px-4 py-3 text-left font-semibold dark:border-neutral-800 dark:bg-neutral-900"
       {...props}
     />
   ),
 
   td: (props: TdProps) => (
-    <td
-      className="border-b border-neutral-200 dark:border-neutral-800 px-4 py-3"
-      {...props}
-    />
+    <td className="border-b border-neutral-200 px-4 py-3 dark:border-neutral-800" {...props} />
   ),
 
   // Code
   pre: (props: PreProps) => (
     <pre
-      className="mb-4 mt-6 overflow-x-auto rounded-xl p-4 font-mono text-sm leading-relaxed bg-[#1a1b26] border border-neutral-800"
+      className="mt-6 mb-4 overflow-x-auto rounded-xl border border-neutral-800 bg-[#1a1b26] p-4 font-mono text-sm leading-relaxed"
       {...props}
     />
   ),
@@ -151,32 +132,22 @@ export const mdxComponents: MDXComponents = {
   // Links
   a: ({ href, ...props }: AnchorProps) => {
     const isExternal = href?.startsWith("http")
-    const styles = "text-blue-600 dark:text-blue-400 font-semibold no-underline hover:underline transition-all"
+    const styles =
+      "text-blue-600 dark:text-blue-400 font-semibold no-underline hover:underline transition-all"
 
     if (isExternal) {
       return (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles}
-          {...props}
-        />
+        <a href={href} target="_blank" rel="noopener noreferrer" className={styles} {...props} />
       )
     }
 
-    return (
-      <Link href={href || "#"} className={styles} {...props} />
-    )
+    return <Link href={href || "#"} className={styles} {...props} />
   },
 
   // Quotes
   blockquote: (props: BlockquoteProps) => (
     <blockquote
-      className={cn(
-        "mt-6 border-l-2 border-blue",
-        "pl-4 italic text-primary!"
-      )}
+      className={cn("border-blue mt-6 border-l-2", "text-primary! pl-4 italic")}
       {...props}
     />
   ),

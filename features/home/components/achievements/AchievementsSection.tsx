@@ -26,7 +26,7 @@ export default async function AchievementsSection({ className }: { className?: s
         <MiracleReveal animation="fade-right">
           <Heading
             id="featured-achievements"
-            className="text-3xl md:text-4xl lg:text-5xl mb-8 lg:mb-10 xl:mb-12"
+            className="mb-8 text-3xl md:text-4xl lg:mb-10 lg:text-5xl xl:mb-12"
             linkClassName="text-[0.4em]!"
             noMarginTop
             fontWeight="semibold"
@@ -37,13 +37,9 @@ export default async function AchievementsSection({ className }: { className?: s
 
         <AchievementList locale={locale} />
 
-        <div className="flex justify-center mt-6 lg:mt-8 xl:mt-10">
+        <div className="mt-6 flex justify-center lg:mt-8 xl:mt-10">
           <MiracleReveal animation="zoom-in">
-            <MiracleButton 
-              href="/achievements"
-              variant="secondary"
-              endIcon={<LuArrowRight />}
-            >
+            <MiracleButton href="/achievements" variant="secondary" endIcon={<LuArrowRight />}>
               {t("cta")}
             </MiracleButton>
           </MiracleReveal>

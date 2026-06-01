@@ -3,7 +3,7 @@
  * Raw data from 'images' table.
  */
 
-export type ImageEntity ={
+export type ImageEntity = {
   id: string
   image_url: string
   alt: string

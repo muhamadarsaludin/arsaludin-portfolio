@@ -23,12 +23,12 @@ import { MiracleReveal } from "@/components/miracle/Reveal"
 type RoadmapColumnProps = {
   status: CardStatus
   filters: {
-    search?: string;
-    types?: CardType[];
-    priorities?: CardPriority[];
-    pageSize: number;
-  },
-  className?: string;
+    search?: string
+    types?: CardType[]
+    priorities?: CardPriority[]
+    pageSize: number
+  }
+  className?: string
 }
 
 export default function RoadmapColumn({ status, filters, className }: RoadmapColumnProps) {
@@ -40,17 +40,10 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [selectedCard, setSelectedCard] = useState<Card | null>(null)
 
-  const { 
-    data, 
-    fetchNextPage, 
-    hasNextPage, 
-    isError, 
-    isLoading, 
-    isFetchingNextPage,
-    refetch
-  } = useInfiniteCardsByStatus({ status, ...filters })
+  const { data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch } =
+    useInfiniteCardsByStatus({ status, ...filters })
 
-  const allCards = useMemo(() => data?.pages.flatMap(p => p.data) ?? [], [data])
+  const allCards = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   useIntersectionObserver({
@@ -71,13 +64,13 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
   const renderActionButton = () => {
     const isAuthAction = !isSignedIn
     const isIdeasColumn = status === "ideas"
-    
+
     if (!isAuthAction && !isAdmin && !isIdeasColumn) return null
 
     const buttonLabel = isAuthAction ? t("signIn.label") : t("create")
     const buttonIcon = isAuthAction ? <SiGoogle /> : <LuPlus />
     const tooltipMessage = isAuthAction ? t("signIn.tooltip") : ""
-    const ariaLabel = isAuthAction ? t("signIn.tooltip") : t("create") 
+    const ariaLabel = isAuthAction ? t("signIn.tooltip") : t("create")
 
     const handleClick = () => {
       if (isAuthAction) return handleSignIn()
@@ -102,31 +95,26 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
   }
 
   return (
-    <div className={cn("flex flex-col gap-4 w-full bg-secondary p-4 md:p-5 rounded-2xl", className)}>
+    <div
+      className={cn("bg-secondary flex w-full flex-col gap-4 rounded-2xl p-4 md:p-5", className)}
+    >
       <div className="flex items-center justify-between px-1">
-        <h2 className="text-primary font-semibold text-md">
-          {td(`roadmap.status.${status}`)}
-        </h2>
+        <h2 className="text-primary text-md font-semibold">{td(`roadmap.status.${status}`)}</h2>
         {renderActionButton()}
       </div>
 
-      <div className="flex flex-col gap-3 min-h-150 max-h-150 overflow-y-auto">
+      <div className="flex max-h-150 min-h-150 flex-col gap-3 overflow-y-auto">
         {isLoading ? (
-          Array.from({ length: 3 }).map((_, i) => (
-            <CardItemSkeleton key={i} />
-          ))  
+          Array.from({ length: 3 }).map((_, i) => <CardItemSkeleton key={i} />)
         ) : isError ? (
-          <ErrorStateCard onRetry={() => refetch()}/>
+          <ErrorStateCard onRetry={() => refetch()} />
         ) : allCards.length === 0 ? (
           <CardEmpty />
         ) : (
           <>
             {allCards.map((card) => (
               <MiracleReveal key={card.id} animation="zoom-in">
-                <CardItem 
-                  card={card} 
-                  onUpdate={handleOpenForm}
-                />
+                <CardItem card={card} onUpdate={handleOpenForm} />
               </MiracleReveal>
             ))}
 
@@ -136,14 +124,14 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
               </div>
             )}
 
-            <div ref={loadMoreRef} className="h-4 w-full flex items-center justify-center">
-              {isFetchingNextPage && <MiracleLoader size={20}/>}
+            <div ref={loadMoreRef} className="flex h-4 w-full items-center justify-center">
+              {isFetchingNextPage && <MiracleLoader size={20} />}
             </div>
           </>
         )}
       </div>
 
-      <CardFormModal 
+      <CardFormModal
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
         initialData={selectedCard}

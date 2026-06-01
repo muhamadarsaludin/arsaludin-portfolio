@@ -8,27 +8,26 @@ type GetAvailableCategoriesParams = {
   targetType: CategoryTargetType
 }
 
-type GetAvailableCategoriesResponse = Pick<CategoryEntity, "id" | "slug" | "is_show">
-  & {
-    category_translations: {
-      name: string
-      i18n: {
-        locale: string
-      }
-    }[]
-  }
-  & Record<string, { id: string, is_show: boolean}[]>
+type GetAvailableCategoriesResponse = Pick<CategoryEntity, "id" | "slug" | "is_show"> & {
+  category_translations: {
+    name: string
+    i18n: {
+      locale: string
+    }
+  }[]
+} & Record<string, { id: string; is_show: boolean }[]>
 
-export async function getAvailableCategories({ 
+export async function getAvailableCategories({
   locale,
-  targetType 
+  targetType,
 }: GetAvailableCategoriesParams): Promise<Category[]> {
   const supabase = await createClient()
   const relationTable = `${targetType}_categories`
-  
+
   const { data, error } = await supabase
     .from("categories")
-    .select<string, GetAvailableCategoriesResponse>(`
+    .select<string, GetAvailableCategoriesResponse>(
+      `
       id,
       slug,
       is_show,
@@ -42,7 +41,8 @@ export async function getAvailableCategories({
         id,
         is_show
       )
-    `)
+    `
+    )
     .eq("is_show", true)
     .eq("category_translations.i18n.locale", locale)
     .eq(`${relationTable}.is_show`, true)

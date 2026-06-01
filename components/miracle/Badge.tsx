@@ -25,8 +25,10 @@ export default function MiracleBadge({
   pill = false,
   ...props
 }: BadgeProps) {
-  
-  const baseStyles = cn("inline-flex items-center gap-1.5 font-medium transition-colors", pill ? "rounded-full" : "rounded-md")
+  const baseStyles = cn(
+    "inline-flex items-center gap-1.5 font-medium transition-colors",
+    pill ? "rounded-full" : "rounded-md"
+  )
 
   const sizeStyles: Record<BadgeSize, string> = {
     sm: "px-2 py-0.5 text-[10px]",
@@ -53,20 +55,17 @@ export default function MiracleBadge({
     yellow: {
       primary: "bg-yellow text-primary-inv",
       secondary: "bg-yellow-low text-yellow",
-    }
+    },
   }
 
   const selectedStyles = colorStyles[color][variant]
   const selectedSize = sizeStyles[size]
 
   return (
-    <span 
-      className={cn(baseStyles, selectedSize, selectedStyles, className)} 
-      {...props}
-    >
-      {startIcon && <span className="shrink-0 flex items-center justify-center">{startIcon}</span>}
+    <span className={cn(baseStyles, selectedSize, selectedStyles, className)} {...props}>
+      {startIcon && <span className="flex shrink-0 items-center justify-center">{startIcon}</span>}
       {children && <span>{children}</span>}
-      {endIcon && <span className="shrink-0 flex items-center justify-center">{endIcon}</span>}
+      {endIcon && <span className="flex shrink-0 items-center justify-center">{endIcon}</span>}
     </span>
   )
 }

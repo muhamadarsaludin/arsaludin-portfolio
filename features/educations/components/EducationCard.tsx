@@ -81,7 +81,7 @@ export const EducationCard = ({
               onError={() => setLogoSrc("/dummy.webp")}
             />
           </div>
-          <div className="flex flex-col gap-0.5 items-start">
+          <div className="flex flex-col items-start gap-0.5">
             <h3 className="text-primary text-lg font-semibold md:text-xl lg:text-2xl">
               {education.school}
             </h3>
@@ -99,13 +99,18 @@ export const EducationCard = ({
               </span>
             </p>
             {education.grade && (
-              <MiracleBadge className="mt-2" color="yellow" variant="secondary" startIcon={<IoRibbonSharp />}>
+              <MiracleBadge
+                className="mt-2"
+                color="yellow"
+                variant="secondary"
+                startIcon={<IoRibbonSharp />}
+              >
                 Grade: {education.grade}
               </MiracleBadge>
             )}
           </div>
         </div>
-        
+
         {(education.description || (education.images && education.images.length > 0)) && (
           <button
             onClick={(e) => {
@@ -151,17 +156,17 @@ export const EducationCard = ({
                   </div>
                 </div>
               )}
-              
+
               {/* CERTIFICATE / CAMPUS GALLERY SCROLLER */}
               {education.images && education.images.length > 0 && (
                 <div className="flex flex-col gap-3">
                   <h4 className="text-sm font-bold uppercase">{t("gallery")} :</h4>
-                  <div className="scrollbar-hide snap-x snap-mandatory overflow-x-auto flex gap-4 [&::-webkit-scrollbar]:hidden">
+                  <div className="scrollbar-hide flex snap-x snap-mandatory gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
                     {education.images.map((asset, index) => (
-                      <button 
-                        key={asset.id} 
+                      <button
+                        key={asset.id}
                         onClick={() => setSelectedIndex(index)}
-                        className="group relative aspect-3/2 shrink-0 snap-start overflow-hidden rounded-xl border border-primary cursor-pointer w-[75%] md:w-[85%] max-w-75"
+                        className="group border-primary relative aspect-3/2 w-[75%] max-w-75 shrink-0 cursor-pointer snap-start overflow-hidden rounded-xl border md:w-[85%]"
                       >
                         <Image
                           src={asset.image_url}

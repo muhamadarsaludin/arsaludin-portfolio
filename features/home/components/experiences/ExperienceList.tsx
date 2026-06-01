@@ -8,12 +8,7 @@ import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 
 export function ExperienceList({ locale }: { locale: string }) {
-  const {
-    data: experiences,
-    isLoading,
-    isError,
-    refetch
-  } = useExperiences({ locale })
+  const { data: experiences, isLoading, isError, refetch } = useExperiences({ locale })
 
   if (isLoading) return <ExperienceListSkeleton />
   if (isError) return <ErrorStateCard onRetry={refetch} />
@@ -22,15 +17,8 @@ export function ExperienceList({ locale }: { locale: string }) {
   return (
     <div className="flex flex-col gap-4">
       {experiences.map((experience, index) => (
-        <MiracleReveal 
-          key={experience.id} 
-          animation="fade-up" 
-          delay={(index % 6) * 0.1}
-        >
-          <ExperienceCard 
-            experience={experience}
-            showDetail={index === 0}
-          />
+        <MiracleReveal key={experience.id} animation="fade-up" delay={(index % 6) * 0.1}>
+          <ExperienceCard experience={experience} showDetail={index === 0} />
         </MiracleReveal>
       ))}
     </div>

@@ -46,9 +46,11 @@ export type ProjectTranslationEntity = {
 /**
  * Flattened Project object, merging core entity data with localized translations, skills, categories, comment count and reaction summary.
  */
-export type Project = ProjectEntity
-  & Pick<ProjectTranslationEntity, "name" | "description" | "content" | "additional_info" | "additional_info_label" > 
-  & {
+export type Project = ProjectEntity &
+  Pick<
+    ProjectTranslationEntity,
+    "name" | "description" | "content" | "additional_info" | "additional_info_label"
+  > & {
     author: Profile
     skills: Skill[]
     categories: Category[]

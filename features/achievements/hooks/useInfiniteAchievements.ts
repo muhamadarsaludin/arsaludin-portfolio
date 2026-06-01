@@ -4,7 +4,7 @@ import { getPaginatedAchievements } from "../services/achievements"
 import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.constants"
 
 type UseAchievementsParams = {
-  locale: string 
+  locale: string
   search?: string
   types?: string[]
   levels?: string[]
@@ -21,22 +21,22 @@ export function useInfiniteAchievements({
   levels,
   categorySlugs,
   pageSize = ACHIEVEMENTS_PAGE_SIZE,
-  enabled = true
+  enabled = true,
 }: UseAchievementsParams) {
   return useInfiniteQuery({
-    queryKey: ["achievements", { locale, search, types, levels, categorySlugs, pageSize}],
+    queryKey: ["achievements", { locale, search, types, levels, categorySlugs, pageSize }],
     queryFn: async ({ pageParam }) => {
       return getPaginatedAchievements({
         locale,
-        search, 
-        types, 
+        search,
+        types,
         levels,
-        categorySlugs, 
+        categorySlugs,
         pageSize,
         cursor: pageParam as Cursor | undefined,
       })
     },
-    enabled: enabled, 
+    enabled: enabled,
     initialPageParam: undefined as Cursor | undefined,
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined

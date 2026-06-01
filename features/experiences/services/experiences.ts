@@ -1,21 +1,29 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import type { Experience, ExperienceEntity, ExperienceTranslationEntity } from "../types/experiences.types"
+import type {
+  Experience,
+  ExperienceEntity,
+  ExperienceTranslationEntity,
+} from "../types/experiences.types"
 import type { ImageAsset } from "@/features/images/types/images.types"
 
 type GetExperiencesParams = {
   locale: string
 }
 
-type GetExperiencesResponse = Pick<ExperienceEntity, "id" | "company" | "company_logo" | "company_link" | "start_date" | "end_date" | "is_show">
-  & {translations: (Pick<
-    ExperienceTranslationEntity, "role" | "employment_type" | "location" | "key_contributions"
-    > & { 
-      i18n: { locale: string } 
-    })[]
-    images: ImageAsset[]
-  }
+type GetExperiencesResponse = Pick<
+  ExperienceEntity,
+  "id" | "company" | "company_logo" | "company_link" | "start_date" | "end_date" | "is_show"
+> & {
+  translations: (Pick<
+    ExperienceTranslationEntity,
+    "role" | "employment_type" | "location" | "key_contributions"
+  > & {
+    i18n: { locale: string }
+  })[]
+  images: ImageAsset[]
+}
 
 /**
  * Fetches professional experience history from the database.
@@ -23,9 +31,7 @@ type GetExperiencesResponse = Pick<ExperienceEntity, "id" | "company" | "company
  * @returns A promise that resolves to an array of formatted Experience objects.
  * @throws Will throw an error if the Supabase query fails.
  */
-export async function getExperiences({
-  locale
-}: GetExperiencesParams): Promise<Experience[]> {
+export async function getExperiences({ locale }: GetExperiencesParams): Promise<Experience[]> {
   const supabase = await createClient()
 
   const columns = `
@@ -85,7 +91,7 @@ export async function getExperiences({
       employment_type: t?.employment_type ?? "",
       location: t?.location ?? "",
       key_contributions: t?.key_contributions ?? null,
-      images: experience.images ?? null
+      images: experience.images ?? null,
     }
   })
 }

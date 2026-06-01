@@ -20,14 +20,14 @@ export default async function TestimonialsSection({ className }: { className?: s
 
   await queryClient.prefetchQuery({
     queryKey: ["featured-testimonials", locale],
-    queryFn: () => getFeaturedTestimonials({ locale })
+    queryFn: () => getFeaturedTestimonials({ locale }),
   })
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={cn(className)}>
         <MiracleReveal animation="fade-right">
-          <div className="relative flex w-fit mb-8 lg:mb-10 xl:mb-12">
+          <div className="relative mb-8 flex w-fit lg:mb-10 xl:mb-12">
             <Heading
               id="featured-testimonials"
               className="text-3xl md:text-4xl lg:text-5xl"
@@ -37,12 +37,12 @@ export default async function TestimonialsSection({ className }: { className?: s
             >
               {t("title")}
             </Heading>
-            <MiracleReveal 
-              animation="zoom-in" 
-              delay={0.5} 
+            <MiracleReveal
+              animation="zoom-in"
+              delay={0.5}
               className="absolute -top-4 -right-9 md:-top-6 md:-right-12 lg:-right-15"
             >
-              <Quote className="text-primary text-4xl md:text-5xl lg:text-6xl"/>
+              <Quote className="text-primary text-4xl md:text-5xl lg:text-6xl" />
             </MiracleReveal>
           </div>
         </MiracleReveal>

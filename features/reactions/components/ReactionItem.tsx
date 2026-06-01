@@ -15,7 +15,7 @@ export default function ReactionItem({ reaction }: { reaction: Reaction }) {
   return (
     <li className="flex flex-col gap-2 transition-opacity">
       <div className="group/reaction flex items-center justify-between gap-5">
-        <div className="flex flex-1 gap-4 items-center">
+        <div className="flex flex-1 items-center gap-4">
           <div className="bg-blue text-primary-inv relative h-8 w-8 shrink-0 overflow-hidden rounded-full">
             {reaction.author.avatar_url ? (
               <Image
@@ -43,7 +43,13 @@ export default function ReactionItem({ reaction }: { reaction: Reaction }) {
               )}
             </div>
             <p className="text-secondary text-sm">
-              {t("timestamp", { timestamp: formatDate({ date: reaction.created_at, locale: locale, dateStyle: "medium" })})}
+              {t("timestamp", {
+                timestamp: formatDate({
+                  date: reaction.created_at,
+                  locale: locale,
+                  dateStyle: "medium",
+                }),
+              })}
             </p>
           </div>
         </div>

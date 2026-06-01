@@ -8,7 +8,7 @@ export type GearAndSetupItem = {
   type: string
   description: string
   specs?: Spec[]
-  link?: string 
+  link?: string
 }
 
 export type GearAndSetupGroup = {

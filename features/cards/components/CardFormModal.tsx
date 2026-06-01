@@ -9,7 +9,7 @@ import MiracleModal from "@/components/miracle/Modal"
 import MiracleButton from "@/components/miracle/Button"
 import MiracleTextField from "@/components/miracle/TextField"
 import MiracleTextArea from "@/components/miracle/TextArea"
-import MiracleRadio from "@/components/miracle/Radio" 
+import MiracleRadio from "@/components/miracle/Radio"
 import { useTranslations } from "next-intl"
 import { useCardsMutation } from "@/features/cards/hooks/useCardMutation"
 import { useAuth } from "@/providers/AuthProvider"
@@ -25,54 +25,59 @@ type CardFormModalProps = {
   defaultStatus: CardStatus
 }
 
-export default function CardFormModal({ 
-  isOpen, 
-  onClose, 
-  initialData, 
-  defaultStatus 
+export default function CardFormModal({
+  isOpen,
+  onClose,
+  initialData,
+  defaultStatus,
 }: CardFormModalProps) {
   const t = useTranslations("components.card.form")
   const td = useTranslations("data.roadmap")
   const { profile } = useAuth()
   const isAdmin = profile?.role === "admin"
-  
+
   const { createCard, updateCard, isPending } = useCardsMutation()
 
   // 1. Define Schema
-  const cardSchema = useMemo(() => z.object({
-    title: z.string()
-      .trim()
-      .min(1, t("validation.title.required"))
-      .min(5, t("validation.title.min"))
-      .max(100, t("validation.title.max")),
-    description: z.string()
-      .trim()
-      .optional()
-      .or(z.literal("")),
-    type: z.enum(CARD_TYPES),
-    priority: z.enum(CARD_PRIORITIES),
-    status: z.enum(CARD_STATUS)
-  }), [t])
+  const cardSchema = useMemo(
+    () =>
+      z.object({
+        title: z
+          .string()
+          .trim()
+          .min(1, t("validation.title.required"))
+          .min(5, t("validation.title.min"))
+          .max(100, t("validation.title.max")),
+        description: z.string().trim().optional().or(z.literal("")),
+        type: z.enum(CARD_TYPES),
+        priority: z.enum(CARD_PRIORITIES),
+        status: z.enum(CARD_STATUS),
+      }),
+    [t]
+  )
 
   type CardFormValues = z.infer<typeof cardSchema>
 
-  const defaultFormValues = useMemo<CardFormValues>(() => ({
-    title: "",
-    description: "",
-    type: "feature",
-    priority: "medium",
-    status: defaultStatus
-  }), [defaultStatus])
+  const defaultFormValues = useMemo<CardFormValues>(
+    () => ({
+      title: "",
+      description: "",
+      type: "feature",
+      priority: "medium",
+      status: defaultStatus,
+    }),
+    [defaultStatus]
+  )
 
   // 2. Setup React Hook Form
-  const { 
-    control, 
-    handleSubmit, 
-    reset, 
-    formState: { errors } 
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
   } = useForm<CardFormValues>({
     resolver: zodResolver(cardSchema),
-    defaultValues: defaultFormValues
+    defaultValues: defaultFormValues,
   })
 
   // 3. Reset logic
@@ -84,7 +89,7 @@ export default function CardFormModal({
           description: initialData.description ?? "",
           type: initialData.type,
           priority: initialData.priority,
-          status: initialData.status
+          status: initialData.status,
         })
       } else {
         reset(defaultFormValues)
@@ -96,12 +101,12 @@ export default function CardFormModal({
 
   // 4. Submit handler
   const onSubmit = (values: CardFormValues) => {
-    const payload = values as Pick<CardEntity, "title" | "description" | "status" | "type" | "priority">
+    const payload = values as Pick<
+      CardEntity,
+      "title" | "description" | "status" | "type" | "priority"
+    >
     if (initialData) {
-      updateCard(
-        { cardId: initialData.id, payload }, 
-        { onSuccess: () => onClose() }
-      )
+      updateCard({ cardId: initialData.id, payload }, { onSuccess: () => onClose() })
     } else {
       createCard(payload, { onSuccess: () => onClose() })
     }
@@ -115,7 +120,6 @@ export default function CardFormModal({
       size="md"
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-        
         <Controller
           name="title"
           control={control}
@@ -151,7 +155,7 @@ export default function CardFormModal({
         <div className="grid grid-cols-2 gap-8">
           {/* Type Selection */}
           <div className="flex flex-col gap-3">
-            <p className={cn("text-sm font-medium select-none text-primary")}>
+            <p className={cn("text-primary text-sm font-medium select-none")}>
               {t("label.type") || "Type"}
               <span className="text-red ml-1">*</span>
             </p>
@@ -177,7 +181,7 @@ export default function CardFormModal({
 
           {/* Priority Selection */}
           <div className="flex flex-col gap-3">
-            <p className={cn("text-sm font-medium select-none text-primary")}>
+            <p className={cn("text-primary text-sm font-medium select-none")}>
               {t("label.priority") || "Priority"}
               <span className="text-red ml-1">*</span>
             </p>
@@ -203,16 +207,18 @@ export default function CardFormModal({
         </div>
 
         {/* Status Selection - Proteksi Admin */}
-        <div className={cn("flex flex-col gap-3 pt-6 border-t border-primary")}>
+        <div className={cn("border-primary flex flex-col gap-3 border-t pt-6")}>
           {!isAdmin && (
             <MiracleBanner color="yellow" variant="secondary" startIcon={<LuTriangleAlert />}>
               {t("alert")}
             </MiracleBanner>
           )}
-          <p className={cn(
-            "text-sm font-medium select-none",
-            !isAdmin ? "text-secondary" : "text-primary"
-          )}>
+          <p
+            className={cn(
+              "text-sm font-medium select-none",
+              !isAdmin ? "text-secondary" : "text-primary"
+            )}
+          >
             Status
             <span className="text-red ml-1">*</span>
           </p>

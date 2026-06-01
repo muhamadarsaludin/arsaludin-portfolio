@@ -4,14 +4,17 @@ import { createClient } from "@/lib/supabase/server"
 import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 import type { Category, CategoryEntity } from "@/features/categories/types/categories.types"
 import type { Cursor } from "@/features/shared/types/index.types"
-import type { Article, ArticleEntity, ArticleTranslationEntity, PaginatedArticles } from "../types/articles.types"
+import type {
+  Article,
+  ArticleEntity,
+  ArticleTranslationEntity,
+  PaginatedArticles,
+} from "../types/articles.types"
 import type { Profile } from "@/features/profile/types/profiles.types"
 import { ARTICLES_PAGE_SIZE } from "../constants/articles.constans"
 
-type ArticleRawResponse = ArticleEntity
-  & {
-    translations: (Pick< ArticleTranslationEntity,"title" | "summary" | "content" >
-  & {
+type ArticleRawResponse = ArticleEntity & {
+  translations: (Pick<ArticleTranslationEntity, "title" | "summary" | "content"> & {
     i18n: { locale: string }
   })[]
   author: Profile
@@ -96,20 +99,21 @@ const getColumns = (isFilteringCategory: boolean = false) => `
 
 const mapToArticle = (article: ArticleRawResponse): Article => {
   const t = article.translations?.[0]
-  const categories: Category[] = article.categories
-    ?.map((ac) => {
-      const cat = ac.category
-      if (!cat) return null
-      const translation = cat.category_translations?.[0]
+  const categories: Category[] =
+    article.categories
+      ?.map((ac) => {
+        const cat = ac.category
+        if (!cat) return null
+        const translation = cat.category_translations?.[0]
 
-      return {
-        id: cat.id,
-        slug: cat.slug,
-        is_show: cat.is_show,
-        name: translation?.name ?? "",
-      }
-    })
-    .filter((cat): cat is Category => cat !== null) ?? []
+        return {
+          id: cat.id,
+          slug: cat.slug,
+          is_show: cat.is_show,
+          name: translation?.name ?? "",
+        }
+      })
+      .filter((cat): cat is Category => cat !== null) ?? []
   const commentCount = article.comments?.[0]?.count ?? 0
   const userReaction = article.reactions?.[0] ?? null
   const allReactions = article.reaction_counts || []
@@ -129,16 +133,16 @@ const mapToArticle = (article: ArticleRawResponse): Article => {
       allReactions,
       totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
       totalEmojis: allReactions.length,
-    }
+    },
   }
 }
 
 // --- MAIN FUNCTION ---
-export async function getFeaturedArticles({
-  locale
-}: {locale: string}): Promise<Article[]> {
+export async function getFeaturedArticles({ locale }: { locale: string }): Promise<Article[]> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
 
   const { data, error } = await supabase
@@ -151,7 +155,7 @@ export async function getFeaturedArticles({
     .eq("translations.i18n.locale", locale)
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
-    .eq("categories.category.category_translations.i18n.locale", locale) 
+    .eq("categories.category.category_translations.i18n.locale", locale)
     .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
@@ -201,7 +205,7 @@ export async function getPaginatedArticles({
     .eq("translations.i18n.locale", locale)
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
-    .eq("categories.category.category_translations.i18n.locale", locale) 
+    .eq("categories.category.category_translations.i18n.locale", locale)
     .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
@@ -223,8 +227,8 @@ export async function getPaginatedArticles({
   if (cursor && cursor.order_index !== undefined) {
     query = query.or(
       `order_index.gt.${cursor.order_index},` +
-      `and(order_index.eq.${cursor.order_index},published_at.lt.${cursor.published_at}),` +
-      `and(order_index.eq.${cursor.order_index},published_at.eq.${cursor.published_at},id.lt.${cursor.id})`
+        `and(order_index.eq.${cursor.order_index},published_at.lt.${cursor.published_at}),` +
+        `and(order_index.eq.${cursor.order_index},published_at.eq.${cursor.published_at},id.lt.${cursor.id})`
     )
   }
 
@@ -236,10 +240,10 @@ export async function getPaginatedArticles({
   }
 
   if (!data || data.length === 0) {
-    return { 
-      data: [], 
-      nextCursor: null, 
-      hasMore: false 
+    return {
+      data: [],
+      nextCursor: null,
+      hasMore: false,
     }
   }
 
@@ -261,19 +265,16 @@ export async function getPaginatedArticles({
   }
 }
 
-
 type GetArticleParams = {
-  slug?: string;
-  id?: string;
-  locale: string;
-};
-export async function getArticle({
-  slug,
-  id,
-  locale,
-}: GetArticleParams): Promise<Article | null> {
+  slug?: string
+  id?: string
+  locale: string
+}
+export async function getArticle({ slug, id, locale }: GetArticleParams): Promise<Article | null> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
 
   let query = supabase
@@ -283,7 +284,7 @@ export async function getArticle({
     .eq("reactions.user_id", userId)
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
-    .eq("categories.category.category_translations.i18n.locale", locale) 
+    .eq("categories.category.category_translations.i18n.locale", locale)
 
   if (id) {
     query = query.eq("id", id)

@@ -21,11 +21,11 @@ type ServiceCardProps = {
 
 export default function ServiceCard({ service, illustration, className }: ServiceCardProps) {
   const td = useTranslations("data.service")
-  
+
   return (
     <div
       className={cn(
-        "relative flex flex-col rounded-2xl border border-primary bg-primary",
+        "border-primary bg-primary relative flex flex-col rounded-2xl border",
         className
       )}
     >
@@ -33,13 +33,13 @@ export default function ServiceCard({ service, illustration, className }: Servic
         {illustration}
         <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#80808035_1px,transparent_1px)] mask-[radial-gradient(ellipse_60%_60%_at_50%_20%,#000_70%,transparent_100%)] bg-size-[16px_16px]" />
       </div>
-      
-      <div className="flex flex-1 flex-col p-5 md:p-6 items-start">
+
+      <div className="flex flex-1 flex-col items-start p-5 md:p-6">
         {service.level && (
-          <MiracleBadge 
-            color={badgeColor[service.level]} 
-            variant="secondary" 
-            className="mb-2" 
+          <MiracleBadge
+            color={badgeColor[service.level]}
+            variant="secondary"
+            className="mb-2"
             startIcon={service.level === "expert" ? <LuCrown /> : undefined}
           >
             {td("levels." + service.level)}

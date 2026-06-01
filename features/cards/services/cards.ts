@@ -71,7 +71,7 @@ const mapToCard = (card: CardRawResponse): Card => {
       allReactions,
       totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
       totalEmojis: allReactions.length,
-    }
+    },
   }
 }
 
@@ -127,8 +127,8 @@ export async function getPaginatedCardsByStatus({
   if (cursor && cursor.order_index !== undefined) {
     query = query.or(
       `order_index.gt.${cursor.order_index},` +
-      `and(order_index.eq.${cursor.order_index},created_at.lt.${cursor.created_at}),` +
-      `and(order_index.eq.${cursor.order_index},created_at.eq.${cursor.created_at},id.lt.${cursor.id})`
+        `and(order_index.eq.${cursor.order_index},created_at.lt.${cursor.created_at}),` +
+        `and(order_index.eq.${cursor.order_index},created_at.eq.${cursor.created_at},id.lt.${cursor.id})`
     )
   }
 
@@ -140,10 +140,10 @@ export async function getPaginatedCardsByStatus({
   }
 
   if (!data || data.length === 0) {
-    return { 
-      data: [], 
-      nextCursor: null, 
-      hasMore: false 
+    return {
+      data: [],
+      nextCursor: null,
+      hasMore: false,
     }
   }
 
@@ -165,9 +165,11 @@ export async function getPaginatedCardsByStatus({
   }
 }
 
-export async function getCard({cardId}: { cardId: string }): Promise<Card> {
+export async function getCard({ cardId }: { cardId: string }): Promise<Card> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
 
   const { data, error } = await supabase
@@ -185,7 +187,9 @@ export async function createCard(
   payload: Pick<CardEntity, "title" | "description" | "status" | "type" | "priority">
 ): Promise<Card> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized")
 
   const slug = generateUniqueSlug(payload.status)
@@ -216,8 +220,8 @@ export async function updateCard({
   cardId,
   payload,
 }: {
-  cardId: string;
-  payload: Partial<Pick<CardEntity, "title" | "description" | "status" | "type" | "priority">>;
+  cardId: string
+  payload: Partial<Pick<CardEntity, "title" | "description" | "status" | "type" | "priority">>
 }) {
   const supabase = await createClient()
 

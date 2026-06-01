@@ -14,16 +14,10 @@ type Options = {
 }
 
 function formatLabel(str: string) {
-  return str
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase())
+  return str.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
-export function useBreadcrumbs({
-  pathname,
-  locales = [],
-  overrides = {}
-}: Options): Breadcrumb[] {
+export function useBreadcrumbs({ pathname, locales = [], overrides = {} }: Options): Breadcrumb[] {
   const overridesSerialized = JSON.stringify(overrides)
 
   return useMemo(() => {
@@ -32,7 +26,7 @@ export function useBreadcrumbs({
 
     // 1. Split and clean segments
     const allSegments = pathname.split("/").filter(Boolean)
-    
+
     // 2. Handle Locales: if the first segment is a locale, strip it
     const hasLocale = locales.includes(allSegments[0])
     const segments = hasLocale ? allSegments.slice(1) : allSegments
@@ -43,7 +37,7 @@ export function useBreadcrumbs({
     // 3. Add Home Base (always aware of locale prefix)
     results.push({
       label: localOverrides["home"] ?? "Home",
-      href: localePrefix || "/"
+      href: localePrefix || "/",
     })
 
     // 4. Build Segments
@@ -56,7 +50,7 @@ export function useBreadcrumbs({
 
       results.push({
         label,
-        href: href
+        href: href,
       })
     }
 

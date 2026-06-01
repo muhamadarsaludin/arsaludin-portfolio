@@ -94,7 +94,7 @@ export default function MiracleButton({
 
   if (href) {
     const isExternal = href.startsWith("http")
-    
+
     if (isExternal) {
       return (
         <a href={href} target={target || "_blank"} rel="noopener noreferrer" className={styles}>

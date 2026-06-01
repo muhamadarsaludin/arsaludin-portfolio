@@ -32,7 +32,7 @@ export default function LangToggle({ className }: LangToggleProps) {
   const router = useRouter()
   const pathname = usePathname()
   const t = useTranslations("components.header.toggle")
-  
+
   const [isPending, startTransition] = useTransition()
 
   const handleLocaleChange = (nextLocale: string) => {
@@ -56,10 +56,7 @@ export default function LangToggle({ className }: LangToggleProps) {
           aria-label={t("ariaLabel.language")}
           disabled={isPending}
         >
-          {isPending 
-            ? (<MiracleLoader size={20}/>) 
-            : (<LuLanguages size={20} />)
-          }
+          {isPending ? <MiracleLoader size={20} /> : <LuLanguages size={20} />}
         </button>
       }
     >

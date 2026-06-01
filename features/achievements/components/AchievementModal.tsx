@@ -21,20 +21,20 @@ type AchievementModalProps = {
 export default function AchievementModal({ isOpen, onClose, achievement }: AchievementModalProps) {
   const [zoomScale, setZoomScale] = useState(1)
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen)
-  
+
   const locale = useLocale()
   const t = useTranslations("components.achievementCard")
   const td = useTranslations("data.achievement")
 
   const typeBadgeColor: Record<AchievementType, BadgeColor> = {
     award: "yellow",
-    course: "blue"
+    course: "blue",
   }
 
   const levelBadgeColor: Record<AchievementLevel, BadgeColor> = {
     expert: "yellow",
     intermediate: "blue",
-    beginner: "green"
+    beginner: "green",
   }
 
   if (isOpen !== prevIsOpen) {
@@ -50,16 +50,15 @@ export default function AchievementModal({ isOpen, onClose, achievement }: Achie
       onClose={onClose}
       size="full"
       title={t("modal.title")}
-      className="max-h-[85vh] h-full"
+      className="h-full max-h-[85vh]"
       noContentPadding
     >
-      <div className="flex h-full w-full flex-col md:flex-row overflow-hidden bg-primary rounded-b-3xl"> 
-        
+      <div className="bg-primary flex h-full w-full flex-col overflow-hidden rounded-b-3xl md:flex-row">
         {/* --- LEFT SIDE: SINGLE CERTIFICATE IMAGE WINDOW --- */}
-        <div className="w-full h-full flex flex-col overflow-hidden">
-          <div className="flex-1 flex w-full p-5 md:p-6 overflow-hidden relative group/preview">
-            <div className="h-full w-full flex items-center justify-center overflow-hidden bg-secondary rounded-2xl">
-              <div 
+        <div className="flex h-full w-full flex-col overflow-hidden">
+          <div className="group/preview relative flex w-full flex-1 overflow-hidden p-5 md:p-6">
+            <div className="bg-secondary flex h-full w-full items-center justify-center overflow-hidden rounded-2xl">
+              <div
                 className="relative h-full w-full transition-transform duration-200 ease-out"
                 style={{ transform: `scale(${zoomScale})` }}
               >
@@ -73,19 +72,21 @@ export default function AchievementModal({ isOpen, onClose, achievement }: Achie
                 />
               </div>
             </div>
-            
+
             {/* Floating Zoom Controls Context Menu */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 rounded-full p-0.5 bg-neutral-low text-primary border border-primary opacity-0 group-hover/preview:opacity-100 transition-all duration-300 ease-in-out">
-              <button 
-                onClick={() => setZoomScale(prev => Math.max(prev - 0.5, 1))} 
-                className="p-2 hover:bg-neutral-300 dark:hover:bg-neutral-700 rounded-full cursor-zoom-out transition-colors duration-300"
+            <div className="bg-neutral-low text-primary border-primary absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full border p-0.5 opacity-0 transition-all duration-300 ease-in-out group-hover/preview:opacity-100">
+              <button
+                onClick={() => setZoomScale((prev) => Math.max(prev - 0.5, 1))}
+                className="cursor-zoom-out rounded-full p-2 transition-colors duration-300 hover:bg-neutral-300 dark:hover:bg-neutral-700"
               >
                 <LuMinus size={16} />
               </button>
-              <span className="text-[10px] font-mono min-w-8.75 text-center">{Math.round(zoomScale * 100)}%</span>
-              <button 
-                onClick={() => setZoomScale(prev => Math.min(prev + 0.5, 3))} 
-                className="p-2 hover:bg-neutral-300 dark:hover:bg-neutral-700 rounded-full cursor-zoom-in transition-colors duration-300"
+              <span className="min-w-8.75 text-center font-mono text-[10px]">
+                {Math.round(zoomScale * 100)}%
+              </span>
+              <button
+                onClick={() => setZoomScale((prev) => Math.min(prev + 0.5, 3))}
+                className="cursor-zoom-in rounded-full p-2 transition-colors duration-300 hover:bg-neutral-300 dark:hover:bg-neutral-700"
               >
                 <LuPlus size={16} />
               </button>
@@ -94,83 +95,94 @@ export default function AchievementModal({ isOpen, onClose, achievement }: Achie
         </div>
 
         {/* --- RIGHT SIDE: SPECIFIC CREDENTIAL METADATA PANEL --- */}
-        <div className="w-full md:w-87.5 h-fit md:h-full border-t md:border-t-0 md:border-l border-primary p-5 md:p-6 flex flex-col gap-5 md:gap-6 bg-primary shrink-0 items-start">
+        <div className="border-primary bg-primary flex h-fit w-full shrink-0 flex-col items-start gap-5 border-t p-5 md:h-full md:w-87.5 md:gap-6 md:border-t-0 md:border-l md:p-6">
           {/* Issuing Organization Brand Block */}
           <div className="flex items-center gap-2">
-            <div className="relative h-10 w-10 overflow-hidden rounded-lg border border-primary/10">
+            <div className="border-primary/10 relative h-10 w-10 overflow-hidden rounded-lg border">
               {achievement.organization_logo ? (
-                <Image 
-                  src={achievement.organization_logo} 
-                  alt={achievement.issuing_organization} 
+                <Image
+                  src={achievement.organization_logo}
+                  alt={achievement.issuing_organization}
                   fill
                   sizes="40px"
                   className="object-contain"
-                /> 
+                />
               ) : (
-                <div className="flex h-full w-full items-center justify-center bg-neutral-low text-primary-inv">
-                  <LuAward size={24}/>
+                <div className="bg-neutral-low text-primary-inv flex h-full w-full items-center justify-center">
+                  <LuAward size={24} />
                 </div>
               )}
             </div>
-            <p className="text-primary text-md font-semibold tracking-tight line-clamp-1">
+            <p className="text-primary text-md line-clamp-1 font-semibold tracking-tight">
               {achievement.issuing_organization}
             </p>
           </div>
 
           {/* Core Credentials Specifications Table/Grid */}
-          <div className="flex flex-col gap-4 w-full border-y border-primary py-5 md:py-6">
+          <div className="border-primary flex w-full flex-col gap-4 border-y py-5 md:py-6">
             {achievement.credential_id && (
               <div className="flex flex-col gap-1.5">
-                <p className="text-xs uppercase tracking-tight text-secondary">{t("label.credentialID")}</p>
-                <p className="text-sm text-primary font-medium select-all">{achievement.credential_id}</p>
+                <p className="text-secondary text-xs tracking-tight uppercase">
+                  {t("label.credentialID")}
+                </p>
+                <p className="text-primary text-sm font-medium select-all">
+                  {achievement.credential_id}
+                </p>
               </div>
             )}
-            
+
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-1 items-start">
-                <p className="text-xs uppercase tracking-tight text-secondary">{t("label.type")}</p>
+              <div className="flex flex-col items-start gap-1">
+                <p className="text-secondary text-xs tracking-tight uppercase">{t("label.type")}</p>
                 <MiracleBadge color={typeBadgeColor[achievement.type]} variant="secondary">
                   {td("types." + achievement.type)}
                 </MiracleBadge>
               </div>
-              <div className="flex flex-col gap-1 items-start">
-                <p className="text-xs uppercase tracking-tight text-secondary">{t("label.level")}</p>
+              <div className="flex flex-col items-start gap-1">
+                <p className="text-secondary text-xs tracking-tight uppercase">
+                  {t("label.level")}
+                </p>
                 {achievement.level ? (
-                  <MiracleBadge 
-                    color={levelBadgeColor[achievement.level]} 
-                    variant="secondary" 
-                    startIcon={achievement.level === "expert" ? (<LuCrown />) : undefined}
+                  <MiracleBadge
+                    color={levelBadgeColor[achievement.level]}
+                    variant="secondary"
+                    startIcon={achievement.level === "expert" ? <LuCrown /> : undefined}
                   >
                     {td("levels." + achievement.level)}
                   </MiracleBadge>
                 ) : (
-                  <p className="text-sm text-primary font-medium">-</p>
+                  <p className="text-primary text-sm font-medium">-</p>
                 )}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1">
-                <p className="text-xs uppercase tracking-tight text-secondary">{t("label.issueDate")}</p>
-                <p className="text-sm text-primary font-medium">
-                  {formatDate({date: achievement.issue_date, locale})}
+                <p className="text-secondary text-xs tracking-tight uppercase">
+                  {t("label.issueDate")}
+                </p>
+                <p className="text-primary text-sm font-medium">
+                  {formatDate({ date: achievement.issue_date, locale })}
                 </p>
               </div>
               <div className="flex flex-col gap-1">
-                <p className="text-xs uppercase tracking-tight text-secondary">{t("label.expirationDate")}</p>
-                <p className="text-sm text-primary font-medium">
-                  {achievement.expiration_date 
-                    ? formatDate({date: achievement.expiration_date, locale})
-                    : "-"
-                  }
+                <p className="text-secondary text-xs tracking-tight uppercase">
+                  {t("label.expirationDate")}
+                </p>
+                <p className="text-primary text-sm font-medium">
+                  {achievement.expiration_date
+                    ? formatDate({ date: achievement.expiration_date, locale })
+                    : "-"}
                 </p>
               </div>
             </div>
 
             {/* Categorization Badges Container */}
-            {achievement.categories?.length > 0 && (  
+            {achievement.categories?.length > 0 && (
               <div className="flex flex-col gap-2">
-                <p className="text-xs uppercase tracking-tight text-secondary">{t("label.categories")}</p>
+                <p className="text-secondary text-xs tracking-tight uppercase">
+                  {t("label.categories")}
+                </p>
                 <div className="flex flex-wrap gap-1">
                   {achievement.categories.map((category, idx) => (
                     <MiracleBadge variant="secondary" key={`ach-cat-${idx}`}>
@@ -179,19 +191,19 @@ export default function AchievementModal({ isOpen, onClose, achievement }: Achie
                   ))}
                 </div>
               </div>
-            )} 
+            )}
           </div>
 
           {/* External Verification Anchor Trigger */}
           <div className="mt-auto w-full">
-            <a 
+            <a
               href={achievement.credential_url}
-              target="_blank" 
+              target="_blank"
               rel="noopener noreferrer"
               className="block w-full"
             >
-              <MiracleButton fullWidth startIcon={<LuAward/>}>
-                {t("viewCredential")}  
+              <MiracleButton fullWidth startIcon={<LuAward />}>
+                {t("viewCredential")}
               </MiracleButton>
             </a>
           </div>

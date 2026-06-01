@@ -10,11 +10,11 @@ On the other hand, the UX Engineer team had previously developed UXE Codegen, a 
 
 Based on the current implementation status of the BLUE Android Design System, several main problems were found that hindered adoption across various applications:
 
-* Design system adoption is still limited to non-priority pages or features that have a low risk level, so it has not been used consistently on the main pages of the application.
-* The UI implementation process from design to code is still done manually, requiring considerable effort from Android developers.
-* Limited development bandwidth often causes the priority of design system implementation to fall behind other feature development needs.
-* Concerns about the risk of bugs and regression make the team more careful in adopting design system components in high-impact areas.
-* There is no mechanism yet that can significantly accelerate the conversion of Figma designs into ready-to-use Android code while ensuring the code quality remains up to standard.
+- Design system adoption is still limited to non-priority pages or features that have a low risk level, so it has not been used consistently on the main pages of the application.
+- The UI implementation process from design to code is still done manually, requiring considerable effort from Android developers.
+- Limited development bandwidth often causes the priority of design system implementation to fall behind other feature development needs.
+- Concerns about the risk of bugs and regression make the team more careful in adopting design system components in high-impact areas.
+- There is no mechanism yet that can significantly accelerate the conversion of Figma designs into ready-to-use Android code while ensuring the code quality remains up to standard.
 
 ## Goals & Objectives
 
@@ -22,11 +22,11 @@ The main goal of this development is to accelerate the adoption of the BLUE Andr
 
 To achieve this goal, several main objectives were set as follows:
 
-* Accelerate the conversion process of Figma designs into ready-to-use Android UI code.
-* Reduce the effort of Android developers in implementing the design system.
-* Improve the consistency of UI implementation between design and application.
-* Support the accelerated adoption of the design system on the main pages across various applications.
-* Provide a design-to-code mechanism through UXE Codegen to support the workflow of designers and engineers, including improving the quality of the generated code through AI-based code refinement.
+- Accelerate the conversion process of Figma designs into ready-to-use Android UI code.
+- Reduce the effort of Android developers in implementing the design system.
+- Improve the consistency of UI implementation between design and application.
+- Support the accelerated adoption of the design system on the main pages across various applications.
+- Provide a design-to-code mechanism through UXE Codegen to support the workflow of designers and engineers, including improving the quality of the generated code through AI-based code refinement.
 
 ## Roles & Responsibilities
 
@@ -34,12 +34,12 @@ In this project, I acted as part of the UX Engineer team and the technical PIC (
 
 The responsibilities carried out included:
 
-* Analyzing the existing workflow in UXE Codegen, which previously only supported the Vue-based web platform.
-* Developing new capabilities in UXE Codegen to support the design-to-code process on the Android platform based on Jetpack Compose.
-* Integrating AI (Gemini) as a post-processing stage to tidy up the generated code, remove redundancies, and ensure the application of Jetpack Compose best practices.
-* Developing the UI and workflow in UXE Codegen to support the design-to-code process from Figma to Jetpack Compose.
-* Ensuring implementation quality through code reviews, QA, and iterations based on team feedback.
-* Supporting the proof of concept (POC) exploration process in using UXE Codegen to accelerate design system adoption.
+- Analyzing the existing workflow in UXE Codegen, which previously only supported the Vue-based web platform.
+- Developing new capabilities in UXE Codegen to support the design-to-code process on the Android platform based on Jetpack Compose.
+- Integrating AI (Gemini) as a post-processing stage to tidy up the generated code, remove redundancies, and ensure the application of Jetpack Compose best practices.
+- Developing the UI and workflow in UXE Codegen to support the design-to-code process from Figma to Jetpack Compose.
+- Ensuring implementation quality through code reviews, QA, and iterations based on team feedback.
+- Supporting the proof of concept (POC) exploration process in using UXE Codegen to accelerate design system adoption.
 
 ## Process & Execution
 
@@ -47,25 +47,32 @@ The development of UXE Codegen for Android was carried out iteratively with a fo
 
 The execution stages carried out included:
 
-* Analyzing the existing workflow in UXE Codegen, which previously only supported the Vue-based web platform.
-* Mapping Figma nodes to the Abstract Syntax Tree (AST) structure to represent design system components and Jetpack Compose layout structures.
-* Transforming the AST into Jetpack Compose code and converting Figma properties into design tokens through the code generation process.
-* Developing the interface on the UXE Codegen Figma plugin to support the design-to-code process from Figma to Jetpack Compose.
-* Integrating AI (Gemini) as an optimization stage for the generated code to reduce redundancy, tidy up code structure, and ensure the application of Jetpack Compose best practices.
-* Conducting code reviews and QA to ensure the implementation matches the predetermined design.
-* Iterating on the implementation results to improve the accuracy and readiness of the generated code.
+- Analyzing the existing workflow in UXE Codegen, which previously only supported the Vue-based web platform.
+- Mapping Figma nodes to the Abstract Syntax Tree (AST) structure to represent design system components and Jetpack Compose layout structures.
+- Transforming the AST into Jetpack Compose code and converting Figma properties into design tokens through the code generation process.
+- Developing the interface on the UXE Codegen Figma plugin to support the design-to-code process from Figma to Jetpack Compose.
+- Integrating AI (Gemini) as an optimization stage for the generated code to reduce redundancy, tidy up code structure, and ensure the application of Jetpack Compose best practices.
+- Conducting code reviews and QA to ensure the implementation matches the predetermined design.
+- Iterating on the implementation results to improve the accuracy and readiness of the generated code.
 
 ## Results
 
 The development of UXE Codegen for Android successfully expanded the design-to-code capabilities that previously only supported the web platform, now also supporting Android based on Jetpack Compose.
 
-<div className="w-full flex items-center justify-center mt-4">
+<div className="mt-4 flex w-full items-center justify-center">
   <div className="w-full md:w-6/12">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/uxe-codegen-for-android/uxe-codegen.webp", alt: "Preview of the UXE Codegen Figma plugin for Android"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/uxe-codegen-for-android/uxe-codegen.webp",
+          alt: "Preview of the UXE Codegen Figma plugin for Android",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="mt-3 text-sm italic text-center text-secondary">Preview of the UXE Codegen Figma plugin for Android</p>
+    <p className="text-secondary mt-3 text-center text-sm italic">
+      Preview of the UXE Codegen Figma plugin for Android
+    </p>
   </div>
 </div>
 
@@ -73,14 +80,14 @@ The development of UXE Codegen for Android successfully expanded the design-to-c
 
 ### Impact on the Company
 
-* Accelerate the UI implementation process from design to Android code through an automation approach.
-* Reduce reliance on manual implementation processes in UI development and minimize the risk of inconsistencies between design and code results.
-* Drive the expansion of BLUE Android Design System adoption more consistently and comprehensively across the application ecosystem.
-* Save developers' working time due to the reduction of manual implementation processes, allowing the team to focus more on feature development and other business needs.
+- Accelerate the UI implementation process from design to Android code through an automation approach.
+- Reduce reliance on manual implementation processes in UI development and minimize the risk of inconsistencies between design and code results.
+- Drive the expansion of BLUE Android Design System adoption more consistently and comprehensively across the application ecosystem.
+- Save developers' working time due to the reduction of manual implementation processes, allowing the team to focus more on feature development and other business needs.
 
 ### Personal Impact
 
-* Gain a deeper understanding of the transformation process from Figma designs to Android code implementation based on Jetpack Compose.
-* Increase ownership in designing end-to-end solutions to accelerate design system adoption.
-* Deepen technical expertise in exploring the Figma tooling ecosystem, including the architecture and capabilities of the Figma Plugin API for design automation.
-* Understand the AI API integration process while mastering prompt engineering techniques to ensure the code output is neater, consistent, and has minimal redundancy.
+- Gain a deeper understanding of the transformation process from Figma designs to Android code implementation based on Jetpack Compose.
+- Increase ownership in designing end-to-end solutions to accelerate design system adoption.
+- Deepen technical expertise in exploring the Figma tooling ecosystem, including the architecture and capabilities of the Figma Plugin API for design automation.
+- Understand the AI API integration process while mastering prompt engineering techniques to ensure the code output is neater, consistent, and has minimal redundancy.

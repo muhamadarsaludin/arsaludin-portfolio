@@ -10,20 +10,21 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   const article = await getArticle({ slug, locale })
   const t = await getTranslations("pages.article-detail")
 
-  if (!slug || !article) return constructMetadata({
-    title: t("title"),
-    description: t("description"),
-    locale: locale,
-  })
+  if (!slug || !article)
+    return constructMetadata({
+      title: t("title"),
+      description: t("description"),
+      locale: locale,
+    })
 
   return constructMetadata({
     title: article.title,
     description: article.summary ?? t("description"),
     locale: locale,
-  }) 
+  })
 }
 
-export default async function ProjectDetail({params, searchParams}: BasePageProps) {
+export default async function ProjectDetail({ params, searchParams }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
   return <ArticleDetailPage params={params} searchParams={searchParams} />

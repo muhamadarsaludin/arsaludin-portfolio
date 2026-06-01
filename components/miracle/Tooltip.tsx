@@ -6,10 +6,18 @@ import { useEffect, useRef, useState, useLayoutEffect, useCallback } from "react
 import { createPortal } from "react-dom"
 
 export type TooltipDefaultPosition =
-  | "top-start" | "top-center" | "top-end"
-  | "bottom-start" | "bottom-center" | "bottom-end"
-  | "left-start" | "left-center" | "left-end"
-  | "right-start" | "right-center" | "right-end"
+  | "top-start"
+  | "top-center"
+  | "top-end"
+  | "bottom-start"
+  | "bottom-center"
+  | "bottom-end"
+  | "left-start"
+  | "left-center"
+  | "left-end"
+  | "right-start"
+  | "right-center"
+  | "right-end"
 
 export type TooltipProps = {
   className?: string
@@ -63,7 +71,7 @@ export default function MiracleTooltip({
 
     // --- 1. AUTO CLOSE LOGIC ---
     if (
-      triggerRect.bottom < 0 || 
+      triggerRect.bottom < 0 ||
       triggerRect.top > viewportHeight ||
       triggerRect.right < 0 ||
       triggerRect.left > viewportWidth
@@ -78,7 +86,8 @@ export default function MiracleTooltip({
 
     // --- 2. SMART FLIP ---
     if (side === "top" && triggerRect.top - contentRect.height - gap < 0) side = "bottom"
-    else if (side === "bottom" && triggerRect.bottom + contentRect.height + gap > viewportHeight) side = "top"
+    else if (side === "bottom" && triggerRect.bottom + contentRect.height + gap > viewportHeight)
+      side = "top"
 
     // --- 3. SMART ALIGNMENT ---
     if (side === "top" || side === "bottom") {
@@ -101,7 +110,7 @@ export default function MiracleTooltip({
     else {
       if (align === "start") top = triggerRect.top
       else if (align === "end") top = triggerRect.bottom - contentRect.height
-      else top = triggerRect.top + (triggerRect.height / 2) - (contentRect.height / 2)
+      else top = triggerRect.top + triggerRect.height / 2 - contentRect.height / 2
     }
 
     if (side === "left") left = triggerRect.left - contentRect.width - gap
@@ -109,7 +118,7 @@ export default function MiracleTooltip({
     else {
       if (align === "start") left = triggerRect.left
       else if (align === "end") left = triggerRect.right - contentRect.width
-      else left = triggerRect.left + (triggerRect.width / 2) - (contentRect.width / 2)
+      else left = triggerRect.left + triggerRect.width / 2 - contentRect.width / 2
     }
 
     // Clamping Safety
@@ -173,45 +182,46 @@ export default function MiracleTooltip({
         {trigger}
       </div>
 
-      {mounted && createPortal(
-        <div
-          ref={contentRef}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            transform: `translate3d(${coords.left}px, ${coords.top}px, 0)`,
-            pointerEvents: isOpen && hoverContent ? "auto" : "none",
-          }}
-          className={cn(
-            "z-tooltip transition-opacity duration-300 ease-in-out",
-            isOpen ? "visible opacity-100" : "invisible opacity-0"
-          )}
-          onMouseEnter={hoverContent ? handleMouseEnter : undefined}
-          onMouseLeave={hoverContent ? handleMouseLeave : undefined}
-        >
+      {mounted &&
+        createPortal(
           <div
+            ref={contentRef}
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              transform: `translate3d(${coords.left}px, ${coords.top}px, 0)`,
+              pointerEvents: isOpen && hoverContent ? "auto" : "none",
+            }}
             className={cn(
-              "text-primary-inv relative w-max min-w-max rounded-md text-xs font-medium",
-              !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
-              !noBackground && "bg-primary-inv",
-              !noPadding && "p-2"
+              "z-tooltip transition-opacity duration-300 ease-in-out",
+              isOpen ? "visible opacity-100" : "invisible opacity-0"
             )}
+            onMouseEnter={hoverContent ? handleMouseEnter : undefined}
+            onMouseLeave={hoverContent ? handleMouseLeave : undefined}
           >
-            {!noArrow && (
-              <div
-                className={cn(
-                  "absolute z-1 h-2.5 w-2.5 rotate-45",
-                  !noBackground && "bg-primary-inv",
-                  arrowPositionClass[adaptedPos]
-                )}
-              />
-            )}
-            {children}
-          </div>
-        </div>,
-        document.body
-      )}
+            <div
+              className={cn(
+                "text-primary-inv relative w-max min-w-max rounded-md text-xs font-medium",
+                !noShadow && "shadow-sm shadow-neutral-700 dark:shadow-neutral-300",
+                !noBackground && "bg-primary-inv",
+                !noPadding && "p-2"
+              )}
+            >
+              {!noArrow && (
+                <div
+                  className={cn(
+                    "absolute z-1 h-2.5 w-2.5 rotate-45",
+                    !noBackground && "bg-primary-inv",
+                    arrowPositionClass[adaptedPos]
+                  )}
+                />
+              )}
+              {children}
+            </div>
+          </div>,
+          document.body
+        )}
     </>
   )
 }

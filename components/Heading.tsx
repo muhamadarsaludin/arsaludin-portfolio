@@ -94,9 +94,7 @@ export default function Heading({
       )}
       {...(props as React.ComponentPropsWithoutRef<HeadingTag>)}
     >
-      <Link href={`#${headingId}`}>
-        {children}
-      </Link>
+      <Link href={`#${headingId}`}>{children}</Link>
       {copyLink && (
         <div className="invisible absolute top-1/2 right-full z-[10] flex-1 shrink-0 translate-x-1 -translate-y-1/2 pr-1 opacity-0 transition duration-300 ease-in-out group-hover/heading:visible group-hover/heading:translate-x-0 group-hover/heading:opacity-100">
           <MiracleTooltip

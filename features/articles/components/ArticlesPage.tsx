@@ -25,15 +25,18 @@ export default async function ArticlesPage(props: BasePageProps) {
 
   const filters = {
     locale,
-    search: typeof searchParams.search === "string" && searchParams.search ? searchParams.search : undefined,
+    search:
+      typeof searchParams.search === "string" && searchParams.search
+        ? searchParams.search
+        : undefined,
     categorySlugs: normalizeArrayParam(searchParams.categories),
-    pageSize: ARTICLES_PAGE_SIZE
+    pageSize: ARTICLES_PAGE_SIZE,
   }
 
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
       queryKey: ["articles", filters],
-      queryFn: ({ pageParam }) => 
+      queryFn: ({ pageParam }) =>
         getPaginatedArticles({
           ...filters,
           cursor: pageParam as Cursor | undefined,
@@ -44,14 +47,14 @@ export default async function ArticlesPage(props: BasePageProps) {
     queryClient.prefetchQuery({
       queryKey: ["available-categories", { locale, targetType }],
       queryFn: () => getAvailableCategories({ locale, targetType }),
-    })
+    }),
   ])
 
   const dehydratedState = dehydrate(queryClient)
-  
+
   /**
    * HYDRATION FIX:
-   * Manually "aging" server data by 20 minutes to prevent it from overwriting 
+   * Manually "aging" server data by 20 minutes to prevent it from overwriting
    * the client's multi-page infinite cache during navigation.
    */
   const TWENTY_MINUTES_IN_MS = 1000 * 60 * 20
@@ -64,24 +67,21 @@ export default async function ArticlesPage(props: BasePageProps) {
 
   return (
     <Container>
-      <Article className="pb-13 lg:pb-23 w-full">
+      <Article className="w-full pb-13 lg:pb-23">
         <MiracleReveal animation="fade-right">
-          <MiracleBreadcrumbs 
+          <MiracleBreadcrumbs
             locales={routing.locales}
             overrides={{
               home: t("breadcrumbs.home"),
-              articles: t("breadcrumbs.articles")
+              articles: t("breadcrumbs.articles"),
             }}
             className="mb-5 md:mb-6"
           />
-          <header className="mb-8 lg:mb-10 xl:mb-12 w-full">
-            <Heading 
-              id={t("title")}
-              level={1}
-              className="font-semibold flex gap-2 items-center">
-                {t("title")}
+          <header className="mb-8 w-full lg:mb-10 xl:mb-12">
+            <Heading id={t("title")} level={1} className="flex items-center gap-2 font-semibold">
+              {t("title")}
             </Heading>
-            <p className="mt-4 text-secondary">{t("description")}</p>
+            <p className="text-secondary mt-4">{t("description")}</p>
           </header>
         </MiracleReveal>
 

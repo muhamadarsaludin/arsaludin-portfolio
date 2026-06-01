@@ -18,8 +18,8 @@ type UseCommentMutationParams = {
  * @param pageSize - Limits the number of comments returned in a single fetch.
  * @returns An object containing `add` and `remove` mutate functions, along with their pending states.
  */
-export function useCommentMutation({ 
-  targetId, 
+export function useCommentMutation({
+  targetId,
   targetType,
   pageSize = COMMENTS_PAGE_SIZE,
 }: UseCommentMutationParams) {
@@ -78,7 +78,8 @@ export function useCommentMutation({
     },
     onError: (_err, _variables, context) => {
       if (context?.previous) queryClient.setQueryData(queryKey, context.previous)
-      if (context?.previousCount !== undefined) queryClient.setQueryData(countKey, context.previousCount)
+      if (context?.previousCount !== undefined)
+        queryClient.setQueryData(countKey, context.previousCount)
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey })
@@ -115,7 +116,8 @@ export function useCommentMutation({
     },
     onError: (_err, _variables, context) => {
       if (context?.previous) queryClient.setQueryData(queryKey, context.previous)
-      if (context?.previousCount !== undefined) queryClient.setQueryData(countKey, context.previousCount)
+      if (context?.previousCount !== undefined)
+        queryClient.setQueryData(countKey, context.previousCount)
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey })

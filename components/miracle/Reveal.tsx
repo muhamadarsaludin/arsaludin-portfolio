@@ -7,55 +7,88 @@ import type { Breakpoint } from "@/hooks/useMediaQuery"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
 
 export type RevealAnimation =
-  | "fade" | "fade-up" | "fade-down" | "fade-left" | "fade-right"
-  | "zoom-in" | "zoom-out" | "slide-blur-up" | "slide-blur-down"
-  | "flip-up" | "flip-down" | "reveal-text"
-  | "skew-up" | "skew-down";
+  | "fade"
+  | "fade-up"
+  | "fade-down"
+  | "fade-left"
+  | "fade-right"
+  | "zoom-in"
+  | "zoom-out"
+  | "slide-blur-up"
+  | "slide-blur-down"
+  | "flip-up"
+  | "flip-down"
+  | "reveal-text"
+  | "skew-up"
+  | "skew-down"
 
 /**
  * Generic Responsive Type
  */
-export type ResponsiveValue<T> = T | {
-  default?: T;
-  sm?: T;
-  md?: T;
-  lg?: T;
-  xl?: T;
-  "2xl"?: T;
-  mobile?: T;
-  tablet?: T;
-  desktop?: T;
-};
+export type ResponsiveValue<T> =
+  | T
+  | {
+      default?: T
+      sm?: T
+      md?: T
+      lg?: T
+      xl?: T
+      "2xl"?: T
+      mobile?: T
+      tablet?: T
+      desktop?: T
+    }
 
-export type ResponsiveAnimation = ResponsiveValue<RevealAnimation>;
+export type ResponsiveAnimation = ResponsiveValue<RevealAnimation>
 
 interface MiracleRevealProps {
-  children: React.ReactNode;
-  animation?: ResponsiveAnimation;
-  duration?: ResponsiveValue<number>;
-  delay?: ResponsiveValue<number>;
-  threshold?: ResponsiveValue<number>;
-  distance?: ResponsiveValue<number>;
-  once?: ResponsiveValue<boolean>;
-  className?: string;
+  children: React.ReactNode
+  animation?: ResponsiveAnimation
+  duration?: ResponsiveValue<number>
+  delay?: ResponsiveValue<number>
+  threshold?: ResponsiveValue<number>
+  distance?: ResponsiveValue<number>
+  once?: ResponsiveValue<boolean>
+  className?: string
 }
 
 // ⚡ KEMBALI KE ASAL: Tipe data Record<string, any> asli lu aman di sini karena linter any sudah kita matikan di baris nomor 1
 const revealVariants: Record<string, any> = {
-  "fade": { hidden: { opacity: 0 }, visible: { opacity: 1 } },
+  fade: { hidden: { opacity: 0 }, visible: { opacity: 1 } },
   "fade-up": { hidden: (d: number) => ({ opacity: 0, y: d }), visible: { opacity: 1, y: 0 } },
   "fade-down": { hidden: (d: number) => ({ opacity: 0, y: -d }), visible: { opacity: 1, y: 0 } },
   "fade-left": { hidden: (d: number) => ({ opacity: 0, x: d }), visible: { opacity: 1, x: 0 } },
   "fade-right": { hidden: (d: number) => ({ opacity: 0, x: -d }), visible: { opacity: 1, x: 0 } },
   "zoom-in": { hidden: { opacity: 0, scale: 0.95 }, visible: { opacity: 1, scale: 1 } },
   "zoom-out": { hidden: { opacity: 0, scale: 1.05 }, visible: { opacity: 1, scale: 1 } },
-  "slide-blur-up": { hidden: (d: number) => ({ opacity: 0, y: d, filter: "blur(10px)" }), visible: { opacity: 1, y: 0, filter: "blur(0px)" } },
-  "slide-blur-down": { hidden: (d: number) => ({ opacity: 0, y: -d, filter: "blur(10px)" }), visible: { opacity: 1, y: 0, filter: "blur(0px)" } },
-  "flip-up": { hidden: (d: number) => ({ opacity: 0, y: d, rotateX: -20 }), visible: { opacity: 1, y: 0, rotateX: 0 } },
-  "flip-down": { hidden: (d: number) => ({ opacity: 0, y: -d, rotateX: 20 }), visible: { opacity: 1, y: 0, rotateX: 0 } },
-  "reveal-text": { hidden: { clipPath: "inset(0% 0% 100% 0%)", opacity: 0 }, visible: { clipPath: "inset(0% 0% 0% 0%)", opacity: 1 } },
-  "skew-up": { hidden: (d: number) => ({ opacity: 0, y: d, skewY: 5, transformOrigin: "top left" }), visible: { opacity: 1, y: 0, skewY: 0 } },
-  "skew-down": { hidden: (d: number) => ({ opacity: 0, y: -d, skewY: -5, transformOrigin: "bottom right" }), visible: { opacity: 1, y: 0, skewY: 0 } },
+  "slide-blur-up": {
+    hidden: (d: number) => ({ opacity: 0, y: d, filter: "blur(10px)" }),
+    visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+  },
+  "slide-blur-down": {
+    hidden: (d: number) => ({ opacity: 0, y: -d, filter: "blur(10px)" }),
+    visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+  },
+  "flip-up": {
+    hidden: (d: number) => ({ opacity: 0, y: d, rotateX: -20 }),
+    visible: { opacity: 1, y: 0, rotateX: 0 },
+  },
+  "flip-down": {
+    hidden: (d: number) => ({ opacity: 0, y: -d, rotateX: 20 }),
+    visible: { opacity: 1, y: 0, rotateX: 0 },
+  },
+  "reveal-text": {
+    hidden: { clipPath: "inset(0% 0% 100% 0%)", opacity: 0 },
+    visible: { clipPath: "inset(0% 0% 0% 0%)", opacity: 1 },
+  },
+  "skew-up": {
+    hidden: (d: number) => ({ opacity: 0, y: d, skewY: 5, transformOrigin: "top left" }),
+    visible: { opacity: 1, y: 0, skewY: 0 },
+  },
+  "skew-down": {
+    hidden: (d: number) => ({ opacity: 0, y: -d, skewY: -5, transformOrigin: "bottom right" }),
+    visible: { opacity: 1, y: 0, skewY: 0 },
+  },
 }
 
 export const MiracleReveal = ({
@@ -83,7 +116,7 @@ export const MiracleReveal = ({
    */
   const resolveValue = <T,>(input: ResponsiveValue<T>, defaultValue: T): T => {
     if (typeof input !== "object" || input === null) return input as T
-    
+
     const res = input as any
     if (!mounted) return res.default ?? res.mobile ?? defaultValue
 
@@ -118,10 +151,10 @@ export const MiracleReveal = ({
         custom={active.distance}
         initial="hidden"
         whileInView="visible"
-        viewport={{ 
-          once: active.once, 
+        viewport={{
+          once: active.once,
           amount: active.threshold,
-          margin: "0px 0px -20px 0px" 
+          margin: "0px 0px -20px 0px",
         }}
         className="h-full w-full"
         variants={(revealVariants[active.anim] || revealVariants["fade-up"]) as any}

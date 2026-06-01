@@ -7,6 +7,8 @@ export type ArticleProps = React.HTMLAttributes<HTMLElement> & {
 
 export default function Article({ children, className, ...props }: ArticleProps) {
   return (
-    <article className={cn("w-full", className)} {...props}>{children}</article>
+    <article className={cn("w-full", className)} {...props}>
+      {children}
+    </article>
   )
 }

@@ -11,9 +11,7 @@ type UseFeaturedArticlesParams = {
  * @param props.locale - The language code (e.g., 'en', 'id') for content translation.
  * @returns The query result containing an array of Article objects.
  */
-export function useFeaturedArticles({
-  locale,
-}: UseFeaturedArticlesParams) {
+export function useFeaturedArticles({ locale }: UseFeaturedArticlesParams) {
   return useQuery({
     queryKey: ["featured-articles", locale],
     queryFn: () => getFeaturedArticles({ locale }),

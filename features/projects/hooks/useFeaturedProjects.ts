@@ -10,9 +10,7 @@ type UseFeaturedProjectsParams = {
  * @param locale - The language code (e.g., 'en', 'id') for content translation.
  * @returns The query result containing an array of Project objects.
  */
-export function useFeaturedProjects({
-  locale,
-}: UseFeaturedProjectsParams) {
+export function useFeaturedProjects({ locale }: UseFeaturedProjectsParams) {
   return useQuery({
     queryKey: ["featured-projects", locale],
     queryFn: () => getFeaturedProjects({ locale }),

@@ -20,7 +20,7 @@ import {
   LuEye,
   LuGithub,
   LuTimer,
-  LuTriangleAlert
+  LuTriangleAlert,
 } from "react-icons/lu"
 import MiracleBadge from "@/components/miracle/Badge"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
@@ -45,10 +45,7 @@ const FALLBACK_LOCALES = ["en", "id"]
    MDX RESOLVER (locale → fallback → null)
 --------------------------------*/
 async function resolveMdx(slug: string, locale: string) {
-  const localesToTry = [
-    locale,
-    ...FALLBACK_LOCALES.filter((l) => l !== locale),
-  ]
+  const localesToTry = [locale, ...FALLBACK_LOCALES.filter((l) => l !== locale)]
 
   for (const loc of localesToTry) {
     try {
@@ -89,7 +86,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
   --------------------------------*/
   if (process.env.NODE_ENV === "production") {
     const { error: viewError } = await supabase.rpc("increment_view", {
-      project_id: project.id
+      project_id: project.id,
     })
 
     if (viewError) {
@@ -109,7 +106,10 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
       const mdxDir = path.join(process.cwd(), "features", "projects", "markdown")
       const filePath = path.join(mdxDir, `${slug}-${mdxLocale}.mdx`)
 
-      const fileExists = await fs.access(filePath).then(() => true).catch(() => false)
+      const fileExists = await fs
+        .access(filePath)
+        .then(() => true)
+        .catch(() => false)
       if (fileExists) {
         mdxText = await fs.readFile(filePath, "utf8")
       }
@@ -121,41 +121,32 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
   /* -------------------------------
      RAW CONTENT (READING TIME INPUT)
   --------------------------------*/
-  const rawContent = [
-    project.name,
-    project.description,
-    mdxText
-  ]
-    .filter(Boolean)
-    .join(" ")
+  const rawContent = [project.name, project.description, mdxText].filter(Boolean).join(" ")
 
   const stats = getMdxReadingTime(rawContent)
 
-  const displayReadingTime = stats?.minutes
-    ? formatReadingTime(stats.minutes, locale)
-    : ""
+  const displayReadingTime = stats?.minutes ? formatReadingTime(stats.minutes, locale) : ""
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Container className="flex flex-col lg:flex-row gap-8 items-start py-6">
-        <Article className="pb-13 lg:pb-23 flex-1 w-full">
-
+      <Container className="flex flex-col items-start gap-8 py-6 lg:flex-row">
+        <Article className="w-full flex-1 pb-13 lg:pb-23">
           <MiracleReveal animation="fade-right">
             <MiracleBreadcrumbs
               locales={routing.locales}
               overrides={{
                 home: t("breadcrumbs.home"),
                 projects: t("breadcrumbs.projects"),
-                [slug]: project.name
+                [slug]: project.name,
               }}
               className="mb-6"
             />
           </MiracleReveal>
 
-          <div className="w-full mb-10">
+          <div className="mb-10 w-full">
             {project.thumbnail && (
-              <MiracleReveal animation="zoom-in" className="w-full hidden md:block">
-                <div className="w-full aspect-video relative rounded-2xl overflow-hidden shadow-sm">
+              <MiracleReveal animation="zoom-in" className="hidden w-full md:block">
+                <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-sm">
                   <Image
                     src={project.thumbnail}
                     alt={project.name}
@@ -170,10 +161,9 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
 
             {/* Card Meta Data */}
             <MiracleReveal animation="fade-up" delay={0.1}>
-              <div className="bg-primary border border-primary md:-mt-40 lg:-mt-60 relative z-1 md:mx-6 lg:mx-8 rounded-2xl">
-
+              <div className="bg-primary border-primary relative z-1 rounded-2xl border md:mx-6 md:-mt-40 lg:mx-8 lg:-mt-60">
                 {project.thumbnail && (
-                  <div className="w-full block md:hidden aspect-video relative rounded-t-2xl overflow-hidden shadow-sm">
+                  <div className="relative block aspect-video w-full overflow-hidden rounded-t-2xl shadow-sm md:hidden">
                     <Image
                       src={project.thumbnail}
                       alt={project.name}
@@ -186,13 +176,18 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                 )}
 
                 {/* Top */}
-                <div className='p-5 md:p-6'>
+                <div className="p-5 md:p-6">
                   {/* Header */}
-                  <header className="flex gap-4 md:gap-5 items-start mb-4">
+                  <header className="mb-4 flex items-start gap-4 md:gap-5">
                     {/* Header Content */}
-                    <div className="flex-1 flex flex-col gap-1.5 items-start">
+                    <div className="flex flex-1 flex-col items-start gap-1.5">
                       {project.is_featured && (
-                        <MiracleBadge color="yellow" variant="secondary" startIcon={<LuCrown />} className="mb-2">
+                        <MiracleBadge
+                          color="yellow"
+                          variant="secondary"
+                          startIcon={<LuCrown />}
+                          className="mb-2"
+                        >
                           {t("featured")}
                         </MiracleBadge>
                       )}
@@ -200,7 +195,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                       <Heading
                         id={slug}
                         level={1}
-                        className="text-2xl! md:text-3xl! lg:text-4xl! font-bold"
+                        className="text-2xl! font-bold md:text-3xl! lg:text-4xl!"
                         linkClassName="text-[0.5em]!"
                       >
                         {project.name}
@@ -219,15 +214,10 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                       </p>
                     </div>
 
-                    <ProjectShareButton
-                      title={project.name}
-                      description={project.description}
-                    />
+                    <ProjectShareButton title={project.name} description={project.description} />
                   </header>
 
-                  <p className="mt-2 text-secondary text-sm">
-                    {project.description}
-                  </p>
+                  <p className="text-secondary mt-2 text-sm">{project.description}</p>
 
                   {(project.additional_info || project.additional_info_label) && (
                     <div className="col-span-full mt-4">
@@ -243,27 +233,25 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                   )}
                 </div>
                 {/* Mid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 border-t border-primary p-5 md:p-6">
+                <div className="border-primary grid grid-cols-1 gap-5 border-t p-5 md:grid-cols-2 md:p-6">
                   {/* Author */}
                   <div className="flex flex-col gap-2">
-                    <p className="text-xs uppercase tracking-tight text-secondary">
+                    <p className="text-secondary text-xs tracking-tight uppercase">
                       {t("label.author")}
                     </p>
                     <div className="flex items-center gap-2">
-                      <UserAvatar user={project.author} className="h-8 w-8"/>
-                      <p className="text-sm text-primary font-medium">
-                        {project.author.full_name}
-                      </p>
+                      <UserAvatar user={project.author} className="h-8 w-8" />
+                      <p className="text-primary text-sm font-medium">{project.author.full_name}</p>
                     </div>
                   </div>
 
                   {/* Date Created*/}
                   {project.published_at && (
                     <div className="flex flex-col gap-2">
-                      <p className="text-xs uppercase tracking-tight text-secondary">
+                      <p className="text-secondary text-xs tracking-tight uppercase">
                         {t("label.date")}
                       </p>
-                      <div className="flex items-center gap-2 text-sm text-primary font-medium">
+                      <div className="text-primary flex items-center gap-2 text-sm font-medium">
                         <LuCalendar size={16} className="text-secondary" />
                         {formatDate({ date: project.published_at, locale, dateStyle: "full" })}
                       </div>
@@ -271,14 +259,20 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                   )}
 
                   {/* Categories */}
-                  <div className="flex flex-col gap-2 col-span-full">
-                    <p className="text-xs uppercase tracking-tight text-secondary">
+                  <div className="col-span-full flex flex-col gap-2">
+                    <p className="text-secondary text-xs tracking-tight uppercase">
                       {t("label.categories")}
                     </p>
 
-                    <div className="flex flex-wrap items-center gap-2 text-sm text-primary font-medium">
+                    <div className="text-primary flex flex-wrap items-center gap-2 text-sm font-medium">
                       {project.categories.map((category, index) => (
-                        <MiracleBadge key={index} className="capitalize" color="blue" variant="secondary" pill>
+                        <MiracleBadge
+                          key={index}
+                          className="capitalize"
+                          color="blue"
+                          variant="secondary"
+                          pill
+                        >
                           {category.name}
                         </MiracleBadge>
                       ))}
@@ -286,26 +280,37 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                   </div>
 
                   {/* Tech stack */}
-                  <div className="flex flex-col gap-2 col-span-full">
-                    <p className="text-xs uppercase tracking-tight text-secondary">
+                  <div className="col-span-full flex flex-col gap-2">
+                    <p className="text-secondary text-xs tracking-tight uppercase">
                       {t("label.tech-stack")}
                     </p>
                     <SkillBadges skills={project.skills} />
                   </div>
 
                   {/* Actions */}
-                  <div className="flex flex-col md:flex-row gap-2 col-span-full mt-1">
-                    <MiracleButton href={project.url ?? undefined} endIcon={<LuArrowUpRight />} disabled={!project.url} fullWidth>
+                  <div className="col-span-full mt-1 flex flex-col gap-2 md:flex-row">
+                    <MiracleButton
+                      href={project.url ?? undefined}
+                      endIcon={<LuArrowUpRight />}
+                      disabled={!project.url}
+                      fullWidth
+                    >
                       {t("live-demo")}
                     </MiracleButton>
-                    <MiracleButton href={project.github_url ?? undefined} startIcon={<LuGithub />} variant="secondary" disabled={!project.github_url} className="shrink-0">
+                    <MiracleButton
+                      href={project.github_url ?? undefined}
+                      startIcon={<LuGithub />}
+                      variant="secondary"
+                      disabled={!project.github_url}
+                      className="shrink-0"
+                    >
                       {t("source-code")}
                     </MiracleButton>
                   </div>
                 </div>
 
                 {/* Bottom */}
-                <div className="flex items-center justify-end px-5 md:px-6 py-3 border-t border-primary">
+                <div className="border-primary flex items-center justify-end border-t px-5 py-3 md:px-6">
                   <ReactionGroup
                     targetId={project.id}
                     targetType="project"
@@ -317,7 +322,6 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                     initialCount={project.comment_count}
                   />
                 </div>
-
               </div>
             </MiracleReveal>
           </div>
@@ -325,7 +329,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
           {Content && <Content />}
         </Article>
 
-        <aside className="hidden lg:block sticky top-30 w-64 shrink-0">
+        <aside className="sticky top-30 hidden w-64 shrink-0 lg:block">
           <TableOfContents />
         </aside>
       </Container>

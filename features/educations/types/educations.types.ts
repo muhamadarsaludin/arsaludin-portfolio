@@ -34,6 +34,10 @@ export type EducationTranslationEntity = {
   education_id: string
 }
 
-export type Education = Pick<EducationEntity, "id" | "school" | "logo" | "start_date" | "end_date" | "is_show" | "grade">
-  & Pick<EducationTranslationEntity, "degree" | "field" | "location" | "description">
-  & { images: ImageAsset[] | null }
+export type Education = Pick<
+  EducationEntity,
+  "id" | "school" | "logo" | "start_date" | "end_date" | "is_show" | "grade"
+> &
+  Pick<EducationTranslationEntity, "degree" | "field" | "location" | "description"> & {
+    images: ImageAsset[] | null
+  }

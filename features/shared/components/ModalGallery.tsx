@@ -5,13 +5,13 @@ import Image from "next/image"
 import { cn } from "@/utils/class-name"
 import { useTranslations } from "use-intl"
 import MiracleModal from "@/components/miracle/Modal"
-import { 
-  LuCalendar, 
-  LuMapPin, 
-  LuChevronLeft, 
+import {
+  LuCalendar,
+  LuMapPin,
+  LuChevronLeft,
   LuChevronRight,
   LuPlus,
-  LuMinus
+  LuMinus,
 } from "react-icons/lu"
 
 type GalleryImage = {
@@ -110,18 +110,16 @@ export default function ModalGallery({
       onClose={onClose}
       size="full"
       title={title}
-      className="max-h-[85vh] h-full"
+      className="h-full max-h-[85vh]"
       noContentPadding
     >
-      <div className="flex h-full w-full flex-col md:flex-row overflow-hidden bg-primary rounded-b-3xl"> 
-        
+      <div className="bg-primary flex h-full w-full flex-col overflow-hidden rounded-b-3xl md:flex-row">
         {/* --- LEFT SIDE: VIEWPORT & AUTOSCROLL THUMBNAILS --- */}
-        <div className="w-full h-full flex flex-col overflow-hidden">
-          
+        <div className="flex h-full w-full flex-col overflow-hidden">
           {/* Main Image Preview Window */}
-          <div className="flex-1 flex w-full p-5 md:p-6 overflow-hidden relative group/preview">
-            <div className="h-full w-full flex items-center justify-center overflow-hidden bg-secondary rounded-2xl">
-              <div 
+          <div className="group/preview relative flex w-full flex-1 overflow-hidden p-5 md:p-6">
+            <div className="bg-secondary flex h-full w-full items-center justify-center overflow-hidden rounded-2xl">
+              <div
                 className="relative h-full w-full transition-transform duration-200 ease-out"
                 style={{ transform: `scale(${zoomScale})` }}
               >
@@ -137,17 +135,19 @@ export default function ModalGallery({
             </div>
 
             {/* Floating Zoom Controls */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 rounded-full p-0.5 bg-neutral-low text-primary border border-primary opacity-0 group-hover/preview:opacity-100 transition-all duration-300 ease-in-out">
-              <button 
-                onClick={() => setZoomScale(prev => Math.max(prev - 0.5, 1))} 
-                className="p-2 hover:bg-neutral-300 dark:hover:bg-neutral-700 rounded-full cursor-zoom-out transition-colors duration-300"
+            <div className="bg-neutral-low text-primary border-primary absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full border p-0.5 opacity-0 transition-all duration-300 ease-in-out group-hover/preview:opacity-100">
+              <button
+                onClick={() => setZoomScale((prev) => Math.max(prev - 0.5, 1))}
+                className="cursor-zoom-out rounded-full p-2 transition-colors duration-300 hover:bg-neutral-300 dark:hover:bg-neutral-700"
               >
                 <LuMinus size={16} />
               </button>
-              <span className="text-[10px] font-mono min-w-8.75 text-center">{Math.round(zoomScale * 100)}%</span>
-              <button 
-                onClick={() => setZoomScale(prev => Math.min(prev + 0.5, 3))} 
-                className="p-2 hover:bg-neutral-300 dark:hover:bg-neutral-700 rounded-full cursor-zoom-in transition-colors duration-300"
+              <span className="min-w-8.75 text-center font-mono text-[10px]">
+                {Math.round(zoomScale * 100)}%
+              </span>
+              <button
+                onClick={() => setZoomScale((prev) => Math.min(prev + 0.5, 3))}
+                className="cursor-zoom-in rounded-full p-2 transition-colors duration-300 hover:bg-neutral-300 dark:hover:bg-neutral-700"
               >
                 <LuPlus size={16} />
               </button>
@@ -155,16 +155,22 @@ export default function ModalGallery({
 
             {/* Navigation Arrows */}
             {images.length > 1 && (
-              <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover/preview:opacity-100 transition-all duration-300 ease-in-out">
-                <button 
-                  onClick={(e) => { e.stopPropagation(); handlePrev() }} 
-                  className="cursor-pointer z-20 rounded-full p-2 border border-primary bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-all duration-300"
+              <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 transition-all duration-300 ease-in-out group-hover/preview:opacity-100">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handlePrev()
+                  }}
+                  className="border-primary z-20 cursor-pointer rounded-full border bg-neutral-200 p-2 transition-all duration-300 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700"
                 >
                   <LuChevronLeft size={20} />
                 </button>
-                <button 
-                  onClick={(e) => { e.stopPropagation(); handleNext() }} 
-                  className="cursor-pointer z-20 rounded-full p-2 border border-primary bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-all duration-300"
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleNext()
+                  }}
+                  className="border-primary z-20 cursor-pointer rounded-full border bg-neutral-200 p-2 transition-all duration-300 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700"
                 >
                   <LuChevronRight size={20} />
                 </button>
@@ -174,24 +180,35 @@ export default function ModalGallery({
 
           {/* Bottom Thumbnail Navigation Carousel */}
           {images.length > 1 && (
-            <div className="shrink-0 border-t border-primary flex items-center px-5 md:px-6 py-2 bg-card">
-              <div 
-                ref={scrollContainerRef} 
-                className="scrollbar-hide snap-x snap-mandatory flex items-center gap-2 overflow-x-auto min-h-12 md:min-h-20 w-full [&::-webkit-scrollbar]:hidden"
+            <div className="border-primary bg-card flex shrink-0 items-center border-t px-5 py-2 md:px-6">
+              <div
+                ref={scrollContainerRef}
+                className="scrollbar-hide flex min-h-12 w-full snap-x snap-mandatory items-center gap-2 overflow-x-auto md:min-h-20 [&::-webkit-scrollbar]:hidden"
               >
                 {images.map((img, idx) => (
                   <button
                     key={img.id}
-                    ref={(el) => { thumbnailRefs.current[idx] = el }}
-                    onClick={() => { setZoomScale(1); setSelectedIndex(idx) }}
+                    ref={(el) => {
+                      thumbnailRefs.current[idx] = el
+                    }}
+                    onClick={() => {
+                      setZoomScale(1)
+                      setSelectedIndex(idx)
+                    }}
                     className={cn(
-                      "relative snap-start aspect-3/2 shrink-0 rounded-md overflow-hidden transition-all cursor-pointer",
-                      selectedIndex === idx 
-                        ? "border-2 border-blue h-12 md:h-20" 
-                        : "border border-primary h-10 md:h-18 opacity-50 hover:opacity-100"
+                      "relative aspect-3/2 shrink-0 cursor-pointer snap-start overflow-hidden rounded-md transition-all",
+                      selectedIndex === idx
+                        ? "border-blue h-12 border-2 md:h-20"
+                        : "border-primary h-10 border opacity-50 hover:opacity-100 md:h-18"
                     )}
                   >
-                    <Image src={img.image_url} alt={`Thumbnail ${idx}`} fill className="object-cover" sizes="150px" />
+                    <Image
+                      src={img.image_url}
+                      alt={`Thumbnail ${idx}`}
+                      fill
+                      className="object-cover"
+                      sizes="150px"
+                    />
                   </button>
                 ))}
               </div>
@@ -201,31 +218,37 @@ export default function ModalGallery({
 
         {/* --- RIGHT SIDE: DETAILED METADATA PANEL --- */}
         {(metaTitle || startDate || location) && (
-          <div className="w-full md:w-75 h-fit md:h-full border-t md:border-t-0 md:border-l border-primary p-5 md:p-6 flex flex-col bg-primary shrink-0">
-            <h3 className="md:text-lg font-semibold leading-tight text-primary mb-3 md:mb-6">
+          <div className="border-primary bg-primary flex h-fit w-full shrink-0 flex-col border-t p-5 md:h-full md:w-75 md:border-t-0 md:border-l md:p-6">
+            <h3 className="text-primary mb-3 leading-tight font-semibold md:mb-6 md:text-lg">
               {metaTitle || currentImage.alt}
             </h3>
 
-            <div className="flex flex-row md:flex-col gap-2 md:gap-4 justify-between items-center md:items-start border-y border-primary py-3 md:py-6">
+            <div className="border-primary flex flex-row items-center justify-between gap-2 border-y py-3 md:flex-col md:items-start md:gap-4 md:py-6">
               {(startDate || endDate) && (
                 <div className="flex items-start gap-3">
-                  <div className="hidden md:block p-2 rounded-lg bg-neutral-low text-secondary">
+                  <div className="bg-neutral-low text-secondary hidden rounded-lg p-2 md:block">
                     <LuCalendar size={18} />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[10px] uppercase tracking-tight text-secondary">{t("timelineLabel")}</span>
-                    <span className="text-sm font-medium">{startDate} {endDate ? `- ${endDate}` : ""}</span>
+                    <span className="text-secondary text-[10px] tracking-tight uppercase">
+                      {t("timelineLabel")}
+                    </span>
+                    <span className="text-sm font-medium">
+                      {startDate} {endDate ? `- ${endDate}` : ""}
+                    </span>
                   </div>
                 </div>
               )}
-              
+
               {location && (
                 <div className="flex items-start gap-3">
-                  <div className="hidden md:block p-2 rounded-lg bg-neutral-low text-secondary">
+                  <div className="bg-neutral-low text-secondary hidden rounded-lg p-2 md:block">
                     <LuMapPin size={18} />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[10px] uppercase tracking-tight text-secondary">{t("locationLabel")}</span>
+                    <span className="text-secondary text-[10px] tracking-tight uppercase">
+                      {t("locationLabel")}
+                    </span>
                     <span className="text-sm font-medium">{location}</span>
                   </div>
                 </div>
@@ -233,18 +256,20 @@ export default function ModalGallery({
             </div>
 
             {/* Bottom Status Counter & Tip Info */}
-            <div className="mt-auto pt-3 md:pt-6 flex flex-col gap-3 md:gap-4">
-              <div className="flex justify-between items-center text-xs">
+            <div className="mt-auto flex flex-col gap-3 pt-3 md:gap-4 md:pt-6">
+              <div className="flex items-center justify-between text-xs">
                 <span className="text-secondary font-medium">
                   {t("imageCounter", { current: selectedIndex + 1, total: images.length })}
                 </span>
-                <div className={cn(
-                  "h-1 w-4 rounded-full transition-colors duration-300",
-                  zoomScale > 1 ? "bg-blue-500" : "bg-neutral-med"
-                )} />
+                <div
+                  className={cn(
+                    "h-1 w-4 rounded-full transition-colors duration-300",
+                    zoomScale > 1 ? "bg-blue-500" : "bg-neutral-med"
+                  )}
+                />
               </div>
 
-              <p className="text-xs italic bg-secondary text-secondary p-3 rounded-lg border border-dashed border-primary leading-relaxed">
+              <p className="bg-secondary text-secondary border-primary rounded-lg border border-dashed p-3 text-xs leading-relaxed italic">
                 {t("tipLabel")}: {t("tip")}
               </p>
             </div>

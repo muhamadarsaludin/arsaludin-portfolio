@@ -7,12 +7,16 @@ Namun, kondisi design system mobile sangat berbeda karena pengembangannya dilaku
 Berdasarkan kondisi tersebut, kami memulai pengembangan <strong className="text-primary font-semibold">BLUE Android Design System</strong> untuk menyelaraskan standar visual dan teknis di seluruh ekosistem aplikasi Blibli melalui kolaborasi antara UX Engineer, desainer, dan Android developer.
 
 ## Identifikasi Masalah
+
 Berdasarkan latar belakang tersebut, beberapa permasalahan utama yang berhasil diidentifikasi adalah sebagai berikut:
 
-* <strong className="text-primary font-semibold">Design system mobile tertinggal dibandingkan web</strong> karena belum memiliki pengelolaan yang terfokus.
-* **Penggunaan standar desain lama (BLUE 2.0)** menyebabkan inkonsistensi bahasa desain antar platform dan layanan.
-* Proses pemeliharaan yang terfragmentasi menimbulkan redundansi dan menghambat efisiensi kerja tim.
-* Belum adanya standar tunggal pada platform mobile menyebabkan kualitas pengalaman pengguna tidak konsisten.
+- <strong className="text-primary font-semibold">
+    Design system mobile tertinggal dibandingkan web
+  </strong>
+  karena belum memiliki pengelolaan yang terfokus.
+- **Penggunaan standar desain lama (BLUE 2.0)** menyebabkan inkonsistensi bahasa desain antar platform dan layanan.
+- Proses pemeliharaan yang terfragmentasi menimbulkan redundansi dan menghambat efisiensi kerja tim.
+- Belum adanya standar tunggal pada platform mobile menyebabkan kualitas pengalaman pengguna tidak konsisten.
 
 ## Tujuan dan Sasaran
 
@@ -20,10 +24,13 @@ Tujuan utama dari proyek ini adalah membangun <strong className="text-primary fo
 
 Untuk mencapai tujuan tersebut, ditetapkan beberapa sasaran utama sebagai berikut:
 
-* <strong className="text-primary font-semibold">Menyetarakan kualitas design system mobile dengan web</strong> melalui penguatan kolaborasi lintas peran (UX Engineer, designer, dan Android developer).
-* Menyatukan ekosistem Customer dan Seller ke dalam standar **BLUE 3.0** untuk menggantikan standar lama (**BLUE 2.0**).
-* Membangun design system yang terpusat sebagai *Single Source of Truth (SSOT)* untuk mengurangi redundansi dan fragmentasi proses pemeliharaan.
-* Menyelaraskan bahasa desain antar-platform untuk memastikan konsistensi pengalaman pengguna di seluruh ekosistem aplikasi Blibli.
+- <strong className="text-primary font-semibold">
+    Menyetarakan kualitas design system mobile dengan web
+  </strong>
+  melalui penguatan kolaborasi lintas peran (UX Engineer, designer, dan Android developer).
+- Menyatukan ekosistem Customer dan Seller ke dalam standar **BLUE 3.0** untuk menggantikan standar lama (**BLUE 2.0**).
+- Membangun design system yang terpusat sebagai _Single Source of Truth (SSOT)_ untuk mengurangi redundansi dan fragmentasi proses pemeliharaan.
+- Menyelaraskan bahasa desain antar-platform untuk memastikan konsistensi pengalaman pengguna di seluruh ekosistem aplikasi Blibli.
 
 ## Peran dan Tanggung Jawab
 
@@ -31,11 +38,11 @@ Dalam proyek ini, saya berperan sebagai bagian dari tim **UX Engineer** yang ber
 
 Adapun tanggung jawab yang dilakukan meliputi:
 
-* Mengembangkan komponen BLUE Android yang reusable, scalable, dan konsisten dalam implementasi.
-* Menyusun fondasi design token seperti warna, typography, ukuran, opacity, dan elevation untuk menjaga konsistensi visual.
-* Mengembangkan icon library untuk mengurangi redundansi aset dan menjaga konsistensi visual.
-* Memastikan kualitas dan konsistensi design system melalui dokumentasi teknis, code review, testing, serta evaluasi berkala.
-* Mendukung sinkronisasi design system lintas platform untuk memastikan pengalaman pengguna yang konsisten di seluruh ekosistem aplikasi Blibli.
+- Mengembangkan komponen BLUE Android yang reusable, scalable, dan konsisten dalam implementasi.
+- Menyusun fondasi design token seperti warna, typography, ukuran, opacity, dan elevation untuk menjaga konsistensi visual.
+- Mengembangkan icon library untuk mengurangi redundansi aset dan menjaga konsistensi visual.
+- Memastikan kualitas dan konsistensi design system melalui dokumentasi teknis, code review, testing, serta evaluasi berkala.
+- Mendukung sinkronisasi design system lintas platform untuk memastikan pengalaman pengguna yang konsisten di seluruh ekosistem aplikasi Blibli.
 
 ## Proses dan Eksekusi
 
@@ -45,21 +52,28 @@ Proyek ini dijalankan melalui beberapa fase utama untuk memastikan design system
 
 Sebagai **UX Engineer** yang sebelumnya berfokus pada pengembangan web, kami dituntut beradaptasi terhadap pengembangan Android melalui pendekatan eksploratif dan iteratif.
 
-* Menggunakan kurikulum resmi [Android Developers](https://developer.android.com/courses?hl=id) sebagai fondasi utama, mencakup Android View (XML), Jetpack Compose, hingga interoperability.
+- Menggunakan kurikulum resmi [Android Developers](https://developer.android.com/courses?hl=id) sebagai fondasi utama, mencakup Android View (XML), Jetpack Compose, hingga interoperability.
 
-<div className="w-full flex items-center justify-center mt-4">
+<div className="mt-4 flex w-full items-center justify-center">
   <div className="w-full md:w-8/12">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/blue-android-design-system/google-dev-profile.webp", alt: "Dokumentasi progres pembelajaran melalui kurikulum resmi Android Developers"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/google-dev-profile.webp",
+          alt: "Dokumentasi progres pembelajaran melalui kurikulum resmi Android Developers",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="mt-3 text-sm italic text-center text-secondary">Dokumentasi progres pembelajaran melalui kurikulum resmi Android Developers</p>
+    <p className="text-secondary mt-3 text-center text-sm italic">
+      Dokumentasi progres pembelajaran melalui kurikulum resmi Android Developers
+    </p>
   </div>
 </div>
 
-* Melengkapi pemahaman melalui sumber eksternal seperti artikel, video YouTube, serta kursus di platform seperti Udemy dan Dicoding.
-* Mempelajari Material Design untuk memahami sistem komponen, theming, dan pola interaksi pada ekosistem Android.
-* Melakukan kolaborasi dengan Android Developer melalui sesi internal untuk menyelaraskan pemahaman terhadap basis kode dan implementasi teknis.
+- Melengkapi pemahaman melalui sumber eksternal seperti artikel, video YouTube, serta kursus di platform seperti Udemy dan Dicoding.
+- Mempelajari Material Design untuk memahami sistem komponen, theming, dan pola interaksi pada ekosistem Android.
+- Melakukan kolaborasi dengan Android Developer melalui sesi internal untuk menyelaraskan pemahaman terhadap basis kode dan implementasi teknis.
 
 ### 2. Project Kick-off and Alignment
 
@@ -67,125 +81,173 @@ Sebagai langkah awal proyek, kami menyelenggarakan rapat perdana yang mempertemu
 
 Diskusi ini menghasilkan beberapa kesepakatan utama:
 
-* Menetapkan kepemilikan proyek (ownership) sebagai **proyek milik bersama** dengan model ***centralized with contribution***, di mana tim **UX Engineer** berperan sebagai pengelola utama, sementara Android Developer berkontribusi aktif dalam implementasi dan pengembangan design system.
-<div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-  <div className="w-full">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/blue-android-design-system/centralized.webp", alt: "Model Centralized pada BLUE Web Design System"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
-    />
-    <p className="mt-3 text-sm italic text-center text-secondary">Model Centralized pada BLUE Web Design System</p>
+- Menetapkan kepemilikan proyek (ownership) sebagai **proyek milik bersama** dengan model **_centralized with contribution_**, di mana tim **UX Engineer** berperan sebagai pengelola utama, sementara Android Developer berkontribusi aktif dalam implementasi dan pengembangan design system.
+  <div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+    <div className="w-full">
+      <MiracleImagePreview
+        images={[
+          {
+            image_url: "/projects/blue-android-design-system/centralized.webp",
+            alt: "Model Centralized pada BLUE Web Design System",
+          },
+        ]}
+        sizes="(max-width: 768px) 100vw, 750px"
+      />
+      <p className="text-secondary mt-3 text-center text-sm italic">
+        Model Centralized pada BLUE Web Design System
+      </p>
+    </div>
+    <div className="w-full">
+      <MiracleImagePreview
+        images={[
+          {
+            image_url: "/projects/blue-android-design-system/centralized-with-contributor.webp",
+            alt: "Model Centralized with Contribution pada BLUE Android Design System",
+          },
+        ]}
+        sizes="(max-width: 768px) 100vw, 750px"
+      />
+      <p className="text-secondary mt-3 text-center text-sm italic">
+        Model Centralized with Contribution pada BLUE Android Design System
+      </p>
+    </div>
   </div>
-  <div className="w-full">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/blue-android-design-system/centralized-with-contributor.webp", alt: "Model Centralized with Contribution pada BLUE Android Design System"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
-    />
-    <p className="mt-3 text-sm italic text-center text-secondary">Model Centralized with Contribution pada BLUE Android Design System</p>
+- Memilih **Jetpack Compose** sebagai fondasi utama pengembangan karena mendukung pendekatan modern serta interoperabilitas dengan Android View (XML) untuk mempermudah proses adopsi bertahap.
+- Melakukan migrasi design token script dan sebagian component library yang sudah berbasis BLUE 3.0 dan dibangun menggunakan Jetpack Compose ke repository baru di bawah pengelolaan tim UX Engineer.
+- Proses pengembangan dilakukan secara iteratif melalui beberapa sprint, dengan durasi yang awalnya direncanakan setiap 2 minggu, kemudian disesuaikan menjadi 1 bulan untuk mengakomodasi proses lintas tim serta siklus code review dan Design QA.
+- Seluruh proses pengembangan, baik migrasi maupun pembuatan komponen atau fitur baru, wajib melalui code review dengan persetujuan (approval) minimal satu orang perwakilan dari setiap tim (UX Engineer, Android Dev CE, dan Android Dev SE), serta lolos Design QA oleh desainer sebelum diimplementasikan.
+  <div className="mt-4 flex w-full items-center justify-center">
+    <div className="w-full md:w-6/12">
+      <MiracleImagePreview
+        images={[
+          {
+            image_url: "/projects/blue-android-design-system/development-process.webp",
+            alt: "Proses Pengembangan BLUE Android Design System",
+          },
+        ]}
+        sizes="(max-width: 768px) 100vw, 750px"
+      />
+      <p className="text-secondary mt-3 text-center text-sm italic">
+        Proses Pengembangan BLUE Android Design System
+      </p>
+    </div>
   </div>
-</div>
-* Memilih **Jetpack Compose** sebagai fondasi utama pengembangan karena mendukung pendekatan modern serta interoperabilitas dengan Android View (XML) untuk mempermudah proses adopsi bertahap.
-* Melakukan migrasi design token script dan sebagian component library yang sudah berbasis BLUE 3.0 dan dibangun menggunakan Jetpack Compose ke repository baru di bawah pengelolaan tim UX Engineer.
-* Proses pengembangan dilakukan secara iteratif melalui beberapa sprint, dengan durasi yang awalnya direncanakan setiap 2 minggu, kemudian disesuaikan menjadi 1 bulan untuk mengakomodasi proses lintas tim serta siklus code review dan Design QA.
-* Seluruh proses pengembangan, baik migrasi maupun pembuatan komponen atau fitur baru, wajib melalui code review dengan persetujuan (approval) minimal satu orang perwakilan dari setiap tim (UX Engineer, Android Dev CE, dan Android Dev SE), serta lolos Design QA oleh desainer sebelum diimplementasikan.
-<div className="w-full flex items-center justify-center mt-4">
-  <div className="w-full md:w-6/12">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/blue-android-design-system/development-process.webp", alt: "Proses Pengembangan BLUE Android Design System"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
-    />
-    <p className="mt-3 text-sm italic text-center text-secondary">Proses Pengembangan BLUE Android Design System</p>
-  </div>
-</div>
 
 ### 3. Pengembangan dan Implementasi
 
-Pengembangan dan implementasi BLUE Android Design System dilakukan secara iteratif melalui beberapa *sprint* dengan pendekatan kolaboratif dan berkelanjutan. Seluruh proses berjalan secara paralel serta terus berkembang menyesuaikan kebutuhan di setiap sprint.
+Pengembangan dan implementasi BLUE Android Design System dilakukan secara iteratif melalui beberapa _sprint_ dengan pendekatan kolaboratif dan berkelanjutan. Seluruh proses berjalan secara paralel serta terus berkembang menyesuaikan kebutuhan di setiap sprint.
 
-* Tahap awal berfokus pada migrasi design token script dan component library ke repository baru sebagai fondasi utama design system.
-* Audit dilakukan terhadap kode dan komponen hasil migrasi untuk memetakan kesesuaian dengan standar BLUE design system serta mengidentifikasi area yang perlu diperbaiki maupun disempurnakan.
-* Melakukan improvement berdasarkan hasil audit melalui penyesuaian nilai token serta penyempurnaan komponen baik dari sisi visual maupun kode.
-* Pengembangan komponen baru dilakukan secara iteratif untuk melengkapi kebutuhan library, bersamaan dengan proses bug fixing dan penyesuaian standar.
-* Tim juga menginisiasi icon library sebagai sistem ikon baru di platform Android untuk memenuhi kebutuhan aset visual yang sebelumnya belum tersedia.
-* Seluruh hasil pengembangan wajib melalui proses code review lintas tim serta design QA sebelum diimplementasikan ke produksi.
-* Tim juga membangun alur CI/CD bersama tim RnD untuk mengotomatisasi proses build dan distribusi library Android Design System.
-* Proses rilis library dikelola oleh tim UX Engineer melalui pipeline CI/CD, dengan distribusi artefak menggunakan Google Artifact Registry (GAR). Setiap rilis disertai release note dan pengumuman rilis untuk membantu tim developer mengadopsi pembaruan dengan lebih mudah.
-* Implementasi dilakukan melalui *pilot project* pada beberapa proyect terpilih untuk memvalidasi penggunaan design system di lingkungan nyata.
-* Setiap sprint ditutup dengan sesi retrospective untuk mengevaluasi proses kerja dan meningkatkan efektivitas kolaborasi tim.
-
+- Tahap awal berfokus pada migrasi design token script dan component library ke repository baru sebagai fondasi utama design system.
+- Audit dilakukan terhadap kode dan komponen hasil migrasi untuk memetakan kesesuaian dengan standar BLUE design system serta mengidentifikasi area yang perlu diperbaiki maupun disempurnakan.
+- Melakukan improvement berdasarkan hasil audit melalui penyesuaian nilai token serta penyempurnaan komponen baik dari sisi visual maupun kode.
+- Pengembangan komponen baru dilakukan secara iteratif untuk melengkapi kebutuhan library, bersamaan dengan proses bug fixing dan penyesuaian standar.
+- Tim juga menginisiasi icon library sebagai sistem ikon baru di platform Android untuk memenuhi kebutuhan aset visual yang sebelumnya belum tersedia.
+- Seluruh hasil pengembangan wajib melalui proses code review lintas tim serta design QA sebelum diimplementasikan ke produksi.
+- Tim juga membangun alur CI/CD bersama tim RnD untuk mengotomatisasi proses build dan distribusi library Android Design System.
+- Proses rilis library dikelola oleh tim UX Engineer melalui pipeline CI/CD, dengan distribusi artefak menggunakan Google Artifact Registry (GAR). Setiap rilis disertai release note dan pengumuman rilis untuk membantu tim developer mengadopsi pembaruan dengan lebih mudah.
+- Implementasi dilakukan melalui _pilot project_ pada beberapa proyect terpilih untuk memvalidasi penggunaan design system di lingkungan nyata.
+- Setiap sprint ditutup dengan sesi retrospective untuk mengevaluasi proses kerja dan meningkatkan efektivitas kolaborasi tim.
 
 ## Hasil
-Setelah kurang lebih enam bulan pengembangan, versi pertama dari BLUE Android Design System berhasil dirilis pada Juli 2024. Rilis ini menghadirkan tiga fondasi utama berupa *Component Library*, *Design Tokens*, dan *Icon Library* untuk mendukung standarisasi pengembangan Android secara lebih konsisten, modular, dan terpusat bagi seluruh produk di ekosistem aplikasi Blibli.
+
+Setelah kurang lebih enam bulan pengembangan, versi pertama dari BLUE Android Design System berhasil dirilis pada Juli 2024. Rilis ini menghadirkan tiga fondasi utama berupa _Component Library_, _Design Tokens_, dan _Icon Library_ untuk mendukung standarisasi pengembangan Android secara lebih konsisten, modular, dan terpusat bagi seluruh produk di ekosistem aplikasi Blibli.
 
 <div className="flex flex-col items-center">
-  <div className="w-full aspect-12/4 bg-secondary border border-primary rounded-2xl overflow-hidden mt-6 relative">
-    <Image 
+  <div className="bg-secondary border-primary relative mt-6 aspect-12/4 w-full overflow-hidden rounded-2xl border">
+    <Image
       src="/projects/blue-android-design-system/banner-release.webp"
       alt="Release Major Version pertama dari BLUE Android Design System"
       fill
-      className="object-cover h-full"
+      className="h-full object-cover"
     />
   </div>
-  <small className="w-full text-center mt-3 text-sm text-secondary italic">Release Versi Pertama dari BLUE Android Design System pada July 2024</small>
+  <small className="text-secondary mt-3 w-full text-center text-sm italic">
+    Release Versi Pertama dari BLUE Android Design System pada July 2024
+  </small>
 </div>
 
 ### Component Library
+
 Component Library merupakan fondasi utama yang berisi **lebih dari 30 komponen UI** siap pakai berbasis Jetpack Compose. library ini juga menjadi langkah penting dalam modernisasi UI Android, dengan tujuan mengurangi redundansi kode dan menyediakan solusi terpusat bagi seluruh pengembang.
-<div className="w-full flex items-center justify-center mt-4">
+
+<div className="mt-4 flex w-full items-center justify-center">
   <div className="w-full md:w-3/12">
-    <video 
+    <video
       src="/projects/blue-android-design-system/component-library.mp4"
-      autoPlay 
-      loop 
-      muted 
+      autoPlay
+      loop
+      muted
       playsInline
       aria-label="Pratinjau Component Library BLUE Android Design System"
       className="w-full object-cover"
     />
-    <p className="mt-3 text-sm italic text-center text-secondary">Pratinjau Component Library BLUE Android Design System</p>
+    <p className="text-secondary mt-3 text-center text-sm italic">
+      Pratinjau Component Library BLUE Android Design System
+    </p>
   </div>
 </div>
 
 Untuk detail lengkap daftar komponen, dapat merujuk pada [dokumentasi BLUE 3.0](https://blue.blibli.com/blue3/components). Perlu dicatat bahwa komponen pada dokumentasi tersebut berbasis web, sehingga implementasi di Android memiliki beberapa penyesuaian karena perbedaan sistem UI, behavior, serta karakteristik dan keterbatasan masing-masing platform.
 
 ### Design Tokens
-Design Tokens berfungsi sebagai *single source of truth* untuk elemen visual dasar seperti warna, tipografi, ukuran, spacing, dan elevasi. Struktur token pada BLUE Android ini mengadopsi struktur berlapis yang terdiri dari:
 
-* **Global Tokens** yang berfungsi menyimpan nilai dasar (*raw values*) seperti warna dasar dan angka ukuran konstan.
-* **Alias Tokens** yang memberikan arti atau fungsi spesifik pada nilai global, bertindak sebagai jembatan utama untuk kebutuhan theming seperti light mode dan dark mode secara otomatis.
-* **Component Tokens** yang mengikat nilai spesifik langsung pada elemen component library agar perubahan global tidak merusak struktur komponen lainnya.
+Design Tokens berfungsi sebagai _single source of truth_ untuk elemen visual dasar seperti warna, tipografi, ukuran, spacing, dan elevasi. Struktur token pada BLUE Android ini mengadopsi struktur berlapis yang terdiri dari:
 
-<div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+- **Global Tokens** yang berfungsi menyimpan nilai dasar (_raw values_) seperti warna dasar dan angka ukuran konstan.
+- **Alias Tokens** yang memberikan arti atau fungsi spesifik pada nilai global, bertindak sebagai jembatan utama untuk kebutuhan theming seperti light mode dan dark mode secara otomatis.
+- **Component Tokens** yang mengikat nilai spesifik langsung pada elemen component library agar perubahan global tidak merusak struktur komponen lainnya.
+
+<div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
   <div className="w-full">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/blue-android-design-system/design-tokens-structure.webp", alt: "Struktur BLUE design tokens"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/design-tokens-structure.webp",
+          alt: "Struktur BLUE design tokens",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="mt-3 text-sm italic text-center text-secondary">Struktur BLUE design tokens</p>
+    <p className="text-secondary mt-3 text-center text-sm italic">Struktur BLUE design tokens</p>
   </div>
   <div className="w-full">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/blue-android-design-system/design-tokens-work.webp", alt: "Implementasi BLUE design tokens"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/design-tokens-work.webp",
+          alt: "Implementasi BLUE design tokens",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="mt-3 text-sm italic text-center text-secondary">Implementasi BLUE design tokens</p>
+    <p className="text-secondary mt-3 text-center text-sm italic">
+      Implementasi BLUE design tokens
+    </p>
   </div>
 </div>
 
 Untuk detail lebih lengkap mengenai panduan tata kelola ini, dapat merujuk pada dokumentasi resmi di [BLUE 3.0 Design Tokens Guidelines](https://blue.blibli.com/blue3/foundation/tokens/guidelines) dan struktur pemetaannya di [BLUE 3.0 Alias Tokens](https://blue.blibli.com/blue3/foundation/tokens/alias-tokens).
 
 ### Icon Library
+
 Icon Library merupakan pustaka khusus yang menjadi pusat pengelolaan seluruh aset ikon secara modular di platform Android. Melalui inisiasi ini, seluruh sistem ikonografi didistribusikan melalui satu pintu dalam bentuk Vector Drawable teroptimasi yang terintegrasi langsung ke dalam kode Jetpack Compose.
 
-Sistem ini mempermudah penggunaan ikon secara konsisten oleh pengembang, menghilangkan proses impor manual file aset XML lepasan yang rentan duplikasi, sekaligus secara signifikan membantu memangkas ukuran akhir file instalasi aplikasi (*APK size optimization*).
+Sistem ini mempermudah penggunaan ikon secara konsisten oleh pengembang, menghilangkan proses impor manual file aset XML lepasan yang rentan duplikasi, sekaligus secara signifikan membantu memangkas ukuran akhir file instalasi aplikasi (_APK size optimization_).
 
-<div className="w-full flex items-center justify-center mt-4">
+<div className="mt-4 flex w-full items-center justify-center">
   <div className="w-full md:w-6/12">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/blue-android-design-system/blue-icon-usage-2.webp", alt: "Implementasi BLUE icon pada proyek Android"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/blue-icon-usage-2.webp",
+          alt: "Implementasi BLUE icon pada proyek Android",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="mt-3 text-sm italic text-center text-secondary">Implementasi BLUE icon pada proyek Android</p>
+    <p className="text-secondary mt-3 text-center text-sm italic">
+      Implementasi BLUE icon pada proyek Android
+    </p>
   </div>
 </div>
 
@@ -195,35 +257,41 @@ Untuk mengetahui daftar kategori dan variasi ikon yang tersedia, dapat dilihat p
 
 ### Dampak bagi Perusahaan
 
-* Konsistensi visual dan interaksi produk meningkat melalui standarisasi BLUE Android Design System.
-* Proses delivery fitur Android menjadi lebih cepat melalui pemanfaatan komponen siap pakai dari library terpusat.
-* Mengurangi duplikasi aset melalui implementasi icon library terpusat, sehingga tidak lagi diperlukan script tambahan untuk mendeteksi duplikasi aset yang sebelumnya digunakan oleh Android developer.
-* Mendukung proses rebranding Blibli di platform Android melalui implementasi design system yang lebih konsisten dan terstandarisasi.
-* Kolaborasi lintas tim antara UX Engineer, Android CE, Android SE, dan Product Designer menjadi lebih terarah melalui alur kerja yang terstandarisasi.
-* Pengelolaan repository mandiri di bawah tim UX Engineer membantu mengurangi dependensi antar tim serta mempermudah pemeliharaan aset UI dalam jangka panjang.
-* Proses distribusi library menjadi lebih efisien melalui implementasi alur CI/CD dan *release pipeline* yang terstandarisasi.
+- Konsistensi visual dan interaksi produk meningkat melalui standarisasi BLUE Android Design System.
+- Proses delivery fitur Android menjadi lebih cepat melalui pemanfaatan komponen siap pakai dari library terpusat.
+- Mengurangi duplikasi aset melalui implementasi icon library terpusat, sehingga tidak lagi diperlukan script tambahan untuk mendeteksi duplikasi aset yang sebelumnya digunakan oleh Android developer.
+- Mendukung proses rebranding Blibli di platform Android melalui implementasi design system yang lebih konsisten dan terstandarisasi.
+- Kolaborasi lintas tim antara UX Engineer, Android CE, Android SE, dan Product Designer menjadi lebih terarah melalui alur kerja yang terstandarisasi.
+- Pengelolaan repository mandiri di bawah tim UX Engineer membantu mengurangi dependensi antar tim serta mempermudah pemeliharaan aset UI dalam jangka panjang.
+- Proses distribusi library menjadi lebih efisien melalui implementasi alur CI/CD dan _release pipeline_ yang terstandarisasi.
 
 ### Dampak bagi Pribadi
 
-* Meningkatkan pemahaman teknis mengenai implementasi design token dan component library berbasis Jetpack Compose pada platform Android.
-* Mengasah kemampuan dalam membangun dan mengelola design system berskala besar dari tahap inisiasi hingga standardisasi kualitas kode.
-* Memperkuat pengalaman dalam *technical governance* melalui proses code review lintas tim dan koordinasi design QA.
-* Mempertajam kemampuan analitis dalam melakukan audit kode serta penyempurnaan komponen secara terstruktur.
-* Memberikan pengalaman baru dalam mengelola proses release library, CI/CD pipeline, dan distribusi artefak ke Google Artifact Registry (GAR).
+- Meningkatkan pemahaman teknis mengenai implementasi design token dan component library berbasis Jetpack Compose pada platform Android.
+- Mengasah kemampuan dalam membangun dan mengelola design system berskala besar dari tahap inisiasi hingga standardisasi kualitas kode.
+- Memperkuat pengalaman dalam _technical governance_ melalui proses code review lintas tim dan koordinasi design QA.
+- Mempertajam kemampuan analitis dalam melakukan audit kode serta penyempurnaan komponen secara terstruktur.
+- Memberikan pengalaman baru dalam mengelola proses release library, CI/CD pipeline, dan distribusi artefak ke Google Artifact Registry (GAR).
 
 ## Tim dan Apresiasi
 
 Pengembangan design system ini tidak dapat terwujud tanpa kolaborasi yang erat dari seluruh pemangku kepentingan dan kontributor yang terlibat di setiap tahap proses.
 
-<div className="w-full flex items-center justify-center mt-4">
+<div className="mt-4 flex w-full items-center justify-center">
   <div className="w-full md:w-8/12">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/blue-android-design-system/the-team.webp", alt: "BLUE Android dan iOS stakeholders contributors"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/the-team.webp",
+          alt: "BLUE Android dan iOS stakeholders contributors",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="mt-3 text-sm italic text-center text-secondary">BLUE Android dan iOS stakeholders dan contributors</p>
+    <p className="text-secondary mt-3 text-center text-sm italic">
+      BLUE Android dan iOS stakeholders dan contributors
+    </p>
   </div>
 </div>
 
 Saya menyampaikan apresiasi dan terima kasih yang sebesar-besarnya kepada seluruh tim dan pihak yang telah berkontribusi melalui dedikasi, kerja keras, serta dukungan yang konsisten sepanjang proses pengembangan. Rilis versi pertama ini menjadi hasil nyata dari kolaborasi yang solid dan terkoordinasi dengan baik.
-

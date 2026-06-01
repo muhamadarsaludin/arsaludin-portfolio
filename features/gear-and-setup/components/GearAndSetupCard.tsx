@@ -6,61 +6,61 @@ import type { GearAndSetupItem } from "../types/gear-and-setup.types"
 import MiracleBadge from "@/components/miracle/Badge"
 
 type GearAndSetupCardProps = {
-  item: GearAndSetupItem;
-};
+  item: GearAndSetupItem
+}
 
 export default function GearAndSetupCard({ item }: GearAndSetupCardProps) {
   return (
-    <div className="flex gap-4 md:gap-6 p-5 md:p-6 rounded-2xl border border-primary items-start justify-between group/card overflow-hidden relative bg-card transition-all duration-300">
+    <div className="border-primary group/card bg-card relative flex items-start justify-between gap-4 overflow-hidden rounded-2xl border p-5 transition-all duration-300 md:gap-6 md:p-6">
       {item.link && (
         <a
           href={item.link}
-          className="absolute inset-0 rounded-2xl cursor-pointer z-10"
+          className="absolute inset-0 z-10 cursor-pointer rounded-2xl"
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`View details for ${item.name}`}
         />
       )}
 
-      <div className="flex flex-col items-start w-full relative z-0">
+      <div className="relative z-0 flex w-full flex-col items-start">
         {/* Title & Badge */}
-        <div className="flex items-center gap-2 mb-1 flex-wrap">
-          <h3 className="text-primary font-semibold text-lg md:text-xl xl:text-2xl">
-            {item.name}
-          </h3>
+        <div className="mb-1 flex flex-wrap items-center gap-2">
+          <h3 className="text-primary text-lg font-semibold md:text-xl xl:text-2xl">{item.name}</h3>
           <MiracleBadge color="blue" variant="secondary">
             {item.type}
           </MiracleBadge>
         </div>
 
         {/* Description Banner Style */}
-        <div className="flex items-start gap-2 text-sm text-secondary leading-relaxed pl-3 py-1 border-l-2 border-blue italic mt-5 md:mt-6">
+        <div className="text-secondary border-blue mt-5 flex items-start gap-2 border-l-2 py-1 pl-3 text-sm leading-relaxed italic md:mt-6">
           <p>
-            {"“"}{item.description}{"”"}
+            {"“"}
+            {item.description}
+            {"”"}
           </p>
         </div>
 
         {/* Specs Grid/Flex Row */}
         {item.specs && item.specs.length > 0 && (
-          <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-start gap-y-6 gap-x-0 mt-6 w-full">
+          <div className="mt-6 grid w-full grid-cols-2 items-start gap-x-0 gap-y-6 sm:flex sm:flex-wrap">
             {item.specs.map((spec, index) => {
               const isFirstItem = index === 0
               const isOddItem = index % 2 !== 0
               return (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className={cn(
-                    "flex flex-col gap-1 pr-4 sm:pr-8 transition-all duration-300",
-                    !isFirstItem && "sm:border-l sm:border-default sm:pl-8",
-                    isOddItem ? "border-l border-default pl-4" : "border-none pl-0 sm:border-l sm:border-default sm:pl-8"
+                    "flex flex-col gap-1 pr-4 transition-all duration-300 sm:pr-8",
+                    !isFirstItem && "sm:border-default sm:border-l sm:pl-8",
+                    isOddItem
+                      ? "border-default border-l pl-4"
+                      : "sm:border-default border-none pl-0 sm:border-l sm:pl-8"
                   )}
                 >
-                  <p className="text-[10px] md:text-xs uppercase tracking-tight text-secondary">
+                  <p className="text-secondary text-[10px] tracking-tight uppercase md:text-xs">
                     {spec.name}
                   </p>
-                  <p className="text-sm text-primary font-medium leading-none">
-                    {spec.value}
-                  </p>
+                  <p className="text-primary text-sm leading-none font-medium">{spec.value}</p>
                 </div>
               )
             })}
@@ -69,9 +69,7 @@ export default function GearAndSetupCard({ item }: GearAndSetupCardProps) {
       </div>
       {/* Floating Arrow Icon Indicator */}
       {item.link && (
-        <div 
-          className="hidden md:block p-2 rounded-full border-2 border-primary relative z-20 opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0 translate-x-2 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-all duration-300 ease-in-out shrink-0 cursor-pointer"
-        >
+        <div className="border-primary relative z-20 hidden shrink-0 translate-x-2 cursor-pointer rounded-full border-2 p-2 opacity-0 transition-all duration-300 ease-in-out group-hover/card:translate-x-0 group-hover/card:opacity-100 hover:bg-neutral-100 md:block dark:hover:bg-neutral-900">
           <LuArrowUpRight size={20} className="text-primary" />
         </div>
       )}

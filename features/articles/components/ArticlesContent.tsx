@@ -28,10 +28,7 @@ type ArticlesContentProps = {
   targetType: CategoryTargetType
 }
 
-export default function ArticlesContent({
-  locale,
-  targetType
-}: ArticlesContentProps) {
+export default function ArticlesContent({ locale, targetType }: ArticlesContentProps) {
   const t = useTranslations("pages.articles")
   const td = useTranslations("data")
   const { setParams, getParam, getArrayParam } = useUrlParams()
@@ -62,11 +59,12 @@ export default function ArticlesContent({
     const next = categorySlugs.includes(value)
       ? categorySlugs.filter((v) => v !== value)
       : [...categorySlugs, value]
-    
+
     setParams({ categories: next.length ? next : undefined })
   }
   const handleToggleAllCategories = () => {
-    const isAllSelected = categorySlugsList.length > 0 && categorySlugsList.every(v => categorySlugs.includes(v))
+    const isAllSelected =
+      categorySlugsList.length > 0 && categorySlugsList.every((v) => categorySlugs.includes(v))
     setParams({ categories: isAllSelected ? undefined : categorySlugsList })
   }
   const handleReset = () => {
@@ -86,12 +84,11 @@ export default function ArticlesContent({
     pageSize: ARTICLES_PAGE_SIZE,
   }
 
-  const { 
-    data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch 
-  } = useInfiniteArticles(currentFilters)
-  
-  const articles = useMemo(() => data?.pages.flatMap(p => p.data) ?? [], [data])
-  
+  const { data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch } =
+    useInfiniteArticles(currentFilters)
+
+  const articles = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
+
   const loadMoreRef = useRef<HTMLDivElement>(null)
   useIntersectionObserver({
     targetRef: loadMoreRef,
@@ -105,28 +102,30 @@ export default function ArticlesContent({
     if (isError) return <ErrorStateCard onRetry={() => refetch()} />
     if (isLoading) {
       return (
-        <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => <ArticleCardSkeleton key={i} />)}
+        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <ArticleCardSkeleton key={i} />
+          ))}
         </div>
       )
     }
     if (articles.length === 0) return <EmptyStateCard />
     return (
-      <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {articles.map((article, index) => (
-          <MiracleReveal 
+          <MiracleReveal
             animation="fade-up"
             delay={{
               default: 0,
               sm: (index % 6) * 0.1,
             }}
-            key={article.id}>
-            <ArticleCard article={article} className="h-full w-full"/>
+            key={article.id}
+          >
+            <ArticleCard article={article} className="h-full w-full" />
           </MiracleReveal>
         ))}
         {isFetchingNextPage &&
-          Array.from({ length: 3 }).map((_, i) => <ArticleCardSkeleton key={i} />)
-        }
+          Array.from({ length: 3 }).map((_, i) => <ArticleCardSkeleton key={i} />)}
       </div>
     )
   }
@@ -134,8 +133,8 @@ export default function ArticlesContent({
   return (
     <Section className="flex w-full flex-col gap-6 md:gap-8">
       <MiracleReveal animation="fade-right">
-        <div className="flex w-full md:w-8/12 items-center gap-3 md:gap-4">
-          <MiracleTextField 
+        <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
+          <MiracleTextField
             placeholder={t("searchBarPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -144,16 +143,23 @@ export default function ArticlesContent({
           />
           <MiraclePopover
             open={isOpenFilter}
-            onOpenChange={v => setIsOpenFilter(v)}
+            onOpenChange={(v) => setIsOpenFilter(v)}
             defaultPosition="bottom-end"
             noPadding
             trigger={
-              <MiracleButton 
+              <MiracleButton
                 startIcon={<LuFilter />}
-                endIcon={<LuChevronDown className={cn("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
+                endIcon={
+                  <LuChevronDown
+                    className={cn(
+                      "transition-transform duration-300",
+                      isOpenFilter && "-rotate-180"
+                    )}
+                  />
+                }
               >
-                <div className="flex gap-2 items-center">
-                  Filter 
+                <div className="flex items-center gap-2">
+                  Filter
                   {categorySlugs.length > 0 && (
                     <MiracleBadge size="sm" variant="secondary">
                       {categorySlugs.length}
@@ -163,54 +169,48 @@ export default function ArticlesContent({
               </MiracleButton>
             }
           >
-            <div className="flex flex-col w-64 max-h-112.5 gap-4 overflow-y-auto p-4">
+            <div className="flex max-h-112.5 w-64 flex-col gap-4 overflow-y-auto p-4">
               {categories && categories.length > 0 ? (
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2">
-                    <MiracleCheckbox 
+                    <MiracleCheckbox
                       invers
                       checked={categoryStatus.isAllSelected}
                       indeterminate={categoryStatus.isSomeSelected}
                       onChange={handleToggleAllCategories}
                     />
-                    <p className="text-xs font-semibold uppercase tracking-tight">
+                    <p className="text-xs font-semibold tracking-tight uppercase">
                       {t("filter.label.categories")}
                     </p>
                   </div>
                   <div className="flex flex-col gap-1 pl-4">
                     {categories.map((category) => (
-                      <MiracleCheckbox 
-                        key={category.slug} 
+                      <MiracleCheckbox
+                        key={category.slug}
                         invers
                         checked={categorySlugs.includes(category.slug)}
                         onChange={() => handleToggleCategory(category.slug)}
                       >
-                        {td.has(`categories.${category.slug}`) 
-                          ? td(`categories.${category.slug}`) 
-                          : category.name
-                        }
+                        {td.has(`categories.${category.slug}`)
+                          ? td(`categories.${category.slug}`)
+                          : category.name}
                       </MiracleCheckbox>
                     ))}
                   </div>
                 </div>
               ) : (
-                <p className="text-xs text-secondary italic px-2">No categories available</p>
+                <p className="text-secondary px-2 text-xs italic">No categories available</p>
               )}
 
               {(categorySlugs.length > 0 || searchUrl) && (
-                <div className="w-full pt-4 border-t border-primary-inv">
-                  <MiracleButton 
-                    status="danger" 
-                    size="sm" 
-                    onClick={handleReset} 
-                    fullWidth
-                  >
+                <div className="border-primary-inv w-full border-t pt-4">
+                  <MiracleButton status="danger" size="sm" onClick={handleReset} fullWidth>
                     {t("filter.reset")}
                   </MiracleButton>
                 </div>
               )}
             </div>
-          </MiraclePopover> 
+          </MiraclePopover>
         </div>
       </MiracleReveal>
 
@@ -219,8 +219,8 @@ export default function ArticlesContent({
       <div ref={loadMoreRef} className="flex w-full justify-center py-10">
         {!hasNextPage && !isLoading && articles.length > 0 && (
           <MiracleReveal animation="zoom-in">
-            <p className="text-secondary text-sm italic flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5">
-              <LuTriangleAlert className="text-yellow-500"/>
+            <p className="text-secondary border-primary/20 bg-primary/5 flex items-center gap-2 rounded-full border px-4 py-2 text-sm italic">
+              <LuTriangleAlert className="text-yellow-500" />
               {t("noMoreData")}
             </p>
           </MiracleReveal>

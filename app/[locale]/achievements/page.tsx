@@ -15,9 +15,9 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   })
 }
 
-export default async function Achievements({params, searchParams}: BasePageProps) {
+export default async function Achievements({ params, searchParams }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
-  
+
   return <AchievementsPage params={params} searchParams={searchParams} />
 }

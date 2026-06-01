@@ -16,6 +16,6 @@ export const useEducations = ({ locale }: UseEducationsParams) => {
     queryKey: ["educations", locale],
     queryFn: () => getEducations({ locale }),
     staleTime: 1000 * 60 * 60,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   })
 }

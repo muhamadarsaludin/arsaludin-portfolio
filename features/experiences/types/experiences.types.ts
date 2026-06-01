@@ -34,6 +34,11 @@ export type ExperienceTranslationEntity = {
   experience_id: string
 }
 
-export type Experience = Pick<ExperienceEntity, "id" | "company" | "company_logo" | "company_link" | "start_date" | "end_date" | "is_show">
-  & Pick<ExperienceTranslationEntity, "role" | "employment_type" | "location" | "key_contributions">
-  & { images: ImageAsset[] | null }
+export type Experience = Pick<
+  ExperienceEntity,
+  "id" | "company" | "company_logo" | "company_link" | "start_date" | "end_date" | "is_show"
+> &
+  Pick<
+    ExperienceTranslationEntity,
+    "role" | "employment_type" | "location" | "key_contributions"
+  > & { images: ImageAsset[] | null }

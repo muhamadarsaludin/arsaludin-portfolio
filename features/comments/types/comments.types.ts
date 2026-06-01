@@ -27,7 +27,6 @@ export type CommentEntity = {
   card_id: string | null
 }
 
-
 // ================== INFORMATION =================
 // Note: Named 'CommentData' instead of 'Comment'
 // to avoid naming conflicts with the built-in
@@ -37,13 +36,22 @@ export type CommentEntity = {
  * COMMENT DATA (Public)
  * Flattened object for UI Portfolio.
  */
-export type CommentData = Pick<CommentEntity, "id" | "content" | "user_id" | "created_at" | "updated_at" | "parent_id" | "recipient_id" | "reply_to_id">
-  & {
-    author: Profile
-    recipient: Profile | null
-    reply_count: number
-    reaction_summary: ReactionSummary
-  }
+export type CommentData = Pick<
+  CommentEntity,
+  | "id"
+  | "content"
+  | "user_id"
+  | "created_at"
+  | "updated_at"
+  | "parent_id"
+  | "recipient_id"
+  | "reply_to_id"
+> & {
+  author: Profile
+  recipient: Profile | null
+  reply_count: number
+  reaction_summary: ReactionSummary
+}
 
 /**
  * Paginated list of comments.

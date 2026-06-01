@@ -12,12 +12,10 @@ type UseFeaturedTestimonialsProps = {
  * @returns The query result containing an array of Testimonial objects.
  */
 
-export function useFeaturedTestimonials({
-  locale
-}: UseFeaturedTestimonialsProps) {
+export function useFeaturedTestimonials({ locale }: UseFeaturedTestimonialsProps) {
   return useQuery({
     queryKey: ["featured-testimonials", locale],
-    queryFn: () => getFeaturedTestimonials({locale}),
+    queryFn: () => getFeaturedTestimonials({ locale }),
     staleTime: 1000 * 60 * 60,
     refetchOnWindowFocus: false,
   })

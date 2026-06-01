@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   })
 }
 
-export default async function Changelog({params}: BasePageProps) {
+export default async function Changelog({ params }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
-  return <ChangelogPage params={params}/>
+  return <ChangelogPage params={params} />
 }

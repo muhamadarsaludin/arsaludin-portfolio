@@ -24,11 +24,11 @@ type FormatDateParams = {
  * options: { month: 'short', year: 'numeric' }
  * });
  */
-export const formatDate = ({ 
-  date, 
-  locale, 
-  dateStyle = "long", 
-  options 
+export const formatDate = ({
+  date,
+  locale,
+  dateStyle = "long",
+  options,
 }: FormatDateParams): string => {
   let dateObj: Date
 
@@ -51,6 +51,6 @@ export const formatDate = ({
   }
 
   const finalOptions: Intl.DateTimeFormatOptions = options || { dateStyle }
-  
+
   return new Intl.DateTimeFormat(locale, finalOptions).format(dateObj)
 }

@@ -1,20 +1,20 @@
 import readingTime from "reading-time"
 
 /**
- * Cleans MDX content by removing "noise" such as imports, exports, 
+ * Cleans MDX content by removing "noise" such as imports, exports,
  * JSX/HTML tags, props, and code blocks to provide a more accurate word count.
  * @param {string} content - The raw MDX or Markdown string to be processed.
  * @returns {import('reading-time').ReadTimeResults} An object containing the calculation results.
  */
 export function getMdxReadingTime(content: string) {
   if (!content) return { minutes: 0 }
-  
+
   const cleanText = content
-    .replace(/import.*from.*;/g, "")         // Remove import statements
-    .replace(/export const[\s\S]*?};/g, "")  // FIX: Replaced /gs with [\s\S] to match newlines
-    .replace(/<[^>]*>/g, "")                 // Remove JSX/HTML tags and their props
-    .replace(/\{[\s\S]*?\}/g, "")            // FIX: Match curly braces across multiple lines
-    .replace(/```[\s\S]*?```/g, "")         // Remove code blocks
+    .replace(/import.*from.*;/g, "") // Remove import statements
+    .replace(/export const[\s\S]*?};/g, "") // FIX: Replaced /gs with [\s\S] to match newlines
+    .replace(/<[^>]*>/g, "") // Remove JSX/HTML tags and their props
+    .replace(/\{[\s\S]*?\}/g, "") // FIX: Match curly braces across multiple lines
+    .replace(/```[\s\S]*?```/g, "") // Remove code blocks
 
   return readingTime(cleanText)
 }
@@ -28,10 +28,10 @@ export function getMdxReadingTime(content: string) {
  */
 export function formatReadingTime(minutes: number, locale: string = "en"): string {
   const mins = Math.ceil(minutes)
-  
+
   const labels: Record<string, { hour: string; min: string }> = {
     en: { hour: "h", min: "m" },
-    id: { hour: "j", min: "m" }
+    id: { hour: "j", min: "m" },
   }
 
   const currentLabel = labels[locale] || labels.en
@@ -46,6 +46,6 @@ export function formatReadingTime(minutes: number, locale: string = "en"): strin
   if (remainingMins === 0) {
     return `${hours}${currentLabel.hour}`
   }
-  
+
   return `${hours}${currentLabel.hour} ${remainingMins}${currentLabel.min}`
 }

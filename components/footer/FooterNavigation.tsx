@@ -27,14 +27,19 @@ const navigationLinks = [
     label: "privacy-policy",
     href: "/privacy-policy",
     disabled: false,
-  }
+  },
 ]
 
 export default function FooterNavigation({ className }: FooterNavigationProps) {
   const t = useTranslations("components.footer.navigation")
 
   return (
-    <nav className={cn("flex items-center justify-center gap-y-1 gap-x-3 md:gap-x-6 flex-wrap", className)}>
+    <nav
+      className={cn(
+        "flex flex-wrap items-center justify-center gap-x-3 gap-y-1 md:gap-x-6",
+        className
+      )}
+    >
       {navigationLinks.map((link, index) => (
         <FooterNavLink
           key={index}

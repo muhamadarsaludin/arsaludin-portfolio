@@ -69,7 +69,7 @@ export default function CommentDrawer({
       position={drawerPosition}
       size={drawerSize}
       title={`${t("title")} (${commentCount})`}
-      description={title} 
+      description={title}
       footer={
         <CommentInput
           targetId={targetId}
@@ -96,7 +96,7 @@ export default function CommentDrawer({
               />
               <div ref={loadMoreRef} className="min-h-6 py-4">
                 {isFetchingNextPage && (
-                  <div className="flex items-center justify-center gap-2 text-sm text-secondary">
+                  <div className="text-secondary flex items-center justify-center gap-2 text-sm">
                     <MiracleLoader size={16} />
                     <span>{t("isFetching")}</span>
                   </div>

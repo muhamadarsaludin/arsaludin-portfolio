@@ -26,12 +26,13 @@ export default function TableOfContents({ title, className }: TOCProps) {
   useEffect(() => {
     // FUNGSI SCAN (Logic Utama)
     const getHeadings = () => {
-      const elements = Array.from(document.querySelectorAll("h1[id], h2[id], h3[id]"))
-        .map((elem) => ({
+      const elements = Array.from(document.querySelectorAll("h1[id], h2[id], h3[id]")).map(
+        (elem) => ({
           id: elem.id,
           text: (elem as HTMLElement).innerText || "",
           level: Number(elem.tagName.substring(1)),
-        }))
+        })
+      )
       setHeadings(elements)
       return elements
     }
@@ -42,7 +43,7 @@ export default function TableOfContents({ title, className }: TOCProps) {
     // FUNGSI UNTUK OBSERVE ULANG
     const observeHeadings = (items: TOCItem[]) => {
       if (observer) observer.disconnect()
-      
+
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -73,7 +74,7 @@ export default function TableOfContents({ title, className }: TOCProps) {
     mutationObserver.observe(document.body, {
       childList: true,
       subtree: true,
-      characterData: true
+      characterData: true,
     })
 
     return () => {
@@ -94,9 +95,9 @@ export default function TableOfContents({ title, className }: TOCProps) {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       })
-      
+
       window.history.pushState(null, "", `#${id}`)
     }
   }
@@ -104,16 +105,16 @@ export default function TableOfContents({ title, className }: TOCProps) {
   if (headings.length === 0) return null
 
   return (
-    <nav className={cn("flex flex-col max-h-[calc(100%-120px)] w-50 sticky top-20", className)}>
+    <nav className={cn("sticky top-20 flex max-h-[calc(100%-120px)] w-50 flex-col", className)}>
       <MiracleReveal animation="fade-left">
-        <p className="mb-2 text-sm font-semibold uppercase text-primary">
+        <p className="text-primary mb-2 text-sm font-semibold uppercase">
           {title || (locale === "id" ? "Daftar isi" : "On this page")}
         </p>
-        <ul ref={navRef} className="overflow-y-auto no-scrollbar">
+        <ul ref={navRef} className="no-scrollbar overflow-y-auto">
           {headings.map((heading) => {
             const isActive = activeId === heading.id
             const indentation = (heading.level - 1) * 1
-            
+
             return (
               <li
                 key={heading.id}
@@ -127,8 +128,8 @@ export default function TableOfContents({ title, className }: TOCProps) {
                   className={cn(
                     "block border-l-2 py-1.5 pl-3 text-sm transition-all duration-300",
                     isActive
-                      ? "border-blue font-medium text-blue"
-                      : "border-transparent text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 hover:dark:text-neutral-50 hover:font-medium"
+                      ? "border-blue text-blue font-medium"
+                      : "border-transparent text-neutral-600 hover:font-medium hover:text-neutral-900 dark:text-neutral-400 hover:dark:text-neutral-50"
                   )}
                 >
                   {heading.text}

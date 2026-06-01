@@ -50,7 +50,7 @@ export default function HeaderMobileDrawer({ showMenu, isSignedIn, onClose }: Mo
         onTransitionEnd={handleTransitionEnd}
         className={cn(
           "z-header fixed top-17.25 bottom-0 left-0 w-fit p-4 lg:hidden",
-          "flex flex-col justify-between gap-6 min-w-[220px]",
+          "flex min-w-[220px] flex-col justify-between gap-6",
           "bg-primary border-primary border-r",
           "transform transition-transform duration-300 ease-in-out",
           animate ? "translate-x-0" : "-translate-x-full"

@@ -21,13 +21,13 @@ export default function MiracleBreadcrumbs({
   className,
 }: MiracleBreadcrumbsProps) {
   const pathname = usePathname()
-  
+
   // Logic: Automatically generate breadcrumbs based on URL
   const autoItems = useBreadcrumbs({ pathname, locales, overrides })
   const finalItems = items ?? autoItems
 
   return (
-    <nav 
+    <nav
       aria-label="Breadcrumb"
       className={cn(
         "bg-primary border-primary flex w-fit items-center rounded-2xl border px-4 py-1",
@@ -42,12 +42,12 @@ export default function MiracleBreadcrumbs({
           return (
             <Fragment key={`${item.label}-${index}`}>
               <li className="flex items-center">
-                 <Link
+                <Link
                   href={item.href!}
                   aria-current={isLast ? "page" : undefined}
                   aria-label={item.label}
                   className={cn(
-                    "flex items-center gap-2 text-sm font-medium transition-all duration-200 p-1",
+                    "flex items-center gap-2 p-1 text-sm font-medium transition-all duration-200",
                     isLast
                       ? "text-blue"
                       : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"

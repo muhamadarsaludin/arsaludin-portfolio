@@ -7,11 +7,21 @@ export const CHANGELOG_EN = [
     version: "1.0.0",
     releaseDate: "2026-06-01",
     banner: (
-      <MiracleBanner variant="secondary" color="blue" startIcon={<LuPartyPopper />} title="Versi 1.0.0 — Initial Release">
+      <MiracleBanner
+        variant="secondary"
+        color="blue"
+        startIcon={<LuPartyPopper />}
+        title="Versi 1.0.0 — Initial Release"
+      >
         <p>
-          This release marks the starting point of my portfolio, setting the foundation for its structure while highlighting the journey, experience, and work I’ve built along the way. 
-          It will continue to evolve over time, so if you spot any bugs or have ideas to share, feel free to leave feedback on the <Link href="/roadmap" className="text-blue :hover:underline font-medium">Roadmap</Link> page. 
-          Enjoy exploring, and thanks for your support!.
+          This release marks the starting point of my portfolio, setting the foundation for its
+          structure while highlighting the journey, experience, and work I’ve built along the way.
+          It will continue to evolve over time, so if you spot any bugs or have ideas to share, feel
+          free to leave feedback on the{" "}
+          <Link href="/roadmap" className="text-blue :hover:underline font-medium">
+            Roadmap
+          </Link>{" "}
+          page. Enjoy exploring, and thanks for your support!.
         </p>
       </MiracleBanner>
     ),
@@ -36,6 +46,6 @@ export const CHANGELOG_EN = [
 * **!Reactions** feature to provide reactions to projects, articles, achievements, testimonials, and comments.  
 * **!Google Analytics Integration** to analyze user behavior and interactions on the website.  
 </div>
-    `
-  }
+    `,
+  },
 ]

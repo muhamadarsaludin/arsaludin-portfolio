@@ -108,10 +108,10 @@ export async function getPaginatedReplies({
   }
 
   if (!data || data.length === 0) {
-    return { 
-      data: [], 
-      nextCursor: null, 
-      hasMore: false 
+    return {
+      data: [],
+      nextCursor: null,
+      hasMore: false,
     }
   }
 
@@ -123,11 +123,8 @@ export async function getPaginatedReplies({
     const userReaction = reply.reactions?.[0] ?? null
     const allReactions = reply.reaction_counts || []
     const totalEmojis = allReactions.length
-    const totalReactions = allReactions.reduce(
-      (acc, curr) => acc + (curr.count || 0), 
-      0
-    )
-    
+    const totalReactions = allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0)
+
     return {
       id: reply.id,
       content: reply.content,
@@ -145,7 +142,7 @@ export async function getPaginatedReplies({
         totalReactions,
         allReactions,
         totalEmojis,
-      }
+      },
     }
   })
 
@@ -178,9 +175,6 @@ export async function addReply({
  * Deletes a specific reply and triggers cache invalidation.
  * @param params - The input parameters containing commentId.
  */
-export async function deleteReply({
-  commentId,
-  parentId: _parentId,
-}: DeleteReplyParams) {
+export async function deleteReply({ commentId, parentId: _parentId }: DeleteReplyParams) {
   await deleteComment({ commentId })
 }

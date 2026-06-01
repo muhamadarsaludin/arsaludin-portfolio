@@ -73,10 +73,10 @@ export default function MiraclePopover({
     const vH = window.innerHeight
 
     // --- 1. AUTO CLOSE LOGIC ---
-    const isOffScreen = 
-      triggerRect.bottom < 0 || 
-      triggerRect.top > vH || 
-      triggerRect.right < 0 || 
+    const isOffScreen =
+      triggerRect.bottom < 0 ||
+      triggerRect.top > vH ||
+      triggerRect.right < 0 ||
       triggerRect.left > vW
 
     if (isOffScreen) {
@@ -91,7 +91,7 @@ export default function MiraclePopover({
     // --- 2. SMART FLIP ---
     if (side === "top" && triggerRect.top - contentRect.height - gap < 0) side = "bottom"
     else if (side === "bottom" && triggerRect.bottom + contentRect.height + gap > vH) side = "top"
-    
+
     if (side === "left" && triggerRect.left - contentRect.width - gap < 0) side = "right"
     else if (side === "right" && triggerRect.right + contentRect.width + gap > vW) side = "left"
 
@@ -111,7 +111,7 @@ export default function MiraclePopover({
     else {
       if (align === "start") top = triggerRect.top
       else if (align === "end") top = triggerRect.bottom - contentRect.height
-      else top = triggerRect.top + (triggerRect.height / 2) - (contentRect.height / 2)
+      else top = triggerRect.top + triggerRect.height / 2 - contentRect.height / 2
     }
 
     if (side === "left") left = triggerRect.left - contentRect.width - gap
@@ -119,7 +119,7 @@ export default function MiraclePopover({
     else {
       if (align === "start") left = triggerRect.left
       else if (align === "end") left = triggerRect.right - contentRect.width
-      else left = triggerRect.left + (triggerRect.width / 2) - (contentRect.width / 2)
+      else left = triggerRect.left + triggerRect.width / 2 - contentRect.width / 2
     }
 
     // Safety Clamp
@@ -135,8 +135,10 @@ export default function MiraclePopover({
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node
       if (
-        containerRef.current && !containerRef.current.contains(target) &&
-        contentRef.current && !contentRef.current.contains(target)
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        contentRef.current &&
+        !contentRef.current.contains(target)
       ) {
         handleClose()
       }
@@ -184,44 +186,45 @@ export default function MiraclePopover({
         {trigger}
       </div>
 
-      {mounted && createPortal(
-        <div
-          ref={contentRef}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            transform: `translate3d(${coords.left}px, ${coords.top}px, 0)`,
-          }}
-          className={cn(
-            "z-popover transition-opacity duration-300 ease-in-out",
-            isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
-          )}
-        >
+      {mounted &&
+        createPortal(
           <div
+            ref={contentRef}
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              transform: `translate3d(${coords.left}px, ${coords.top}px, 0)`,
+            }}
             className={cn(
-              "text-primary-inv relative rounded-md",
-              "w-max max-w-[calc(100vw-32px)] break-words whitespace-normal",
-              !noShadow && "shadow-lg shadow-black/20 dark:shadow-white/10",
-              !noBackground && "bg-primary-inv",
-              !noPadding && "p-3"
+              "z-popover transition-opacity duration-300 ease-in-out",
+              isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
             )}
-            onClick={(e) => e.stopPropagation()}
           >
-            {!noArrow && (
-              <div
-                className={cn(
-                  "absolute z-[-1] h-2.5 w-2.5 rotate-45",
-                  !noBackground && "bg-primary-inv",
-                  arrowPositionClass[adaptedPos]
-                )}
-              />
-            )}
-            {children}
-          </div>
-        </div>,
-        document.body
-      )}
+            <div
+              className={cn(
+                "text-primary-inv relative rounded-md",
+                "w-max max-w-[calc(100vw-32px)] break-words whitespace-normal",
+                !noShadow && "shadow-lg shadow-black/20 dark:shadow-white/10",
+                !noBackground && "bg-primary-inv",
+                !noPadding && "p-3"
+              )}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {!noArrow && (
+                <div
+                  className={cn(
+                    "absolute z-[-1] h-2.5 w-2.5 rotate-45",
+                    !noBackground && "bg-primary-inv",
+                    arrowPositionClass[adaptedPos]
+                  )}
+                />
+              )}
+              {children}
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   )
 }

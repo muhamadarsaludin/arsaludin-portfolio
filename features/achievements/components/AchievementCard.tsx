@@ -11,25 +11,28 @@ import type { BadgeColor } from "@/components/miracle/Badge"
 import MiracleBadge from "@/components/miracle/Badge"
 import { cn } from "@/utils/class-name"
 
-export default function AchievementCard({ achievement, className }: { achievement: Achievement, className?: string}) {
+export default function AchievementCard({
+  achievement,
+  className,
+}: {
+  achievement: Achievement
+  className?: string
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const typeBadgeColor: Record<AchievementType, BadgeColor> = {
     award: "yellow",
-    course: "blue"
+    course: "blue",
   }
 
   const t = useTranslations("components.achievementCard")
   const td = useTranslations("data.achievement")
 
   return (
-    <div className={cn(
-      "relative flex flex-col",
-      className
-    )}>
+    <div className={cn("relative flex flex-col", className)}>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="relative group/cert aspect-7/5 w-full overflow-hidden rounded-2xl border border-primary cursor-pointer"
+        className="group/cert border-primary relative aspect-7/5 w-full cursor-pointer overflow-hidden rounded-2xl border"
       >
         <Image
           className="object-cover transition-transform duration-300 ease-in-out group-hover/cert:scale-103"
@@ -42,19 +45,19 @@ export default function AchievementCard({ achievement, className }: { achievemen
 
       {/* Footer */}
       <div className="flex items-center justify-between gap-4 pt-5">
-        <div className="flex gap-2 items-start min-w-0">
+        <div className="flex min-w-0 items-start gap-2">
           <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
             {achievement.organization_logo ? (
-              <Image 
-                src={achievement.organization_logo} 
-                alt={achievement.issuing_organization} 
+              <Image
+                src={achievement.organization_logo}
+                alt={achievement.issuing_organization}
                 fill
                 sizes="40px"
                 className="object-contain"
-              /> 
+              />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-primary-inv bg-blue">
-                <LuAward size={20}/>
+              <div className="text-primary-inv bg-blue flex h-full w-full items-center justify-center">
+                <LuAward size={20} />
               </div>
             )}
           </div>
@@ -62,20 +65,19 @@ export default function AchievementCard({ achievement, className }: { achievemen
             <h3
               onClick={() => setIsModalOpen(true)}
               aria-label={t("viewDetail")}
-              className="text-primary text-md font-semibold tracking-tight line-clamp-1 cursor-pointer"
+              className="text-primary text-md line-clamp-1 cursor-pointer font-semibold tracking-tight"
             >
               {achievement.name}
             </h3>
-            <div className="text-secondary text-sm tracking-tight flex items-center gap-1">
-              <span>{achievement.issuing_organization}</span>
-              |
+            <div className="text-secondary flex items-center gap-1 text-sm tracking-tight">
+              <span>{achievement.issuing_organization}</span>|
               <MiracleBadge color={typeBadgeColor[achievement.type]} size="sm" variant="secondary">
                 {td("types." + achievement.type)}
               </MiracleBadge>
             </div>
           </div>
         </div>
-        <div className="shrink-0 relative">
+        <div className="relative shrink-0">
           <ReactionGroup
             targetId={achievement.id}
             targetType="achievement"
@@ -84,7 +86,7 @@ export default function AchievementCard({ achievement, className }: { achievemen
         </div>
       </div>
 
-      <AchievementModal 
+      <AchievementModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         achievement={achievement}

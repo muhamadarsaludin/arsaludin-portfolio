@@ -15,12 +15,12 @@ export default function ProfileStats({ className }: ProfileStatsProps) {
   const renderValue = (value: number | undefined, hasSuffix = false) => {
     if (isLoading) return <span className="animate-pulse text-sm">...</span>
     if (isError) return <span>0</span>
-    
+
     return (
-      <CountUp 
-        end={value ?? 0} 
-        duration={2.5} 
-        delay={1} 
+      <CountUp
+        end={value ?? 0}
+        duration={2.5}
+        delay={1}
         preserveValue // 2. Optimasi UX: Mencegah angka ke-reset berhitung dari 0 saat terjadi background re-fetch
         suffix={hasSuffix ? "+" : ""} // 3. Gantikan logic state + CSS opacity lu dengan fitur bawaan CountUp
       />

@@ -9,9 +9,7 @@ export default function SignInButton() {
     return
   }
   return (
-    <MiracleButton 
-      variant="secondary"
-      onClick={handleSignIn}>
+    <MiracleButton variant="secondary" onClick={handleSignIn}>
       {t("cta.signIn")}
     </MiracleButton>
   )

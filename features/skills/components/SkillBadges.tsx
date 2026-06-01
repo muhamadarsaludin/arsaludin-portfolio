@@ -14,10 +14,10 @@ type SkillBadgesProps = {
   className?: string
 }
 
-export default function SkillBadges({ 
-  skills = [], 
+export default function SkillBadges({
+  skills = [],
   limit = MAX_VISIBLE_SKILLS,
-  className 
+  className,
 }: SkillBadgesProps) {
   const t = useTranslations("components.skillBadges")
 
@@ -25,11 +25,11 @@ export default function SkillBadges({
 
   const hasMore = skills.length > limit
   const topSkills = skills.slice(0, limit)
-  const remainingSkills = skills.slice(limit) 
+  const remainingSkills = skills.slice(limit)
   const remainingCount = remainingSkills.length
 
   return (
-    <div className={cn("flex flex-wrap items-center gap-2 relative", className)}>
+    <div className={cn("relative flex flex-wrap items-center gap-2", className)}>
       {/* RENDER TOP SKILLS */}
       {topSkills.map((skill) => {
         const IconComponent = skill.icon ? SKILL_ICON_MAP[skill.icon] : null
@@ -61,7 +61,7 @@ export default function SkillBadges({
               href={skill.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="no-underline cursor-pointer"
+              className="cursor-pointer no-underline"
               aria-label={`${t("ariaPrefix")} ${skill.name}`}
             >
               {BadgeComponent}
@@ -92,8 +92,8 @@ export default function SkillBadges({
                 const ItemContent = (
                   <div
                     className={cn(
-                      "group/badge flex items-center gap-2 p-1.5 rounded-md",
-                      "hover:bg-neutral-900 hover:dark:bg-neutral-100 transition-colors duration-300 ease-in-out"
+                      "group/badge flex items-center gap-2 rounded-md p-1.5",
+                      "transition-colors duration-300 ease-in-out hover:bg-neutral-900 hover:dark:bg-neutral-100"
                     )}
                   >
                     {IconComponent && (

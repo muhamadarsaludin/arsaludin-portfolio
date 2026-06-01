@@ -3,11 +3,9 @@ import { useTranslations } from "next-intl"
 export default function CardEmpty() {
   const t = useTranslations("components.card.empty")
   return (
-    <div className="flex flex-col items-center justify-center h-full py-10 px-4 border border-dashed border-primary rounded-xl">
+    <div className="border-primary flex h-full flex-col items-center justify-center rounded-xl border border-dashed px-4 py-10">
       <p className="text-primary font-medium">{t("title")}</p>
-      <p className="text-secondary text-xs text-center mt-1">
-        {t("description")}
-      </p>
+      <p className="text-secondary mt-1 text-center text-xs">{t("description")}</p>
     </div>
   )
 }

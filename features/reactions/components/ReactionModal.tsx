@@ -29,7 +29,7 @@ export default function ReactionModal({
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteReactions({
     targetId,
     targetType,
-    enabled: isOpen
+    enabled: isOpen,
   })
 
   const allReactions = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
@@ -39,7 +39,6 @@ export default function ReactionModal({
     onIntersect: fetchNextPage,
     enabled: !!hasNextPage && !isFetchingNextPage && isOpen,
   })
-
 
   return (
     <MiracleModal
@@ -58,9 +57,7 @@ export default function ReactionModal({
           </div>
         ) : allReactions.length === 0 ? (
           <div className="flex flex-1 items-center justify-center py-10 text-center">
-            <p className="text-secondary/60 text-sm font-medium italic">
-              {t("emptyMessage")}
-            </p>
+            <p className="text-secondary/60 text-sm font-medium italic">{t("emptyMessage")}</p>
           </div>
         ) : (
           <ul className="flex flex-col gap-5">
@@ -71,10 +68,7 @@ export default function ReactionModal({
         )}
 
         {/* --- INFINITE LOADING SENTINEL --- */}
-        <div
-          ref={loadMoreRef}
-          className="flex min-h-15 w-full items-center justify-center py-4"
-        >
+        <div ref={loadMoreRef} className="flex min-h-15 w-full items-center justify-center py-4">
           {isFetchingNextPage && (
             <div className="flex flex-col items-center gap-2">
               <MiracleLoader size={20} />

@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   })
 }
 
-export default async function Articles({params, searchParams}: BasePageProps) {
+export default async function Articles({ params, searchParams }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
   return <ArticlesPage params={params} searchParams={searchParams} />

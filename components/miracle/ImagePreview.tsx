@@ -3,26 +3,20 @@
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import MiracleModal from "./Modal"
-import { 
-  LuPlus, 
-  LuMinus, 
-  LuChevronLeft, 
-  LuChevronRight, 
-  LuMaximize2 
-} from "react-icons/lu"
+import { LuPlus, LuMinus, LuChevronLeft, LuChevronRight, LuMaximize2 } from "react-icons/lu"
 import { cn } from "@/utils/class-name"
 
 interface ImageItem {
-  image_url: string;
-  alt?: string;
+  image_url: string
+  alt?: string
 }
 
 interface MiracleImagePreviewProps {
-  images: ImageItem[];
-  className?: string;        
-  wrapperClassName?: string; 
-  imageClassName?: string;   
-  sizes?: string;            
+  images: ImageItem[]
+  className?: string
+  wrapperClassName?: string
+  imageClassName?: string
+  sizes?: string
 }
 
 export default function MiracleImagePreview({
@@ -74,7 +68,7 @@ export default function MiracleImagePreview({
           setIsOpen(true)
         }}
         className={cn(
-          "group relative cursor-pointer overflow-hidden rounded-xl border border-primary bg-secondary shadow-sm transition-all hover:shadow-md w-full h-auto block",
+          "group border-primary bg-secondary relative block h-auto w-full cursor-pointer overflow-hidden rounded-xl border shadow-sm transition-all hover:shadow-md",
           className
         )}
       >
@@ -83,10 +77,13 @@ export default function MiracleImagePreview({
           alt={img.alt || "Preview Image"}
           fill
           sizes={sizes}
-          className={cn("relative! h-auto! w-full transition-transform duration-500 group-hover:scale-110", imageClassName)}
+          className={cn(
+            "relative! h-auto! w-full transition-transform duration-500 group-hover:scale-110",
+            imageClassName
+          )}
         />
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 backdrop-blur-[2px] transition-all group-hover:opacity-100">
-          <div className="rounded-full bg-white/10 p-3 backdrop-blur-md border border-white/20 text-white shadow-xl">
+          <div className="rounded-full border border-white/20 bg-white/10 p-3 text-white shadow-xl backdrop-blur-md">
             <LuMaximize2 size={20} />
           </div>
         </div>
@@ -96,11 +93,7 @@ export default function MiracleImagePreview({
 
   return (
     <>
-      {hasMultipleImages ? (
-        <div className={wrapperClassName}>{renderItems()}</div>
-      ) : (
-        renderItems()
-      )}
+      {hasMultipleImages ? <div className={wrapperClassName}>{renderItems()}</div> : renderItems()}
 
       <MiracleModal
         isOpen={isOpen}
@@ -110,15 +103,15 @@ export default function MiracleImagePreview({
         }}
         size="full"
         title={displayTitle}
-        className="max-h-[85vh] h-full"
+        className="h-full max-h-[85vh]"
         noContentPadding
       >
-        <div className="flex h-full w-full flex-col overflow-hidden bg-primary rounded-b-3xl">
-          <div className="flex-1 flex w-full p-5 md:p-6 overflow-hidden relative group/preview">
-            <div className="h-full w-full flex items-center justify-center overflow-hidden bg-secondary rounded-2xl relative">
+        <div className="bg-primary flex h-full w-full flex-col overflow-hidden rounded-b-3xl">
+          <div className="group/preview relative flex w-full flex-1 overflow-hidden p-5 md:p-6">
+            <div className="bg-secondary relative flex h-full w-full items-center justify-center overflow-hidden rounded-2xl">
               <div
                 className={cn(
-                  "relative h-full w-full flex items-center justify-center",
+                  "relative flex h-full w-full items-center justify-center",
                   zoomScale > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-default"
                 )}
                 style={{ transform: `scale(${zoomScale})` }}
@@ -134,35 +127,41 @@ export default function MiracleImagePreview({
               </div>
             </div>
 
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 rounded-full p-0.5 bg-neutral-low text-primary border border-primary opacity-0 group-hover/preview:opacity-100 transition-all duration-300 ease-in-out">
+            <div className="bg-neutral-low text-primary border-primary absolute bottom-2 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full border p-0.5 opacity-0 transition-all duration-300 ease-in-out group-hover/preview:opacity-100">
               <button
                 onClick={() => setZoomScale((prev) => Math.max(prev - 0.5, 1))}
-                className="p-2 hover:bg-neutral-300 dark:hover:bg-neutral-700 rounded-full cursor-zoom-out transition-colors ease-in-out duration-300"
+                className="cursor-zoom-out rounded-full p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-300 dark:hover:bg-neutral-700"
               >
                 <LuMinus size={16} />
               </button>
-              <span className="text-[10px] font-mono min-w-8.75 text-center">
+              <span className="min-w-8.75 text-center font-mono text-[10px]">
                 {Math.round(zoomScale * 100)}%
               </span>
               <button
                 onClick={() => setZoomScale((prev) => Math.min(prev + 0.5, 3))}
-                className="p-2 hover:bg-neutral-300 dark:hover:bg-neutral-700 rounded-full cursor-zoom-in transition-colors ease-in-out duration-300"
+                className="cursor-zoom-in rounded-full p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-300 dark:hover:bg-neutral-700"
               >
                 <LuPlus size={16} />
               </button>
             </div>
 
             {hasMultipleImages && (
-              <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover/preview:opacity-100 transition-all duration-300 ease-in-out pointer-events-none">
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-between p-2 opacity-0 transition-all duration-300 ease-in-out group-hover/preview:opacity-100">
                 <button
-                  onClick={(e) => { e.stopPropagation(); handlePrev() }}
-                  className="cursor-pointer pointer-events-auto z-20 rounded-full p-2 border border-primary bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-all ease-in-out duration-300"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handlePrev()
+                  }}
+                  className="border-primary pointer-events-auto z-20 cursor-pointer rounded-full border bg-neutral-200 p-2 transition-all duration-300 ease-in-out hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700"
                 >
                   <LuChevronLeft size={20} />
                 </button>
                 <button
-                  onClick={(e) => { e.stopPropagation(); handleNext() }}
-                  className="cursor-pointer pointer-events-auto z-20 rounded-full p-2 border border-primary bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-all ease-in-out duration-300"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleNext()
+                  }}
+                  className="border-primary pointer-events-auto z-20 cursor-pointer rounded-full border bg-neutral-200 p-2 transition-all duration-300 ease-in-out hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700"
                 >
                   <LuChevronRight size={20} />
                 </button>
@@ -171,8 +170,8 @@ export default function MiracleImagePreview({
           </div>
 
           {hasMultipleImages && (
-            <div className="shrink-0 border-t border-primary flex items-center px-5 md:px-6 py-2">
-              <div className="scrollbar-hide snap-x snap-mandatory flex items-center gap-2 overflow-x-auto min-h-12 md:min-h-20 w-full justify-center">
+            <div className="border-primary flex shrink-0 items-center border-t px-5 py-2 md:px-6">
+              <div className="scrollbar-hide flex min-h-12 w-full snap-x snap-mandatory items-center justify-center gap-2 overflow-x-auto md:min-h-20">
                 {images.map((img, idx) => (
                   <button
                     key={idx}
@@ -181,10 +180,10 @@ export default function MiracleImagePreview({
                       setSelectedIndex(idx)
                     }}
                     className={cn(
-                      "relative snap-start aspect-3/2 shrink-0 rounded-md overflow-hidden transition-all cursor-pointer",
+                      "relative aspect-3/2 shrink-0 cursor-pointer snap-start overflow-hidden rounded-md transition-all",
                       selectedIndex === idx
-                        ? "border-2 border-blue h-12 md:h-20"
-                        : "border border-primary h-10 md:h-18 opacity-50 hover:opacity-100"
+                        ? "border-blue h-12 border-2 md:h-20"
+                        : "border-primary h-10 border opacity-50 hover:opacity-100 md:h-18"
                     )}
                   >
                     <Image

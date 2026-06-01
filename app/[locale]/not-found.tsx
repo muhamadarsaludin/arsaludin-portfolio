@@ -12,8 +12,7 @@ export default function NotFound() {
   const t = useTranslations("pages.404")
 
   return (
-    <div
-      className="relative h-screen w-full overflow-hidden -mt-25 lg:-mt-30 pt-17">
+    <div className="relative -mt-25 h-screen w-full overflow-hidden pt-17 lg:-mt-30">
       <LiquidEther
         colors={["#2563EB", "#22D3EE", "#8B5CF6"]}
         mouseForce={20}
@@ -31,17 +30,15 @@ export default function NotFound() {
         autoResumeDelay={3000}
         autoRampDuration={0.6}
       />
-    
-      <Container className="flex items-center justify-center h-full absolute inset-0 z-20">
+
+      <Container className="absolute inset-0 z-20 flex h-full items-center justify-center">
         <MiracleReveal animation="zoom-in" delay={0.1}>
           <div className="text-center">
-            <h1 className="text-8xl md:text-gxl lg:text-[10rem] font-black text-primary mb-6 md:mb-8">
+            <h1 className="md:text-gxl text-primary mb-6 text-8xl font-black md:mb-8 lg:text-[10rem]">
               404
             </h1>
-            <h2 className="font-semibold text-xl md:text-2xl lg:text-3xl">
-              {t("title")}
-            </h2>
-            <p className="mx-auto max-w-lg text-sm sm:text-base text-secondary mt-1">
+            <h2 className="text-xl font-semibold md:text-2xl lg:text-3xl">{t("title")}</h2>
+            <p className="text-secondary mx-auto mt-1 max-w-lg text-sm sm:text-base">
               {t("description")}
             </p>
 
@@ -55,9 +52,7 @@ export default function NotFound() {
               </MiracleButton>
 
               <Link href="/">
-                <MiracleButton startIcon={<LuHouse />}>
-                  {t("homeButton")}
-                </MiracleButton>
+                <MiracleButton startIcon={<LuHouse />}>{t("homeButton")}</MiracleButton>
               </Link>
             </div>
           </div>

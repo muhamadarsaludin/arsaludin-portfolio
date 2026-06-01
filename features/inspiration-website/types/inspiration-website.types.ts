@@ -5,7 +5,7 @@ export type InspirationWebsite = {
   type: "personal" | "organization"
   is_favorite: boolean
   role?: string
-  company?:string
+  company?: string
   image?: string
   description?: {
     en: string

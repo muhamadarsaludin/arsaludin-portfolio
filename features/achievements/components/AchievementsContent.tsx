@@ -20,7 +20,11 @@ import type { CategoryTargetType } from "@/features/categories/types/categories.
 import { useUrlParams } from "@/hooks/useSearchParams"
 import MiracleBadge from "@/components/miracle/Badge"
 import Section from "@/components/Section"
-import { ACHIEVEMENTS_LEVELS, ACHIEVEMENTS_PAGE_SIZE, ACHIEVEMENTS_TYPES } from "../constants/achievements.constants"
+import {
+  ACHIEVEMENTS_LEVELS,
+  ACHIEVEMENTS_PAGE_SIZE,
+  ACHIEVEMENTS_TYPES,
+} from "../constants/achievements.constants"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type AchievementsContentProps = {
@@ -28,10 +32,7 @@ type AchievementsContentProps = {
   targetType: CategoryTargetType
 }
 
-export default function AchievementsContent({
-  locale,
-  targetType
-}: AchievementsContentProps) {
+export default function AchievementsContent({ locale, targetType }: AchievementsContentProps) {
   const t = useTranslations("pages.achievements")
   const td = useTranslations("data")
   const { setParams, getParam, getArrayParam } = useUrlParams()
@@ -61,18 +62,18 @@ export default function AchievementsContent({
   }, [debouncedSearch, searchUrl, setParams])
 
   const handleToggleFilter = (key: "types" | "levels" | "categories", value: string) => {
-    const current = key === "types" ? typesArray : key === "levels" ? levelsArray : categorySlugsArray
-    const next = current.includes(value)
-      ? current.filter((v) => v !== value)
-      : [...current, value]
-    
+    const current =
+      key === "types" ? typesArray : key === "levels" ? levelsArray : categorySlugsArray
+    const next = current.includes(value) ? current.filter((v) => v !== value) : [...current, value]
+
     setParams({ [key]: next.length ? next : undefined })
   }
 
   const handleToggleAll = (key: "types" | "levels" | "categories", allValues: string[]) => {
-    const current = key === "types" ? typesArray : key === "levels" ? levelsArray : categorySlugsArray
-    const isAllSelected = allValues.length > 0 && allValues.every(v => current.includes(v))
-    
+    const current =
+      key === "types" ? typesArray : key === "levels" ? levelsArray : categorySlugsArray
+    const isAllSelected = allValues.length > 0 && allValues.every((v) => current.includes(v))
+
     setParams({ [key]: isAllSelected ? undefined : allValues })
   }
 
@@ -96,11 +97,10 @@ export default function AchievementsContent({
     pageSize: ACHIEVEMENTS_PAGE_SIZE,
   }
 
-  const { 
-    data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch 
-  } = useInfiniteAchievements(currentFilters)
+  const { data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch } =
+    useInfiniteAchievements(currentFilters)
 
-  const achievements = useMemo(() => data?.pages.flatMap(p => p.data) ?? [], [data])
+  const achievements = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   useIntersectionObserver({
@@ -118,29 +118,31 @@ export default function AchievementsContent({
     if (isError) return <ErrorStateCard onRetry={() => refetch()} />
     if (isLoading) {
       return (
-        <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => <AchievementCardSkeleton key={i} />)}
+        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <AchievementCardSkeleton key={i} />
+          ))}
         </div>
       )
     }
     if (achievements.length === 0) return <EmptyStateCard />
 
     return (
-      <div className="w-full grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {achievements.map((achievement, index) => (
-          <MiracleReveal 
+          <MiracleReveal
             animation="fade-up"
             delay={{
               default: 0,
               sm: (index % 6) * 0.1,
             }}
-            key={achievement.id}>
+            key={achievement.id}
+          >
             <AchievementCard achievement={achievement} className="h-full w-full" />
           </MiracleReveal>
         ))}
         {isFetchingNextPage &&
-          Array.from({ length: 3 }).map((_, i) => <AchievementCardSkeleton key={`more-${i}`} />)
-        }
+          Array.from({ length: 3 }).map((_, i) => <AchievementCardSkeleton key={`more-${i}`} />)}
       </div>
     )
   }
@@ -148,8 +150,8 @@ export default function AchievementsContent({
   return (
     <Section className="flex w-full flex-col gap-6 md:gap-8">
       <MiracleReveal animation="fade-right">
-        <div className="flex w-full md:w-8/12 items-center gap-3 md:gap-4">
-          <MiracleTextField 
+        <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
+          <MiracleTextField
             placeholder={t("searchBarPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -158,16 +160,23 @@ export default function AchievementsContent({
           />
           <MiraclePopover
             open={isOpenFilter}
-            onOpenChange={v => setIsOpenFilter(v)}
+            onOpenChange={(v) => setIsOpenFilter(v)}
             defaultPosition="bottom-end"
             noPadding
             trigger={
-              <MiracleButton 
+              <MiracleButton
                 startIcon={<LuFilter />}
-                endIcon={<LuChevronDown className={cn("transition-transform duration-300", isOpenFilter && "-rotate-180")}/>}
+                endIcon={
+                  <LuChevronDown
+                    className={cn(
+                      "transition-transform duration-300",
+                      isOpenFilter && "-rotate-180"
+                    )}
+                  />
+                }
               >
-                <div className="flex gap-2 items-center">
-                  Filter 
+                <div className="flex items-center gap-2">
+                  Filter
                   {activeFiltersCount > 0 && (
                     <MiracleBadge size="sm" variant="secondary">
                       {activeFiltersCount}
@@ -177,24 +186,24 @@ export default function AchievementsContent({
               </MiracleButton>
             }
           >
-            <div className="flex flex-col w-64 max-h-112.5 gap-4 overflow-y-auto p-4">
+            <div className="flex max-h-112.5 w-64 flex-col gap-4 overflow-y-auto p-4">
               {/* Filter Types */}
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
-                  <MiracleCheckbox 
+                  <MiracleCheckbox
                     invers
                     checked={typeStatus.isAllSelected}
                     indeterminate={typeStatus.isSomeSelected}
                     onChange={() => handleToggleAll("types", ACHIEVEMENTS_TYPES as string[])}
                   />
-                  <p className="text-xs font-semibold uppercase tracking-tight">
+                  <p className="text-xs font-semibold tracking-tight uppercase">
                     {t("filter.label.types")}
                   </p>
                 </div>
                 <div className="flex flex-col gap-1 pl-4">
                   {ACHIEVEMENTS_TYPES.map((type) => (
-                    <MiracleCheckbox 
-                      key={type} 
+                    <MiracleCheckbox
+                      key={type}
                       invers
                       checked={typesArray.includes(type)}
                       onChange={() => handleToggleFilter("types", type)}
@@ -206,22 +215,22 @@ export default function AchievementsContent({
               </div>
 
               {/* Filter Levels */}
-              <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
+              <div className="border-primary-inv flex flex-col gap-2 border-t pt-4">
                 <div className="flex items-center gap-2">
-                  <MiracleCheckbox 
+                  <MiracleCheckbox
                     invers
                     checked={levelStatus.isAllSelected}
                     indeterminate={levelStatus.isSomeSelected}
                     onChange={() => handleToggleAll("levels", ACHIEVEMENTS_LEVELS as string[])}
                   />
-                  <p className="text-xs font-semibold uppercase tracking-tight">
+                  <p className="text-xs font-semibold tracking-tight uppercase">
                     {t("filter.label.levels")}
                   </p>
                 </div>
                 <div className="flex flex-col gap-1 pl-4">
                   {ACHIEVEMENTS_LEVELS.map((level) => (
-                    <MiracleCheckbox 
-                      key={level} 
+                    <MiracleCheckbox
+                      key={level}
                       invers
                       checked={levelsArray.includes(level.toString())}
                       onChange={() => handleToggleFilter("levels", level.toString())}
@@ -231,25 +240,25 @@ export default function AchievementsContent({
                   ))}
                 </div>
               </div>
-              
+
               {/* Filter Categories */}
               {categories && categories.length > 0 && (
-                <div className="flex flex-col gap-2 border-t border-primary-inv pt-4">
+                <div className="border-primary-inv flex flex-col gap-2 border-t pt-4">
                   <div className="flex items-center gap-2">
-                    <MiracleCheckbox 
+                    <MiracleCheckbox
                       invers
                       checked={categoryStatus.isAllSelected}
                       indeterminate={categoryStatus.isSomeSelected}
                       onChange={() => handleToggleAll("categories", categorySlugsList)}
                     />
-                    <p className="text-xs font-semibold uppercase tracking-tight">
+                    <p className="text-xs font-semibold tracking-tight uppercase">
                       {t("filter.label.categories")}
                     </p>
                   </div>
                   <div className="flex flex-col gap-1 pl-4">
                     {categories.map((category) => (
-                      <MiracleCheckbox 
-                        key={category.slug} 
+                      <MiracleCheckbox
+                        key={category.slug}
                         invers
                         checked={categorySlugsArray.includes(category.slug)}
                         onChange={() => handleToggleFilter("categories", category.slug)}
@@ -261,20 +270,18 @@ export default function AchievementsContent({
                 </div>
               )}
 
-              {(categorySlugsArray.length > 0 || typesArray.length > 0 || levelsArray.length > 0 || searchUrl) && (
-                <div className="w-full pt-4 border-t border-primary-inv">
-                  <MiracleButton 
-                    status="danger" 
-                    size="sm" 
-                    onClick={handleReset} 
-                    fullWidth
-                  >
+              {(categorySlugsArray.length > 0 ||
+                typesArray.length > 0 ||
+                levelsArray.length > 0 ||
+                searchUrl) && (
+                <div className="border-primary-inv w-full border-t pt-4">
+                  <MiracleButton status="danger" size="sm" onClick={handleReset} fullWidth>
                     {t("filter.reset")}
                   </MiracleButton>
                 </div>
               )}
             </div>
-          </MiraclePopover> 
+          </MiraclePopover>
         </div>
       </MiracleReveal>
 
@@ -283,8 +290,8 @@ export default function AchievementsContent({
       <div ref={loadMoreRef} className="flex w-full justify-center py-10">
         {!hasNextPage && !isLoading && achievements.length > 0 && (
           <MiracleReveal animation="zoom-in">
-            <p className="text-secondary text-sm italic flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5">
-              <LuTriangleAlert className="text-yellow-500"/>
+            <p className="text-secondary border-primary/20 bg-primary/5 flex items-center gap-2 rounded-full border px-4 py-2 text-sm italic">
+              <LuTriangleAlert className="text-yellow-500" />
               {t("noMoreData")}
             </p>
           </MiracleReveal>

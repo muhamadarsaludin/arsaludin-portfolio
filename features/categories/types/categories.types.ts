@@ -1,4 +1,3 @@
-
 /**
  * CATEGORY ENTITY
  * Raw data from 'categories' table.
@@ -27,8 +26,8 @@ export type CategoryTranslationEntity = {
  * CATEGORY DATA (Public)
  * Flattened object for UI Portfolio.
  */
-export type Category = Pick<CategoryEntity, "id" | "slug" | "is_show"> 
-  & Pick<CategoryTranslationEntity, "name">
+export type Category = Pick<CategoryEntity, "id" | "slug" | "is_show"> &
+  Pick<CategoryTranslationEntity, "name">
 
 /**
  * Valid entity types that can receive category within the portfolio system.

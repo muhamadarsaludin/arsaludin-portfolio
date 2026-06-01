@@ -28,7 +28,7 @@ export default function MessageBubble({
   messageType,
   pageSize,
   message,
-  onReply
+  onReply,
 }: MessageBubbleProps) {
   const { remove, isRemoving } = useMessageMutation({ type: messageType, pageSize })
   const { user, profile, isSignedIn } = useAuth()
@@ -40,7 +40,7 @@ export default function MessageBubble({
   const locale = useLocale()
   const t = useTranslations("components.message.bubble")
   const colorClass = isAuthor ? "bg-blue-low" : "bg-secondary"
-  const arrowPositionClass = isAuthor ?  "-right-[5px] bottom-3" : "-left-[5px] bottom-3"
+  const arrowPositionClass = isAuthor ? "-right-[5px] bottom-3" : "-left-[5px] bottom-3"
 
   const handleDeleteAction = useCallback(() => {
     if (!isSignedIn) return
@@ -54,9 +54,9 @@ export default function MessageBubble({
     const element = document.getElementById(`message-${messageId}`)
 
     if (element) {
-      element.scrollIntoView({ 
-        behavior: "smooth", 
-        block: "center"
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
       })
     }
   }
@@ -64,20 +64,16 @@ export default function MessageBubble({
   return (
     <div
       id={`message-${message.id}`}
-      className={cn(
-        "flex flex-col w-full relative",
-        isAuthor ? "items-end" : "items-start"
-      )}
+      className={cn("relative flex w-full flex-col", isAuthor ? "items-end" : "items-start")}
     >
-      <div className={cn(
-        "group/message flex flex-col max-w-[90%] md:max-w-125 lg:max-w-140",
-        isAuthor ? "items-end" : "items-start",    
-        )}>
+      <div
+        className={cn(
+          "group/message flex max-w-[90%] flex-col md:max-w-125 lg:max-w-140",
+          isAuthor ? "items-end" : "items-start"
+        )}
+      >
         {/* Name */}
-        <div className={cn(
-          "flex items-center gap-2 mb-1.5",
-          isAuthor ? "pr-11" : "pl-11",
-          )}>
+        <div className={cn("mb-1.5 flex items-center gap-2", isAuthor ? "pr-11" : "pl-11")}>
           <h3 className="text-primary text-sm font-semibold">{message.author.full_name}</h3>
           {message.author.role === "admin" && (
             <MiracleBadge color="blue" size="sm" className="capitalize">
@@ -86,12 +82,9 @@ export default function MessageBubble({
           )}
         </div>
         {/* Body */}
-        <div className={cn(
-          "flex gap-3 items-end",
-          isAuthor ? "flex-row-reverse" : "flex-row"
-          )}>
+        <div className={cn("flex items-end gap-3", isAuthor ? "flex-row-reverse" : "flex-row")}>
           {/* Avatar */}
-          <div className="relative shrink-0 overflow-hidden rounded-full h-8 w-8 bg-blue-600">
+          <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-blue-600">
             {message.author?.avatar_url ? (
               <Image
                 src={authorAvatar}
@@ -108,7 +101,12 @@ export default function MessageBubble({
             )}
           </div>
           {/* Bubble */}
-          <div className={cn("flex flex-col relative bg-secondary max-w-full p-3 rounded-md text-sm text-secondary whitespace-pre-wrap", colorClass)}>
+          <div
+            className={cn(
+              "bg-secondary text-secondary relative flex max-w-full flex-col rounded-md p-3 text-sm whitespace-pre-wrap",
+              colorClass
+            )}
+          >
             {/* Arrow */}
             <div
               className={cn(
@@ -120,18 +118,20 @@ export default function MessageBubble({
             />
 
             {/* Reply Button*/}
-            <div className={cn(
-                "absolute z-1 top-1/2 -translate-y-1/2 opacity-0 group-hover/message:opacity-100 transition-all duration-300  ease-in-out",
+            <div
+              className={cn(
+                "absolute top-1/2 z-1 -translate-y-1/2 opacity-0 transition-all duration-300 ease-in-out group-hover/message:opacity-100",
                 isAuthor ? "-left-12" : "-right-12"
-              )}>
+              )}
+            >
               <MiracleTooltip
                 trigger={
-                  <button 
+                  <button
                     type="button"
                     aria-label="Reply Message"
                     onClick={() => onReply?.(message)}
                     className={cn(
-                      "rounded-full w-8 h-8 flex justify-center items-center hover:scale-110 transition-all duration-300 ease-in-out cursor-pointer p-0 select-none outline-none",
+                      "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full p-0 transition-all duration-300 ease-in-out outline-none select-none hover:scale-110",
                       colorClass
                     )}
                   >
@@ -144,19 +144,29 @@ export default function MessageBubble({
             </div>
 
             {/* Reply Content */}
-            {(message.recipient && message.replied_message) && (
+            {message.recipient && message.replied_message && (
               <button
                 type="button"
                 aria-label="view reply"
-                onClick={() => message.replied_message && handleViewReply(message.replied_message.id)}
-                className="border-blue flex flex-1 flex-col gap-1.5 border-l-4 py-1 pl-3 cursor-pointer mb-1 text-start outline-none">
+                onClick={() =>
+                  message.replied_message && handleViewReply(message.replied_message.id)
+                }
+                className="border-blue mb-1 flex flex-1 cursor-pointer flex-col gap-1.5 border-l-4 py-1 pl-3 text-start outline-none"
+              >
                 <p className="text-secondary flex items-center gap-1 text-xs font-bold">
                   {t("replyingTo")}:
                   <span className="text-blue">@{message.recipient.full_name}</span>
                 </p>
-                <div className={cn("w-full overflow-hidden rounded-lg p-2", isAuthor ? "bg-secondary" : "bg-blue-low")}>
-                  <p className="text-secondary line-clamp-2 text-[11px] leading-relaxed italic text-start">
-                    {"“"}{message.replied_message.content}{"”"}
+                <div
+                  className={cn(
+                    "w-full overflow-hidden rounded-lg p-2",
+                    isAuthor ? "bg-secondary" : "bg-blue-low"
+                  )}
+                >
+                  <p className="text-secondary line-clamp-2 text-start text-[11px] leading-relaxed italic">
+                    {"“"}
+                    {message.replied_message.content}
+                    {"”"}
                   </p>
                 </div>
               </button>
@@ -166,15 +176,20 @@ export default function MessageBubble({
           </div>
         </div>
         {/* footer */}
-        <div className={cn(
-          "flex items-center mt-0.5",
-          isAuthor ? "pr-11 flex-row-reverse" : "pl-11 flex-row",
-          )}>
-          <ReactionGroup 
-            targetId={message.id} 
-            targetType="message" 
-            initialSummary={message.reaction_summary} />
-          <div className={cn("flex items-center gap-2", isAuthor ? "flex-row-reverse" : "flex-row")}>
+        <div
+          className={cn(
+            "mt-0.5 flex items-center",
+            isAuthor ? "flex-row-reverse pr-11" : "flex-row pl-11"
+          )}
+        >
+          <ReactionGroup
+            targetId={message.id}
+            targetType="message"
+            initialSummary={message.reaction_summary}
+          />
+          <div
+            className={cn("flex items-center gap-2", isAuthor ? "flex-row-reverse" : "flex-row")}
+          >
             <span className="text-secondary text-[11px] opacity-60">
               {timeAgo({
                 date: message.created_at,
@@ -185,7 +200,10 @@ export default function MessageBubble({
             {(isAdmin || isAuthor) && (
               <MiraclePopover
                 trigger={
-                  <button type="button" className="cursor-pointer text-xs font-semibold opacity-0 group-hover/message:opacity-100 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-all duration-300 ease-in-out outline-none select-none">
+                  <button
+                    type="button"
+                    className="cursor-pointer text-xs font-semibold text-neutral-600 opacity-0 transition-all duration-300 ease-in-out outline-none select-none group-hover/message:opacity-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
+                  >
                     •••
                   </button>
                 }
@@ -222,7 +240,9 @@ export default function MessageBubble({
       >
         <div className="flex flex-col gap-6 py-2">
           <div className="border-primary bg-secondary/10 text-secondary rounded-xl border p-3 text-xs italic">
-            {"“"}{message.content}{"”"}
+            {"“"}
+            {message.content}
+            {"”"}
           </div>
 
           <div className="flex justify-end gap-3">

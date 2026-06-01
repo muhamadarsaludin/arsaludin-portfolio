@@ -13,8 +13,8 @@ import MiracleBreadcrumbs from "@/components/miracle/Breadcrumbs"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type PrivacyPolicyPageProps = {
-  params: Promise<{ locale: string }>;
-};
+  params: Promise<{ locale: string }>
+}
 
 /* -------------------------------
    FALLBACK CONFIG
@@ -22,10 +22,7 @@ type PrivacyPolicyPageProps = {
 const FALLBACK_LOCALES = ["en", "id"]
 
 async function resolvePrivacyMdx(locale: string) {
-  const localesToTry = [
-    locale,
-    ...FALLBACK_LOCALES.filter((l) => l !== locale),
-  ]
+  const localesToTry = [locale, ...FALLBACK_LOCALES.filter((l) => l !== locale)]
 
   for (const loc of localesToTry) {
     try {
@@ -51,30 +48,30 @@ export default async function PrivacyPolicyPage({ params }: PrivacyPolicyPagePro
   const LATEST_UPDATE_DATE = "2026-06-01"
 
   return (
-    <Container className="flex gap-6 md:gap-8 items-start w-full">
-      <Article className="pb-13 lg:pb-23 flex-1 w-full">
+    <Container className="flex w-full items-start gap-6 md:gap-8">
+      <Article className="w-full flex-1 pb-13 lg:pb-23">
         <MiracleReveal animation="fade-right">
-          <MiracleBreadcrumbs 
+          <MiracleBreadcrumbs
             locales={routing.locales}
             overrides={{
               home: t("breadcrumbs.home"),
-              "privacy-policy": t("breadcrumbs.privacy-policy")
+              "privacy-policy": t("breadcrumbs.privacy-policy"),
             }}
             className="mb-5 md:mb-6"
           />
-          <div className="w-full flex flex-col items-start">
+          <div className="flex w-full flex-col items-start">
             <MiracleBadge startIcon={<LuCalendar />} className="mb-4">
-              {t("latestUpdate", { 
-                date: formatDate({ date: LATEST_UPDATE_DATE, locale }) 
+              {t("latestUpdate", {
+                date: formatDate({ date: LATEST_UPDATE_DATE, locale }),
               })}
             </MiracleBadge>
             <div className="w-full max-w-none">
               <Content />
             </div>
           </div>
-        </MiracleReveal> 
+        </MiracleReveal>
       </Article>
-      <TableOfContents className="hidden lg:block sticky top-30 shrink-0" />
+      <TableOfContents className="sticky top-30 hidden shrink-0 lg:block" />
     </Container>
   )
 }

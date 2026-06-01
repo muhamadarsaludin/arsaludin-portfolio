@@ -2,7 +2,7 @@
 
 Setelah berhasil menyelesaikan pengembangan [BLUE Android Design System](/projects/blue-android-design-system) dan [BLUE Android katalog](/projects/blue-android-catalog), tantangan berikutnya adalah meningkatkan adoption-nya di berbagai aplikasi Android dalam ekosistem Blibli.
 
-Meskipun fondasi design system telah tersedia dan dapat digunakan di berbagai proyek, implementasinya masih terbatas pada beberapa halaman non-prioritas atau fitur dengan tingkat risiko yang relatif rendah. Berdasarkan diskusi dengan tim Android Developer, proses adopsi pada halaman utama di berbagai aplikasi masih menghadapi beberapa kendala, seperti keterbatasan *bandwidth* pengembangan, kekhawatiran terhadap potensi bug maupun *regression*, serta besarnya usaha implementasi manual dari desain ke kode aplikasi.
+Meskipun fondasi design system telah tersedia dan dapat digunakan di berbagai proyek, implementasinya masih terbatas pada beberapa halaman non-prioritas atau fitur dengan tingkat risiko yang relatif rendah. Berdasarkan diskusi dengan tim Android Developer, proses adopsi pada halaman utama di berbagai aplikasi masih menghadapi beberapa kendala, seperti keterbatasan _bandwidth_ pengembangan, kekhawatiran terhadap potensi bug maupun _regression_, serta besarnya usaha implementasi manual dari desain ke kode aplikasi.
 
 Di sisi lain, tim UX Engineer sebelumnya telah mengembangkan UXE Codegen, sebuah Figma plugin yang berfungsi untuk mengonversi desain Figma menjadi kode UI siap pakai. Namun, pada tahap awal, kapabilitas plugin ini masih terbatas pada kemampuan menghasilkan kode berbasis Vue untuk kebutuhan pengembangan web. Melihat potensi tersebut, dilakukan pengembangan lanjutan untuk memperluas kapabilitasnya dengan menambahkan dukungan Android berbasis Jetpack Compose pada UXE Codegen, sebagai upaya mempercepat adopsi BLUE Android Design System ke dalam proses pengembangan aplikasi.
 
@@ -10,11 +10,11 @@ Di sisi lain, tim UX Engineer sebelumnya telah mengembangkan UXE Codegen, sebuah
 
 Berdasarkan kondisi implementasi BLUE Android Design System yang berjalan, ditemukan beberapa permasalahan utama yang menghambat adopsi pada berbagai aplikasi:
 
-* Adopsi design system masih terbatas pada halaman atau fitur non-prioritas yang memiliki tingkat risiko rendah, sehingga belum digunakan secara konsisten di halaman utama aplikasi.
-* Proses implementasi UI dari desain ke kode masih dilakukan secara manual, sehingga membutuhkan effort yang cukup besar dari Android developer.
-* Keterbatasan bandwidth pengembangan membuat prioritas implementasi design system sering tidak berada di urutan utama dibandingkan kebutuhan pengembangan fitur lainnya.
-* Kekhawatiran terhadap risiko bug dan *regression* membuat tim lebih berhati-hati dalam mengadopsi komponen design system pada area dengan dampak tinggi.
-* Belum adanya mekanisme yang dapat secara signifikan mempercepat konversi desain Figma menjadi kode Android yang siap digunakan, sekaligus memastikan kualitas kode tetap sesuai standar.
+- Adopsi design system masih terbatas pada halaman atau fitur non-prioritas yang memiliki tingkat risiko rendah, sehingga belum digunakan secara konsisten di halaman utama aplikasi.
+- Proses implementasi UI dari desain ke kode masih dilakukan secara manual, sehingga membutuhkan effort yang cukup besar dari Android developer.
+- Keterbatasan bandwidth pengembangan membuat prioritas implementasi design system sering tidak berada di urutan utama dibandingkan kebutuhan pengembangan fitur lainnya.
+- Kekhawatiran terhadap risiko bug dan _regression_ membuat tim lebih berhati-hati dalam mengadopsi komponen design system pada area dengan dampak tinggi.
+- Belum adanya mekanisme yang dapat secara signifikan mempercepat konversi desain Figma menjadi kode Android yang siap digunakan, sekaligus memastikan kualitas kode tetap sesuai standar.
 
 ## Tujuan & Sasaran
 
@@ -22,11 +22,11 @@ Tujuan utama dari pengembangan ini adalah mempercepat adopsi BLUE Android Design
 
 Untuk mencapai tujuan tersebut, ditetapkan beberapa sasaran utama sebagai berikut:
 
-* Mempercepat proses konversi desain Figma menjadi kode UI Android yang siap pakai.
-* Mengurangi effort Android developer dalam implementasi design system.
-* Meningkatkan konsistensi implementasi UI antara desain dan aplikasi.
-* Mendukung percepatan adopsi design system pada halaman utama di berbagai aplikasi.
-* Menyediakan mekanisme *design-to-code* melalui UXE Codegen untuk mendukung workflow designer dan engineer, termasuk peningkatan kualitas hasil kode melalui *AI-based code refinement*.
+- Mempercepat proses konversi desain Figma menjadi kode UI Android yang siap pakai.
+- Mengurangi effort Android developer dalam implementasi design system.
+- Meningkatkan konsistensi implementasi UI antara desain dan aplikasi.
+- Mendukung percepatan adopsi design system pada halaman utama di berbagai aplikasi.
+- Menyediakan mekanisme _design-to-code_ melalui UXE Codegen untuk mendukung workflow designer dan engineer, termasuk peningkatan kualitas hasil kode melalui _AI-based code refinement_.
 
 ## Peran & Tanggung Jawab
 
@@ -34,38 +34,45 @@ Dalam project ini, saya berperan sebagai bagian dari tim UX Engineer sekaligus P
 
 Adapun tanggung jawab yang dilakukan meliputi:
 
-* Menganalisis alur kerja existing pada UXE Codegen yang sebelumnya hanya mendukung platform web berbasis Vue.
-* Mengembangkan kapabilitas baru pada UXE Codegen untuk mendukung proses *design-to-code* pada platform Android berbasis Jetpack Compose.
-* Mengintegrasikan AI (Gemini) sebagai tahap *post-processing* untuk merapikan hasil *generated code*, menghapus redundansi, serta memastikan penerapan best practice Jetpack Compose.
-* Mengembangkan UI dan alur kerja pada UXE Codegen untuk mendukung proses *design-to-code* dari Figma ke Jetpack Compose.
-* Memastikan kualitas implementasi melalui code review, QA, serta iterasi berdasarkan feedback dari tim.
-* Mendukung proses eksplorasi *proof of concept (POC)* dalam penggunaan UXE Codegen untuk mempercepat adopsi design system.
+- Menganalisis alur kerja existing pada UXE Codegen yang sebelumnya hanya mendukung platform web berbasis Vue.
+- Mengembangkan kapabilitas baru pada UXE Codegen untuk mendukung proses _design-to-code_ pada platform Android berbasis Jetpack Compose.
+- Mengintegrasikan AI (Gemini) sebagai tahap _post-processing_ untuk merapikan hasil _generated code_, menghapus redundansi, serta memastikan penerapan best practice Jetpack Compose.
+- Mengembangkan UI dan alur kerja pada UXE Codegen untuk mendukung proses _design-to-code_ dari Figma ke Jetpack Compose.
+- Memastikan kualitas implementasi melalui code review, QA, serta iterasi berdasarkan feedback dari tim.
+- Mendukung proses eksplorasi _proof of concept (POC)_ dalam penggunaan UXE Codegen untuk mempercepat adopsi design system.
 
 ## Proses & Eksekusi
 
-Pengembangan UXE Codegen untuk Android dilakukan secara iteratif dengan fokus pada perluasan kapabilitas *design-to-code* dari Figma ke Jetpack Compose. Proses ini berfokus pada pembangunan alur transformasi otomatis yang dapat mengubah desain menjadi kode UI Android yang siap digunakan.
+Pengembangan UXE Codegen untuk Android dilakukan secara iteratif dengan fokus pada perluasan kapabilitas _design-to-code_ dari Figma ke Jetpack Compose. Proses ini berfokus pada pembangunan alur transformasi otomatis yang dapat mengubah desain menjadi kode UI Android yang siap digunakan.
 
 Adapun tahapan eksekusi yang dilakukan meliputi:
 
-* Analisis alur kerja existing pada UXE Codegen yang sebelumnya hanya mendukung platform web berbasis Vue.
-* Pemetaan Figma nodes ke struktur Abstract Syntax Tree (AST) untuk merepresentasikan komponen design system dan struktur layout Jetpack Compose.
-* Transformasi AST menjadi kode Jetpack Compose serta konversi Figma properties menjadi design tokens melalui proses code generation.
-* Pengembangan antarmuka pada Figma plugin UXE Codegen untuk mendukung proses *design-to-code* dari Figma ke Jetpack Compose.
-* Integrasi AI (Gemini) sebagai tahap optimasi hasil *generated code* untuk mengurangi redundansi, merapikan struktur kode, dan memastikan penerapan best practice Jetpack Compose.
-* Melakukan code review dan QA untuk memastikan kesesuaian implementasi terhadap desain yang telah ditentukan.
-* Melakukan iterasi terhadap hasil implementasi untuk meningkatkan akurasi dan kesiapan kode yang dihasilkan.
+- Analisis alur kerja existing pada UXE Codegen yang sebelumnya hanya mendukung platform web berbasis Vue.
+- Pemetaan Figma nodes ke struktur Abstract Syntax Tree (AST) untuk merepresentasikan komponen design system dan struktur layout Jetpack Compose.
+- Transformasi AST menjadi kode Jetpack Compose serta konversi Figma properties menjadi design tokens melalui proses code generation.
+- Pengembangan antarmuka pada Figma plugin UXE Codegen untuk mendukung proses _design-to-code_ dari Figma ke Jetpack Compose.
+- Integrasi AI (Gemini) sebagai tahap optimasi hasil _generated code_ untuk mengurangi redundansi, merapikan struktur kode, dan memastikan penerapan best practice Jetpack Compose.
+- Melakukan code review dan QA untuk memastikan kesesuaian implementasi terhadap desain yang telah ditentukan.
+- Melakukan iterasi terhadap hasil implementasi untuk meningkatkan akurasi dan kesiapan kode yang dihasilkan.
 
 ## Hasil
 
-Pengembangan UXE Codegen untuk Android berhasil memperluas kapabilitas *design-to-code* yang sebelumnya hanya mendukung platform web, kini mendukung juga Android berbasis Jetpack Compose.
+Pengembangan UXE Codegen untuk Android berhasil memperluas kapabilitas _design-to-code_ yang sebelumnya hanya mendukung platform web, kini mendukung juga Android berbasis Jetpack Compose.
 
-<div className="w-full flex items-center justify-center mt-4">
+<div className="mt-4 flex w-full items-center justify-center">
   <div className="w-full md:w-6/12">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/uxe-codegen-for-android/uxe-codegen.webp", alt: "Pratinjau Figma plugin UXE Codegen untuk Android"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/uxe-codegen-for-android/uxe-codegen.webp",
+          alt: "Pratinjau Figma plugin UXE Codegen untuk Android",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="mt-3 text-sm italic text-center text-secondary">Pratinjau Figma plugin UXE Codegen untuk Android</p>
+    <p className="text-secondary mt-3 text-center text-sm italic">
+      Pratinjau Figma plugin UXE Codegen untuk Android
+    </p>
   </div>
 </div>
 
@@ -73,14 +80,14 @@ Pengembangan UXE Codegen untuk Android berhasil memperluas kapabilitas *design-t
 
 ### Dampak bagi Perusahaan
 
-* Mempercepat proses implementasi UI dari desain ke kode Android melalui pendekatan otomatisasi.
-* Mengurangi ketergantungan pada proses implementasi manual dalam pengembangan UI dan meminimalkan risiko ketidaksesuaian antara desain dan hasil kode.
-* Mendorong perluasan adopsi BLUE Android Design System secara lebih konsisten dan menyeluruh di seluruh ekosistem aplikasi.
-* Menghemat waktu kerja developer karena berkurangnya proses implementasi manual, sehingga tim dapat lebih fokus pada pengembangan fitur dan kebutuhan bisnis lainnya.
+- Mempercepat proses implementasi UI dari desain ke kode Android melalui pendekatan otomatisasi.
+- Mengurangi ketergantungan pada proses implementasi manual dalam pengembangan UI dan meminimalkan risiko ketidaksesuaian antara desain dan hasil kode.
+- Mendorong perluasan adopsi BLUE Android Design System secara lebih konsisten dan menyeluruh di seluruh ekosistem aplikasi.
+- Menghemat waktu kerja developer karena berkurangnya proses implementasi manual, sehingga tim dapat lebih fokus pada pengembangan fitur dan kebutuhan bisnis lainnya.
 
 ### Dampak bagi Pribadi
 
-* Memahami lebih dalam proses transformasi dari desain Figma ke implementasi kode Android berbasis Jetpack Compose.
-* Meningkatkan ownership dalam merancang solusi end-to-end untuk mempercepat adopsi design system.
-* Memperdalam keahlian teknis dalam mengeksplorasi ekosistem tooling Figma, termasuk arsitektur dan kapabilitas Figma Plugin API untuk otomatisasi desain.
-* Memahami proses integrasi AI API sekaligus menguasai teknik *prompt engineering* untuk memastikan output kode lebih rapi, konsisten, dan minim redundansi.
+- Memahami lebih dalam proses transformasi dari desain Figma ke implementasi kode Android berbasis Jetpack Compose.
+- Meningkatkan ownership dalam merancang solusi end-to-end untuk mempercepat adopsi design system.
+- Memperdalam keahlian teknis dalam mengeksplorasi ekosistem tooling Figma, termasuk arsitektur dan kapabilitas Figma Plugin API untuk otomatisasi desain.
+- Memahami proses integrasi AI API sekaligus menguasai teknik _prompt engineering_ untuk memastikan output kode lebih rapi, konsisten, dan minim redundansi.

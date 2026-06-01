@@ -9,25 +9,31 @@ export const useUrlParams = () => {
   const searchParams = useSearchParams()
 
   const getParam = useCallback((key: string) => searchParams.get(key) || undefined, [searchParams])
-  
-  const getArrayParam = useCallback((key: string) => {
-    const val = searchParams.get(key)
-    return val ? val.split(",") : undefined
-  }, [searchParams])
 
-  const setParams = useCallback((updates: Record<string, string | string[] | undefined | null>) => {
-    const params = new URLSearchParams(searchParams.toString())
+  const getArrayParam = useCallback(
+    (key: string) => {
+      const val = searchParams.get(key)
+      return val ? val.split(",") : undefined
+    },
+    [searchParams]
+  )
 
-    Object.entries(updates).forEach(([key, value]) => {
-      if (!value || (Array.isArray(value) && value.length === 0)) {
-        params.delete(key)
-      } else {
-        params.set(key, Array.isArray(value) ? value.join(",") : value)
-      }
-    })
+  const setParams = useCallback(
+    (updates: Record<string, string | string[] | undefined | null>) => {
+      const params = new URLSearchParams(searchParams.toString())
 
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
-  }, [pathname, router, searchParams])
+      Object.entries(updates).forEach(([key, value]) => {
+        if (!value || (Array.isArray(value) && value.length === 0)) {
+          params.delete(key)
+        } else {
+          params.set(key, Array.isArray(value) ? value.join(",") : value)
+        }
+      })
+
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    },
+    [pathname, router, searchParams]
+  )
 
   return { setParams, getParam, getArrayParam, searchParams }
 }

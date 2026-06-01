@@ -10,11 +10,12 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   const project = await getProject({ slug, locale })
   const t = await getTranslations("pages.project-detail")
 
-  if (!slug || !project) return constructMetadata({
-    title: t("title"),
-    description: t("description"),
-    locale: locale,
-  })
+  if (!slug || !project)
+    return constructMetadata({
+      title: t("title"),
+      description: t("description"),
+      locale: locale,
+    })
 
   return constructMetadata({
     title: project.name,

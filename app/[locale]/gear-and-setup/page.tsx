@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   })
 }
 
-export default async function GearAndSetup({params}: BasePageProps) {
+export default async function GearAndSetup({ params }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
-  return <GearAndSetupPage params={params}/>
+  return <GearAndSetupPage params={params} />
 }

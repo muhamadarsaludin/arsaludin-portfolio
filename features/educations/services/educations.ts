@@ -1,23 +1,29 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import type { Education, EducationEntity, EducationTranslationEntity } from "../types/educations.types"
+import type {
+  Education,
+  EducationEntity,
+  EducationTranslationEntity,
+} from "../types/educations.types"
 import type { ImageAsset } from "@/features/images/types/images.types"
 
 type GetEducationsParams = {
   locale: string
 }
 
-type GetEducationsResponse = Pick<EducationEntity, "id" | "school" | "logo" | "grade" | "start_date" | "end_date" | "is_show">
-  & {translations: (Pick<
-    EducationTranslationEntity, "degree" | "field" | "location" | "description"
-    > & { 
-      i18n: { locale: string } 
-    })[]
-    images: ImageAsset[]
-  }
-
-
+type GetEducationsResponse = Pick<
+  EducationEntity,
+  "id" | "school" | "logo" | "grade" | "start_date" | "end_date" | "is_show"
+> & {
+  translations: (Pick<
+    EducationTranslationEntity,
+    "degree" | "field" | "location" | "description"
+  > & {
+    i18n: { locale: string }
+  })[]
+  images: ImageAsset[]
+}
 
 /**
  * Fetches education history from the database.
@@ -25,9 +31,7 @@ type GetEducationsResponse = Pick<EducationEntity, "id" | "school" | "logo" | "g
  * @returns A promise that resolves to an array of formatted Education objects.
  * @throws Will throw an error if the Supabase query fails.
  */
-export async function getEducations({
-  locale
-}: GetEducationsParams): Promise<Education[]> {
+export async function getEducations({ locale }: GetEducationsParams): Promise<Education[]> {
   const supabase = await createClient()
 
   /**
@@ -91,7 +95,7 @@ export async function getEducations({
       field: t?.field ?? "",
       location: t?.location ?? "",
       description: t?.description ?? null,
-      images: education.images ?? null
+      images: education.images ?? null,
     }
   })
 }

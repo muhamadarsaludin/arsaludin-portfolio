@@ -11,8 +11,8 @@ import Image from "next/image"
 import { getGearAndSetup } from "../data"
 
 type GearAndSetupPageProps = {
-  params: Promise<{ locale: string }>;
-};
+  params: Promise<{ locale: string }>
+}
 
 export default async function GearAndSetupPage({ params }: GearAndSetupPageProps) {
   const { locale } = await params
@@ -28,11 +28,7 @@ export default async function GearAndSetupPage({ params }: GearAndSetupPageProps
     return (
       <div key={groupIndex} className="w-full">
         <MiracleReveal animation="fade-right">
-          <Heading 
-            id={categoryId} 
-            level={2} 
-            className="mb-6 capitalize font-semibold"
-          >
+          <Heading id={categoryId} level={2} className="mb-6 font-semibold capitalize">
             {group.category}
           </Heading>
         </MiracleReveal>
@@ -48,31 +44,27 @@ export default async function GearAndSetupPage({ params }: GearAndSetupPageProps
   })
 
   return (
-    <Container className="flex gap-6 md:gap-8 items-start w-full">
-      <Article className="pb-13 lg:pb-23 flex-1 w-full">
+    <Container className="flex w-full items-start gap-6 md:gap-8">
+      <Article className="w-full flex-1 pb-13 lg:pb-23">
         <MiracleReveal animation="fade-right">
-          <MiracleBreadcrumbs 
+          <MiracleBreadcrumbs
             locales={routing.locales}
             overrides={{
               home: t("breadcrumbs.home"),
-              "gear-and-setup": t("breadcrumbs.gear-and-setup")
+              "gear-and-setup": t("breadcrumbs.gear-and-setup"),
             }}
             className="mb-5 md:mb-6"
           />
           <header>
-            <Heading 
-              id={t("title")}
-              level={1}
-              className="font-semibold"
-            >
+            <Heading id={t("title")} level={1} className="font-semibold">
               {t("title")}
             </Heading>
-            <p className='mt-4 text-secondary'>{t("description")}</p>
+            <p className="text-secondary mt-4">{t("description")}</p>
           </header>
         </MiracleReveal>
         {/* Hero Setup Image */}
         <MiracleReveal animation="zoom-in">
-          <div className="w-full aspect-video bg-secondary border border-primary rounded-2xl overflow-hidden mt-6 md:mt-8 relative shadow-sm">
+          <div className="bg-secondary border-primary relative mt-6 aspect-video w-full overflow-hidden rounded-2xl border shadow-sm md:mt-8">
             <Image
               src="/gear-and-setup/gear-and-setup.webp"
               alt="My Workspace Gear and Setup"
@@ -83,11 +75,9 @@ export default async function GearAndSetupPage({ params }: GearAndSetupPageProps
             />
           </div>
         </MiracleReveal>
-        <div className="mt-12 space-y-12">
-          {renderedGearSetups}
-        </div>
+        <div className="mt-12 space-y-12">{renderedGearSetups}</div>
       </Article>
-      <TableOfContents className="hidden lg:block sticky top-30 shrink-0" />
+      <TableOfContents className="sticky top-30 hidden shrink-0 lg:block" />
     </Container>
   )
 }

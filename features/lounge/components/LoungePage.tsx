@@ -20,8 +20,8 @@ export default async function LoungePage() {
 
   await queryClient.prefetchInfiniteQuery({
     queryKey: ["messages", messageType, { pageSize: MESSAGES_PAGE_SIZE }],
-    queryFn: ({ pageParam }) => 
-      getPaginatedMessages({ 
+    queryFn: ({ pageParam }) =>
+      getPaginatedMessages({
         pageSize: MESSAGES_PAGE_SIZE,
         cursor: pageParam as Cursor | undefined,
       }),
@@ -32,7 +32,7 @@ export default async function LoungePage() {
 
   /**
    * HYDRATION FIX:
-   * Manually "aging" server data by 20 minutes to remain consistent with 
+   * Manually "aging" server data by 20 minutes to remain consistent with
    * the cache settings used in Articles and Achievements page.
    */
   const TWENTY_MINUTES_IN_MS = 1000 * 60 * 20
@@ -47,22 +47,19 @@ export default async function LoungePage() {
     <Container>
       <Article className="pb-13 lg:pb-23">
         <MiracleReveal animation="fade-right">
-          <MiracleBreadcrumbs 
+          <MiracleBreadcrumbs
             locales={routing.locales}
             overrides={{
               home: t("breadcrumbs.home"),
-              lounge: t("breadcrumbs.lounge")
+              lounge: t("breadcrumbs.lounge"),
             }}
             className="mb-5 md:mb-6"
           />
-          <div className="mb-6 md:mb-8 w-full">
-            <Heading 
-              id={t("title")}
-              level={1}
-              className="font-semibold">
-                {t("title")}
+          <div className="mb-6 w-full md:mb-8">
+            <Heading id={t("title")} level={1} className="font-semibold">
+              {t("title")}
             </Heading>
-            <p className="mt-4 text-secondary">{t("description")}</p>
+            <p className="text-secondary mt-4">{t("description")}</p>
           </div>
         </MiracleReveal>
         <HydrationBoundary state={dehydratedState}>

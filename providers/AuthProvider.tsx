@@ -10,7 +10,7 @@ import React from "react"
 
 type AuthContextType = {
   user: User | null
-  profile: Profile | null 
+  profile: Profile | null
   isLoading: boolean
   isSignedIn: boolean
 }
@@ -27,8 +27,8 @@ export function AuthProvider({
   const supabase = createClient()
   const [user, setUser] = useState<User | null>(initialUser)
 
-  const { data: profile, isLoading: isProfileLoading } = useProfile({ 
-    userId: user?.id ?? null 
+  const { data: profile, isLoading: isProfileLoading } = useProfile({
+    userId: user?.id ?? null,
   })
 
   useEffect(() => {

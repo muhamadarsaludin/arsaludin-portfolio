@@ -17,7 +17,7 @@ export default function HeaderAvatar() {
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [isPending, setIsPending] = useState(false)
-  
+
   const { profile, isLoading } = useAuth()
   const t = useTranslations("components.header")
 
@@ -48,31 +48,42 @@ export default function HeaderAvatar() {
       <MiracleTooltip
         defaultPosition="bottom-end"
         hoverContent
-        trigger={
-          <UserAvatar user={profile}/>
-        }
+        trigger={<UserAvatar user={profile} />}
       >
         <div className="flex cursor-pointer flex-col gap-1">
-          <div className="border-primary border-b text-sm font-medium mb-2">
+          <div className="border-primary mb-2 border-b text-sm font-medium">
             <MiracleBadge className="mb-0.5" startIcon={<LuUserRound />} color="blue" size="sm">
               <span className="capitalize">{profile.role}</span>
             </MiracleBadge>
-            <h3 className="text-primary-inv font-semibold text-base">{profile.full_name}</h3>
+            <h3 className="text-primary-inv text-base font-semibold">{profile.full_name}</h3>
             <p className="text-secondary-inv mt-0.5 text-xs">{profile.email}</p>
           </div>
-          <MiracleButton onClick={handleSignOut} startIcon={<LuLogOut />} variant="secondary" size="sm">
+          <MiracleButton
+            onClick={handleSignOut}
+            startIcon={<LuLogOut />}
+            variant="secondary"
+            size="sm"
+          >
             {t("cta.signOut")}
           </MiracleButton>
-          <MiracleButton onClick={()=> setIsOpen(true)} startIcon={<LuUserRoundX />} status="danger" size="sm">
+          <MiracleButton
+            onClick={() => setIsOpen(true)}
+            startIcon={<LuUserRoundX />}
+            status="danger"
+            size="sm"
+          >
             {t("cta.deleteAccount")}
           </MiracleButton>
-          <Link href="/privacy-policy" className="flex gap-1 items-center text-blue-inv hover:underline font-medium w-full justify-center p-1 text-xs">
+          <Link
+            href="/privacy-policy"
+            className="text-blue-inv flex w-full items-center justify-center gap-1 p-1 text-xs font-medium hover:underline"
+          >
             {t("cta.privacy-policy")}
             <LuCircleAlert />
           </Link>
         </div>
       </MiracleTooltip>
-      
+
       <MiracleModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -80,14 +91,12 @@ export default function HeaderAvatar() {
         size="sm"
       >
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col items-center text-center gap-2 py-2">
-            <div className="bg-red-100 dark:bg-red-900/30 p-3 rounded-full text-red-600">
-              <LuTriangleAlert size={32}/>
+          <div className="flex flex-col items-center gap-2 py-2 text-center">
+            <div className="rounded-full bg-red-100 p-3 text-red-600 dark:bg-red-900/30">
+              <LuTriangleAlert size={32} />
             </div>
-            <h4 className="font-bold text-lg">{t("deleteAccount.confirmTitle")}</h4>
-            <p className="text-sm text-secondary-inv">
-              {t("deleteAccount.confirmDescription")}
-            </p>
+            <h4 className="text-lg font-bold">{t("deleteAccount.confirmTitle")}</h4>
+            <p className="text-secondary-inv text-sm">{t("deleteAccount.confirmDescription")}</p>
           </div>
 
           <div className="flex flex-col gap-2">
@@ -108,7 +117,11 @@ export default function HeaderAvatar() {
             >
               {t("deleteAccount.cancelAction")}
             </MiracleButton>
-            <Link onClick={()=> setIsOpen(false)} href={`/privacy-policy${t("deleteAccount.privacy-policy-hash")}`} className="flex gap-1 items-center text-blue hover:underline font-medium w-full justify-center p-1 text-sm">
+            <Link
+              onClick={() => setIsOpen(false)}
+              href={`/privacy-policy${t("deleteAccount.privacy-policy-hash")}`}
+              className="text-blue flex w-full items-center justify-center gap-1 p-1 text-sm font-medium hover:underline"
+            >
               {t("deleteAccount.privacy-policy")}
               <LuCircleAlert />
             </Link>

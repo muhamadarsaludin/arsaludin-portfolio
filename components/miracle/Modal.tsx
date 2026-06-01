@@ -104,9 +104,9 @@ export default function MiracleModal({
 
   const modalElement = (
     <div
-      onTransitionEnd={handleTransitionEnd} 
+      onTransitionEnd={handleTransitionEnd}
       className={cn(
-        "fixed inset-0 z-modal flex items-center justify-center p-4 md:p-6 transition-all duration-300 ease-in-out",
+        "z-modal fixed inset-0 flex items-center justify-center p-4 transition-all duration-300 ease-in-out md:p-6",
         animate ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
       )}
     >
@@ -123,7 +123,7 @@ export default function MiracleModal({
       {/* Box Modal */}
       <div
         className={cn(
-          "bg-primary border-primary relative z-modal flex w-full flex-col rounded-3xl border shadow-2xl transition-all duration-300 ease-in-out dark:shadow-black",
+          "bg-primary border-primary z-modal relative flex w-full flex-col rounded-3xl border shadow-2xl transition-all duration-300 ease-in-out dark:shadow-black",
           sizeStyles[size],
           animate ? "translate-y-0 scale-100" : "translate-y-12 scale-95 sm:translate-y-0",
           className
@@ -132,7 +132,7 @@ export default function MiracleModal({
         aria-modal="true"
       >
         {(title || showCloseIcon) && (
-          <div className="border-primary flex shrink-0 items-center justify-between border-b px-5 md:px-6 py-4 gap-6">
+          <div className="border-primary flex shrink-0 items-center justify-between gap-6 border-b px-5 py-4 md:px-6">
             <div className="flex flex-col gap-0.5">
               {title && (
                 <div className={cn("text-lg leading-tight font-semibold", statusColors[status])}>
@@ -156,7 +156,12 @@ export default function MiracleModal({
           </div>
         )}
 
-        <div className={cn("scrollbar-hide flex-1 overflow-y-auto", noContentPadding ? "p-0" : "p-5 md:p-6")}>
+        <div
+          className={cn(
+            "scrollbar-hide flex-1 overflow-y-auto",
+            noContentPadding ? "p-0" : "p-5 md:p-6"
+          )}
+        >
           {children}
         </div>
       </div>

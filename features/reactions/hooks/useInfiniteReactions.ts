@@ -24,7 +24,7 @@ export function useInfiniteReactions({
   targetId,
   targetType,
   enabled = true,
-  pageSize = REACTIONS_PAGE_SIZE
+  pageSize = REACTIONS_PAGE_SIZE,
 }: UseReactionsParams) {
   return useInfiniteQuery({
     queryKey: ["reactions", targetType, targetId, { pageSize }],

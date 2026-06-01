@@ -43,14 +43,10 @@ export default function MiracleRadio({
       {iconStart && <span className="flex shrink-0">{iconStart}</span>}
 
       {/* Ubah div di bawah menjadi span atau fragment agar valid secara HTML */}
-      <span className="text-sm select-none">
-        {children}
-      </span>
+      <span className="text-sm select-none">{children}</span>
 
       {description && (
-        <span className="text-secondary col-span-2 col-start-2 text-sm">
-          {description}
-        </span>
+        <span className="text-secondary col-span-2 col-start-2 text-sm">{description}</span>
       )}
     </label>
   )

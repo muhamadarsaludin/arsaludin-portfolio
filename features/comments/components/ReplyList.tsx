@@ -27,35 +27,26 @@ export default function ReplyList({
   const [isOpen, setIsOpen] = useState(false)
   const t = useTranslations("components.comment.replies")
 
-  const { 
-    data, 
-    fetchNextPage, 
-    hasNextPage, 
-    isFetchingNextPage, 
-    isLoading 
-  } = useInfiniteReplies({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteReplies({
     parentId,
     enabled: isOpen,
   })
 
-  const allReplies = useMemo(
-    () => data?.pages.flatMap((page) => page.data) ?? [],
-    [data?.pages]
-  )
+  const allReplies = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
 
   const isAnyLoading = isLoading || isFetchingNextPage
 
   if (replyCount <= 0) return null
 
   return (
-    <div className="ml-9 md:ml-11 flex flex-col gap-2">
+    <div className="ml-9 flex flex-col gap-2 md:ml-11">
       {/* TRIGGER: VIEW REPLIES */}
       {!isOpen && (
-        <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-3">
           <div className="bg-neutral-high h-[1.5px] w-6" />
           <button
             onClick={() => setIsOpen(true)}
-            className="flex w-fit cursor-pointer items-center gap-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors duration-300 ease-in-out"
+            className="flex w-fit cursor-pointer items-center gap-1 text-xs font-semibold text-neutral-600 transition-colors duration-300 ease-in-out hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
           >
             {t("view", { count: replyCount })}
             <LuChevronDown />
@@ -81,9 +72,9 @@ export default function ReplyList({
 
       {/* FOOTER: LOADING & CONTROLS */}
       {isOpen && (
-        <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-3">
           <div className="bg-neutral-high h-[1.5px] w-6" />
-          
+
           <div className="flex items-center gap-4">
             {isAnyLoading ? (
               <div className="text-primary flex items-center gap-1 text-xs font-semibold">
@@ -95,7 +86,7 @@ export default function ReplyList({
                 {hasNextPage && (
                   <button
                     onClick={() => fetchNextPage()}
-                    className="flex w-fit cursor-pointer items-center gap-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors duration-300 ease-in-out"
+                    className="flex w-fit cursor-pointer items-center gap-1 text-xs font-semibold text-neutral-600 transition-colors duration-300 ease-in-out hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
                   >
                     {t("loadMore", { count: replyCount - allReplies.length })}
                     <LuChevronDown className="h-3 w-3" />
@@ -104,7 +95,7 @@ export default function ReplyList({
 
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="flex w-fit cursor-pointer items-center gap-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors duration-300 ease-in-out"
+                  className="flex w-fit cursor-pointer items-center gap-1 text-xs font-semibold text-neutral-600 transition-colors duration-300 ease-in-out hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
                 >
                   {t("hide")}
                   <LuChevronUp className="h-3 w-3" />

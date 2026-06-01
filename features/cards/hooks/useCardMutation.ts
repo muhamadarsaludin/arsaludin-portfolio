@@ -2,7 +2,7 @@
 
 import type { InfiniteData } from "@tanstack/react-query"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import type { Card, PaginatedCards} from "../types/cards.types"
+import type { Card, PaginatedCards } from "../types/cards.types"
 import { nanoid } from "nanoid"
 import { createCard, updateCard, deleteCard } from "../services/cards"
 import { useAuth } from "@/providers/AuthProvider"
@@ -22,7 +22,7 @@ export function useCardsMutation() {
     mutationFn: createCard,
     onMutate: async (variables) => {
       checkAuth()
-      
+
       const queryKey = ["cards", { status: variables.status }]
       await queryClient.cancelQueries({ queryKey: ["cards"] })
       const previousCards = queryClient.getQueriesData({ queryKey: ["cards"] })
@@ -42,7 +42,7 @@ export function useCardsMutation() {
           allReactions: [],
           totalReactions: 0,
           totalEmojis: 0,
-        }
+        },
       }
 
       queryClient.setQueryData<InfiniteData<PaginatedCards>>(queryKey, (old) => {
@@ -78,16 +78,19 @@ export function useCardsMutation() {
 
       let originalCard: Card | undefined
 
-      queryClient.getQueriesData<InfiniteData<PaginatedCards>>({ queryKey: ["cards"] }).forEach(([_, data]) => {
-        if (data) {
-          data.pages.forEach(page => {
-            const found = page.data.find(c => c.id === cardId)
-            if (found) originalCard = found
-          })
-        }
-      })
+      queryClient
+        .getQueriesData<InfiniteData<PaginatedCards>>({ queryKey: ["cards"] })
+        .forEach(([_, data]) => {
+          if (data) {
+            data.pages.forEach((page) => {
+              const found = page.data.find((c) => c.id === cardId)
+              if (found) originalCard = found
+            })
+          }
+        })
 
-      const isStatusChanging = payload.status && originalCard && originalCard.status !== payload.status
+      const isStatusChanging =
+        payload.status && originalCard && originalCard.status !== payload.status
 
       queryClient.setQueriesData<InfiniteData<PaginatedCards>>({ queryKey: ["cards"] }, (old) => {
         if (!old) return old
@@ -95,7 +98,7 @@ export function useCardsMutation() {
           ...old,
           pages: old.pages.map((page) => ({
             ...page,
-            data: isStatusChanging 
+            data: isStatusChanging
               ? page.data.filter((card) => card.id !== cardId)
               : page.data.map((card) => (card.id === cardId ? { ...card, ...payload } : card)),
           })),

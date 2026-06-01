@@ -122,7 +122,7 @@
         "description": "List of users who reacted",
         "loadingDetail": "Fetching reaction details...",
         "emptyMessage": "No reactions yet. Be the first to react!",
-        "timestamp": "Reacted on {timestamp}" 
+        "timestamp": "Reacted on {timestamp}"
       }
     },
     "comment": {
@@ -163,7 +163,7 @@
       "replies": {
         "view": "View {count} {count, plural, one {reply} other {replies}}",
         "hide": "Hide replies",
-        "loadMore":"View {count} more {count, plural, one {reply} other {replies}}",
+        "loadMore": "View {count} more {count, plural, one {reply} other {replies}}",
         "fetching": "Loading replies..."
       }
     },
@@ -287,7 +287,7 @@
       "viewDetail": "View detail",
       "viewCredential": "View credential!",
       "modal": {
-        "title": "Detail Achievement" 
+        "title": "Detail Achievement"
       },
       "label": {
         "issuingOrganization": "Issuing Organization",

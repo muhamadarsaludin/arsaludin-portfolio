@@ -1,6 +1,6 @@
 "use client"
 
-import type { ReactNode} from "react"
+import type { ReactNode } from "react"
 import { useState } from "react"
 import CommentButton from "./CommentButton"
 import CommentDrawer from "./CommentDrawer"
@@ -16,12 +16,12 @@ type CommentGroupProps = {
   tooltipPosition?: TooltipDefaultPosition
 }
 
-export default function CommentGroup({ 
-  targetId, 
-  targetType, 
-  initialCount, 
+export default function CommentGroup({
+  targetId,
+  targetType,
+  initialCount,
   title,
-  tooltipPosition 
+  tooltipPosition,
 }: CommentGroupProps) {
   const { data: count } = useCommentCount({ targetId, targetType, initialCount })
   const commentCount = count ?? initialCount ?? 0
@@ -31,10 +31,10 @@ export default function CommentGroup({
   return (
     <>
       <div className="flex items-center gap-1">
-        <CommentButton 
-          tooltipPosition={tooltipPosition} 
-          commentCount={commentCount} 
-          onClick={() => setIsDrawerOpen(true)} 
+        <CommentButton
+          tooltipPosition={tooltipPosition}
+          commentCount={commentCount}
+          onClick={() => setIsDrawerOpen(true)}
         />
       </div>
 

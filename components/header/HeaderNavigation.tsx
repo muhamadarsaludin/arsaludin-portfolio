@@ -38,17 +38,14 @@ const navigationLinks = [
     label: "lounge",
     href: "/lounge",
     disabled: false,
-  }
+  },
 ]
 
 export default function HeaderNavigation({ className, isSidebar }: HeaderNavigationProps) {
   const t = useTranslations("components.header.navigation")
 
   return (
-    <nav className={cn(
-      "flex items-center", 
-      isSidebar ? "gap-4" : "gap-6",
-      className)}>
+    <nav className={cn("flex items-center", isSidebar ? "gap-4" : "gap-6", className)}>
       {navigationLinks.map((link, index) => (
         <HeaderNavLink
           key={index}

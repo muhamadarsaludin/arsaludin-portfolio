@@ -25,7 +25,7 @@ export default async function ProjectsSection({ className }: { className?: strin
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Section className={cn(className)}>
         <MiracleReveal animation="fade-right">
-          <div className="relative mb-8 lg:mb-10 xl:mb-12 flex w-fit">
+          <div className="relative mb-8 flex w-fit lg:mb-10 xl:mb-12">
             <Heading
               id="featured-projects"
               className="max-w-[10ch] text-3xl md:text-4xl lg:text-5xl"
@@ -35,21 +35,21 @@ export default async function ProjectsSection({ className }: { className?: strin
             >
               {t("title")}
             </Heading>
-            <MiracleReveal animation="zoom-in" delay={0.5} className="absolute -top-3 -right-4 md:-top-10 md:-right-5">
+            <MiracleReveal
+              animation="zoom-in"
+              delay={0.5}
+              className="absolute -top-3 -right-4 md:-top-10 md:-right-5"
+            >
               <IoSparkles className="text-yellow text-4xl md:text-5xl lg:text-6xl" />
             </MiracleReveal>
           </div>
         </MiracleReveal>
 
-        <ProjectList locale={locale}/>
+        <ProjectList locale={locale} />
 
-        <div className="flex justify-center mt-6 lg:mt-8 xl:mt-10">
+        <div className="mt-6 flex justify-center lg:mt-8 xl:mt-10">
           <MiracleReveal animation="zoom-in">
-            <MiracleButton 
-              href="/projects"
-              variant="secondary"
-              endIcon={<LuArrowRight />}
-            >
+            <MiracleButton href="/projects" variant="secondary" endIcon={<LuArrowRight />}>
               {t("cta")}
             </MiracleButton>
           </MiracleReveal>

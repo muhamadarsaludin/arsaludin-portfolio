@@ -22,21 +22,23 @@ export default async function RoadmapPage(props: BasePageProps) {
   const t = await getTranslations("pages.roadmap")
   const queryClient = getQueryClient()
 
-  
   await Promise.all(
     KANBAN_STATUSES.map((status) => {
       const filters = {
         status,
-        search: typeof searchParams.search === "string" && searchParams.search ? searchParams.search : undefined,
+        search:
+          typeof searchParams.search === "string" && searchParams.search
+            ? searchParams.search
+            : undefined,
         types: normalizeArrayParam(searchParams.types) as CardType[],
         priorities: normalizeArrayParam(searchParams.priorities) as CardPriority[],
-        pageSize: CARDS_PAGE_SIZE
+        pageSize: CARDS_PAGE_SIZE,
       }
 
       queryClient.prefetchInfiniteQuery({
         queryKey: ["cards", filters],
         queryFn: ({ pageParam }) =>
-          getPaginatedCardsByStatus({ 
+          getPaginatedCardsByStatus({
             ...filters,
             cursor: pageParam as Cursor | undefined,
           }),
@@ -49,7 +51,7 @@ export default async function RoadmapPage(props: BasePageProps) {
 
   /**
    * HYDRATION FIX:
-   * Manually "aging" server data by 20 minutes to prevent it from overwriting 
+   * Manually "aging" server data by 20 minutes to prevent it from overwriting
    * the client's multi-page infinite cache during navigation.
    */
   const TWENTY_MINUTES_IN_MS = 1000 * 60 * 20
@@ -64,24 +66,20 @@ export default async function RoadmapPage(props: BasePageProps) {
     <Container>
       <Article className="pb-13 lg:pb-23">
         <MiracleReveal animation="fade-right">
-          <MiracleBreadcrumbs 
+          <MiracleBreadcrumbs
             locales={routing.locales}
             overrides={{
               home: t("breadcrumbs.home"),
-              roadmap: t("breadcrumbs.roadmap")
+              roadmap: t("breadcrumbs.roadmap"),
             }}
             className="mb-5 md:mb-6"
           />
-          
-          <div className="mb-6 md:mb-8 w-full">
-            <Heading 
-              id={t("title")}
-              level={1}
-              className="font-semibold"
-            >
+
+          <div className="mb-6 w-full md:mb-8">
+            <Heading id={t("title")} level={1} className="font-semibold">
               {t("title")}
             </Heading>
-            <p className="mt-4 text-secondary">{t("description")}</p>
+            <p className="text-secondary mt-4">{t("description")}</p>
           </div>
         </MiracleReveal>
         {/* Roadmap Content */}

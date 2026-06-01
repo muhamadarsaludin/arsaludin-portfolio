@@ -15,9 +15,7 @@ export const MiracleMarkdown = ({ content, className }: MarkdownProps) => {
       <ReactMarkdown
         components={{
           // Paragraph
-          p: ({ ...props }) => (
-            <p className="text-secondary text-sm leading-relaxed" {...props} />
-          ),
+          p: ({ ...props }) => <p className="text-secondary text-sm leading-relaxed" {...props} />,
 
           // Strong
           strong: ({ children, ...props }) => {
@@ -43,7 +41,7 @@ export const MiracleMarkdown = ({ content, className }: MarkdownProps) => {
             return (
               <code
                 className={cn(
-                  "rounded px-1.5 py-0.5 font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+                  "rounded bg-blue-100 px-1.5 py-0.5 font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
                   "font-mono text-[0.85rem]"
                 )}
                 {...props}

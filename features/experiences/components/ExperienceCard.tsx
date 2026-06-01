@@ -9,12 +9,7 @@ import { useLocale } from "next-intl"
 import { useTranslations } from "use-intl"
 import { MiracleMarkdown } from "@/components/miracle/Markdown"
 import ModalGallery from "@/features/shared/components/ModalGallery"
-import { 
-  LuBriefcaseBusiness, 
-  LuCalendar, 
-  LuChevronDown, 
-  LuMapPin
-} from "react-icons/lu"
+import { LuBriefcaseBusiness, LuCalendar, LuChevronDown, LuMapPin } from "react-icons/lu"
 
 export const ExperienceCard = ({
   experience,
@@ -122,8 +117,8 @@ export const ExperienceCard = ({
       </div>
 
       {/* --- CONTENT SECTION --- */}
-      <div 
-        onTransitionEnd={handleTransitionEnd} 
+      <div
+        onTransitionEnd={handleTransitionEnd}
         className={cn(
           "grid transition-all duration-500 ease-in-out",
           isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
@@ -131,7 +126,7 @@ export const ExperienceCard = ({
       >
         <div className="overflow-hidden">
           {shouldRender && (
-            <div className="border-primary mt-5 flex flex-col gap-5 md:gap-6 border-t pt-5 md:mt-6 md:pt-6">
+            <div className="border-primary mt-5 flex flex-col gap-5 border-t pt-5 md:mt-6 md:gap-6 md:pt-6">
               {/* KEY CONTRIBUTIONS */}
               {experience.key_contributions && (
                 <div className="flex flex-col gap-3">
@@ -151,12 +146,12 @@ export const ExperienceCard = ({
               {experience.images && experience.images.length > 0 && (
                 <div className="flex flex-col gap-3">
                   <h4 className="text-sm font-bold uppercase">{t("gallery")} :</h4>
-                  <div className="scrollbar-hide snap-x snap-mandatory overflow-x-auto flex gap-4 [&::-webkit-scrollbar]:hidden">
+                  <div className="scrollbar-hide flex snap-x snap-mandatory gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
                     {experience.images.map((asset, index) => (
-                      <button 
-                        key={asset.id} 
+                      <button
+                        key={asset.id}
                         onClick={() => setSelectedIndex(index)}
-                        className="group relative aspect-3/2 shrink-0 snap-start overflow-hidden rounded-xl border border-primary cursor-pointer w-[75%] md:w-[85%] max-w-75"
+                        className="group border-primary relative aspect-3/2 w-[75%] max-w-75 shrink-0 cursor-pointer snap-start overflow-hidden rounded-xl border md:w-[85%]"
                       >
                         <Image
                           src={asset.image_url}

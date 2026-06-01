@@ -9,9 +9,7 @@ type UseFeaturedAchievementsParams = {
  * Custom hook to fetch featured achievements.
  * @returns The query result containing an array of Achievement objects.
  */
-export function useFeaturedAchievements({
-  locale,
-}: UseFeaturedAchievementsParams) {
+export function useFeaturedAchievements({ locale }: UseFeaturedAchievementsParams) {
   return useQuery({
     queryKey: ["featured-achievements", locale],
     queryFn: () => getFeaturedAchievements({ locale }),

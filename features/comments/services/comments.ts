@@ -2,7 +2,12 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
-import type { CommentData, CommentEntity, CommentTargetType, PaginatedComments } from "../types/comments.types"
+import type {
+  CommentData,
+  CommentEntity,
+  CommentTargetType,
+  PaginatedComments,
+} from "../types/comments.types"
 import { COMMENTS_PAGE_SIZE } from "../constants/comments.constants"
 import type { Cursor } from "@/features/shared/types/index.types"
 import type { Profile } from "@/features/profile/types/profiles.types"
@@ -15,14 +20,23 @@ type GetPaginatedCommentsParams = {
   pageSize?: number
 }
 
-export type GetPaginatedCommentsResponse = Pick<CommentEntity, "id" | "content" | "user_id" | "created_at" | "updated_at" | "parent_id" | "recipient_id" | "reply_to_id">
-  & {
-    author: Profile
-    recipient: Profile | null
-    replies: { count: number }[]
-    reaction_counts: ReactionCount[]
-    reactions: Reaction[]
-  }
+export type GetPaginatedCommentsResponse = Pick<
+  CommentEntity,
+  | "id"
+  | "content"
+  | "user_id"
+  | "created_at"
+  | "updated_at"
+  | "parent_id"
+  | "recipient_id"
+  | "reply_to_id"
+> & {
+  author: Profile
+  recipient: Profile | null
+  replies: { count: number }[]
+  reaction_counts: ReactionCount[]
+  reactions: Reaction[]
+}
 
 export type AddCommentParams = {
   targetId: string
@@ -127,10 +141,10 @@ export async function getPaginatedComments({
   }
 
   if (!data || data.length === 0) {
-    return { 
-      data: [], 
-      nextCursor: null, 
-      hasMore: false 
+    return {
+      data: [],
+      nextCursor: null,
+      hasMore: false,
     }
   }
 
@@ -144,11 +158,8 @@ export async function getPaginatedComments({
     const userReaction = comment.reactions?.[0] ?? null
     const allReactions = comment.reaction_counts || []
     const totalEmojis = allReactions.length
-    const totalReactions = allReactions.reduce(
-      (acc, curr) => acc + (curr.count || 0), 
-      0
-    )
-    
+    const totalReactions = allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0)
+
     return {
       id: comment.id,
       content: comment.content,
@@ -166,7 +177,7 @@ export async function getPaginatedComments({
         totalReactions,
         allReactions,
         totalEmojis,
-      }
+      },
     }
   })
 

@@ -24,7 +24,7 @@ export default async function ExperiencesSection({ className }: { className?: st
         <MiracleReveal animation="fade-right">
           <Heading
             id="experience"
-            className="text-3xl md:text-4xl lg:text-5xl mb-8 lg:mb-10 xl:mb-12"
+            className="mb-8 text-3xl md:text-4xl lg:mb-10 lg:text-5xl xl:mb-12"
             linkClassName="text-[0.4em]!"
             noMarginTop
             fontWeight="semibold"

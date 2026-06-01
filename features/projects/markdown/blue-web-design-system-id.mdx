@@ -2,20 +2,20 @@
 
 Proyek ini dilatarbelakangi oleh momentum **rebranding Blibli** pada 5 Oktober 2023 yang membawa banyak perubahan, sekaligus transformasi menyeluruh terhadap identitas visual dan ekosistem digital perusahaan. Perubahan ini turut mendorong kebutuhan pembaruan pada **BLUE Web Design System** agar selaras dengan rebranding dan semangat identitas baru Blibli.
 
-Di saat yang bersamaan, framework **Vue 2** mengeluarkan pengumuman bahwa pada tanggal 31 Desember 2023 merupakan masa *end of life (EOL)* sehingga tidak lagi menerima pembaruan fitur, keamanan, ataupun perbaikan bug. Kondisi ini menjadi peringatan penting karena basis kode design system lama (**BLUE 2.0**) masih bergantung pada Vue 2 sehingga berpotensi menimbulkan risiko teknis serta maintainability dalam jangka panjang apabila terus dipertahankan.
+Di saat yang bersamaan, framework **Vue 2** mengeluarkan pengumuman bahwa pada tanggal 31 Desember 2023 merupakan masa _end of life (EOL)_ sehingga tidak lagi menerima pembaruan fitur, keamanan, ataupun perbaikan bug. Kondisi ini menjadi peringatan penting karena basis kode design system lama (**BLUE 2.0**) masih bergantung pada Vue 2 sehingga berpotensi menimbulkan risiko teknis serta maintainability dalam jangka panjang apabila terus dipertahankan.
 
-Selain itu, pada versi sebelumnya (BLUE 2.0), terdapat perbedaan bahasa desain untuk ekosistem customer dan seller.  Kondisi ini memicu kebutuhan strategis untuk menyatukan kedua ekosistem tersebut ke dalam satu sumber terpusat melalui **BLUE 3.0**, sehingga pengelolaan komponen menjadi lebih efisien sekaligus memastikan pengalaman pengguna yang lebih konsisten di seluruh layanan Blibli.
+Selain itu, pada versi sebelumnya (BLUE 2.0), terdapat perbedaan bahasa desain untuk ekosistem customer dan seller. Kondisi ini memicu kebutuhan strategis untuk menyatukan kedua ekosistem tersebut ke dalam satu sumber terpusat melalui **BLUE 3.0**, sehingga pengelolaan komponen menjadi lebih efisien sekaligus memastikan pengalaman pengguna yang lebih konsisten di seluruh layanan Blibli.
 
-Melihat kondisi tersebut, tim **UX Engineer BLUE** memutuskan untuk melakukan pembaruan besar pada <strong className="text-primary font-semibold">BLUE Web Design System</strong> dari versi **BLUE 2.0** ke versi **BLUE 3.0**. Keputusan strategis ini diambil untuk membangun arsitektur komponen yang lebih adaptif dalam mendukung transisi identitas visual baru secara masif, sekaligus melakukan migrasi ke **Vue 3** demi menjaga keamanan, stabilitas, dan performa optimal aplikasi pada level *production* tanpa mengorbankan kompatibilitas sistem yang sedang berjalan.
+Melihat kondisi tersebut, tim **UX Engineer BLUE** memutuskan untuk melakukan pembaruan besar pada <strong className="text-primary font-semibold">BLUE Web Design System</strong> dari versi **BLUE 2.0** ke versi **BLUE 3.0**. Keputusan strategis ini diambil untuk membangun arsitektur komponen yang lebih adaptif dalam mendukung transisi identitas visual baru secara masif, sekaligus melakukan migrasi ke **Vue 3** demi menjaga keamanan, stabilitas, dan performa optimal aplikasi pada level _production_ tanpa mengorbankan kompatibilitas sistem yang sedang berjalan.
 
 ## Identifikasi Masalah
 
 Berdasarkan latar belakang tersebut, beberapa permasalahan utama yang berhasil diidentifikasi adalah sebagai berikut:
 
-* Rebranding Blibli membawa <strong className="text-primary font-semibold"> perubahan besar pada identitas visual dan ekosistem digital perusahaan</strong> sehingga diperlukan pembaruan menyeluruh pada elemen design system web agar selaras dengan arah dan semangat identitas baru.
-* Ketergantungan Basis kode BLUE 2.0 terhadap framework Vue 2 menimbulkan risiko teknis dan keamanan setelah framework tersebut resmi mencapai masa *end of life (EOL)*.
-* Perbedaan bahasa desain antara ekosistem customer dan seller pada versi sebelumnya (BLUE 2.0) mengakibatkan pengelolaan design system menjadi kurang efisien dan menghambat konsistensi pengalaman pengguna di seluruh layanan Blibli.
-* Proses migrasi ke Vue 3 dan penyatuan ekosistem design system berpotensi menimbulkan *breaking changes* jika tidak diimbangi dengan strategi manajemen kompatibilitas kode yang matang.
+- Rebranding Blibli membawa <strong className="text-primary font-semibold"> perubahan besar pada identitas visual dan ekosistem digital perusahaan</strong> sehingga diperlukan pembaruan menyeluruh pada elemen design system web agar selaras dengan arah dan semangat identitas baru.
+- Ketergantungan Basis kode BLUE 2.0 terhadap framework Vue 2 menimbulkan risiko teknis dan keamanan setelah framework tersebut resmi mencapai masa _end of life (EOL)_.
+- Perbedaan bahasa desain antara ekosistem customer dan seller pada versi sebelumnya (BLUE 2.0) mengakibatkan pengelolaan design system menjadi kurang efisien dan menghambat konsistensi pengalaman pengguna di seluruh layanan Blibli.
+- Proses migrasi ke Vue 3 dan penyatuan ekosistem design system berpotensi menimbulkan _breaking changes_ jika tidak diimbangi dengan strategi manajemen kompatibilitas kode yang matang.
 
 ## Tujuan dan Sasaran
 
@@ -23,10 +23,10 @@ Tujuan utama dari proyek ini adalah mengembangkan **BLUE Web Design System (BLUE
 
 Untuk mencapai tujuan tersebut, ditetapkan beberapa sasaran utama sebagai berikut:
 
-* Menyelaraskan design system dengan identitas visual baru Blibli pasca rebranding.
-* Melakukan migrasi dari Vue 2 ke Vue 3 untuk meningkatkan stabilitas, keamanan, dan keberlanjutan sistem.
-* Menyatukan ekosistem customer dan seller ke dalam satu design system terpusat.
-* Menyediakan proses transisi yang aman dan bertahap bagi proyek yang belum bermigrasi ke Vue 3 agar tetap dapat mengadopsi arah visual BLUE 3.0 tanpa mengganggu stabilitas sistem yang sedang berjalan.
+- Menyelaraskan design system dengan identitas visual baru Blibli pasca rebranding.
+- Melakukan migrasi dari Vue 2 ke Vue 3 untuk meningkatkan stabilitas, keamanan, dan keberlanjutan sistem.
+- Menyatukan ekosistem customer dan seller ke dalam satu design system terpusat.
+- Menyediakan proses transisi yang aman dan bertahap bagi proyek yang belum bermigrasi ke Vue 3 agar tetap dapat mengadopsi arah visual BLUE 3.0 tanpa mengganggu stabilitas sistem yang sedang berjalan.
 
 ## Peran dan Tanggung Jawab
 
@@ -34,43 +34,57 @@ Dalam proyek ini, saya berperan sebagai bagian dari tim **UX Engineer** yang ber
 
 Adapun tanggung jawab yang dilakukan meliputi:
 
-* Mengembangkan komponen BLUE Web Design System (BLUE 3.0) berbasis Vue 3 dengan arsitektur yang lebih modern, scalable, dan konsisten.
-* Menyusun dan mengembangkan Design Tokens BLUE 3.0, mencakup warna, typography, ukuran, opacity, dan elevation.
-* Mengembangkan Icon Library BLUE 3.0 melalui konversi file SVG menjadi komponen Vue.
-* Mengadaptasi dan memperbarui visual komponen BLUE 2.5 untuk memastikan kesesuaian dengan arah desain BLUE 3.0, sehingga tetap kompatibel digunakan pada proyek berbasis Vue 2 selama masa transisi.
-* Memastikan kualitas dan konsistensi design system melalui dokumentasi teknis, code review, testing, serta evaluasi berkala.
+- Mengembangkan komponen BLUE Web Design System (BLUE 3.0) berbasis Vue 3 dengan arsitektur yang lebih modern, scalable, dan konsisten.
+- Menyusun dan mengembangkan Design Tokens BLUE 3.0, mencakup warna, typography, ukuran, opacity, dan elevation.
+- Mengembangkan Icon Library BLUE 3.0 melalui konversi file SVG menjadi komponen Vue.
+- Mengadaptasi dan memperbarui visual komponen BLUE 2.5 untuk memastikan kesesuaian dengan arah desain BLUE 3.0, sehingga tetap kompatibel digunakan pada proyek berbasis Vue 2 selama masa transisi.
+- Memastikan kualitas dan konsistensi design system melalui dokumentasi teknis, code review, testing, serta evaluasi berkala.
 
 ## Proses dan Eksekusi
 
 Pengembangan proyek ini diawali dengan proses diskusi dan alignment yang diikuti oleh seluruh stakeholder yang terdiri dari tim UX Engineer dan Designer untuk menyusun arah pengembangan design system baru pasca rebranding Blibli. Pada tahap ini dilakukan evaluasi terhadap struktur design system sebelumnya, identifikasi kebutuhan migrasi ke Vue 3, serta penyusunan strategi implementasi agar proses migrasi dapat berjalan lebih aman dan tetap menjaga kompatibilitas dengan proyek yang sudah ada.
 
-Setelah arah pengembangan disepakati, proses pengerjaan dilakukan secara paralel yang mencakup pengembangan *design token*, *icon library*, *component library*, hingga penyesuaian pada design system sebelumnya sebagai upaya menjaga *backward compatibility*.
+Setelah arah pengembangan disepakati, proses pengerjaan dilakukan secara paralel yang mencakup pengembangan _design token_, _icon library_, _component library_, hingga penyesuaian pada design system sebelumnya sebagai upaya menjaga _backward compatibility_.
 
 Adapun proses pengembangan dan implementasi yang dilakukan meliputi beberapa hal sebagai berikut:
 
-* Mengembangkan design tokens pada BLUE 3.0 dengan mengonversi file JSON hasil Figma plugin [Token Studio](https://www.figma.com/community/plugin/843461159747178978) ke dalam format SCSS menggunakan library [Style Dictionary](https://styledictionary.com/).
-<div className="w-full flex items-center justify-center mt-4">
-  <div className="w-full md:w-6/12">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/blue-web-design-system/design-tokens.webp", alt: "Konversi design tokens dari format JSON ke SCSS menggunakan Style Dictionary"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
-    />
-    <p className="mt-3 text-sm italic text-center text-secondary">Konversi design tokens dari format JSON ke SCSS menggunakan Style Dictionary</p>
+- Mengembangkan design tokens pada BLUE 3.0 dengan mengonversi file JSON hasil Figma plugin [Token Studio](https://www.figma.com/community/plugin/843461159747178978) ke dalam format SCSS menggunakan library [Style Dictionary](https://styledictionary.com/).
+  <div className="mt-4 flex w-full items-center justify-center">
+    <div className="w-full md:w-6/12">
+      <MiracleImagePreview
+        images={[
+          {
+            image_url: "/projects/blue-web-design-system/design-tokens.webp",
+            alt: "Konversi design tokens dari format JSON ke SCSS menggunakan Style Dictionary",
+          },
+        ]}
+        sizes="(max-width: 768px) 100vw, 750px"
+      />
+      <p className="text-secondary mt-3 text-center text-sm italic">
+        Konversi design tokens dari format JSON ke SCSS menggunakan Style Dictionary
+      </p>
+    </div>
   </div>
-</div>
-* Mengembangkan icon library dengan mengonversi file SVG dari designer menjadi komponen Vue, sehingga lebih fleksibel dalam penggunaan serta memudahkan pengaturan warna dan styling.
-<div className="w-full flex items-center justify-center mt-4">
-  <div className="w-full md:w-6/12">
-    <MiracleImagePreview 
-      images={[{image_url: "/projects/blue-web-design-system/icon-library.webp", alt: "Konversi file SVG menjadi komponen Vue pada BLUE icon library"}]}
-      sizes = "(max-width: 768px) 100vw, 750px"
-    />
-    <p className="mt-3 text-sm italic text-center text-secondary">Konversi file SVG menjadi komponen Vue pada BLUE icon library</p>
+- Mengembangkan icon library dengan mengonversi file SVG dari designer menjadi komponen Vue, sehingga lebih fleksibel dalam penggunaan serta memudahkan pengaturan warna dan styling.
+  <div className="mt-4 flex w-full items-center justify-center">
+    <div className="w-full md:w-6/12">
+      <MiracleImagePreview
+        images={[
+          {
+            image_url: "/projects/blue-web-design-system/icon-library.webp",
+            alt: "Konversi file SVG menjadi komponen Vue pada BLUE icon library",
+          },
+        ]}
+        sizes="(max-width: 768px) 100vw, 750px"
+      />
+      <p className="text-secondary mt-3 text-center text-sm italic">
+        Konversi file SVG menjadi komponen Vue pada BLUE icon library
+      </p>
+    </div>
   </div>
-</div>
-* Mengembangkan component library sebagai bagian utama dari BLUE Web Design System (BLUE 3.0) berbasis Vue 3 untuk mendukung konsistensi implementasi UI di berbagai proyek dan ekosistem digital Blibli.
-* Melakukan penyesuaian pada design system lama (BLUE 2.0) dengan menyelaraskan visual komponen agar sama dengan BLUE 3.0, kemudian di-branding ulang sebagai BLUE 2.5 untuk menjaga *backward compatibility* dengan proyek yang masih berjalan.
-* Melakukan implementasi awal melalui *pilot project* pada beberapa proyek sebagai tahap validasi dan pengujian adopsi sebelum design system diterapkan ke ekosistem yang lebih besar.
+- Mengembangkan component library sebagai bagian utama dari BLUE Web Design System (BLUE 3.0) berbasis Vue 3 untuk mendukung konsistensi implementasi UI di berbagai proyek dan ekosistem digital Blibli.
+- Melakukan penyesuaian pada design system lama (BLUE 2.0) dengan menyelaraskan visual komponen agar sama dengan BLUE 3.0, kemudian di-branding ulang sebagai BLUE 2.5 untuk menjaga _backward compatibility_ dengan proyek yang masih berjalan.
+- Melakukan implementasi awal melalui _pilot project_ pada beberapa proyek sebagai tahap validasi dan pengujian adopsi sebelum design system diterapkan ke ekosistem yang lebih besar.
 
 Seluruh proses pengembangan juga melalui tahapan code review dan QA secara berkala untuk memastikan kualitas, konsistensi, serta stabilitas component sebelum digunakan secara luas.
 
@@ -80,19 +94,21 @@ Pengembangan [BLUE Web Design System (BLUE 3.0)](https://blue.blibli.com/blue3/)
 
 Adapun hasil yang berhasil dicapai dari pengembangan ini meliputi beberapa hal sebagai berikut:
 
-* Berhasil mengembangkan fondasi utama BLUE Web Design System (BLUE 3.0) berbasis Vue 3 melalui pengembangan [design token](https://blue.blibli.com/blue3/foundation/tokens/guidelines), [icon library](https://blue.blibli.com/blue3/components/icon/icon-library), dan [component library](https://blue.blibli.com/blue3/components) yang terintegrasi untuk mendukung konsistensi implementasi UI di berbagai proyek.
-* Berhasil melakukan penyesuaian dan rebranding BLUE 2.0 menjadi BLUE 2.5 sebagai jembatan migrasi untuk membantu menjaga kompatibilitas terhadap proyek yang belum bermigrasi ke Vue 3.
-* Berhasil melakukan validasi implementasi melalui *pilot project* sebagai tahap awal adopsi sebelum design system diterapkan lebih luas di ekosistem digital Blibli.
+- Berhasil mengembangkan fondasi utama BLUE Web Design System (BLUE 3.0) berbasis Vue 3 melalui pengembangan [design token](https://blue.blibli.com/blue3/foundation/tokens/guidelines), [icon library](https://blue.blibli.com/blue3/components/icon/icon-library), dan [component library](https://blue.blibli.com/blue3/components) yang terintegrasi untuk mendukung konsistensi implementasi UI di berbagai proyek.
+- Berhasil melakukan penyesuaian dan rebranding BLUE 2.0 menjadi BLUE 2.5 sebagai jembatan migrasi untuk membantu menjaga kompatibilitas terhadap proyek yang belum bermigrasi ke Vue 3.
+- Berhasil melakukan validasi implementasi melalui _pilot project_ sebagai tahap awal adopsi sebelum design system diterapkan lebih luas di ekosistem digital Blibli.
 
 ## Dampak
 
 ### Dampak bagi Perusahaan
-* Membantu mendukung proses rebranding Blibli melalui implementasi design system yang lebih modern dan konsisten.
-* Meningkatkan pengelolaan design system dan konsistensi pengalaman pengguna di seluruh layanan Blibli melalui penggunaan design system terpusat yang menyatukan ekosistem customer dan seller.
-* Mengurangi redundansi dan mempercepat delivery pengembangan di proyek, dibuktikan melalui hasil survei statisfaction pada pertengahan tahun 2024pada pertengahan tahun 2024 dengan perolehan skor 8,48 untuk pengurangan redundansi dan 8,42 untuk percepatan delivery.
-* Membantu proses migrasi menuju Vue 3 berjalan lebih aman melalui pendekatan *backward compatibility* pada BLUE 2.5.
+
+- Membantu mendukung proses rebranding Blibli melalui implementasi design system yang lebih modern dan konsisten.
+- Meningkatkan pengelolaan design system dan konsistensi pengalaman pengguna di seluruh layanan Blibli melalui penggunaan design system terpusat yang menyatukan ekosistem customer dan seller.
+- Mengurangi redundansi dan mempercepat delivery pengembangan di proyek, dibuktikan melalui hasil survei statisfaction pada pertengahan tahun 2024pada pertengahan tahun 2024 dengan perolehan skor 8,48 untuk pengurangan redundansi dan 8,42 untuk percepatan delivery.
+- Membantu proses migrasi menuju Vue 3 berjalan lebih aman melalui pendekatan _backward compatibility_ pada BLUE 2.5.
 
 ### Dampak bagi Pribadi
-* Memperdalam pengalaman dalam mengembangkan dan mengelola design system berskala besar berbasis Vue 3.
-* Meningkatkan kemampuan dalam membangun design token, icon library, dan component library yang terintegrasi.
-* Meningkatkan pemahaman dalam merancang strategi *backward compatibility* untuk menjaga stabilitas migrasi dan kompatibilitas antar sistem.
+
+- Memperdalam pengalaman dalam mengembangkan dan mengelola design system berskala besar berbasis Vue 3.
+- Meningkatkan kemampuan dalam membangun design token, icon library, dan component library yang terintegrasi.
+- Meningkatkan pemahaman dalam merancang strategi _backward compatibility_ untuk menjaga stabilitas migrasi dan kompatibilitas antar sistem.

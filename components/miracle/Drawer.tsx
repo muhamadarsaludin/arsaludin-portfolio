@@ -123,10 +123,10 @@ export default function MiracleDrawer({
   }
 
   const drawerContent = (
-    <div 
+    <div
       onTransitionEnd={handleTransitionEnd}
       className={cn(
-        "fixed inset-0 z-drawer transition-all duration-300 ease-in-out",
+        "z-drawer fixed inset-0 transition-all duration-300 ease-in-out",
         animate ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
       )}
     >
@@ -143,7 +143,7 @@ export default function MiracleDrawer({
       {/* Drawer Panel */}
       <div
         className={cn(
-          "fixed z-drawer flex flex-col bg-white dark:bg-neutral-900 shadow-2xl transition-all duration-300 ease-in-out",
+          "z-drawer fixed flex flex-col bg-white shadow-2xl transition-all duration-300 ease-in-out dark:bg-neutral-900",
           borderStyles[position],
           positionStyles[position],
           animate ? translateOpen : translateClosed[position],
@@ -153,10 +153,10 @@ export default function MiracleDrawer({
       >
         {/* Header */}
         {(title || showCloseIcon) && (
-          <div className="border-primary flex shrink-0 items-center justify-between border-b px-5 md:px-6 py-4 gap-6">
+          <div className="border-primary flex shrink-0 items-center justify-between gap-6 border-b px-5 py-4 md:px-6">
             <div className="flex flex-col gap-0.5">
               {title && (
-                <div className={cn("text-lg leading-tight font-semibold text-primary")}>
+                <div className={cn("text-primary text-lg leading-tight font-semibold")}>
                   {title}
                 </div>
               )}
@@ -178,13 +178,13 @@ export default function MiracleDrawer({
         )}
 
         {/* Content Body */}
-        <div className="flex-1 overflow-y-auto p-5 md:p-6 text-neutral-700 dark:text-neutral-300">
+        <div className="flex-1 overflow-y-auto p-5 text-neutral-700 md:p-6 dark:text-neutral-300">
           {children}
         </div>
 
         {/* Footer */}
         {footer && (
-          <div className="border-neutral-200 dark:border-neutral-800 shrink-0 border-t px-5 md:px-6 py-4">
+          <div className="shrink-0 border-t border-neutral-200 px-5 py-4 md:px-6 dark:border-neutral-800">
             {footer}
           </div>
         )}

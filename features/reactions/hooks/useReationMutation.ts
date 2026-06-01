@@ -22,10 +22,7 @@ type UseReactionMutationParams = {
  * @param targetId - The UUID of the target entity.
  * @param targetType - The classification of the target ("project" | "comment").
  */
-export function useReactionMutation({
-  targetId,
-  targetType
-}: UseReactionMutationParams) {
+export function useReactionMutation({ targetId, targetType }: UseReactionMutationParams) {
   const queryClient = useQueryClient()
   const { user, profile } = useAuth()
 
@@ -63,9 +60,7 @@ export function useReactionMutation({
 
         if (old.userReaction) {
           nextAll = nextAll.map((r) =>
-            r.emoji === old.userReaction?.emoji 
-              ? { ...r, count: Math.max(0, r.count - 1) } 
-              : r
+            r.emoji === old.userReaction?.emoji ? { ...r, count: Math.max(0, r.count - 1) } : r
           )
         }
 

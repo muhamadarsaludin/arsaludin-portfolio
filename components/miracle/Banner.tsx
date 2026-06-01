@@ -27,7 +27,6 @@ export default function MiracleBanner({
   isClearable = false,
   ...props
 }: MiracleBannerProps) {
-  
   const baseStyles = "relative flex w-full gap-2 p-2 rounded-lg border transition-all"
 
   const colorStyles: Record<BannerColor, Record<BannerVariant, string>> = {
@@ -50,7 +49,7 @@ export default function MiracleBanner({
     yellow: {
       primary: "bg-yellow text-primary-inv",
       secondary: "bg-yellow-low text-primary border-yellow",
-    }
+    },
   }
 
   const iconStyles: Record<BannerColor, Record<BannerVariant, string>> = {
@@ -73,34 +72,24 @@ export default function MiracleBanner({
     yellow: {
       primary: "text-primary-inv",
       secondary: "text-yellow",
-    }
-  } 
+    },
+  }
 
   const selectedStyles = colorStyles[color][variant]
   const selectedIconStyles = iconStyles[color][variant]
 
   return (
-    <div 
-      className={cn(baseStyles, selectedStyles, className)} 
-      role="alert"
-      {...props}
-    >
+    <div className={cn(baseStyles, selectedStyles, className)} role="alert" {...props}>
       {/* Start Icon Slot */}
-      {startIcon && (
-        <div className={cn("shrink-0 text-lg", selectedIconStyles)}>
-          {startIcon}
-        </div>
-      )}
+      {startIcon && <div className={cn("shrink-0 text-lg", selectedIconStyles)}>{startIcon}</div>}
 
       {/* Main Content Slot */}
-      <div className="flex-1 flex flex-col gap-2">
-        {title && (
-          <h4 className="font-semibold leading-none">
-            {title}
-          </h4>
-        )}
+      <div className="flex flex-1 flex-col gap-2">
+        {title && <h4 className="leading-none font-semibold">{title}</h4>}
         {children && (
-          <div className={cn("text-sm", variant === "primary" ? "text-primary-inv" : "text-secondary")}>
+          <div
+            className={cn("text-sm", variant === "primary" ? "text-primary-inv" : "text-secondary")}
+          >
             {children}
           </div>
         )}
@@ -111,7 +100,9 @@ export default function MiracleBanner({
         <button
           onClick={onClear}
           type="button"
-          className={cn("shrink-0 h-fit p-1 -mr-1 -mt-1 rounded-md transition-all active:scale-95 hover:bg-black/5 dark:hover:bg-white/10 text-primary cursor-pointer")}
+          className={cn(
+            "text-primary -mt-1 -mr-1 h-fit shrink-0 cursor-pointer rounded-md p-1 transition-all hover:bg-black/5 active:scale-95 dark:hover:bg-white/10"
+          )}
           aria-label="Dismiss"
         >
           <LuX size={18} />

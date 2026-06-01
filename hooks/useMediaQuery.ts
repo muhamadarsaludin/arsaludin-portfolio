@@ -40,13 +40,13 @@ export function useMediaQuery() {
     breakpoint,
     // Mobile: Di bawah 640px (default Tailwind)
     isMobile: breakpoint === "default",
-    
+
     // Tablet: 640px (sm) sampai 1023px (md)
     isTablet: breakpoint === "sm" || breakpoint === "md",
-    
+
     // Desktop: 1024px (lg) ke atas
     isDesktop: ["lg", "xl", "2xl"].includes(breakpoint),
-    
+
     // Helper tambahan untuk fleksibilitas UI
     isMobileOrTablet: ["default", "sm", "md"].includes(breakpoint),
   }

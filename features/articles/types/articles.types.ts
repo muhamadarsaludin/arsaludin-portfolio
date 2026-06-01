@@ -44,9 +44,8 @@ export type ArticleTranslationEntity = {
  * ARTICLE (Public)
  * Flattened object for UI Portfolio.
  */
-export type Article = ArticleEntity
-  & Pick<ArticleTranslationEntity, "title" | "summary" | "content" > 
-  & {
+export type Article = ArticleEntity &
+  Pick<ArticleTranslationEntity, "title" | "summary" | "content"> & {
     author: Profile
     categories: Category[]
     comment_count: number

@@ -15,7 +15,7 @@ type UseAvailableCategoriesProps = {
  */
 export function useAvailableCategories({ locale, targetType }: UseAvailableCategoriesProps) {
   return useQuery<Category[]>({
-    queryKey: ["available-category", {locale, targetType}],
+    queryKey: ["available-category", { locale, targetType }],
     queryFn: () => getAvailableCategories({ targetType, locale }),
     staleTime: 1000 * 60 * 60,
     refetchOnWindowFocus: false,

@@ -1,26 +1,39 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import type { Testimonial, TestimonialEntity, TestimonialTranslationEntity } from "../types/testimonials.types"
+import type {
+  Testimonial,
+  TestimonialEntity,
+  TestimonialTranslationEntity,
+} from "../types/testimonials.types"
 import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 
 type GetFeaturedTestimonialsParams = {
   locale: string
 }
 
-type GetFeaturedTestimonialsResponse = Pick<TestimonialEntity, "id" | "name" | "company" | "avatar_url" | "linkedin" | "relationship" | "is_show" | "is_featured" | "order_index">
-  & {
-    translations: (Pick<TestimonialTranslationEntity, "role" | "content" | "additional_info"> 
-    & {
-      i18n: { locale: string }
-    })[]
-    reaction_counts: ReactionCount[]
-    reactions: Reaction[]
-  }
-  
-export async function getFeaturedTestimonials({ 
-  locale 
-} : GetFeaturedTestimonialsParams): Promise<Testimonial[]> {
+type GetFeaturedTestimonialsResponse = Pick<
+  TestimonialEntity,
+  | "id"
+  | "name"
+  | "company"
+  | "avatar_url"
+  | "linkedin"
+  | "relationship"
+  | "is_show"
+  | "is_featured"
+  | "order_index"
+> & {
+  translations: (Pick<TestimonialTranslationEntity, "role" | "content" | "additional_info"> & {
+    i18n: { locale: string }
+  })[]
+  reaction_counts: ReactionCount[]
+  reactions: Reaction[]
+}
+
+export async function getFeaturedTestimonials({
+  locale,
+}: GetFeaturedTestimonialsParams): Promise<Testimonial[]> {
   const supabase = await createClient()
 
   const {
@@ -90,10 +103,7 @@ export async function getFeaturedTestimonials({
     const userReaction = testimonial.reactions?.[0] ?? null
     const allReactions = testimonial.reaction_counts || []
     const totalEmojis = allReactions.length
-    const totalReactions = allReactions.reduce(
-      (acc, curr) => acc + (curr.count || 0), 
-      0
-    )
+    const totalReactions = allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0)
 
     return {
       id: testimonial.id,
@@ -112,8 +122,8 @@ export async function getFeaturedTestimonials({
         userReaction,
         allReactions,
         totalReactions,
-        totalEmojis
-      }
+        totalEmojis,
+      },
     }
   })
 }

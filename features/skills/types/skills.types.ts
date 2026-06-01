@@ -16,7 +16,4 @@ export interface SkillEntity {
  * SKILL (Public)
  * Flattened object for UI Portfolio.
  */
-export type Skill = Pick<
-  SkillEntity,
-  "id" | "name" | "icon" | "link"
->
+export type Skill = Pick<SkillEntity, "id" | "name" | "icon" | "link">

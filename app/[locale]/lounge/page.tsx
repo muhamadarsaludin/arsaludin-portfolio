@@ -4,7 +4,6 @@ import type { BasePageProps } from "@/types/page.types"
 import type { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 
-
 export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations("pages.lounge")
@@ -16,7 +15,7 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   })
 }
 
-export default async function Lounge({params}: BasePageProps) {
+export default async function Lounge({ params }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
   return <LoungePage />

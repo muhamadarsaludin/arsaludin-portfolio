@@ -19,13 +19,13 @@ export async function signInWithGoogle() {
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { 
+      options: {
         redirectTo: finalRedirectTo,
         queryParams: {
           access_type: "offline",
           prompt: "select_account",
-        }
-      }
+        },
+      },
     })
 
     if (error) {
@@ -58,13 +58,13 @@ export async function signOut() {
 
 /**
  * Request account deletion for the currently authenticated user.
- * 
+ *
  * This function works by inserting the user's ID into the `delete_requests` table.
- * A database trigger in Supabase (PostgreSQL) will catch this insert and 
+ * A database trigger in Supabase (PostgreSQL) will catch this insert and
  * execute the actual account deletion using service_role privileges.
- * 
+ *
  * After a successful request, it will sign the user out to clear local session data.
- * 
+ *
  * @param {string} userId - The unique identifier of the user to be deleted.
  * @throws {Error} If the database insert fails or the user is not authorized.
  * @returns {Promise<void>}
@@ -72,9 +72,7 @@ export async function signOut() {
 export async function deleteAccount(userId: string): Promise<void> {
   try {
     // 1. Insert ke tabel perantara untuk mentrigger fungsi DB
-    const { error: deleteError } = await supabase
-      .from("delete_requests")
-      .insert({ id: userId })
+    const { error: deleteError } = await supabase.from("delete_requests").insert({ id: userId })
 
     if (deleteError) {
       console.error("Failed to request account deletion:", deleteError.message)
@@ -83,7 +81,6 @@ export async function deleteAccount(userId: string): Promise<void> {
 
     // 2. Sign out untuk membersihkan session di client side
     await signOut()
-    
   } catch (err) {
     console.error("Unexpected error during account deletion:", err)
     throw err

@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   })
 }
 
-export default async function PrivacyPolicy({params}: BasePageProps) {
+export default async function PrivacyPolicy({ params }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
-  return <PrivacyPolicyPage params={params}/>
+  return <PrivacyPolicyPage params={params} />
 }

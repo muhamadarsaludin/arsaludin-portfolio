@@ -81,10 +81,12 @@ export default function CommentItem({
     >
       <div className="group/comment flex items-start justify-between gap-3">
         <div className="flex flex-1 gap-3">
-          <div className={cn(
-            "bg-blue text-primary-inv relative shrink-0 overflow-hidden rounded-full",
-            isReply ? "h-5 w-5 md:h-6 md:w-6" : "h-6 w-6 md:h-8 md:w-8"
-            )}>
+          <div
+            className={cn(
+              "bg-blue text-primary-inv relative shrink-0 overflow-hidden rounded-full",
+              isReply ? "h-5 w-5 md:h-6 md:w-6" : "h-6 w-6 md:h-8 md:w-8"
+            )}
+          >
             {comment.author?.avatar_url ? (
               <Image
                 src={authorAvatar}
@@ -117,7 +119,7 @@ export default function CommentItem({
               {comment.content}
             </p>
 
-            <div className="flex items-center gap-2 mt-0.5">
+            <div className="mt-0.5 flex items-center gap-2">
               <span className="text-secondary text-[11px] opacity-60">
                 {timeAgo({
                   date: comment.created_at,
@@ -127,7 +129,7 @@ export default function CommentItem({
 
               <button
                 onClick={() => onReplyComment?.(comment)}
-                className="cursor-pointer text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors duration-300 ease-in-out"
+                className="cursor-pointer text-xs font-semibold text-neutral-600 transition-colors duration-300 ease-in-out hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
               >
                 {t("reply")}
               </button>
@@ -135,7 +137,7 @@ export default function CommentItem({
               {(isAdmin || isAuthor) && (
                 <MiraclePopover
                   trigger={
-                    <button className="cursor-pointer text-xs font-semibold opacity-0 group-hover/comment:opacity-100 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-all duration-300 ease-in-out">
+                    <button className="cursor-pointer text-xs font-semibold text-neutral-600 opacity-0 transition-all duration-300 ease-in-out group-hover/comment:opacity-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50">
                       •••
                     </button>
                   }
@@ -189,7 +191,9 @@ export default function CommentItem({
       >
         <div className="flex flex-col gap-6 py-2">
           <div className="border-primary bg-secondary/10 text-secondary rounded-xl border p-3 text-xs italic">
-            {"“"}{comment.content}{"”"}
+            {"“"}
+            {comment.content}
+            {"”"}
           </div>
 
           <div className="flex justify-end gap-3">

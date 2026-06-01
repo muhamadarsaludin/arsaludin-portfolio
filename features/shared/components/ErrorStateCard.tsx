@@ -14,11 +14,7 @@ export default function ErrorStateCard({ errorMessage, onRetry }: ErrorStateCard
       <p className="text-red text-center text-sm font-medium">
         {errorMessage ?? t("errorMessage")}
       </p>
-      {onRetry && (
-        <MiracleButton onClick={onRetry}>
-          {t("cta")}
-        </MiracleButton>
-      )}
+      {onRetry && <MiracleButton onClick={onRetry}>{t("cta")}</MiracleButton>}
     </Section>
   )
 }

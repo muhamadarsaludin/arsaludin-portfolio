@@ -9,7 +9,12 @@ type HeaderNavLinkProps = {
   disabled?: boolean
 }
 
-export default function HeaderNavLink({ href, label, isSidebar, disabled = false }: HeaderNavLinkProps) {
+export default function HeaderNavLink({
+  href,
+  label,
+  isSidebar,
+  disabled = false,
+}: HeaderNavLinkProps) {
   const pathname = useLocalizedPathname()
   const isActive = pathname === href
 
@@ -19,9 +24,11 @@ export default function HeaderNavLink({ href, label, isSidebar, disabled = false
   return (
     <Link
       className={cn(
-        "py-2 text-sm transition-colors duration-300 ease-in-out w-full",
-        isSidebar && "hover:bg-neutral-100 dark:hover:bg-neutral-900 p-2 rounded-md",
-        isSidebar && isActive && "bg-blue-100 dark:bg-blue-950 hover:bg-blue-100! dark:hover:bg-blue-950! text-primary-inv",
+        "w-full py-2 text-sm transition-colors duration-300 ease-in-out",
+        isSidebar && "rounded-md p-2 hover:bg-neutral-100 dark:hover:bg-neutral-900",
+        isSidebar &&
+          isActive &&
+          "text-primary-inv bg-blue-100 hover:bg-blue-100! dark:bg-blue-950 dark:hover:bg-blue-950!",
         isActive
           ? "text-blue font-medium"
           : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"

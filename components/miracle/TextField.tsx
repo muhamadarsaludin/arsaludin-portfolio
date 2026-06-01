@@ -36,7 +36,9 @@ export default function MiracleTextField({
   const isError = !!error
 
   const inputRef = useRef<HTMLInputElement>(null)
-  const [hasValue, setHasValue] = useState(() => String(props.value ?? props.defaultValue ?? "").length > 0)
+  const [hasValue, setHasValue] = useState(
+    () => String(props.value ?? props.defaultValue ?? "").length > 0
+  )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHasValue(e.target.value.length > 0)
@@ -48,9 +50,12 @@ export default function MiracleTextField({
     e.stopPropagation()
 
     if (inputRef.current) {
-      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype,
+        "value"
+      )?.set
       nativeInputValueSetter?.call(inputRef.current, "")
-      
+
       const event = new Event("input", { bubbles: true })
       inputRef.current.dispatchEvent(event)
     }
@@ -60,7 +65,8 @@ export default function MiracleTextField({
   }
 
   const hasClearFeature = clearable
-  const showClear = hasClearFeature && (props.value !== undefined ? String(props.value).length > 0 : hasValue)
+  const showClear =
+    hasClearFeature && (props.value !== undefined ? String(props.value).length > 0 : hasValue)
 
   return (
     <div className={cn("flex flex-col gap-1.5", fullWidth && "w-full", className)}>
@@ -107,11 +113,11 @@ export default function MiracleTextField({
               <button
                 type="button"
                 tabIndex={-1}
-              onClick={handleClear}
+                onClick={handleClear}
                 disabled={disabled}
                 className={cn(
-                  "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 hover:dark:text-neutral-50 hover:bg-neutral-100 hover:dark:bg-neutral-900 flex items-center justify-center outline-none transition-all disabled:cursor-not-allowed cursor-pointer p-1 rounded-full",
-                  showClear ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+                  "flex cursor-pointer items-center justify-center rounded-full p-1 text-neutral-600 transition-all outline-none hover:bg-neutral-100 hover:text-neutral-900 disabled:cursor-not-allowed dark:text-neutral-400 hover:dark:bg-neutral-900 hover:dark:text-neutral-50",
+                  showClear ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
                 )}
                 aria-label="Clear input"
               >

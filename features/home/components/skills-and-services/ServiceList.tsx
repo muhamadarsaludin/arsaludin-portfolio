@@ -24,37 +24,32 @@ const SERVICE_ILLUSTRATION_MAP: Record<string, React.ReactNode> = {
 }
 
 export function ServiceList({ locale }: { locale: string }) {
-  const { 
-    data: services, 
-    isLoading, 
-    isError,
-    refetch
-  } = useServices({ locale })
+  const { data: services, isLoading, isError, refetch } = useServices({ locale })
 
   if (isLoading) return <ServiceListSkeleton />
-  if (isError) return <ErrorStateCard onRetry={refetch}/>
+  if (isError) return <ErrorStateCard onRetry={refetch} />
   if (!services || services.length === 0) return <EmptyStateCard />
 
   return (
-    <div className="max-w-full overflow-x-auto sm:overflow-x-hidden overflow-y-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
+    <div className="flex max-w-full snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-x-hidden lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
       {services.map((service, index) => (
-        <MiracleReveal 
+        <MiracleReveal
           animation={{
             default: "zoom-in",
-            sm: "fade-up"
-          }} 
+            sm: "fade-up",
+          }}
           delay={{
             default: 0,
-            sm: (index % 6) * 0.1
+            sm: (index % 6) * 0.1,
           }}
           threshold={0}
-          className="w-[75vw] sm:w-auto shrink-0 snap-start" 
+          className="w-[75vw] shrink-0 snap-start sm:w-auto"
           key={service.id}
         >
-          <ServiceCard 
-            service={service} 
+          <ServiceCard
+            service={service}
             illustration={SERVICE_ILLUSTRATION_MAP[service.slug]}
-            className="w-full h-full"
+            className="h-full w-full"
           />
         </MiracleReveal>
       ))}
@@ -64,9 +59,9 @@ export function ServiceList({ locale }: { locale: string }) {
 
 export function ServiceListSkeleton() {
   return (
-    <div className="max-w-full overflow-x-auto sm:overflow-x-hidden overflow-y-hidden flex gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden">
+    <div className="flex max-w-full snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-x-hidden lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
       {Array.from({ length: 3 }).map((_, i) => (
-        <ServiceCardSkeleton key={i} className="w-[75vw] sm:w-auto shrink-0 snap-start"/>
+        <ServiceCardSkeleton key={i} className="w-[75vw] shrink-0 snap-start sm:w-auto" />
       ))}
     </div>
   )

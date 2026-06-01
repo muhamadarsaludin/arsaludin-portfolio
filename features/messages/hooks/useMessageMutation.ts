@@ -1,6 +1,4 @@
-
-
-import type { InfiniteData} from "@tanstack/react-query"
+import type { InfiniteData } from "@tanstack/react-query"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuth } from "@/providers/AuthProvider"
 import type { Message, MessageType, PaginatedMessages } from "../types/messages.types"
@@ -14,18 +12,18 @@ type UseMessageMutationParams = {
 
 /**
  * Custom hook to handle message mutations with optimistic updates.
- * @param type - The conversation scope, defining if it's a 'group' or 'personal' message. 
+ * @param type - The conversation scope, defining if it's a 'group' or 'personal' message.
  * @param pageSize - Limits the number of messages returned in a single fetch.
  * @returns An object containing `add` and `remove` mutate functions, along with their pending states.
  */
 export function useMessageMutation({
   type,
-  pageSize = MESSAGES_PAGE_SIZE
+  pageSize = MESSAGES_PAGE_SIZE,
 }: UseMessageMutationParams) {
   const queryClient = useQueryClient()
   const queryKey = ["messages", type, { pageSize }]
 
-  const {user, profile} = useAuth()
+  const { user, profile } = useAuth()
 
   /**
    * Mutation to create a new message with optimistic update

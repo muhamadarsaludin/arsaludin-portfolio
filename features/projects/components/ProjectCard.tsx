@@ -10,13 +10,19 @@ import CommentGroup from "@/features/comments/components/CommentGroup"
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 import { useTranslations } from "next-intl"
 
-export default function ProjectCard({ project, className }: { project: Project, className?: string}) {
+export default function ProjectCard({
+  project,
+  className,
+}: {
+  project: Project
+  className?: string
+}) {
   const t = useTranslations("components.projectCard")
 
   return (
     <div
       className={cn(
-        "relative flex flex-col border border-primary rounded-2xl bg-card transition-all hover:shadow-md overflow-hidden",
+        "border-primary bg-card relative flex flex-col overflow-hidden rounded-2xl border transition-all hover:shadow-md",
         className
       )}
     >
@@ -47,16 +53,14 @@ export default function ProjectCard({ project, className }: { project: Project, 
         <h3 className="text-primary mb-1 text-lg font-semibold md:text-xl xl:text-2xl">
           {project.name}
         </h3>
-        <p className="text-secondary mb-6 text-sm line-clamp-3">
-          {project.description}
-        </p>
+        <p className="text-secondary mb-6 line-clamp-3 text-sm">{project.description}</p>
 
         <SkillBadges skills={project.skills} className="relative z-20 mb-auto" />
       </div>
 
       {/* Footer Section */}
       <div
-        className="bg-secondary border-t border-primary relative z-20 flex items-center justify-between px-5 py-3 md:px-6 pointer-events-auto"
+        className="bg-secondary border-primary pointer-events-auto relative z-20 flex items-center justify-between border-t px-5 py-3 md:px-6"
         onClick={(e) => {
           e.stopPropagation()
         }}

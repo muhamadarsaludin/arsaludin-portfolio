@@ -37,24 +37,26 @@ export default function MiracleTextArea({
   const isError = !!error
 
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const [hasValue, setHasValue] = useState(() => String(props.value ?? props.defaultValue ?? "").length > 0)
+  const [hasValue, setHasValue] = useState(
+    () => String(props.value ?? props.defaultValue ?? "").length > 0
+  )
 
   // Logic Auto Resize dengan batasan Rows
   useEffect(() => {
     if (autoResize && textareaRef.current) {
       const textarea = textareaRef.current
       textarea.style.height = "auto" // Reset height untuk kalkulasi scrollHeight yang akurat
-      
+
       const lineHeight = 20 // Perkiraan line-height teks (text-sm biasanya ~20px)
-      const padding = 16    // Total padding atas-bawah (py-2 = 8px + 8px)
-      
+      const padding = 16 // Total padding atas-bawah (py-2 = 8px + 8px)
+
       const minHeight = rows * lineHeight + padding
       const maxHeight = maxRows * lineHeight + padding
       const scrollHeight = textarea.scrollHeight
 
       // Gunakan nilai terbesar antara minHeight dan scrollHeight, tapi jangan melebihi maxHeight
       const finalHeight = Math.min(Math.max(minHeight, scrollHeight), maxHeight)
-      
+
       textarea.style.height = `${finalHeight}px`
     }
   }, [props.value, hasValue, autoResize, maxRows, rows])
@@ -70,9 +72,12 @@ export default function MiracleTextArea({
 
     if (textareaRef.current) {
       // Trigger native value setter agar sinkron dengan state luar jika menggunakan library form
-      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value")?.set
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+        window.HTMLTextAreaElement.prototype,
+        "value"
+      )?.set
       nativeInputValueSetter?.call(textareaRef.current, "")
-      
+
       const event = new Event("input", { bubbles: true })
       textareaRef.current.dispatchEvent(event)
     }
@@ -81,7 +86,8 @@ export default function MiracleTextArea({
     onClear?.()
   }
 
-  const showClear = clearable && (props.value !== undefined ? String(props.value).length > 0 : hasValue)
+  const showClear =
+    clearable && (props.value !== undefined ? String(props.value).length > 0 : hasValue)
 
   return (
     <div className={cn("flex flex-col gap-1.5", fullWidth && "w-full", className)}>
@@ -112,7 +118,7 @@ export default function MiracleTextArea({
           ref={textareaRef}
           disabled={disabled}
           className={cn(
-            "placeholder:text-neutral-400 w-full bg-transparent px-3 py-2 text-sm outline-none disabled:cursor-not-allowed resize-none",
+            "w-full resize-none bg-transparent px-3 py-2 text-sm outline-none placeholder:text-neutral-400 disabled:cursor-not-allowed",
             showClear && "pr-10"
           )}
           onChange={handleChange}
@@ -121,13 +127,13 @@ export default function MiracleTextArea({
         />
 
         {showClear && (
-          <div className="absolute right-2 top-2">
+          <div className="absolute top-2 right-2">
             <button
               type="button"
               tabIndex={-1}
               onClick={handleClear}
               disabled={disabled}
-              className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 hover:dark:text-neutral-50 hover:bg-neutral-100 hover:dark:bg-neutral-900 flex items-center justify-center outline-none transition-all disabled:cursor-not-allowed cursor-pointer p-1 rounded-full"
+              className="flex cursor-pointer items-center justify-center rounded-full p-1 text-neutral-600 transition-all outline-none hover:bg-neutral-100 hover:text-neutral-900 disabled:cursor-not-allowed dark:text-neutral-400 hover:dark:bg-neutral-900 hover:dark:text-neutral-50"
               aria-label="Clear input"
             >
               <LuX size={16} />

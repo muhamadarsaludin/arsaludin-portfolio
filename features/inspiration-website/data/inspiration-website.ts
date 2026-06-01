@@ -11,8 +11,8 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     type: "personal",
     description: {
       en: "A primary reference for minimalist design and a great place to gain UI design insights that are perfect for leveling up your skills.",
-      id: "Referensi utama untuk desain minimalis sekaligus tempat belajar ilmu UI design yang bermanfaat sekali untuk meningkatkan skill."
-    } 
+      id: "Referensi utama untuk desain minimalis sekaligus tempat belajar ilmu UI design yang bermanfaat sekali untuk meningkatkan skill.",
+    },
   },
   {
     link: "https://sonnylab.framer.website/",
@@ -24,8 +24,8 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     type: "personal",
     description: {
       en: "A true role model in the UX engineering space, frequently sharing insights on bridging design and code, along with thoughtful perspectives on building better user experiences.",
-      id: "Salah satu panutan di dunia UX Engineer, sering berbagi insight tentang bagaimana menjembatani design dan code, serta perspektif menarik dalam membangun pengalaman pengguna yang lebih baik."
-    }
+      id: "Salah satu panutan di dunia UX Engineer, sering berbagi insight tentang bagaimana menjembatani design dan code, serta perspektif menarik dalam membangun pengalaman pengguna yang lebih baik.",
+    },
   },
   {
     link: "https://banyurachman.com/",
@@ -37,8 +37,8 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     type: "personal",
     description: {
       en: "A personal portfolio featuring project documentation that breaks down complex technical processes into systematic and engaging narratives.",
-      id: "Portofolio personal dengan dokumentasi proyek yang menguraikan proses teknis yang kompleks menjadi narasi yang sistematis dan mudah dibaca."
-    }
+      id: "Portofolio personal dengan dokumentasi proyek yang menguraikan proses teknis yang kompleks menjadi narasi yang sistematis dan mudah dibaca.",
+    },
   },
   {
     link: "https://ridhoandml.com/",
@@ -50,8 +50,8 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     type: "personal",
     description: {
       en: "A minimalist and straightforward portfolio. It focuses on clarity, presenting projects in a simple and to-the-point manner.",
-      id: "Portofolio yang minimalis dan langsung pada inti. berfokus pada kejelasan informasi dengan penyajian proyek yang simpel dan to the point."
-    }
+      id: "Portofolio yang minimalis dan langsung pada inti. berfokus pada kejelasan informasi dengan penyajian proyek yang simpel dan to the point.",
+    },
   },
   {
     link: "https://www.satriabahari.my.id/en",
@@ -61,9 +61,9 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     role: "Software Engineer",
     type: "personal",
     description: {
-      en : "A highly interactive portfolio with engaging features like emoji reactions and guestbook chat, all wrapped in clean and systematic documentation.",
-      id : "Portofolio yang sangat interaktif dengan fitur menarik seperti reaksi emoji dan guesbook chat, dikemas dalam dokumentasi yang sistematis dan rapi."
-    }
+      en: "A highly interactive portfolio with engaging features like emoji reactions and guestbook chat, all wrapped in clean and systematic documentation.",
+      id: "Portofolio yang sangat interaktif dengan fitur menarik seperti reaksi emoji dan guesbook chat, dikemas dalam dokumentasi yang sistematis dan rapi.",
+    },
   },
   {
     link: "https://www.codebayu.com/",
@@ -74,8 +74,8 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     type: "personal",
     description: {
       en: "A visually impressive personal portfolio that combines high-quality aesthetics with engaging interactive elements like a live chat room.",
-      id: "Portofolio dengan visual yang impresif, memadukan estetika yang kuat dengan elemen interaktif yang menarik seperti fitur chat room."
-    }
+      id: "Portofolio dengan visual yang impresif, memadukan estetika yang kuat dengan elemen interaktif yang menarik seperti fitur chat room.",
+    },
   },
   {
     link: "https://enji.dev/",
@@ -138,8 +138,8 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     type: "personal",
     description: {
       en: "An elegant personal portfolio that maximizes typography and whitespace while showcasing a deep, end-to-end design process.",
-      id: "Portofolio dengan visual elegan yang memaksimalkan penggunaan tipografi dan white space, serta menampilkan proses desain end-to-end yang mendalam."
-    }
+      id: "Portofolio dengan visual elegan yang memaksimalkan penggunaan tipografi dan white space, serta menampilkan proses desain end-to-end yang mendalam.",
+    },
   },
   {
     link: "https://mayerr.com/",
@@ -150,8 +150,8 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     type: "personal",
     description: {
       en: "A very cleanly designed personal portfolio, standing out for its smooth transitions and precise micro-interactions in every detail.",
-      id: "Portofolio yang dirancang dengan sangat rapi, menonjol karena transisi yang mulus dan micro-interaction yang presisi di setiap detailnya."
-    }
+      id: "Portofolio yang dirancang dengan sangat rapi, menonjol karena transisi yang mulus dan micro-interaction yang presisi di setiap detailnya.",
+    },
   },
   {
     link: "https://paco.me/",
@@ -185,8 +185,8 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     type: "organization",
     description: {
       en: "A standout agency website where high-fidelity design meets a transparent and thorough end-to-end process.",
-      id: "Website agency yang menonjol lewat perpaduan desain high-fidelity dan transparansi proses end-to-end yang mendalam."
-    }
+      id: "Website agency yang menonjol lewat perpaduan desain high-fidelity dan transparansi proses end-to-end yang mendalam.",
+    },
   },
   {
     link: "https://www.awwwards.com/",
@@ -196,8 +196,8 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     type: "organization",
     description: {
       en: "A premier destination for web design inspiration that curates and celebrates the best digital experiences based on creativity and innovation.",
-      id: "Destinasi utama untuk inspirasi web design yang mengkurasi dan memberikan apresiasi pada pengalaman digital terbaik berdasarkan desain, kreativitas, dan inovasi."
-    }
+      id: "Destinasi utama untuk inspirasi web design yang mengkurasi dan memberikan apresiasi pada pengalaman digital terbaik berdasarkan desain, kreativitas, dan inovasi.",
+    },
   },
   {
     link: "https://blue.blibli.com/blue3/",
@@ -207,15 +207,15 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     type: "organization",
     description: {
       en: "A mature design system serving as a primary reference for UI components, design tokens, and visual consistency in large-scale applications.",
-      id: "Design system matang yang menjadi referensi utama untuk komponen UI, design tokens, dan konsistensi visual pada aplikasi skala besar."
-    }
+      id: "Design system matang yang menjadi referensi utama untuk komponen UI, design tokens, dan konsistensi visual pada aplikasi skala besar.",
+    },
   },
   {
     link: "https://atlassian.design/",
     author: "Atlassian Design",
     is_favorite: false,
     location: "Global",
-    type: "organization"
+    type: "organization",
   },
   {
     link: "https://cuberto.com/",
@@ -223,5 +223,5 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     is_favorite: false,
     location: "Global",
     type: "organization",
-  }
+  },
 ]

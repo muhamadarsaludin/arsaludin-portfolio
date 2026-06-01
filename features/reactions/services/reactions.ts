@@ -86,10 +86,7 @@ export async function getReactionSummary({
   const allReactions = reactionCountsRes.data || []
   const userReaction = userReactionsRes.data
 
-  const totalReactions = allReactions.reduce(
-    (acc, curr) => acc + curr.count,
-    0
-  )
+  const totalReactions = allReactions.reduce((acc, curr) => acc + curr.count, 0)
 
   return {
     userReaction,

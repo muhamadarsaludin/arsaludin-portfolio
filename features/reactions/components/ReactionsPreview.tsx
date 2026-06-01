@@ -33,7 +33,6 @@ export default function ReactionsPreview({
   onSelectReaction,
   tooltipPosition,
 }: ReactionsPreviewProps) {
-
   const { data: summary } = useReactionSummary({
     targetId,
     targetType,
@@ -44,11 +43,11 @@ export default function ReactionsPreview({
   const { isSignedIn } = useAuth()
   const t = useTranslations("components.reaction")
   const zIndexBase = 10
-  
+
   const dataSummary = summary ?? initialSummary
 
   if (!dataSummary || dataSummary.totalReactions <= 0) return null
-  
+
   const topReactions = dataSummary.allReactions.slice(0, limit)
   const remainingEmojis = Math.max(0, dataSummary.totalEmojis - limit)
   /**
@@ -74,14 +73,14 @@ export default function ReactionsPreview({
             type="button"
             aria-label={
               dataSummary.userReaction
-                ? isUserReaction 
+                ? isUserReaction
                   ? `${t("tooltip.delete")} ${reaction.emoji}`
                   : `${t("tooltip.edit")} ${reaction.emoji}`
                 : `${t("tooltip.add")} ${reaction.emoji}`
             }
             className={cn(
               "group/emoji bg-secondary flex h-8 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
-              "min-w-8 px-1.5 gap-0",
+              "min-w-8 gap-0 px-1.5",
               "hover:gap-1 hover:px-3",
               isUserReaction ? "border-blue" : "border-primary"
             )}
@@ -120,23 +119,21 @@ export default function ReactionsPreview({
                   type="button"
                   className={cn(
                     "group/emoji border-primary bg-secondary flex h-8 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
-                    "min-w-8 px-1.5 gap-0",
+                    "min-w-8 gap-0 px-1.5",
                     "hover:gap-1 hover:px-3"
                   )}
                   style={{ zIndex: zIndexBase + topReactions.length + 1 }}
                 >
                   <span
                     className={cn(
-                      "text-secondary overflow-hidden text-sm transition-all duration-300 ease-in-out shrink-0",
+                      "text-secondary shrink-0 overflow-hidden text-sm transition-all duration-300 ease-in-out",
                       "invisible max-w-0 opacity-0",
                       "group-hover/emoji:visible group-hover/emoji:max-w-10 group-hover/emoji:opacity-100"
                     )}
                   >
                     <LuEye />
                   </span>
-                  <span className="text-secondary text-xs font-semibold">
-                    +{remainingEmojis}
-                  </span>
+                  <span className="text-secondary text-xs font-semibold">+{remainingEmojis}</span>
                 </button>
               }
             >
@@ -157,9 +154,7 @@ export default function ReactionsPreview({
                     variant="secondary"
                     key={reaction.emoji}
                     size="sm"
-                    className={cn(
-                      isUserReaction && "border-blue border-2"
-                    )}
+                    className={cn(isUserReaction && "border-blue border-2")}
                     onClick={() => {
                       handleSelectedIcon(reaction.emoji)
                     }}

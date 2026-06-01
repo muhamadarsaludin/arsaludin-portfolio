@@ -39,9 +39,9 @@ export default function BackToTop() {
         "hover:scale-105 active:scale-95",
         "hover:-translate-y-1 hover:transform active:translate-y-0",
         "cursor-pointer",
-        visible 
-          ? "translate-y-0 opacity-100 scale-100" 
-          : "translate-y-30 opacity-0 scale-50 pointer-events-none"
+        visible
+          ? "translate-y-0 scale-100 opacity-100"
+          : "pointer-events-none translate-y-30 scale-50 opacity-0"
       )}
     >
       <LuArrowUp className="h-5 w-5" />

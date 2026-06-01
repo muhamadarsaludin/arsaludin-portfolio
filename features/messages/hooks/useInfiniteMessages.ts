@@ -13,7 +13,7 @@ type UseInfiniteMessagesParams = {
 /**
  * A custom hook to fetch and manage infinite scrolling for messages.
  * Built on top of TanStack Query's useInfiniteQuery for robust cache and pagination management.
- * @param type - The conversation scope, defining if it's a 'group' or 'personal' message. 
+ * @param type - The conversation scope, defining if it's a 'group' or 'personal' message.
  * @param pageSize - Limits the number of messages returned in a single fetch.
  * @param enabled - Conditional flag to control the query execution.
  * @returns An infinite query object containing data pages, fetch status, and pagination helpers.
@@ -28,7 +28,7 @@ export function useInfiniteMessages({
     queryFn: async ({ pageParam }) => {
       return getPaginatedMessages({
         cursor: pageParam as Cursor | undefined,
-        pageSize
+        pageSize,
       })
     },
     enabled: !!type && enabled,
@@ -38,5 +38,4 @@ export function useInfiniteMessages({
     },
     staleTime: 1000 * 60,
   })
-
 }

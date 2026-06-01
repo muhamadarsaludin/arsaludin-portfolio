@@ -11,8 +11,8 @@ import InspirationCard from "./InspirationCard"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type InspirationWebsitePageProps = {
-  params: Promise<{ locale: string }>;
-};
+  params: Promise<{ locale: string }>
+}
 
 export default async function InspirationWebsitePage({ params }: InspirationWebsitePageProps) {
   const { locale } = await params
@@ -25,8 +25,8 @@ export default async function InspirationWebsitePage({ params }: InspirationWebs
     })
   }
 
-  const sortedPersonals = sortData(INSPIRATION_WEBSITE.filter(i => i.type === "personal"))
-  const sortedOrganizations = sortData(INSPIRATION_WEBSITE.filter(i => i.type === "organization"))
+  const sortedPersonals = sortData(INSPIRATION_WEBSITE.filter((i) => i.type === "personal"))
+  const sortedOrganizations = sortData(INSPIRATION_WEBSITE.filter((i) => i.type === "organization"))
 
   const renderedPersonals = sortedPersonals.map((item) => (
     <MiracleReveal key={item.link} animation="fade-up">
@@ -41,28 +41,25 @@ export default async function InspirationWebsitePage({ params }: InspirationWebs
   ))
 
   return (
-    <Container className="flex gap-6 md:gap-8 items-start w-full">
-      <Article className="pb-13 lg:pb-23 flex-1 w-full">
+    <Container className="flex w-full items-start gap-6 md:gap-8">
+      <Article className="w-full flex-1 pb-13 lg:pb-23">
         <MiracleReveal animation="fade-right">
-          <MiracleBreadcrumbs 
+          <MiracleBreadcrumbs
             locales={routing.locales}
             overrides={{
               home: t("breadcrumbs.home"),
-              "inspiration-website": t("breadcrumbs.inspiration-website")
+              "inspiration-website": t("breadcrumbs.inspiration-website"),
             }}
             className="mb-5 md:mb-6"
           />
           <header>
-            <Heading 
-              level={1}
-              className="font-semibold"
-            >
+            <Heading level={1} className="font-semibold">
               {t("title")}
             </Heading>
-            <p className="mt-4 text-secondary">{t("description")}</p>
+            <p className="text-secondary mt-4">{t("description")}</p>
           </header>
         </MiracleReveal>
-        <div className="mt-12 space-y-12 w-full">
+        <div className="mt-12 w-full space-y-12">
           {/* SECTION 1: PERSONAL WEBSITES */}
           <div className="w-full">
             <MiracleReveal animation="fade-right">
@@ -70,25 +67,21 @@ export default async function InspirationWebsitePage({ params }: InspirationWebs
                 {t("personal")}
               </Heading>
             </MiracleReveal>
-            <div className="flex flex-col gap-4 mt-4 w-full">
-              {renderedPersonals}
-            </div>
+            <div className="mt-4 flex w-full flex-col gap-4">{renderedPersonals}</div>
           </div>
 
           {/* SECTION 2: ORGANIZATION WEBSITES */}
           <div className="w-full">
             <MiracleReveal animation="fade-right">
-            <Heading level={2} className="font-semibold">
+              <Heading level={2} className="font-semibold">
                 {t("organization")}
               </Heading>
             </MiracleReveal>
-            <div className="flex flex-col gap-4 mt-4 w-full">
-              {renderedOrganizations}
-            </div>
+            <div className="mt-4 flex w-full flex-col gap-4">{renderedOrganizations}</div>
           </div>
         </div>
       </Article>
-      <TableOfContents className="hidden lg:block sticky top-30 shrink-0" />
+      <TableOfContents className="sticky top-30 hidden shrink-0 lg:block" />
     </Container>
   )
 }

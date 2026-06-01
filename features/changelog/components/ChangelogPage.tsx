@@ -11,8 +11,8 @@ import Article from "@/components/Article"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type ChangelogPageProps = {
-  params: Promise<{ locale: string }>;
-};
+  params: Promise<{ locale: string }>
+}
 
 export default async function ChangelogPage({ params }: ChangelogPageProps) {
   const { locale } = await params
@@ -26,11 +26,11 @@ export default async function ChangelogPage({ params }: ChangelogPageProps) {
 
       return (
         <MiracleReveal animation="fade-up" key={item.version}>
-          <ChangelogItem 
-            version={item.version} 
-            releaseDate={item.releaseDate} 
-            banner={item.banner} 
-            showDetail={isLatest} 
+          <ChangelogItem
+            version={item.version}
+            releaseDate={item.releaseDate}
+            banner={item.banner}
+            showDetail={isLatest}
             isLatest={isLatest}
           >
             <MDXContent />
@@ -41,34 +41,28 @@ export default async function ChangelogPage({ params }: ChangelogPageProps) {
   )
 
   return (
-    <Container className="flex gap-6 md:gap-8 items-start w-full">
-      <Article className="pb-13 lg:pb-23 flex-1 w-full">
+    <Container className="flex w-full items-start gap-6 md:gap-8">
+      <Article className="w-full flex-1 pb-13 lg:pb-23">
         <MiracleReveal animation="fade-right">
-          <MiracleBreadcrumbs 
+          <MiracleBreadcrumbs
             locales={routing.locales}
             overrides={{
               home: t("breadcrumbs.home"),
-              changelog: t("breadcrumbs.changelog")
+              changelog: t("breadcrumbs.changelog"),
             }}
             className="mb-5 md:mb-6"
           />
-          <div className="mb-10 md:mb-12 w-full">
-            <Heading 
-              id={t("title")}
-              level={1}
-              className="font-semibold"
-            >
+          <div className="mb-10 w-full md:mb-12">
+            <Heading id={t("title")} level={1} className="font-semibold">
               {t("title")}
             </Heading>
-            <p className="mt-4 text-secondary">{t("description")}</p>
+            <p className="text-secondary mt-4">{t("description")}</p>
           </div>
         </MiracleReveal>
-        
-        <div className="flex flex-col w-full max-w-full overflow-hidden">
-          {renderedChangelogs}
-        </div>
+
+        <div className="flex w-full max-w-full flex-col overflow-hidden">{renderedChangelogs}</div>
       </Article>
-      <TableOfContents className="hidden lg:block sticky top-30 shrink-0" />
+      <TableOfContents className="sticky top-30 hidden shrink-0 lg:block" />
     </Container>
   )
 }

@@ -11,10 +11,10 @@ type CommentButtonProps = {
   onClick: () => void
 }
 
-export default function CommentButton({ 
+export default function CommentButton({
   tooltipPosition,
-  commentCount = 0, 
-  onClick 
+  commentCount = 0,
+  onClick,
 }: CommentButtonProps) {
   const t = useTranslations("components.comment.tooltip")
 
@@ -41,9 +41,7 @@ export default function CommentButton({
             />
           </div>
           {commentCount > 0 && (
-            <span className="text-secondary text-sm font-medium">
-              {formatCount(commentCount)}
-            </span>
+            <span className="text-secondary text-sm font-medium">{formatCount(commentCount)}</span>
           )}
         </button>
       }

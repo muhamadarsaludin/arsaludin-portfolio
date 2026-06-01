@@ -35,35 +35,55 @@ export default function Header({ className }: HeaderProps) {
   const handleToggle = () => {
     setShowMenu((prev) => !prev)
   }
-  
+
   useScrollLock(showMenu)
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)")
-    
+
     const handleChange = () => {
       if (media.matches) {
         setShowMenu((prev) => (prev ? false : prev))
       }
     }
-    
+
     handleChange()
     media.addEventListener("change", handleChange)
     return () => media.removeEventListener("change", handleChange)
   }, [])
 
   return (
-    <header className={cn("bg-primary border-primary border-b z-header fixed inset-x-0 top-0", className)}>
-      <div className={cn("mx-auto max-w-(--m-page-width) px-4 md:px-6 py-4 flex items-center justify-between")}>
+    <header
+      className={cn("bg-primary border-primary z-header fixed inset-x-0 top-0 border-b", className)}
+    >
+      <div
+        className={cn(
+          "mx-auto flex max-w-(--m-page-width) items-center justify-between px-4 py-4 md:px-6"
+        )}
+      >
         <div className="flex items-center gap-6">
           <MenuToggle className="lg:hidden" showMenu={showMenu} handleToggle={handleToggle} />
           <Link href="/" className="shrink-0" aria-label="Arsaludin Logo">
-            <Image src="/logo/logo-light.svg" alt="logo" height={24} width={38} className="dark:hidden" priority />
-            <Image src="/logo/logo-dark.svg" alt="logo" height={24} width={38} className="hidden dark:block" priority />
+            <Image
+              src="/logo/logo-light.svg"
+              alt="logo"
+              height={24}
+              width={38}
+              className="dark:hidden"
+              priority
+            />
+            <Image
+              src="/logo/logo-dark.svg"
+              alt="logo"
+              height={24}
+              width={38}
+              className="hidden dark:block"
+              priority
+            />
           </Link>
           <HeaderNavigation className="hidden px-6 lg:flex" />
         </div>
-        <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-3">
           <div className="hidden gap-3 lg:flex">
             {!isSignedIn && <SignInButton />}
             <DownloadResumeButton />
@@ -76,7 +96,7 @@ export default function Header({ className }: HeaderProps) {
         </div>
       </div>
 
-      <HeaderMobileDrawer 
+      <HeaderMobileDrawer
         showMenu={showMenu}
         isSignedIn={isSignedIn}
         onClose={() => setShowMenu(false)}

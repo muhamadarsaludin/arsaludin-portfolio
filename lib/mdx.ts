@@ -24,9 +24,9 @@ export async function compileMDX(source: string) {
   })
 
   return function MDXWrapper(props: MDXProps) {
-    return MDXContent({ 
-      ...props, 
-      components: { ...mdxComponents, ...props.components } 
+    return MDXContent({
+      ...props,
+      components: { ...mdxComponents, ...props.components },
     })
   } as ComponentType<MDXProps>
 }

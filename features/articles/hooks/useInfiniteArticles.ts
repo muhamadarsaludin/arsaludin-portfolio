@@ -4,7 +4,7 @@ import { ARTICLES_PAGE_SIZE } from "../constants/articles.constans"
 import { getPaginatedArticles } from "../services/articles"
 
 type UseArticlesParams = {
-  locale: string 
+  locale: string
   search?: string
   categorySlugs?: string[]
   pageSize?: number
@@ -17,20 +17,20 @@ export function useInfiniteArticles({
   search,
   categorySlugs,
   pageSize = ARTICLES_PAGE_SIZE,
-  enabled = true
+  enabled = true,
 }: UseArticlesParams) {
   return useInfiniteQuery({
-    queryKey: ["articles", { locale, search, categorySlugs, pageSize}],
+    queryKey: ["articles", { locale, search, categorySlugs, pageSize }],
     queryFn: async ({ pageParam }) => {
       return getPaginatedArticles({
         locale,
-        search, 
-        categorySlugs, 
+        search,
+        categorySlugs,
         pageSize,
         cursor: pageParam as Cursor | undefined,
       })
     },
-    enabled: enabled, 
+    enabled: enabled,
     initialPageParam: undefined as Cursor | undefined,
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined

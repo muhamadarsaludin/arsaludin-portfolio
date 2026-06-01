@@ -4,7 +4,14 @@ import type { Cursor } from "@/features/shared/types/index.types"
 /**
  * Valid entity types that can receive reactions within the portfolio system.
  */
-export type ReactionTargetType = "project" | "comment" | "achievement" | "testimonial" | "message" | "card" | "article"
+export type ReactionTargetType =
+  | "project"
+  | "comment"
+  | "achievement"
+  | "testimonial"
+  | "message"
+  | "card"
+  | "article"
 
 /**
  * REACTION ENTITY
@@ -30,10 +37,12 @@ export type ReactionEntity = {
  * REACTION (Public)
  * Flattened object for UI Portfolio.
  */
-export type Reaction = Pick<ReactionEntity, "id" | "emoji" | "user_id" | "created_at" | "updated_at">
-  & {
-    author: Profile
-  }
+export type Reaction = Pick<
+  ReactionEntity,
+  "id" | "emoji" | "user_id" | "created_at" | "updated_at"
+> & {
+  author: Profile
+}
 
 /**
  * REACTION COUNT (Public)

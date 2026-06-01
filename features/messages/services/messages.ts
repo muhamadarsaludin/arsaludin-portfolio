@@ -87,7 +87,9 @@ export async function getPaginatedMessages({
   pageSize = MESSAGES_PAGE_SIZE,
 }: GetPaginatedMessagesParams = {}): Promise<PaginatedMessages> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
 
   let query = supabase
@@ -112,10 +114,10 @@ export async function getPaginatedMessages({
   }
 
   if (!data || data.length === 0) {
-    return { 
-      data: [], 
-      nextCursor: null, 
-      hasMore: false 
+    return {
+      data: [],
+      nextCursor: null,
+      hasMore: false,
     }
   }
 
@@ -143,8 +145,8 @@ export async function getPaginatedMessages({
         userReaction,
         allReactions,
         totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
-        totalEmojis: allReactions.length
-      }
+        totalEmojis: allReactions.length,
+      },
     }
   })
 
@@ -170,53 +172,56 @@ export async function sendMessage({
   repliedMessage: _repliedMessage,
 }: SendMessageParams) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized")
 
   const { error } = await supabase
     .from("messages")
-    .insert([{
-      content,
-      user_id: user.id,
-      reply_to_id: replyToId ?? null,
-      recipient_id: recipientId ?? null,
-    }])
+    .insert([
+      {
+        content,
+        user_id: user.id,
+        reply_to_id: replyToId ?? null,
+        recipient_id: recipientId ?? null,
+      },
+    ])
     .select()
     .single()
-    
-    if (error) {
-      console.error("[sendMessage] Error:", error)
-      throw error
-    }
 
-    revalidatePath("/", "layout")
+  if (error) {
+    console.error("[sendMessage] Error:", error)
+    throw error
+  }
+
+  revalidatePath("/", "layout")
 }
 
 export async function deleteMessage({ messageId }: { messageId: string }) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized")
-  
+
   const [message, { data: profile }] = await Promise.all([
-      getMessage({ messageId }),
-      supabase.from("profiles").select("role").eq("id", user.id).single(),
-    ])
-    if (!message) throw new Error("Message not found!")
-  
-    const isAuthor = message.user_id === user.id
-    const isAdmin = profile?.role === "admin"
-  
-    if (!isAuthor && !isAdmin) {
-      throw new Error("Unauthorized: You don't have permission to delete this")
-    }
-  
-    const { error } = await supabase
-    .from("messages")
-    .delete()
-    .eq("id", messageId)
-  
-    if (error) throw error
-    revalidatePath("/", "layout")
+    getMessage({ messageId }),
+    supabase.from("profiles").select("role").eq("id", user.id).single(),
+  ])
+  if (!message) throw new Error("Message not found!")
+
+  const isAuthor = message.user_id === user.id
+  const isAdmin = profile?.role === "admin"
+
+  if (!isAuthor && !isAdmin) {
+    throw new Error("Unauthorized: You don't have permission to delete this")
+  }
+
+  const { error } = await supabase.from("messages").delete().eq("id", messageId)
+
+  if (error) throw error
+  revalidatePath("/", "layout")
 }
 
 export async function getMessage({ messageId }: { messageId: string }): Promise<Message> {
@@ -251,7 +256,7 @@ export async function getMessage({ messageId }: { messageId: string }): Promise<
       userReaction,
       allReactions,
       totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
-      totalEmojis: allReactions.length
-    }
+      totalEmojis: allReactions.length,
+    },
   }
 }

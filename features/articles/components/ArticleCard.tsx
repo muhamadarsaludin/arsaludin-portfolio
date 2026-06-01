@@ -11,18 +11,21 @@ import { LuCalendar } from "react-icons/lu"
 import { useLocale } from "next-intl"
 import CommentGroup from "@/features/comments/components/CommentGroup"
 
-export default function ArticleCard({ article, className }: { article: Article, className?: string}) {
+export default function ArticleCard({
+  article,
+  className,
+}: {
+  article: Article
+  className?: string
+}) {
   const locale = useLocale()
 
   return (
-    <div className={cn(
-      "relative flex flex-col",
-      className
-    )}>
+    <div className={cn("relative flex flex-col", className)}>
       <Link
         href={`/articles/${article.slug}`}
         aria-label={`Read ${article.title}`}
-        className="relative block group/article aspect-7/5 w-full overflow-hidden rounded-2xl border border-primary cursor-pointer"
+        className="group/article border-primary relative block aspect-7/5 w-full cursor-pointer overflow-hidden rounded-2xl border"
       >
         {article.thumbnail ? (
           <Image
@@ -34,22 +37,22 @@ export default function ArticleCard({ article, className }: { article: Article, 
             sizes="1000px"
           />
         ) : (
-          <MiracleSkeleton className="w-full h-full" />
+          <MiracleSkeleton className="h-full w-full" />
         )}
       </Link>
 
       {/* Footer */}
       <div className="flex flex-col items-start pt-5">
-        <div className=" w-full flex items-center justify-between gap-4">
+        <div className="flex w-full items-center justify-between gap-4">
           {article.published_at && (
             <p className="text-secondary flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm">
               <span className="flex items-center gap-1">
                 <LuCalendar className="shrink-0" />
-                {formatDate({date: article.published_at, locale, dateStyle: "medium"})}
+                {formatDate({ date: article.published_at, locale, dateStyle: "medium" })}
               </span>
             </p>
           )}
-          <div className="shrink-0 relative flex items-center">
+          <div className="relative flex shrink-0 items-center">
             <ReactionGroup
               targetId={article.id}
               targetType="article"
@@ -63,15 +66,12 @@ export default function ArticleCard({ article, className }: { article: Article, 
           </div>
         </div>
         <Link href={`/articles/${article.slug}`} className="group/title">
-          <h3
-            className="text-primary font-semibold tracking-tight line-clamp-1 text-base md:text-lg lg:text-xl transition-all duration-300">
+          <h3 className="text-primary line-clamp-1 text-base font-semibold tracking-tight transition-all duration-300 md:text-lg lg:text-xl">
             {article.title}
           </h3>
         </Link>
         {article.summary && (
-          <div className="text-secondary text-sm line-clamp-2 mt-0.5">
-            {article.summary}
-          </div>
+          <div className="text-secondary mt-0.5 line-clamp-2 text-sm">{article.summary}</div>
         )}
       </div>
     </div>

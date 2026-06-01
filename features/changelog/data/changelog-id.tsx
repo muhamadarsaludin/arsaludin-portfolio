@@ -2,17 +2,26 @@ import MiracleBanner from "@/components/miracle/Banner"
 import { Link } from "@/i18n/navigation"
 import { LuPartyPopper } from "react-icons/lu"
 
-
 export const CHANGELOG_ID = [
   {
     version: "1.0.0",
     releaseDate: "2026-06-01",
     banner: (
-      <MiracleBanner variant="secondary" color="blue" startIcon={<LuPartyPopper />} title="Versi 1.0.0 — Rilis Perdana">
+      <MiracleBanner
+        variant="secondary"
+        color="blue"
+        startIcon={<LuPartyPopper />}
+        title="Versi 1.0.0 — Rilis Perdana"
+      >
         <p>
-          Rilis ini merupakan langkah awal dari portofolio saya, yang menjadi dasar bagi struktur utama serta berbagai informasi yang mencerminkan perjalanan, pengalaman, dan karya yang telah saya buat. 
-          Proyek ini akan terus berkembang, jika anda menemukan bug atau memiliki ide baru, silakan beri masukan di halaman <Link href="/roadmap" className="text-blue :hover:underline font-medium">Roadmap</Link>. 
-          Selamat berinteraksi dan terima kasih atas dukungannya!
+          Rilis ini merupakan langkah awal dari portofolio saya, yang menjadi dasar bagi struktur
+          utama serta berbagai informasi yang mencerminkan perjalanan, pengalaman, dan karya yang
+          telah saya buat. Proyek ini akan terus berkembang, jika anda menemukan bug atau memiliki
+          ide baru, silakan beri masukan di halaman{" "}
+          <Link href="/roadmap" className="text-blue :hover:underline font-medium">
+            Roadmap
+          </Link>
+          . Selamat berinteraksi dan terima kasih atas dukungannya!
         </p>
       </MiracleBanner>
     ),
@@ -37,6 +46,6 @@ export const CHANGELOG_ID = [
 * Fitur **!Reaksi** untuk memberikan reaksi baik pada proyek, artikel, pencapaian, testimoni maupun komentar.
 * **!Integrasi Google Analytics** untuk membantu analisis perilaku dan interaksi pengguna pada website.
 </div>
-    `
-  }
+    `,
+  },
 ]

@@ -11,10 +11,7 @@ export default function DownloadResumeButton() {
     )
   }
   return (
-    <MiracleButton
-      endIcon={<LuDownload size={16} />}
-      onClick={handleDownloadResume}
-    >
+    <MiracleButton endIcon={<LuDownload size={16} />} onClick={handleDownloadResume}>
       {t("cta.resume")}
     </MiracleButton>
   )

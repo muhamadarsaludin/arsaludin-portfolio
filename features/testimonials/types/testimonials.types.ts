@@ -25,7 +25,7 @@ export type TestimonialEntity = {
  */
 export type TestimonialTranslationEntity = {
   id: string
-  role: string 
+  role: string
   content: string
   additional_info: string | null
   testimonial_id: string
@@ -35,9 +35,18 @@ export type TestimonialTranslationEntity = {
   updated_at: string
 }
 
-
-export type Testimonial = Pick<TestimonialEntity, "id" | "name" | "company" | "avatar_url" | "linkedin" | "relationship" | "is_show" | "is_featured" | "order_index" >
-  & Pick<TestimonialTranslationEntity, "role" | "content" | "additional_info" >
-  & {
-      reaction_summary: ReactionSummary
-    }
+export type Testimonial = Pick<
+  TestimonialEntity,
+  | "id"
+  | "name"
+  | "company"
+  | "avatar_url"
+  | "linkedin"
+  | "relationship"
+  | "is_show"
+  | "is_featured"
+  | "order_index"
+> &
+  Pick<TestimonialTranslationEntity, "role" | "content" | "additional_info"> & {
+    reaction_summary: ReactionSummary
+  }

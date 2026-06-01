@@ -23,29 +23,30 @@ export default async function ProfileSection({ className }: { className?: string
         <MiracleReveal animation="fade-up">
           <ProfileHero />
         </MiracleReveal>
-          {/* Container */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_auto] gap-4 md:gap-6 lg:gap-8 -mt-20 relative z-1">
+        {/* Container */}
+        <div className="relative z-1 -mt-20 grid w-full grid-cols-1 gap-4 md:grid-cols-[auto_1fr] md:gap-6 lg:grid-cols-[auto_1fr_auto] lg:gap-8">
           {/* Image */}
           <MiracleReveal animation="fade-right" delay={0.5} className="flex justify-start">
-            <ProfileImage className="ml-4 lg:ml-6 xl:ml-8"/>
+            <ProfileImage className="ml-4 lg:ml-6 xl:ml-8" />
           </MiracleReveal>
           {/* data */}
           <MiracleReveal animation="fade-right" delay={0.5} className="min-w-max md:mt-20 md:pt-6">
             <ProfileInfo />
           </MiracleReveal>
           {/* stats */}
-          <MiracleReveal 
+          <MiracleReveal
             animation={{
               default: "fade-right",
-              lg: "fade-left"
+              lg: "fade-left",
             }}
             delay={0.5}
-            className="md:col-span-full lg:col-auto max-w-full overflow-hidden lg:mt-20 lg:pt-6">
-            <ProfileStats/>
+            className="max-w-full overflow-hidden md:col-span-full lg:col-auto lg:mt-20 lg:pt-6"
+          >
+            <ProfileStats />
           </MiracleReveal>
           {/* description */}
           <MiracleReveal animation="fade-right" delay={0.5} className="col-span-full">
-            <p className="text-secondary max-w-full lg:max-w-7/12 text-sm md:text-base">
+            <p className="text-secondary max-w-full text-sm md:text-base lg:max-w-7/12">
               {t("about")}
             </p>
           </MiracleReveal>

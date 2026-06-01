@@ -16,19 +16,19 @@ type MessageInputProps = {
   repliedMessage: Message | null
   onClearReply: () => void
   className?: string
-};
+}
 
 export default function MessageInput({
   messageType,
   pageSize,
   repliedMessage,
   onClearReply,
-  className
+  className,
 }: MessageInputProps) {
   const [text, setText] = useState("")
   const { isSignedIn } = useAuth()
   const t = useTranslations("components.message.input")
-  const { send, isSending } = useMessageMutation({ type: messageType, pageSize})
+  const { send, isSending } = useMessageMutation({ type: messageType, pageSize })
 
   const handleSend = () => {
     const cleanContent = text.trim()
@@ -49,7 +49,7 @@ export default function MessageInput({
   }
 
   return (
-    <div className={cn("flex flex-col gap-3 border-t border-primary pt-5 md:pt-6", className)}>
+    <div className={cn("border-primary flex flex-col gap-3 border-t pt-5 md:pt-6", className)}>
       {repliedMessage && (
         <div className="bg-primary animate-in fade-in slide-in-from-bottom-2 flex items-start gap-2 duration-300">
           <div className="border-blue flex flex-1 flex-col gap-1.5 border-l-4 py-1 pl-3">
@@ -59,7 +59,9 @@ export default function MessageInput({
             </p>
             <div className="bg-secondary w-full overflow-hidden rounded-lg p-2">
               <p className="text-secondary line-clamp-2 text-[11px] leading-relaxed italic">
-                {"“"}{repliedMessage.content}{"”"}
+                {"“"}
+                {repliedMessage.content}
+                {"”"}
               </p>
             </div>
           </div>
@@ -90,9 +92,11 @@ export default function MessageInput({
             disabled={isSending || !isSignedIn}
             fullWidth
             helperText={
-              isSignedIn && !isSending && (
+              isSignedIn &&
+              !isSending && (
                 <span className="flex items-center gap-1 opacity-60">
-                  <span className="font-semibold">Enter</span> {t("toSend")} • <span className="font-semibold">Shift + Enter</span> {t("newLine")}
+                  <span className="font-semibold">Enter</span> {t("toSend")} •{" "}
+                  <span className="font-semibold">Shift + Enter</span> {t("newLine")}
                 </span>
               )
             }

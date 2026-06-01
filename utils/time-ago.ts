@@ -38,9 +38,9 @@ export const timeAgo = ({ date, locale }: { date: string; locale: string }): str
   const days = Math.floor(seconds / 86400)
   if (days <= 7) return `${days}${l.d}`
 
-  return formatDate({ 
-    date, 
-    locale, 
-    dateStyle: "medium" 
+  return formatDate({
+    date,
+    locale,
+    dateStyle: "medium",
   })
 }

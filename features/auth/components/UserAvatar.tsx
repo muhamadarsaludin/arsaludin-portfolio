@@ -12,11 +12,7 @@ type UserAvatarProps = {
   className?: string
 }
 
-export default function UserAvatar({
-  user, 
-  size = "md",
-  className,
-}: UserAvatarProps) {
+export default function UserAvatar({ user, size = "md", className }: UserAvatarProps) {
   const initials = getInitials(user.full_name)
   const getAvatarSize: Record<AvatarSize, string> = {
     sm: "h-5 w-5 md:h-6 md:w-6",
@@ -25,14 +21,16 @@ export default function UserAvatar({
   }
 
   return (
-    <div className={cn(
-      "bg-blue text-primary-inv relative shrink-0 overflow-hidden rounded-full",
-      getAvatarSize[size],
-      className
-      )}>
+    <div
+      className={cn(
+        "bg-blue text-primary-inv relative shrink-0 overflow-hidden rounded-full",
+        getAvatarSize[size],
+        className
+      )}
+    >
       {user.avatar_url ? (
         <Image
-          src={user.avatar_url || "/dummy.webp" }
+          src={user.avatar_url || "/dummy.webp"}
           alt={user.full_name}
           fill
           sizes="40px"
