@@ -31,7 +31,7 @@ export default async function GearAndSetupPage({ params }: GearAndSetupPageProps
           <Heading 
             id={categoryId} 
             level={2} 
-            className="mb-6 capitalize"
+            className="mb-6 capitalize font-semibold"
           >
             {group.category}
           </Heading>
@@ -63,6 +63,7 @@ export default async function GearAndSetupPage({ params }: GearAndSetupPageProps
             <Heading 
               id={t("title")}
               level={1}
+              className="font-semibold"
             >
               {t("title")}
             </Heading>

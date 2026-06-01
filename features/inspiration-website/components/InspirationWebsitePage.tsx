@@ -1,33 +1,44 @@
-import Container from '@/components/Container';
-import Heading from '@/components/Heading';
-import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs';
-import Section from '@/components/Section';
-import TableOfContents from '@/components/TableOfContents';
-import { routing } from '@/i18n/routing';
-import { getTranslations } from 'next-intl/server';
-import { INSPIRATION_WEBSITE } from '../data/inspiration-website';
-import { InspirationWebsite } from '../types/inspiration-website.types';
-import Article from '@/components/Article';
-import InspirationCard from './InspirationCard';
-import { MiracleReveal } from '@/components/miracle/Reveal';
+import Container from '@/components/Container'
+import Heading from '@/components/Heading'
+import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs'
+import TableOfContents from '@/components/TableOfContents'
+import { routing } from '@/i18n/routing'
+import { getTranslations } from 'next-intl/server'
+import { INSPIRATION_WEBSITE } from '../data/inspiration-website'
+import { InspirationWebsite } from '../types/inspiration-website.types'
+import Article from '@/components/Article'
+import InspirationCard from './InspirationCard'
+import { MiracleReveal } from '@/components/miracle/Reveal'
 
 type InspirationWebsitePageProps = {
   params: Promise<{ locale: string }>;
 };
 
 export default async function InspirationWebsitePage({ params }: InspirationWebsitePageProps) {
-  const {locale} = await params
+  const { locale } = await params
   const t = await getTranslations("pages.inspiration-website")
 
   const sortData = (data: InspirationWebsite[]) => {
     return [...data].sort((a, b) => {
-      if (a.is_favorite !== b.is_favorite) return a.is_favorite ? -1 : 1;
-      return a.author.localeCompare(b.author);
-    });
-  };
+      if (a.is_favorite !== b.is_favorite) return a.is_favorite ? -1 : 1
+      return a.author.localeCompare(b.author)
+    })
+  }
 
-  const personals = sortData(INSPIRATION_WEBSITE.filter(i => i.type === "personal"));
-  const organizations = sortData(INSPIRATION_WEBSITE.filter(i => i.type === "organization"));
+  const sortedPersonals = sortData(INSPIRATION_WEBSITE.filter(i => i.type === "personal"))
+  const sortedOrganizations = sortData(INSPIRATION_WEBSITE.filter(i => i.type === "organization"))
+
+  const renderedPersonals = sortedPersonals.map((item) => (
+    <MiracleReveal key={item.link} animation="fade-up">
+      <InspirationCard item={item} locale={locale} />
+    </MiracleReveal>
+  ))
+
+  const renderedOrganizations = sortedOrganizations.map((item) => (
+    <MiracleReveal key={item.link} animation="fade-up">
+      <InspirationCard item={item} locale={locale} />
+    </MiracleReveal>
+  ))
 
   return (
     <Container className="flex gap-6 md:gap-8 items-start w-full">
@@ -43,41 +54,39 @@ export default async function InspirationWebsitePage({ params }: InspirationWebs
           />
           <header>
             <Heading 
-              id={t("title")}
-              level={1}>
-                {t("title")}
+              level={1}
+              className="font-semibold"
+            >
+              {t("title")}
             </Heading>
             <p className="mt-4 text-secondary">{t("description")}</p>
           </header>
         </MiracleReveal>
-        <Section>
-          <MiracleReveal animation="fade-right">
-            <Heading level={2}>
-              {t("personal")}
-            </Heading>
-          </MiracleReveal>
-          <div className="flex flex-col gap-4 mt-4">
-            {personals.map((item) => (
-              <MiracleReveal key={item.link} animation="fade-up">
-                <InspirationCard item={item} locale={locale} />
-              </MiracleReveal>
-            ))}
+        <div className="mt-12 space-y-12 w-full">
+          {/* SECTION 1: PERSONAL WEBSITES */}
+          <div className="w-full">
+            <MiracleReveal animation="fade-right">
+              <Heading level={2} className="font-semibold">
+                {t("personal")}
+              </Heading>
+            </MiracleReveal>
+            <div className="flex flex-col gap-4 mt-4 w-full">
+              {renderedPersonals}
+            </div>
           </div>
-        </Section>
-        <Section>
-          <MiracleReveal animation="fade-right">
-            <Heading level={2}>
-              {t("organization")}
-            </Heading>
-          </MiracleReveal>
-          <div className="flex flex-col gap-4 mt-4">
-            {organizations.map((item) => (
-              <MiracleReveal key={item.link} animation="fade-up">
-                <InspirationCard item={item} locale={locale} />
-              </MiracleReveal>
-            ))}
+
+          {/* SECTION 2: ORGANIZATION WEBSITES */}
+          <div className="w-full">
+            <MiracleReveal animation="fade-right">
+            <Heading level={2} className="font-semibold">
+                {t("organization")}
+              </Heading>
+            </MiracleReveal>
+            <div className="flex flex-col gap-4 mt-4 w-full">
+              {renderedOrganizations}
+            </div>
           </div>
-        </Section>
+        </div>
       </Article>
       <TableOfContents className="hidden lg:block sticky top-30 shrink-0" />
     </Container>
