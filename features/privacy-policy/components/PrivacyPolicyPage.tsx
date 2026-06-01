@@ -48,7 +48,7 @@ export default async function PrivacyPolicyPage({ params }: PrivacyPolicyPagePro
   --------------------------------*/
   const Content = await resolvePrivacyMdx(locale)
 
-  const LATEST_UPDATE_DATE = "2026-05-29"
+  const LATEST_UPDATE_DATE = "2026-06-01"
 
   return (
     <Container className="flex gap-6 md:gap-8 items-start w-full">
