@@ -94,7 +94,7 @@ export default function MiracleTextArea({
           )}
         >
           {label}
-          {props.required && <span className="text-red-500 ml-1">*</span>}
+          {props.required && <span className="text-red ml-1">*</span>}
         </label>
       )}
 
@@ -137,7 +137,7 @@ export default function MiracleTextArea({
       </div>
 
       {(helperText || typeof error === "string") && (
-        <span className={cn("text-xs", isError ? "text-red-500" : "text-neutral-500")}>
+        <span className={cn("text-xs", isError ? "text-red" : "text-secondary")}>
           {typeof error === "string" ? error : helperText}
         </span>
       )}

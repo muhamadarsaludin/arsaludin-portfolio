@@ -25,7 +25,7 @@ import { formatCount } from "@/utils/format-number"
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), {
   ssr: false,
   loading: () => (
-    <div className="bg-primary border-primary flex h-[330px] w-[300px] items-center justify-center rounded-lg border shadow-xl">
+    <div className="bg-primary border-primary flex h-82.5 w-75 items-center justify-center rounded-lg border shadow-xl">
       <MiracleLoader size={40} />
     </div>
   ),
@@ -53,14 +53,14 @@ export default function ReactionPicker({
   const { theme } = useTheme()
   const t = useTranslations("components.reaction")
 
-  // Ambil data terbaru dari cache
   const { data: summary } = useReactionSummary({ targetId, targetType, initialSummary })
   const dataSummary = summary ?? initialSummary
 
+  // INVERSE THEME
   const pickerTheme = useMemo(() => (theme === "dark" ? Theme.LIGHT : Theme.DARK), [theme])
 
   const handleEmojiClick = useCallback(
-    (emojiData: any) => {
+    (emojiData: { emoji: string }) => {
       onSelectReaction(emojiData.emoji)
       setIsPickerOpen(false)
     },
@@ -88,7 +88,6 @@ export default function ReactionPicker({
               size={20}
               className="text-secondary transition-all duration-300 ease-in-out group-hover/reaction-picker:scale-110"
             />
-            {/* Indikator dot merah kalau user sudah react */}
             <span
               className={cn(
                 "bg-red absolute top-0 right-0 h-1.5 w-1.5 rounded-full",

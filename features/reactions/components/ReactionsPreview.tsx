@@ -65,41 +65,45 @@ export default function ReactionsPreview({
   return (
     <div className="relative z-20 flex cursor-pointer items-center -space-x-2">
       {/* Top Reactions List */}
-      {topReactions.map((reaction, index) => (
-        <button
-          key={reaction.emoji}
-          type="button"
-          aria-label={
-            dataSummary.userReaction
-              ? reaction.emoji === dataSummary.userReaction.emoji 
-                ? `${t("tooltip.delete")} ${reaction.emoji}`
-                : `${t("tooltip.edit")} ${reaction.emoji}`
-              : `${t("tooltip.add")} ${reaction.emoji}`
-          }
-          className={cn(
-            "group/emoji bg-secondary flex h-8 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
-            "min-w-8 px-1.5 gap-0",
-            "hover:gap-1 hover:px-3",
-            reaction.emoji === dataSummary.userReaction?.emoji ? "border-blue" : "border-primary"
-          )}
-          style={{ zIndex: zIndexBase + index }}
-          onClick={(e) => {
-            e.stopPropagation()
-            handleSelectedIcon(reaction.emoji)
-          }}
-        >
-          <span className="shrink-0 text-xs">{reaction.emoji}</span>
-          <span
+      {topReactions.map((reaction, index) => {
+        const isUserReaction = reaction.emoji === dataSummary.userReaction?.emoji
+
+        return (
+          <button
+            key={reaction.emoji}
+            type="button"
+            aria-label={
+              dataSummary.userReaction
+                ? isUserReaction 
+                  ? `${t("tooltip.delete")} ${reaction.emoji}`
+                  : `${t("tooltip.edit")} ${reaction.emoji}`
+                : `${t("tooltip.add")} ${reaction.emoji}`
+            }
             className={cn(
-              "text-secondary overflow-hidden text-xs font-semibold transition-all duration-300 ease-in-out",
-              "invisible max-w-0 opacity-0",
-              "group-hover/emoji:visible group-hover/emoji:max-w-35 group-hover/emoji:opacity-100"
+              "group/emoji bg-secondary flex h-8 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-300 ease-in-out outline-none",
+              "min-w-8 px-1.5 gap-0",
+              "hover:gap-1 hover:px-3",
+              isUserReaction ? "border-blue" : "border-primary"
             )}
+            style={{ zIndex: zIndexBase + index }}
+            onClick={(e) => {
+              e.stopPropagation()
+              handleSelectedIcon(reaction.emoji)
+            }}
           >
-            {reaction.count}
-          </span>
-        </button>
-      ))}
+            <span className="shrink-0 text-xs">{reaction.emoji}</span>
+            <span
+              className={cn(
+                "text-secondary overflow-hidden text-xs font-semibold transition-all duration-300 ease-in-out",
+                "invisible max-w-0 opacity-0",
+                "group-hover/emoji:visible group-hover/emoji:max-w-35 group-hover/emoji:opacity-100"
+              )}
+            >
+              {reaction.count}
+            </span>
+          </button>
+        )
+      })}
 
       {/* Remaining Reactions Popover */}
       {remainingEmojis > 0 && (
@@ -146,21 +150,25 @@ export default function ReactionsPreview({
             </p>
 
             <div className="flex flex-wrap gap-1 overflow-y-auto">
-              {/* Di sini kita pake allReactions dari summary data yang sama */}
-              {dataSummary.allReactions.map((reaction) => (
-                <MiracleButton
-                  variant="secondary"
-                  key={reaction.emoji}
-                  size="sm"
-                  className={cn(
-                    reaction.emoji === dataSummary.userReaction?.emoji && "border-blue border-2"
-                  )}
-                  onClick={() => handleSelectedIcon(reaction.emoji)}
-                >
-                  <span className="mr-1">{reaction.emoji}</span>
-                  <span className="text-secondary font-bold">{reaction.count}</span>
-                </MiracleButton>
-              ))}
+              {dataSummary.allReactions.map((reaction) => {
+                const isUserReaction = reaction.emoji === dataSummary.userReaction?.emoji
+                return (
+                  <MiracleButton
+                    variant="secondary"
+                    key={reaction.emoji}
+                    size="sm"
+                    className={cn(
+                      isUserReaction && "border-blue border-2"
+                    )}
+                    onClick={() => {
+                      handleSelectedIcon(reaction.emoji)
+                    }}
+                  >
+                    <span className="mr-1">{reaction.emoji}</span>
+                    <span className="text-secondary font-bold">{reaction.count}</span>
+                  </MiracleButton>
+                )
+              })}
             </div>
           </div>
         </MiraclePopover>
