@@ -3,19 +3,21 @@
 import type { RefObject } from "react"
 import { useEffect } from "react"
 
-export function useScrollLock(lock: boolean, ref?: RefObject<HTMLElement>) {
-  useEffect(() => {
-    const element = ref?.current ?? document.body
-    const originalOverflow = element.style.overflow
+const applyScrollLock = (el: HTMLElement, isLocked: boolean, originalValue: string) => {
+  el.style.overflow = isLocked ? "hidden" : originalValue
+}
 
-    if (lock) {
-      element.style.overflow = "hidden"
-    } else {
-      element.style.overflow = originalOverflow
-    }
+export function useScrollLock(lock: boolean, ref?: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const targetElement = ref ? ref.current : document.body
+    if (!targetElement) return
+
+    const originalOverflow = targetElement.style.overflow
+
+    applyScrollLock(targetElement, lock, originalOverflow)
 
     return () => {
-      element.style.overflow = originalOverflow
+      applyScrollLock(targetElement, false, originalOverflow)
     }
   }, [lock, ref])
 }

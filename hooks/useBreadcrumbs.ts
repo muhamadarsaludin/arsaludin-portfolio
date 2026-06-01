@@ -24,8 +24,11 @@ export function useBreadcrumbs({
   locales = [],
   overrides = {}
 }: Options): Breadcrumb[] {
+  const overridesSerialized = JSON.stringify(overrides)
+
   return useMemo(() => {
     if (!pathname) return []
+    const localOverrides: Record<string, string> = JSON.parse(overridesSerialized)
 
     // 1. Split and clean segments
     const allSegments = pathname.split("/").filter(Boolean)
@@ -39,7 +42,7 @@ export function useBreadcrumbs({
 
     // 3. Add Home Base (always aware of locale prefix)
     results.push({
-      label: overrides["home"] ?? "Home",
+      label: localOverrides["home"] ?? "Home",
       href: localePrefix || "/"
     })
 
@@ -49,7 +52,7 @@ export function useBreadcrumbs({
       const path = segments.slice(0, i + 1).join("/")
       const href = `${localePrefix}/${path}`
 
-      const label = overrides[segment] ?? formatLabel(segment)
+      const label = localOverrides[segment] ?? formatLabel(segment)
 
       results.push({
         label,
@@ -58,5 +61,6 @@ export function useBreadcrumbs({
     }
 
     return results
-  }, [pathname, locales, JSON.stringify(overrides)])
+    // ⚡ DEPENDENCY MUTLAK: Hanya pantau string murninya saja. Linter aman, performa aman!
+  }, [pathname, locales, overridesSerialized])
 }

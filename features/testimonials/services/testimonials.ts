@@ -1,7 +1,6 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { MAX_TOP_REACTIONS } from "@/features/reactions/constants/reactions.constants"
 import type { Testimonial, TestimonialEntity, TestimonialTranslationEntity } from "../types/testimonials.types"
 import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 

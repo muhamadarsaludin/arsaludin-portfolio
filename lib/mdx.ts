@@ -5,6 +5,11 @@ import remarkGfm from "remark-gfm"
 import rehypePrettyCode from "rehype-pretty-code"
 import { mdxComponents } from "@/mdx-components"
 
+type MDXProps = {
+  components?: Record<string, ComponentType<Record<string, unknown>>>
+  [key: string]: unknown
+}
+
 export async function compileMDX(source: string) {
   const compiled = await compile(source, {
     outputFormat: "function-body",
@@ -18,7 +23,10 @@ export async function compileMDX(source: string) {
     jsxs,
   })
 
-  return function MDXWrapper(props: any) {
-    return MDXContent({ ...props, components: { ...mdxComponents, ...props.components } })
-  } as ComponentType<any>
+  return function MDXWrapper(props: MDXProps) {
+    return MDXContent({ 
+      ...props, 
+      components: { ...mdxComponents, ...props.components } 
+    })
+  } as ComponentType<MDXProps>
 }

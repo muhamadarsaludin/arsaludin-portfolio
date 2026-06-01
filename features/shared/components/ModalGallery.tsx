@@ -49,6 +49,15 @@ export default function ModalGallery({
 
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const [prevInitialIndex, setPrevInitialIndex] = useState<number>(initialIndex)
+  const [prevIsOpen, setPrevIsOpen] = useState<boolean>(isOpen)
+
+  if (initialIndex !== prevInitialIndex || isOpen !== prevIsOpen) {
+    setPrevInitialIndex(initialIndex)
+    setPrevIsOpen(isOpen)
+    setSelectedIndex(initialIndex)
+    setZoomScale(1)
+  }
 
   const currentImage = images[selectedIndex]
 
@@ -77,12 +86,10 @@ export default function ModalGallery({
   }, [selectedIndex, isOpen])
 
   useEffect(() => {
-    setSelectedIndex(initialIndex)
-    setZoomScale(1)
     if (!isOpen) {
       thumbnailRefs.current = []
     }
-  }, [initialIndex, isOpen])
+  }, [isOpen])
 
   // ⌨️ Clean Navigation Keyboard Event Listeners
   useEffect(() => {
@@ -90,18 +97,16 @@ export default function ModalGallery({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") handleNext()
       if (e.key === "ArrowLeft") handlePrev()
-      // Note: Escape key handling is now completely offloaded to MiracleModal
     }
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [isOpen, handleNext, handlePrev])
 
-  // 🛡️ Safety Gate: Only prevent rendering if data is genuinely corrupted or empty
   if (!images.length || !currentImage) return null
 
   return (
     <MiracleModal
-      isOpen={isOpen} // 👈 Pass the open gate cleanly to let internal states handle animations
+      isOpen={isOpen}
       onClose={onClose}
       size="full"
       title={title}

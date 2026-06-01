@@ -29,7 +29,7 @@ export function useReactionSummary({
     queryKey: ["reaction-summary", targetType, targetId],
     queryFn: () => getReactionSummary({ targetId, targetType }),
     initialData: initialSummary,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60,
     enabled: !!targetId && enabled,
   })
 }

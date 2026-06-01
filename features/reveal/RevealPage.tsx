@@ -38,7 +38,7 @@ const AnimationTestPage = () => {
               <span className="text-blue-500 font-mono text-sm mb-2">variant:</span>
               <h3 className="text-2xl font-semibold capitalize">{anim.replace(/-/g, " ")}</h3>
               <p className="text-neutral-500 mt-4 text-center text-sm">
-                This card uses the "{anim}" animation variant.
+                This card uses the animation variant.
               </p>
             </div>
           </MiracleReveal>

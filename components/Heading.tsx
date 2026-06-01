@@ -2,17 +2,20 @@
 
 import { cn } from "@/utils/class-name"
 import { toKebabCase } from "@/utils/string-case"
-import type { JSX } from "react"
 import React from "react"
 import MiracleTooltip from "./miracle/Tooltip"
 import { LuLink2 } from "react-icons/lu"
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 import { Link } from "@/i18n/navigation"
 
-export type HeadingProps = {
+// Mendefinisikan tipe literal khusus untuk rumpun tag heading HTML
+type HeadingLevel = 1 | 2 | 3 | 4 | 5
+type HeadingTag = `h${HeadingLevel}`
+
+export type HeadingProps = React.ComponentPropsWithoutRef<"h1"> & {
   id?: string
-  level?: 1 | 2 | 3 | 4 | 5
-  children: React.ReactNode
+  level?: HeadingLevel
+  children?: React.ReactNode
   className?: string
   copyLink?: boolean
   linkClassName?: string
@@ -23,16 +26,15 @@ export type HeadingProps = {
 export default function Heading({
   id,
   level = 2,
-  children,
+  children = "",
   className,
   copyLink = true,
   linkClassName,
   noMarginTop = false,
   fontWeight = "normal",
+  ...props
 }: HeadingProps) {
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements
-  const baseId = id ?? (typeof children === "string" ? children : "")
-  const headingId = toKebabCase(baseId)
+  const Tag = `h${level}` as HeadingTag
 
   const { message, copy } = useCopyToClipboard({
     defaultMessage: "Copy link",
@@ -53,7 +55,7 @@ export default function Heading({
     black: "font-black",
   }
 
-  const fontSizeClass: Record<number, string> = {
+  const fontSizeClass: Record<HeadingLevel, string> = {
     1: "text-3xl md:text-4xl lg:text-5xl",
     2: "text-2xl md:text-3xl lg:text-4xl",
     3: "text-xl md:text-2xl lg:text-3xl",
@@ -61,7 +63,7 @@ export default function Heading({
     5: "text-base md:text-lg lg:text-xl",
   }
 
-  const linkSizeClass: Record<number, string> = {
+  const linkSizeClass: Record<HeadingLevel, string> = {
     1: "text-[0.4em]",
     2: "text-[0.5em]",
     3: "text-[0.6em]",
@@ -69,13 +71,16 @@ export default function Heading({
     5: "text-[0.8em]",
   }
 
-  const marginClass: Record<number, string> = {
+  const marginClass: Record<HeadingLevel, string> = {
     1: "mt-0",
     2: "mt-8 lg:mt-10 xl:mt-12",
     3: "mt-6 lg:mt-8",
     4: "mt-4 lg:mt-6",
     5: "mt-2 lg:mt-4",
   }
+
+  const baseId = id ?? (typeof children === "string" ? children : "")
+  const headingId = toKebabCase(baseId)
 
   return (
     <Tag
@@ -87,8 +92,9 @@ export default function Heading({
         !noMarginTop && marginClass[level],
         className
       )}
+      {...(props as React.ComponentPropsWithoutRef<HeadingTag>)}
     >
-      <Link href={`#${headingId}`} >
+      <Link href={`#${headingId}`}>
         {children}
       </Link>
       {copyLink && (

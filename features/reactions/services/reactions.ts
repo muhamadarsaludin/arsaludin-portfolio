@@ -6,8 +6,10 @@ import type {
   ReactionTargetType,
   PaginatedReactions,
   Reaction,
+  ReactionCount,
 } from "../types/reactions.types"
 import type { Cursor } from "@/features/shared/types/index.types"
+import { REACTIONS_PAGE_SIZE } from "../constants/reactions.constants"
 
 type GetReactionSummaryParams = {
   targetId: string
@@ -49,14 +51,14 @@ export async function getReactionSummary({
   const [reactionCountsRes, userReactionsRes] = await Promise.all([
     supabase
       .from(viewTable)
-      .select("emoji, count")
+      .select<string, ReactionCount>("emoji, count")
       .eq(targetColumn, targetId)
       .order("count", { ascending: false }),
 
     user
       ? supabase
           .from("reactions")
-          .select(
+          .select<string, Reaction>(
             `
             id,
             emoji,
@@ -82,16 +84,7 @@ export async function getReactionSummary({
   if (userReactionsRes.error) throw userReactionsRes.error
 
   const allReactions = reactionCountsRes.data || []
-
-  const userReaction =
-    userReactionsRes.data
-      ? {
-          ...userReactionsRes.data,
-          author: Array.isArray(userReactionsRes.data.author)
-            ? userReactionsRes.data.author[0]
-            : userReactionsRes.data.author,
-        }
-      : null
+  const userReaction = userReactionsRes.data
 
   const totalReactions = allReactions.reduce(
     (acc, curr) => acc + curr.count,
@@ -108,27 +101,25 @@ export async function getReactionSummary({
 
 /**
  * Fetches a paginated list of users who reacted to a specific target.
- * Designed exclusively for detailed views (like a "See who reacted" modal)
- * to prevent over-fetching on the initial page load.
  * @param targetId - Target entity ID (e.g., project or comment id).
  * @param targetType - Target type used for dynamic table and column nullable FK.
- * @param cursor - The timestamp cursor for cursor-based pagination. Pass `null` for the first page.
+ * @param cursor - Pagination metadata (createdAt & id) used for cursor-based fetching.
  * @param pageSize - The number of records to fetch per page (defaults to 10).
  * @returns {Promise<PaginatedReactions>} A paginated list of Reaction objects with `hasMore` and `nextCursor` states.
  * @throws Will throw an error if the Supabase query fails.
  */
-export async function getReactions({
+export async function getPaginatedReactions({
   targetId,
   targetType,
   cursor,
-  pageSize = 10,
+  pageSize = REACTIONS_PAGE_SIZE,
 }: GetReactionsParams): Promise<PaginatedReactions> {
   const supabase = await createClient()
   const targetColumn = `${targetType}_id`
 
   let query = supabase
     .from("reactions")
-    .select(
+    .select<string, Reaction>(
       `
       id, 
       emoji, 
@@ -156,20 +147,15 @@ export async function getReactions({
   }
 
   const { data, error } = await query
+
   if (error) throw error
 
   const hasMore = data.length > pageSize
   const trimmedData = hasMore ? data.slice(0, pageSize) : data
   const lastItem = trimmedData[trimmedData.length - 1]
 
-  // Type mapping safety
-  const formattedData: Reaction[] = trimmedData.map((item: any) => ({
-    ...item,
-    author: Array.isArray(item.author) ? item.author[0] : item.author,
-  }))
-
   return {
-    data: formattedData,
+    data: trimmedData,
     nextCursor: hasMore
       ? {
           created_at: lastItem.created_at,

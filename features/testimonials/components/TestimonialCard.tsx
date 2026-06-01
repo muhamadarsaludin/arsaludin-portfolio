@@ -25,7 +25,7 @@ export default function TestimonialCard({ testimonial, className }: { testimonia
       <div className="p-4 border border-primary rounded-md flex-1 bg-primary-inv relative flex flex-col gap-2">
         <Quote className="text-primary-inv text-2xl"/>
         <p className="text-secondary-inv text-sm">
-          "{testimonial.content}"
+          {"“"}{testimonial.content}{"”"}
         </p>
         {/* Rectangle */}
         <div

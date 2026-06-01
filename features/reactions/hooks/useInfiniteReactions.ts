@@ -2,13 +2,13 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import type { Cursor } from "@/features/shared/types/index.types"
 import { REACTIONS_PAGE_SIZE } from "../constants/reactions.constants"
 import type { ReactionTargetType } from "../types/reactions.types"
-import { getReactions } from "../services/reactions"
+import { getPaginatedReactions } from "../services/reactions"
 
 type UseReactionsParams = {
   targetId: string
   targetType: ReactionTargetType
-  pageSize?: number
   enabled?: boolean
+  pageSize?: number
 }
 
 /**
@@ -20,27 +20,27 @@ type UseReactionsParams = {
  * @param enabled - Conditional flag to control the query execution (automatically disabled if targetId is falsy).
  * @returns An infinite query object containing data pages, fetch status, and pagination helpers.
  */
-export function useReactions({
+export function useInfiniteReactions({
   targetId,
   targetType,
-  pageSize = REACTIONS_PAGE_SIZE,
   enabled = true,
+  pageSize = REACTIONS_PAGE_SIZE
 }: UseReactionsParams) {
   return useInfiniteQuery({
-    queryKey: ["reactions", targetType, targetId],
+    queryKey: ["reactions", targetType, targetId, { pageSize }],
     queryFn: async ({ pageParam }) => {
-      return getReactions({
+      return getPaginatedReactions({
         targetId,
         targetType,
-        cursor: (pageParam as Cursor) ?? undefined,
+        cursor: pageParam as Cursor | undefined,
         pageSize,
       })
     },
     enabled: !!targetId && enabled,
-    initialPageParam: null as Cursor | null,
+    initialPageParam: undefined as Cursor | undefined,
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined
     },
-    staleTime: 1000 * 5,
+    staleTime: 1000 * 60,
   })
 }

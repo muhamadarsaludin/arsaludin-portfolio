@@ -67,7 +67,7 @@ export default function ReactionPicker({
     [onSelectReaction]
   )
 
-  const PickerToggle = ({ onClick }: { onClick?: React.MouseEventHandler }) => (
+  const renderPickerToggle = (onClick?: React.MouseEventHandler) => (
     <MiracleTooltip
       noPadding
       defaultPosition={tooltipPosition}
@@ -109,7 +109,7 @@ export default function ReactionPicker({
     </MiracleTooltip>
   )
 
-  const DetailToggle = () => {
+  const renderDetailToggle = () => {
     if (!dataSummary || dataSummary.totalReactions <= 0) return null
     return (
       <MiracleTooltip
@@ -135,13 +135,11 @@ export default function ReactionPicker({
   if (!isSignedIn) {
     return (
       <div className="flex items-center">
-        <PickerToggle
-          onClick={async (e) => {
-            e.preventDefault()
-            await signInWithGoogle()
-          }}
-        />
-        <DetailToggle />
+        {renderPickerToggle(async (e) => {
+          e.preventDefault()
+          await signInWithGoogle()
+        })}
+        {renderDetailToggle()}
       </div>
     )
   }
@@ -156,7 +154,7 @@ export default function ReactionPicker({
         noBackground
         noShadow
         noPadding
-        trigger={<PickerToggle />}
+        trigger={renderPickerToggle()}
       >
         <div className="overflow-hidden rounded-lg shadow-2xl">
           {isPickerOpen && (
@@ -170,7 +168,7 @@ export default function ReactionPicker({
           )}
         </div>
       </MiraclePopover>
-      <DetailToggle />
+      {renderDetailToggle()}
     </div>
   )
 }

@@ -1,11 +1,10 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import type { Reaction } from "../types/reactions.types"
 import Image from "next/image"
 import { getInitials } from "@/utils/initials"
 import { LuUserRound } from "react-icons/lu"
 import { useLocale, useTranslations } from "next-intl"
 import { formatDate } from "@/utils/format-date"
-import { timeAgo } from "@/utils/time-ago"
 
 export default function ReactionItem({ reaction }: { reaction: Reaction }) {
   const [authorAvatar, setAuthorAvatar] = useState(reaction.author.avatar_url || "/dummy.webp")

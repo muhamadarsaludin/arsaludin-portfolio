@@ -19,13 +19,14 @@ export default function SkillBadges({
   limit = MAX_VISIBLE_SKILLS,
   className 
 }: SkillBadgesProps) {
+  const t = useTranslations("components.skillBadges")
+
   if (!skills.length) return null
 
   const hasMore = skills.length > limit
   const topSkills = skills.slice(0, limit)
   const remainingSkills = skills.slice(limit) 
   const remainingCount = remainingSkills.length
-  const t = useTranslations("components.skillBadges")
 
   return (
     <div className={cn("flex flex-wrap items-center gap-2 relative", className)}>

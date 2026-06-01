@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl"
 import MiracleModal from "@/components/miracle/Modal"
 import MiracleLoader from "@/components/miracle/Loader"
 
-import { useReactions } from "@/features/reactions/hooks/useReactions"
+import { useInfiniteReactions } from "@/features/reactions/hooks/useInfiniteReactions"
 import type { ReactionTargetType } from "@/features/reactions/types/reactions.types"
 import ReactionItem from "./ReactionItem"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
@@ -26,10 +26,10 @@ export default function ReactionModal({
   const t = useTranslations("components.reaction.modal")
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useReactions({
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteReactions({
     targetId,
     targetType,
-    enabled: isOpen,
+    enabled: isOpen
   })
 
   useIntersectionObserver({
@@ -72,7 +72,7 @@ export default function ReactionModal({
         {/* --- INFINITE LOADING SENTINEL --- */}
         <div
           ref={loadMoreRef}
-          className="flex min-h-[60px] w-full items-center justify-center py-4"
+          className="flex min-h-15 w-full items-center justify-center py-4"
         >
           {isFetchingNextPage && (
             <div className="flex flex-col items-center gap-2">

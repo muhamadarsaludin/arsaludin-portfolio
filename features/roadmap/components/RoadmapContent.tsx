@@ -12,7 +12,7 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useUrlParams } from "@/hooks/useSearchParams"
 import { cn } from "@/utils/class-name"
 import { useTranslations } from "next-intl"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { LuChevronDown, LuFilter, LuSearch } from "react-icons/lu"
 import RoadmapColumn from "./RoadmapColumn"
 import { MiracleReveal } from "@/components/miracle/Reveal"
@@ -33,8 +33,12 @@ export default function RoadmapContent({ kanbanStatuses }: RoadmapContentProps) 
   const [search, setSearch] = useState(searchUrl)
   const debouncedSearch = useDebounce(search, 500)
   const [isOpenFilter, setIsOpenFilter] = useState(false)
+  const [prevSearchUrl, setPrevSearchUrl] = useState(searchUrl)
 
-  useEffect(() => { setSearch(searchUrl) }, [searchUrl])
+  if (searchUrl !== prevSearchUrl) {
+    setPrevSearchUrl(searchUrl)
+    setSearch(searchUrl)
+  }
   
   useEffect(() => {
     if (debouncedSearch !== searchUrl) {
@@ -69,12 +73,12 @@ export default function RoadmapContent({ kanbanStatuses }: RoadmapContentProps) 
     return { isAllSelected, isSomeSelected }
   }
 
-  const currentFilters = useMemo(() => ({
+  const currentFilters = {
     search: searchUrl || undefined,
     types: types.length ? types : undefined,
     priorities: priorities.length ? priorities : undefined,
     pageSize: CARDS_PAGE_SIZE,
-  }), [searchUrl, types, priorities])
+  }
 
   const typeStatus = getGroupStatus(types as string[], CARD_TYPES)
   const priorityStatus = getGroupStatus(priorities as string[], CARD_PRIORITIES)
@@ -193,7 +197,6 @@ export default function RoadmapContent({ kanbanStatuses }: RoadmapContentProps) 
             <RoadmapColumn 
               status={status} 
               filters={currentFilters} 
-              columnDelay={(index % 6) * 0.1}
               className="h-full w-full"
             />
           </MiracleReveal>
