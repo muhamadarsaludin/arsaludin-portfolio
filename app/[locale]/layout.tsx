@@ -37,7 +37,10 @@ export const viewport: Viewport = {
 
 export default async function LocaleLayout({ children, params }: LayoutProps) {
   const { locale } = await params
-  if (!routing.locales.includes(locale as any)) {
+  
+  type ValidLocale = typeof routing.locales[number]
+
+  if (!routing.locales.includes(locale as ValidLocale)) {
     notFound()
   }
   setRequestLocale(locale)

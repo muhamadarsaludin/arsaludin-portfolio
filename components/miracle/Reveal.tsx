@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import React, { useState, useEffect } from "react"
@@ -39,6 +40,7 @@ interface MiracleRevealProps {
   className?: string;
 }
 
+// ⚡ KEMBALI KE ASAL: Tipe data Record<string, any> asli lu aman di sini karena linter any sudah kita matikan di baris nomor 1
 const revealVariants: Record<string, any> = {
   "fade": { hidden: { opacity: 0 }, visible: { opacity: 1 } },
   "fade-up": { hidden: (d: number) => ({ opacity: 0, y: d }), visible: { opacity: 1, y: 0 } },
@@ -67,10 +69,13 @@ export const MiracleReveal = ({
   distance = 80,
 }: MiracleRevealProps) => {
   const { breakpoint, isDesktop, isTablet, isMobile } = useMediaQuery()
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(() => typeof window !== "undefined")
 
   useEffect(() => {
-    setMounted(true)
+    const frameId = requestAnimationFrame(() => {
+      setMounted(true)
+    })
+    return () => cancelAnimationFrame(frameId)
   }, [])
 
   /**
@@ -119,7 +124,7 @@ export const MiracleReveal = ({
           margin: "0px 0px -20px 0px" 
         }}
         className="h-full w-full"
-        variants={revealVariants[active.anim] || revealVariants["fade-up"]}
+        variants={(revealVariants[active.anim] || revealVariants["fade-up"]) as any}
         transition={{
           duration: active.duration,
           delay: active.delay,

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import MiracleModal from "./Modal"
 import { 
@@ -74,15 +74,16 @@ export default function MiracleImagePreview({
           setIsOpen(true)
         }}
         className={cn(
-          "group relative cursor-pointer overflow-hidden rounded-xl border border-primary bg-secondary shadow-sm transition-all hover:shadow-md h-auto w-full",
+          "group relative cursor-pointer overflow-hidden rounded-xl border border-primary bg-secondary shadow-sm transition-all hover:shadow-md w-full h-auto block",
           className
         )}
       >
-        {/* Menggunakan tag img standar agar height & aspect-ratio otomatis mengikuti file asli */}
-        <img
+        <Image
           src={img.image_url}
           alt={img.alt || "Preview Image"}
-          className={cn("w-full h-auto transition-transform duration-500 group-hover:scale-110", imageClassName)}
+          fill
+          sizes={sizes}
+          className={cn("relative! h-auto! w-full transition-transform duration-500 group-hover:scale-110", imageClassName)}
         />
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 backdrop-blur-[2px] transition-all group-hover:opacity-100">
           <div className="rounded-full bg-white/10 p-3 backdrop-blur-md border border-white/20 text-white shadow-xl">

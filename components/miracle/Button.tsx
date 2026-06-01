@@ -82,17 +82,13 @@ export default function MiracleButton({
     className
   )
 
-  const content = (
+  const content = loading ? (
+    <MiracleLoader size={18} />
+  ) : (
     <>
-      {loading ? (
-        <MiracleLoader size={18} />
-      ) : (
-        <>
-          {startIcon && <span className="flex shrink-0 items-center">{startIcon}</span>}
-          {children && <span>{children}</span>}
-          {endIcon && <span className="flex shrink-0 items-center">{endIcon}</span>}
-        </>
-      )}
+      {startIcon && <span className="flex shrink-0 items-center">{startIcon}</span>}
+      {children && <span>{children}</span>}
+      {endIcon && <span className="flex shrink-0 items-center">{endIcon}</span>}
     </>
   )
 

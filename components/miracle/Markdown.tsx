@@ -15,19 +15,19 @@ export const MiracleMarkdown = ({ content, className }: MarkdownProps) => {
       <ReactMarkdown
         components={{
           // Paragraph
-          p: ({ node, ...props }) => (
+          p: ({ ...props }) => (
             <p className="text-secondary text-sm leading-relaxed" {...props} />
           ),
 
           // Strong
-          strong: ({ node, children, ...props }) => {
+          strong: ({ children, ...props }) => {
             if (!children) return null
-            const content = children.toString()
+            const stringContent = children.toString()
 
-            if (content.startsWith("!")) {
+            if (stringContent.startsWith("!")) {
               return (
                 <strong className="text-primary font-semibold" {...props}>
-                  {content.slice(1)}
+                  {stringContent.slice(1)}
                 </strong>
               )
             }
@@ -39,10 +39,7 @@ export const MiracleMarkdown = ({ content, className }: MarkdownProps) => {
             )
           },
 
-          code: ({ node, ...props }) => {
-            const isInline =
-              !node?.position?.start.line ||
-              (node.position.start.line === node.position.end.line && !content.includes("\n"))
+          code: ({ ...props }) => {
             return (
               <code
                 className={cn(
@@ -54,8 +51,7 @@ export const MiracleMarkdown = ({ content, className }: MarkdownProps) => {
             )
           },
 
-          // Link
-          a: ({ node, href, ...props }) => {
+          a: ({ href, ...props }) => {
             const isExternal = href?.startsWith("http")
             const linkStyles =
               "text-blue-600 dark:text-blue-400 font-semibold no-underline hover:underline"
@@ -74,9 +70,8 @@ export const MiracleMarkdown = ({ content, className }: MarkdownProps) => {
             return <Link href={href || "#"} className={linkStyles} {...props} />
           },
 
-          // Lists
-          ul: ({ node, ...props }) => <ul className="flex list-none flex-col gap-2" {...props} />,
-          li: ({ node, ...props }) => (
+          ul: ({ ...props }) => <ul className="flex list-none flex-col gap-2" {...props} />,
+          li: ({ ...props }) => (
             <li className="text-sm text-neutral-600 dark:text-neutral-400" {...props} />
           ),
         }}

@@ -1,6 +1,5 @@
 "use server"
 
-import { nanoid } from "nanoid"
 import type { Card, CardPriority, CardType, PaginatedCards } from "../types/cards.types"
 import type { Profile } from "@/features/profile/types/profiles.types"
 import type { CardEntity, CardStatus } from "../types/cards.types"
@@ -93,7 +92,6 @@ export async function getPaginatedCardsByStatus({
   pageSize = CARDS_PAGE_SIZE,
   cursor,
 }: GetPaginatedCardsByStatusParams): Promise<PaginatedCards> {
-  console.log("SERVER FILTER:", { status, types, priorities })
   const supabase = await createClient()
   const {
     data: { user },

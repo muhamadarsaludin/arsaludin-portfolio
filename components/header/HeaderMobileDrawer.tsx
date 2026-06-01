@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/utils/class-name"
-import { useEffect, useState } from "react" // 👈 Suntik hooks standar buat delay unmount
+import { useEffect, useState } from "react"
 import HeaderNavigation from "./HeaderNavigation"
 import SignInButton from "./button/SignInButton"
 import DownloadResumeButton from "./button/DownloadResumeButton"
@@ -13,18 +13,25 @@ type MobileDrawerProps = {
 }
 
 export default function HeaderMobileDrawer({ showMenu, isSignedIn, onClose }: MobileDrawerProps) {
-  const [isRendered, setIsRendered] = useState(false)
+  const [isRendered, setIsRendered] = useState(showMenu)
   const [animate, setAnimate] = useState(false)
+  const [prevShowMenu, setPrevShowMenu] = useState(showMenu)
+
+  if (showMenu !== prevShowMenu) {
+    setPrevShowMenu(showMenu)
+    if (showMenu) {
+      setIsRendered(true)
+    } else {
+      setAnimate(false)
+    }
+  }
 
   useEffect(() => {
     if (showMenu) {
-      setIsRendered(true)
       const frameId = requestAnimationFrame(() => {
         setAnimate(true)
       })
       return () => cancelAnimationFrame(frameId)
-    } else {
-      setAnimate(false)
     }
   }, [showMenu])
 

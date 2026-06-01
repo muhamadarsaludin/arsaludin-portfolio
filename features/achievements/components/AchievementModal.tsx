@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import type { Achievement, AchievementLevel, AchievementType } from "../types/achievements.types"
 import MiracleModal from "@/components/miracle/Modal"
@@ -20,6 +20,8 @@ type AchievementModalProps = {
 
 export default function AchievementModal({ isOpen, onClose, achievement }: AchievementModalProps) {
   const [zoomScale, setZoomScale] = useState(1)
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen)
+  
   const locale = useLocale()
   const t = useTranslations("components.achievementCard")
   const td = useTranslations("data.achievement")
@@ -35,10 +37,12 @@ export default function AchievementModal({ isOpen, onClose, achievement }: Achie
     beginner: "green"
   }
 
-  // Reset the image zoom scale factor back to original bounds on modal close
-  useEffect(() => {
-    if (!isOpen) setZoomScale(1)
-  }, [isOpen])
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen)
+    if (!isOpen) {
+      setZoomScale(1)
+    }
+  }
 
   return (
     <MiracleModal

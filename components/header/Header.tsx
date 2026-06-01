@@ -13,11 +13,7 @@ import DownloadResumeButton from "./button/DownloadResumeButton"
 import SignInButton from "./button/SignInButton"
 import HeaderAvatar from "./HeaderAvatar"
 import { useAuth } from "@/providers/AuthProvider"
-import dynamic from "next/dynamic"
-
-const HeaderMobileDrawer = dynamic(() => import("./HeaderMobileDrawer"), {
-  ssr: false,
-})
+import HeaderMobileDrawer from "./HeaderMobileDrawer"
 
 type HeaderProps = {
   className?: string
@@ -27,24 +23,30 @@ export default function Header({ className }: HeaderProps) {
   const { isSignedIn } = useAuth()
   const pathname = usePathname()
   const [showMenu, setShowMenu] = useState(false)
-  
+  const [prevPathname, setPrevPathname] = useState(pathname)
+
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname)
+    if (showMenu) {
+      setShowMenu(false)
+    }
+  }
+
   const handleToggle = () => {
     setShowMenu((prev) => !prev)
   }
   
   useScrollLock(showMenu)
-  
-  useEffect(() => {
-    setShowMenu(false)
-  }, [pathname])
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)")
+    
     const handleChange = () => {
       if (media.matches) {
-        setShowMenu(false)
+        setShowMenu((prev) => (prev ? false : prev))
       }
     }
+    
     handleChange()
     media.addEventListener("change", handleChange)
     return () => media.removeEventListener("change", handleChange)

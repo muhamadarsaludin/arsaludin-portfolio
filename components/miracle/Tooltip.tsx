@@ -36,7 +36,7 @@ export default function MiracleTooltip({
 }: TooltipProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [coords, setCoords] = useState({ top: 0, left: 0 })
-  const [adaptedPos, setAdaptedPos] = useState(defaultPosition)
+  const [adaptedPos, setAdaptedPos] = useState<TooltipDefaultPosition>(defaultPosition)
   const [mounted, setMounted] = useState(false)
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -44,7 +44,10 @@ export default function MiracleTooltip({
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    setMounted(true)
+    const frameId = requestAnimationFrame(() => {
+      setMounted(true)
+    })
+    return () => cancelAnimationFrame(frameId)
   }, [])
 
   const handleClose = useCallback(() => {
@@ -59,7 +62,6 @@ export default function MiracleTooltip({
     const viewportHeight = window.innerHeight
 
     // --- 1. AUTO CLOSE LOGIC ---
-    // Jika trigger scroll keluar layar, tutup tooltip
     if (
       triggerRect.bottom < 0 || 
       triggerRect.top > viewportHeight ||
@@ -93,7 +95,7 @@ export default function MiracleTooltip({
     let top = 0
     let left = 0
 
-    // --- 4. COORDINATE CALCULATION (Fixed) ---
+    // --- 4. COORDINATE CALCULATION ---
     if (side === "top") top = triggerRect.top - contentRect.height - gap
     else if (side === "bottom") top = triggerRect.bottom + gap
     else {
@@ -115,14 +117,13 @@ export default function MiracleTooltip({
     top = Math.max(gap, Math.min(top, viewportHeight - contentRect.height - gap))
 
     setCoords({ top, left })
-    setAdaptedPos(`${side}-${align}` as any)
+    setAdaptedPos(`${side}-${align}` as TooltipDefaultPosition)
   }, [isOpen, defaultPosition, handleClose])
 
   useLayoutEffect(() => {
     if (isOpen) {
       updatePosition()
 
-      // Tambahkan ResizeObserver untuk handle konten yang berubah ukuran
       const resizeObserver = new ResizeObserver(() => updatePosition())
       if (contentRef.current) resizeObserver.observe(contentRef.current)
 

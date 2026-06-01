@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Outfit } from "next/font/google"
+import { Geist_Mono, Outfit } from "next/font/google"
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",

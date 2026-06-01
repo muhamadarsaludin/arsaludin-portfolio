@@ -210,7 +210,7 @@ export async function addComment({
   } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized")
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("comments")
     .insert([
       {

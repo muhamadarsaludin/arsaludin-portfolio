@@ -36,19 +36,24 @@ export default function AchievementsContent({
   const td = useTranslations("data")
   const { setParams, getParam, getArrayParam } = useUrlParams()
 
-  const types = getArrayParam("types") || []
-  const levels = getArrayParam("levels") || []
-  const categorySlugs = getArrayParam("categories") || []
+  const typesArray = getArrayParam("types") || []
+  const levelsArray = getArrayParam("levels") || []
+  const categorySlugsArray = getArrayParam("categories") || []
   const searchUrl = getParam("search") || ""
 
   const [search, setSearch] = useState(searchUrl)
+  const [prevSearchUrl, setPrevSearchUrl] = useState(searchUrl)
   const debouncedSearch = useDebounce(search, 500)
   const [isOpenFilter, setIsOpenFilter] = useState(false)
 
   const { data: categories } = useAvailableCategories({ locale, targetType })
   const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
-  useEffect(() => { setSearch(searchUrl) }, [searchUrl])
+  if (searchUrl !== prevSearchUrl) {
+    setPrevSearchUrl(searchUrl)
+    setSearch(searchUrl)
+  }
+
   useEffect(() => {
     if (debouncedSearch !== searchUrl) {
       setParams({ search: debouncedSearch || undefined })
@@ -56,7 +61,7 @@ export default function AchievementsContent({
   }, [debouncedSearch, searchUrl, setParams])
 
   const handleToggleFilter = (key: "types" | "levels" | "categories", value: string) => {
-    const current = key === "types" ? types : key === "levels" ? levels : categorySlugs
+    const current = key === "types" ? typesArray : key === "levels" ? levelsArray : categorySlugsArray
     const next = current.includes(value)
       ? current.filter((v) => v !== value)
       : [...current, value]
@@ -65,7 +70,7 @@ export default function AchievementsContent({
   }
 
   const handleToggleAll = (key: "types" | "levels" | "categories", allValues: string[]) => {
-    const current = key === "types" ? types : key === "levels" ? levels : categorySlugs
+    const current = key === "types" ? typesArray : key === "levels" ? levelsArray : categorySlugsArray
     const isAllSelected = allValues.length > 0 && allValues.every(v => current.includes(v))
     
     setParams({ [key]: isAllSelected ? undefined : allValues })
@@ -82,14 +87,14 @@ export default function AchievementsContent({
     return { isAllSelected, isSomeSelected }
   }
 
-  const currentFilters = useMemo(() => ({
+  const currentFilters = {
     locale,
     search: searchUrl || undefined,
-    types: types.length ? types : undefined,
-    levels: levels.length ? levels : undefined,
-    categorySlugs: categorySlugs.length ? categorySlugs : undefined,
+    types: typesArray.length ? typesArray : undefined,
+    levels: levelsArray.length ? levelsArray : undefined,
+    categorySlugs: categorySlugsArray.length ? categorySlugsArray : undefined,
     pageSize: ACHIEVEMENTS_PAGE_SIZE,
-  }), [searchUrl, types, levels, categorySlugs])
+  }
 
   const { 
     data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch 
@@ -104,10 +109,10 @@ export default function AchievementsContent({
     enabled: !!hasNextPage && !isFetchingNextPage && !isLoading,
   })
 
-  const typeStatus = getGroupStatus(types, ACHIEVEMENTS_TYPES as string[])
-  const levelStatus = getGroupStatus(levels, ACHIEVEMENTS_LEVELS as string[])
-  const categoryStatus = getGroupStatus(categorySlugs, categorySlugsList)
-  const activeFiltersCount = types.length + levels.length + categorySlugs.length
+  const typeStatus = getGroupStatus(typesArray, ACHIEVEMENTS_TYPES as string[])
+  const levelStatus = getGroupStatus(levelsArray, ACHIEVEMENTS_LEVELS as string[])
+  const categoryStatus = getGroupStatus(categorySlugsArray, categorySlugsList)
+  const activeFiltersCount = typesArray.length + levelsArray.length + categorySlugsArray.length
 
   const renderContent = () => {
     if (isError) return <ErrorStateCard onRetry={() => refetch()} />
@@ -191,7 +196,7 @@ export default function AchievementsContent({
                     <MiracleCheckbox 
                       key={type} 
                       invers
-                      checked={types.includes(type)}
+                      checked={typesArray.includes(type)}
                       onChange={() => handleToggleFilter("types", type)}
                     >
                       {td(`achievement.types.${type}`)}
@@ -218,7 +223,7 @@ export default function AchievementsContent({
                     <MiracleCheckbox 
                       key={level} 
                       invers
-                      checked={levels.includes(level.toString())}
+                      checked={levelsArray.includes(level.toString())}
                       onChange={() => handleToggleFilter("levels", level.toString())}
                     >
                       {td(`achievement.levels.${level}`)}
@@ -246,7 +251,7 @@ export default function AchievementsContent({
                       <MiracleCheckbox 
                         key={category.slug} 
                         invers
-                        checked={categorySlugs.includes(category.slug)}
+                        checked={categorySlugsArray.includes(category.slug)}
                         onChange={() => handleToggleFilter("categories", category.slug)}
                       >
                         {category.name}
@@ -256,7 +261,7 @@ export default function AchievementsContent({
                 </div>
               )}
 
-              {(categorySlugs.length > 0 || types.length > 0 || levels.length > 0 || searchUrl) && (
+              {(categorySlugsArray.length > 0 || typesArray.length > 0 || levelsArray.length > 0 || searchUrl) && (
                 <div className="w-full pt-4 border-t border-primary-inv">
                   <MiracleButton 
                     status="danger" 

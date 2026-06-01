@@ -1,3 +1,5 @@
+"use client"
+
 import MiracleRadio from "@/components/miracle/Radio"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import { cn } from "@/utils/class-name"
@@ -5,7 +7,7 @@ import { useLocale, useTranslations } from "next-intl"
 import Image from "next/image"
 import { useRouter, usePathname } from "@/i18n/navigation"
 import { LuLanguages } from "react-icons/lu"
-import { useTransition, useState, useEffect } from "react"
+import { useTransition } from "react"
 import MiracleLoader from "@/components/miracle/Loader"
 
 export type LangToggleProps = {
@@ -32,15 +34,9 @@ export default function LangToggle({ className }: LangToggleProps) {
   const t = useTranslations("components.header.toggle")
   
   const [isPending, startTransition] = useTransition()
-  const [selectedLocale, setSelectedLocale] = useState(locale)
-
-  useEffect(() => {
-    setSelectedLocale(locale)
-  }, [locale])
 
   const handleLocaleChange = (nextLocale: string) => {
     if (nextLocale === locale) return
-    setSelectedLocale(nextLocale)
     startTransition(() => {
       router.replace(pathname, { locale: nextLocale, scroll: false })
     })
@@ -74,7 +70,7 @@ export default function LangToggle({ className }: LangToggleProps) {
             className="rounded-sm"
             name="language"
             value={localeData.value}
-            checked={localeData.value === selectedLocale}
+            checked={localeData.value === locale}
             invers
             iconStart={
               <Image

@@ -3,7 +3,6 @@
 import type { InfiniteData } from "@tanstack/react-query"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { Card, PaginatedCards} from "../types/cards.types"
-import { CardEntity } from "../types/cards.types"
 import { nanoid } from "nanoid"
 import { createCard, updateCard, deleteCard } from "../services/cards"
 import { useAuth } from "@/providers/AuthProvider"
@@ -125,7 +124,7 @@ export function useCardsMutation() {
         context.allPrevious.forEach(([key, data]) => queryClient.setQueryData(key, data))
       }
     },
-    onSettled: (_data, _error, variables) => {
+    onSettled: (_data, _error, _variables) => {
       // Invalidate kolom asal dan kolom tujuan
       queryClient.invalidateQueries({ queryKey: ["cards"] })
     },

@@ -1,10 +1,9 @@
 "use client"
 
 import type { InspirationWebsite } from "../types/inspiration-website.types"
-import { LuArrowUpRight, LuBriefcaseBusiness, LuCrown, LuExternalLink, LuMapPin, LuStar } from "react-icons/lu"
+import { LuArrowUpRight, LuBriefcaseBusiness, LuMapPin, LuStar } from "react-icons/lu"
 import MiracleBadge from "@/components/miracle/Badge"
 import { useTranslations } from "next-intl"
-import Heading from "@/components/Heading"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
 
 type InspirationCardProps = {

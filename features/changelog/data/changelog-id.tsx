@@ -1,6 +1,5 @@
 import MiracleBanner from "@/components/miracle/Banner"
 import { Link } from "@/i18n/navigation"
-import { features } from "process"
 import { LuPartyPopper } from "react-icons/lu"
 
 

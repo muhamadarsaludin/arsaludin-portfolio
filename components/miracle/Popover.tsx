@@ -40,14 +40,17 @@ export default function MiraclePopover({
   const isOpen = isControlled ? controlledOpen : internalOpen
 
   const [coords, setCoords] = useState({ top: 0, left: 0 })
-  const [adaptedPos, setAdaptedPos] = useState(defaultPosition)
+  const [adaptedPos, setAdaptedPos] = useState<PopoverDefaultPosition>(defaultPosition)
   const [mounted, setMounted] = useState(false)
 
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setMounted(true)
+    const frameId = requestAnimationFrame(() => {
+      setMounted(true)
+    })
+    return () => cancelAnimationFrame(frameId)
   }, [])
 
   const handleClose = useCallback(() => {
@@ -70,7 +73,6 @@ export default function MiraclePopover({
     const vH = window.innerHeight
 
     // --- 1. AUTO CLOSE LOGIC ---
-    // Tutup popover jika pemicu scroll keluar dari pandangan
     const isOffScreen = 
       triggerRect.bottom < 0 || 
       triggerRect.top > vH || 
@@ -86,14 +88,14 @@ export default function MiraclePopover({
     const gap = 8
     let [side, align] = defaultPosition.split("-")
 
-    // --- 2. SMART FLIP (Collision Vertikal & Horizontal) ---
+    // --- 2. SMART FLIP ---
     if (side === "top" && triggerRect.top - contentRect.height - gap < 0) side = "bottom"
     else if (side === "bottom" && triggerRect.bottom + contentRect.height + gap > vH) side = "top"
     
     if (side === "left" && triggerRect.left - contentRect.width - gap < 0) side = "right"
     else if (side === "right" && triggerRect.right + contentRect.width + gap > vW) side = "left"
 
-    // --- 3. SMART ALIGNMENT (Koreksi Start/Center/End) ---
+    // --- 3. SMART ALIGNMENT ---
     if (side === "top" || side === "bottom") {
       const centerX = triggerRect.left + triggerRect.width / 2
       if (centerX - contentRect.width / 2 < 0) align = "start"
@@ -103,7 +105,7 @@ export default function MiraclePopover({
     let top = 0
     let left = 0
 
-    // --- 4. COORDINATE CALCULATION (Fixed Coordinates) ---
+    // --- 4. COORDINATE CALCULATION ---
     if (side === "top") top = triggerRect.top - contentRect.height - gap
     else if (side === "bottom") top = triggerRect.bottom + gap
     else {
@@ -125,7 +127,7 @@ export default function MiraclePopover({
     top = Math.max(gap, Math.min(top, vH - contentRect.height - gap))
 
     setCoords({ top, left })
-    setAdaptedPos(`${side}-${align}` as any)
+    setAdaptedPos(`${side}-${align}` as PopoverDefaultPosition)
   }, [isOpen, defaultPosition, handleClose])
 
   // Click Outside Handler
@@ -147,7 +149,6 @@ export default function MiraclePopover({
     if (isOpen) {
       updatePosition()
 
-      // Monitor perubahan ukuran (Misal: dari Loading ke EmojiPicker)
       const resizeObserver = new ResizeObserver(() => updatePosition())
       if (contentRef.current) resizeObserver.observe(contentRef.current)
 

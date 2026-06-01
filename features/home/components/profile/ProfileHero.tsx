@@ -1,6 +1,5 @@
 "use client"
 
-import { MiracleReveal } from "@/components/miracle/Reveal"
 import BlurText from "@/components/react-bits/BlurText"
 import LiquidEther from "@/components/react-bits/LiquidEther"
 import { cn } from "@/utils/class-name"

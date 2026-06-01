@@ -1,11 +1,10 @@
 "use client"
 
-import React, { useEffect, useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import type { Card, CardStatus, CardEntity } from "@/features/cards/types/cards.types"
-import { CardType, CardPriority } from "@/features/cards/types/cards.types"
 import MiracleModal from "@/components/miracle/Modal"
 import MiracleButton from "@/components/miracle/Button"
 import MiracleTextField from "@/components/miracle/TextField"

@@ -173,7 +173,7 @@ export async function sendMessage({
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized")
 
-  const {data, error} = await supabase
+  const { error } = await supabase
     .from("messages")
     .insert([{
       content,

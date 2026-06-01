@@ -36,24 +36,33 @@ export default function MiracleDrawer({
   className,
   scrimClassName,
 }: MiracleDrawerProps) {
-  const [isMounted, setIsMounted] = useState(false)
-  
   const [isRendered, setIsRendered] = useState(false)
   const [animate, setAnimate] = useState(false)
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setIsMounted(true)
+    const frameId = requestAnimationFrame(() => {
+      setMounted(true)
+    })
+    return () => cancelAnimationFrame(frameId)
   }, [])
+
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen)
+    if (isOpen) {
+      setIsRendered(true)
+    } else {
+      setAnimate(false)
+    }
+  }
 
   useEffect(() => {
     if (isOpen) {
-      setIsRendered(true)
       const frameId = requestAnimationFrame(() => {
         setAnimate(true)
       })
       return () => cancelAnimationFrame(frameId)
-    } else {
-      setAnimate(false)
     }
   }, [isOpen])
 
@@ -77,9 +86,8 @@ export default function MiracleDrawer({
 
   useScrollLock(isOpen)
 
-  if (!isMounted || !isRendered) return null
+  if (!isRendered) return null
 
-  // --- Styles Logic (100% Asli Kode Lu) ---
   const borderStyles = {
     top: "border-b border-primary",
     bottom: "border-t border-primary",
@@ -119,7 +127,7 @@ export default function MiracleDrawer({
       onTransitionEnd={handleTransitionEnd}
       className={cn(
         "fixed inset-0 z-drawer transition-all duration-300 ease-in-out",
-        animate ? "visible" : "pointer-events-none invisible"
+        animate ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
       )}
     >
       {/* Scrim Overlay */}
@@ -183,6 +191,8 @@ export default function MiracleDrawer({
       </div>
     </div>
   )
+
+  if (!mounted) return null
 
   return createPortal(drawerContent, document.body)
 }

@@ -44,23 +44,33 @@ export default function MiracleModal({
   overlayClassName,
   noContentPadding = false,
 }: MiracleModalProps) {
-  const [isMounted, setIsMounted] = useState(false)
   const [isRendered, setIsRendered] = useState(false)
   const [animate, setAnimate] = useState(false)
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setIsMounted(true)
+    const frameId = requestAnimationFrame(() => {
+      setMounted(true)
+    })
+    return () => cancelAnimationFrame(frameId)
   }, [])
+
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen)
+    if (isOpen) {
+      setIsRendered(true)
+    } else {
+      setAnimate(false)
+    }
+  }
 
   useEffect(() => {
     if (isOpen) {
-      setIsRendered(true)
       const frameId = requestAnimationFrame(() => {
         setAnimate(true)
       })
       return () => cancelAnimationFrame(frameId)
-    } else {
-      setAnimate(false)
     }
   }, [isOpen])
 
@@ -82,7 +92,7 @@ export default function MiracleModal({
 
   useScrollLock(isOpen)
 
-  if (!isMounted || !isRendered) return null
+  if (!isRendered) return null
 
   const sizeStyles = {
     sm: "max-w-sm",
@@ -152,6 +162,8 @@ export default function MiracleModal({
       </div>
     </div>
   )
+
+  if (!mounted) return null
 
   return createPortal(modalElement, document.body)
 }
