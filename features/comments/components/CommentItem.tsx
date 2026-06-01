@@ -141,7 +141,7 @@ export default function CommentItem({
                   }
                 >
                   <div className="flex w-[140px] flex-col p-1">
-                    <p className="text-secondary mb-2 px-2 text-[10px] font-bold uppercase">
+                    <p className="text-secondary-inv mb-2 px-2 text-[10px] font-bold uppercase">
                       {t("action")}
                     </p>
                     <MiracleButton

@@ -1,4 +1,5 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { getQueryClient } from "@/lib/query-client"
 import { getTranslations } from 'next-intl/server'
 import { Cursor } from '@/features/shared/types/index.types'
 import Container from '@/components/Container'
@@ -12,13 +13,9 @@ import { getPaginatedMessages } from '@/features/messages/services/messages'
 import LoungeContent from './LoungeContent'
 import { MiracleReveal } from '@/components/miracle/Reveal'
 
-type LoungePageProps = {
-  params: Promise<{ locale: string }>;
-};
-
-export default async function LoungePage({params}: LoungePageProps) {
+export default async function LoungePage() {
   const t = await getTranslations("pages.lounge")
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
   const messageType: MessageType = "group"
 
   await queryClient.prefetchInfiniteQuery({
@@ -31,14 +28,13 @@ export default async function LoungePage({params}: LoungePageProps) {
     initialPageParam: undefined as Cursor | undefined,
   })
 
-  const dehydratedState = dehydrate(queryClient);
+  const dehydratedState = dehydrate(queryClient)
 
   dehydratedState.queries.forEach((query) => {
     if (query.queryKey[0] === 'messages') {
-      query.state.dataUpdatedAt = Date.now() - (1000 * 30);
+      query.state.dataUpdatedAt = Date.now() - (1000 * 30)
     }
-  });
-
+  })
 
   return (
     <Container>
@@ -63,9 +59,7 @@ export default async function LoungePage({params}: LoungePageProps) {
           </div>
         </MiracleReveal>
         <HydrationBoundary state={dehydratedState}>
-          <MiracleReveal animation="zoom-in">
-            <LoungeContent messageType={messageType} pageSize={MESSAGES_PAGE_SIZE} />
-          </MiracleReveal>
+          <LoungeContent messageType={messageType} pageSize={MESSAGES_PAGE_SIZE} />
         </HydrationBoundary>
       </Article>
     </Container>

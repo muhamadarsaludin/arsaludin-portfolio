@@ -2,7 +2,7 @@ import { constructMetadata } from "@/configs/metadata";
 import LoungePage from "@/features/lounge/components/LoungePage";
 import { BasePageProps } from "@/types/page.types";
 import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 
 export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
@@ -16,6 +16,8 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   });
 }
 
-export default function Lounge({params}: BasePageProps) {
-  return <LoungePage params={params}/>
+export default async function Lounge({params}: BasePageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  return <LoungePage />
 }

@@ -191,10 +191,9 @@ export default function MiraclePopover({
             top: 0,
             left: 0,
             transform: `translate3d(${coords.left}px, ${coords.top}px, 0)`,
-            zIndex: 9999,
           }}
           className={cn(
-            "transition-opacity duration-300 ease-in-out",
+            "z-popover transition-opacity duration-300 ease-in-out",
             isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
           )}
         >

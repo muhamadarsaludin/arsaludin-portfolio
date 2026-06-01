@@ -28,7 +28,7 @@ export default function LoungeContent({
 }: LoungeContentProps) {
   const queryClient = useQueryClient()
   const supabase = createClient()
-  const queryKey = ["messages", messageType, { pageSize }]
+  const queryKey = useMemo(() => ["messages", messageType, { pageSize }], [messageType, pageSize])
 
   const [isBannerVisible, setIsBannerVisible] = useState(true)
   const [repliedMessage, setRepliedMessage] = useState<Message | null>(null)
@@ -91,7 +91,12 @@ export default function LoungeContent({
     const channel = supabase
       .channel(`messages:${messageType}`)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: `type=eq.${messageType}` }, 
-        () => { queryClient.invalidateQueries({ queryKey }) }
+        () => { 
+          queryClient.invalidateQueries({ 
+            queryKey,
+            refetchType: 'active'
+          }) 
+        }
       )
       .subscribe()
 
@@ -101,7 +106,7 @@ export default function LoungeContent({
   if (isError) return <ErrorStateCard onRetry={() => refetch()} />
 
   return (
-    <Section className="relative flex flex-col h-[750px] border border-primary p-4 md:p-6 rounded-2xl gap-4 overflow-hidden">
+    <Section className="relative flex flex-col h-187.5 border border-primary p-4 md:p-6 rounded-2xl gap-4 overflow-hidden bg-primary">
       {isBannerVisible && (
         <MiracleBanner
           color="blue"
@@ -125,9 +130,9 @@ export default function LoungeContent({
         >
           <div className={cn("flex flex-col-reverse gap-5", (!isLoading && messages.length === 0) && "min-h-full")}>
             {isLoading ? (
-              <div className="flex flex-col-reverse gap-5">
-                {[...Array(4)].map((_, i) => <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />)}
-              </div>
+              Array.from({ length: 3 }).map((_, i) => (
+                <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />
+              ))
             ) : messages.length > 0 ? (
               <>
                 {messages.map((message) => (
@@ -140,24 +145,22 @@ export default function LoungeContent({
                     />
                   </MiracleReveal>
                 ))}
-
                 {isFetchingNextPage && (
-                  <div className="py-4">
-                    {[...Array(2)].map((_, i) => <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />)}
-                  </div>
+                  Array.from({ length: 2 }).map((_, i) => (
+                    <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />
+                  ))
                 )}
                 <div ref={loadMoreRef} className="h-1" />
               </>
             ) : (
-              // Empty State
-              <div className="flex-1 flex flex-col items-center justify-center text-center border border-primary border-dashed rounded-md">
+              <div className="flex-1 flex flex-col items-center justify-center text-center border border-primary border-dashed rounded-md p-6">
                 <div className="mb-3">
                   <LuMessagesSquare className="text-primary w-18 h-18 md:w-25 md:h-25"/>
                 </div>
                 <h3 className="text-primary text-lg font-semibold md:text-xl lg:text-2xl mb-1">
                   {t("empty.title")}
                 </h3>
-                <p className="text-sm text-secondary max-w-[300px]">
+                <p className="text-sm text-secondary max-w-75">
                   {t("empty.subtitle")}
                 </p>
               </div>

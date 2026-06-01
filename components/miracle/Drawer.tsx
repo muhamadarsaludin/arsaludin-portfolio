@@ -116,7 +116,7 @@ export default function MiracleDrawer({
     <div 
       onTransitionEnd={handleTransitionEnd}
       className={cn(
-        "fixed inset-0 z-[9998] transition-all duration-300 ease-in-out",
+        "fixed inset-0 z-drawer transition-all duration-300 ease-in-out",
         animate ? "visible" : "pointer-events-none invisible"
       )}
     >
@@ -133,7 +133,7 @@ export default function MiracleDrawer({
       {/* Drawer Panel */}
       <div
         className={cn(
-          "fixed z-[9999] flex flex-col bg-white dark:bg-neutral-900 shadow-2xl transition-all duration-300 ease-in-out",
+          "fixed z-drawer flex flex-col bg-white dark:bg-neutral-900 shadow-2xl transition-all duration-300 ease-in-out",
           borderStyles[position],
           positionStyles[position],
           animate ? translateOpen : translateClosed[position],

@@ -167,17 +167,17 @@ body {
   @apply z-99;
 }
 
-.z-drawer,
 .z-modal {
   @apply z-1000;
 }
-.z-drawer-overlay {
-  @apply z-999;
+
+.z-drawer {
+  @apply z-1000;
 }
 
 .z-tooltip,
 .z-popover {
-  @apply z-998;
+  @apply z-1000;
 }
 
 .clip-triangle {

@@ -2,10 +2,10 @@
 
 import { useAuth } from "@/providers/AuthProvider"
 import { cn } from "@/utils/class-name"
-import { LuTrash2, LuPin, LuReply } from "react-icons/lu"
+import { LuTrash2, LuReply } from "react-icons/lu"
 import { getInitials } from "@/utils/initials"
 import Image from "next/image"
-import { use, useCallback, useState } from "react"
+import { useCallback, useState } from "react"
 import MiraclePopover from "@/components/miracle/Popover"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleBadge from "@/components/miracle/Badge"
@@ -48,7 +48,7 @@ export default function MessageBubble({
       messageId: message.id,
     })
     setIsDeleteModalOpen(false)
-  }, [message, remove])
+  }, [message, remove, isSignedIn])
 
   const handleViewReply = (messageId: string) => {
     const element = document.getElementById(`message-${messageId}`);
@@ -127,10 +127,11 @@ export default function MessageBubble({
               <MiracleTooltip
                 trigger={
                   <button 
+                    type="button"
                     aria-label="Reply Message"
                     onClick={() => onReply?.(message)}
                     className={cn(
-                      "rounded-full w-8 h-8 flex justify-center items-center hover:scale-110 transition-all duration-300  ease-in-out cursor-pointer",
+                      "rounded-full w-8 h-8 flex justify-center items-center hover:scale-110 transition-all duration-300 ease-in-out cursor-pointer p-0 select-none outline-none",
                       colorClass
                     )}
                   >
@@ -145,9 +146,10 @@ export default function MessageBubble({
             {/* Reply Content */}
             {(message.recipient && message.replied_message) && (
               <button
+                type="button"
                 aria-label="view reply"
                 onClick={() => message.replied_message && handleViewReply(message.replied_message.id)}
-                className="border-blue flex flex-1 flex-col gap-1.5 border-l-4 py-1 pl-3 cursor-pointer mb-1">
+                className="border-blue flex flex-1 flex-col gap-1.5 border-l-4 py-1 pl-3 cursor-pointer mb-1 text-start outline-none">
                 <p className="text-secondary flex items-center gap-1 text-xs font-bold">
                   {t("replyingTo")}:
                   <span className="text-blue">@{message.recipient.full_name}</span>
@@ -165,7 +167,7 @@ export default function MessageBubble({
         </div>
         {/* footer */}
         <div className={cn(
-          "flex items-center pl-11 mt-0.5",
+          "flex items-center mt-0.5",
           isAuthor ? "pr-11 flex-row-reverse" : "pl-11 flex-row",
           )}>
           <ReactionGroup 
@@ -183,13 +185,13 @@ export default function MessageBubble({
             {(isAdmin || isAuthor) && (
               <MiraclePopover
                 trigger={
-                  <button className="cursor-pointer text-xs font-semibold opacity-0 group-hover/message:opacity-100 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-all duration-300 ease-in-out">
+                  <button type="button" className="cursor-pointer text-xs font-semibold opacity-0 group-hover/message:opacity-100 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-all duration-300 ease-in-out outline-none select-none">
                     •••
                   </button>
                 }
               >
-                <div className="flex w-[140px] flex-col p-1">
-                  <p className="text-secondary mb-2 px-2 text-[10px] font-bold uppercase">
+                <div className="flex w-35 flex-col p-1">
+                  <p className="text-secondary-inv mb-2 px-2 text-[10px] font-bold uppercase">
                     {t("action")}
                   </p>
                   <MiracleButton
@@ -224,7 +226,7 @@ export default function MessageBubble({
           </div>
 
           <div className="flex justify-end gap-3">
-            <MiracleButton onClick={() => setIsDeleteModalOpen(false)}>
+            <MiracleButton variant="secondary" onClick={() => setIsDeleteModalOpen(false)}>
               {t("modal.delete.cancel")}
             </MiracleButton>
             <MiracleButton

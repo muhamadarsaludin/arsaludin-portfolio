@@ -180,11 +180,10 @@ export default function MiracleTooltip({
             top: 0,
             left: 0,
             transform: `translate3d(${coords.left}px, ${coords.top}px, 0)`,
-            zIndex: 9999,
             pointerEvents: isOpen && hoverContent ? "auto" : "none",
           }}
           className={cn(
-            "transition-opacity duration-300 ease-in-out",
+            "z-tooltip transition-opacity duration-300 ease-in-out",
             isOpen ? "visible opacity-100" : "invisible opacity-0"
           )}
           onMouseEnter={hoverContent ? handleMouseEnter : undefined}
