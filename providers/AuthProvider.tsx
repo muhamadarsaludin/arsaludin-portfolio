@@ -1,25 +1,22 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState } from "react"
-import { createClient } from "@/lib/supabase/client"
 import type { User } from "@supabase/supabase-js"
+import type { Profile } from "@/features/profile/types/profiles.types"
+
+import { createClient } from "@/lib/supabase/client"
 import { useProfile } from "@/features/profile/hooks/useProfile"
+import React from "react"
 
 type AuthContextType = {
   user: User | null
-  profile: any
+  profile: Profile | null 
   isLoading: boolean
   isSignedIn: boolean
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
-/**
- * Global Authentication Provider.
- * Synchronizes Supabase Auth sessions with detailed Profile data from the database.
- * @param children - The React component tree that requires access to Auth state.
- * @param initialUser - The User object fetched from the Server Component (Layout) to prevent hydration flickers.
- */
 export function AuthProvider({
   children,
   initialUser,
@@ -30,7 +27,9 @@ export function AuthProvider({
   const supabase = createClient()
   const [user, setUser] = useState<User | null>(initialUser)
 
-  const { data: profile, isLoading: isProfileLoading } = useProfile({ userId: user?.id ?? null })
+  const { data: profile, isLoading: isProfileLoading } = useProfile({ 
+    userId: user?.id ?? null 
+  })
 
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
