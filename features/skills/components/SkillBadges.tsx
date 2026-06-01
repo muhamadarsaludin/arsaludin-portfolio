@@ -75,7 +75,7 @@ export default function SkillBadges({
       {hasMore && (
         <MiracleTooltip
           trigger={
-            <MiracleBadge variant="secondary" className="bg-muted text-muted-foreground cursor-help">
+            <MiracleBadge variant="secondary" className="cursor-help">
               +{remainingCount}
             </MiracleBadge>
           }
