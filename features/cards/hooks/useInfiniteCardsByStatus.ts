@@ -1,10 +1,10 @@
 "use client"
 
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { CardPriority, CardStatus, CardType } from "../types/cards.types";
-import { Cursor } from "@/features/shared/types/index.types";
-import { CARDS_PAGE_SIZE } from "../constants/card.constants";
-import { getPaginatedCardsByStatus } from "../services/cards";
+import { useInfiniteQuery } from "@tanstack/react-query"
+import type { CardPriority, CardStatus, CardType } from "../types/cards.types"
+import type { Cursor } from "@/features/shared/types/index.types"
+import { CARDS_PAGE_SIZE } from "../constants/card.constants"
+import { getPaginatedCardsByStatus } from "../services/cards"
 
 type UseInfiniteCardsParams = {
   status: CardStatus;

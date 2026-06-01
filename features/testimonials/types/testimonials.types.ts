@@ -1,4 +1,4 @@
-import { ReactionSummary } from "@/features/reactions/types/reactions.types"
+import type { ReactionSummary } from "@/features/reactions/types/reactions.types"
 
 /**
  * TESTIMONIAL ENTITY

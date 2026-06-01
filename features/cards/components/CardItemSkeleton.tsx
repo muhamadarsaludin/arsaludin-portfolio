@@ -1,4 +1,4 @@
-import { MiracleSkeleton } from "@/components/miracle/Skeleton"; //
+import { MiracleSkeleton } from "@/components/miracle/Skeleton" //
 
 export default function CardItemSkeleton() {
   return (

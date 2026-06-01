@@ -1,11 +1,11 @@
 "use client"
 
-import React from 'react'
-import { Card } from '@/features/cards/types/cards.types'
-import { useTranslations } from 'next-intl'
-import { LuTrash2 } from 'react-icons/lu'
-import MiracleButton from '@/components/miracle/Button'
-import MiracleModal from '@/components/miracle/Modal'
+import React from "react"
+import type { Card } from "@/features/cards/types/cards.types"
+import { useTranslations } from "next-intl"
+import { LuTrash2 } from "react-icons/lu"
+import MiracleButton from "@/components/miracle/Button"
+import MiracleModal from "@/components/miracle/Modal"
 
 type CardDeleteModalProps = {
   isOpen: boolean

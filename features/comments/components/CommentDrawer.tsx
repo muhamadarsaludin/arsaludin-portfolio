@@ -1,6 +1,7 @@
 "use client"
 
-import { useRef, useState, useMemo, useEffect, ReactNode } from "react"
+import type { ReactNode } from "react"
+import { useRef, useState, useMemo, useEffect } from "react"
 import { useTranslations } from "next-intl"
 import MiracleDrawer from "@/components/miracle/Drawer"
 import MiracleLoader from "@/components/miracle/Loader"

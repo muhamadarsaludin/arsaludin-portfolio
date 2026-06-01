@@ -1,14 +1,14 @@
-import { getTranslations } from 'next-intl/server'
-import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs'
-import { routing } from '@/i18n/routing'
-import Container from '@/components/Container'
-import TableOfContents from '@/components/TableOfContents'
-import Heading from '@/components/Heading'
-import { getChangelog } from '../data'
-import { compileMDX } from '@/lib/mdx'
-import ChangelogItem from './ChangelogItem'
-import Article from '@/components/Article'
-import { MiracleReveal } from '@/components/miracle/Reveal'
+import { getTranslations } from "next-intl/server"
+import MiracleBreadcrumbs from "@/components/miracle/Breadcrumbs"
+import { routing } from "@/i18n/routing"
+import Container from "@/components/Container"
+import TableOfContents from "@/components/TableOfContents"
+import Heading from "@/components/Heading"
+import { getChangelog } from "../data"
+import { compileMDX } from "@/lib/mdx"
+import ChangelogItem from "./ChangelogItem"
+import Article from "@/components/Article"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type ChangelogPageProps = {
   params: Promise<{ locale: string }>;

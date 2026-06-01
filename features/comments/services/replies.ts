@@ -120,8 +120,8 @@ export async function getPaginatedReplies({
 
   const mappedData: CommentData[] = trimmedData.map((reply) => {
     const replyCount = reply.replies?.[0]?.count ?? 0
-    const userReaction = reply.reactions?.[0] ?? null;
-    const allReactions = reply.reaction_counts || [];
+    const userReaction = reply.reactions?.[0] ?? null
+    const allReactions = reply.reaction_counts || []
     const totalEmojis = allReactions.length
     const totalReactions = allReactions.reduce(
       (acc, curr) => acc + (curr.count || 0), 

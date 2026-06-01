@@ -9,7 +9,7 @@ import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 import MiracleBanner from "@/components/miracle/Banner"
 import { LuMegaphone, LuArrowDown, LuMessagesSquare } from "react-icons/lu"
 import { useTranslations } from "next-intl"
-import { Message, MessageType } from "@/features/messages/types/messages.types"
+import type { Message, MessageType } from "@/features/messages/types/messages.types"
 import { useInfiniteMessages } from "@/features/messages/hooks/useInfiniteMessages"
 import MessageBubble from "@/features/messages/components/MessageBubble"
 import MessageInput from "@/features/messages/components/MessageInput"
@@ -94,7 +94,7 @@ export default function LoungeContent({
         () => { 
           queryClient.invalidateQueries({ 
             queryKey,
-            refetchType: 'active'
+            refetchType: "active"
           }) 
         }
       )

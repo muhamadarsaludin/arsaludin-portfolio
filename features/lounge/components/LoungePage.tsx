@@ -1,17 +1,17 @@
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { getQueryClient } from "@/lib/query-client"
-import { getTranslations } from 'next-intl/server'
-import { Cursor } from '@/features/shared/types/index.types'
-import Container from '@/components/Container'
-import { routing } from '@/i18n/routing'
-import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs'
-import Article from '@/components/Article'
-import Heading from '@/components/Heading'
-import { MessageType } from '@/features/messages/types/messages.types'
-import { MESSAGES_PAGE_SIZE } from '@/features/messages/constants/messages.constants'
-import { getPaginatedMessages } from '@/features/messages/services/messages'
-import LoungeContent from './LoungeContent'
-import { MiracleReveal } from '@/components/miracle/Reveal'
+import { getTranslations } from "next-intl/server"
+import type { Cursor } from "@/features/shared/types/index.types"
+import Container from "@/components/Container"
+import { routing } from "@/i18n/routing"
+import MiracleBreadcrumbs from "@/components/miracle/Breadcrumbs"
+import Article from "@/components/Article"
+import Heading from "@/components/Heading"
+import type { MessageType } from "@/features/messages/types/messages.types"
+import { MESSAGES_PAGE_SIZE } from "@/features/messages/constants/messages.constants"
+import { getPaginatedMessages } from "@/features/messages/services/messages"
+import LoungeContent from "./LoungeContent"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 export default async function LoungePage() {
   const t = await getTranslations("pages.lounge")
@@ -31,7 +31,7 @@ export default async function LoungePage() {
   const dehydratedState = dehydrate(queryClient)
 
   dehydratedState.queries.forEach((query) => {
-    if (query.queryKey[0] === 'messages') {
+    if (query.queryKey[0] === "messages") {
       query.state.dataUpdatedAt = Date.now() - (1000 * 30)
     }
   })

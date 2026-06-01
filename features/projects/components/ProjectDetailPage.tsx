@@ -1,18 +1,18 @@
-import React from 'react'
-import { notFound } from 'next/navigation'
-import { getTranslations } from 'next-intl/server'
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { BasePageProps } from '@/types/page.types'
-import { getProject } from '../services/projects'
-import { routing } from '@/i18n/routing'
+import React from "react"
+import { notFound } from "next/navigation"
+import { getTranslations } from "next-intl/server"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
+import type { BasePageProps } from "@/types/page.types"
+import { getProject } from "../services/projects"
+import { routing } from "@/i18n/routing"
 import { getQueryClient } from "@/lib/query-client"
-import Article from '@/components/Article'
-import Container from '@/components/Container'
-import Heading from '@/components/Heading'
-import TableOfContents from '@/components/TableOfContents'
-import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs'
-import { MiracleReveal } from '@/components/miracle/Reveal'
-import Image from 'next/image'
+import Article from "@/components/Article"
+import Container from "@/components/Container"
+import Heading from "@/components/Heading"
+import TableOfContents from "@/components/TableOfContents"
+import MiracleBreadcrumbs from "@/components/miracle/Breadcrumbs"
+import { MiracleReveal } from "@/components/miracle/Reveal"
+import Image from "next/image"
 import {
   LuArrowUpRight,
   LuCalendar,
@@ -21,25 +21,25 @@ import {
   LuGithub,
   LuTimer,
   LuTriangleAlert
-} from 'react-icons/lu'
-import MiracleBadge from '@/components/miracle/Badge'
-import ReactionGroup from '@/features/reactions/components/ReactionGroup'
-import CommentGroup from '@/features/comments/components/CommentGroup'
-import { formatDate } from '@/utils/format-date'
-import UserAvatar from '@/features/auth/components/UserAvatar'
-import SkillBadges from '@/features/skills/components/SkillBadges'
-import MiracleButton from '@/components/miracle/Button'
-import { createClient } from '@/lib/supabase/server'
-import path from 'path'
-import { promises as fs } from 'fs'
-import { formatReadingTime, getMdxReadingTime } from '@/utils/reading-time'
-import MiracleBanner from '@/components/miracle/Banner'
-import ProjectShareButton from './ProjectShareButton'
+} from "react-icons/lu"
+import MiracleBadge from "@/components/miracle/Badge"
+import ReactionGroup from "@/features/reactions/components/ReactionGroup"
+import CommentGroup from "@/features/comments/components/CommentGroup"
+import { formatDate } from "@/utils/format-date"
+import UserAvatar from "@/features/auth/components/UserAvatar"
+import SkillBadges from "@/features/skills/components/SkillBadges"
+import MiracleButton from "@/components/miracle/Button"
+import { createClient } from "@/lib/supabase/server"
+import path from "path"
+import { promises as fs } from "fs"
+import { formatReadingTime, getMdxReadingTime } from "@/utils/reading-time"
+import MiracleBanner from "@/components/miracle/Banner"
+import ProjectShareButton from "./ProjectShareButton"
 
 /* -------------------------------
    FALLBACK CONFIG
 --------------------------------*/
-const FALLBACK_LOCALES = ['en', 'id']
+const FALLBACK_LOCALES = ["en", "id"]
 
 /* -------------------------------
    MDX RESOLVER (locale → fallback → null)
@@ -87,8 +87,8 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
   /* -------------------------------
      VIEW INCREMENT
   --------------------------------*/
-  if (process.env.NODE_ENV === 'production') {
-    const { error: viewError } = await supabase.rpc('increment_view', {
+  if (process.env.NODE_ENV === "production") {
+    const { error: viewError } = await supabase.rpc("increment_view", {
       project_id: project.id
     })
 
@@ -102,16 +102,16 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
   --------------------------------*/
   const { Content, mdxLocale } = await resolveMdx(slug, locale)
 
-  let mdxText = ''
+  let mdxText = ""
 
   if (Content && mdxLocale) {
     try {
-      const mdxDir = path.join(process.cwd(), 'features', 'projects', 'markdown')
+      const mdxDir = path.join(process.cwd(), "features", "projects", "markdown")
       const filePath = path.join(mdxDir, `${slug}-${mdxLocale}.mdx`)
 
       const fileExists = await fs.access(filePath).then(() => true).catch(() => false)
       if (fileExists) {
-        mdxText = await fs.readFile(filePath, 'utf8')
+        mdxText = await fs.readFile(filePath, "utf8")
       }
     } catch (err) {
       console.error("MDX read error:", err)
@@ -127,13 +127,13 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
     mdxText
   ]
     .filter(Boolean)
-    .join(' ')
+    .join(" ")
 
   const stats = getMdxReadingTime(rawContent)
 
   const displayReadingTime = stats?.minutes
     ? formatReadingTime(stats.minutes, locale)
-    : ''
+    : ""
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

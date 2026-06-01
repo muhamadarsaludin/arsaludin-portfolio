@@ -1,7 +1,7 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server";
-import { Category, CategoryEntity, CategoryTargetType } from "../types/categories.types";
+import { createClient } from "@/lib/supabase/server"
+import type { Category, CategoryEntity, CategoryTargetType } from "../types/categories.types"
 
 type GetAvailableCategoriesParams = {
   locale: string
@@ -23,8 +23,8 @@ export async function getAvailableCategories({
   locale,
   targetType 
 }: GetAvailableCategoriesParams): Promise<Category[]> {
-  const supabase = await createClient();
-  const relationTable = `${targetType}_categories`;
+  const supabase = await createClient()
+  const relationTable = `${targetType}_categories`
   
   const { data, error } = await supabase
     .from("categories")
@@ -49,7 +49,7 @@ export async function getAvailableCategories({
     .order("slug", { ascending: true })
 
   if (error) {
-    console.error(`[getAvailableCategories] Error:`, error);
+    console.error("[getAvailableCategories] Error:", error)
     throw error
   }
 

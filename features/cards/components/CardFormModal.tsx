@@ -1,22 +1,23 @@
 "use client"
 
-import React, { useEffect, useMemo } from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { Card, CardStatus, CardType, CardPriority, CardEntity } from '@/features/cards/types/cards.types'
-import MiracleModal from '@/components/miracle/Modal'
-import MiracleButton from '@/components/miracle/Button'
-import MiracleTextField from '@/components/miracle/TextField'
-import MiracleTextArea from '@/components/miracle/TextArea'
-import MiracleRadio from '@/components/miracle/Radio' 
-import { useTranslations } from 'next-intl'
-import { useCardsMutation } from '@/features/cards/hooks/useCardMutation'
-import { useAuth } from '@/providers/AuthProvider'
+import React, { useEffect, useMemo } from "react"
+import { useForm, Controller } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import type { Card, CardStatus, CardEntity } from "@/features/cards/types/cards.types"
+import { CardType, CardPriority } from "@/features/cards/types/cards.types"
+import MiracleModal from "@/components/miracle/Modal"
+import MiracleButton from "@/components/miracle/Button"
+import MiracleTextField from "@/components/miracle/TextField"
+import MiracleTextArea from "@/components/miracle/TextArea"
+import MiracleRadio from "@/components/miracle/Radio" 
+import { useTranslations } from "next-intl"
+import { useCardsMutation } from "@/features/cards/hooks/useCardMutation"
+import { useAuth } from "@/providers/AuthProvider"
 import { cn } from "@/utils/class-name"
-import { CARD_PRIORITIES, CARD_STATUS, CARD_TYPES } from '../constants/card.constants'
-import { LuTriangleAlert } from 'react-icons/lu'
-import MiracleBanner from '@/components/miracle/Banner'
+import { CARD_PRIORITIES, CARD_STATUS, CARD_TYPES } from "../constants/card.constants"
+import { LuTriangleAlert } from "react-icons/lu"
+import MiracleBanner from "@/components/miracle/Banner"
 
 type CardFormModalProps = {
   isOpen: boolean
@@ -96,7 +97,7 @@ export default function CardFormModal({
 
   // 4. Submit handler
   const onSubmit = (values: CardFormValues) => {
-    const payload = values as Pick<CardEntity, 'title' | 'description' | 'status' | 'type' | 'priority'>
+    const payload = values as Pick<CardEntity, "title" | "description" | "status" | "type" | "priority">
     if (initialData) {
       updateCard(
         { cardId: initialData.id, payload }, 
@@ -127,7 +128,7 @@ export default function CardFormModal({
               error={errors.title?.message}
               fullWidth
               required
-              onClear={() => field.onChange('')}
+              onClear={() => field.onChange("")}
             />
           )}
         />
@@ -143,7 +144,7 @@ export default function CardFormModal({
               error={errors.description?.message}
               rows={5}
               fullWidth
-              onClear={() => field.onChange('')}
+              onClear={() => field.onChange("")}
             />
           )}
         />

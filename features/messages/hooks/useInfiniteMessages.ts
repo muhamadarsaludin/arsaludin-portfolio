@@ -1,8 +1,8 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { Cursor } from '@/features/shared/types/index.types';
-import { getPaginatedMessages } from '../services/messages';
-import { MessageType } from '../types/messages.types';
-import { MESSAGES_PAGE_SIZE } from '../constants/messages.constants';
+import { useInfiniteQuery } from "@tanstack/react-query"
+import type { Cursor } from "@/features/shared/types/index.types"
+import { getPaginatedMessages } from "../services/messages"
+import type { MessageType } from "../types/messages.types"
+import { MESSAGES_PAGE_SIZE } from "../constants/messages.constants"
 
 type UseInfiniteMessagesParams = {
   type: MessageType

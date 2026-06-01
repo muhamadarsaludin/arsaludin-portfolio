@@ -7,7 +7,8 @@ import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import AchievementModal from "./AchievementModal"
 import { useTranslations } from "use-intl"
 import { LuAward } from "react-icons/lu"
-import MiracleBadge, { BadgeColor } from "@/components/miracle/Badge"
+import type { BadgeColor } from "@/components/miracle/Badge"
+import MiracleBadge from "@/components/miracle/Badge"
 import { cn } from "@/utils/class-name"
 
 export default function AchievementCard({ achievement, className }: { achievement: Achievement, className?: string}) {

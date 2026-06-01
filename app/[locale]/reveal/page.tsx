@@ -1,4 +1,4 @@
-import AnimationTestPage from "@/features/reveal/RevealPage";
+import AnimationTestPage from "@/features/reveal/RevealPage"
 
 export default function Reveal() {
   return <AnimationTestPage />

@@ -1,4 +1,4 @@
-import { ImageAsset } from "@/features/images/types/images.types"
+import type { ImageAsset } from "@/features/images/types/images.types"
 
 /**
  * EXPERIENCE ENTITY

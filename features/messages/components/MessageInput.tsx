@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { Message, MessageType } from "../types/messages.types";
-import { useAuth } from "@/providers/AuthProvider";
-import { useTranslations } from "next-intl";
-import { useMessageMutation } from "../hooks/useMessageMutation";
-import { cn } from "@/utils/class-name";
-import { LuSend, LuX } from "react-icons/lu";
-import MiracleTextArea from "@/components/miracle/TextArea";
-import MiracleButton from "@/components/miracle/Button";
-import { SiGoogle } from "react-icons/si";
-import { signInWithGoogle } from "@/features/auth/services/auth";
+import { useState } from "react"
+import type { Message, MessageType } from "../types/messages.types"
+import { useAuth } from "@/providers/AuthProvider"
+import { useTranslations } from "next-intl"
+import { useMessageMutation } from "../hooks/useMessageMutation"
+import { cn } from "@/utils/class-name"
+import { LuSend, LuX } from "react-icons/lu"
+import MiracleTextArea from "@/components/miracle/TextArea"
+import MiracleButton from "@/components/miracle/Button"
+import { SiGoogle } from "react-icons/si"
+import { signInWithGoogle } from "@/features/auth/services/auth"
 
 type MessageInputProps = {
   messageType: MessageType

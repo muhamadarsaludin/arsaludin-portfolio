@@ -1,10 +1,11 @@
 
 
-import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/providers/AuthProvider";
-import { Message, MessageType, PaginatedMessages } from "../types/messages.types";
-import { MESSAGES_PAGE_SIZE } from "../constants/messages.constants";
-import { deleteMessage, sendMessage } from "../services/messages";
+import type { InfiniteData} from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useAuth } from "@/providers/AuthProvider"
+import type { Message, MessageType, PaginatedMessages } from "../types/messages.types"
+import { MESSAGES_PAGE_SIZE } from "../constants/messages.constants"
+import { deleteMessage, sendMessage } from "../services/messages"
 
 type UseMessageMutationParams = {
   type: MessageType

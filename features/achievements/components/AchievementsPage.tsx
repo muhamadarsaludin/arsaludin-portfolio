@@ -1,20 +1,20 @@
-import { getTranslations } from 'next-intl/server';
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { getQueryClient } from "@/lib/query-client";
-import { ACHIEVEMENTS_PAGE_SIZE } from '../constants/achievements.constants';
-import { getPaginatedAchievements } from '../services/achievements';
-import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs';
-import { routing } from '@/i18n/routing';
-import Heading from '@/components/Heading';
-import AchievementsContent from './AchievementsContent';
-import { Cursor } from '@/features/shared/types/index.types';
-import { getAvailableCategories } from '@/features/categories/services/categories';
-import { CategoryTargetType } from '@/features/categories/types/categories.types';
-import Container from '@/components/Container';
-import Article from '@/components/Article';
-import { normalizeArrayParam } from '@/utils/search-params';
-import { BasePageProps } from '@/types/page.types';
-import { MiracleReveal } from '@/components/miracle/Reveal';
+import { getTranslations } from "next-intl/server"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
+import { getQueryClient } from "@/lib/query-client"
+import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.constants"
+import { getPaginatedAchievements } from "../services/achievements"
+import MiracleBreadcrumbs from "@/components/miracle/Breadcrumbs"
+import { routing } from "@/i18n/routing"
+import Heading from "@/components/Heading"
+import AchievementsContent from "./AchievementsContent"
+import type { Cursor } from "@/features/shared/types/index.types"
+import { getAvailableCategories } from "@/features/categories/services/categories"
+import type { CategoryTargetType } from "@/features/categories/types/categories.types"
+import Container from "@/components/Container"
+import Article from "@/components/Article"
+import { normalizeArrayParam } from "@/utils/search-params"
+import type { BasePageProps } from "@/types/page.types"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 export default async function AchievementsPage(props: BasePageProps) {
   const { locale } = await props.params
@@ -25,12 +25,12 @@ export default async function AchievementsPage(props: BasePageProps) {
 
   const filters = {
     locale,
-    search: typeof searchParams.search === 'string' && searchParams.search ? searchParams.search : undefined,
+    search: typeof searchParams.search === "string" && searchParams.search ? searchParams.search : undefined,
     types: normalizeArrayParam(searchParams.types),
     levels: normalizeArrayParam(searchParams.levels),
     categorySlugs: normalizeArrayParam(searchParams.categories),
     pageSize: ACHIEVEMENTS_PAGE_SIZE
-  };
+  }
 
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
@@ -49,7 +49,7 @@ export default async function AchievementsPage(props: BasePageProps) {
     })
   ])
 
-  const dehydratedState = dehydrate(queryClient);
+  const dehydratedState = dehydrate(queryClient)
   
   /**
    * HYDRATION FIX:
@@ -60,10 +60,10 @@ export default async function AchievementsPage(props: BasePageProps) {
    * used in @see useInfiniteAchievements to prevent instant re-fetching.
    */
   dehydratedState.queries.forEach((query) => {
-    if (query.queryKey[0] === 'achievements') {
-      query.state.dataUpdatedAt = Date.now() - (1000 * 60 * 20);
+    if (query.queryKey[0] === "achievements") {
+      query.state.dataUpdatedAt = Date.now() - (1000 * 60 * 20)
     }
-  });
+  })
 
   return (
     <Container>

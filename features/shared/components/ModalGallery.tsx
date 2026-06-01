@@ -152,13 +152,13 @@ export default function ModalGallery({
             {images.length > 1 && (
               <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover/preview:opacity-100 transition-all duration-300 ease-in-out">
                 <button 
-                  onClick={(e) => { e.stopPropagation(); handlePrev(); }} 
+                  onClick={(e) => { e.stopPropagation(); handlePrev() }} 
                   className="cursor-pointer z-20 rounded-full p-2 border border-primary bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-all duration-300"
                 >
                   <LuChevronLeft size={20} />
                 </button>
                 <button 
-                  onClick={(e) => { e.stopPropagation(); handleNext(); }} 
+                  onClick={(e) => { e.stopPropagation(); handleNext() }} 
                   className="cursor-pointer z-20 rounded-full p-2 border border-primary bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-all duration-300"
                 >
                   <LuChevronRight size={20} />
@@ -178,7 +178,7 @@ export default function ModalGallery({
                   <button
                     key={img.id}
                     ref={(el) => { thumbnailRefs.current[idx] = el }}
-                    onClick={() => { setZoomScale(1); setSelectedIndex(idx); }}
+                    onClick={() => { setZoomScale(1); setSelectedIndex(idx) }}
                     className={cn(
                       "relative snap-start aspect-3/2 shrink-0 rounded-md overflow-hidden transition-all cursor-pointer",
                       selectedIndex === idx 

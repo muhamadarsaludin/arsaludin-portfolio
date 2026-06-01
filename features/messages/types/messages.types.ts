@@ -1,6 +1,6 @@
-import { Profile } from "@/features/profile/types/profiles.types"
-import { ReactionSummary } from "@/features/reactions/types/reactions.types"
-import { Cursor } from "@/features/shared/types/index.types"
+import type { Profile } from "@/features/profile/types/profiles.types"
+import type { ReactionSummary } from "@/features/reactions/types/reactions.types"
+import type { Cursor } from "@/features/shared/types/index.types"
 
 export type MessageType = "personal" | "group"
 

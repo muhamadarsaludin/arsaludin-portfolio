@@ -11,7 +11,7 @@ import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleBadge from "@/components/miracle/Badge"
 import { timeAgo } from "@/utils/time-ago"
 import { useLocale, useTranslations } from "next-intl"
-import { Message, MessageType } from "../types/messages.types"
+import type { Message, MessageType } from "../types/messages.types"
 import MiracleTooltip from "@/components/miracle/Tooltip"
 import MiracleButton from "@/components/miracle/Button"
 import MiracleModal from "@/components/miracle/Modal"
@@ -51,15 +51,15 @@ export default function MessageBubble({
   }, [message, remove, isSignedIn])
 
   const handleViewReply = (messageId: string) => {
-    const element = document.getElementById(`message-${messageId}`);
+    const element = document.getElementById(`message-${messageId}`)
 
     if (element) {
       element.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'center'
-      });
+        behavior: "smooth", 
+        block: "center"
+      })
     }
-  };
+  }
 
   return (
     <div

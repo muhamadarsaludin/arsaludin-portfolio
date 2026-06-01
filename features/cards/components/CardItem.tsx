@@ -1,23 +1,25 @@
 "use client"
 
-import React, { ReactNode, useState, useMemo } from 'react'
-import { Card, CardPriority, CardStatus, CardType } from '@/features/cards/types/cards.types'
-import { useLocale, useTranslations } from 'next-intl'
+import type { ReactNode} from "react"
+import React, { useState, useMemo } from "react"
+import type { Card, CardPriority, CardStatus, CardType } from "@/features/cards/types/cards.types"
+import { useLocale, useTranslations } from "next-intl"
 import Image from "next/image"
 import { cn } from "@/utils/class-name"
-import { useAuth } from '@/providers/AuthProvider'
-import { LuCalendar, LuEllipsis, LuPencil, LuTrash2, LuRocket, LuBug, LuGauge, LuFilePen } from 'react-icons/lu'
-import { formatDate } from '@/utils/format-date'
-import MiracleBadge, { BadgeColor } from '@/components/miracle/Badge'
-import { getInitials } from '@/utils/initials'
-import MiracleTooltip from '@/components/miracle/Tooltip'
-import ReactionGroup from '@/features/reactions/components/ReactionGroup'
-import CommentGroup from '@/features/comments/components/CommentGroup'
-import MiraclePopover from '@/components/miracle/Popover'
-import MiracleButton from '@/components/miracle/Button'
-import { useCardsMutation } from '@/features/cards/hooks/useCardMutation'
-import CardDetailModal from './CardDetailModal'
-import CardDeleteModal from './CardDeleteModal'
+import { useAuth } from "@/providers/AuthProvider"
+import { LuCalendar, LuEllipsis, LuPencil, LuTrash2, LuRocket, LuBug, LuGauge, LuFilePen } from "react-icons/lu"
+import { formatDate } from "@/utils/format-date"
+import type { BadgeColor } from "@/components/miracle/Badge"
+import MiracleBadge from "@/components/miracle/Badge"
+import { getInitials } from "@/utils/initials"
+import MiracleTooltip from "@/components/miracle/Tooltip"
+import ReactionGroup from "@/features/reactions/components/ReactionGroup"
+import CommentGroup from "@/features/comments/components/CommentGroup"
+import MiraclePopover from "@/components/miracle/Popover"
+import MiracleButton from "@/components/miracle/Button"
+import { useCardsMutation } from "@/features/cards/hooks/useCardMutation"
+import CardDetailModal from "./CardDetailModal"
+import CardDeleteModal from "./CardDeleteModal"
 
 type CardItemProps = {
   card: Card,
@@ -80,8 +82,8 @@ export default function CardItem({ card, onUpdate, className }: CardItemProps) {
                 <div className="flex w-40 flex-col gap-2 p-1">
                   <p className="text-secondary-inv text-[10px] font-bold uppercase tracking-wider px-1">{t("action")}</p>
                   <div className="flex flex-col gap-1 w-full">
-                    <MiracleButton size="sm" onClick={() => { setIsPopoverActionOpen(false); onUpdate?.(card); }} startIcon={<LuPencil />} className="justify-start font-medium" variant="secondary" fullWidth>{t("update")}</MiracleButton>
-                    <MiracleButton size="sm" status="danger" onClick={() => { setIsPopoverActionOpen(false); setIsDeleteModalOpen(true); }} startIcon={<LuTrash2 />} className="justify-start font-medium" fullWidth>{t("delete")}</MiracleButton>
+                    <MiracleButton size="sm" onClick={() => { setIsPopoverActionOpen(false); onUpdate?.(card) }} startIcon={<LuPencil />} className="justify-start font-medium" variant="secondary" fullWidth>{t("update")}</MiracleButton>
+                    <MiracleButton size="sm" status="danger" onClick={() => { setIsPopoverActionOpen(false); setIsDeleteModalOpen(true) }} startIcon={<LuTrash2 />} className="justify-start font-medium" fullWidth>{t("delete")}</MiracleButton>
                   </div>
                 </div>
               </MiraclePopover>

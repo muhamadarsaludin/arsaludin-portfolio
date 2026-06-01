@@ -1,11 +1,11 @@
 "use client"
 
-import { InspirationWebsite } from '../types/inspiration-website.types';
-import { LuArrowUpRight, LuBriefcaseBusiness, LuCrown, LuExternalLink, LuMapPin, LuStar } from 'react-icons/lu';
-import MiracleBadge from '@/components/miracle/Badge';
-import { useTranslations } from 'next-intl';
-import Heading from '@/components/Heading';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import type { InspirationWebsite } from "../types/inspiration-website.types"
+import { LuArrowUpRight, LuBriefcaseBusiness, LuCrown, LuExternalLink, LuMapPin, LuStar } from "react-icons/lu"
+import MiracleBadge from "@/components/miracle/Badge"
+import { useTranslations } from "next-intl"
+import Heading from "@/components/Heading"
+import { useMediaQuery } from "@/hooks/useMediaQuery"
 
 type InspirationCardProps = {
   item: InspirationWebsite
@@ -13,7 +13,7 @@ type InspirationCardProps = {
 }
 
 export default function InspirationCard({ item, locale }: InspirationCardProps) {
-  const desc = item.description?.[locale as 'en' | 'id'] || item.description?.en;
+  const desc = item.description?.[locale as "en" | "id"] || item.description?.en
   const t = useTranslations("components.inspirationCard")
   const {isMobile} = useMediaQuery()
 

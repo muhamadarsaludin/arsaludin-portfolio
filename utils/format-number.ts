@@ -11,14 +11,14 @@
  * formatCompactNumber(1000000) // "1M"
  */
 export const formatCompactNumber = (value: number): string => {
-  if (value < 1000) return value.toString();
+  if (value < 1000) return value.toString()
 
   return new Intl.NumberFormat("en-US", {
     notation: "compact",
     compactDisplay: "short",
     maximumFractionDigits: 1,
-  }).format(value);
-};
+  }).format(value)
+}
 
 /**
  * Handles nullish or zero counts specifically for UI display.
@@ -27,6 +27,6 @@ export const formatCompactNumber = (value: number): string => {
  * @returns Returns "0" if count is null, undefined, or <= 0, otherwise returns formatted string.
  */
 export const formatCount = (count: number | undefined | null): string => {
-  if (!count || count <= 0) return "0";
-  return formatCompactNumber(count);
-};
+  if (!count || count <= 0) return "0"
+  return formatCompactNumber(count)
+}

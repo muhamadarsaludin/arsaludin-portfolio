@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { REPLIES_PAGE_SIZE } from "../constants/comments.constants"
 import type { Cursor } from "@/features/shared/types/index.types"
 import { getPaginatedReplies } from "../services/replies"
-import { PaginatedComments } from "../types/comments.types"
+import type { PaginatedComments } from "../types/comments.types"
 
 type UseRepliesParams = {
   parentId: string

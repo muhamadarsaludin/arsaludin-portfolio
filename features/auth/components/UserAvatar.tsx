@@ -1,8 +1,8 @@
-import { Profile } from '@/features/profile/types/profiles.types'
-import { getInitials } from '@/utils/initials'
+import type { Profile } from "@/features/profile/types/profiles.types"
+import { getInitials } from "@/utils/initials"
 import { cn } from "@/utils/class-name"
-import Image from 'next/image'
-import React from 'react'
+import Image from "next/image"
+import React from "react"
 
 type AvatarSize = "sm" | "md" | "lg"
 

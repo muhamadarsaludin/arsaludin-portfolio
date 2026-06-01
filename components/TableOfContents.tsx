@@ -36,7 +36,7 @@ export default function TableOfContents({ title, className }: TOCProps) {
       return elements
     }
 
-    let currentHeadings = getHeadings()
+    const currentHeadings = getHeadings()
     let observer: IntersectionObserver
 
     // FUNGSI UNTUK OBSERVE ULANG

@@ -1,7 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { Stats } from "../types/stats.types";
+import type { Stats } from "../types/stats.types"
 
 /**
  * Fetches and calculates professional metrics and achievement stats from Supabase.
@@ -16,19 +16,19 @@ export async function getStats(): Promise<Stats> {
     supabase.from("projects").select("*", { count: "exact", head: true }),
     supabase.from("achievements").select("*", { count: "exact", head: true }),
     supabase.from("articles").select("*", { count: "exact", head: true }),
-  ]);
+  ])
 
   const calculateExperience = (startDate: string | null, endDate: string | null) => {
-    if (!startDate) return 0;
-    const start = new Date(startDate);
-    const end = endDate ? new Date(endDate) : new Date();
-    let years = end.getFullYear() - start.getFullYear();
-    const m = end.getMonth() - start.getMonth();
+    if (!startDate) return 0
+    const start = new Date(startDate)
+    const end = endDate ? new Date(endDate) : new Date()
+    let years = end.getFullYear() - start.getFullYear()
+    const m = end.getMonth() - start.getMonth()
     if (m < 0 || (m === 0 && end.getDate() < start.getDate())) {
-      years--;
+      years--
     }
-    return years < 0 ? 0 : years;
-  };
+    return years < 0 ? 0 : years
+  }
 
   return {
     experience: calculateExperience(firstExperience.data?.start_date, lastExperience.data?.end_date),
@@ -36,5 +36,5 @@ export async function getStats(): Promise<Stats> {
     projects: projects.count || 0,
     achievements: achievements.count || 0,
     articles: articles.count || 0,
-  };
+  }
 }

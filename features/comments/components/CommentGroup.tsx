@@ -1,11 +1,12 @@
 "use client"
 
-import { ReactNode, useState } from "react"
+import type { ReactNode} from "react"
+import { useState } from "react"
 import CommentButton from "./CommentButton"
 import CommentDrawer from "./CommentDrawer"
 import type { CommentTargetType } from "../types/comments.types"
 import { useCommentCount } from "../hooks/useCommentCount"
-import { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
+import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 
 type CommentGroupProps = {
   targetId: string

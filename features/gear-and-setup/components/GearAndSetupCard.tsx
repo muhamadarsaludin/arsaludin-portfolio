@@ -1,9 +1,9 @@
 "use client"
 
 import { cn } from "@/utils/class-name"
-import { LuArrowUpRight } from 'react-icons/lu'
-import { GearAndSetupItem } from '../types/gear-and-setup.types'
-import MiracleBadge from '@/components/miracle/Badge'
+import { LuArrowUpRight } from "react-icons/lu"
+import type { GearAndSetupItem } from "../types/gear-and-setup.types"
+import MiracleBadge from "@/components/miracle/Badge"
 
 type GearAndSetupCardProps = {
   item: GearAndSetupItem;

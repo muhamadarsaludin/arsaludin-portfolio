@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import type { Experience, ExperienceEntity, ExperienceTranslationEntity } from "../types/experiences.types"
-import { ImageAsset } from "@/features/images/types/images.types"
+import type { ImageAsset } from "@/features/images/types/images.types"
 
 type GetExperiencesParams = {
   locale: string
@@ -53,13 +53,13 @@ export async function getExperiences({
     )  
   `
 
-  let query = supabase
+  const query = supabase
     .from("experiences")
     .select<string, GetExperiencesResponse>(columns)
     .eq("is_show", true)
     .eq("experience_translations.i18n.locale", locale)
     .order("start_date", { ascending: false })
-    .order("order_index", { referencedTable: 'images', ascending: true })
+    .order("order_index", { referencedTable: "images", ascending: true })
 
   const { data, error } = await query
 

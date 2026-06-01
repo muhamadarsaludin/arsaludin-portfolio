@@ -1,7 +1,7 @@
-import { Cursor } from '../../shared/types/index.types';
+import type { Cursor } from "../../shared/types/index.types"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { ARTICLES_PAGE_SIZE } from '../constants/articles.constans';
-import { getPaginatedArticles } from '../services/articles';
+import { ARTICLES_PAGE_SIZE } from "../constants/articles.constans"
+import { getPaginatedArticles } from "../services/articles"
 
 type UseArticlesParams = {
   locale: string 

@@ -1,7 +1,8 @@
-"use client";
+"use client"
 
-import { MiracleReveal, RevealAnimation } from "@/components/miracle/Reveal";
-import React from "react";
+import type { RevealAnimation } from "@/components/miracle/Reveal"
+import { MiracleReveal } from "@/components/miracle/Reveal"
+import React from "react"
 
 const ALL_ANIMATIONS: RevealAnimation[] = [
   "fade-up", "fade-down", "fade-left", "fade-right",
@@ -9,7 +10,7 @@ const ALL_ANIMATIONS: RevealAnimation[] = [
   "slide-blur-up", "slide-blur-down",
   "flip-up", "flip-down",
   "reveal-text"
-];
+]
 
 const AnimationTestPage = () => {
   return (
@@ -35,7 +36,7 @@ const AnimationTestPage = () => {
           >
             <div className="bg-neutral-900 border border-neutral-800 p-8 rounded-2xl h-64 flex flex-col justify-center items-center group hover:border-blue-500 transition-colors">
               <span className="text-blue-500 font-mono text-sm mb-2">variant:</span>
-              <h3 className="text-2xl font-semibold capitalize">{anim.replace(/-/g, ' ')}</h3>
+              <h3 className="text-2xl font-semibold capitalize">{anim.replace(/-/g, " ")}</h3>
               <p className="text-neutral-500 mt-4 text-center text-sm">
                 This card uses the "{anim}" animation variant.
               </p>
@@ -61,7 +62,7 @@ const AnimationTestPage = () => {
         </MiracleReveal>
       </footer>
     </div>
-  );
-};
+  )
+}
 
-export default AnimationTestPage;
+export default AnimationTestPage

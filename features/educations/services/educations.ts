@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import type { Education, EducationEntity, EducationTranslationEntity } from "../types/educations.types"
-import { ImageAsset } from "@/features/images/types/images.types"
+import type { ImageAsset } from "@/features/images/types/images.types"
 
 type GetEducationsParams = {
   locale: string
@@ -59,13 +59,13 @@ export async function getEducations({
     )  
   `
 
-  let query = supabase
+  const query = supabase
     .from("educations")
     .select<string, GetEducationsResponse>(columns)
     .eq("is_show", true)
     .eq("education_translations.i18n.locale", locale)
     .order("start_date", { ascending: false })
-    .order("order_index", { referencedTable: 'images', ascending: true })
+    .order("order_index", { referencedTable: "images", ascending: true })
 
   const { data, error } = await query
 

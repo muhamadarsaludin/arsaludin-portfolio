@@ -1,15 +1,17 @@
 "use client"
 
-import React, { ReactNode } from 'react'
-import { Card, CardPriority, CardStatus, CardType } from '@/features/cards/types/cards.types'
-import { useTranslations } from 'next-intl'
+import type { ReactNode } from "react"
+import React from "react"
+import type { Card, CardPriority, CardStatus, CardType } from "@/features/cards/types/cards.types"
+import { useTranslations } from "next-intl"
 import Image from "next/image"
-import { LuCalendar, LuCircleCheck } from 'react-icons/lu'
-import { formatDate } from '@/utils/format-date'
-import MiracleBadge, { BadgeColor } from '@/components/miracle/Badge'
-import MiracleModal from '@/components/miracle/Modal'
-import ReactionGroup from '@/features/reactions/components/ReactionGroup'
-import CommentGroup from '@/features/comments/components/CommentGroup'
+import { LuCalendar, LuCircleCheck } from "react-icons/lu"
+import { formatDate } from "@/utils/format-date"
+import type { BadgeColor } from "@/components/miracle/Badge"
+import MiracleBadge from "@/components/miracle/Badge"
+import MiracleModal from "@/components/miracle/Modal"
+import ReactionGroup from "@/features/reactions/components/ReactionGroup"
+import CommentGroup from "@/features/comments/components/CommentGroup"
 
 type CardDetailModalProps = {
   isOpen: boolean

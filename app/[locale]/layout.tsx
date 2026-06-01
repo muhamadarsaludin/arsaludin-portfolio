@@ -10,7 +10,7 @@ import Footer from "@/components/footer/Footer"
 import BackToTop from "@/components/BackToTop"
 import { Providers } from "@/providers/Providers"
 import { createClient } from "@/lib/supabase/server"
-import { GoogleTagManager } from '@next/third-parties/google'
+import { GoogleTagManager } from "@next/third-parties/google"
 import { constructMetadata } from "@/configs/metadata"
 
 type LayoutProps = {
@@ -43,7 +43,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   setRequestLocale(locale)
 
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID
-  const isProduction = process.env.NODE_ENV === 'production'
+  const isProduction = process.env.NODE_ENV === "production"
   
   let user = null
 

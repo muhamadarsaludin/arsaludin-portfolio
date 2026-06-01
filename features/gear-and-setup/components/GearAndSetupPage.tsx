@@ -1,14 +1,14 @@
-import Article from '@/components/Article'
-import Container from '@/components/Container'
-import Heading from '@/components/Heading'
-import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs'
-import TableOfContents from '@/components/TableOfContents'
-import { routing } from '@/i18n/routing'
-import { getTranslations } from 'next-intl/server'
-import GearAndSetupCard from './GearAndSetupCard'
-import { MiracleReveal } from '@/components/miracle/Reveal'
-import Image from 'next/image'
-import { getGearAndSetup } from '../data'
+import Article from "@/components/Article"
+import Container from "@/components/Container"
+import Heading from "@/components/Heading"
+import MiracleBreadcrumbs from "@/components/miracle/Breadcrumbs"
+import TableOfContents from "@/components/TableOfContents"
+import { routing } from "@/i18n/routing"
+import { getTranslations } from "next-intl/server"
+import GearAndSetupCard from "./GearAndSetupCard"
+import { MiracleReveal } from "@/components/miracle/Reveal"
+import Image from "next/image"
+import { getGearAndSetup } from "../data"
 
 type GearAndSetupPageProps = {
   params: Promise<{ locale: string }>;
@@ -22,8 +22,8 @@ export default async function GearAndSetupPage({ params }: GearAndSetupPageProps
   const renderedGearSetups = gearAndSetupData.map((group, groupIndex) => {
     const categoryId = group.category
       .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
 
     return (
       <div key={groupIndex} className="w-full">

@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { LuShare2 } from 'react-icons/lu'
+import { LuShare2 } from "react-icons/lu"
 
 interface ProjectShareButtonProps {
   title: string
@@ -22,7 +22,7 @@ export default function ArticleShareButton({ title, description }: ProjectShareB
         await navigator.clipboard.writeText(window.location.href)
       }
     } catch (err) {
-      console.error('Error sharing:', err)
+      console.error("Error sharing:", err)
     }
   }
 

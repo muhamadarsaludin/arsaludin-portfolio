@@ -30,27 +30,27 @@ export const formatDate = ({
   dateStyle = "long", 
   options 
 }: FormatDateParams): string => {
-  let dateObj: Date;
+  let dateObj: Date
 
   if (date instanceof Date) {
-    dateObj = date;
+    dateObj = date
   } else {
-    let dateString = String(date);
-    if (typeof date === 'string' && date.includes('-')) {
-      const parts = date.split('-');
+    let dateString = String(date)
+    if (typeof date === "string" && date.includes("-")) {
+      const parts = date.split("-")
       if (parts.length === 3 && parts[0].length !== 4) {
-        dateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        dateString = `${parts[2]}-${parts[1]}-${parts[0]}`
       }
     }
-    dateObj = new Date(dateString);
+    dateObj = new Date(dateString)
   }
 
   if (isNaN(dateObj.getTime())) {
-    console.warn(`Invalid date provided to formatDate: ${date}`);
-    return "N/A";
+    console.warn(`Invalid date provided to formatDate: ${date}`)
+    return "N/A"
   }
 
-  const finalOptions: Intl.DateTimeFormatOptions = options || { dateStyle };
+  const finalOptions: Intl.DateTimeFormatOptions = options || { dateStyle }
   
-  return new Intl.DateTimeFormat(locale, finalOptions).format(dateObj);
-};
+  return new Intl.DateTimeFormat(locale, finalOptions).format(dateObj)
+}

@@ -1,11 +1,11 @@
 "use server"
 
-import { Profile } from "@/features/profile/types/profiles.types"
-import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
-import { Cursor } from "@/features/shared/types/index.types"
+import type { Profile } from "@/features/profile/types/profiles.types"
+import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
+import type { Cursor } from "@/features/shared/types/index.types"
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
-import { Message, MessageEntity, PaginatedMessages } from "../types/messages.types"
+import type { Message, MessageEntity, PaginatedMessages } from "../types/messages.types"
 import { MESSAGES_PAGE_SIZE } from "../constants/messages.constants"
 
 type GetMessagesResponse = MessageEntity & {
@@ -107,7 +107,7 @@ export async function getPaginatedMessages({
   const { data, error } = await query
 
   if (error) {
-    console.error(`[getPaginatedMessages] Error fetching messages:`, error)
+    console.error("[getPaginatedMessages] Error fetching messages:", error)
     throw error
   }
 
@@ -185,7 +185,7 @@ export async function sendMessage({
     .single()
     
     if (error) {
-      console.error(`[sendMessage] Error:`, error)
+      console.error("[sendMessage] Error:", error)
       throw error
     }
 
@@ -228,7 +228,7 @@ export async function getMessage({ messageId }: { messageId: string }): Promise<
     .single()
 
   if (error) {
-    console.error(`[getMessage] Error:`, error)
+    console.error("[getMessage] Error:", error)
     throw error
   }
   const userReaction = data.reactions?.[0] ?? null

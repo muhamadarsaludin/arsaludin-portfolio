@@ -1,4 +1,4 @@
-import { GearAndSetupGroup } from "../types/gear-and-setup.types";
+import type { GearAndSetupGroup } from "../types/gear-and-setup.types"
 
 export const GEAR_AND_SETUP_DATA_ID: GearAndSetupGroup[] = [
   {

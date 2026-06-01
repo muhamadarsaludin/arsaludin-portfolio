@@ -8,12 +8,12 @@
 export const normalizeArrayParam = (
   param: string | string[] | undefined
 ): string[] | undefined => {
-  if (!param) return undefined;
+  if (!param) return undefined
 
-  const arr = Array.isArray(param) ? param : param.split(",");
+  const arr = Array.isArray(param) ? param : param.split(",")
   const filtered = arr
     .map((item) => item.trim())
-    .filter(Boolean);
+    .filter(Boolean)
 
-  return filtered.length > 0 ? filtered : undefined;
-};
+  return filtered.length > 0 ? filtered : undefined
+}

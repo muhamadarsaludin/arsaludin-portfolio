@@ -1,10 +1,10 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { Achievement, AchievementEntity, PaginatedAchievements } from "../types/achievements.types"
-import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
-import { CategoryEntity, Category } from "@/features/categories/types/categories.types"
-import { Cursor } from "@/features/shared/types/index.types"
+import type { Achievement, AchievementEntity, PaginatedAchievements } from "../types/achievements.types"
+import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
+import type { CategoryEntity, Category } from "@/features/categories/types/categories.types"
+import type { Cursor } from "@/features/shared/types/index.types"
 import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.constants"
 
 type AchievementRawResponse = Pick<
@@ -178,7 +178,7 @@ export async function getPaginatedAchievements({
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000";
+  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
   const isFilteringCategory = !!(categorySlugs && categorySlugs.length > 0)
 
   let query = supabase
@@ -227,7 +227,7 @@ export async function getPaginatedAchievements({
   const { data, error } = await query
 
   if (error) {
-    console.error(`[getPaginatedAchievements] Error fetching achievements:`, error)
+    console.error("[getPaginatedAchievements] Error fetching achievements:", error)
     throw error
   }
 

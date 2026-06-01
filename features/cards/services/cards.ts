@@ -1,15 +1,15 @@
 "use server"
 
-import { nanoid } from 'nanoid';
-import { Card, CardPriority, CardType, PaginatedCards } from '../types/cards.types';
-import { Profile } from "@/features/profile/types/profiles.types"
-import { CardEntity, CardStatus } from "../types/cards.types"
-import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
-import { CARDS_PAGE_SIZE } from '../constants/card.constants';
-import { createClient } from '@/lib/supabase/server';
-import { Cursor } from '@/features/shared/types/index.types';
-import { generateUniqueSlug } from '@/utils/slug';
-import { revalidatePath } from 'next/cache';
+import { nanoid } from "nanoid"
+import type { Card, CardPriority, CardType, PaginatedCards } from "../types/cards.types"
+import type { Profile } from "@/features/profile/types/profiles.types"
+import type { CardEntity, CardStatus } from "../types/cards.types"
+import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
+import { CARDS_PAGE_SIZE } from "../constants/card.constants"
+import { createClient } from "@/lib/supabase/server"
+import type { Cursor } from "@/features/shared/types/index.types"
+import { generateUniqueSlug } from "@/utils/slug"
+import { revalidatePath } from "next/cache"
 
 type CardRawResponse = CardEntity & {
   author: Profile
@@ -93,12 +93,12 @@ export async function getPaginatedCardsByStatus({
   pageSize = CARDS_PAGE_SIZE,
   cursor,
 }: GetPaginatedCardsByStatusParams): Promise<PaginatedCards> {
-  console.log("SERVER FILTER:", { status, types, priorities });
+  console.log("SERVER FILTER:", { status, types, priorities })
   const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000";
+  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
 
   let query = supabase
     .from("cards")
@@ -137,7 +137,7 @@ export async function getPaginatedCardsByStatus({
   const { data, error } = await query
 
   if (error) {
-    console.error(`[getPaginatedCardsByStatus] Error fetching cards:`, error)
+    console.error("[getPaginatedCardsByStatus] Error fetching cards:", error)
     throw error
   }
 
@@ -184,7 +184,7 @@ export async function getCard({cardId}: { cardId: string }): Promise<Card> {
 }
 
 export async function createCard(
-  payload: Pick<CardEntity, 'title' | 'description' | 'status' | 'type' | 'priority'>
+  payload: Pick<CardEntity, "title" | "description" | "status" | "type" | "priority">
 ): Promise<Card> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -200,13 +200,13 @@ export async function createCard(
     .limit(1)
     .single()
 
-  const nextOrderIndex = (lastCard?.order_index ?? 0) + 1000;
+  const nextOrderIndex = (lastCard?.order_index ?? 0) + 1000
 
   const { data, error } = await supabase
     .from("cards")
     .insert([{ ...payload, slug: slug, user_id: user.id, order_index: nextOrderIndex }])
     .select<string, CardRawResponse>(CARDS_COLUMNS)
-    .single();
+    .single()
 
   if (error) throw error
 
@@ -221,31 +221,31 @@ export async function updateCard({
   cardId: string;
   payload: Partial<Pick<CardEntity, "title" | "description" | "status" | "type" | "priority">>;
 }) {
-  const supabase = await createClient();
+  const supabase = await createClient()
 
   // 1. Authenticate user
   const {
     data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("Unauthorized: Please log in to continue.");
+  } = await supabase.auth.getUser()
+  if (!user) throw new Error("Unauthorized: Please log in to continue.")
 
   // 2. Fetch card ownership and user role in parallel for performance
   const [{ data: card }, { data: profile }] = await Promise.all([
     supabase.from("cards").select("user_id").eq("id", cardId).single(),
     supabase.from("profiles").select("role").eq("id", user.id).single(),
-  ]);
+  ])
 
-  const isAdmin = profile?.role === "admin";
-  const isOwner = card?.user_id === user.id;
+  const isAdmin = profile?.role === "admin"
+  const isOwner = card?.user_id === user.id
 
   // 3. Status Change Protection: Only admins can move cards between columns
   if (payload.status && !isAdmin) {
-    throw new Error("Forbidden: Only administrators can update the card status.");
+    throw new Error("Forbidden: Only administrators can update the card status.")
   }
 
   // 4. Content Protection: Only the author or an admin can edit card details
   if (!isOwner && !isAdmin) {
-    throw new Error("Forbidden: You do not have permission to edit this card.");
+    throw new Error("Forbidden: You do not have permission to edit this card.")
   }
 
   // 5. Execute the update
@@ -257,17 +257,17 @@ export async function updateCard({
     })
     .eq("id", cardId)
     .select<string, CardRawResponse>(CARDS_COLUMNS)
-    .single();
+    .single()
 
   if (error) {
-    console.error("[updateCard] Database error:", error);
-    throw new Error("Internal Server Error: Failed to update the card.");
+    console.error("[updateCard] Database error:", error)
+    throw new Error("Internal Server Error: Failed to update the card.")
   }
 
   // 6. Refresh the UI data
-  revalidatePath("/roadmap", "layout");
+  revalidatePath("/roadmap", "layout")
 
-  return mapToCard(data);
+  return mapToCard(data)
 }
 
 export async function deleteCard({ cardId }: { cardId: string }) {

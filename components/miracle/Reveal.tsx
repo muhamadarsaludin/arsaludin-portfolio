@@ -1,8 +1,9 @@
-"use client";
+"use client"
 
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { useMediaQuery, Breakpoint } from "@/hooks/useMediaQuery";
+import React, { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import type { Breakpoint } from "@/hooks/useMediaQuery"
+import { useMediaQuery } from "@/hooks/useMediaQuery"
 
 export type RevealAnimation =
   | "fade" | "fade-up" | "fade-down" | "fade-left" | "fade-right"
@@ -53,7 +54,7 @@ const revealVariants: Record<string, any> = {
   "reveal-text": { hidden: { clipPath: "inset(0% 0% 100% 0%)", opacity: 0 }, visible: { clipPath: "inset(0% 0% 0% 0%)", opacity: 1 } },
   "skew-up": { hidden: (d: number) => ({ opacity: 0, y: d, skewY: 5, transformOrigin: "top left" }), visible: { opacity: 1, y: 0, skewY: 0 } },
   "skew-down": { hidden: (d: number) => ({ opacity: 0, y: -d, skewY: -5, transformOrigin: "bottom right" }), visible: { opacity: 1, y: 0, skewY: 0 } },
-};
+}
 
 export const MiracleReveal = ({
   children,
@@ -65,36 +66,36 @@ export const MiracleReveal = ({
   threshold = 0.1,
   distance = 80,
 }: MiracleRevealProps) => {
-  const { breakpoint, isDesktop, isTablet, isMobile } = useMediaQuery();
-  const [mounted, setMounted] = useState(false);
+  const { breakpoint, isDesktop, isTablet, isMobile } = useMediaQuery()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    setMounted(true)
+  }, [])
 
   /**
    * Logic Resolver
    */
   const resolveValue = <T,>(input: ResponsiveValue<T>, defaultValue: T): T => {
-    if (typeof input !== "object" || input === null) return input as T;
+    if (typeof input !== "object" || input === null) return input as T
     
-    const res = input as any;
-    if (!mounted) return res.default ?? res.mobile ?? defaultValue;
+    const res = input as any
+    if (!mounted) return res.default ?? res.mobile ?? defaultValue
 
-    const bpOrder: Breakpoint[] = ["2xl", "xl", "lg", "md", "sm", "default"];
-    const currentIndex = bpOrder.indexOf(breakpoint);
+    const bpOrder: Breakpoint[] = ["2xl", "xl", "lg", "md", "sm", "default"]
+    const currentIndex = bpOrder.indexOf(breakpoint)
 
     for (let i = currentIndex; i < bpOrder.length; i++) {
-      const key = bpOrder[i];
-      if (res[key] !== undefined) return res[key];
+      const key = bpOrder[i]
+      if (res[key] !== undefined) return res[key]
     }
 
-    if (isDesktop && res.desktop !== undefined) return res.desktop;
-    if (isTablet && res.tablet !== undefined) return res.tablet;
-    if (isMobile && res.mobile !== undefined) return res.mobile;
+    if (isDesktop && res.desktop !== undefined) return res.desktop
+    if (isTablet && res.tablet !== undefined) return res.tablet
+    if (isMobile && res.mobile !== undefined) return res.mobile
 
-    return res.default ?? res.mobile ?? defaultValue;
-  };
+    return res.default ?? res.mobile ?? defaultValue
+  }
 
   const active = {
     anim: resolveValue(animation, "fade-up" as RevealAnimation),
@@ -103,7 +104,7 @@ export const MiracleReveal = ({
     threshold: resolveValue(threshold, 0.1),
     distance: resolveValue(distance, 100),
     once: resolveValue(once, false),
-  };
+  }
 
   return (
     <div className={className}>
@@ -132,5 +133,5 @@ export const MiracleReveal = ({
         {children}
       </motion.div>
     </div>
-  );
-};
+  )
+}

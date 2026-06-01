@@ -1,24 +1,24 @@
 "use client"
 
-import React, { useMemo, useRef, useState } from 'react'
-import { useInfiniteCardsByStatus } from '@/features/cards/hooks/useInfiniteCardsByStatus'
-import { Card, CardPriority, CardStatus, CardType } from '@/features/cards/types/cards.types'
-import MiracleButton from '@/components/miracle/Button'
-import { useTranslations } from 'next-intl'
-import { LuPlus } from 'react-icons/lu'
+import React, { useMemo, useRef, useState } from "react"
+import { useInfiniteCardsByStatus } from "@/features/cards/hooks/useInfiniteCardsByStatus"
+import type { Card, CardPriority, CardStatus, CardType } from "@/features/cards/types/cards.types"
+import MiracleButton from "@/components/miracle/Button"
+import { useTranslations } from "next-intl"
+import { LuPlus } from "react-icons/lu"
 import { cn } from "@/utils/class-name"
-import { useAuth } from '@/providers/AuthProvider'
-import CardItem from '@/features/cards/components/CardItem'
-import { signInWithGoogle } from '@/features/auth/services/auth'
-import { SiGoogle } from 'react-icons/si'
-import MiracleTooltip from '@/components/miracle/Tooltip'
-import CardEmpty from '@/features/cards/components/CardEmpty'
-import CardItemSkeleton from '@/features/cards/components/CardItemSkeleton'
-import ErrorStateCard from '@/features/shared/components/ErrorStateCard'
+import { useAuth } from "@/providers/AuthProvider"
+import CardItem from "@/features/cards/components/CardItem"
+import { signInWithGoogle } from "@/features/auth/services/auth"
+import { SiGoogle } from "react-icons/si"
+import MiracleTooltip from "@/components/miracle/Tooltip"
+import CardEmpty from "@/features/cards/components/CardEmpty"
+import CardItemSkeleton from "@/features/cards/components/CardItemSkeleton"
+import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
-import MiracleLoader from '@/components/miracle/Loader'
-import CardFormModal from '@/features/cards/components/CardFormModal'
-import { MiracleReveal } from '@/components/miracle/Reveal'
+import MiracleLoader from "@/components/miracle/Loader"
+import CardFormModal from "@/features/cards/components/CardFormModal"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type RoadmapColumnProps = {
   status: CardStatus

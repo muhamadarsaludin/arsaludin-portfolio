@@ -1,12 +1,12 @@
-import type { MDXComponents } from 'mdx/types'
-import Link from 'next/link'
+import type { MDXComponents } from "mdx/types"
+import Link from "next/link"
 import { cn } from "@/utils/class-name"
-import Heading from './components/Heading'
-import remarkGfm from 'remark-gfm'
-import rehypePrettyCode from 'rehype-pretty-code'
-import MiracleBadge from './components/miracle/Badge'
-import Image from 'next/image'
-import MiracleImagePreview from './components/miracle/ImagePreview'
+import Heading from "./components/Heading"
+import remarkGfm from "remark-gfm"
+import rehypePrettyCode from "rehype-pretty-code"
+import MiracleBadge from "./components/miracle/Badge"
+import Image from "next/image"
+import MiracleImagePreview from "./components/miracle/ImagePreview"
 
 export const mdxComponents = {
   MiracleBadge,
@@ -114,7 +114,7 @@ export const mdxOptions = {
     [
       rehypePrettyCode,
       {
-        theme: 'tokyo-night',
+        theme: "tokyo-night",
         keepBackground: true,
       },
     ],

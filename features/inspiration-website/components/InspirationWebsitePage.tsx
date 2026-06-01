@@ -1,14 +1,14 @@
-import Container from '@/components/Container'
-import Heading from '@/components/Heading'
-import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs'
-import TableOfContents from '@/components/TableOfContents'
-import { routing } from '@/i18n/routing'
-import { getTranslations } from 'next-intl/server'
-import { INSPIRATION_WEBSITE } from '../data/inspiration-website'
-import { InspirationWebsite } from '../types/inspiration-website.types'
-import Article from '@/components/Article'
-import InspirationCard from './InspirationCard'
-import { MiracleReveal } from '@/components/miracle/Reveal'
+import Container from "@/components/Container"
+import Heading from "@/components/Heading"
+import MiracleBreadcrumbs from "@/components/miracle/Breadcrumbs"
+import TableOfContents from "@/components/TableOfContents"
+import { routing } from "@/i18n/routing"
+import { getTranslations } from "next-intl/server"
+import { INSPIRATION_WEBSITE } from "../data/inspiration-website"
+import type { InspirationWebsite } from "../types/inspiration-website.types"
+import Article from "@/components/Article"
+import InspirationCard from "./InspirationCard"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type InspirationWebsitePageProps = {
   params: Promise<{ locale: string }>;

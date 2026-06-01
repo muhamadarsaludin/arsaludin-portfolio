@@ -1,4 +1,4 @@
-import { InspirationWebsite } from "../types/inspiration-website.types";
+import type { InspirationWebsite } from "../types/inspiration-website.types"
 
 export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
   {
@@ -224,4 +224,4 @@ export const INSPIRATION_WEBSITE: InspirationWebsite[] = [
     location: "Global",
     type: "organization",
   }
-];
+]

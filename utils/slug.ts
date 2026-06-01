@@ -16,11 +16,11 @@ export const slugify = (text: string): string => {
     .toString()
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w-]+/g, '')
-    .replace(/--+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '')
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "")
+    .replace(/--+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "")
 }
 
 /**
@@ -39,4 +39,4 @@ export const generateUniqueSlug = (text: string, length: number = 5): string => 
   const baseSlug = slugify(text)
   const randomId = Math.random().toString(36).substring(2, 2 + length)
   return `${baseSlug}-${randomId}`
-};
+}

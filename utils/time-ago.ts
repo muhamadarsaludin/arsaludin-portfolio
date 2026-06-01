@@ -1,4 +1,4 @@
-import { formatDate } from "./format-date";
+import { formatDate } from "./format-date"
 
 /**
  * Formats a date into a concise relative time string.

@@ -5,8 +5,8 @@ import { revalidatePath } from "next/cache"
 import type { CommentData, CommentEntity, CommentTargetType, PaginatedComments } from "../types/comments.types"
 import { COMMENTS_PAGE_SIZE } from "../constants/comments.constants"
 import type { Cursor } from "@/features/shared/types/index.types"
-import { Profile } from "@/features/profile/types/profiles.types"
-import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
+import type { Profile } from "@/features/profile/types/profiles.types"
+import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 
 type GetPaginatedCommentsParams = {
   targetId: string
@@ -141,8 +141,8 @@ export async function getPaginatedComments({
   // 4. Mapping Data (Fixing Syntax Error here)
   const mappedData: CommentData[] = trimmedData.map((comment) => {
     const replyCount = comment.replies?.[0]?.count ?? 0
-    const userReaction = comment.reactions?.[0] ?? null;
-    const allReactions = comment.reaction_counts || [];
+    const userReaction = comment.reactions?.[0] ?? null
+    const allReactions = comment.reaction_counts || []
     const totalEmojis = allReactions.length
     const totalReactions = allReactions.reduce(
       (acc, curr) => acc + (curr.count || 0), 

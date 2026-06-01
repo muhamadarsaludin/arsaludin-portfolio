@@ -1,4 +1,4 @@
-import { CardPriority, CardStatus, CardType } from "../types/cards.types"
+import type { CardPriority, CardStatus, CardType } from "../types/cards.types"
 
 export const CARDS_PAGE_SIZE = 10
 

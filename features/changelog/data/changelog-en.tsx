@@ -1,7 +1,7 @@
-import MiracleBanner from "@/components/miracle/Banner";
-import Link from "next/link";
-import { features } from "process";
-import { LuPartyPopper } from "react-icons/lu";
+import MiracleBanner from "@/components/miracle/Banner"
+import Link from "next/link"
+import { features } from "process"
+import { LuPartyPopper } from "react-icons/lu"
 
 export const CHANGELOG_EN = [
   {

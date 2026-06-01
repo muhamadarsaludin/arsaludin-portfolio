@@ -1,7 +1,7 @@
-import { Cursor } from './../../shared/types/index.types';
+import type { Cursor } from "./../../shared/types/index.types"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { getPaginatedAchievements } from "../services/achievements"
-import { ACHIEVEMENTS_PAGE_SIZE } from '../constants/achievements.constants';
+import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.constants"
 
 type UseAchievementsParams = {
   locale: string 

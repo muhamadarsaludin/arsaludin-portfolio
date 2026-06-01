@@ -1,12 +1,12 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
-import Heading from '@/components/Heading'
+import React, { useState, useEffect } from "react"
+import Heading from "@/components/Heading"
 import { cn } from "@/utils/class-name"
-import { LuCalendar, LuChevronDown, LuOrbit } from 'react-icons/lu'
-import MiracleBadge from '@/components/miracle/Badge'
-import { useLocale, useTranslations } from 'next-intl'
-import { formatDate } from '@/utils/format-date'
+import { LuCalendar, LuChevronDown, LuOrbit } from "react-icons/lu"
+import MiracleBadge from "@/components/miracle/Badge"
+import { useLocale, useTranslations } from "next-intl"
+import { formatDate } from "@/utils/format-date"
 
 interface ChangelogItemProps {
   version: string;
@@ -28,7 +28,7 @@ export default function ChangelogItem({
   const [isOpen, setIsOpen] = useState(showDetail)
   const [shouldRender, setShouldRender] = useState(showDetail)
   
-  const slugifiedId = `version-${version.replaceAll('.', '-')}`
+  const slugifiedId = `version-${version.replaceAll(".", "-")}`
   const t = useTranslations("components.changelogItem")
   const locale = useLocale()
 

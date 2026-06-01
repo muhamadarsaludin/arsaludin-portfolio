@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { getServices } from "../services/services"
-import { Service } from "../types/services.types"
+import type { Service } from "../types/services.types"
 
 type UseServicesProps = {
   locale: string

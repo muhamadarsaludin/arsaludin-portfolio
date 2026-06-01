@@ -1,6 +1,6 @@
 "use server"
 
-import { Skill } from "@/features/skills/types/skills.types"
+import type { Skill } from "@/features/skills/types/skills.types"
 import type { Service, ServiceEntity, ServiceTranslationEntity } from "../types/services.types"
 import { createClient } from "@/lib/supabase/server"
 

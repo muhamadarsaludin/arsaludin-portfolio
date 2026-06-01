@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { Category, CategoryTargetType } from "../types/categories.types"
+import type { Category, CategoryTargetType } from "../types/categories.types"
 import { getAvailableCategories } from "../services/categories"
 
 type UseAvailableCategoriesProps = {

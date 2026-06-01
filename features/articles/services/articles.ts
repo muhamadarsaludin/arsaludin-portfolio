@@ -1,11 +1,11 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
-import { Category, CategoryEntity } from "@/features/categories/types/categories.types"
-import { Cursor } from "@/features/shared/types/index.types"
-import { Article, ArticleEntity, ArticleTranslationEntity, PaginatedArticles } from "../types/articles.types"
-import { Profile } from "@/features/profile/types/profiles.types"
+import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
+import type { Category, CategoryEntity } from "@/features/categories/types/categories.types"
+import type { Cursor } from "@/features/shared/types/index.types"
+import type { Article, ArticleEntity, ArticleTranslationEntity, PaginatedArticles } from "../types/articles.types"
+import type { Profile } from "@/features/profile/types/profiles.types"
 import { ARTICLES_PAGE_SIZE } from "../constants/articles.constans"
 
 type ArticleRawResponse = ArticleEntity
@@ -189,7 +189,7 @@ export async function getPaginatedArticles({
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000";
+  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
   const isFilteringCategory = !!(categorySlugs && categorySlugs.length > 0)
 
   let query = supabase
@@ -231,7 +231,7 @@ export async function getPaginatedArticles({
   const { data, error } = await query
 
   if (error) {
-    console.error(`[getPaginatedArticles] Error fetching articles:`, error)
+    console.error("[getPaginatedArticles] Error fetching articles:", error)
     throw error
   }
 
@@ -272,9 +272,9 @@ export async function getArticle({
   id,
   locale,
 }: GetArticleParams): Promise<Article | null> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000";
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
 
   let query = supabase
     .from("articles")
@@ -286,37 +286,37 @@ export async function getArticle({
     .eq("categories.category.category_translations.i18n.locale", locale) 
 
   if (id) {
-    query = query.eq("id", id);
+    query = query.eq("id", id)
   } else if (slug) {
-    query = query.eq("slug", slug);
+    query = query.eq("slug", slug)
   } else {
-    return null;
+    return null
   }
 
-  const { data, error } = await query.single();
+  const { data, error } = await query.single()
 
   if (error) {
-    console.error(`[getArticle] Error fetching article:`, error)
+    console.error("[getArticle] Error fetching article:", error)
     throw error
   }
 
-  return data ? mapToArticle(data) : null;
+  return data ? mapToArticle(data) : null
 }
 
 export async function getAllArticlesSlugs() {
-  const supabase = await createClient();
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .from("articles")
     .select("slug, updated_at")
     .eq("is_show", true)
     .eq("status", "published")
-    .not("published_at", "is", null);
+    .not("published_at", "is", null)
 
   if (error) {
-    console.error("[getAllArticlesSlugs] Error:", error);
-    throw error;
+    console.error("[getAllArticlesSlugs] Error:", error)
+    throw error
   }
 
-  return data ?? [];
+  return data ?? []
 }

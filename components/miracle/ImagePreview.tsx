@@ -1,16 +1,16 @@
-"use client";
+"use client"
 
-import React, { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
-import MiracleModal from "./Modal";
+import React, { useState, useEffect, useCallback } from "react"
+import Image from "next/image"
+import MiracleModal from "./Modal"
 import { 
   LuPlus, 
   LuMinus, 
   LuChevronLeft, 
   LuChevronRight, 
   LuMaximize2 
-} from "react-icons/lu";
-import { cn } from "@/utils/class-name";
+} from "react-icons/lu"
+import { cn } from "@/utils/class-name"
 
 interface ImageItem {
   image_url: string;
@@ -32,46 +32,46 @@ export default function MiracleImagePreview({
   imageClassName = "object-cover",
   sizes = "(max-width: 768px) 100vw, 1350px",
 }: MiracleImagePreviewProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [zoomScale, setZoomScale] = useState(1);
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [zoomScale, setZoomScale] = useState(1)
 
-  const hasMultipleImages = images?.length > 1;
+  const hasMultipleImages = images?.length > 1
 
   const handleNext = useCallback(() => {
-    if (!hasMultipleImages) return;
-    setZoomScale(1);
-    setSelectedIndex((prev) => (prev + 1) % images.length);
-  }, [images.length, hasMultipleImages]);
+    if (!hasMultipleImages) return
+    setZoomScale(1)
+    setSelectedIndex((prev) => (prev + 1) % images.length)
+  }, [images.length, hasMultipleImages])
 
   const handlePrev = useCallback(() => {
-    if (!hasMultipleImages) return;
-    setZoomScale(1);
-    setSelectedIndex((prev) => (prev - 1 + images.length) % images.length);
-  }, [images.length, hasMultipleImages]);
+    if (!hasMultipleImages) return
+    setZoomScale(1)
+    setSelectedIndex((prev) => (prev - 1 + images.length) % images.length)
+  }, [images.length, hasMultipleImages])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isOpen || !hasMultipleImages) return;
-      if (e.key === "ArrowRight") handleNext();
-      if (e.key === "ArrowLeft") handlePrev();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, hasMultipleImages, handleNext, handlePrev]);
+      if (!isOpen || !hasMultipleImages) return
+      if (e.key === "ArrowRight") handleNext()
+      if (e.key === "ArrowLeft") handlePrev()
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [isOpen, hasMultipleImages, handleNext, handlePrev])
 
-  if (!images || images.length === 0) return null;
+  if (!images || images.length === 0) return null
 
-  const currentImage = images[selectedIndex];
-  const displayTitle = currentImage?.alt || "Preview Image";
+  const currentImage = images[selectedIndex]
+  const displayTitle = currentImage?.alt || "Preview Image"
 
   const renderItems = () => {
     return images.map((img, index) => (
       <div
         key={index}
         onClick={() => {
-          setSelectedIndex(index);
-          setIsOpen(true);
+          setSelectedIndex(index)
+          setIsOpen(true)
         }}
         className={cn(
           "group relative cursor-pointer overflow-hidden rounded-xl border border-primary bg-secondary shadow-sm transition-all hover:shadow-md h-auto w-full",
@@ -90,8 +90,8 @@ export default function MiracleImagePreview({
           </div>
         </div>
       </div>
-    ));
-  };
+    ))
+  }
 
   return (
     <>
@@ -104,8 +104,8 @@ export default function MiracleImagePreview({
       <MiracleModal
         isOpen={isOpen}
         onClose={() => {
-          setIsOpen(false);
-          setZoomScale(1);
+          setIsOpen(false)
+          setZoomScale(1)
         }}
         size="full"
         title={displayTitle}
@@ -154,13 +154,13 @@ export default function MiracleImagePreview({
             {hasMultipleImages && (
               <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover/preview:opacity-100 transition-all duration-300 ease-in-out pointer-events-none">
                 <button
-                  onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+                  onClick={(e) => { e.stopPropagation(); handlePrev() }}
                   className="cursor-pointer pointer-events-auto z-20 rounded-full p-2 border border-primary bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-all ease-in-out duration-300"
                 >
                   <LuChevronLeft size={20} />
                 </button>
                 <button
-                  onClick={(e) => { e.stopPropagation(); handleNext(); }}
+                  onClick={(e) => { e.stopPropagation(); handleNext() }}
                   className="cursor-pointer pointer-events-auto z-20 rounded-full p-2 border border-primary bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-all ease-in-out duration-300"
                 >
                   <LuChevronRight size={20} />
@@ -176,8 +176,8 @@ export default function MiracleImagePreview({
                   <button
                     key={idx}
                     onClick={() => {
-                      setZoomScale(1);
-                      setSelectedIndex(idx);
+                      setZoomScale(1)
+                      setSelectedIndex(idx)
                     }}
                     className={cn(
                       "relative snap-start aspect-3/2 shrink-0 rounded-md overflow-hidden transition-all cursor-pointer",
@@ -201,5 +201,5 @@ export default function MiracleImagePreview({
         </div>
       </MiracleModal>
     </>
-  );
+  )
 }

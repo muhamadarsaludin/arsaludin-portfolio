@@ -1,7 +1,7 @@
-import { Category } from "@/features/categories/types/categories.types"
-import { Profile } from "@/features/profile/types/profiles.types"
+import type { Category } from "@/features/categories/types/categories.types"
+import type { Profile } from "@/features/profile/types/profiles.types"
 import type { ReactionSummary } from "@/features/reactions/types/reactions.types"
-import { Cursor } from "@/features/shared/types/index.types"
+import type { Cursor } from "@/features/shared/types/index.types"
 import type { Skill } from "@/features/skills/types/skills.types"
 
 export type ProjectStatus = "draft" | "published" | "archived"

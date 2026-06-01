@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "next-intl"
 
 export default function CardEmpty() {
   const t = useTranslations("components.card.empty")

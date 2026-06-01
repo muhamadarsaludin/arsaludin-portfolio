@@ -1,4 +1,5 @@
-import MiracleTooltip, { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
+import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
+import MiracleTooltip from "@/components/miracle/Tooltip"
 import { formatCount } from "@/utils/format-number"
 import { useTranslations } from "next-intl"
 import React from "react"

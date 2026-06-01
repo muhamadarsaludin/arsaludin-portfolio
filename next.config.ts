@@ -1,11 +1,8 @@
-import type { NextConfig } from "next";
-import createNextIntlPlugin from "next-intl/plugin";
-import nextMDX from "@next/mdx";
-import remarkGfm from "remark-gfm";
-import rehypePrettyCode from "rehype-pretty-code";
-
-const withNextIntl = createNextIntlPlugin();
-const withMDX = nextMDX({});
+import type { NextConfig } from "next"
+import createNextIntlPlugin from "next-intl/plugin"
+import nextMDX from "@next/mdx"
+const withNextIntl = createNextIntlPlugin()
+const withMDX = nextMDX({})
 
 const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
@@ -22,6 +19,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-};
+}
 
-export default withNextIntl(withMDX(nextConfig));
+export default withNextIntl(withMDX(nextConfig))

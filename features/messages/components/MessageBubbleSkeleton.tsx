@@ -1,4 +1,4 @@
-import { MiracleSkeleton } from '@/components/miracle/Skeleton'
+import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 import { cn } from "@/utils/class-name"
 
 export default function MessageBubbleSkeleton(

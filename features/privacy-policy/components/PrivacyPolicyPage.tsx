@@ -1,16 +1,16 @@
-import React from 'react'
-import { getTranslations } from 'next-intl/server'
-import { LuCalendar } from 'react-icons/lu'
+import React from "react"
+import { getTranslations } from "next-intl/server"
+import { LuCalendar } from "react-icons/lu"
 
-import { routing } from '@/i18n/routing'
-import { formatDate } from '@/utils/format-date'
+import { routing } from "@/i18n/routing"
+import { formatDate } from "@/utils/format-date"
 
-import Article from '@/components/Article'
-import Container from '@/components/Container'
-import TableOfContents from '@/components/TableOfContents'
-import MiracleBadge from '@/components/miracle/Badge'
-import MiracleBreadcrumbs from '@/components/miracle/Breadcrumbs'
-import { MiracleReveal } from '@/components/miracle/Reveal'
+import Article from "@/components/Article"
+import Container from "@/components/Container"
+import TableOfContents from "@/components/TableOfContents"
+import MiracleBadge from "@/components/miracle/Badge"
+import MiracleBreadcrumbs from "@/components/miracle/Breadcrumbs"
+import { MiracleReveal } from "@/components/miracle/Reveal"
 
 type PrivacyPolicyPageProps = {
   params: Promise<{ locale: string }>;
@@ -19,7 +19,7 @@ type PrivacyPolicyPageProps = {
 /* -------------------------------
    FALLBACK CONFIG
 --------------------------------*/
-const FALLBACK_LOCALES = ['en', 'id']
+const FALLBACK_LOCALES = ["en", "id"]
 
 async function resolvePrivacyMdx(locale: string) {
   const localesToTry = [
