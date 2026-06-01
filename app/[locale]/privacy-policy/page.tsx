@@ -2,7 +2,7 @@ import { constructMetadata } from "@/configs/metadata";
 import PrivacyPolicyPage from "@/features/privacy-policy/components/PrivacyPolicyPage";
 import { BasePageProps } from "@/types/page.types";
 import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { locale } = await params;
@@ -15,6 +15,8 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   });
 }
 
-export default function PrivacyPolicy({params}: BasePageProps) {
+export default async function PrivacyPolicy({params}: BasePageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   return <PrivacyPolicyPage params={params}/>
 }
