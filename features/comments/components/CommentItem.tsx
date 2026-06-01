@@ -70,7 +70,7 @@ export default function CommentItem({
       })
     }
     setIsDeleteModalOpen(false)
-  }, [comment, removeComment, removeReply])
+  }, [comment, removeComment, removeReply, isSignedIn])
 
   return (
     <li
@@ -189,7 +189,7 @@ export default function CommentItem({
       >
         <div className="flex flex-col gap-6 py-2">
           <div className="border-primary bg-secondary/10 text-secondary rounded-xl border p-3 text-xs italic">
-            "{comment.content}"
+            {"“"}{comment.content}{"”"}
           </div>
 
           <div className="flex justify-end gap-3">

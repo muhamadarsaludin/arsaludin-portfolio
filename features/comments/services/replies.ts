@@ -165,42 +165,22 @@ export async function getPaginatedReplies({
 
 /**
  * Creates a new reply for a specific reply.
- * @param params.targetId - The ID of the main entity (e.g., project_id, post_id).
- * @param params.targetType - The type of the main entity (e.g., 'project', 'post').
- * @param params.content - The actual text of the reply.
- * @param params.parentId - The ID of the top-level comment being replied to.
- * @param params.recipientId - (Optional) The ID of the user being replied to.
- * @param params.reply_to_id - (Optional) The specific reply ID if replying to a sub-reply.
- * @param params.optimisticRecipient - Profile data used strictly for UI optimistic updates.
+ * @param params - The input params containing reply attributes.
  */
 export async function addReply({
-  targetId,
-  targetType,
-  content,
-  parentId,
-  recipientId,
-  replyToId,
-  optimisticRecipient, // FOR OPTIMISTIC ONLY
+  optimisticRecipient: _optimisticRecipient,
+  ...serverPayload
 }: AddReplyParams) {
-  await addComment({
-    targetId,
-    targetType,
-    content,
-    parentId,
-    recipientId,
-    replyToId,
-  })
+  await addComment(serverPayload)
 }
 
 /**
  * Deletes a specific reply and triggers cache invalidation.
- * @param params.commentId - The unique UUID of the reply to be removed from the database.
- * @param params.parentId - The ID of the parent reply. Essential for identifying
- * which reply thread needs to be refetched or updated in the UI cache.
+ * @param params - The input parameters containing commentId.
  */
 export async function deleteReply({
   commentId,
-  parentId, // FOR TANSTACK QUERY CACHE KEY ONLY
+  parentId: _parentId,
 }: DeleteReplyParams) {
   await deleteComment({ commentId })
 }

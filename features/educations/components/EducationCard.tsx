@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import type { Education } from "../types/educations.types"
 import { cn } from "@/utils/class-name"
@@ -24,16 +24,18 @@ export const EducationCard = ({
   const [shouldRender, setShouldRender] = useState(showDetail)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [logoSrc, setLogoSrc] = useState(education.logo || "/dummy.webp")
+  const [prevShowDetail, setPrevShowDetail] = useState(showDetail)
 
   const locale = useLocale()
   const t = useTranslations("components.educationCard")
 
-  useEffect(() => {
+  if (showDetail !== prevShowDetail) {
+    setPrevShowDetail(showDetail)
     if (showDetail) {
       setIsOpen(true)
       setShouldRender(true)
     }
-  }, [showDetail])
+  }
 
   const startDate = formatDate({
     date: education.start_date,

@@ -35,7 +35,9 @@ export default function GearAndSetupCard({ item }: GearAndSetupCardProps) {
 
         {/* Description Banner Style */}
         <div className="flex items-start gap-2 text-sm text-secondary leading-relaxed pl-3 py-1 border-l-2 border-blue italic mt-5 md:mt-6">
-          <p>"{item.description}"</p>
+          <p>
+            {"“"}{item.description}{"”"}
+          </p>
         </div>
 
         {/* Specs Grid/Flex Row */}

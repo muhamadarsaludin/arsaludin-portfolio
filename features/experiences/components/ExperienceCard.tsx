@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import type { Experience } from "../types/experiences.types"
 import { cn } from "@/utils/class-name"
@@ -27,16 +27,18 @@ export const ExperienceCard = ({
   const [shouldRender, setShouldRender] = useState(showDetail)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [logoSrc, setLogoSrc] = useState(experience.company_logo || "/dummy.webp")
-  
+  const [prevShowDetail, setPrevShowDetail] = useState(showDetail)
+
   const locale = useLocale()
   const t = useTranslations("components.experienceCard")
 
-  useEffect(() => {
+  if (showDetail !== prevShowDetail) {
+    setPrevShowDetail(showDetail)
     if (showDetail) {
       setIsOpen(true)
       setShouldRender(true)
     }
-  }, [showDetail])
+  }
 
   const startDate = formatDate({
     date: experience.start_date,

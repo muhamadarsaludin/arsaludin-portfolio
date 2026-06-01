@@ -53,13 +53,12 @@ export default async function ArticlesPage(props: BasePageProps) {
    * HYDRATION FIX:
    * Manually "aging" server data by 20 minutes to prevent it from overwriting 
    * the client's multi-page infinite cache during navigation.
-   * This ensures the existing client data stays "newer" than the server's page 1.
-   * NOTE: This 20-min offset must be LESS than the staleTime (30 mins)
-   * used in @see useInfiniteArticles to prevent instant re-fetching.
    */
+  const TWENTY_MINUTES_IN_MS = 1000 * 60 * 20
+
   dehydratedState.queries.forEach((query) => {
     if (query.queryKey[0] === "articles") {
-      query.state.dataUpdatedAt = Date.now() - (1000 * 60 * 20)
+      query.state.dataUpdatedAt = query.state.dataUpdatedAt - TWENTY_MINUTES_IN_MS
     }
   })
 

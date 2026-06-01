@@ -156,7 +156,7 @@ export default function MessageBubble({
                 </p>
                 <div className={cn("w-full overflow-hidden rounded-lg p-2", isAuthor ? "bg-secondary" : "bg-blue-low")}>
                   <p className="text-secondary line-clamp-2 text-[11px] leading-relaxed italic text-start">
-                    "{message.replied_message.content}"
+                    {"“"}{message.replied_message.content}{"”"}
                   </p>
                 </div>
               </button>
@@ -222,7 +222,7 @@ export default function MessageBubble({
       >
         <div className="flex flex-col gap-6 py-2">
           <div className="border-primary bg-secondary/10 text-secondary rounded-xl border p-3 text-xs italic">
-            "{message.content}"
+            {"“"}{message.content}{"”"}
           </div>
 
           <div className="flex justify-end gap-3">

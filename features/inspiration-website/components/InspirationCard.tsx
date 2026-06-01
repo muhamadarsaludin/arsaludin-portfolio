@@ -59,7 +59,7 @@ export default function InspirationCard({ item, locale }: InspirationCardProps) 
 
         {desc && (
           <p className="text-sm text-secondary leading-relaxed mt-5 md:mt-6 pl-2 py-0.5 border-l-2 border-blue italic">
-            "{desc}"
+            {"“"}{desc}{"”"}
           </p>
         )}
       </div>

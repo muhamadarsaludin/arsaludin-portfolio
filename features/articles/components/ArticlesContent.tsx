@@ -40,13 +40,18 @@ export default function ArticlesContent({
   const searchUrl = getParam("search") || ""
 
   const [search, setSearch] = useState(searchUrl)
+  const [prevSearchUrl, setPrevSearchUrl] = useState(searchUrl) // ⚡ Menyimpan snapshot URL pencarian sebelumnya
   const debouncedSearch = useDebounce(search, 500)
   const [isOpenFilter, setIsOpenFilter] = useState(false)
 
   const { data: categories } = useAvailableCategories({ locale, targetType })
   const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
-  useEffect(() => { setSearch(searchUrl) }, [searchUrl])
+  if (searchUrl !== prevSearchUrl) {
+    setPrevSearchUrl(searchUrl)
+    setSearch(searchUrl)
+  }
+
   useEffect(() => {
     if (debouncedSearch !== searchUrl) {
       setParams({ search: debouncedSearch || undefined })
@@ -74,12 +79,13 @@ export default function ArticlesContent({
     return { isAllSelected, isSomeSelected }
   }
 
-  const currentFilters = useMemo(() => ({
+  const currentFilters = {
     locale,
     search: searchUrl || undefined,
     categorySlugs: categorySlugs.length ? categorySlugs : undefined,
     pageSize: ARTICLES_PAGE_SIZE,
-  }), [searchUrl, categorySlugs])
+  }
+
   const { 
     data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch 
   } = useInfiniteArticles(currentFilters)

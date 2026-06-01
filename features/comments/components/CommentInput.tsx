@@ -84,7 +84,7 @@ export default function CommentInput({
             </p>
             <div className="bg-secondary w-full overflow-hidden rounded-lg p-2">
               <p className="text-secondary line-clamp-1 text-[11px] leading-relaxed italic">
-                "{repliedComment.content}"
+                {"“"}{repliedComment.content}{"”"}
               </p>
             </div>
           </div>

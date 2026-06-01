@@ -166,8 +166,8 @@ export async function sendMessage({
   recipientId,
   replyToId,
   // FOR OPTIMISTIC
-  recipient,
-  repliedMessage,
+  recipient: _recipient,
+  repliedMessage: _repliedMessage,
 }: SendMessageParams) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

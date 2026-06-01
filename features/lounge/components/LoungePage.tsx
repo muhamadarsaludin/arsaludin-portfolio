@@ -30,9 +30,16 @@ export default async function LoungePage() {
 
   const dehydratedState = dehydrate(queryClient)
 
+  /**
+   * HYDRATION FIX:
+   * Manually "aging" server data by 20 minutes to remain consistent with 
+   * the cache settings used in Articles and Achievements page.
+   */
+  const TWENTY_MINUTES_IN_MS = 1000 * 60 * 20
+
   dehydratedState.queries.forEach((query) => {
     if (query.queryKey[0] === "messages") {
-      query.state.dataUpdatedAt = Date.now() - (1000 * 30)
+      query.state.dataUpdatedAt = query.state.dataUpdatedAt - TWENTY_MINUTES_IN_MS
     }
   })
 

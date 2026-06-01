@@ -28,11 +28,10 @@ type RoadmapColumnProps = {
     priorities?: CardPriority[];
     pageSize: number;
   },
-  columnDelay: number;
   className?: string;
 }
 
-export default function RoadmapColumn({ status, filters, className, columnDelay }: RoadmapColumnProps) {
+export default function RoadmapColumn({ status, filters, className }: RoadmapColumnProps) {
   const td = useTranslations("data")
   const t = useTranslations("pages.roadmap")
   const { isSignedIn, profile } = useAuth()

@@ -59,7 +59,7 @@ export default function MessageInput({
             </p>
             <div className="bg-secondary w-full overflow-hidden rounded-lg p-2">
               <p className="text-secondary line-clamp-2 text-[11px] leading-relaxed italic">
-                "{repliedMessage.content}"
+                {"“"}{repliedMessage.content}{"”"}
               </p>
             </div>
           </div>

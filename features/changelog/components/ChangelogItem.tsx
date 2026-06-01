@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import Heading from "@/components/Heading"
 import { cn } from "@/utils/class-name"
 import { LuCalendar, LuChevronDown, LuOrbit } from "react-icons/lu"
@@ -27,17 +27,19 @@ export default function ChangelogItem({
 }: ChangelogItemProps) {
   const [isOpen, setIsOpen] = useState(showDetail)
   const [shouldRender, setShouldRender] = useState(showDetail)
+  const [prevShowDetail, setPrevShowDetail] = useState(showDetail)
   
   const slugifiedId = `version-${version.replaceAll(".", "-")}`
   const t = useTranslations("components.changelogItem")
   const locale = useLocale()
 
-  useEffect(() => {
+  if (showDetail !== prevShowDetail) {
+    setPrevShowDetail(showDetail)
     if (showDetail) {
       setIsOpen(true)
       setShouldRender(true)
     }
-  }, [showDetail])
+  }
 
   const toggleOpen = () => {
     if (!isOpen) {

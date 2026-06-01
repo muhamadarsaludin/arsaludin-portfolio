@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { useRef, useState, useMemo, useEffect } from "react"
+import { useRef, useState, useMemo } from "react"
 import { useTranslations } from "next-intl"
 import MiracleDrawer from "@/components/miracle/Drawer"
 import MiracleLoader from "@/components/miracle/Loader"
@@ -34,6 +34,17 @@ export default function CommentDrawer({
   const [repliedComment, setRepliedComment] = useState<CommentData | null>(null)
   const { isMobile } = useMediaQuery()
 
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen)
+  const [prevTargetId, setPrevTargetId] = useState(targetId)
+
+  if (isOpen !== prevIsOpen || targetId !== prevTargetId) {
+    setPrevIsOpen(isOpen)
+    setPrevTargetId(targetId)
+    if (!isOpen) {
+      setRepliedComment(null)
+    }
+  }
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteComments({
     targetId,
     targetType,
@@ -41,10 +52,6 @@ export default function CommentDrawer({
   })
 
   const allComments = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
-
-  useEffect(() => {
-    if (!isOpen) setRepliedComment(null)
-  }, [isOpen, targetId])
 
   useIntersectionObserver({
     targetRef: loadMoreRef,
