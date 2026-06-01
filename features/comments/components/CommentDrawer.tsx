@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useMemo, useEffect } from "react"
+import { useRef, useState, useMemo, useEffect, ReactNode } from "react"
 import { useTranslations } from "next-intl"
 import MiracleDrawer from "@/components/miracle/Drawer"
 import MiracleLoader from "@/components/miracle/Loader"
@@ -15,6 +15,7 @@ type CommentDrawerProps = {
   isOpen: boolean
   targetId: string
   targetType: CommentTargetType
+  title?: ReactNode
   commentCount: number
   onClose: () => void
 }
@@ -23,12 +24,14 @@ export default function CommentDrawer({
   isOpen,
   targetId,
   targetType,
+  title,
   commentCount,
   onClose,
 }: CommentDrawerProps) {
   const t = useTranslations("components.comment.drawer")
   const loadMoreRef = useRef<HTMLDivElement>(null)
   const [repliedComment, setRepliedComment] = useState<CommentData | null>(null)
+  const { isMobile } = useMediaQuery()
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteComments({
     targetId,
@@ -37,7 +40,6 @@ export default function CommentDrawer({
   })
 
   const allComments = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
-  const { isMobile } = useMediaQuery()
 
   useEffect(() => {
     if (!isOpen) setRepliedComment(null)
@@ -49,13 +51,17 @@ export default function CommentDrawer({
     enabled: !!hasNextPage && !isFetchingNextPage && isOpen,
   })
 
+  const drawerPosition = isMobile ? "bottom" : "right"
+  const drawerSize = isMobile ? "85vh" : 450
+
   return (
     <MiracleDrawer
       isOpen={isOpen}
       onClose={onClose}
-      position={isMobile ? "bottom" : "right"}
-      size={isMobile ? 500 : 450}
+      position={drawerPosition}
+      size={drawerSize}
       title={`${t("title")} (${commentCount})`}
+      description={title} 
       footer={
         <CommentInput
           targetId={targetId}

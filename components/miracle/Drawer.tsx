@@ -14,6 +14,7 @@ export type MiracleDrawerProps = {
   size?: number | string
   children: ReactNode
   title?: ReactNode
+  description?: ReactNode
   footer?: ReactNode
   showCloseIcon?: boolean
   closeOnScrimClick?: boolean
@@ -28,6 +29,7 @@ export default function MiracleDrawer({
   size,
   children,
   title,
+  description,
   footer,
   showCloseIcon = true,
   closeOnScrimClick = true,
@@ -143,17 +145,25 @@ export default function MiracleDrawer({
       >
         {/* Header */}
         {(title || showCloseIcon) && (
-          <div className="border-neutral-200 dark:border-neutral-800 flex shrink-0 items-center justify-between border-b px-5 md:px-6 py-4 gap-6">
-            <div className="text-neutral-900 dark:text-white text-base font-semibold">
-              {title}
+          <div className="border-primary flex shrink-0 items-center justify-between border-b px-5 md:px-6 py-4 gap-6">
+            <div className="flex flex-col gap-0.5">
+              {title && (
+                <div className={cn("text-lg leading-tight font-semibold text-primary")}>
+                  {title}
+                </div>
+              )}
+              {description && (
+                <div className="text-secondary text-xs leading-relaxed font-medium">
+                  {description}
+                </div>
+              )}
             </div>
             {showCloseIcon && (
               <button
                 onClick={onClose}
-                className="ml-auto cursor-pointer rounded-md p-1.5 transition-colors duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-                aria-label="Close drawer"
+                className="text-secondary hover:text-primary flex shrink-0 cursor-pointer items-center justify-center rounded-md p-1.5 transition-all duration-200 hover:bg-neutral-200 active:scale-90 dark:hover:bg-neutral-800"
               >
-                <LuX size={20} className="text-neutral-500" />
+                <LuX size={20} />
               </button>
             )}
           </div>

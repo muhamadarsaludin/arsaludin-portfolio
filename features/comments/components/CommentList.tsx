@@ -23,6 +23,7 @@ export default function CommentList({
         {t("emptyMessage")}
       </div>
     )
+
   return (
     <ul className="flex flex-col gap-5">
       {comments.map((comment) => (

@@ -17,7 +17,7 @@ export default function CommentButton({
 }: CommentButtonProps) {
   const t = useTranslations("components.comment.tooltip")
 
-  const handleOnClick = async (e: React.MouseEvent) => {
+  const handleOnClick = (e: React.MouseEvent) => {
     e.stopPropagation()
     onClick()
   }
