@@ -31,9 +31,9 @@ export default function RoadmapContent({ kanbanStatuses }: RoadmapContentProps) 
   const searchUrl = getParam("search") || ""
 
   const [search, setSearch] = useState(searchUrl)
+  const [prevSearchUrl, setPrevSearchUrl] = useState(searchUrl)
   const debouncedSearch = useDebounce(search, 500)
   const [isOpenFilter, setIsOpenFilter] = useState(false)
-  const [prevSearchUrl, setPrevSearchUrl] = useState(searchUrl)
 
   if (searchUrl !== prevSearchUrl) {
     setPrevSearchUrl(searchUrl)
@@ -55,11 +55,11 @@ export default function RoadmapContent({ kanbanStatuses }: RoadmapContentProps) 
     setParams({ [key]: next.length ? next : undefined })
   }
 
-  const handleToggleAll = (key: "types" | "priorities", allValues: readonly string[]) => {
+  const handleToggleAll = (key: "types" | "priorities", allValues: string[]) => {
     const current = (key === "types" ? types : priorities) as string[]
     const isAllSelected = allValues.length > 0 && allValues.every(v => current.includes(v))
     
-    setParams({ [key]: isAllSelected ? undefined : [...allValues] })
+    setParams({ [key]: isAllSelected ? undefined : allValues })
   }
 
   const handleReset = () => {
@@ -67,7 +67,7 @@ export default function RoadmapContent({ kanbanStatuses }: RoadmapContentProps) 
     setSearch("")
   }
 
-  const getGroupStatus = (selected: string[], all: readonly string[]) => {
+  const getGroupStatus = (selected: string[], all: string[]) => {
     const isAllSelected = all.length > 0 && all.every((v) => selected.includes(v))
     const isSomeSelected = selected.length > 0 && !isAllSelected
     return { isAllSelected, isSomeSelected }

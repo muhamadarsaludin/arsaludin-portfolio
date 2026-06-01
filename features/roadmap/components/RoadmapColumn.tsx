@@ -49,17 +49,14 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
     isFetchingNextPage,
     refetch
   } = useInfiniteCardsByStatus({ status, ...filters })
-  const allCards = useMemo(() => data?.pages.flatMap(p => p.data) ?? [], [data])
 
+  const allCards = useMemo(() => data?.pages.flatMap(p => p.data) ?? [], [data])
   const loadMoreRef = useRef<HTMLDivElement>(null)
+
   useIntersectionObserver({
     targetRef: loadMoreRef,
-    onIntersect: () => {
-      if (hasNextPage && !isFetchingNextPage) {
-        fetchNextPage()
-      }
-    },
-    enabled: !!hasNextPage && !isLoading,
+    onIntersect: () => fetchNextPage,
+    enabled: !!hasNextPage && !isFetchingNextPage && !isLoading,
   })
 
   const handleOpenForm = (card?: Card) => {

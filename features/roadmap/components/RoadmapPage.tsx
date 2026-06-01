@@ -13,37 +13,50 @@ import { normalizeArrayParam } from "@/utils/search-params"
 import RoadmapContent from "./RoadmapContent"
 import type { BasePageProps } from "@/types/page.types"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import type { Cursor } from "@/features/shared/types/index.types"
 
 const KANBAN_STATUSES: CardStatus[] = ["ideas", "planned", "in-progress", "released"]
 
 export default async function RoadmapPage(props: BasePageProps) {
-  const { locale } = await props.params
   const searchParams = await props.searchParams
   const t = await getTranslations("pages.roadmap")
   const queryClient = getQueryClient()
 
-  const filters = {
-    search: typeof searchParams.search === "string" && searchParams.search ? searchParams.search : undefined,
-    types: normalizeArrayParam(searchParams.types) as CardType[],
-    priorities: normalizeArrayParam(searchParams.priorities) as CardPriority[],
-    pageSize: CARDS_PAGE_SIZE
-  }
-
+  
   await Promise.all(
-    KANBAN_STATUSES.map((status) =>
+    KANBAN_STATUSES.map((status) => {
+      const filters = {
+        status,
+        search: typeof searchParams.search === "string" && searchParams.search ? searchParams.search : undefined,
+        types: normalizeArrayParam(searchParams.types) as CardType[],
+        priorities: normalizeArrayParam(searchParams.priorities) as CardPriority[],
+        pageSize: CARDS_PAGE_SIZE
+      }
+
       queryClient.prefetchInfiniteQuery({
-        queryKey: ["cards", { status, ...filters }],
-        queryFn: () => getPaginatedCardsByStatus({ status, ...filters }),
-        initialPageParam: undefined,
+        queryKey: ["cards", filters],
+        queryFn: ({ pageParam }) =>
+          getPaginatedCardsByStatus({ 
+            ...filters,
+            cursor: pageParam as Cursor | undefined,
+          }),
+        initialPageParam: undefined as Cursor | undefined,
       })
-    )
+    })
   )
 
   const dehydratedState = dehydrate(queryClient)
 
+  /**
+   * HYDRATION FIX:
+   * Manually "aging" server data by 20 minutes to prevent it from overwriting 
+   * the client's multi-page infinite cache during navigation.
+   */
+  const TWENTY_MINUTES_IN_MS = 1000 * 60 * 20
+
   dehydratedState.queries.forEach((query) => {
     if (query.queryKey[0] === "cards") {
-      query.state.dataUpdatedAt = Date.now() - (1000 * 60 * 20)
+      query.state.dataUpdatedAt = query.state.dataUpdatedAt - TWENTY_MINUTES_IN_MS
     }
   })
 
@@ -71,7 +84,7 @@ export default async function RoadmapPage(props: BasePageProps) {
             <p className="mt-4 text-secondary">{t("description")}</p>
           </div>
         </MiracleReveal>
-
+        {/* Roadmap Content */}
         <HydrationBoundary state={dehydratedState}>
           <RoadmapContent kanbanStatuses={KANBAN_STATUSES} />
         </HydrationBoundary>
