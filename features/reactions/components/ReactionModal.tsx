@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useMemo, useRef } from "react"
 import { useTranslations } from "next-intl"
 import MiracleModal from "@/components/miracle/Modal"
 import MiracleLoader from "@/components/miracle/Loader"
@@ -32,13 +32,14 @@ export default function ReactionModal({
     enabled: isOpen
   })
 
+  const allReactions = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
+
   useIntersectionObserver({
     targetRef: loadMoreRef,
     onIntersect: fetchNextPage,
     enabled: !!hasNextPage && !isFetchingNextPage && isOpen,
   })
 
-  const allReactions = data?.pages.flatMap((page) => page.data) ?? []
 
   return (
     <MiracleModal
