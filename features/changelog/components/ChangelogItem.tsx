@@ -1,14 +1,12 @@
 "use client"
 
-import React, { useState } from 'react';
-import Heading from '@/components/Heading';
-import { cn } from "@/utils/class-name";
-import { LuCalendar, LuChevronDown, LuOrbit, LuPartyPopper, LuRefreshCcwDot } from 'react-icons/lu';
-import MiracleBadge from '@/components/miracle/Badge';
-import { useLocale, useTranslations } from 'next-intl';
-import { formatDate } from '@/utils/format-date';
-import Section from '@/components/Section';
-import MiracleBanner from '@/components/miracle/Banner';
+import React, { useState, useEffect } from 'react'
+import Heading from '@/components/Heading'
+import { cn } from "@/utils/class-name"
+import { LuCalendar, LuChevronDown, LuOrbit } from 'react-icons/lu'
+import MiracleBadge from '@/components/miracle/Badge'
+import { useLocale, useTranslations } from 'next-intl'
+import { formatDate } from '@/utils/format-date'
 
 interface ChangelogItemProps {
   version: string;
@@ -27,23 +25,47 @@ export default function ChangelogItem({
   isLatest = false,
   children
 }: ChangelogItemProps) {
-  const [isOpen, setIsOpen] = useState(showDetail);
-  const slugifiedId = `version-${version.replaceAll('.', '-')}`;
+  const [isOpen, setIsOpen] = useState(showDetail)
+  const [shouldRender, setShouldRender] = useState(showDetail)
+  
+  const slugifiedId = `version-${version.replaceAll('.', '-')}`
   const t = useTranslations("components.changelogItem")
   const locale = useLocale()
 
+  useEffect(() => {
+    if (showDetail) {
+      setIsOpen(true)
+      setShouldRender(true)
+    }
+  }, [showDetail])
+
+  const toggleOpen = () => {
+    if (!isOpen) {
+      setShouldRender(true)
+      requestAnimationFrame(() => setIsOpen(true))
+    } else {
+      setIsOpen(false)
+    }
+  }
+
+  const handleTransitionEnd = () => {
+    if (!isOpen) {
+      setShouldRender(false)
+    }
+  }
+
   return (
-    <Section className="pl-4 md:pl-5">
+    <div className="pl-4 md:pl-5 w-full">
       <div className={cn(
         "flex w-full relative border-l-2 pl-8 md:pl-10 pb-6 md:pb-8 last:pb-0 transition-all duration-500 ease-in-out",
         isOpen ? "border-blue" : "border-primary"
-        )}>
-        {/* Button Toggle */}
+      )}>
         <button 
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle version details"
+          onClick={toggleOpen}
+          aria-label={`Toggle version ${version} details`}
+          aria-expanded={isOpen}
           className={cn(
-            "absolute -left-4.25 md:-left-5.25 top-0 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full transition-all duration-500 ease-in-out cursor-pointer border-2",
+            "absolute -left-4.25 md:-left-5.25 top-0 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full transition-all duration-500 ease-in-out cursor-pointer border-2 z-10",
             isOpen 
               ? "bg-blue text-primary-inv border-primary" 
               : "bg-secondary text-blue border-primary"
@@ -56,15 +78,17 @@ export default function ChangelogItem({
             )} 
           />
         </button>
-        <div className={cn("flex w-full flex-col border border-primary bg-primary p-5 md:p-6 rounded-2xl")}> 
-          {/* Header */}
-          <div className="flex items-start justify-between gap-3">
+        <div className="flex w-full flex-col border border-primary bg-primary p-5 md:p-6 rounded-2xl overflow-hidden shadow-sm"> 
+          <div 
+            onClick={toggleOpen}
+            className="flex items-start justify-between gap-3 cursor-pointer select-none group/header w-full"
+          >
             <div className="w-full flex flex-col items-start">
               <div className="flex items-center gap-3 mb-1">
                 <Heading 
                   id={slugifiedId}
                   level={2}
-                  className="text-lg! md:text-xl! lg:text-2xl!"
+                  className="text-lg! md:text-xl! lg:text-2xl! group-hover/header:text-blue transition-colors duration-300"
                   linkClassName="text-[0.7em]!"
                   noMarginTop
                 >
@@ -79,48 +103,49 @@ export default function ChangelogItem({
               <p className="text-secondary flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm">
                 <span className="flex items-center gap-0.5">
                   <LuCalendar className="shrink-0" />
-                  {t("release", {date: formatDate({date: releaseDate, locale, dateStyle:"full"})})}
+                  {t("release", { date: formatDate({ date: releaseDate, locale, dateStyle: "full" }) })}
                 </span>
               </p>
-              <div className="mt-4">
-                {banner}
-              </div>
+              {banner && (
+                <div className="mt-4 w-full" onClick={(e) => e.stopPropagation()}>
+                  {banner}
+                </div>
+              )}
             </div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                setIsOpen(!isOpen)
-              }}
-              aria-label={isOpen ? t("hide") : t("show")}
-              className="cursor-pointer rounded-md p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 focus:outline-none dark:hover:bg-neutral-800"
+            <div
+              className="rounded-md p-2 transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 shrink-0"
             >
               <LuChevronDown
                 size={20}
                 className={cn(
-                  "cursor-pointer transition-transform duration-500 ease-in-out",
+                  "transition-transform duration-500 ease-in-out text-secondary group-hover/header:text-primary",
                   isOpen && "-rotate-180"
                 )}
               />
-            </button>
+            </div>
           </div>
-          {/* Body */}
-          <div className={cn(
-            "grid transition-all duration-500 ease-in-out",
-            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-          )}>
+          <div 
+            onTransitionEnd={handleTransitionEnd}
+            className={cn(
+              "grid transition-all duration-500 ease-in-out",
+              isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+            )}
+          >
             <div className="overflow-hidden">
-              <div className="border-primary mt-5 flex flex-col gap-4 border-t pt-5 sm:mt-6 sm:pt-6">
-                <div className="flex flex-col gap-3">
-                  <h4 className="text-sm font-bold uppercase">{t("changes")} :</h4>
-                  <div className="text-secondary max-w-full">
-                    {children}
+              {shouldRender && (
+                <div className="border-primary mt-5 flex flex-col gap-4 border-t pt-5 sm:mt-6 sm:pt-6">
+                  <div className="flex flex-col gap-3">
+                    <h4 className="text-sm font-bold uppercase tracking-wider text-primary">{t("changes")} :</h4>
+                    <div className="text-secondary max-w-full prose prose-sm dark:prose-invert">
+                      {children}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </Section>
-  );
+    </div>
+  )
 }
