@@ -15,16 +15,14 @@ import QueryProvider from "./QueryProvider"
  * 3. **AuthProvider**: Connects the Supabase session and fetches the user profile.
  */
 export function Providers({
-  children,
-  initialUser,
+  children
 }: {
   children: ReactNode
-  initialUser: User | null
 }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <QueryProvider>
-        <AuthProvider initialUser={initialUser}>{children}</AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </QueryProvider>
     </ThemeProvider>
   )

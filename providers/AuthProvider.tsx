@@ -18,14 +18,12 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({
-  children,
-  initialUser,
+  children
 }: {
   children: React.ReactNode
-  initialUser: User | null
 }) {
   const supabase = createClient()
-  const [user, setUser] = useState<User | null>(initialUser)
+  const [user, setUser] = useState<User | null>(null)
 
   const { data: profile, isLoading: isProfileLoading } = useProfile({
     userId: user?.id ?? null,

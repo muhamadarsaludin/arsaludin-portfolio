@@ -9,7 +9,6 @@ import Header from "@/components/header/Header"
 import Footer from "@/components/footer/Footer"
 import BackToTop from "@/components/BackToTop"
 import { Providers } from "@/providers/Providers"
-import { createClient } from "@/lib/supabase/server"
 import { GoogleTagManager } from "@next/third-parties/google"
 import { constructMetadata } from "@/configs/metadata"
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -36,6 +35,10 @@ export const viewport: Viewport = {
   colorScheme: "light dark",
 }
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({locale}));
+}
+
 export default async function LocaleLayout({ children, params }: LayoutProps) {
   const { locale } = await params
 
@@ -49,26 +52,13 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID
   const isProduction = process.env.NODE_ENV === "production"
 
-  let user = null
-
-  try {
-    const supabase = await createClient()
-    const { data, error } = await supabase.auth.getUser()
-
-    if (!error && data?.user) {
-      user = data.user
-    }
-  } catch (err) {
-    console.error("Supabase Auth Error in Layout:", err)
-  }
-
   return (
     <html lang={locale} suppressHydrationWarning>
       {isProduction && gtmId && <GoogleTagManager gtmId={gtmId} />}
       <body
         className={`${geistMono.variable} ${outfit.variable} bg-primary text-primary max-w-screen overflow-x-hidden antialiased`}
       >
-        <Providers initialUser={user}>
+        <Providers>
           <NextIntlClientProvider locale={locale}>
             <Header />
             <main className="pt-25 lg:pt-30">{children}</main>
