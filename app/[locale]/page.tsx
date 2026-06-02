@@ -7,6 +7,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations("pages.home")
+
   return constructMetadata({
     description: t("description"),
     locale: locale,
@@ -16,6 +17,5 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
 export default async function Home({ params }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
-
   return <HomePage />
 }

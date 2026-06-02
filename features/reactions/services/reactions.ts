@@ -208,7 +208,7 @@ export async function toggleReactionAction({
 }: ToggleReactionParams) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized: Authentication state missing.")
+  if (!user) throw new Error("Unauthorized: User must be authenticated to toggle reactions.")
 
   const targetColumn = `${targetType}_id`
 
