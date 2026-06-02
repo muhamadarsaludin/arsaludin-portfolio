@@ -1,6 +1,5 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
 import type {
   PaginatedProjects,
   Project,
@@ -13,6 +12,7 @@ import type { Category, CategoryEntity } from "@/features/categories/types/categ
 import type { Cursor } from "@/features/shared/types/index.types"
 import { PROJECTS_PAGE_SIZE } from "../constants/projects.constans"
 import type { Profile } from "@/features/profile/types/profiles.types"
+import { supabase } from "@/lib/supabase/public"
 
 type ProjectRawResponse = ProjectEntity & {
   translations: (Pick<
@@ -107,20 +107,6 @@ const getColumns = (isFilteringCategory: boolean = false) => `
   reaction_counts:project_reaction_counts(
     emoji,
     count
-  ),
-  reactions(
-    id,
-    emoji,
-    user_id,
-    created_at,
-    updated_at,
-    author:profiles(
-      id,
-      full_name,
-      email,
-      role,
-      avatar_url
-    )
   )
   `
 
@@ -143,7 +129,6 @@ const mapToProject = (project: ProjectRawResponse): Project => {
       })
       .filter((cat): cat is Category => cat !== null) ?? []
   const commentCount = project.comments?.[0]?.count ?? 0
-  const userReaction = project.reactions?.[0] ?? null
   const allReactions = project.reaction_counts || []
 
   return {
@@ -162,7 +147,6 @@ const mapToProject = (project: ProjectRawResponse): Project => {
     categories,
     comment_count: commentCount,
     reaction_summary: {
-      userReaction,
       allReactions,
       totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
       totalEmojis: allReactions.length,
@@ -179,11 +163,6 @@ const mapToProject = (project: ProjectRawResponse): Project => {
 export async function getFeaturedProjects({
   locale,
 }: GetFeaturedProjectsParams): Promise<Project[]> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
 
   const { data, error } = await supabase
     .from("projects")
@@ -197,7 +176,6 @@ export async function getFeaturedProjects({
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
     .eq("categories.category.category_translations.i18n.locale", locale)
-    .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
     .order("id", { ascending: false })
@@ -233,11 +211,6 @@ export async function getPaginatedProjects({
   pageSize = PROJECTS_PAGE_SIZE,
   cursor,
 }: GetPaginatedProjectsParams): Promise<PaginatedProjects> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
   const isFilteringCategory = !!(categorySlugs && categorySlugs.length > 0)
 
   let query = supabase
@@ -251,7 +224,6 @@ export async function getPaginatedProjects({
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
     .eq("categories.category.category_translations.i18n.locale", locale)
-    .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
     .order("id", { ascending: false })
@@ -321,18 +293,12 @@ type GetProjectParams = {
 }
 
 export async function getProject({ slug, id, locale }: GetProjectParams): Promise<Project | null> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
 
   // Inisialisasi query
   let query = supabase
     .from("projects")
     .select<string, ProjectRawResponse>(getColumns())
     .eq("translations.i18n.locale", locale)
-    .eq("reactions.user_id", userId)
     .eq("skills.is_show", true)
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
@@ -357,7 +323,6 @@ export async function getProject({ slug, id, locale }: GetProjectParams): Promis
 }
 
 export async function getAllProjectsSlugs() {
-  const supabase = await createClient()
 
   const { data, error } = await supabase
     .from("projects")

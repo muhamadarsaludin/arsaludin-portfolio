@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
-import { createClient } from "@/lib/supabase/client"
+import { createSupabaseBrowserClient } from "@/lib/supabase/client"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import Section from "@/components/Section"
 import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
@@ -24,7 +24,7 @@ type LoungeContentProps = {
 
 export default function LoungeContent({ messageType, pageSize }: LoungeContentProps) {
   const queryClient = useQueryClient()
-  const supabase = createClient()
+  const supabase = createSupabaseBrowserClient()
   const queryKey = useMemo(() => ["messages", messageType, { pageSize }], [messageType, pageSize])
 
   const [isBannerVisible, setIsBannerVisible] = useState(true)

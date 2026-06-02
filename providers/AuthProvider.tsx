@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import type { User } from "@supabase/supabase-js"
 import type { Profile } from "@/features/profile/types/profiles.types"
 
-import { createClient } from "@/lib/supabase/client"
+import { createSupabaseBrowserClient } from "@/lib/supabase/client"
 import { useProfile } from "@/features/profile/hooks/useProfile"
 import React from "react"
 
@@ -22,7 +22,7 @@ export function AuthProvider({
 }: {
   children: React.ReactNode
 }) {
-  const supabase = createClient()
+  const supabase = createSupabaseBrowserClient()
   const [user, setUser] = useState<User | null>(null)
 
   const { data: profile, isLoading: isProfileLoading } = useProfile({

@@ -1,6 +1,6 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
+import { supabase } from "@/lib/supabase/public"
 import type {
   Experience,
   ExperienceEntity,
@@ -32,7 +32,6 @@ type GetExperiencesResponse = Pick<
  * @throws Will throw an error if the Supabase query fails.
  */
 export async function getExperiences({ locale }: GetExperiencesParams): Promise<Experience[]> {
-  const supabase = await createClient()
 
   const columns = `
     id,

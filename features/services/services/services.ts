@@ -2,7 +2,7 @@
 
 import type { Skill } from "@/features/skills/types/skills.types"
 import type { Service, ServiceEntity, ServiceTranslationEntity } from "../types/services.types"
-import { createClient } from "@/lib/supabase/server"
+import { supabase } from "@/lib/supabase/public"
 
 type GetServicesParams = {
   locale: string
@@ -26,7 +26,6 @@ type ServicesResponse = Pick<ServiceEntity, "id" | "slug" | "level" | "order_ind
  * @throws Will throw an error if Supabase query fails.
  */
 export async function getServices({ locale }: GetServicesParams): Promise<Service[]> {
-  const supabase = await createClient()
 
   const columns = `
     id,

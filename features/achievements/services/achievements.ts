@@ -1,6 +1,5 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
 import type {
   Achievement,
   AchievementEntity,
@@ -10,6 +9,7 @@ import type { Reaction, ReactionCount } from "@/features/reactions/types/reactio
 import type { CategoryEntity, Category } from "@/features/categories/types/categories.types"
 import type { Cursor } from "@/features/shared/types/index.types"
 import { ACHIEVEMENTS_PAGE_SIZE } from "../constants/achievements.constants"
+import { supabase } from "@/lib/supabase/public"
 
 type AchievementRawResponse = Pick<
   AchievementEntity,
@@ -86,21 +86,7 @@ const getColumns = (isFilteringCategory: boolean = false) => `
     reaction_counts:achievement_reaction_counts(
       emoji,
       count
-    ),
-    reactions(
-      id,
-      emoji,
-      user_id,
-      created_at,
-      updated_at,
-      author:profiles(
-        id,
-        full_name,
-        email,
-        role,
-        avatar_url
-      )
-    ) 
+    )
   `
 
 const mapToAchievement = (achievement: AchievementRawResponse): Achievement => {
@@ -119,8 +105,7 @@ const mapToAchievement = (achievement: AchievementRawResponse): Achievement => {
         }
       })
       .filter((cat): cat is Category => cat !== null) ?? []
-
-  const userReaction = achievement.reactions?.[0] ?? null
+      
   const allReactions = achievement.reaction_counts || []
 
   return {
@@ -130,7 +115,6 @@ const mapToAchievement = (achievement: AchievementRawResponse): Achievement => {
     expiration_date: achievement.expiration_date ?? null,
     categories,
     reaction_summary: {
-      userReaction,
       allReactions,
       totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
       totalEmojis: allReactions.length,
@@ -144,12 +128,6 @@ export async function getFeaturedAchievements({
 }: {
   locale: string
 }): Promise<Achievement[]> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
-
   const { data, error } = await supabase
     .from("achievements")
     .select<string, AchievementRawResponse>(getColumns())
@@ -158,7 +136,6 @@ export async function getFeaturedAchievements({
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
     .eq("categories.category.category_translations.i18n.locale", locale)
-    .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("issue_date", { ascending: false })
     .order("created_at", { ascending: false })
@@ -195,11 +172,6 @@ export async function getPaginatedAchievements({
   cursor,
   pageSize = ACHIEVEMENTS_PAGE_SIZE,
 }: GetPaginatedAchievementsParams): Promise<PaginatedAchievements> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
   const isFilteringCategory = !!(categorySlugs && categorySlugs.length > 0)
 
   let query = supabase
@@ -209,7 +181,6 @@ export async function getPaginatedAchievements({
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
     .eq("categories.category.category_translations.i18n.locale", locale)
-    .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("issue_date", { ascending: false })
     .order("created_at", { ascending: false })
