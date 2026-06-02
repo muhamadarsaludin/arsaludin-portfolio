@@ -1,6 +1,4 @@
-import { createSupabaseBrowserClient } from "@/lib/supabase/client"
-
-const supabase = createSupabaseBrowserClient()
+import { supabase } from "@/lib/supabase/client"
 
 /**
  * Initiates the Google OAuth sign-in using Supabase.
