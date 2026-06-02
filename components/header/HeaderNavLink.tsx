@@ -1,5 +1,4 @@
-import { Link } from "@/i18n/navigation"
-import { useLocalizedPathname } from "@/hooks/useLocalizedPathname"
+import { Link, usePathname} from "@/i18n/navigation"
 import { cn } from "@/utils/class-name"
 
 type HeaderNavLinkProps = {
@@ -15,7 +14,7 @@ export default function HeaderNavLink({
   isSidebar,
   disabled = false,
 }: HeaderNavLinkProps) {
-  const pathname = useLocalizedPathname()
+  const pathname = usePathname()
   const isActive = pathname === href
 
   if (disabled) {
