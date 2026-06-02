@@ -1,5 +1,6 @@
 "use server"
 
+import { supabase as supabasePublicClient } from "@/lib/supabase/public"
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import type {
@@ -66,11 +67,8 @@ export async function getPaginatedComments({
   cursor,
   pageSize = COMMENTS_PAGE_SIZE,
 }: GetPaginatedCommentsParams): Promise<PaginatedComments> {
-  const supabase = await createClient()
+  const supabase = supabasePublicClient
   const targetColumn = `${targetType}_id`
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
 
   const columns = `
     id,
@@ -99,21 +97,7 @@ export async function getPaginatedComments({
     reaction_counts:comment_reaction_counts(
       emoji,
       count
-    ),
-    reactions(
-      id,
-      emoji,
-      user_id,
-      created_at,
-      updated_at,
-      author:profiles(
-        id,
-        email,
-        full_name,
-        role,
-        avatar_url
-      )
-    ) 
+    )
   `
 
   // 1. Inisialisasi Query
@@ -122,7 +106,6 @@ export async function getPaginatedComments({
     .select<string, GetPaginatedCommentsResponse>(columns)
     .eq(targetColumn, targetId)
     .is("parent_id", null)
-    .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000")
     .order("created_at", { ascending: false })
     .order("id", { ascending: false })
     .limit(pageSize + 1)
@@ -155,10 +138,7 @@ export async function getPaginatedComments({
   // 4. Mapping Data (Fixing Syntax Error here)
   const mappedData: CommentData[] = trimmedData.map((comment) => {
     const replyCount = comment.replies?.[0]?.count ?? 0
-    const userReaction = comment.reactions?.[0] ?? null
     const allReactions = comment.reaction_counts || []
-    const totalEmojis = allReactions.length
-    const totalReactions = allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0)
 
     return {
       id: comment.id,
@@ -173,10 +153,9 @@ export async function getPaginatedComments({
       recipient: comment.recipient ?? null,
       reply_count: replyCount,
       reaction_summary: {
-        userReaction,
-        totalReactions,
         allReactions,
-        totalEmojis,
+        totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
+        totalEmojis: allReactions.length,
       },
     }
   })
@@ -191,7 +170,7 @@ export async function getPaginatedComments({
           id: lastItem.id,
         }
       : null,
-    hasMore,
+    hasMore
   }
 }
 
@@ -214,12 +193,10 @@ export async function addComment({
   replyToId,
 }: AddCommentParams) {
   const supabase = await createClient()
-  const targetColumn = `${targetType}_id`
+  const {data: { user }} = await supabase.auth.getUser()
+  if (!user) throw new Error("Unauthorized: User must be authenticated to add comments.")
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized")
+  const targetColumn = `${targetType}_id`
 
   const { error } = await supabase
     .from("comments")
@@ -247,17 +224,15 @@ export async function addComment({
  */
 export async function deleteComment({ commentId }: { commentId: string }) {
   const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized")
+  const { data: { user }} = await supabase.auth.getUser()
+  if (!user) throw new Error("Unauthorized: User must be authenticated to delete comments.")
 
   const [comment, { data: profile }] = await Promise.all([
     getComment({ commentId }),
     supabase.from("profiles").select("role").eq("id", user.id).single(),
   ])
-  if (!comment) throw new Error("Comment not found")
+  
+  if (!comment) throw new Error("Comment not found.")
 
   const isOwner = comment.user_id === user.id
   const isAdmin = profile?.role === "admin"
@@ -274,11 +249,11 @@ export async function deleteComment({ commentId }: { commentId: string }) {
 
 /**
  * Retrieves a single comment record by its ID.
- * * @param commentId - The ID of the comment to retrieve.
+ * @param commentId - The ID of the comment to retrieve.
  * @returns The raw comment data from the database.
  */
 export async function getComment({ commentId }: { commentId: string }) {
-  const supabase = await createClient()
+  const supabase = supabasePublicClient
 
   const { data, error } = await supabase.from("comments").select("*").eq("id", commentId).single()
 
@@ -298,18 +273,23 @@ export async function getCommentCount({
   targetId,
   targetType,
 }: GetCommentCountParams): Promise<number> {
-  const supabase = await createClient()
+  const supabase = supabasePublicClient
   const targetColumn = `${targetType}_id`
 
-  return supabase
-    .from("comments")
-    .select("id", { count: "exact", head: true })
-    .eq(targetColumn, targetId)
-    .then(({ count, error }) => {
-      if (error) {
-        console.error(`[getCommentCount] Error fetching count for ${targetType}:`, error)
-        return 0
-      }
-      return count ?? 0
-    })
+ try {
+    const { count, error } = await supabase
+      .from("comments")
+      .select("id", { count: "exact", head: true })
+      .eq(targetColumn, targetId)
+
+    if (error) {
+      console.error(`[getCommentCount] Error fetching count for ${targetType} (${targetId}):`, error)
+      return 0
+    }
+
+    return count ?? 0
+  } catch (err) {
+    console.error(`[getCommentCount] Unexpected error:`, err)
+    return 0
+  }
 }

@@ -98,7 +98,7 @@ export async function getUserReaction({
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized: Authentication state missing.")
+  if (!user) return null
 
   const targetColumn = `${targetType}_id`
 
