@@ -1,6 +1,6 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
+import { supabase } from "@/lib/supabase/public"
 import type {
   Education,
   EducationEntity,
@@ -32,8 +32,6 @@ type GetEducationsResponse = Pick<
  * @throws Will throw an error if the Supabase query fails.
  */
 export async function getEducations({ locale }: GetEducationsParams): Promise<Education[]> {
-  const supabase = await createClient()
-
   /**
    * Define columns to be fetched.
    * Includes conditional fetching for administrative fields to minimize payload size.
