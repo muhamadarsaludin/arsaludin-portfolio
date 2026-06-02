@@ -62,7 +62,7 @@ export function useReplyMutation({
         recipient: variables.optimisticRecipient ?? null,
         reply_count: 0,
         reaction_summary: {
-          userReaction: null,
+          // userReaction: null,
           allReactions: [],
           totalReactions: 0,
           totalEmojis: 0,

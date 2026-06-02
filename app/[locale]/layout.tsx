@@ -11,7 +11,7 @@ import BackToTop from "@/components/BackToTop"
 import { Providers } from "@/providers/Providers"
 import { GoogleTagManager } from "@next/third-parties/google"
 import { constructMetadata } from "@/configs/metadata"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+// import { SpeedInsights } from "@vercel/speed-insights/next"
 
 type LayoutProps = {
   children: React.ReactNode
@@ -67,7 +67,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
           </NextIntlClientProvider>
         </Providers>
       </body>
-      <SpeedInsights />
+      {/* <SpeedInsights /> */}
     </html>
   )
 }

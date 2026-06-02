@@ -66,7 +66,6 @@ export default function ReactionModal({
             ))}
           </ul>
         )}
-
         {/* --- INFINITE LOADING SENTINEL --- */}
         <div ref={loadMoreRef} className="flex min-h-15 w-full items-center justify-center py-4">
           {isFetchingNextPage && (

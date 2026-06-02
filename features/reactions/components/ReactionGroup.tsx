@@ -5,9 +5,11 @@ import type { ReactionSummary, ReactionTargetType } from "../types/reactions.typ
 import ReactionsPreview from "./ReactionsPreview"
 import ReactionPicker from "./ReactionPicker"
 import ReactionModal from "./ReactionModal"
-import { useReactionMutation } from "../hooks/useReationMutation"
+import { useReactionSummary } from "../hooks/useReactionSummary"
 import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 import { MAX_TOP_REACTIONS } from "../constants/reactions.constants"
+import { useUserReaction } from "../hooks/useUserReaction"
+import { useReactionMutation } from "../hooks/useReactionMutation"
 
 type ReactionGroupProps = {
   targetId: string
@@ -26,30 +28,39 @@ export default function ReactionGroup({
 }: ReactionGroupProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const { mutate } = useReactionMutation({
+  const { data: userReaction } = useUserReaction({
+    targetId,
+    targetType
+  })
+
+  const { data: reactionSummary } = useReactionSummary({
     targetId,
     targetType,
+    initialSummary
+  })
+
+  const { toggle } = useReactionMutation({
+    targetId,
+    targetType
   })
 
   const handleToggleReaction = (emoji: string) => {
-    mutate({ emoji })
+    toggle({ emoji })
   }
 
   return (
     <div className="flex items-center">
       <ReactionsPreview
-        targetId={targetId}
-        targetType={targetType}
-        initialSummary={initialSummary}
+        userReaction={userReaction}
+        reactionSummary={reactionSummary}
         limit={limit}
         onSelectReaction={handleToggleReaction}
         tooltipPosition={tooltipPosition}
       />
 
       <ReactionPicker
-        targetId={targetId}
-        targetType={targetType}
-        initialSummary={initialSummary}
+        userReaction={userReaction}
+        reactionSummary={reactionSummary}
         onSelectReaction={handleToggleReaction}
         onShowDetail={() => setIsModalOpen(true)}
         tooltipPosition={tooltipPosition}

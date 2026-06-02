@@ -253,7 +253,7 @@ export async function getMessage({ messageId }: { messageId: string }): Promise<
     recipient: data.recipient ?? null,
     replied_message: repliedMessage,
     reaction_summary: {
-      userReaction,
+      // userReaction,
       allReactions,
       totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
       totalEmojis: allReactions.length,

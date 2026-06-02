@@ -129,7 +129,7 @@ const mapToArticle = (article: ArticleRawResponse): Article => {
     categories,
     comment_count: commentCount,
     reaction_summary: {
-      userReaction,
+      // userReaction,
       allReactions,
       totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
       totalEmojis: allReactions.length,

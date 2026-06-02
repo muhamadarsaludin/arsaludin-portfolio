@@ -67,7 +67,7 @@ const mapToCard = (card: CardRawResponse): Card => {
     author: card.author,
     comment_count: commentCount,
     reaction_summary: {
-      userReaction,
+      // userReaction,
       allReactions,
       totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
       totalEmojis: allReactions.length,

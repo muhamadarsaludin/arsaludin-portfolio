@@ -4,7 +4,7 @@ import { REACTIONS_PAGE_SIZE } from "../constants/reactions.constants"
 import type { ReactionTargetType } from "../types/reactions.types"
 import { getPaginatedReactions } from "../services/reactions"
 
-type UseReactionsParams = {
+type UseInfiniteReactionsParams = {
   targetId: string
   targetType: ReactionTargetType
   enabled?: boolean
@@ -13,7 +13,6 @@ type UseReactionsParams = {
 
 /**
  * A custom hook to fetch and manage infinite scrolling for reactions.
- * Built on top of TanStack Query's useInfiniteQuery for robust cache and pagination management.
  * @param targetId - The specific ID of the entity whose reactions are being retrieved.
  * @param targetType - Defines the relationship type (e.g., 'project', 'comments') to target the correct DB column.
  * @param pageSize - Limits the number of reactions returned in a single fetch.
@@ -25,7 +24,7 @@ export function useInfiniteReactions({
   targetType,
   enabled = true,
   pageSize = REACTIONS_PAGE_SIZE,
-}: UseReactionsParams) {
+}: UseInfiniteReactionsParams) {
   return useInfiniteQuery({
     queryKey: ["reactions", targetType, targetId, { pageSize }],
     queryFn: async ({ pageParam }) => {
@@ -41,6 +40,6 @@ export function useInfiniteReactions({
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined
     },
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60 * 30,
   })
 }

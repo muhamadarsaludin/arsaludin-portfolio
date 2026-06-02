@@ -39,12 +39,40 @@ export default function MiraclePopover({
   const isControlled = controlledOpen !== undefined
   const isOpen = isControlled ? controlledOpen : internalOpen
 
+  const [isRendered, setIsRendered] = useState(isOpen)
+  const [animate, setAnimate] = useState(isOpen)
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen)
+
   const [coords, setCoords] = useState({ top: 0, left: 0 })
   const [adaptedPos, setAdaptedPos] = useState<PopoverDefaultPosition>(defaultPosition)
   const [mounted, setMounted] = useState(false)
 
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen)
+    if (isOpen) {
+      setIsRendered(true)
+    } else {
+      setAnimate(false)
+    }
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      const frameId = requestAnimationFrame(() => {
+        setAnimate(true)
+      })
+      return () => cancelAnimationFrame(frameId)
+    }
+  }, [isOpen])
+
+  const handleTransitionEnd = () => {
+    if (!isOpen) {
+      setIsRendered(false)
+    }
+  }
 
   useEffect(() => {
     const frameId = requestAnimationFrame(() => {
@@ -66,13 +94,12 @@ export default function MiraclePopover({
   }
 
   const updatePosition = useCallback(() => {
-    if (!containerRef.current || !contentRef.current || !isOpen) return
+    if (!containerRef.current || !contentRef.current || !animate) return
 
     const triggerRect = containerRef.current.getBoundingClientRect()
     const vW = window.innerWidth
     const vH = window.innerHeight
 
-    // --- 1. AUTO CLOSE LOGIC ---
     const isOffScreen =
       triggerRect.bottom < 0 ||
       triggerRect.top > vH ||
@@ -88,14 +115,12 @@ export default function MiraclePopover({
     const gap = 8
     let [side, align] = defaultPosition.split("-")
 
-    // --- 2. SMART FLIP ---
     if (side === "top" && triggerRect.top - contentRect.height - gap < 0) side = "bottom"
     else if (side === "bottom" && triggerRect.bottom + contentRect.height + gap > vH) side = "top"
 
     if (side === "left" && triggerRect.left - contentRect.width - gap < 0) side = "right"
     else if (side === "right" && triggerRect.right + contentRect.width + gap > vW) side = "left"
 
-    // --- 3. SMART ALIGNMENT ---
     if (side === "top" || side === "bottom") {
       const centerX = triggerRect.left + triggerRect.width / 2
       if (centerX - contentRect.width / 2 < 0) align = "start"
@@ -105,7 +130,6 @@ export default function MiraclePopover({
     let top = 0
     let left = 0
 
-    // --- 4. COORDINATE CALCULATION ---
     if (side === "top") top = triggerRect.top - contentRect.height - gap
     else if (side === "bottom") top = triggerRect.bottom + gap
     else {
@@ -122,15 +146,13 @@ export default function MiraclePopover({
       else left = triggerRect.left + triggerRect.width / 2 - contentRect.width / 2
     }
 
-    // Safety Clamp
     left = Math.max(gap, Math.min(left, vW - contentRect.width - gap))
     top = Math.max(gap, Math.min(top, vH - contentRect.height - gap))
 
     setCoords({ top, left })
     setAdaptedPos(`${side}-${align}` as PopoverDefaultPosition)
-  }, [isOpen, defaultPosition, handleClose])
+  }, [animate, defaultPosition, handleClose])
 
-  // Click Outside Handler
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node
@@ -148,7 +170,7 @@ export default function MiraclePopover({
   }, [isOpen, handleClose])
 
   useLayoutEffect(() => {
-    if (isOpen) {
+    if (isRendered) {
       updatePosition()
 
       const resizeObserver = new ResizeObserver(() => updatePosition())
@@ -163,7 +185,7 @@ export default function MiraclePopover({
         window.removeEventListener("resize", updatePosition)
       }
     }
-  }, [isOpen, updatePosition])
+  }, [isRendered, updatePosition])
 
   const arrowPositionClass: Record<string, string> = {
     "top-start": "-bottom-[5px] left-3",
@@ -186,10 +208,11 @@ export default function MiraclePopover({
         {trigger}
       </div>
 
-      {mounted &&
+      {mounted && isRendered &&
         createPortal(
           <div
             ref={contentRef}
+            onTransitionEnd={handleTransitionEnd}
             style={{
               position: "fixed",
               top: 0,
@@ -198,7 +221,7 @@ export default function MiraclePopover({
             }}
             className={cn(
               "z-popover transition-opacity duration-300 ease-in-out",
-              isOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
+              animate ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
             )}
           >
             <div
