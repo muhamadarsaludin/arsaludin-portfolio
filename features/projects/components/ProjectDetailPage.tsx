@@ -1,4 +1,3 @@
-import React from "react"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
@@ -36,7 +35,7 @@ import MiracleBanner from "@/components/miracle/Banner"
 import ProjectShareButton from "./ProjectShareButton"
 import ViewTracker from "@/features/shared/components/ViewTracker"
 
-const FALLBACK_LOCALES = ["en", "id"]
+const FALLBACK_LOCALES = routing.locales
 
 /* -------------------------------
    MDX RESOLVER (locale → fallback → null)
@@ -108,7 +107,6 @@ export default async function ProjectDetailPage({ params }: StaticPageProps) {
         rpcName="increment_project_view" 
         rpcParamKey="project_id" 
       />
-
       <Container className="flex flex-col items-start gap-8 py-6 lg:flex-row">
         <Article className="w-full flex-1 pb-13 lg:pb-23">
           <MiracleReveal animation="fade-right">

@@ -13,14 +13,13 @@ import Article from "@/components/Article"
 import { ARTICLES_PAGE_SIZE } from "../constants/articles.constans"
 import { getPaginatedArticles } from "../services/articles"
 import ArticlesContent from "./ArticlesContent"
-import type { BasePageProps } from "@/types/page.types"
+import type { StaticPageProps } from "@/types/page.types"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import { Suspense } from "react"
 import ArticleCardSkeleton from "./ArticleCardSkeleton"
+import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 
-export const revalidate = 300 
-
-export default async function ArticlesPage(props: BasePageProps) {
+export default async function ArticlesPage(props: StaticPageProps) {
   const { locale } = await props.params
   const t = await getTranslations("pages.articles")
   const queryClient = getQueryClient()
@@ -86,17 +85,23 @@ export default async function ArticlesPage(props: BasePageProps) {
         </MiracleReveal>
 
         {/* Articles Content */}
-        <Suspense fallback={
-          <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 mt-6 md:mt-8">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <ArticleCardSkeleton key={i} />
-            ))}
-          </div>
-        }>
-          <HydrationBoundary state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
+          <Suspense fallback={
+            <div className="flex w-full flex-col gap-6 md:gap-8">
+              <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
+                <MiracleSkeleton className="h-9 w-10/12" />
+                <MiracleSkeleton className="h-9 w-2/12" />
+              </div>
+              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 mt-6 md:mt-8">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <ArticleCardSkeleton key={i} />
+                ))}
+              </div>
+            </div>
+          }>
             <ArticlesContent locale={locale} targetType={targetType} />
-          </HydrationBoundary>
-        </Suspense>
+          </Suspense>
+        </HydrationBoundary>
       </Article>
     </Container>
   )
