@@ -131,7 +131,12 @@ export default function CardDetailModal({
             targetType="card"
             initialSummary={card.reaction_summary}
           />
-          <CommentGroup title={card.title} targetId={card.id} targetType="card" initialCount={card.comment_count} />
+          <CommentGroup
+            title={card.title}
+            targetId={card.id}
+            targetType="card"
+            initialCount={card.comment_count}
+          />
         </div>
       </div>
     </MiracleModal>

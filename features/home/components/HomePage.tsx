@@ -18,7 +18,7 @@ export default function HomePage() {
         <ExperiencesSection className="py-13 lg:py-23" />
         <EducationsSection className="py-13 lg:py-23" />
         <AchievementsSection className="py-13 lg:py-23" />
-        <TestimonialsSection className="py-13 lg:py-23" /> 
+        <TestimonialsSection className="py-13 lg:py-23" />
       </Article>
     </Container>
   )

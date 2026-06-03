@@ -26,7 +26,6 @@ type ServicesResponse = Pick<ServiceEntity, "id" | "slug" | "level" | "order_ind
  * @throws Will throw an error if Supabase query fails.
  */
 export async function getServices({ locale }: GetServicesParams): Promise<Service[]> {
-
   const columns = `
     id,
     slug,

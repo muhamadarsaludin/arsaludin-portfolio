@@ -32,7 +32,6 @@ type GetExperiencesResponse = Pick<
  * @throws Will throw an error if the Supabase query fails.
  */
 export async function getExperiences({ locale }: GetExperiencesParams): Promise<Experience[]> {
-
   const columns = `
     id,
     company,

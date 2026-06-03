@@ -11,7 +11,7 @@ type UseReactionSummaryParams = {
 
 /**
  * Custom hook to fetch user reaction summary
- * 
+ *
  * @param params - Configuration object for the query lifecycle
  * @param params.targetId - The unique identifier of the target entity
  * @param params.targetType - The type of target entity (e.g., 'project', 'blog')
@@ -26,12 +26,13 @@ export function useReactionSummary({
 }: UseReactionSummaryParams) {
   return useQuery({
     queryKey: ["reaction-summary", targetType, targetId],
-    queryFn: () => getReactionSummary({
-      targetId,
-      targetType
-    }),
+    queryFn: () =>
+      getReactionSummary({
+        targetId,
+        targetType,
+      }),
     placeholderData: initialSummary,
     enabled: !!targetId && enabled,
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 5,
   })
 }

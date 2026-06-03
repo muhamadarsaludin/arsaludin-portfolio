@@ -1,7 +1,6 @@
 import { ThemeProvider } from "@wrksz/themes/next"
 import type { ReactNode } from "react"
 import { AuthProvider } from "./AuthProvider"
-import type { User } from "@supabase/supabase-js"
 import QueryProvider from "./QueryProvider"
 
 /**
@@ -14,11 +13,7 @@ import QueryProvider from "./QueryProvider"
  * 2. **QueryProvider**: Initializes the QueryClient needed by hooks within AuthProvider.
  * 3. **AuthProvider**: Connects the Supabase session and fetches the user profile.
  */
-export function Providers({
-  children
-}: {
-  children: ReactNode
-}) {
+export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <QueryProvider>

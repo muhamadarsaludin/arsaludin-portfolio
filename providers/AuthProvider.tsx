@@ -17,11 +17,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
-export function AuthProvider({
-  children
-}: {
-  children: React.ReactNode
-}) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
 
   const { data: profile, isLoading: isProfileLoading } = useProfile({
@@ -32,9 +28,8 @@ export function AuthProvider({
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
     })
-
     return () => listener.subscription.unsubscribe()
-  }, [supabase])
+  }, [])
 
   return (
     <AuthContext.Provider

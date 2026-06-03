@@ -136,7 +136,7 @@ export async function getPaginatedMessages({
   }
 }
 
-export async function getMessage({ messageId }: { messageId: string }): Promise<Message| null> {
+export async function getMessage({ messageId }: { messageId: string }): Promise<Message | null> {
   const { data, error } = await supabase
     .from("messages")
     .select<string, MessageRawResponse>(MESSAGE_COLUMNS)
@@ -147,7 +147,7 @@ export async function getMessage({ messageId }: { messageId: string }): Promise<
     console.error("[getMessage] Error fetching message:", error)
     throw error
   }
-  
+
   return data ? mapToMessage(data) : null
 }
 
@@ -160,7 +160,9 @@ export async function sendMessage({
   repliedMessage: _repliedMessage,
 }: SendMessageParams) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized: User must be authenticated to send message.")
 
   const { error } = await supabase

@@ -76,7 +76,10 @@ export default async function ArticleDetailPage({ params }: StaticPageProps) {
       const mdxDir = path.join(process.cwd(), "features", "articles", "markdown")
       const filePath = path.join(mdxDir, `${slug}-${mdxLocale}.mdx`)
 
-      const fileExists = await fs.access(filePath).then(() => true).catch(() => false)
+      const fileExists = await fs
+        .access(filePath)
+        .then(() => true)
+        .catch(() => false)
       if (fileExists) {
         mdxText = await fs.readFile(filePath, "utf8")
       }
@@ -94,11 +97,7 @@ export default async function ArticleDetailPage({ params }: StaticPageProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ViewTracker 
-        id={article.id} 
-        rpcName="increment_article_view" 
-        rpcParamKey="article_id" 
-      />
+      <ViewTracker id={article.id} rpcName="increment_article_view" rpcParamKey="article_id" />
       <Container className="flex flex-col items-start gap-8 py-6 lg:flex-row">
         <Article className="w-full flex-1 pb-13 lg:pb-23">
           <MiracleReveal animation="fade-right">
@@ -160,7 +159,12 @@ export default async function ArticleDetailPage({ params }: StaticPageProps) {
                         </MiracleBadge>
                       )}
 
-                      <Heading id={slug} level={1} className="text-2xl! font-bold md:text-3xl! lg:text-4xl!" linkClassName="text-[0.5em]!">
+                      <Heading
+                        id={slug}
+                        level={1}
+                        className="text-2xl! font-bold md:text-3xl! lg:text-4xl!"
+                        linkClassName="text-[0.5em]!"
+                      >
                         {article.title}
                       </Heading>
 

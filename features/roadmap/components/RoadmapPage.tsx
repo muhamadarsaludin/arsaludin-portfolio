@@ -81,23 +81,30 @@ export default async function RoadmapPage() {
         </MiracleReveal>
         {/* Roadmap Content */}
         <HydrationBoundary state={dehydratedState}>
-          <Suspense fallback={
-            <div className="flex w-full flex-col gap-6 md:gap-8">
-              <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
-                <MiracleSkeleton className="h-9 flex-1" />
-                <MiracleSkeleton className="h-9 w-25 shrink-0" />
-              </div>
-              <div className="flex snap-x snap-mandatory flex-nowrap gap-4 overflow-x-auto pb-4 sm:gap-6 [&::-webkit-scrollbar]:hidden">
-                {KANBAN_STATUSES.map((status) => (
-                  <div className="w-[75vw] shrink-0 snap-start sm:min-w-[320px] sm:flex-1">
-                    <div className="bg-secondary flex w-full h-full flex-col gap-4 rounded-2xl p-4 md:p-5">
-                      {Array.from({ length: 3 }).map((_, i) => <CardItemSkeleton key={i} />)}
+          <Suspense
+            fallback={
+              <div className="flex w-full flex-col gap-6 md:gap-8">
+                <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
+                  <MiracleSkeleton className="h-9 flex-1" />
+                  <MiracleSkeleton className="h-9 w-25 shrink-0" />
+                </div>
+                <div className="flex snap-x snap-mandatory flex-nowrap gap-4 overflow-x-auto pb-4 sm:gap-6 [&::-webkit-scrollbar]:hidden">
+                  {KANBAN_STATUSES.map((_, i) => (
+                    <div
+                      className="w-[75vw] shrink-0 snap-start sm:min-w-[320px] sm:flex-1"
+                      key={i}
+                    >
+                      <div className="bg-secondary flex h-full w-full flex-col gap-4 rounded-2xl p-4 md:p-5">
+                        {Array.from({ length: 3 }).map((_, i) => (
+                          <CardItemSkeleton key={i} />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          }>
+            }
+          >
             <RoadmapContent kanbanStatuses={KANBAN_STATUSES} />
           </Suspense>
         </HydrationBoundary>

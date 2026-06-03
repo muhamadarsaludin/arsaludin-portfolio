@@ -73,7 +73,9 @@ export default function CommentDrawer({
       description={
         <p className="flex items-center gap-1">
           <span className="text-base">{t("title")}</span>
-          <MiracleBadge color="blue" variant="secondary">{commentCount}</MiracleBadge>
+          <MiracleBadge color="blue" variant="secondary">
+            {commentCount}
+          </MiracleBadge>
         </p>
       }
       footer={

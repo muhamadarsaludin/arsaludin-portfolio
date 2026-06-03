@@ -62,18 +62,18 @@ export default function ArticlesContent({ locale, targetType }: ArticlesContentP
 
     setParams({ categories: next.length ? next : undefined })
   }
-  
+
   const handleToggleAllCategories = () => {
     const isAllSelected =
       categorySlugsList.length > 0 && categorySlugsList.every((v) => categorySlugs.includes(v))
     setParams({ categories: isAllSelected ? undefined : categorySlugsList })
   }
-  
+
   const handleReset = () => {
     setParams({ categories: undefined, search: undefined })
     setSearch("")
   }
-  
+
   const getGroupStatus = (selected: string[], all: string[]) => {
     const isAllSelected = all.length > 0 && all.every((v) => selected.includes(v))
     const isSomeSelected = selected.length > 0 && !isAllSelected

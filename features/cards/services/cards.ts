@@ -162,7 +162,9 @@ export async function createCard(
   payload: Pick<CardEntity, "title" | "description" | "status" | "type" | "priority">
 ): Promise<Card> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized: User must be authenticated to create card.")
 
   const slug = generateUniqueSlug(payload.status)
@@ -201,7 +203,9 @@ export async function updateCard({
 }) {
   const supabase = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized: User must be authenticated to update card.")
 
   const [{ data: card }, { data: profile }] = await Promise.all([
@@ -243,7 +247,9 @@ export async function updateCard({
 export async function deleteCard({ cardId }: { cardId: string }) {
   const supabase = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized: User must be authenticated to delete card.")
 
   const [comment, { data: profile }] = await Promise.all([

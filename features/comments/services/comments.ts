@@ -150,7 +150,7 @@ export async function getPaginatedComments({
       reaction_summary: {
         allReactions,
         totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
-        totalEmojis: allReactions.length
+        totalEmojis: allReactions.length,
       },
     }
   })
@@ -165,7 +165,7 @@ export async function getPaginatedComments({
           id: lastItem.id,
         }
       : null,
-    hasMore
+    hasMore,
   }
 }
 
@@ -193,7 +193,7 @@ export async function getCommentCount({
   targetType,
 }: GetCommentCountParams): Promise<number> {
   const targetColumn = `${targetType}_id`
-  
+
   try {
     const { count, error } = await supabase
       .from("comments")
@@ -201,13 +201,16 @@ export async function getCommentCount({
       .eq(targetColumn, targetId)
 
     if (error) {
-      console.error(`[getCommentCount] Error fetching count for ${targetType} (${targetId}):`, error)
+      console.error(
+        `[getCommentCount] Error fetching count for ${targetType} (${targetId}):`,
+        error
+      )
       return 0
     }
 
     return count ?? 0
   } catch (err) {
-    console.error(`[getCommentCount] Unexpected error:`, err)
+    console.error("[getCommentCount] Unexpected error:", err)
     return 0
   }
 }
@@ -231,7 +234,9 @@ export async function addComment({
   replyToId,
 }: AddCommentParams) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized: User must be authenticated to add comment.")
 
   const targetColumn = `${targetType}_id`
@@ -265,14 +270,16 @@ export async function addComment({
  */
 export async function deleteComment({ commentId }: { commentId: string }) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized: User must be authenticated to delete comment.")
 
   const [comment, { data: profile }] = await Promise.all([
     getComment({ commentId }),
     supabase.from("profiles").select("role").eq("id", user.id).single(),
   ])
-  
+
   if (!comment) throw new Error("Comment not found.")
 
   const isOwner = comment.user_id === user.id

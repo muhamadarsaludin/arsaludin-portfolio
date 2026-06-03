@@ -206,7 +206,8 @@ export default function MiracleTooltip({
         {trigger}
       </div>
 
-      {mounted && isRendered &&
+      {mounted &&
+        isRendered &&
         createPortal(
           <div
             ref={contentRef}

@@ -1,14 +1,9 @@
 "use client"
 
-import type { InfiniteData } from "@tanstack/react-query"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuth } from "@/providers/AuthProvider"
 import { toggleReactionAction } from "../services/reactions"
-import type {
-  ReactionSummary,
-  ReactionTargetType,
-  Reaction
-} from "../types/reactions.types"
+import type { ReactionSummary, ReactionTargetType, Reaction } from "../types/reactions.types"
 
 type UseReactionMutationParams = {
   targetId: string
@@ -22,19 +17,16 @@ type UseReactionMutationParams = {
  * @param params.targetType - The type of target entity (e.g., 'project', 'blog')
  * @returns An object containing the `toggle` trigger function and its pending state
  */
-export function useReactionMutation({ 
-  targetId, 
-  targetType 
-}: UseReactionMutationParams) {
+export function useReactionMutation({ targetId, targetType }: UseReactionMutationParams) {
   const queryClient = useQueryClient()
 
   const reactionSummaryKey = ["reaction-summary", targetType, targetId]
   const userReactionKey = ["user-reaction", targetType, targetId]
   const { user, profile } = useAuth()
 
-
   const toggle = useMutation({
-    mutationFn: (variables: { emoji: string }) => toggleReactionAction({ targetId, targetType, emoji: variables.emoji }),
+    mutationFn: (variables: { emoji: string }) =>
+      toggleReactionAction({ targetId, targetType, emoji: variables.emoji }),
     onMutate: async ({ emoji }) => {
       if (!user || !profile) {
         throw new Error("Unauthorized: Authentication state missing.")
@@ -64,7 +56,11 @@ export function useReactionMutation({
 
       // Optimistically update the Reaction Summary state
       queryClient.setQueryData<ReactionSummary>(reactionSummaryKey, (oldSummary) => {
-        const defaultSummary: ReactionSummary = { allReactions: [], totalReactions: 0, totalEmojis: 0 }
+        const defaultSummary: ReactionSummary = {
+          allReactions: [],
+          totalReactions: 0,
+          totalEmojis: 0,
+        }
         const summary = oldSummary ?? defaultSummary
 
         let updatedReactions = [...summary.allReactions]
@@ -110,9 +106,9 @@ export function useReactionMutation({
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: reactionSummaryKey })
       queryClient.invalidateQueries({ queryKey: userReactionKey })
-    }
+    },
   })
-  
+
   return {
     toggle: toggle.mutate,
     isPending: toggle.isPending,

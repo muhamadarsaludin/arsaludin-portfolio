@@ -9,9 +9,9 @@ import { notFound } from "next/navigation"
 
 export async function generateStaticParams() {
   try {
-    const articles = await getAllArticlesSlugs() 
+    const articles = await getAllArticlesSlugs()
     const paths: { locale: string; slug: string }[] = []
-    
+
     routing.locales.forEach((locale) => {
       articles.forEach((article) => {
         if (article.slug) {
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
         }
       })
     })
-    
+
     return paths
   } catch (error) {
     console.error("Failed to generate static params for article detail:", error)

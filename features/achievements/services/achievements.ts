@@ -105,7 +105,7 @@ const mapToAchievement = (achievement: AchievementRawResponse): Achievement => {
         }
       })
       .filter((cat): cat is Category => cat !== null) ?? []
-      
+
   const allReactions = achievement.reaction_counts || []
 
   return {

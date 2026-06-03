@@ -208,7 +208,8 @@ export default function MiraclePopover({
         {trigger}
       </div>
 
-      {mounted && isRendered &&
+      {mounted &&
+        isRendered &&
         createPortal(
           <div
             ref={contentRef}

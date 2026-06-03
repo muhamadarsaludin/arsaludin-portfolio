@@ -7,7 +7,6 @@ import { supabase } from "@/lib/supabase/public"
  * Fetches and calculates professional metrics and achievement stats from Supabase.
  */
 export async function getStats(): Promise<Stats> {
-
   const [firstExperience, lastExperience, services, projects, achievements, articles] =
     await Promise.all([
       supabase

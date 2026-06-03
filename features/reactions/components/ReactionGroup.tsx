@@ -30,18 +30,18 @@ export default function ReactionGroup({
 
   const { data: userReaction } = useUserReaction({
     targetId,
-    targetType
+    targetType,
   })
 
   const { data: reactionSummary } = useReactionSummary({
     targetId,
     targetType,
-    initialSummary
+    initialSummary,
   })
 
   const { toggle } = useReactionMutation({
     targetId,
-    targetType
+    targetType,
   })
 
   const handleToggleReaction = (emoji: string) => {

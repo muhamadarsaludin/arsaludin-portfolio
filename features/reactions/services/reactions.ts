@@ -2,8 +2,14 @@
 
 import { supabase } from "@/lib/supabase/public"
 import { createClient } from "@/lib/supabase/server"
-import { PaginatedReactions, Reaction, ReactionCount, ReactionSummary, ReactionTargetType } from "../types/reactions.types"
-import { Cursor } from "@/features/shared/types/index.types"
+import type {
+  PaginatedReactions,
+  Reaction,
+  ReactionCount,
+  ReactionSummary,
+  ReactionTargetType,
+} from "../types/reactions.types"
+import type { Cursor } from "@/features/shared/types/index.types"
 import { REACTIONS_PAGE_SIZE } from "../constants/reactions.constants"
 import { revalidatePath } from "next/cache"
 
@@ -24,13 +30,11 @@ type GetPaginatedReactionsParams = {
   pageSize?: number
 }
 
-
 type ToggleReactionParams = {
   targetId: string
   targetType: ReactionTargetType
   emoji: string
 }
-
 
 /**
  * Fetches reaction summary data for a specific target (e.g. project, article, etc).
@@ -47,13 +51,13 @@ type ToggleReactionParams = {
  */
 export async function getReactionSummary({
   targetId,
-  targetType
+  targetType,
 }: GetReactionSummaryParams): Promise<ReactionSummary> {
   // Dynamic schema mapping based on target entity type
   const targetColumn = `${targetType}_id`
   const viewTable = `${targetType}_reaction_counts`
 
-  const {data, error} = await supabase
+  const { data, error } = await supabase
     .from(viewTable)
     .select<string, ReactionCount>("emoji, count")
     .eq(targetColumn, targetId)
@@ -90,19 +94,22 @@ export async function getReactionSummary({
  * });
  */
 export async function getUserReaction({
-  targetId,   
-  targetType
-}:GetUserReactionParams): Promise<Reaction | null> {
+  targetId,
+  targetType,
+}: GetUserReactionParams): Promise<Reaction | null> {
   const supabase = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) return null
 
   const targetColumn = `${targetType}_id`
 
   const { data, error } = await supabase
     .from("reactions")
-    .select<string, Reaction>(`
+    .select<string, Reaction>(
+      `
       id,
       emoji,
       user_id,
@@ -115,7 +122,8 @@ export async function getUserReaction({
         role,
         avatar_url
       )
-    `)
+    `
+    )
     .eq(targetColumn, targetId)
     .eq("user_id", user.id)
     .maybeSingle()
@@ -190,7 +198,7 @@ export async function getPaginatedReactions({
 
 /**
  * Server Action to handle toggling user reactions (Insert / Delete / Update) on a target entity.
- * Enforces a strict boundary constraint: One active user can only have a single reaction 
+ * Enforces a strict boundary constraint: One active user can only have a single reaction
  * mapped to a specific target at any given time.
  * @param params - The configuration parameters object for mutation.
  * @param params.targetId - The unique UUID of the target entity receiving the reaction.
@@ -198,13 +206,11 @@ export async function getPaginatedReactions({
  * @param params.emoji - The actual raw string of the emoji icon selected by the user.
  * @returns A promise that resolves to void once the database operation synchronizes.
  */
-export async function toggleReactionAction({
-  targetId,
-  targetType,
-  emoji,
-}: ToggleReactionParams) {
+export async function toggleReactionAction({ targetId, targetType, emoji }: ToggleReactionParams) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized: User must be authenticated to toggle reactions.")
 
   const targetColumn = `${targetType}_id`
@@ -226,7 +232,7 @@ export async function toggleReactionAction({
       if (deleteError) {
         console.error("[toggleReactionAction] Failed to delete reaction:", deleteError)
         throw deleteError
-      } 
+      }
       revalidatePath("/", "layout")
       return
     }
@@ -245,13 +251,11 @@ export async function toggleReactionAction({
       return
     }
 
-    const { error: addError } = await supabase
-      .from("reactions")
-      .insert({
-        [targetColumn]: targetId,
-        user_id: user.id,
-        emoji
-      })
+    const { error: addError } = await supabase.from("reactions").insert({
+      [targetColumn]: targetId,
+      user_id: user.id,
+      emoji,
+    })
 
     if (addError) {
       console.error("[toggleReactionAction] Failed to add reaction:", addError)
@@ -264,6 +268,3 @@ export async function toggleReactionAction({
     throw error
   }
 }
-
-
-

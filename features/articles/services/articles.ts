@@ -241,11 +241,7 @@ type GetArticleParams = {
   id?: string
   locale: string
 }
-export async function getArticle({ 
-  slug, 
-  id, 
-  locale 
-}: GetArticleParams): Promise<Article | null> {
+export async function getArticle({ slug, id, locale }: GetArticleParams): Promise<Article | null> {
   let query = supabase
     .from("articles")
     .select<string, ArticleRawResponse>(getColumns())

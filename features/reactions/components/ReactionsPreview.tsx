@@ -14,7 +14,7 @@ import type { Reaction, ReactionSummary } from "../types/reactions.types"
 import { MAX_TOP_REACTIONS } from "../constants/reactions.constants"
 
 type ReactionsPreviewProps = {
-  userReaction?: Reaction | null 
+  userReaction?: Reaction | null
   reactionSummary?: ReactionSummary
   limit?: number
   onSelectReaction: (emoji: string) => void
@@ -34,7 +34,7 @@ export default function ReactionsPreview({
   const zIndexBase = 10
 
   if (!reactionSummary || reactionSummary.totalReactions <= 0) return null
-  
+
   const topReactions = reactionSummary.allReactions.slice(0, limit)
   const remainingEmojis = Math.max(0, reactionSummary.totalEmojis - limit)
 
@@ -136,7 +136,7 @@ export default function ReactionsPreview({
               {reactionSummary.allReactions.map((reaction) => {
                 // FIX 4: Samakan logika penanda reaksi user aktif di dalam popover
                 const isUserReaction = userReaction && reaction.emoji === userReaction.emoji
-                
+
                 return (
                   <MiracleButton
                     variant="secondary"

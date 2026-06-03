@@ -1,4 +1,4 @@
-import { Link, usePathname} from "@/i18n/navigation"
+import { Link, usePathname } from "@/i18n/navigation"
 import { cn } from "@/utils/class-name"
 
 type HeaderNavLinkProps = {

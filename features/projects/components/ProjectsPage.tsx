@@ -14,7 +14,7 @@ import Container from "@/components/Container"
 import Article from "@/components/Article"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import { Suspense } from "react"
-import { StaticPageProps } from "@/types/page.types"
+import type { StaticPageProps } from "@/types/page.types"
 import ProjectCardSkeleton from "./ProjectCardSkeleton"
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 
@@ -85,19 +85,21 @@ export default async function ProjectsPage(props: StaticPageProps) {
         </MiracleReveal>
         {/* Projects Content */}
         <HydrationBoundary state={dehydratedState}>
-          <Suspense fallback={
-            <div className="flex w-full flex-col gap-6 md:gap-8">
-              <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
-                <MiracleSkeleton className="h-9 flex-1" />
-                <MiracleSkeleton className="h-9 w-25 shrink-0" />
+          <Suspense
+            fallback={
+              <div className="flex w-full flex-col gap-6 md:gap-8">
+                <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
+                  <MiracleSkeleton className="h-9 flex-1" />
+                  <MiracleSkeleton className="h-9 w-25 shrink-0" />
+                </div>
+                <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <ProjectCardSkeleton key={i} />
+                  ))}
+                </div>
               </div>
-              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <ProjectCardSkeleton key={i} />
-                ))}
-              </div>
-            </div>
-          }>
+            }
+          >
             <ProjectsContent locale={locale} targetType={targetType} />
           </Suspense>
         </HydrationBoundary>

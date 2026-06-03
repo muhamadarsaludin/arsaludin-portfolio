@@ -163,7 +163,6 @@ const mapToProject = (project: ProjectRawResponse): Project => {
 export async function getFeaturedProjects({
   locale,
 }: GetFeaturedProjectsParams): Promise<Project[]> {
-
   const { data, error } = await supabase
     .from("projects")
     .select<string, ProjectRawResponse>(getColumns())
@@ -321,7 +320,6 @@ export async function getProject({ slug, id, locale }: GetProjectParams): Promis
 }
 
 export async function getAllProjectsSlugs() {
-
   const { data, error } = await supabase
     .from("projects")
     .select("slug, updated_at")

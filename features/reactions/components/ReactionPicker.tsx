@@ -27,7 +27,7 @@ const EmojiPicker = dynamic(() => import("emoji-picker-react"), {
 })
 
 type ReactionPickerProps = {
-  userReaction?: Reaction | null 
+  userReaction?: Reaction | null
   reactionSummary?: ReactionSummary
   onSelectReaction: (emoji: string) => void
   onShowDetail?: () => void
@@ -64,11 +64,7 @@ export default function ReactionPicker({
       trigger={
         <button
           aria-label={
-            !isSignedIn
-              ? t("tooltip.auth")
-              : userReaction
-                ? t("tooltip.edit")
-                : t("tooltip.add")
+            !isSignedIn ? t("tooltip.auth") : userReaction ? t("tooltip.edit") : t("tooltip.add")
           }
           onClick={onClick}
           type="button"
@@ -91,11 +87,7 @@ export default function ReactionPicker({
       }
     >
       <span className="flex p-2 text-xs font-medium whitespace-nowrap">
-        {!isSignedIn
-          ? t("tooltip.auth")
-          : userReaction
-            ? t("tooltip.edit")
-            : t("tooltip.add")}
+        {!isSignedIn ? t("tooltip.auth") : userReaction ? t("tooltip.edit") : t("tooltip.add")}
       </span>
     </MiracleTooltip>
   )

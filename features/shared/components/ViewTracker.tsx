@@ -12,10 +12,10 @@ type ViewTrackerProps = {
 export default function ViewTracker({ id, rpcName, rpcParamKey }: ViewTrackerProps) {
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") return
-    
+
     const trigger = async () => {
       const { error } = await supabase.rpc(rpcName, {
-        [rpcParamKey]: id
+        [rpcParamKey]: id,
       })
 
       if (error) {
