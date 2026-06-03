@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (event === "TOKEN_REFRESHED" && !currentUser) {
-        return 
+        return
       }
 
       if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED") && currentUser) {
@@ -75,9 +75,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       }
     })
-    
+
     return () => listener.subscription.unsubscribe()
-  }, []) 
+  }, [])
 
   const { data: tanstackProfile, isLoading: isProfileLoading } = useProfile({
     userId: user?.id ?? null,
