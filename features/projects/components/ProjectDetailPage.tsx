@@ -2,7 +2,7 @@ import React from "react"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
-import type { BasePageProps } from "@/types/page.types"
+import type { StaticPageProps } from "@/types/page.types"
 import { getProject } from "../services/projects"
 import { routing } from "@/i18n/routing"
 import { getQueryClient } from "@/lib/query-client"
@@ -29,16 +29,13 @@ import { formatDate } from "@/utils/format-date"
 import UserAvatar from "@/features/auth/components/UserAvatar"
 import SkillBadges from "@/features/skills/components/SkillBadges"
 import MiracleButton from "@/components/miracle/Button"
-import { createClient } from "@/lib/supabase/server"
 import path from "path"
 import { promises as fs } from "fs"
 import { formatReadingTime, getMdxReadingTime } from "@/utils/reading-time"
 import MiracleBanner from "@/components/miracle/Banner"
 import ProjectShareButton from "./ProjectShareButton"
+import ViewTracker from "@/features/shared/components/ViewTracker"
 
-/* -------------------------------
-   FALLBACK CONFIG
---------------------------------*/
 const FALLBACK_LOCALES = ["en", "id"]
 
 /* -------------------------------
@@ -59,16 +56,12 @@ async function resolveMdx(slug: string, locale: string) {
     }
   }
 
-  return {
-    Content: null,
-    mdxLocale: null,
-  }
+  return { Content: null, mdxLocale: null }
 }
 
-export default async function ProjectDetailPage({ params }: BasePageProps) {
+export default async function ProjectDetailPage({ params }: StaticPageProps) {
   const t = await getTranslations("pages.project-detail")
   const { locale, slug } = await params
-  const supabase = await createClient()
 
   if (!slug) notFound()
 
@@ -82,23 +75,9 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
   if (!project) notFound()
 
   /* -------------------------------
-     VIEW INCREMENT
-  --------------------------------*/
-  if (process.env.NODE_ENV === "production") {
-    const { error: viewError } = await supabase.rpc("increment_view", {
-      project_id: project.id,
-    })
-
-    if (viewError) {
-      console.error("Error incrementing view:", viewError.message)
-    }
-  }
-
-  /* -------------------------------
      MDX LOAD (ASYNC NON-BLOCKING FALLBACK)
   --------------------------------*/
   const { Content, mdxLocale } = await resolveMdx(slug, locale)
-
   let mdxText = ""
 
   if (Content && mdxLocale) {
@@ -106,10 +85,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
       const mdxDir = path.join(process.cwd(), "features", "projects", "markdown")
       const filePath = path.join(mdxDir, `${slug}-${mdxLocale}.mdx`)
 
-      const fileExists = await fs
-        .access(filePath)
-        .then(() => true)
-        .catch(() => false)
+      const fileExists = await fs.access(filePath).then(() => true).catch(() => false)
       if (fileExists) {
         mdxText = await fs.readFile(filePath, "utf8")
       }
@@ -122,13 +98,17 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
      RAW CONTENT (READING TIME INPUT)
   --------------------------------*/
   const rawContent = [project.name, project.description, mdxText].filter(Boolean).join(" ")
-
   const stats = getMdxReadingTime(rawContent)
-
   const displayReadingTime = stats?.minutes ? formatReadingTime(stats.minutes, locale) : ""
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <ViewTracker 
+        id={project.id} 
+        rpcName="increment_project_view" 
+        rpcParamKey="project_id" 
+      />
+
       <Container className="flex flex-col items-start gap-8 py-6 lg:flex-row">
         <Article className="w-full flex-1 pb-13 lg:pb-23">
           <MiracleReveal animation="fade-right">
@@ -175,29 +155,17 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                   </div>
                 )}
 
-                {/* Top */}
+                {/* Top Section */}
                 <div className="p-5 md:p-6">
-                  {/* Header */}
                   <header className="mb-4 flex items-start gap-4 md:gap-5">
-                    {/* Header Content */}
                     <div className="flex flex-1 flex-col items-start gap-1.5">
                       {project.is_featured && (
-                        <MiracleBadge
-                          color="yellow"
-                          variant="secondary"
-                          startIcon={<LuCrown />}
-                          className="mb-2"
-                        >
+                        <MiracleBadge color="yellow" variant="secondary" startIcon={<LuCrown />} className="mb-2">
                           {t("featured")}
                         </MiracleBadge>
                       )}
 
-                      <Heading
-                        id={slug}
-                        level={1}
-                        className="text-2xl! font-bold md:text-3xl! lg:text-4xl!"
-                        linkClassName="text-[0.5em]!"
-                      >
+                      <Heading id={slug} level={1} className="text-2xl! font-bold md:text-3xl! lg:text-4xl!">
                         {project.name}
                       </Heading>
 
@@ -221,36 +189,28 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
 
                   {(project.additional_info || project.additional_info_label) && (
                     <div className="col-span-full mt-4">
-                      <MiracleBanner
-                        color="yellow"
-                        variant="secondary"
-                        startIcon={<LuTriangleAlert />}
-                        title={project.additional_info_label ?? undefined}
-                      >
+                      <MiracleBanner color="yellow" variant="secondary" startIcon={<LuTriangleAlert />} title={project.additional_info_label ?? undefined}>
                         {project.additional_info ?? undefined}
                       </MiracleBanner>
                     </div>
                   )}
                 </div>
-                {/* Mid */}
+
+                {/* Mid Section */}
                 <div className="border-primary grid grid-cols-1 gap-5 border-t p-5 md:grid-cols-2 md:p-6">
                   {/* Author */}
                   <div className="flex flex-col gap-2">
-                    <p className="text-secondary text-xs tracking-tight uppercase">
-                      {t("label.author")}
-                    </p>
+                    <p className="text-secondary text-xs tracking-tight uppercase">{t("label.author")}</p>
                     <div className="flex items-center gap-2">
                       <UserAvatar user={project.author} className="h-8 w-8" />
                       <p className="text-primary text-sm font-medium">{project.author.full_name}</p>
                     </div>
                   </div>
 
-                  {/* Date Created*/}
+                  {/* Date Created */}
                   {project.published_at && (
                     <div className="flex flex-col gap-2">
-                      <p className="text-secondary text-xs tracking-tight uppercase">
-                        {t("label.date")}
-                      </p>
+                      <p className="text-secondary text-xs tracking-tight uppercase">{t("label.date")}</p>
                       <div className="text-primary flex items-center gap-2 text-sm font-medium">
                         <LuCalendar size={16} className="text-secondary" />
                         {formatDate({ date: project.published_at, locale, dateStyle: "full" })}
@@ -260,19 +220,10 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
 
                   {/* Categories */}
                   <div className="col-span-full flex flex-col gap-2">
-                    <p className="text-secondary text-xs tracking-tight uppercase">
-                      {t("label.categories")}
-                    </p>
-
+                    <p className="text-secondary text-xs tracking-tight uppercase">{t("label.categories")}</p>
                     <div className="text-primary flex flex-wrap items-center gap-2 text-sm font-medium">
                       {project.categories.map((category, index) => (
-                        <MiracleBadge
-                          key={index}
-                          className="capitalize"
-                          color="blue"
-                          variant="secondary"
-                          pill
-                        >
+                        <MiracleBadge key={index} className="capitalize" color="blue" variant="secondary" pill>
                           {category.name}
                         </MiracleBadge>
                       ))}
@@ -281,51 +232,31 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
 
                   {/* Tech stack */}
                   <div className="col-span-full flex flex-col gap-2">
-                    <p className="text-secondary text-xs tracking-tight uppercase">
-                      {t("label.tech-stack")}
-                    </p>
+                    <p className="text-secondary text-xs tracking-tight uppercase">{t("label.tech-stack")}</p>
                     <SkillBadges skills={project.skills} />
                   </div>
 
                   {/* Actions */}
                   <div className="col-span-full mt-1 flex flex-col gap-2 md:flex-row">
-                    <MiracleButton
-                      href={project.url ?? undefined}
-                      endIcon={<LuArrowUpRight />}
-                      disabled={!project.url}
-                      fullWidth
-                    >
+                    <MiracleButton href={project.url ?? undefined} endIcon={<LuArrowUpRight />} disabled={!project.url} fullWidth>
                       {t("live-demo")}
                     </MiracleButton>
-                    <MiracleButton
-                      href={project.github_url ?? undefined}
-                      startIcon={<LuGithub />}
-                      variant="secondary"
-                      disabled={!project.github_url}
-                      className="shrink-0"
-                    >
+                    <MiracleButton href={project.github_url ?? undefined} startIcon={<LuGithub />} variant="secondary" disabled={!project.github_url} className="shrink-0">
                       {t("source-code")}
                     </MiracleButton>
                   </div>
                 </div>
 
-                {/* Bottom */}
+                {/* Bottom Section */}
                 <div className="border-primary flex items-center justify-end border-t px-5 py-3 md:px-6">
-                  <ReactionGroup
-                    targetId={project.id}
-                    targetType="project"
-                    initialSummary={project.reaction_summary}
-                  />
-                  <CommentGroup
-                    targetId={project.id}
-                    targetType="project"
-                    initialCount={project.comment_count}
-                  />
+                  <ReactionGroup targetId={project.id} targetType="project" initialSummary={project.reaction_summary} />
+                  <CommentGroup targetId={project.id} targetType="project" initialCount={project.comment_count} />
                 </div>
               </div>
             </MiracleReveal>
           </div>
 
+          {/* Render MDX Content */}
           {Content && <Content />}
         </Article>
 
