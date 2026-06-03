@@ -1,6 +1,4 @@
-"use server"
-
-import { createClient } from "@/lib/supabase/server"
+import { supabase } from "@/lib/supabase/client"
 import type { Profile } from "../types/profiles.types"
 
 /**
@@ -11,10 +9,25 @@ import type { Profile } from "../types/profiles.types"
  * @example
  * const profile = await getProfile({ id: 'user-uuid-123' });
  */
-export async function getProfile({ id }: { id: string }): Promise<Profile> {
-  const supabase = await createClient()
-  const { data, error } = await supabase.from("profiles").select("*").eq("id", id).maybeSingle()
+export async function getProfile({ id }: { id: string }): Promise<Profile | null> {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select<string, Profile>(
+      `
+      id,
+      full_name,
+      email,
+      role,
+      avatar_url
+    `
+    )
+    .eq("id", id)
+    .maybeSingle()
 
-  if (error) throw error
+  if (error) {
+    console.error("[getProfile] Failed to fetch profile:", error.message)
+    throw error
+  }
+
   return data
 }
