@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       }
     })
-    
+
     return () => listener.subscription.unsubscribe()
   }, [profile]) // Tambahkan profile ke dependency array agar pengecekan !profile selalu akurat
 

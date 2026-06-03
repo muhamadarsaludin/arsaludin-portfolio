@@ -161,7 +161,9 @@ export function useReplyMutation({
           pages: old.pages.map((page) => ({
             ...page,
             data: page.data.map((c) =>
-              c.id === pId ? { ...c, reply_count: Math.max(0, (c.reply_count || 0) - totalDeleted) } : c
+              c.id === pId
+                ? { ...c, reply_count: Math.max(0, (c.reply_count || 0) - totalDeleted) }
+                : c
             ),
           })),
         }
