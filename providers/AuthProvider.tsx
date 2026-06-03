@@ -59,7 +59,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setProfile(null)
       }
     })
-
     return () => listener.subscription.unsubscribe()
   }, [])
 
