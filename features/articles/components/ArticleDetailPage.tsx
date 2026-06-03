@@ -240,6 +240,7 @@ export default async function ArticleDetailPage({ params }: StaticPageProps) {
                     initialSummary={article.reaction_summary}
                   />
                   <CommentGroup
+                    title={article.title}
                     targetId={article.id}
                     targetType="article"
                     initialCount={article.comment_count}

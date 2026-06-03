@@ -248,7 +248,7 @@ export default async function ProjectDetailPage({ params }: StaticPageProps) {
                 {/* Bottom Section */}
                 <div className="border-primary flex items-center justify-end border-t px-5 py-3 md:px-6">
                   <ReactionGroup targetId={project.id} targetType="project" initialSummary={project.reaction_summary} />
-                  <CommentGroup targetId={project.id} targetType="project" initialCount={project.comment_count} />
+                  <CommentGroup title={project.name} targetId={project.id} targetType="project" initialCount={project.comment_count} />
                 </div>
               </div>
             </MiracleReveal>

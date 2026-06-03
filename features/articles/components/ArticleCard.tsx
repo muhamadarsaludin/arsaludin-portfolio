@@ -59,6 +59,7 @@ export default function ArticleCard({
               initialSummary={article.reaction_summary}
             />
             <CommentGroup
+              title={article.title}
               targetId={article.id}
               targetType="article"
               initialCount={article.comment_count}
