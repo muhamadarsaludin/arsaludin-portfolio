@@ -9,9 +9,12 @@ import { useAuth } from "@/providers/AuthProvider"
 
 export function useCardsMutation() {
   const queryClient = useQueryClient()
-  const { user, profile } = useAuth()
+  const { user, profile, isLoading } = useAuth()
 
   const checkAuth = () => {
+    if (isLoading) {
+      throw new Error("Authentication is initializing, please wait a millisecond.")
+    }
     if (!user || !profile) {
       throw new Error("Unauthorized: Please login to perform this action")
     }
@@ -38,7 +41,6 @@ export function useCardsMutation() {
         author: profile!,
         comment_count: 0,
         reaction_summary: {
-          // userReaction: null,
           allReactions: [],
           totalReactions: 0,
           totalEmojis: 0,
@@ -67,7 +69,7 @@ export function useCardsMutation() {
     },
   })
 
-  // --- UPDATE CARD (Optimized logic) ---
+  // --- UPDATE CARD ---
   const update = useMutation({
     mutationFn: updateCard,
     onMutate: async ({ cardId, payload }) => {
@@ -128,7 +130,6 @@ export function useCardsMutation() {
       }
     },
     onSettled: (_data, _error, _variables) => {
-      // Invalidate kolom asal dan kolom tujuan
       queryClient.invalidateQueries({ queryKey: ["cards"] })
     },
   })

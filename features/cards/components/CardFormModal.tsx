@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import type { Card, CardStatus, CardEntity } from "@/features/cards/types/cards.types"
+import type { Card, CardStatus } from "@/features/cards/types/cards.types"
 import MiracleModal from "@/components/miracle/Modal"
 import MiracleButton from "@/components/miracle/Button"
 import MiracleTextField from "@/components/miracle/TextField"
@@ -101,14 +101,27 @@ export default function CardFormModal({
 
   // 4. Submit handler
   const onSubmit = (values: CardFormValues) => {
-    const payload = values as Pick<
-      CardEntity,
-      "title" | "description" | "status" | "type" | "priority"
-    >
+    const { status, ...commonPayload } = values
     if (initialData) {
-      updateCard({ cardId: initialData.id, payload }, { onSuccess: () => onClose() })
+      updateCard(
+        {
+          cardId: initialData.id,
+          payload: {
+            ...commonPayload,
+            ...(isAdmin ? { status } : {}),
+          },
+        },
+        { onSuccess: () => onClose() }
+      )
     } else {
-      createCard(payload, { onSuccess: () => onClose() })
+      createCard(
+        {
+          ...commonPayload,
+          description: commonPayload.description ?? "",
+          status,
+        },
+        { onSuccess: () => onClose() }
+      )
     }
   }
 
@@ -206,7 +219,7 @@ export default function CardFormModal({
           </div>
         </div>
 
-        {/* Status Selection - Proteksi Admin */}
+        {/* Status Selection */}
         <div className={cn("border-primary flex flex-col gap-3 border-t pt-6")}>
           {!isAdmin && (
             <MiracleBanner color="yellow" variant="secondary" startIcon={<LuTriangleAlert />}>

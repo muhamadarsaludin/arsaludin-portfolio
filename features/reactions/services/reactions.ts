@@ -11,7 +11,6 @@ import type {
 } from "../types/reactions.types"
 import type { Cursor } from "@/features/shared/types/index.types"
 import { REACTIONS_PAGE_SIZE } from "../constants/reactions.constants"
-import { revalidatePath } from "next/cache"
 
 type GetReactionSummaryParams = {
   targetId: string
@@ -233,7 +232,6 @@ export async function toggleReactionAction({ targetId, targetType, emoji }: Togg
         console.error("[toggleReactionAction] Failed to delete reaction:", deleteError)
         throw deleteError
       }
-      revalidatePath("/", "layout")
       return
     }
 
@@ -247,7 +245,6 @@ export async function toggleReactionAction({ targetId, targetType, emoji }: Togg
         console.error("[toggleReactionAction] Failed to update reaction:", updateError)
         throw updateError
       }
-      revalidatePath("/", "layout")
       return
     }
 
@@ -261,8 +258,6 @@ export async function toggleReactionAction({ targetId, targetType, emoji }: Togg
       console.error("[toggleReactionAction] Failed to add reaction:", addError)
       throw addError
     }
-
-    revalidatePath("/", "layout")
   } catch (error) {
     console.error("[toggleReactionAction] Failed to toggle reaction:", error)
     throw error

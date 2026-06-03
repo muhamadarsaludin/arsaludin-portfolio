@@ -23,8 +23,7 @@ export default function CommentGroup({
   title,
   tooltipPosition,
 }: CommentGroupProps) {
-  const { data: count } = useCommentCount({ targetId, targetType, initialCount })
-  const commentCount = count ?? initialCount ?? 0
+  const { data: commentCount = 0 } = useCommentCount({ targetId, targetType, initialCount })
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
