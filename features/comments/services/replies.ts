@@ -59,7 +59,7 @@ export async function getPaginatedReplies({
       role, 
       avatar_url
     ),
-    replies:comments!parent_id(count),
+    replies:comments!reply_to_id(count),
     reaction_counts:comment_reaction_counts(
       emoji,
       count

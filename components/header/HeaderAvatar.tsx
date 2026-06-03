@@ -18,12 +18,8 @@ export default function HeaderAvatar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isPending, setIsPending] = useState(false)
 
-  const { profile, isLoading } = useAuth()
+  const { profile } = useAuth()
   const t = useTranslations("components.header")
-
-  if (isLoading) {
-    return <div className="h-8 w-8 animate-pulse rounded-full bg-neutral-300" />
-  }
 
   if (!profile) return null
 

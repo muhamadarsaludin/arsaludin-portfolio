@@ -20,7 +20,7 @@ type HeaderProps = {
 }
 
 export default function Header({ className }: HeaderProps) {
-  const { isSignedIn } = useAuth()
+  const { isSignedIn, isLoading } = useAuth()
   const pathname = usePathname()
   const [showMenu, setShowMenu] = useState(false)
   const [prevPathname, setPrevPathname] = useState(pathname)
@@ -85,14 +85,18 @@ export default function Header({ className }: HeaderProps) {
         </div>
         <div className="flex items-center gap-3">
           <div className="hidden gap-3 lg:flex">
-            {!isSignedIn && <SignInButton />}
+            {!isLoading && !isSignedIn && <SignInButton />}
             <DownloadResumeButton />
           </div>
           <div className="flex gap-1">
             <LangToggle />
             <ThemeToggle />
           </div>
-          {isSignedIn && <HeaderAvatar />}
+          {isLoading ? (
+            <div className="h-8 w-8 animate-pulse rounded-full bg-neutral-300 dark:bg-neutral-700" />
+          ) : (
+            isSignedIn && <HeaderAvatar />
+          )}
         </div>
       </div>
 

@@ -45,26 +45,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     initializeAuth()
 
-    // Listener real-time status auth
+    // 🔐 LISTENER SUPABASE DENGAN PROTEKSI CO-PILOT ANTI-GLITCH PINDAH TAB
     const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
       const currentUser = session?.user ?? null
-      setUser(currentUser)
 
-      if (event === "SIGNED_IN" && currentUser) {
-        setIsAuthLoading(true)
-        const profileData = await getProfile({ id: currentUser.id })
-        setProfile(profileData)
-        setIsAuthLoading(false)
-      } else if (event === "SIGNED_OUT") {
+      // 1. Jika user bener-bener pencet tombol Sign Out secara sah
+      if (event === "SIGNED_OUT") {
+        setUser(null)
         setProfile(null)
+        return
+      }
+
+      // 2. Jika ada event SIGNED_IN atau token otomatis di-refresh di background saat balik tab
+      if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED") && currentUser) {
+        setUser(currentUser)
+
+        // Proteksi penting: Jangan nembak API lagi kalau datanya udah ada di state lokal
+        if (!profile || profile.id !== currentUser.id) {
+          const profileData = await getProfile({ id: currentUser.id })
+          if (profileData) {
+            setProfile(profileData)
+          }
+        }
       }
     })
+    
     return () => listener.subscription.unsubscribe()
-  }, [])
+  }, [profile]) // Tambahkan profile ke dependency array agar pengecekan !profile selalu akurat
 
+  // 🚀 TanStack Query dipanggil lagi sebagai pengelola data utama
   const { data: tanstackProfile, isLoading: isProfileLoading } = useProfile({
     userId: user?.id ?? null,
-    initialProfileData: profile,
+    initialProfileData: profile, // Ambil pancingan awal biar 0ms render
   })
 
   const fallbackProfile = user
@@ -77,7 +89,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     : null
 
-  const finalProfile = tanstackProfile || fallbackProfile
+  // Double guard fallback data agar jika salah satu sedang transisi, UI tidak blank kosong
+  const finalProfile = tanstackProfile || profile || fallbackProfile
   const globalLoading = isAuthLoading || (isProfileLoading && !tanstackProfile)
 
   return (
