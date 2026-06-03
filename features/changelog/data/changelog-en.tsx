@@ -5,7 +5,7 @@ import { LuPartyPopper } from "react-icons/lu"
 export const CHANGELOG_EN = [
   {
     version: "1.0.0",
-    releaseDate: "2026-06-01",
+    releaseDate: "2026-06-03",
     banner: (
       <MiracleBanner
         variant="secondary"
