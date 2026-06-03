@@ -2,44 +2,41 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { getQueryClient } from "@/lib/query-client"
 import { getTranslations } from "next-intl/server"
 import { getPaginatedCardsByStatus } from "@/features/cards/services/cards"
-import type { CardPriority, CardStatus, CardType } from "@/features/cards/types/cards.types"
+import type { CardStatus } from "@/features/cards/types/cards.types"
 import { CARDS_PAGE_SIZE } from "@/features/cards/constants/card.constants"
 import { routing } from "@/i18n/routing"
 import Container from "@/components/Container"
 import Article from "@/components/Article"
 import MiracleBreadcrumbs from "@/components/miracle/Breadcrumbs"
 import Heading from "@/components/Heading"
-import { normalizeArrayParam } from "@/utils/search-params"
 import RoadmapContent from "./RoadmapContent"
-import type { BasePageProps } from "@/types/page.types"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import type { Cursor } from "@/features/shared/types/index.types"
+import { Suspense } from "react"
+import { MiracleSkeleton } from "@/components/miracle/Skeleton"
+import CardItemSkeleton from "@/features/cards/components/CardItemSkeleton"
 
 const KANBAN_STATUSES: CardStatus[] = ["ideas", "planned", "in-progress", "released"]
 
-export default async function RoadmapPage(props: BasePageProps) {
-  const searchParams = await props.searchParams
+export default async function RoadmapPage() {
   const t = await getTranslations("pages.roadmap")
   const queryClient = getQueryClient()
 
   await Promise.all(
     KANBAN_STATUSES.map((status) => {
-      const filters = {
+      const defaultFilters = {
         status,
-        search:
-          typeof searchParams.search === "string" && searchParams.search
-            ? searchParams.search
-            : undefined,
-        types: normalizeArrayParam(searchParams.types) as CardType[],
-        priorities: normalizeArrayParam(searchParams.priorities) as CardPriority[],
+        search: undefined,
+        types: undefined,
+        priorities: undefined,
         pageSize: CARDS_PAGE_SIZE,
       }
 
       queryClient.prefetchInfiniteQuery({
-        queryKey: ["cards", filters],
+        queryKey: ["cards", defaultFilters],
         queryFn: ({ pageParam }) =>
           getPaginatedCardsByStatus({
-            ...filters,
+            ...defaultFilters,
             cursor: pageParam as Cursor | undefined,
           }),
         initialPageParam: undefined as Cursor | undefined,
@@ -84,7 +81,25 @@ export default async function RoadmapPage(props: BasePageProps) {
         </MiracleReveal>
         {/* Roadmap Content */}
         <HydrationBoundary state={dehydratedState}>
-          <RoadmapContent kanbanStatuses={KANBAN_STATUSES} />
+          <Suspense fallback={
+            <div className="flex w-full flex-col gap-6 md:gap-8">
+              <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
+                <MiracleSkeleton className="h-9 flex-1" />
+                <MiracleSkeleton className="h-9 w-25 shrink-0" />
+              </div>
+              <div className="flex snap-x snap-mandatory flex-nowrap gap-4 overflow-x-auto pb-4 sm:gap-6 [&::-webkit-scrollbar]:hidden">
+                {KANBAN_STATUSES.map((status) => (
+                  <div className="w-[75vw] shrink-0 snap-start sm:min-w-[320px] sm:flex-1">
+                    <div className="bg-secondary flex w-full h-full flex-col gap-4 rounded-2xl p-4 md:p-5">
+                      {Array.from({ length: 3 }).map((_, i) => <CardItemSkeleton key={i} />)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          }>
+            <RoadmapContent kanbanStatuses={KANBAN_STATUSES} />
+          </Suspense>
         </HydrationBoundary>
       </Article>
     </Container>

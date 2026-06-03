@@ -98,7 +98,6 @@ export async function getPaginatedComments({
     )
   `
 
-  // 1. Inisialisasi Query
   let query = supabase
     .from("comments")
     .select<string, GetPaginatedCommentsResponse>(columns)
@@ -129,11 +128,9 @@ export async function getPaginatedComments({
     }
   }
 
-  // 3. Handling Pagination Metadata
   const hasMore = data.length > pageSize
   const trimmedData = hasMore ? data.slice(0, pageSize) : data
 
-  // 4. Mapping Data (Fixing Syntax Error here)
   const mappedData: CommentData[] = trimmedData.map((comment) => {
     const replyCount = comment.replies?.[0]?.count ?? 0
     const allReactions = comment.reaction_counts || []
@@ -153,7 +150,7 @@ export async function getPaginatedComments({
       reaction_summary: {
         allReactions,
         totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
-        totalEmojis: allReactions.length,
+        totalEmojis: allReactions.length
       },
     }
   })
@@ -170,79 +167,6 @@ export async function getPaginatedComments({
       : null,
     hasMore
   }
-}
-
-/**
- * Creates a new comment or reply.
- * @param targetId - The entity ID to associate the comment with.
- * @param targetType - The type of target entity (determines the table column).
- * @param content - The textual content of the comment.
- * @param parentId - The ID of the parent comment if this is a reply.
- * @param recipientId - The user receiving the reply.
- * @param replyToId - The specific comment ID being responded to.
- * @throws {Error} If the user is not authenticated.
- */
-export async function addComment({
-  targetId,
-  targetType,
-  content,
-  parentId,
-  recipientId,
-  replyToId,
-}: AddCommentParams) {
-  const supabase = await createClient()
-  const {data: { user }} = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized: User must be authenticated to add comments.")
-
-  const targetColumn = `${targetType}_id`
-
-  const { error } = await supabase
-    .from("comments")
-    .insert([
-      {
-        [targetColumn]: targetId,
-        content: content,
-        parent_id: parentId,
-        user_id: user.id,
-        recipient_id: recipientId,
-        reply_to_id: replyToId,
-      },
-    ])
-    .select()
-    .single()
-
-  if (error) throw error
-  revalidatePath("/", "layout")
-}
-
-/**
- * Deletes a specific comment after verifying ownership or administrative privileges.
- * @param commentId - The unique identifier of the comment to delete.
- * @throws {Error} If the user is unauthorized or the comment does not exist.
- */
-export async function deleteComment({ commentId }: { commentId: string }) {
-  const supabase = await createClient()
-  const { data: { user }} = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized: User must be authenticated to delete comments.")
-
-  const [comment, { data: profile }] = await Promise.all([
-    getComment({ commentId }),
-    supabase.from("profiles").select("role").eq("id", user.id).single(),
-  ])
-  
-  if (!comment) throw new Error("Comment not found.")
-
-  const isOwner = comment.user_id === user.id
-  const isAdmin = profile?.role === "admin"
-
-  if (!isOwner && !isAdmin) {
-    throw new Error("Unauthorized: You don't have permission to delete this")
-  }
-
-  const { error } = await supabase.from("comments").delete().eq("id", commentId)
-
-  if (error) throw error
-  revalidatePath("/", "layout")
 }
 
 /**
@@ -286,4 +210,84 @@ export async function getCommentCount({
     console.error(`[getCommentCount] Unexpected error:`, err)
     return 0
   }
+}
+
+/**
+ * Creates a new comment or reply.
+ * @param targetId - The entity ID to associate the comment with.
+ * @param targetType - The type of target entity (determines the table column).
+ * @param content - The textual content of the comment.
+ * @param parentId - The ID of the parent comment if this is a reply.
+ * @param recipientId - The user receiving the reply.
+ * @param replyToId - The specific comment ID being responded to.
+ * @throws {Error} If the user is not authenticated.
+ */
+export async function addComment({
+  targetId,
+  targetType,
+  content,
+  parentId,
+  recipientId,
+  replyToId,
+}: AddCommentParams) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error("Unauthorized: User must be authenticated to add comment.")
+
+  const targetColumn = `${targetType}_id`
+
+  const { error } = await supabase
+    .from("comments")
+    .insert([
+      {
+        [targetColumn]: targetId,
+        content: content,
+        parent_id: parentId,
+        user_id: user.id,
+        recipient_id: recipientId,
+        reply_to_id: replyToId,
+      },
+    ])
+    .select()
+    .single()
+
+  if (error) {
+    console.error("[addComment] Failed to add comment:", error)
+    throw error
+  }
+  revalidatePath("/", "layout")
+}
+
+/**
+ * Deletes a specific comment after verifying ownership or administrative privileges.
+ * @param commentId - The unique identifier of the comment to delete.
+ * @throws {Error} If the user is unauthorized or the comment does not exist.
+ */
+export async function deleteComment({ commentId }: { commentId: string }) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error("Unauthorized: User must be authenticated to delete comment.")
+
+  const [comment, { data: profile }] = await Promise.all([
+    getComment({ commentId }),
+    supabase.from("profiles").select("role").eq("id", user.id).single(),
+  ])
+  
+  if (!comment) throw new Error("Comment not found.")
+
+  const isOwner = comment.user_id === user.id
+  const isAdmin = profile?.role === "admin"
+
+  if (!isOwner && !isAdmin) {
+    throw new Error("Unauthorized: You don't have permission to delete this comment")
+  }
+
+  const { error } = await supabase.from("comments").delete().eq("id", commentId)
+
+  if (error) {
+    console.error("[deleteComment] Failed to delete comment:", error)
+    throw error
+  }
+
+  revalidatePath("/", "layout")
 }

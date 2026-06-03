@@ -223,7 +223,10 @@ export async function toggleReactionAction({
         .delete()
         .eq("id", existingReaction.id)
 
-      if (deleteError) throw deleteError
+      if (deleteError) {
+        console.error("[toggleReactionAction] Failed to delete reaction:", deleteError)
+        throw deleteError
+      } 
       revalidatePath("/", "layout")
       return
     }
@@ -234,12 +237,15 @@ export async function toggleReactionAction({
         .update({ emoji, updated_at: new Date().toISOString() })
         .eq("id", existingReaction.id)
 
-      if (updateError) throw updateError
+      if (updateError) {
+        console.error("[toggleReactionAction] Failed to update reaction:", updateError)
+        throw updateError
+      }
       revalidatePath("/", "layout")
       return
     }
 
-    const { error: insertError } = await supabase
+    const { error: addError } = await supabase
       .from("reactions")
       .insert({
         [targetColumn]: targetId,
@@ -247,10 +253,14 @@ export async function toggleReactionAction({
         emoji
       })
 
-    if (insertError) throw insertError
+    if (addError) {
+      console.error("[toggleReactionAction] Failed to add reaction:", addError)
+      throw addError
+    }
+
     revalidatePath("/", "layout")
   } catch (error) {
-    console.error("[toggleReactionAction] Mutation operation failed details:", error)
+    console.error("[toggleReactionAction] Failed to toggle reaction:", error)
     throw error
   }
 }

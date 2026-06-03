@@ -160,9 +160,7 @@ export async function sendMessage({
   repliedMessage: _repliedMessage,
 }: SendMessageParams) {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized: User must be authenticated to send message.")
 
   const { error } = await supabase
@@ -179,7 +177,7 @@ export async function sendMessage({
     .single()
 
   if (error) {
-    console.error("[sendMessage] Error:", error)
+    console.error("[sendMessage] Failed to send message:", error)
     throw error
   }
 
@@ -208,6 +206,9 @@ export async function deleteMessage({ messageId }: { messageId: string }) {
 
   const { error } = await supabase.from("messages").delete().eq("id", messageId)
 
-  if (error) throw error
+  if (error) {
+    console.error("[deleteMessage] Failed to delete message:", error)
+    throw error
+  }
   revalidatePath("/", "layout")
 }

@@ -90,8 +90,8 @@ export default async function AchievementsPage(props: StaticPageProps) {
           <Suspense fallback={
             <div className="flex w-full flex-col gap-6 md:gap-8">
               <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
-                <MiracleSkeleton className="h-9 w-10/12" />
-                <MiracleSkeleton className="h-9 w-2/12" />
+                <MiracleSkeleton className="h-9 flex-1" />
+                <MiracleSkeleton className="h-9 w-25 shrink-0" />
               </div>
               <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
                 {Array.from({ length: 6 }).map((_, i) => (
