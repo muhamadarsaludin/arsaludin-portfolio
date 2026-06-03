@@ -1,6 +1,5 @@
 "use client"
 
-import React from "react"
 import type { Card } from "@/features/cards/types/cards.types"
 import { useTranslations } from "next-intl"
 import { LuTrash2 } from "react-icons/lu"

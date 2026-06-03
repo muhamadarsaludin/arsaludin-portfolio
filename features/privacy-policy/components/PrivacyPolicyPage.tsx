@@ -1,4 +1,3 @@
-import React from "react"
 import { getTranslations } from "next-intl/server"
 import { LuCalendar } from "react-icons/lu"
 

@@ -1,7 +1,6 @@
 "use client"
 
 import type { ReactNode } from "react"
-import React from "react"
 import type { Card, CardPriority, CardStatus, CardType } from "@/features/cards/types/cards.types"
 import { useTranslations } from "next-intl"
 import Image from "next/image"
