@@ -94,7 +94,7 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [queryKey, queryClient, messageType, supabase])
+  }, [queryKey, queryClient, messageType])
 
   if (isError) return <ErrorStateCard onRetry={() => refetch()} />
 

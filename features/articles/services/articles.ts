@@ -1,6 +1,6 @@
 "use server"
 
-import { supabase as supabasePublicClient } from "@/lib/supabase/public"
+import { supabase } from "@/lib/supabase/public"
 import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 import type { Category, CategoryEntity } from "@/features/categories/types/categories.types"
 import type { Cursor } from "@/features/shared/types/index.types"
@@ -123,8 +123,6 @@ const mapToArticle = (article: ArticleRawResponse): Article => {
 
 // --- MAIN FUNCTION ---
 export async function getFeaturedArticles({ locale }: { locale: string }): Promise<Article[]> {
-  const supabase = supabasePublicClient
-  
   const { data, error } = await supabase
     .from("articles")
     .select<string, ArticleRawResponse>(getColumns())
@@ -168,7 +166,6 @@ export async function getPaginatedArticles({
   pageSize = ARTICLES_PAGE_SIZE,
   cursor,
 }: GetPaginatedArticlesParams): Promise<PaginatedArticles> {
-  const supabase = supabasePublicClient
   const isFilteringCategory = !!(categorySlugs && categorySlugs.length > 0)
 
   let query = supabase
@@ -249,8 +246,6 @@ export async function getArticle({
   id, 
   locale 
 }: GetArticleParams): Promise<Article | null> {
-  const supabase = supabasePublicClient
-
   let query = supabase
     .from("articles")
     .select<string, ArticleRawResponse>(getColumns())
@@ -278,8 +273,6 @@ export async function getArticle({
 }
 
 export async function getAllArticlesSlugs() {
-  const supabase = supabasePublicClient
-
   const { data, error } = await supabase
     .from("articles")
     .select("slug, updated_at")

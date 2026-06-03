@@ -1,6 +1,6 @@
 "use server"
 
-import { supabase as supabasePublicClient } from "@/lib/supabase/public"
+import { supabase } from "@/lib/supabase/public"
 import { createClient } from "@/lib/supabase/server"
 import { PaginatedReactions, Reaction, ReactionCount, ReactionSummary, ReactionTargetType } from "../types/reactions.types"
 import { Cursor } from "@/features/shared/types/index.types"
@@ -49,8 +49,6 @@ export async function getReactionSummary({
   targetId,
   targetType
 }: GetReactionSummaryParams): Promise<ReactionSummary> {
-  const supabase = supabasePublicClient
-
   // Dynamic schema mapping based on target entity type
   const targetColumn = `${targetType}_id`
   const viewTable = `${targetType}_reaction_counts`
@@ -136,7 +134,6 @@ export async function getPaginatedReactions({
   cursor,
   pageSize = REACTIONS_PAGE_SIZE,
 }: GetPaginatedReactionsParams): Promise<PaginatedReactions> {
-  const supabase = supabasePublicClient
   const targetColumn = `${targetType}_id`
 
   let query = supabase

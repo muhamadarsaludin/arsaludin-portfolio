@@ -1,6 +1,6 @@
 "use server"
 
-import { supabase as supabasePublicClient } from "@/lib/supabase/public"
+import { supabase } from "@/lib/supabase/public"
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import type {
@@ -67,9 +67,7 @@ export async function getPaginatedComments({
   cursor,
   pageSize = COMMENTS_PAGE_SIZE,
 }: GetPaginatedCommentsParams): Promise<PaginatedComments> {
-  const supabase = supabasePublicClient
   const targetColumn = `${targetType}_id`
-
   const columns = `
     id,
     content,
@@ -253,10 +251,7 @@ export async function deleteComment({ commentId }: { commentId: string }) {
  * @returns The raw comment data from the database.
  */
 export async function getComment({ commentId }: { commentId: string }) {
-  const supabase = supabasePublicClient
-
   const { data, error } = await supabase.from("comments").select("*").eq("id", commentId).single()
-
   if (error) throw error
   return data
 }
@@ -273,10 +268,9 @@ export async function getCommentCount({
   targetId,
   targetType,
 }: GetCommentCountParams): Promise<number> {
-  const supabase = supabasePublicClient
   const targetColumn = `${targetType}_id`
-
- try {
+  
+  try {
     const { count, error } = await supabase
       .from("comments")
       .select("id", { count: "exact", head: true })

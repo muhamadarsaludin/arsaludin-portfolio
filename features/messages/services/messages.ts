@@ -7,8 +7,9 @@ import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import type { Message, MessageEntity, PaginatedMessages } from "../types/messages.types"
 import { MESSAGES_PAGE_SIZE } from "../constants/messages.constants"
+import { supabase } from "@/lib/supabase/public"
 
-type GetMessagesResponse = MessageEntity & {
+type MessageRawResponse = MessageEntity & {
   author: Profile
   recipient: Profile | null
   replied_message: {
@@ -65,37 +66,34 @@ const MESSAGE_COLUMNS = `
   reaction_counts:message_reaction_counts(
     emoji,
     count
-  ),
-  reactions(
-    id,
-    emoji,
-    user_id,
-    created_at,
-    updated_at,
-    author:profiles(
-      id,
-      email,
-      full_name,
-      role,
-      avatar_url
-    )
   )
 `
+
+const mapToMessage = (message: MessageRawResponse): Message => {
+  const allReactions = message.reaction_counts || []
+  const repliedMessage = message.replied_message ?? null
+
+  return {
+    ...message,
+    recipient_id: message.recipient_id ?? null,
+    reply_to_id: message.reply_to_id ?? null,
+    recipient: message.recipient ?? null,
+    replied_message: repliedMessage,
+    reaction_summary: {
+      allReactions,
+      totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
+      totalEmojis: allReactions.length,
+    },
+  }
+}
 
 export async function getPaginatedMessages({
   cursor,
   pageSize = MESSAGES_PAGE_SIZE,
 }: GetPaginatedMessagesParams = {}): Promise<PaginatedMessages> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
-
   let query = supabase
     .from("messages")
-    .select<string, GetMessagesResponse>(MESSAGE_COLUMNS)
-    .eq("reactions.user_id", userId)
+    .select<string, MessageRawResponse>(MESSAGE_COLUMNS)
     .order("created_at", { ascending: false })
     .order("id", { ascending: false })
     .limit(pageSize + 1)
@@ -123,34 +121,9 @@ export async function getPaginatedMessages({
 
   const hasMore = data.length > pageSize
   const trimmedData = hasMore ? data.slice(0, pageSize) : data
-
-  const mappedData: Message[] = trimmedData.map((message) => {
-    const userReaction = message.reactions?.[0] ?? null
-    const allReactions = message.reaction_counts || []
-    const repliedMessage = message.replied_message ?? null
-
-    return {
-      id: message.id,
-      type: message.type,
-      content: message.content,
-      user_id: message.user_id,
-      recipient_id: message.recipient_id ?? null,
-      reply_to_id: message.reply_to_id ?? null,
-      created_at: message.created_at,
-      updated_at: message.updated_at,
-      author: message.author,
-      recipient: message.recipient ?? null,
-      replied_message: repliedMessage,
-      reaction_summary: {
-        userReaction,
-        allReactions,
-        totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
-        totalEmojis: allReactions.length,
-      },
-    }
-  })
-
+  const mappedData = trimmedData.map(mapToMessage)
   const lastItem = mappedData[mappedData.length - 1]
+
   return {
     data: mappedData,
     nextCursor: hasMore
@@ -161,6 +134,21 @@ export async function getPaginatedMessages({
       : null,
     hasMore,
   }
+}
+
+export async function getMessage({ messageId }: { messageId: string }): Promise<Message| null> {
+  const { data, error } = await supabase
+    .from("messages")
+    .select<string, MessageRawResponse>(MESSAGE_COLUMNS)
+    .eq("id", messageId)
+    .single()
+
+  if (error) {
+    console.error("[getMessage] Error fetching message:", error)
+    throw error
+  }
+  
+  return data ? mapToMessage(data) : null
 }
 
 export async function sendMessage({
@@ -175,7 +163,7 @@ export async function sendMessage({
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized")
+  if (!user) throw new Error("Unauthorized: User must be authenticated to send message.")
 
   const { error } = await supabase
     .from("messages")
@@ -203,7 +191,7 @@ export async function deleteMessage({ messageId }: { messageId: string }) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized")
+  if (!user) throw new Error("Unauthorized: User must be authenticated to delete message.")
 
   const [message, { data: profile }] = await Promise.all([
     getMessage({ messageId }),
@@ -222,41 +210,4 @@ export async function deleteMessage({ messageId }: { messageId: string }) {
 
   if (error) throw error
   revalidatePath("/", "layout")
-}
-
-export async function getMessage({ messageId }: { messageId: string }): Promise<Message> {
-  const supabase = await createClient()
-  const { data, error } = await supabase
-    .from("messages")
-    .select<string, GetMessagesResponse>(MESSAGE_COLUMNS)
-    .eq("id", messageId)
-    .single()
-
-  if (error) {
-    console.error("[getMessage] Error:", error)
-    throw error
-  }
-  const userReaction = data.reactions?.[0] ?? null
-  const allReactions = data.reaction_counts || []
-  const repliedMessage = data.replied_message ?? null
-
-  return {
-    id: data.id,
-    type: data.type,
-    content: data.content,
-    user_id: data.user_id,
-    recipient_id: data.recipient_id ?? null,
-    reply_to_id: data.reply_to_id ?? null,
-    created_at: data.created_at,
-    updated_at: data.updated_at,
-    author: data.author,
-    recipient: data.recipient ?? null,
-    replied_message: repliedMessage,
-    reaction_summary: {
-      // userReaction,
-      allReactions,
-      totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
-      totalEmojis: allReactions.length,
-    },
-  }
 }
