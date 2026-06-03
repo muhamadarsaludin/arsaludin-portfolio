@@ -5,6 +5,7 @@ import { routing } from "@/i18n/routing"
 import type { BasePageProps } from "@/types/page.types"
 import type { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
+import { notFound } from "next/navigation"
 
 export async function generateStaticParams() {
   try {
@@ -48,7 +49,8 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
 }
 
 export default async function ProjectDetail({ params }: BasePageProps) {
-  const { locale } = await params
+  const { locale, slug } = await params
   setRequestLocale(locale)
+  if (!slug) return notFound()
   return <ArticleDetailPage params={params} />
 }

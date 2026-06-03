@@ -293,8 +293,6 @@ type GetProjectParams = {
 }
 
 export async function getProject({ slug, id, locale }: GetProjectParams): Promise<Project | null> {
-
-  // Inisialisasi query
   let query = supabase
     .from("projects")
     .select<string, ProjectRawResponse>(getColumns())
@@ -312,7 +310,7 @@ export async function getProject({ slug, id, locale }: GetProjectParams): Promis
     return null
   }
 
-  const { data, error } = await query.single()
+  const { data, error } = await query.maybeSingle()
 
   if (error) {
     console.error("[getProject] Error fetching project:", error)

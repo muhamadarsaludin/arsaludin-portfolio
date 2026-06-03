@@ -262,7 +262,7 @@ export async function getArticle({
     return null
   }
 
-  const { data, error } = await query.single()
+  const { data, error } = await query.maybeSingle()
 
   if (error) {
     console.error("[getArticle] Error fetching article:", error)

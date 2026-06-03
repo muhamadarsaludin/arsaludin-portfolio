@@ -1,6 +1,5 @@
 "use client"
 
-import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import MiracleButton from "@/components/miracle/Button"
 import { MiracleReveal } from "@/components/miracle/Reveal"
@@ -10,6 +9,14 @@ import LiquidEther from "@/components/react-bits/LiquidEther"
 
 export default function NotFound() {
   const t = useTranslations("pages.404")
+
+  const handleBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      window.history.back()
+    } else {
+      window.location.href = "/"
+    }
+  }
 
   return (
     <div className="relative -mt-25 h-screen w-full overflow-hidden pt-17 lg:-mt-30">
@@ -46,14 +53,13 @@ export default function NotFound() {
               <MiracleButton
                 variant="secondary"
                 startIcon={<LuArrowLeft />}
-                onClick={() => window.history.back()}
+                onClick={() => handleBack()}
               >
                 {t("backButton")}
               </MiracleButton>
-
-              <Link href="/">
-                <MiracleButton startIcon={<LuHouse />}>{t("homeButton")}</MiracleButton>
-              </Link>
+              <MiracleButton href="/" startIcon={<LuHouse />}>
+                {t("homeButton")}
+              </MiracleButton>
             </div>
           </div>
         </MiracleReveal>
