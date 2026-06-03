@@ -25,11 +25,6 @@ export default async function ProjectsPage(props: StaticPageProps) {
   const queryClient = getQueryClient()
   const targetType: CategoryTargetType = "project"
 
-  /**
-   * DATA DEFAULT UNTUK SSG
-   * Server mem-prefetch data kosongan (tanpa search & category) 
-   * agar halaman awal bisa di-render statis saat build-time.
-   */
   const defaultFilters = {
     locale,
     search: undefined,

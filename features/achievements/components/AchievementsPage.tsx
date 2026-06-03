@@ -12,35 +12,34 @@ import { getAvailableCategories } from "@/features/categories/services/categorie
 import type { CategoryTargetType } from "@/features/categories/types/categories.types"
 import Container from "@/components/Container"
 import Article from "@/components/Article"
-import { normalizeArrayParam } from "@/utils/search-params"
-import type { BasePageProps } from "@/types/page.types"
+import type { StaticPageProps } from "@/types/page.types"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { Suspense } from "react"
+import { MiracleSkeleton } from "@/components/miracle/Skeleton"
+import AchievementCardSkeleton from "./AchievementCardSkeleton"
 
-export default async function AchievementsPage(props: BasePageProps) {
+export default async function AchievementsPage(props: StaticPageProps) {
   const { locale } = await props.params
-  const searchParams = await props.searchParams
+
   const t = await getTranslations("pages.achievements")
   const targetType: CategoryTargetType = "achievement"
   const queryClient = getQueryClient()
 
-  const filters = {
+  const defaultFilters = {
     locale,
-    search:
-      typeof searchParams.search === "string" && searchParams.search
-        ? searchParams.search
-        : undefined,
-    types: normalizeArrayParam(searchParams.types),
-    levels: normalizeArrayParam(searchParams.levels),
-    categorySlugs: normalizeArrayParam(searchParams.categories),
+    search: undefined,
+    types: undefined,
+    levels: undefined,
+    categorySlugs: undefined,
     pageSize: ACHIEVEMENTS_PAGE_SIZE,
   }
 
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
-      queryKey: ["achievements", filters],
+      queryKey: ["achievements", defaultFilters],
       queryFn: ({ pageParam }) =>
         getPaginatedAchievements({
-          ...filters,
+          ...defaultFilters,
           cursor: pageParam as Cursor | undefined,
         }),
       initialPageParam: undefined as Cursor | undefined,
@@ -88,7 +87,21 @@ export default async function AchievementsPage(props: BasePageProps) {
         </MiracleReveal>
         {/* Achievements Content */}
         <HydrationBoundary state={dehydratedState}>
-          <AchievementsContent locale={locale} targetType={targetType} />
+          <Suspense fallback={
+            <div className="flex w-full flex-col gap-6 md:gap-8">
+              <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
+                <MiracleSkeleton className="h-9 w-10/12" />
+                <MiracleSkeleton className="h-9 w-2/12" />
+              </div>
+              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <AchievementCardSkeleton key={i} />
+                ))}
+              </div>
+            </div>
+          }>
+            <AchievementsContent locale={locale} targetType={targetType} />
+          </Suspense>
         </HydrationBoundary>
       </Article>
     </Container>
