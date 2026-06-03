@@ -98,6 +98,17 @@ export function useCommentMutation({
       const previous = queryClient.getQueryData<InfiniteData<PaginatedComments>>(queryKey)
       const previousCount = queryClient.getQueryData<number>(countKey)
 
+      let totalDeleted = 1
+      if (previous) {
+        for (const page of previous.pages) {
+          const targetComment = page.data.find((c) => c.id === commentId)
+          if (targetComment) {
+            totalDeleted += targetComment.reply_count || 0
+            break
+          }
+        }
+      }
+
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(queryKey, (old) => {
         if (!old) return old
         return {
@@ -109,7 +120,7 @@ export function useCommentMutation({
         }
       })
 
-      queryClient.setQueryData<number>(countKey, (old) => Math.max(0, (old ?? 0) - 1))
+      queryClient.setQueryData<number>(countKey, (old) => Math.max(0, (old ?? 0) - totalDeleted))
 
       return { previous, previousCount }
     },

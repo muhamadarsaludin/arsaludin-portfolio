@@ -62,14 +62,12 @@ export function useReplyMutation({
         recipient: variables.optimisticRecipient ?? null,
         reply_count: 0,
         reaction_summary: {
-          // userReaction: null,
           allReactions: [],
           totalReactions: 0,
           totalEmojis: 0,
         },
       }
 
-      // 1. Update the Reply Thread (Append to LAST page)
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
         if (!old) {
           return {
@@ -88,7 +86,6 @@ export function useReplyMutation({
         }
       })
 
-      // 2. Update Parent's reply_count
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey, (old) => {
         if (!old) return old
         return {
@@ -102,7 +99,6 @@ export function useReplyMutation({
         }
       })
 
-      // 3. Update Global Count
       queryClient.setQueryData<number>(countKey, (old) => (old ?? 0) + 1)
 
       return { previousReplies, previousMain, previousCount, repliesKey }
@@ -114,7 +110,8 @@ export function useReplyMutation({
         queryClient.setQueryData(countKey, context.previousCount)
     },
     onSettled: (_data, _error, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["replies", variables.parentId] })
+      const repliesKey = ["replies", variables.parentId, { pageSize: replyPageSize }]
+      queryClient.invalidateQueries({ queryKey: repliesKey })
       queryClient.invalidateQueries({ queryKey: mainCommentsKey })
       queryClient.invalidateQueries({ queryKey: countKey })
     },
@@ -135,6 +132,17 @@ export function useReplyMutation({
         queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
       const previousCount = queryClient.getQueryData<number>(countKey)
 
+      let totalDeleted = 1
+      if (previousReplies) {
+        for (const page of previousReplies.pages) {
+          const targetReply = page.data.find((c) => c.id === variables.commentId)
+          if (targetReply) {
+            totalDeleted += targetReply.reply_count || 0
+            break
+          }
+        }
+      }
+
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
         if (!old) return old
         return {
@@ -153,13 +161,15 @@ export function useReplyMutation({
           pages: old.pages.map((page) => ({
             ...page,
             data: page.data.map((c) =>
-              c.id === pId ? { ...c, reply_count: Math.max(0, (c.reply_count || 0) - 1) } : c
+              c.id === pId
+                ? { ...c, reply_count: Math.max(0, (c.reply_count || 0) - totalDeleted) }
+                : c
             ),
           })),
         }
       })
 
-      queryClient.setQueryData<number>(countKey, (old) => Math.max(0, (old ?? 0) - 1))
+      queryClient.setQueryData<number>(countKey, (old) => Math.max(0, (old ?? 0) - totalDeleted))
 
       return { previousReplies, previousMain, previousCount, repliesKey }
     },
@@ -170,7 +180,8 @@ export function useReplyMutation({
         queryClient.setQueryData(countKey, context.previousCount)
     },
     onSettled: (_data, _error, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["replies", variables.parentId] })
+      const repliesKey = ["replies", variables.parentId, { pageSize: replyPageSize }]
+      queryClient.invalidateQueries({ queryKey: repliesKey })
       queryClient.invalidateQueries({ queryKey: mainCommentsKey })
       queryClient.invalidateQueries({ queryKey: countKey })
     },

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useContext, useEffect, useState } from "react"
+import React, { createContext, useContext, useEffect, useState, useRef } from "react"
 import type { User } from "@supabase/supabase-js"
 import type { Profile } from "@/features/profile/types/profiles.types"
 import { supabase } from "@/lib/supabase/client"
@@ -20,6 +20,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
   const [isAuthLoading, setIsAuthLoading] = useState(true)
+
+  const profileRef = useRef<Profile | null>(null)
+  useEffect(() => {
+    profileRef.current = profile
+  }, [profile])
 
   useEffect(() => {
     async function initializeAuth() {
@@ -45,20 +50,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     initializeAuth()
 
-    // Listener real-time status auth
     const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
       const currentUser = session?.user ?? null
-      setUser(currentUser)
 
-      if (event === "SIGNED_IN" && currentUser) {
-        setIsAuthLoading(true)
-        const profileData = await getProfile({ id: currentUser.id })
-        setProfile(profileData)
-        setIsAuthLoading(false)
-      } else if (event === "SIGNED_OUT") {
+      if (event === "SIGNED_OUT") {
+        setUser(null)
         setProfile(null)
+        return
+      }
+
+      if (event === "TOKEN_REFRESHED" && !currentUser) {
+        return
+      }
+
+      if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED") && currentUser) {
+        setUser(currentUser)
+
+        const currentLocalProfile = profileRef.current
+        if (!currentLocalProfile || currentLocalProfile.id !== currentUser.id) {
+          const profileData = await getProfile({ id: currentUser.id })
+          if (profileData) {
+            setProfile(profileData)
+          }
+        }
       }
     })
+
     return () => listener.subscription.unsubscribe()
   }, [])
 
@@ -77,7 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     : null
 
-  const finalProfile = tanstackProfile || fallbackProfile
+  const finalProfile = tanstackProfile || profile || fallbackProfile
   const globalLoading = isAuthLoading || (isProfileLoading && !tanstackProfile)
 
   return (

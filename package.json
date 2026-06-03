@@ -21,7 +21,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "ci:simulate": "echo '⏳ Running TypeScript typecheck...' && npm run typecheck && echo '⏳ Running ESLint code analysis...' && npm run lint && echo '⏳ Verifying Prettier code formatting...' && npm run format:check && echo '⏳ Testing Next.js production build...' && npm run build && echo '✅ SUCCESS: All automated checks passed locally. Ready to push! 🚀'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
