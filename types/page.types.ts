@@ -5,3 +5,5 @@ export type BasePageProps = {
   }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
+
+export type StaticPageProps = Omit<BasePageProps, "searchParams">
