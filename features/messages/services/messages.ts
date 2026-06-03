@@ -4,7 +4,6 @@ import type { Profile } from "@/features/profile/types/profiles.types"
 import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 import type { Cursor } from "@/features/shared/types/index.types"
 import { createClient } from "@/lib/supabase/server"
-import { revalidatePath } from "next/cache"
 import type { Message, MessageEntity, PaginatedMessages } from "../types/messages.types"
 import { MESSAGES_PAGE_SIZE } from "../constants/messages.constants"
 import { supabase } from "@/lib/supabase/public"
@@ -182,8 +181,6 @@ export async function sendMessage({
     console.error("[sendMessage] Failed to send message:", error)
     throw error
   }
-
-  revalidatePath("/", "layout")
 }
 
 export async function deleteMessage({ messageId }: { messageId: string }) {
@@ -212,5 +209,4 @@ export async function deleteMessage({ messageId }: { messageId: string }) {
     console.error("[deleteMessage] Failed to delete message:", error)
     throw error
   }
-  revalidatePath("/", "layout")
 }

@@ -9,7 +9,6 @@ import { CARDS_PAGE_SIZE } from "../constants/card.constants"
 import { createClient } from "@/lib/supabase/server"
 import type { Cursor } from "@/features/shared/types/index.types"
 import { generateUniqueSlug } from "@/utils/slug"
-import { revalidatePath } from "next/cache"
 
 type CardRawResponse = CardEntity & {
   author: Profile
@@ -175,7 +174,7 @@ export async function createCard(
     .eq("status", payload.status)
     .order("order_index", { ascending: false })
     .limit(1)
-    .single()
+    .maybeSingle()
 
   const nextOrderIndex = (lastCard?.order_index ?? 0) + 1000
 
@@ -189,8 +188,6 @@ export async function createCard(
     console.error("[createdCard] Failed to create card:", error)
     throw error
   }
-
-  revalidatePath("/roadmap", "layout")
   return mapToCard(data)
 }
 
@@ -208,13 +205,18 @@ export async function updateCard({
   } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized: User must be authenticated to update card.")
 
-  const [{ data: card }, { data: profile }] = await Promise.all([
-    supabase.from("cards").select("user_id").eq("id", cardId).single(),
-    supabase.from("profiles").select("role").eq("id", user.id).single(),
+  const [{ data: card, error: cardError }, { data: profile }] = await Promise.all([
+    supabase.from("cards").select("user_id").eq("id", cardId).maybeSingle(),
+    supabase.from("profiles").select("role").eq("id", user.id).maybeSingle(),
   ])
 
+  if (cardError || !card) {
+    console.error(`[updateCard Error]: Card with ID ${cardId} not found.`)
+    throw new Error("Card not found")
+  }
+
   const isAdmin = profile?.role === "admin"
-  const isOwner = card?.user_id === user.id
+  const isOwner = card.user_id === user.id
 
   if (payload.status && !isAdmin) {
     throw new Error("Forbidden: Only administrators can update the card status.")
@@ -239,8 +241,6 @@ export async function updateCard({
     throw error
   }
 
-  revalidatePath("/roadmap", "layout")
-
   return mapToCard(data)
 }
 
@@ -254,7 +254,7 @@ export async function deleteCard({ cardId }: { cardId: string }) {
 
   const [comment, { data: profile }] = await Promise.all([
     getCard({ cardId }),
-    supabase.from("profiles").select("role").eq("id", user.id).single(),
+    supabase.from("profiles").select("role").eq("id", user.id).maybeSingle(),
   ])
   if (!comment) throw new Error("Comment not found")
 
@@ -271,6 +271,4 @@ export async function deleteCard({ cardId }: { cardId: string }) {
     console.error("[deleteCard] Failed to delete card:", error)
     throw error
   }
-
-  revalidatePath("/roadmap", "layout")
 }

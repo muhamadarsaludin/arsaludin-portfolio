@@ -2,7 +2,6 @@
 
 import { supabase } from "@/lib/supabase/public"
 import { createClient } from "@/lib/supabase/server"
-import { revalidatePath } from "next/cache"
 import type {
   CommentData,
   CommentEntity,
@@ -260,7 +259,6 @@ export async function addComment({
     console.error("[addComment] Failed to add comment:", error)
     throw error
   }
-  revalidatePath("/", "layout")
 }
 
 /**
@@ -295,6 +293,4 @@ export async function deleteComment({ commentId }: { commentId: string }) {
     console.error("[deleteComment] Failed to delete comment:", error)
     throw error
   }
-
-  revalidatePath("/", "layout")
 }

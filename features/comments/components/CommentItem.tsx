@@ -170,7 +170,7 @@ export default function CommentItem({
         />
       </div>
 
-      {comment.reply_count > 0 && (
+      {comment.reply_count > 0 && !isReply && (
         <ReplyList
           parentId={comment.id}
           replyCount={comment.reply_count}
