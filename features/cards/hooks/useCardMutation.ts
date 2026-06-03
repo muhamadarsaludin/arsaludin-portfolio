@@ -38,7 +38,7 @@ export function useCardsMutation() {
         author: profile!,
         comment_count: 0,
         reaction_summary: {
-          userReaction: null,
+          // userReaction: null,
           allReactions: [],
           totalReactions: 0,
           totalEmojis: 0,

@@ -10,49 +10,34 @@ import { useTranslations } from "next-intl"
 import { useAuth } from "@/providers/AuthProvider"
 import { signInWithGoogle } from "@/features/auth/services/auth"
 import { LuEye } from "react-icons/lu"
-
-// Hook & Types baru kita
-import { useReactionSummary } from "@/features/reactions/hooks/useReactionSummary"
-import type { ReactionSummary, ReactionTargetType } from "../types/reactions.types"
+import type { Reaction, ReactionSummary } from "../types/reactions.types"
 import { MAX_TOP_REACTIONS } from "../constants/reactions.constants"
 
 type ReactionsPreviewProps = {
-  targetId: string
-  targetType: ReactionTargetType
-  initialSummary?: ReactionSummary
+  userReaction?: Reaction | null
+  reactionSummary?: ReactionSummary
   limit?: number
   onSelectReaction: (emoji: string) => void
   tooltipPosition?: TooltipDefaultPosition
 }
 
 export default function ReactionsPreview({
-  targetId,
-  targetType,
-  initialSummary,
+  userReaction,
+  reactionSummary,
   limit = MAX_TOP_REACTIONS,
   onSelectReaction,
   tooltipPosition,
 }: ReactionsPreviewProps) {
-  const { data: summary } = useReactionSummary({
-    targetId,
-    targetType,
-    initialSummary,
-  })
-
   const [isOpen, setIsOpen] = useState(false)
   const { isSignedIn } = useAuth()
   const t = useTranslations("components.reaction")
   const zIndexBase = 10
 
-  const dataSummary = summary ?? initialSummary
+  if (!reactionSummary || reactionSummary.totalReactions <= 0) return null
 
-  if (!dataSummary || dataSummary.totalReactions <= 0) return null
+  const topReactions = reactionSummary.allReactions.slice(0, limit)
+  const remainingEmojis = Math.max(0, reactionSummary.totalEmojis - limit)
 
-  const topReactions = dataSummary.allReactions.slice(0, limit)
-  const remainingEmojis = Math.max(0, dataSummary.totalEmojis - limit)
-  /**
-   * Handles reaction selection.
-   */
   const handleSelectedIcon = async (emoji: string) => {
     if (!isSignedIn) {
       await signInWithGoogle()
@@ -65,14 +50,15 @@ export default function ReactionsPreview({
     <div className="relative z-20 flex cursor-pointer items-center -space-x-2">
       {/* Top Reactions List */}
       {topReactions.map((reaction, index) => {
-        const isUserReaction = reaction.emoji === dataSummary.userReaction?.emoji
+        // FIX 3: Cek kecocokan emoji langsung menggunakan prop `userReaction` yang di-passing dari parent
+        const isUserReaction = userReaction && reaction.emoji === userReaction.emoji
 
         return (
           <button
             key={reaction.emoji}
             type="button"
             aria-label={
-              dataSummary.userReaction
+              userReaction
                 ? isUserReaction
                   ? `${t("tooltip.delete")} ${reaction.emoji}`
                   : `${t("tooltip.edit")} ${reaction.emoji}`
@@ -147,8 +133,10 @@ export default function ReactionsPreview({
             </p>
 
             <div className="flex flex-wrap gap-1 overflow-y-auto">
-              {dataSummary.allReactions.map((reaction) => {
-                const isUserReaction = reaction.emoji === dataSummary.userReaction?.emoji
+              {reactionSummary.allReactions.map((reaction) => {
+                // FIX 4: Samakan logika penanda reaksi user aktif di dalam popover
+                const isUserReaction = userReaction && reaction.emoji === userReaction.emoji
+
                 return (
                   <MiracleButton
                     variant="secondary"

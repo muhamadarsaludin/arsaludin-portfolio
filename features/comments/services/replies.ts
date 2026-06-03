@@ -1,6 +1,6 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
+import { supabase } from "@/lib/supabase/public"
 import type { CommentData, PaginatedComments } from "../types/comments.types"
 import { REPLIES_PAGE_SIZE } from "../constants/comments.constants"
 import type { AddCommentParams, GetPaginatedCommentsResponse } from "./comments"
@@ -36,11 +36,6 @@ export async function getPaginatedReplies({
   cursor,
   pageSize = REPLIES_PAGE_SIZE,
 }: GetRepliesParams): Promise<PaginatedComments> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
   const columns = `
     id,
     content,
@@ -89,7 +84,6 @@ export async function getPaginatedReplies({
     .from("comments")
     .select<string, GetPaginatedRepliesResponse>(columns)
     .eq("parent_id", parentId)
-    .eq("reactions.user_id", user?.id ?? "00000000-0000-0000-0000-000000000000")
     .order("created_at", { ascending: true })
     .order("id", { ascending: false })
     .limit(pageSize + 1)
@@ -120,10 +114,7 @@ export async function getPaginatedReplies({
 
   const mappedData: CommentData[] = trimmedData.map((reply) => {
     const replyCount = reply.replies?.[0]?.count ?? 0
-    const userReaction = reply.reactions?.[0] ?? null
     const allReactions = reply.reaction_counts || []
-    const totalEmojis = allReactions.length
-    const totalReactions = allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0)
 
     return {
       id: reply.id,
@@ -138,10 +129,9 @@ export async function getPaginatedReplies({
       recipient: reply.recipient ?? null,
       reply_count: replyCount,
       reaction_summary: {
-        userReaction,
-        totalReactions,
         allReactions,
-        totalEmojis,
+        totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
+        totalEmojis: allReactions.length,
       },
     }
   })

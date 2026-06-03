@@ -1,5 +1,6 @@
 "use server"
 
+import { supabase } from "@/lib/supabase/public"
 import type { Card, CardPriority, CardType, PaginatedCards } from "../types/cards.types"
 import type { Profile } from "@/features/profile/types/profiles.types"
 import type { CardEntity, CardStatus } from "../types/cards.types"
@@ -39,26 +40,11 @@ const CARDS_COLUMNS = `
   reaction_counts:card_reaction_counts(
     emoji,
     count
-  ),
-  reactions(
-    id,
-    emoji,
-    user_id,
-    created_at,
-    updated_at,
-    author:profiles(
-      id,
-      full_name,
-      email,
-      role,
-      avatar_url
-    )
   )
 `
 
 const mapToCard = (card: CardRawResponse): Card => {
   const commentCount = card.comments?.[0]?.count ?? 0
-  const userReaction = card.reactions?.[0] ?? null
   const allReactions = card.reaction_counts || []
 
   return {
@@ -67,7 +53,6 @@ const mapToCard = (card: CardRawResponse): Card => {
     author: card.author,
     comment_count: commentCount,
     reaction_summary: {
-      userReaction,
       allReactions,
       totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
       totalEmojis: allReactions.length,
@@ -92,17 +77,10 @@ export async function getPaginatedCardsByStatus({
   pageSize = CARDS_PAGE_SIZE,
   cursor,
 }: GetPaginatedCardsByStatusParams): Promise<PaginatedCards> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
-
   let query = supabase
     .from("cards")
     .select<string, CardRawResponse>(CARDS_COLUMNS)
     .eq("status", status)
-    .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("created_at", { ascending: false })
     .order("id", { ascending: false })
@@ -165,22 +143,19 @@ export async function getPaginatedCardsByStatus({
   }
 }
 
-export async function getCard({ cardId }: { cardId: string }): Promise<Card> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
-
+export async function getCard({ cardId }: { cardId: string }): Promise<Card | null> {
   const { data, error } = await supabase
     .from("cards")
     .select<string, CardRawResponse>(CARDS_COLUMNS)
     .eq("id", cardId)
-    .eq("reactions.user_id", userId)
-    .single()
+    .maybeSingle()
 
-  if (error) throw error
-  return mapToCard(data)
+  if (error) {
+    console.error("[getCard] Error fetching card:", error)
+    throw error
+  }
+
+  return data ? mapToCard(data) : null
 }
 
 export async function createCard(
@@ -190,7 +165,7 @@ export async function createCard(
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized")
+  if (!user) throw new Error("Unauthorized: User must be authenticated to create card.")
 
   const slug = generateUniqueSlug(payload.status)
 
@@ -210,7 +185,10 @@ export async function createCard(
     .select<string, CardRawResponse>(CARDS_COLUMNS)
     .single()
 
-  if (error) throw error
+  if (error) {
+    console.error("[createdCard] Failed to create card:", error)
+    throw error
+  }
 
   revalidatePath("/roadmap", "layout")
   return mapToCard(data)
@@ -225,13 +203,11 @@ export async function updateCard({
 }) {
   const supabase = await createClient()
 
-  // 1. Authenticate user
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized: Please log in to continue.")
+  if (!user) throw new Error("Unauthorized: User must be authenticated to update card.")
 
-  // 2. Fetch card ownership and user role in parallel for performance
   const [{ data: card }, { data: profile }] = await Promise.all([
     supabase.from("cards").select("user_id").eq("id", cardId).single(),
     supabase.from("profiles").select("role").eq("id", user.id).single(),
@@ -240,17 +216,14 @@ export async function updateCard({
   const isAdmin = profile?.role === "admin"
   const isOwner = card?.user_id === user.id
 
-  // 3. Status Change Protection: Only admins can move cards between columns
   if (payload.status && !isAdmin) {
     throw new Error("Forbidden: Only administrators can update the card status.")
   }
 
-  // 4. Content Protection: Only the author or an admin can edit card details
   if (!isOwner && !isAdmin) {
     throw new Error("Forbidden: You do not have permission to edit this card.")
   }
 
-  // 5. Execute the update
   const { data, error } = await supabase
     .from("cards")
     .update({
@@ -262,11 +235,10 @@ export async function updateCard({
     .single()
 
   if (error) {
-    console.error("[updateCard] Database error:", error)
-    throw new Error("Internal Server Error: Failed to update the card.")
+    console.error("[updateCard] Failed to update card:", error)
+    throw error
   }
 
-  // 6. Refresh the UI data
   revalidatePath("/roadmap", "layout")
 
   return mapToCard(data)
@@ -278,7 +250,7 @@ export async function deleteCard({ cardId }: { cardId: string }) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized")
+  if (!user) throw new Error("Unauthorized: User must be authenticated to delete card.")
 
   const [comment, { data: profile }] = await Promise.all([
     getCard({ cardId }),
@@ -290,11 +262,15 @@ export async function deleteCard({ cardId }: { cardId: string }) {
   const isAdmin = profile?.role === "admin"
 
   if (!isOwner && !isAdmin) {
-    throw new Error("Unauthorized: You don't have permission to delete this")
+    throw new Error("Unauthorized: You don't have permission to delete this card")
   }
 
   const { error } = await supabase.from("cards").delete().eq("id", cardId)
 
-  if (error) throw error
+  if (error) {
+    console.error("[deleteCard] Failed to delete card:", error)
+    throw error
+  }
+
   revalidatePath("/roadmap", "layout")
 }

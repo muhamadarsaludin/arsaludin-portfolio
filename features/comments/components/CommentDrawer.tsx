@@ -11,6 +11,7 @@ import { useInfiniteComments } from "../hooks/useInfiniteComments"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
+import MiracleBadge from "@/components/miracle/Badge"
 
 type CommentDrawerProps = {
   isOpen: boolean
@@ -68,8 +69,15 @@ export default function CommentDrawer({
       onClose={onClose}
       position={drawerPosition}
       size={drawerSize}
-      title={`${t("title")} (${commentCount})`}
-      description={title}
+      title={title}
+      description={
+        <p className="flex items-center gap-1">
+          <span className="text-base">{t("title")}</span>
+          <MiracleBadge color="blue" variant="secondary">
+            {commentCount}
+          </MiracleBadge>
+        </p>
+      }
       footer={
         <CommentInput
           targetId={targetId}

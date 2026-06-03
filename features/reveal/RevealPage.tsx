@@ -2,7 +2,6 @@
 
 import type { RevealAnimation } from "@/components/miracle/Reveal"
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import React from "react"
 
 const ALL_ANIMATIONS: RevealAnimation[] = [
   "fade-up",

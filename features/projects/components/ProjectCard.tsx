@@ -71,6 +71,7 @@ export default function ProjectCard({
           initialSummary={project.reaction_summary}
         />
         <CommentGroup
+          title={project.name}
           targetId={project.id}
           targetType="project"
           initialCount={project.comment_count}

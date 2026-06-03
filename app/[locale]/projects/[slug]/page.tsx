@@ -1,9 +1,33 @@
 import { constructMetadata } from "@/configs/metadata"
 import ProjectDetailPage from "@/features/projects/components/ProjectDetailPage"
-import { getProject } from "@/features/projects/services/projects"
+import { getProject, getAllProjectsSlugs } from "@/features/projects/services/projects"
 import type { BasePageProps } from "@/types/page.types"
 import type { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
+import { routing } from "@/i18n/routing"
+import { notFound } from "next/navigation"
+
+export async function generateStaticParams() {
+  try {
+    const projects = await getAllProjectsSlugs()
+    const paths: { locale: string; slug: string }[] = []
+
+    routing.locales.forEach((locale) => {
+      projects.forEach((project) => {
+        if (project.slug) {
+          paths.push({ locale, slug: project.slug })
+        }
+      })
+    })
+
+    return paths
+  } catch (error) {
+    console.error("Failed to generate static params for project detail:", error)
+    return []
+  }
+}
+
+export const revalidate = 300
 
 export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { locale, slug } = await params
@@ -24,8 +48,9 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   })
 }
 
-export default async function ProjectDetail({ params, searchParams }: BasePageProps) {
-  const { locale } = await params
+export default async function ProjectDetail({ params }: BasePageProps) {
+  const { locale, slug } = await params
   setRequestLocale(locale)
-  return <ProjectDetailPage params={params} searchParams={searchParams} />
+  if (!slug) return notFound()
+  return <ProjectDetailPage params={params} />
 }

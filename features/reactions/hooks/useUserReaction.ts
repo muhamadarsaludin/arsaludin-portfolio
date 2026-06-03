@@ -1,37 +1,29 @@
 import { useQuery } from "@tanstack/react-query"
-import type { ReactionSummary, ReactionTargetType } from "../types/reactions.types"
-import { getReactionSummary } from "../services/reactions"
+import type { ReactionTargetType } from "../types/reactions.types"
+import { getUserReaction } from "../services/reactions"
 
-type UseReactionSummaryParams = {
+type UseUserReactionParams = {
   targetId: string
   targetType: ReactionTargetType
-  initialSummary?: ReactionSummary
   enabled?: boolean
 }
 
 /**
- * Custom hook to fetch user reaction summary
+ * Custom hook to fetch user reaction
  *
  * @param params - Configuration object for the query lifecycle
  * @param params.targetId - The unique identifier of the target entity
  * @param params.targetType - The type of target entity (e.g., 'project', 'blog')
- * @param params.initialSummary - Optional initial data from SSG/SSR to prevent layout flashes
  * @param params.enabled - Optional flag to conditionally toggle the query lifecycle (defaults to true)
  */
-export function useReactionSummary({
-  targetId,
-  targetType,
-  initialSummary,
-  enabled = true,
-}: UseReactionSummaryParams) {
+export function useUserReaction({ targetId, targetType, enabled = true }: UseUserReactionParams) {
   return useQuery({
-    queryKey: ["reaction-summary", targetType, targetId],
+    queryKey: ["user-reaction", targetType, targetId],
     queryFn: () =>
-      getReactionSummary({
+      getUserReaction({
         targetId,
         targetType,
       }),
-    placeholderData: initialSummary,
     enabled: !!targetId && enabled,
     staleTime: 1000 * 60 * 5,
   })

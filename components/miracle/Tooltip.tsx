@@ -43,6 +43,11 @@ export default function MiracleTooltip({
   noArrow = false,
 }: TooltipProps) {
   const [isOpen, setIsOpen] = useState(false)
+
+  const [isRendered, setIsRendered] = useState(false)
+  const [animate, setAnimate] = useState(false)
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen)
+
   const [coords, setCoords] = useState({ top: 0, left: 0 })
   const [adaptedPos, setAdaptedPos] = useState<TooltipDefaultPosition>(defaultPosition)
   const [mounted, setMounted] = useState(false)
@@ -50,6 +55,30 @@ export default function MiracleTooltip({
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen)
+    if (isOpen) {
+      setIsRendered(true)
+    } else {
+      setAnimate(false)
+    }
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      const frameId = requestAnimationFrame(() => {
+        setAnimate(true)
+      })
+      return () => cancelAnimationFrame(frameId)
+    }
+  }, [isOpen])
+
+  const handleTransitionEnd = () => {
+    if (!isOpen) {
+      setIsRendered(false)
+    }
+  }
 
   useEffect(() => {
     const frameId = requestAnimationFrame(() => {
@@ -63,13 +92,12 @@ export default function MiracleTooltip({
   }, [])
 
   const updatePosition = useCallback(() => {
-    if (!containerRef.current || !contentRef.current || !isOpen) return
+    if (!containerRef.current || !contentRef.current || !animate) return
 
     const triggerRect = containerRef.current.getBoundingClientRect()
     const viewportWidth = window.innerWidth
     const viewportHeight = window.innerHeight
 
-    // --- 1. AUTO CLOSE LOGIC ---
     if (
       triggerRect.bottom < 0 ||
       triggerRect.top > viewportHeight ||
@@ -84,12 +112,10 @@ export default function MiracleTooltip({
     const gap = 8
     let [side, align] = defaultPosition.split("-")
 
-    // --- 2. SMART FLIP ---
     if (side === "top" && triggerRect.top - contentRect.height - gap < 0) side = "bottom"
     else if (side === "bottom" && triggerRect.bottom + contentRect.height + gap > viewportHeight)
       side = "top"
 
-    // --- 3. SMART ALIGNMENT ---
     if (side === "top" || side === "bottom") {
       const centerX = triggerRect.left + triggerRect.width / 2
       if (centerX - contentRect.width / 2 < 0) align = "start"
@@ -104,7 +130,6 @@ export default function MiracleTooltip({
     let top = 0
     let left = 0
 
-    // --- 4. COORDINATE CALCULATION ---
     if (side === "top") top = triggerRect.top - contentRect.height - gap
     else if (side === "bottom") top = triggerRect.bottom + gap
     else {
@@ -121,16 +146,15 @@ export default function MiracleTooltip({
       else left = triggerRect.left + triggerRect.width / 2 - contentRect.width / 2
     }
 
-    // Clamping Safety
     left = Math.max(gap, Math.min(left, viewportWidth - contentRect.width - gap))
     top = Math.max(gap, Math.min(top, viewportHeight - contentRect.height - gap))
 
     setCoords({ top, left })
     setAdaptedPos(`${side}-${align}` as TooltipDefaultPosition)
-  }, [isOpen, defaultPosition, handleClose])
+  }, [animate, defaultPosition, handleClose])
 
   useLayoutEffect(() => {
-    if (isOpen) {
+    if (isRendered) {
       updatePosition()
 
       const resizeObserver = new ResizeObserver(() => updatePosition())
@@ -145,7 +169,7 @@ export default function MiracleTooltip({
         window.removeEventListener("resize", updatePosition)
       }
     }
-  }, [isOpen, updatePosition])
+  }, [isRendered, updatePosition])
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
@@ -183,9 +207,11 @@ export default function MiracleTooltip({
       </div>
 
       {mounted &&
+        isRendered &&
         createPortal(
           <div
             ref={contentRef}
+            onTransitionEnd={handleTransitionEnd}
             style={{
               position: "fixed",
               top: 0,
@@ -195,7 +221,7 @@ export default function MiracleTooltip({
             }}
             className={cn(
               "z-tooltip transition-opacity duration-300 ease-in-out",
-              isOpen ? "visible opacity-100" : "invisible opacity-0"
+              animate ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
             )}
             onMouseEnter={hoverContent ? handleMouseEnter : undefined}
             onMouseLeave={hoverContent ? handleMouseLeave : undefined}

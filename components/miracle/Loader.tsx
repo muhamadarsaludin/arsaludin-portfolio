@@ -1,5 +1,3 @@
-import React from "react"
-
 interface LoaderProps {
   size?: number
   strokeWidth?: number

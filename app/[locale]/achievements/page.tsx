@@ -4,6 +4,8 @@ import type { BasePageProps } from "@/types/page.types"
 import type { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 
+export const revalidate = 300
+
 export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations("pages.achievements")
@@ -15,9 +17,8 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   })
 }
 
-export default async function Achievements({ params, searchParams }: BasePageProps) {
+export default async function Achievements({ params }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
-
-  return <AchievementsPage params={params} searchParams={searchParams} />
+  return <AchievementsPage params={params} />
 }

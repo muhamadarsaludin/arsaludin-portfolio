@@ -1,22 +1,29 @@
 "use server"
 
+import { supabase } from "@/lib/supabase/public"
 import { createClient } from "@/lib/supabase/server"
 import type {
-  ReactionSummary,
-  ReactionTargetType,
   PaginatedReactions,
   Reaction,
   ReactionCount,
+  ReactionSummary,
+  ReactionTargetType,
 } from "../types/reactions.types"
 import type { Cursor } from "@/features/shared/types/index.types"
 import { REACTIONS_PAGE_SIZE } from "../constants/reactions.constants"
+import { revalidatePath } from "next/cache"
 
 type GetReactionSummaryParams = {
   targetId: string
   targetType: ReactionTargetType
 }
 
-type GetReactionsParams = {
+type GetUserReactionParams = {
+  targetId: string
+  targetType: ReactionTargetType
+}
+
+type GetPaginatedReactionsParams = {
   targetId: string
   targetType: ReactionTargetType
   cursor?: Cursor | null
@@ -30,66 +37,41 @@ type ToggleReactionParams = {
 }
 
 /**
- * Fetches reaction summary data for a specific target (e.g. post, comment, etc).
- * @param targetId - Target entity ID (e.g., project or comment id).
- * @param targetType - Target type used for dynamic table and column nullable FK.
- * @returns A promise that resolves to a reaction summary object
- * @throws Will throw an error if the Supabase query fails.
+ * Fetches reaction summary data for a specific target (e.g. project, article, etc).
+ * @param params - The query configuration parameters object.
+ * @param params.targetId - The unique identifier of the entity receiving reactions (e.g., project UUID, blog slug).
+ * @param params.targetType - The entity type (e.g., 'project', 'blog') used to dynamically map columns and view tables.
+ * @returns A promise that resolves to a {@link ReactionSummary} object containing the user state and aggregated metadata.
+ * @example
+ * // Used for client-side hydration on static portfolio pages (SSG)
+ * const summary = await getReactionSummary({
+ * targetId: "project_123",
+ * targetType: "project",
+ * });
  */
 export async function getReactionSummary({
   targetId,
   targetType,
 }: GetReactionSummaryParams): Promise<ReactionSummary> {
-  const supabase = await createClient()
+  // Dynamic schema mapping based on target entity type
   const targetColumn = `${targetType}_id`
   const viewTable = `${targetType}_reaction_counts`
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data, error } = await supabase
+    .from(viewTable)
+    .select<string, ReactionCount>("emoji, count")
+    .eq(targetColumn, targetId)
+    .order("count", { ascending: false })
 
-  const [reactionCountsRes, userReactionsRes] = await Promise.all([
-    supabase
-      .from(viewTable)
-      .select<string, ReactionCount>("emoji, count")
-      .eq(targetColumn, targetId)
-      .order("count", { ascending: false }),
+  if (error) {
+    console.error("[getReactionSummary] Failed to fetch reaction summary:", error)
+    throw error
+  }
 
-    user
-      ? supabase
-          .from("reactions")
-          .select<string, Reaction>(
-            `
-            id,
-            emoji,
-            user_id,
-            created_at,
-            updated_at,
-            author:profiles!inner (
-              id,
-              email,
-              full_name,
-              role,
-              avatar_url
-            )
-          `
-          )
-          .eq(targetColumn, targetId)
-          .eq("user_id", user.id)
-          .maybeSingle()
-      : Promise.resolve({ data: null, error: null }),
-  ])
-
-  if (reactionCountsRes.error) throw reactionCountsRes.error
-  if (userReactionsRes.error) throw userReactionsRes.error
-
-  const allReactions = reactionCountsRes.data || []
-  const userReaction = userReactionsRes.data
-
-  const totalReactions = allReactions.reduce((acc, curr) => acc + curr.count, 0)
+  const allReactions = data ?? []
+  const totalReactions = allReactions.reduce((acc, curr) => acc + (curr.count ?? 0), 0)
 
   return {
-    userReaction,
     allReactions,
     totalReactions,
     totalEmojis: allReactions.length,
@@ -97,21 +79,69 @@ export async function getReactionSummary({
 }
 
 /**
- * Fetches a paginated list of users who reacted to a specific target.
- * @param targetId - Target entity ID (e.g., project or comment id).
- * @param targetType - Target type used for dynamic table and column nullable FK.
- * @param cursor - Pagination metadata (createdAt & id) used for cursor-based fetching.
- * @param pageSize - The number of records to fetch per page (defaults to 10).
- * @returns {Promise<PaginatedReactions>} A paginated list of Reaction objects with `hasMore` and `nextCursor` states.
- * @throws Will throw an error if the Supabase query fails.
+ * Fetches the specific reaction details made by a user on a given target.
+ * @param params - The query configuration parameters object.
+ * @param params.targetId - The unique identifier of the entity that was reacted to (e.g., project UUID, comment ID).
+ * @param params.targetType - The entity type (e.g., 'project', 'comment') used to dynamically map columns.
+ * @param params.userId - The unique identifier of the user whose reaction is being checked.
+ * @returns A promise that resolves to the {@link Reaction} object if found, or `null` if the user has not reacted.
+ * @example
+ * // Used to determine if the active user should see an active/highlighted state on a reaction button
+ * const userReaction = await getUserReaction({
+ *   targetId: "project_123",
+ *   targetType: "project",
+ *   userId: "user_abc",
+ * });
  */
+export async function getUserReaction({
+  targetId,
+  targetType,
+}: GetUserReactionParams): Promise<Reaction | null> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return null
+
+  const targetColumn = `${targetType}_id`
+
+  const { data, error } = await supabase
+    .from("reactions")
+    .select<string, Reaction>(
+      `
+      id,
+      emoji,
+      user_id,
+      created_at,
+      updated_at,
+      author:profiles!inner(
+        id,
+        full_name,
+        email,
+        role,
+        avatar_url
+      )
+    `
+    )
+    .eq(targetColumn, targetId)
+    .eq("user_id", user.id)
+    .maybeSingle()
+
+  if (error) {
+    console.error("[getUserReaction] failed to fetch user reaction:", error)
+    throw error
+  }
+
+  return data
+}
+
 export async function getPaginatedReactions({
   targetId,
   targetType,
   cursor,
   pageSize = REACTIONS_PAGE_SIZE,
-}: GetReactionsParams): Promise<PaginatedReactions> {
-  const supabase = await createClient()
+}: GetPaginatedReactionsParams): Promise<PaginatedReactions> {
   const targetColumn = `${targetType}_id`
 
   let query = supabase
@@ -145,7 +175,10 @@ export async function getPaginatedReactions({
 
   const { data, error } = await query
 
-  if (error) throw error
+  if (error) {
+    console.error("[getPaginatedReactions] failed to fetch paginated reactions:", error)
+    throw error
+  }
 
   const hasMore = data.length > pageSize
   const trimmedData = hasMore ? data.slice(0, pageSize) : data
@@ -164,46 +197,74 @@ export async function getPaginatedReactions({
 }
 
 /**
- * Toggles a user's reaction on a specific target.
- * Automatically handles Add, Remove, and Update (change emoji) operations based on the user's current state.
- * @param targetId - Target entity ID (e.g., project or comment id).
- * @param targetType - Target type used for dynamic table and column nullable FK.
- * @param emoji - The string representation of the emoji to toggle.
- * @throws Will throw an Error if the user is unauthorized or the database operation fails.
+ * Server Action to handle toggling user reactions (Insert / Delete / Update) on a target entity.
+ * Enforces a strict boundary constraint: One active user can only have a single reaction
+ * mapped to a specific target at any given time.
+ * @param params - The configuration parameters object for mutation.
+ * @param params.targetId - The unique UUID of the target entity receiving the reaction.
+ * @param params.targetType - The classification of the entity ('project' or 'blog').
+ * @param params.emoji - The actual raw string of the emoji icon selected by the user.
+ * @returns A promise that resolves to void once the database operation synchronizes.
  */
-export async function toggleReaction({ targetId, targetType, emoji }: ToggleReactionParams) {
+export async function toggleReactionAction({ targetId, targetType, emoji }: ToggleReactionParams) {
   const supabase = await createClient()
-  const targetColumn = `${targetType}_id`
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized")
+  if (!user) throw new Error("Unauthorized: User must be authenticated to toggle reactions.")
 
-  // Check existing reaction
-  const { data: existing } = await supabase
-    .from("reactions")
-    .select("id, emoji")
-    .eq(targetColumn, targetId)
-    .eq("user_id", user.id)
-    .maybeSingle()
+  const targetColumn = `${targetType}_id`
 
-  if (existing) {
-    if (existing.emoji === emoji) {
-      // Remove if same emoji
-      return supabase.from("reactions").delete().eq("id", existing.id)
-    } else {
-      // Update if different emoji
-      return supabase
+  try {
+    const { data: existingReaction } = await supabase
+      .from("reactions")
+      .select("id, emoji")
+      .eq(targetColumn, targetId)
+      .eq("user_id", user.id)
+      .maybeSingle()
+
+    if (existingReaction && existingReaction.emoji === emoji) {
+      const { error: deleteError } = await supabase
+        .from("reactions")
+        .delete()
+        .eq("id", existingReaction.id)
+
+      if (deleteError) {
+        console.error("[toggleReactionAction] Failed to delete reaction:", deleteError)
+        throw deleteError
+      }
+      revalidatePath("/", "layout")
+      return
+    }
+
+    if (existingReaction && existingReaction.emoji !== emoji) {
+      const { error: updateError } = await supabase
         .from("reactions")
         .update({ emoji, updated_at: new Date().toISOString() })
-        .eq("id", existing.id)
-    }
-  }
+        .eq("id", existingReaction.id)
 
-  // Insert new reaction
-  return supabase.from("reactions").insert({
-    [targetColumn]: targetId,
-    user_id: user.id,
-    emoji,
-  })
+      if (updateError) {
+        console.error("[toggleReactionAction] Failed to update reaction:", updateError)
+        throw updateError
+      }
+      revalidatePath("/", "layout")
+      return
+    }
+
+    const { error: addError } = await supabase.from("reactions").insert({
+      [targetColumn]: targetId,
+      user_id: user.id,
+      emoji,
+    })
+
+    if (addError) {
+      console.error("[toggleReactionAction] Failed to add reaction:", addError)
+      throw addError
+    }
+
+    revalidatePath("/", "layout")
+  } catch (error) {
+    console.error("[toggleReactionAction] Failed to toggle reaction:", error)
+    throw error
+  }
 }

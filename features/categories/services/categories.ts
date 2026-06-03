@@ -1,6 +1,6 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
+import { supabase } from "@/lib/supabase/public"
 import type { Category, CategoryEntity, CategoryTargetType } from "../types/categories.types"
 
 type GetAvailableCategoriesParams = {
@@ -21,7 +21,6 @@ export async function getAvailableCategories({
   locale,
   targetType,
 }: GetAvailableCategoriesParams): Promise<Category[]> {
-  const supabase = await createClient()
   const relationTable = `${targetType}_categories`
 
   const { data, error } = await supabase

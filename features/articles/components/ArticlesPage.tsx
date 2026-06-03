@@ -1,3 +1,4 @@
+// articles/page.tsx (Server Component)
 import { getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { getQueryClient } from "@/lib/query-client"
@@ -9,36 +10,34 @@ import { getAvailableCategories } from "@/features/categories/services/categorie
 import type { CategoryTargetType } from "@/features/categories/types/categories.types"
 import Container from "@/components/Container"
 import Article from "@/components/Article"
-import { normalizeArrayParam } from "@/utils/search-params"
 import { ARTICLES_PAGE_SIZE } from "../constants/articles.constans"
 import { getPaginatedArticles } from "../services/articles"
 import ArticlesContent from "./ArticlesContent"
-import type { BasePageProps } from "@/types/page.types"
+import type { StaticPageProps } from "@/types/page.types"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { Suspense } from "react"
+import ArticleCardSkeleton from "./ArticleCardSkeleton"
+import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 
-export default async function ArticlesPage(props: BasePageProps) {
+export default async function ArticlesPage(props: StaticPageProps) {
   const { locale } = await props.params
-  const searchParams = await props.searchParams
   const t = await getTranslations("pages.articles")
   const queryClient = getQueryClient()
   const targetType: CategoryTargetType = "article"
 
-  const filters = {
+  const defaultFilters = {
     locale,
-    search:
-      typeof searchParams.search === "string" && searchParams.search
-        ? searchParams.search
-        : undefined,
-    categorySlugs: normalizeArrayParam(searchParams.categories),
+    search: undefined,
+    categorySlugs: undefined,
     pageSize: ARTICLES_PAGE_SIZE,
   }
 
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
-      queryKey: ["articles", filters],
+      queryKey: ["articles", defaultFilters],
       queryFn: ({ pageParam }) =>
         getPaginatedArticles({
-          ...filters,
+          ...defaultFilters,
           cursor: pageParam as Cursor | undefined,
         }),
       initialPageParam: undefined as Cursor | undefined,
@@ -87,7 +86,23 @@ export default async function ArticlesPage(props: BasePageProps) {
 
         {/* Articles Content */}
         <HydrationBoundary state={dehydratedState}>
-          <ArticlesContent locale={locale} targetType={targetType} />
+          <Suspense
+            fallback={
+              <div className="flex w-full flex-col gap-6 md:gap-8">
+                <div className="flex w-full items-center gap-3 md:w-8/12 md:gap-4">
+                  <MiracleSkeleton className="h-9 flex-1" />
+                  <MiracleSkeleton className="h-9 w-25 shrink-0" />
+                </div>
+                <div className="mt-6 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 md:mt-8 lg:grid-cols-3">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <ArticleCardSkeleton key={i} />
+                  ))}
+                </div>
+              </div>
+            }
+          >
+            <ArticlesContent locale={locale} targetType={targetType} />
+          </Suspense>
         </HydrationBoundary>
       </Article>
     </Container>

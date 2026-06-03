@@ -1,4 +1,3 @@
-import React from "react"
 import { getTranslations } from "next-intl/server"
 import { LuCalendar } from "react-icons/lu"
 
@@ -19,7 +18,7 @@ type PrivacyPolicyPageProps = {
 /* -------------------------------
    FALLBACK CONFIG
 --------------------------------*/
-const FALLBACK_LOCALES = ["en", "id"]
+const FALLBACK_LOCALES = routing.locales
 
 async function resolvePrivacyMdx(locale: string) {
   const localesToTry = [locale, ...FALLBACK_LOCALES.filter((l) => l !== locale)]
@@ -45,7 +44,7 @@ export default async function PrivacyPolicyPage({ params }: PrivacyPolicyPagePro
   --------------------------------*/
   const Content = await resolvePrivacyMdx(locale)
 
-  const LATEST_UPDATE_DATE = "2026-06-01"
+  const LATEST_UPDATE_DATE = "2026-06-03"
 
   return (
     <Container className="flex w-full items-start gap-6 md:gap-8">

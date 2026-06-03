@@ -65,6 +65,7 @@ export default function SkillBadges({
               aria-label={`${t("ariaPrefix")} ${skill.name}`}
             >
               {BadgeComponent}
+              <span className="sr-only">{`${t("ariaPrefix")} ${skill.name}`}</span>
             </a>
           )
         }
@@ -122,6 +123,7 @@ export default function SkillBadges({
                       className="no-underline"
                     >
                       {ItemContent}
+                      <span className="sr-only">{`${t("ariaPrefix")} ${skill.name}`}</span>
                     </a>
                   )
                 }

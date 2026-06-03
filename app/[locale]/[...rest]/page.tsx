@@ -1,7 +1,17 @@
 import { notFound } from "next/navigation"
+import { setRequestLocale } from "next-intl/server"
+import type { StaticPageProps } from "@/types/page.types"
+import { routing } from "@/i18n/routing"
 
-// Pastikan ada "default export" dan ini adalah fungsi komponen
-export default function CatchAllPage() {
-  notFound()
-  return null
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({
+    locale,
+    rest: [],
+  }))
+}
+
+export default async function CatchAllPage({ params }: StaticPageProps) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  return notFound()
 }

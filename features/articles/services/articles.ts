@@ -1,6 +1,6 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
+import { supabase } from "@/lib/supabase/public"
 import type { Reaction, ReactionCount } from "@/features/reactions/types/reactions.types"
 import type { Category, CategoryEntity } from "@/features/categories/types/categories.types"
 import type { Cursor } from "@/features/shared/types/index.types"
@@ -80,20 +80,6 @@ const getColumns = (isFilteringCategory: boolean = false) => `
   reaction_counts:article_reaction_counts(
     emoji,
     count
-  ),
-  reactions(
-    id,
-    emoji,
-    user_id,
-    created_at,
-    updated_at,
-    author:profiles(
-      id,
-      full_name,
-      email,
-      role,
-      avatar_url
-    )
   )
   `
 
@@ -115,7 +101,6 @@ const mapToArticle = (article: ArticleRawResponse): Article => {
       })
       .filter((cat): cat is Category => cat !== null) ?? []
   const commentCount = article.comments?.[0]?.count ?? 0
-  const userReaction = article.reactions?.[0] ?? null
   const allReactions = article.reaction_counts || []
 
   return {
@@ -129,7 +114,6 @@ const mapToArticle = (article: ArticleRawResponse): Article => {
     categories,
     comment_count: commentCount,
     reaction_summary: {
-      userReaction,
       allReactions,
       totalReactions: allReactions.reduce((acc, curr) => acc + (curr.count || 0), 0),
       totalEmojis: allReactions.length,
@@ -139,12 +123,6 @@ const mapToArticle = (article: ArticleRawResponse): Article => {
 
 // --- MAIN FUNCTION ---
 export async function getFeaturedArticles({ locale }: { locale: string }): Promise<Article[]> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
-
   const { data, error } = await supabase
     .from("articles")
     .select<string, ArticleRawResponse>(getColumns())
@@ -156,7 +134,6 @@ export async function getFeaturedArticles({ locale }: { locale: string }): Promi
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
     .eq("categories.category.category_translations.i18n.locale", locale)
-    .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
     .order("id", { ascending: false })
@@ -189,11 +166,6 @@ export async function getPaginatedArticles({
   pageSize = ARTICLES_PAGE_SIZE,
   cursor,
 }: GetPaginatedArticlesParams): Promise<PaginatedArticles> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
   const isFilteringCategory = !!(categorySlugs && categorySlugs.length > 0)
 
   let query = supabase
@@ -206,7 +178,6 @@ export async function getPaginatedArticles({
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
     .eq("categories.category.category_translations.i18n.locale", locale)
-    .eq("reactions.user_id", userId)
     .order("order_index", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
     .order("id", { ascending: false })
@@ -271,17 +242,10 @@ type GetArticleParams = {
   locale: string
 }
 export async function getArticle({ slug, id, locale }: GetArticleParams): Promise<Article | null> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const userId = user?.id ?? "00000000-0000-0000-0000-000000000000"
-
   let query = supabase
     .from("articles")
     .select<string, ArticleRawResponse>(getColumns())
     .eq("translations.i18n.locale", locale)
-    .eq("reactions.user_id", userId)
     .eq("categories.is_show", true)
     .eq("categories.category.is_show", true)
     .eq("categories.category.category_translations.i18n.locale", locale)
@@ -294,7 +258,7 @@ export async function getArticle({ slug, id, locale }: GetArticleParams): Promis
     return null
   }
 
-  const { data, error } = await query.single()
+  const { data, error } = await query.maybeSingle()
 
   if (error) {
     console.error("[getArticle] Error fetching article:", error)
@@ -305,8 +269,6 @@ export async function getArticle({ slug, id, locale }: GetArticleParams): Promis
 }
 
 export async function getAllArticlesSlugs() {
-  const supabase = await createClient()
-
   const { data, error } = await supabase
     .from("articles")
     .select("slug, updated_at")

@@ -1,8 +1,7 @@
-import React from "react"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
-import type { BasePageProps } from "@/types/page.types"
+import type { StaticPageProps } from "@/types/page.types"
 import { getProject } from "../services/projects"
 import { routing } from "@/i18n/routing"
 import { getQueryClient } from "@/lib/query-client"
@@ -29,17 +28,14 @@ import { formatDate } from "@/utils/format-date"
 import UserAvatar from "@/features/auth/components/UserAvatar"
 import SkillBadges from "@/features/skills/components/SkillBadges"
 import MiracleButton from "@/components/miracle/Button"
-import { createClient } from "@/lib/supabase/server"
 import path from "path"
 import { promises as fs } from "fs"
 import { formatReadingTime, getMdxReadingTime } from "@/utils/reading-time"
 import MiracleBanner from "@/components/miracle/Banner"
 import ProjectShareButton from "./ProjectShareButton"
+import ViewTracker from "@/features/shared/components/ViewTracker"
 
-/* -------------------------------
-   FALLBACK CONFIG
---------------------------------*/
-const FALLBACK_LOCALES = ["en", "id"]
+const FALLBACK_LOCALES = routing.locales
 
 /* -------------------------------
    MDX RESOLVER (locale → fallback → null)
@@ -59,16 +55,12 @@ async function resolveMdx(slug: string, locale: string) {
     }
   }
 
-  return {
-    Content: null,
-    mdxLocale: null,
-  }
+  return { Content: null, mdxLocale: null }
 }
 
-export default async function ProjectDetailPage({ params }: BasePageProps) {
+export default async function ProjectDetailPage({ params }: StaticPageProps) {
   const t = await getTranslations("pages.project-detail")
   const { locale, slug } = await params
-  const supabase = await createClient()
 
   if (!slug) notFound()
 
@@ -82,23 +74,9 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
   if (!project) notFound()
 
   /* -------------------------------
-     VIEW INCREMENT
-  --------------------------------*/
-  if (process.env.NODE_ENV === "production") {
-    const { error: viewError } = await supabase.rpc("increment_view", {
-      project_id: project.id,
-    })
-
-    if (viewError) {
-      console.error("Error incrementing view:", viewError.message)
-    }
-  }
-
-  /* -------------------------------
      MDX LOAD (ASYNC NON-BLOCKING FALLBACK)
   --------------------------------*/
   const { Content, mdxLocale } = await resolveMdx(slug, locale)
-
   let mdxText = ""
 
   if (Content && mdxLocale) {
@@ -122,13 +100,12 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
      RAW CONTENT (READING TIME INPUT)
   --------------------------------*/
   const rawContent = [project.name, project.description, mdxText].filter(Boolean).join(" ")
-
   const stats = getMdxReadingTime(rawContent)
-
   const displayReadingTime = stats?.minutes ? formatReadingTime(stats.minutes, locale) : ""
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <ViewTracker id={project.id} rpcName="increment_project_view" rpcParamKey="project_id" />
       <Container className="flex flex-col items-start gap-8 py-6 lg:flex-row">
         <Article className="w-full flex-1 pb-13 lg:pb-23">
           <MiracleReveal animation="fade-right">
@@ -175,11 +152,9 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                   </div>
                 )}
 
-                {/* Top */}
+                {/* Top Section */}
                 <div className="p-5 md:p-6">
-                  {/* Header */}
                   <header className="mb-4 flex items-start gap-4 md:gap-5">
-                    {/* Header Content */}
                     <div className="flex flex-1 flex-col items-start gap-1.5">
                       {project.is_featured && (
                         <MiracleBadge
@@ -196,7 +171,6 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                         id={slug}
                         level={1}
                         className="text-2xl! font-bold md:text-3xl! lg:text-4xl!"
-                        linkClassName="text-[0.5em]!"
                       >
                         {project.name}
                       </Heading>
@@ -232,7 +206,8 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                     </div>
                   )}
                 </div>
-                {/* Mid */}
+
+                {/* Mid Section */}
                 <div className="border-primary grid grid-cols-1 gap-5 border-t p-5 md:grid-cols-2 md:p-6">
                   {/* Author */}
                   <div className="flex flex-col gap-2">
@@ -245,7 +220,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                     </div>
                   </div>
 
-                  {/* Date Created*/}
+                  {/* Date Created */}
                   {project.published_at && (
                     <div className="flex flex-col gap-2">
                       <p className="text-secondary text-xs tracking-tight uppercase">
@@ -263,7 +238,6 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                     <p className="text-secondary text-xs tracking-tight uppercase">
                       {t("label.categories")}
                     </p>
-
                     <div className="text-primary flex flex-wrap items-center gap-2 text-sm font-medium">
                       {project.categories.map((category, index) => (
                         <MiracleBadge
@@ -309,7 +283,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                   </div>
                 </div>
 
-                {/* Bottom */}
+                {/* Bottom Section */}
                 <div className="border-primary flex items-center justify-end border-t px-5 py-3 md:px-6">
                   <ReactionGroup
                     targetId={project.id}
@@ -317,6 +291,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                     initialSummary={project.reaction_summary}
                   />
                   <CommentGroup
+                    title={project.name}
                     targetId={project.id}
                     targetType="project"
                     initialCount={project.comment_count}
@@ -326,6 +301,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
             </MiracleReveal>
           </div>
 
+          {/* Render MDX Content */}
           {Content && <Content />}
         </Article>
 

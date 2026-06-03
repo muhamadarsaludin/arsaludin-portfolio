@@ -55,7 +55,6 @@ export function useCommentMutation({
         recipient: null,
         reply_count: 0,
         reaction_summary: {
-          userReaction: null,
           allReactions: [],
           totalReactions: 0,
           totalEmojis: 0,

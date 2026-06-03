@@ -1,14 +1,12 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
 import type { Stats } from "../types/stats.types"
+import { supabase } from "@/lib/supabase/public"
 
 /**
  * Fetches and calculates professional metrics and achievement stats from Supabase.
  */
 export async function getStats(): Promise<Stats> {
-  const supabase = await createClient()
-
   const [firstExperience, lastExperience, services, projects, achievements, articles] =
     await Promise.all([
       supabase

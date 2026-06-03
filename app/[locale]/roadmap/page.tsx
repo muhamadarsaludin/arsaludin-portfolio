@@ -4,6 +4,8 @@ import type { BasePageProps } from "@/types/page.types"
 import type { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server" // 👈 Impor setRequestLocale
 
+export const revalidate = 300
+
 export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations("pages.roadmap")
@@ -15,8 +17,8 @@ export async function generateMetadata({ params }: BasePageProps): Promise<Metad
   })
 }
 
-export default async function Roadmap({ params, searchParams }: BasePageProps) {
+export default async function Roadmap({ params }: BasePageProps) {
   const { locale } = await params
   setRequestLocale(locale)
-  return <RoadmapPage params={params} searchParams={searchParams} />
+  return <RoadmapPage />
 }

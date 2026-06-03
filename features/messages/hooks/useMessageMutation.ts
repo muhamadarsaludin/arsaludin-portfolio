@@ -49,7 +49,7 @@ export function useMessageMutation({
         recipient: variables.recipient ?? null,
         replied_message: variables.repliedMessage ?? null,
         reaction_summary: {
-          userReaction: null,
+          // userReaction: null,
           allReactions: [],
           totalReactions: 0,
           totalEmojis: 0,

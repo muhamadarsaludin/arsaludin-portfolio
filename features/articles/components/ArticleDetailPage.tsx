@@ -1,8 +1,7 @@
-import React from "react"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
-import type { BasePageProps } from "@/types/page.types"
+import type { StaticPageProps } from "@/types/page.types"
 import { routing } from "@/i18n/routing"
 import { getQueryClient } from "@/lib/query-client"
 import Article from "@/components/Article"
@@ -18,17 +17,17 @@ import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import CommentGroup from "@/features/comments/components/CommentGroup"
 import { formatDate } from "@/utils/format-date"
 import UserAvatar from "@/features/auth/components/UserAvatar"
-import { createClient } from "@/lib/supabase/server"
 import path from "path"
 import { promises as fs } from "fs"
 import { formatReadingTime, getMdxReadingTime } from "@/utils/reading-time"
 import { getArticle } from "../services/articles"
 import ArticleShareButton from "./ArticleShareButton"
+import ViewTracker from "@/features/shared/components/ViewTracker"
 
 /* -------------------------------
    FALLBACK CONFIG
 --------------------------------*/
-const FALLBACK_LOCALES = ["en", "id"]
+const FALLBACK_LOCALES = routing.locales
 
 /* -------------------------------
    MDX RESOLVER (locale → fallback → null)
@@ -48,17 +47,12 @@ async function resolveMdx(slug: string, locale: string) {
     }
   }
 
-  return {
-    Content: null,
-    mdxLocale: null,
-  }
+  return { Content: null, mdxLocale: null }
 }
 
-export default async function ArticleDetailPage({ params }: BasePageProps) {
+export default async function ArticleDetailPage({ params }: StaticPageProps) {
   const t = await getTranslations("pages.article-detail")
   const { locale, slug } = await params
-
-  const supabase = await createClient()
 
   if (!slug) notFound()
 
@@ -72,23 +66,9 @@ export default async function ArticleDetailPage({ params }: BasePageProps) {
   if (!article) notFound()
 
   /* -------------------------------
-     VIEW INCREMENT
-  --------------------------------*/
-  if (process.env.NODE_ENV === "production") {
-    const { error: viewError } = await supabase.rpc("increment_article_view", {
-      article_id: article.id,
-    })
-
-    if (viewError) {
-      console.error("Error incrementing view:", viewError.message)
-    }
-  }
-
-  /* -------------------------------
      MDX LOAD (ASYNC NON-BLOCKING FALLBACK)
   --------------------------------*/
   const { Content, mdxLocale } = await resolveMdx(slug, locale)
-
   let mdxText = ""
 
   if (Content && mdxLocale) {
@@ -112,13 +92,12 @@ export default async function ArticleDetailPage({ params }: BasePageProps) {
      RAW CONTENT (READING TIME INPUT)
   --------------------------------*/
   const rawContent = [article.title, article.summary ?? "", mdxText].filter(Boolean).join(" ")
-
   const stats = getMdxReadingTime(rawContent)
-
   const displayReadingTime = stats?.minutes ? formatReadingTime(stats.minutes, locale) : ""
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <ViewTracker id={article.id} rpcName="increment_article_view" rpcParamKey="article_id" />
       <Container className="flex flex-col items-start gap-8 py-6 lg:flex-row">
         <Article className="w-full flex-1 pb-13 lg:pb-23">
           <MiracleReveal animation="fade-right">
@@ -165,11 +144,9 @@ export default async function ArticleDetailPage({ params }: BasePageProps) {
                   </div>
                 )}
 
-                {/* Top */}
+                {/* Top Section*/}
                 <div className="p-5 md:p-6">
-                  {/* Header */}
                   <header className="mb-4 flex items-start gap-4 md:gap-5">
-                    {/* Header Content */}
                     <div className="flex flex-1 flex-col items-start gap-1.5">
                       {article.is_featured && (
                         <MiracleBadge
@@ -211,7 +188,7 @@ export default async function ArticleDetailPage({ params }: BasePageProps) {
                     <p className="text-secondary mt-2 text-sm">{article.summary}</p>
                   )}
                 </div>
-                {/* Mid */}
+                {/* Mid Section*/}
                 <div className="border-primary grid grid-cols-1 gap-5 border-t p-5 md:grid-cols-2 md:p-6">
                   {/* Author */}
                   <div className="flex flex-col gap-2">
@@ -259,7 +236,7 @@ export default async function ArticleDetailPage({ params }: BasePageProps) {
                   </div>
                 </div>
 
-                {/* Bottom */}
+                {/* Bottom Section */}
                 <div className="border-primary flex items-center justify-end border-t px-5 py-3 md:px-6">
                   <ReactionGroup
                     targetId={article.id}
@@ -267,6 +244,7 @@ export default async function ArticleDetailPage({ params }: BasePageProps) {
                     initialSummary={article.reaction_summary}
                   />
                   <CommentGroup
+                    title={article.title}
                     targetId={article.id}
                     targetType="article"
                     initialCount={article.comment_count}
@@ -276,6 +254,7 @@ export default async function ArticleDetailPage({ params }: BasePageProps) {
             </MiracleReveal>
           </div>
 
+          {/* Render MDX Content */}
           {Content && <Content />}
         </Article>
 

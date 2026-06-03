@@ -57,7 +57,6 @@ export type ReactionCount = {
  * Comprehensive summary of reactions for a specific target, used in reaction pickers and previews.
  */
 export type ReactionSummary = {
-  userReaction: Reaction | null
   allReactions: ReactionCount[]
   totalReactions: number
   totalEmojis: number
