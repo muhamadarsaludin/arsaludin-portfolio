@@ -49,39 +49,43 @@ Setelah arah pengembangan disepakati, proses pengerjaan dilakukan secara paralel
 Adapun proses pengembangan dan implementasi yang dilakukan meliputi beberapa hal sebagai berikut:
 
 - Mengembangkan design tokens pada BLUE 3.0 dengan mengonversi file JSON hasil Figma plugin [Token Studio](https://www.figma.com/community/plugin/843461159747178978) ke dalam format SCSS menggunakan library [Style Dictionary](https://styledictionary.com/).
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-web-design-system/design-tokens.webp",
-            alt: "Konversi design tokens dari format JSON ke SCSS menggunakan Style Dictionary",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Konversi design tokens dari format JSON ke SCSS menggunakan Style Dictionary
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-web-design-system/design-tokens.webp",
+          alt: "Konversi design tokens dari format JSON ke SCSS menggunakan Style Dictionary",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Konversi design tokens dari format JSON ke SCSS menggunakan Style Dictionary
     </div>
   </div>
+</div>
+
 - Mengembangkan icon library dengan mengonversi file SVG dari designer menjadi komponen Vue, sehingga lebih fleksibel dalam penggunaan serta memudahkan pengaturan warna dan styling.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-web-design-system/icon-library.webp",
-            alt: "Konversi file SVG menjadi komponen Vue pada BLUE icon library",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Konversi file SVG menjadi komponen Vue pada BLUE icon library
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-web-design-system/icon-library.webp",
+          alt: "Konversi file SVG menjadi komponen Vue pada BLUE icon library",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Konversi file SVG menjadi komponen Vue pada BLUE icon library
     </div>
   </div>
+</div>
+
 - Mengembangkan component library sebagai bagian utama dari BLUE Web Design System (BLUE 3.0) berbasis Vue 3 untuk mendukung konsistensi implementasi UI di berbagai proyek dan ekosistem digital Blibli.
 - Melakukan penyesuaian pada design system lama (BLUE 2.0) dengan menyelaraskan visual komponen agar sama dengan BLUE 3.0, kemudian di-branding ulang sebagai BLUE 2.5 untuk menjaga _backward compatibility_ dengan proyek yang masih berjalan.
 - Melakukan implementasi awal melalui _pilot project_ pada beberapa proyek sebagai tahap validasi dan pengujian adopsi sebelum design system diterapkan ke ekosistem yang lebih besar.

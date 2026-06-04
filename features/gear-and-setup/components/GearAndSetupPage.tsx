@@ -28,7 +28,7 @@ export default async function GearAndSetupPage({ params }: GearAndSetupPageProps
     return (
       <div key={groupIndex} className="w-full">
         <MiracleReveal animation="fade-right">
-          <Heading id={categoryId} level={2} className="mb-6 font-semibold capitalize">
+          <Heading id={categoryId} className="mb-6 capitalize">
             {group.category}
           </Heading>
         </MiracleReveal>
@@ -56,7 +56,7 @@ export default async function GearAndSetupPage({ params }: GearAndSetupPageProps
             className="mb-5 md:mb-6"
           />
           <header>
-            <Heading id={t("title")} level={1} className="font-semibold">
+            <Heading id={t("title")} level={1}>
               {t("title")}
             </Heading>
             <p className="text-secondary mt-4">{t("description")}</p>

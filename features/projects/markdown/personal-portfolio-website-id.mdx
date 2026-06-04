@@ -56,36 +56,38 @@ Adapun proses yang dilakukan pada tahap ini meliputi:
 
 - Mengumpulkan kembali karya dan materi yang masih dapat diakses dari pengalaman kerja sebelumnya.
 - Menghubungi kolega untuk meminta materi yang aman untuk dipublikasikan seperti screenshot tampilan proyek yang pernah saya kerjakan atau materi pendukung lain yang tidak bersifat sensitif.
-  <div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/reaching-out.webp",
-            alt: "Proses menghubungi kolega untuk meminta materi pendukung portofolio",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Proses menghubungi kolega untuk meminta materi pendukung portofolio
-      </p>
-    </div>
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/material.webp",
-            alt: "Pengumpulan kembali materi pendukung portofolio",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Pengumpulan kembali materi pendukung portofolio
-      </p>
+
+<div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/reaching-out.webp",
+          alt: "Proses menghubungi kolega untuk meminta materi pendukung portofolio",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Proses menghubungi kolega untuk meminta materi pendukung portofolio
     </div>
   </div>
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/material.webp",
+          alt: "Pengumpulan kembali materi pendukung portofolio",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Pengumpulan kembali materi pendukung portofolio
+    </div>
+  </div>
+</div>
+
 - Memastikan kelayakan konten yang akan dipublikasikan sesuai dengan ketentuan NDA dan kebijakan perusahaan.
 - Menentukan arah dan tujuan awal portofolio sebagai media dokumentasi karya, pengalaman, serta perjalanan profesional.
 - Mengidentifikasi kebutuhan utama yang ingin ditampilkan dalam portofolio, baik dari sisi konten maupun pengalaman pengguna.
@@ -100,63 +102,69 @@ Proses perancangan dilakukan sebelum implementasi dimulai agar struktur aplikasi
 Beberapa proses yang dilakukan pada tahap ini meliputi:
 
 - Menyusun struktur informasi (information architecture) agar konten dan halaman lebih terorganisir serta mudah dipahami.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-8/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/sitemap.webp",
-            alt: "Sitemap struktur halaman website portofolio",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Sitemap struktur halaman website portofolio
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-8/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/sitemap.webp",
+          alt: "Sitemap struktur halaman website portofolio",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Sitemap struktur halaman website portofolio
     </div>
   </div>
+</div>
+
 - Menentukan struktur halaman, hirarki konten, serta pembagian fitur agar pengalaman navigasi dan eksplorasi aplikasi terasa lebih terorganisir dan intuitif.
 - Merancang alur pengalaman pengguna (user flow) agar navigasi dan interaksi dapat berjalan lebih intuitif.
 - Menentukan fitur-fitur utama yang dapat mendukung pengalaman penggunaan secara lebih interaktif, personal, dan berkelanjutan.
 - Melakukan eksplorasi referensi desain, pola interaksi, dan pendekatan visual untuk membantu menentukan arah tampilan aplikasi.
 - Melakukan eksplorasi desain, pola interaksi, dan pendekatan visual dari beberapa website yang saya jadikan referensi dan inspirasi, yang kemudian saya dokumentasikan melalui halaman [Inspirasi Website](/inspiration-website).
 - Merancang skema database dan relasi antar tabel untuk mendukung pengelolaan konten serta fitur interaktif, yang hasilnya dapat dilihat pada [diagram struktur database dan relasi antar tabel](https://dbdiagram.io/d/arsaludin-portfolio-6a157a42dfb20dafcdf5798b).
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/database-schema.webp",
-            alt: "Diagram skema database dan relasi antar tabel",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Diagram skema database dan relasi antar tabel
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/database-schema.webp",
+          alt: "Diagram skema database dan relasi antar tabel",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Diagram skema database dan relasi antar tabel
     </div>
   </div>
+</div>
+
 - Menentukan arsitektur aplikasi dan pendekatan pengelolaan data agar sistem tetap terstruktur, scalable, dan mudah dikembangkan di masa mendatang.
 - Menentukan teknologi dan tools yang digunakan berdasarkan kebutuhan pengembangan, maintainability, performa, dan fleksibilitas aplikasi.
 - Merancang High-Level Architecture (HLA) untuk memetakan struktur aplikasi, alur data, serta integrasi layanan secara menyeluruh sebagai fondasi pengembangan aplikasi.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/HLA.webp",
-            alt: "Diagram high-level architecture website portofolio",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Diagram high-level architecture website portofolio
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/HLA.webp",
+          alt: "Diagram high-level architecture website portofolio",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Diagram high-level architecture website portofolio
     </div>
   </div>
+</div>
+
 - Menentukan pendekatan pengembangan bertahap agar fitur dan halaman baru dapat dikembangkan secara berkelanjutan tanpa mengubah struktur utama aplikasi.
 
 ### 3. Implementasi & Pengembangan
@@ -196,22 +204,24 @@ Beberapa proses yang dilakukan pada tahap ini meliputi:
 - Melakukan perbaikan bug dan penyempurnaan fitur secara bertahap selama proses pengembangan berlangsung.
 - Menambahkan fitur dan halaman baru berdasarkan kebutuhan pengembangan aplikasi di masa mendatang.
 - Memanfaatkan halaman [roadmap](/roadmap) sebagai media transparansi pengembangan sekaligus ruang untuk menerima ide, masukan, dan feedback yang dapat dipertimbangkan dalam proses evaluasi dan pengembangan aplikasi secara berkelanjutan.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/roadmap.webp",
-            alt: "Halaman roadmap website portofolio",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Halaman roadmap website portofolio
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/roadmap.webp",
+          alt: "Halaman roadmap website portofolio",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Halaman roadmap website portofolio
     </div>
   </div>
+</div>
+
 - Menggunakan portofolio sebagai ruang eksplorasi untuk mencoba pendekatan, teknologi, dan pola interaksi baru secara berkelanjutan.
 
 Melalui proses evaluasi dan pengembangan berkelanjutan ini, portofolio tidak hanya menjadi media dokumentasi karya, tetapi juga berkembang sebagai ruang eksplorasi, pembelajaran, dan representasi perjalanan profesional yang terus bertumbuh seiring waktu.
@@ -229,11 +239,12 @@ Melalui proses evaluasi dan pengembangan berkelanjutan ini, portofolio tidak han
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       Halaman beranda website portofolio
-    </p>
+    </div>
   </div>
 </div>
+
 Proyek ini berhasil menghasilkan sebuah [website portofolio personal](/) yang dibangun sebagai ruang
 untuk mendokumentasikan karya, pengalaman, proses belajar, serta perjalanan profesional saya secara
 lebih utuh dan terstruktur.

@@ -58,7 +58,7 @@ export default async function RoadmapPage() {
           />
 
           <div className="mb-6 w-full md:mb-8">
-            <Heading id={t("title")} level={1} className="font-semibold">
+            <Heading id={t("title")} level={1}>
               {t("title")}
             </Heading>
             <p className="text-secondary mt-4">{t("description")}</p>

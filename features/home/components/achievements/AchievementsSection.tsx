@@ -29,7 +29,6 @@ export default async function AchievementsSection({ className }: { className?: s
             className="mb-8 text-3xl md:text-4xl lg:mb-10 lg:text-5xl xl:mb-12"
             linkClassName="text-[0.4em]!"
             noMarginTop
-            fontWeight="semibold"
           >
             {t("title")}
           </Heading>

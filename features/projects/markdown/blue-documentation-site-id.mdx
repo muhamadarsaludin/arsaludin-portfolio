@@ -59,70 +59,76 @@ Setelah struktur dan kebutuhan dokumentasi mulai terbentuk, proses pengembangan 
 - Mengembangkan berbagai komponen kustom untuk mendukung kebutuhan antarmuka dokumentasi dan _content presentation_.
 - Mengembangkan tampilan dan antarmuka BLUE Documentation Site berdasarkan desain dan kebutuhan dokumentasi yang telah dirancang.
 - Mengembangkan micro interaction dan animasi untuk meningkatkan pengalaman penggunaan saat mengeksplorasi dokumentasi.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <video
-        src="/projects/blue-documentation-site/animation.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        aria-label="Contoh animasi pada BLUE Documentation Site"
-        className="w-full rounded-2xl object-cover"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Contoh animasi pada BLUE Documentation Site
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <video
+      src="/projects/blue-documentation-site/animation.mp4"
+      autoPlay
+      loop
+      muted
+      playsInline
+      aria-label="Contoh animasi pada BLUE Documentation Site"
+      className="w-full rounded-2xl object-cover"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Contoh animasi pada BLUE Documentation Site
     </div>
   </div>
+</div>
+
 - Mengimplementasikan sistem theming berbasis design token untuk mendukung light mode dan dark mode sekaligus merepresentasikan implementasi token secara langsung pada komponen dan antarmuka dokumentasi.
-  <div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-documentation-site/light.webp",
-            alt: "Tampilan light mode pada BLUE Documentation Site",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Tampilan light mode pada BLUE Documentation Site
-      </p>
-    </div>
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-documentation-site/dark.webp",
-            alt: "Tampilan dark mode pada BLUE Documentation Site",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Tampilan dark mode pada BLUE Documentation Site
-      </p>
+
+<div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-documentation-site/light.webp",
+          alt: "Tampilan light mode pada BLUE Documentation Site",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Tampilan light mode pada BLUE Documentation Site
     </div>
   </div>
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-documentation-site/dark.webp",
+          alt: "Tampilan dark mode pada BLUE Documentation Site",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Tampilan dark mode pada BLUE Documentation Site
+    </div>
+  </div>
+</div>
+
 - Mengimplementasikan sistem hybrid content access dengan pendekatan network-based authorization melalui jaringan internal dan VPN untuk membatasi akses pada halaman dan konten yang bersifat confidential tanpa proses login tambahan.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-documentation-site/hybrid-content-access.webp",
-            alt: "Tampilan halaman dengan konten yang dibatasi pada mode akses publik",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Tampilan halaman dengan konten yang dibatasi pada mode akses publik
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-documentation-site/hybrid-content-access.webp",
+          alt: "Tampilan halaman dengan konten yang dibatasi pada mode akses publik",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Tampilan halaman dengan konten yang dibatasi pada mode akses publik
     </div>
   </div>
+</div>
+
 - Melakukan build, release, dan deployment documentation site secara berkala untuk mendukung proses validasi dan pengembangan berkelanjutan.
 
 Melalui pendekatan ini, BLUE Documentation Site berhasil berkembang dari platform dokumentasi sederhana menjadi fondasi dokumentasi design system yang lebih terstruktur, scalable, dan mampu mendukung kebutuhan implementasi lintas tim secara lebih efektif.
@@ -137,40 +143,44 @@ Beberapa proses utama yang dilakukan pada tahap ini meliputi:
 
 - Merancang struktur data pada Cloud Firestore menggunakan pendekatan dokumen dan koleksi untuk mendukung pengelolaan component usage guideline secara terpusat.
 - Mengimplementasikan autentikasi menggunakan Microsoft Account dengan akses terbatas untuk memastikan hanya tim BLUE yang dapat mengakses dan mengelola konten CMS.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-documentation-site/auth.webp",
-            alt: "Halaman login dengan Microsoft Account untuk mengakses CMS BLUE Documentation Site",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Halaman login dengan Microsoft Account untuk mengakses CMS BLUE Documentation Site
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-documentation-site/auth.webp",
+          alt: "Halaman login dengan Microsoft Account untuk mengakses CMS BLUE Documentation Site",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Halaman login dengan Microsoft Account untuk mengakses CMS BLUE Documentation Site
     </div>
   </div>
+</div>
+
 - Mengamankan halaman login dan akses CMS melalui pembatasan jaringan internal dan VPN sebagai lapisan keamanan tambahan dalam proses pengelolaan konten.
 - Mengimplementasikan mode view, edit, dan draft untuk mendukung proses pengelolaan dan validasi konten sebelum dipublikasikan.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-documentation-site/cms.webp",
-            alt: "Tampilan mode edit pada CMS BLUE Documentation Site",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Tampilan mode edit pada CMS BLUE Documentation Site
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-documentation-site/cms.webp",
+          alt: "Tampilan mode edit pada CMS BLUE Documentation Site",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Tampilan mode edit pada CMS BLUE Documentation Site
     </div>
   </div>
+</div>
+
 - Mengembangkan mekanisme auto save draft berbasis local storage secara berkala untuk menyimpan perubahan sementara selama proses editing berlangsung.
 - Mengintegrasikan CMS dengan documentation site agar proses pembaruan konten dapat dilakukan langsung melalui halaman dokumentasi tanpa perlu mengubah codebase.
 - Menyusun struktur konten agar informasi component usage guideline tetap konsisten dan mudah dikembangkan seiring evolusi komponen.
@@ -192,9 +202,9 @@ Melalui pengembangan ini, [BLUE Documentation Site](https://blue.blibli.com/blue
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       Tampilan halaman utama BLUE Documentation Site
-    </p>
+    </div>
   </div>
 </div>
 

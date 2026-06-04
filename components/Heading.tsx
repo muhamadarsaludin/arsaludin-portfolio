@@ -31,7 +31,7 @@ export default function Heading({
   copyLink = true,
   linkClassName,
   noMarginTop = false,
-  fontWeight = "normal",
+  fontWeight = "semibold",
   ...props
 }: HeadingProps) {
   const Tag = `h${level}` as HeadingTag
@@ -86,7 +86,7 @@ export default function Heading({
     <Tag
       id={headingId}
       className={cn(
-        "group/heading relative w-fit scroll-mt-24 leading-tight font-semibold",
+        "group/heading relative w-fit scroll-mt-24 leading-tight",
         fontSizeClass[level],
         fontWeightClass[fontWeight],
         !noMarginTop && marginClass[level],

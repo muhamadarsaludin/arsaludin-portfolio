@@ -62,7 +62,7 @@ export default async function ProjectsPage(props: StaticPageProps) {
             className="mb-5 md:mb-6"
           />
           <header className="mb-8 w-full lg:mb-10 xl:mb-12">
-            <Heading id={t("title")} level={1} className="font-semibold">
+            <Heading id={t("title")} level={1}>
               {t("title")}
             </Heading>
             <p className="text-secondary mt-4">{t("description")}</p>

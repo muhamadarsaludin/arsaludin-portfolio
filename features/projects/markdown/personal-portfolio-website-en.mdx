@@ -56,36 +56,38 @@ The processes carried out at this stage included:
 
 - Gathering work and materials that could still be accessed from previous work experiences.
 - Reaching out to colleagues to request materials that are safe to publish, such as screenshots of project interfaces I had worked on or other non-sensitive supporting materials.
-  <div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/reaching-out.webp",
-            alt: "Process of reaching out to colleagues to request supporting portfolio materials",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm">
-        Process of reaching out to colleagues to request supporting portfolio materials
-      </p>
-    </div>
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/material.webp",
-            alt: "Re-collecting supporting portfolio materials",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Re-collecting supporting portfolio materials
-      </p>
+
+<div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/reaching-out.webp",
+          alt: "Process of reaching out to colleagues to request supporting portfolio materials",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm">
+      Process of reaching out to colleagues to request supporting portfolio materials
     </div>
   </div>
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/material.webp",
+          alt: "Re-collecting supporting portfolio materials",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Re-collecting supporting portfolio materials
+    </div>
+  </div>
+</div>
+
 - Ensuring the feasibility of the content to be published according to NDA provisions and company policies.
 - Determining the initial direction and goal of the portfolio as a medium for documenting work, experiences, and the professional journey.
 - Identifying the main needs to be displayed in the portfolio, both in terms of content and user experience.
@@ -100,63 +102,69 @@ The design process was done before implementation began so the application struc
 Several processes carried out at this stage included:
 
 - Structuring information (information architecture) so content and pages are more organized and easy to understand.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-8/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/sitemap.webp",
-            alt: "Sitemap of the portfolio website page structure",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Sitemap of the portfolio website page structure
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-8/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/sitemap.webp",
+          alt: "Sitemap of the portfolio website page structure",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Sitemap of the portfolio website page structure
     </div>
   </div>
+</div>
+
 - Determining page structure, content hierarchy, and feature distribution so the application navigation and exploration experience feels more organized and intuitive.
 - Designing the user flow so navigation and interaction can run more intuitively.
 - Determining key features that can support a more interactive, personal, and sustainable user experience.
 - Exploring design references, interaction patterns, and visual approaches to help determine the direction of the application's appearance.
 - Exploring design, interaction patterns, and visual approaches from several websites I used as references and inspiration, which I then documented on the [Website Inspiration](/inspiration-website) page.
 - Designed the database schema and table relationships to support content management and interactive features, with the results visualised in the [database schema and table relationship diagram](https://dbdiagram.io/d/arsaludin-portfolio-6a157a42dfb20dafcdf5798b).
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/database-schema.webp",
-            alt: "Diagram of database schema and relationships between tables",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Diagram of database schema and relationships between tables
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/database-schema.webp",
+          alt: "Diagram of database schema and relationships between tables",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Diagram of database schema and relationships between tables
     </div>
   </div>
+</div>
+
 - Determining application architecture and data management approach so the system remains structured, scalable, and easy to develop in the future.
 - Determining the technologies and tools used based on development needs, maintainability, performance, and application flexibility.
 - Designing a High-Level Architecture (HLA) to map the application structure, data flow, and service integration comprehensively as the foundation for application development.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/HLA.webp",
-            alt: "High-level architecture diagram of the portfolio website",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        High-level architecture diagram of the portfolio website
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/HLA.webp",
+          alt: "High-level architecture diagram of the portfolio website",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      High-level architecture diagram of the portfolio website
     </div>
   </div>
+</div>
+
 - Determining a gradual development approach so new features and pages can be developed sustainably without changing the main application structure.
 
 ### 3. Implementation & Development
@@ -196,22 +204,24 @@ Several processes carried out at this stage included:
 - Fixing bugs and refining features gradually as the development process continues.
 - Adding new features and pages based on future application development needs.
 - Utilizing the [roadmap](/roadmap) page as a medium for development transparency as well as a space to receive ideas, input, and feedback to consider in the continuous evaluation and development process of the application.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/personal-portfolio-website/roadmap.webp",
-            alt: "Portfolio website roadmap page",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Portfolio website roadmap page
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/personal-portfolio-website/roadmap.webp",
+          alt: "Portfolio website roadmap page",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Portfolio website roadmap page
     </div>
   </div>
+</div>
+
 - Using the portfolio as an exploration space to continuously try new approaches, technologies, and interaction patterns.
 
 Through this process of continuous evaluation and development, the portfolio not only becomes a medium for documenting work but also evolves as a space for exploration, learning, and representation of a professional journey that continues to grow over time.
@@ -229,9 +239,10 @@ Through this process of continuous evaluation and development, the portfolio not
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">Portfolio website home page</p>
+    <div className="text-secondary mt-3 text-center text-sm italic">Portfolio website home page</div>
   </div>
 </div>
+
 This project successfully produced a [personal portfolio website](/) built as a space to document my
 work, experiences, learning processes, and professional journey more comprehensively and structured.
 

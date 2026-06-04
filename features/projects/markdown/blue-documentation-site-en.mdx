@@ -59,70 +59,76 @@ Once the structure and documentation needs began to take shape, the development 
 - Developing various custom components to support the documentation interface and content presentation needs.
 - Developing the appearance and interface of the BLUE Documentation Site based on the provided designs and documentation needs.
 - Developing micro interactions and animations to enhance the user experience when exploring the documentation.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <video
-        src="/projects/blue-documentation-site/animation.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        aria-label="Animation example on the BLUE Documentation Site"
-        className="w-full rounded-2xl object-cover"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Animation example on the BLUE Documentation Site
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <video
+      src="/projects/blue-documentation-site/animation.mp4"
+      autoPlay
+      loop
+      muted
+      playsInline
+      aria-label="Animation example on the BLUE Documentation Site"
+      className="w-full rounded-2xl object-cover"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Animation example on the BLUE Documentation Site
     </div>
   </div>
+</div>
+
 - Implementing a design token-based theming system to support light mode and dark mode while directly representing token implementation on components and documentation interfaces.
-  <div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-documentation-site/light.webp",
-            alt: "Light mode appearance on the BLUE Documentation Site",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Light mode appearance on the BLUE Documentation Site
-      </p>
-    </div>
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-documentation-site/dark.webp",
-            alt: "Dark mode appearance on the BLUE Documentation Site",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Dark mode appearance on the BLUE Documentation Site
-      </p>
+
+<div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-documentation-site/light.webp",
+          alt: "Light mode appearance on the BLUE Documentation Site",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Light mode appearance on the BLUE Documentation Site
     </div>
   </div>
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-documentation-site/dark.webp",
+          alt: "Dark mode appearance on the BLUE Documentation Site",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Dark mode appearance on the BLUE Documentation Site
+    </div>
+  </div>
+</div>
+
 - Implementing a hybrid content access system using a network-based authorization approach via internal networks and VPNs to restrict access to confidential pages and content without an additional login process.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-documentation-site/hybrid-content-access.webp",
-            alt: "Page appearance with restricted content in public access mode",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Page appearance with restricted content in public access mode
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-documentation-site/hybrid-content-access.webp",
+          alt: "Page appearance with restricted content in public access mode",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Page appearance with restricted content in public access mode
     </div>
   </div>
+</div>
+
 - Conducting periodic builds, releases, and deployments of the documentation site to support the continuous validation and development process.
 
 Through this approach, the BLUE Documentation Site successfully evolved from a simple documentation platform into a more structured, scalable design system documentation foundation capable of supporting cross-team implementation needs more effectively.
@@ -137,40 +143,44 @@ Some of the main processes carried out at this stage included:
 
 - Designing the data structure on Cloud Firestore using a document and collection approach to support centralized management of component usage guidelines.
 - Implementing authentication using a Microsoft Account with restricted access to ensure that only the BLUE team can access and manage CMS content.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-documentation-site/auth.webp",
-            alt: "Login page with Microsoft Account to access the BLUE Documentation Site CMS",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Login page with Microsoft Account to access the BLUE Documentation Site CMS
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-documentation-site/auth.webp",
+          alt: "Login page with Microsoft Account to access the BLUE Documentation Site CMS",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Login page with Microsoft Account to access the BLUE Documentation Site CMS
     </div>
   </div>
+</div>
+
 - Securing the login page and CMS access through internal network and VPN restrictions as an additional security layer in the content management process.
 - Implementing view, edit, and draft modes to support the content management and validation process prior to publishing.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-documentation-site/cms.webp",
-            alt: "Edit mode appearance on the BLUE Documentation Site CMS",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Edit mode appearance on the BLUE Documentation Site CMS
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-documentation-site/cms.webp",
+          alt: "Edit mode appearance on the BLUE Documentation Site CMS",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Edit mode appearance on the BLUE Documentation Site CMS
     </div>
   </div>
+</div>
+
 - Developing an auto save draft mechanism utilizing local storage periodically to secure temporary changes during the editing process.
 - Integrating the CMS with the documentation site so that content updates can be executed directly through the documentation page without modifying the codebase.
 - Structuring content to ensure component usage guideline information remains consistent and easy to scale as components evolve.
@@ -192,9 +202,9 @@ Through this development, the [BLUE Documentation Site](https://blue.blibli.com/
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       BLUE Documentation Site main page appearance
-    </p>
+    </div>
   </div>
 </div>
 

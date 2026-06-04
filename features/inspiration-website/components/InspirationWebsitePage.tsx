@@ -53,7 +53,7 @@ export default async function InspirationWebsitePage({ params }: InspirationWebs
             className="mb-5 md:mb-6"
           />
           <header>
-            <Heading level={1} className="font-semibold">
+            <Heading level={1}>
               {t("title")}
             </Heading>
             <p className="text-secondary mt-4">{t("description")}</p>
@@ -63,7 +63,7 @@ export default async function InspirationWebsitePage({ params }: InspirationWebs
           {/* SECTION 1: PERSONAL WEBSITES */}
           <div className="w-full">
             <MiracleReveal animation="fade-right">
-              <Heading level={2} className="font-semibold">
+              <Heading>
                 {t("personal")}
               </Heading>
             </MiracleReveal>
@@ -73,7 +73,7 @@ export default async function InspirationWebsitePage({ params }: InspirationWebs
           {/* SECTION 2: ORGANIZATION WEBSITES */}
           <div className="w-full">
             <MiracleReveal animation="fade-right">
-              <Heading level={2} className="font-semibold">
+              <Heading>
                 {t("organization")}
               </Heading>
             </MiracleReveal>
