@@ -30,7 +30,8 @@ export function useUserReaction({
         targetId,
         targetType,
       }),
-    initialData: initialUserReaction,
+    // Use placeholderData for dynamic batching sync; change to initialData if migrating to 100% User-Centric.
+    placeholderData: initialUserReaction,
     enabled: !!targetId && enabled,
     staleTime: 1000 * 60 * 5,
   })

@@ -30,7 +30,7 @@ export function ProjectList({ locale }: { locale: string }) {
           className="w-[75vw] shrink-0 snap-start sm:w-auto"
           key={project.id}
         >
-          <ProjectCard project={project} className="h-full w-full" />
+          <ProjectCard className="h-full w-full" project={project} initialUserReaction={null} />
         </MiracleReveal>
       ))}
     </div>

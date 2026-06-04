@@ -22,6 +22,7 @@ import ProjectCardSkeleton from "./ProjectCardSkeleton"
 import ProjectCard from "./ProjectCard"
 import Section from "@/components/Section"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 
 type ProjectsContentProps = {
   locale: string
@@ -91,6 +92,13 @@ export default function ProjectsContent({ locale, targetType }: ProjectsContentP
     useInfiniteProjects(currentFilters)
 
   const projects = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
+  const projectIds = useMemo(() => projects.map((a) => a.id), [projects])
+
+  const { data: userReactions } = useBatchUserReactions({ 
+    targetIds: projectIds, 
+    targetType: targetType 
+  })
+
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   useIntersectionObserver({
@@ -116,18 +124,25 @@ export default function ProjectsContent({ locale, targetType }: ProjectsContentP
 
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-        {projects.map((project, index) => (
-          <MiracleReveal
-            animation="fade-up"
-            delay={{
-              default: 0,
-              sm: (index % 6) * 0.1,
-            }}
-            key={project.id}
-          >
-            <ProjectCard project={project} className="h-full w-full" />
-          </MiracleReveal>
-        ))}
+        {projects.map((project, index) => {
+          const userReaction = userReactions?.[project.id] || null
+          return (
+            <MiracleReveal
+              animation="fade-up"
+              delay={{
+                default: 0,
+                sm: (index % 6) * 0.1,
+              }}
+              key={project.id}
+            >
+              <ProjectCard 
+                className="h-full w-full" 
+                project={project} 
+                initialUserReaction={userReaction}
+              />
+            </MiracleReveal>
+          )   
+        })}
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <ProjectCardSkeleton key={`more-${i}`} />)}
       </div>
