@@ -91,7 +91,7 @@ export default function TestimonialCard({
           <ReactionGroup
             targetId={testimonial.id}
             targetType="testimonial"
-            initialSummary={testimonial.reaction_summary}
+            initialReactionSummary={testimonial.reaction_summary}
           />
         </div>
       </div>

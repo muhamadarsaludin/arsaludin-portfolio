@@ -129,7 +129,7 @@ export default function CardDetailModal({
           <ReactionGroup
             targetId={card.id}
             targetType="card"
-            initialSummary={card.reaction_summary}
+            initialReactionSummary={card.reaction_summary}
           />
           <CommentGroup
             title={card.title}

@@ -165,7 +165,7 @@ export default function CommentItem({
         <ReactionGroup
           targetId={comment.id}
           targetType="comment"
-          initialSummary={comment.reaction_summary}
+          initialReactionSummary={comment.reaction_summary}
           tooltipPosition="left-center"
         />
       </div>

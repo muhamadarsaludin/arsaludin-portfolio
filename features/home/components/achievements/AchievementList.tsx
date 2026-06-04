@@ -30,7 +30,7 @@ export function AchievementList({ locale }: { locale: string }) {
           className="w-[75vw] shrink-0 snap-start sm:w-auto"
           key={achievement.id}
         >
-          <AchievementCard achievement={achievement} className="h-full w-full" />
+          <AchievementCard achievement={achievement} className="h-full w-full" initialUserReaction={null} />
         </MiracleReveal>
       ))}
     </div>

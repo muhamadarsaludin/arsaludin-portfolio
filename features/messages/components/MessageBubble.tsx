@@ -185,7 +185,7 @@ export default function MessageBubble({
           <ReactionGroup
             targetId={message.id}
             targetType="message"
-            initialSummary={message.reaction_summary}
+            initialReactionSummary={message.reaction_summary}
           />
           <div
             className={cn("flex items-center gap-2", isAuthor ? "flex-row-reverse" : "flex-row")}

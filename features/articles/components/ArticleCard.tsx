@@ -56,7 +56,7 @@ export default function ArticleCard({
             <ReactionGroup
               targetId={article.id}
               targetType="article"
-              initialSummary={article.reaction_summary}
+              initialReactionSummary={article.reaction_summary}
             />
             <CommentGroup
               title={article.title}

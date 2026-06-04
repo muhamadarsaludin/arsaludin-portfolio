@@ -68,7 +68,7 @@ export default function ProjectCard({
         <ReactionGroup
           targetId={project.id}
           targetType="project"
-          initialSummary={project.reaction_summary}
+          initialReactionSummary={project.reaction_summary}
         />
         <CommentGroup
           title={project.name}

@@ -191,7 +191,7 @@ export default function CardItem({ card, onUpdate, className }: CardItemProps) {
             <ReactionGroup
               targetId={card.id}
               targetType="card"
-              initialSummary={card.reaction_summary}
+              initialReactionSummary={card.reaction_summary}
             />
             <CommentGroup
               title={card.title}

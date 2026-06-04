@@ -5,7 +5,7 @@ import { getReactionSummary } from "../services/reactions"
 type UseReactionSummaryParams = {
   targetId: string
   targetType: ReactionTargetType
-  initialSummary?: ReactionSummary
+  initialReactionSummary?: ReactionSummary
   enabled?: boolean
 }
 
@@ -15,13 +15,13 @@ type UseReactionSummaryParams = {
  * @param params - Configuration object for the query lifecycle
  * @param params.targetId - The unique identifier of the target entity
  * @param params.targetType - The type of target entity (e.g., 'project', 'blog')
- * @param params.initialSummary - Optional initial data from SSG/SSR to prevent layout flashes
+ * @param params.initialReactionSummary - Optional initial data from SSG/SSR to prevent layout flashes
  * @param params.enabled - Optional flag to conditionally toggle the query lifecycle (defaults to true)
  */
 export function useReactionSummary({
   targetId,
   targetType,
-  initialSummary,
+  initialReactionSummary,
   enabled = true,
 }: UseReactionSummaryParams) {
   return useQuery({
@@ -31,7 +31,7 @@ export function useReactionSummary({
         targetId,
         targetType,
       }),
-    placeholderData: initialSummary,
+    placeholderData: initialReactionSummary,
     enabled: !!targetId && enabled,
     staleTime: 1000 * 60 * 5,
   })

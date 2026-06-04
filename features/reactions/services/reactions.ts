@@ -29,6 +29,17 @@ type GetPaginatedReactionsParams = {
   pageSize?: number
 }
 
+type GetBatchReactionsParams = {
+  targetIds: string[]
+  targetType: ReactionTargetType
+}
+
+type GetBatchReactionsResult = Record<string, { summary: ReactionSummary; userReaction: Reaction | null }>
+
+type GetBatchUserReactionsParams = GetBatchReactionsParams
+
+type GetBatchUserReactionsResult = Record<string, Reaction | null>
+
 type ToggleReactionParams = {
   targetId: string
   targetType: ReactionTargetType
@@ -135,6 +146,22 @@ export async function getUserReaction({
   return data
 }
 
+/**
+ * Fetches a paginated list of reactions with author profiles for a specific target.
+ * @param params - The query configuration parameters object.
+ * @param params.targetId - The unique identifier of the entity that was reacted to (e.g., project UUID, comment ID).
+ * @param params.targetType - The entity type (e.g., 'project', 'blog') used to dynamically map columns.
+ * @param params.cursor - The pagination pointer containing the boundary timestamp and ID from the previous page.
+ * @param params.pageSize - The maximum number of reaction records to retrieve per page lifecycle.
+ * @returns A promise that resolves to a {@link PaginatedReactions} object containing the record slice and the next cursor pointer.
+ * @example
+ * const targetReactions = await getPaginatedReactions({
+ * targetId: "achievement_123",
+ * targetType: "achievement",
+ * cursor: currentCursor,
+ * pageSize: 10,
+ * });
+ */
 export async function getPaginatedReactions({
   targetId,
   targetType,
@@ -193,6 +220,176 @@ export async function getPaginatedReactions({
       : null,
     hasMore,
   }
+}
+
+/**
+ * Fetches reaction summaries and the active user's specific reaction state for multiple targets simultaneously.
+ * Leverages high-performance parallel execution and broad array matching (.in()) to completely resolve N+1 query bottlenecks.
+ * @param params - The batch query configuration parameters object.
+ * @param params.targetIds - An array of unique identifiers for the entities receiving reactions (e.g., array of achievement UUIDs).
+ * @param params.targetType - The entity classification ('achievement', 'project', or 'blog') used to dynamically compute database relations and view mappings.
+ * @returns A promise that resolves to a heavily indexed lookup hash Map where keys are target IDs, allowing O(1) retrieval complexity down the UI tree.
+ * * @example
+ * const batchReactions = await getBatchReactions({
+ * targetIds: ["achievement_a", "achievement_b", "achievement_c"],
+ * targetType: "achievement",
+ * });
+ */
+export async function getBatchReactions({
+  targetIds,
+  targetType,
+}: GetBatchReactionsParams): Promise<
+  GetBatchReactionsResult
+> {
+  if (!targetIds || targetIds.length === 0) return {}
+  
+  const clientSupabase = await createClient()
+  const targetColumn = `${targetType}_id`
+  const viewTable = `${targetType}_reaction_counts`
+
+  const {
+    data: { user },
+  } = await clientSupabase.auth.getUser()
+
+  const [summariesResponse, userReactionsResponse] = await Promise.all([
+    supabase
+      .from(viewTable)
+      .select<string, ReactionCount & { [key: string]: string }>(`emoji, count, ${targetColumn}`)
+      .in(targetColumn, targetIds),
+
+    user
+      ? clientSupabase
+          .from("reactions")
+          .select<string, Reaction & { [key: string]: string }>(
+            `
+            id,
+            emoji,
+            user_id,
+            created_at,
+            updated_at,
+            ${targetColumn},
+            author:profiles!inner(
+              id,
+              full_name,
+              email,
+              role,
+              avatar_url
+            )
+          `
+          )
+          .eq("user_id", user.id)
+          .in(targetColumn, targetIds)
+      : Promise.resolve({ data: [], error: null }),
+  ])
+
+  if (summariesResponse.error) {
+    console.error("[getBatchReactions] Failed to fetch batch summaries:", summariesResponse.error)
+    throw summariesResponse.error
+  }
+
+  if (userReactionsResponse.error) {
+    console.error("[getBatchReactions] Failed to fetch batch user reactions:", userReactionsResponse.error)
+    throw userReactionsResponse.error
+  }
+
+  const allSummaries = summariesResponse.data || []
+  const allUserReactions = userReactionsResponse.data || []
+
+  // 2. Mapping result query { [targetId]: { summary, userReaction } }
+  const result = targetIds.reduce((acc, id) => {
+    const itemReactionCounts = allSummaries
+      .filter((item) => item[targetColumn] === id)
+      .map((item) => ({ emoji: item.emoji, count: item.count }))
+
+    const totalReactions = itemReactionCounts.reduce((sum, curr) => sum + (curr.count ?? 0), 0)
+    const itemUserReaction = allUserReactions.find((react) => react[targetColumn] === id) || null
+
+    acc[id] = {
+      summary: {
+        allReactions: itemReactionCounts,
+        totalReactions,
+        totalEmojis: itemReactionCounts.length,
+      },
+      userReaction: itemUserReaction,
+    }
+
+    return acc
+  }, {} as GetBatchReactionsResult)
+
+  return result
+}
+
+/**
+ * Fetches only the active user's specific reaction state for multiple targets simultaneously
+ * to completely eliminate client-side N+1 query bottlenecks for session-based private data.
+ * @remarks
+ * **FUTURE MIGRATION CONSIDERATION (HYBRID APPROACH):**
+ * Current architecture is Hybrid (Summary from server, User Reaction batched here). It prevents N+1 
+ * but risks minor UI flickering when server-side SSG data is stale. To achieve 100% zero-flickering 
+ * and a clean Single Source of Truth for Optimistic Updates, remove the reaction summary from the 
+ * server query, use an empty state blueprint for the initial UI, and switch back to the original batch function.
+ * @param params - The batch configuration parameters including target IDs and type.
+ * @param params.targetIds - An array of unique identifiers for the entities receiving reactions (e.g., array of achievement UUIDs).
+ * @param params.targetType - The entity classification ('achievement', 'project', or 'blog') used to dynamically compute database relations and view mappings.
+ * @returns A promise that resolves to an indexed lookup hash Map for O(1) user reaction retrieval.
+ * @see {@link getBatchReactions} for the full client-side summary + reaction batching alternative.
+ */
+export async function getBatchUserReactions({
+  targetIds,
+  targetType,
+}: GetBatchUserReactionsParams): Promise<GetBatchUserReactionsResult> {
+  if (!targetIds || targetIds.length === 0) return {};
+
+  const clientSupabase = await createClient();
+  const targetColumn = `${targetType}_id`;
+
+  const {
+    data: { user },
+  } = await clientSupabase.auth.getUser();
+
+  if (!user) {
+    return targetIds.reduce((acc, id) => {
+      acc[id] = null
+      return acc
+    }, {} as GetBatchUserReactionsResult)
+  }
+
+  const { data: userReactions, error } = await clientSupabase
+    .from("reactions")
+    .select<string, Reaction & { [key: string]: string }>(
+      `
+      id,
+      emoji,
+      user_id,
+      created_at,
+      updated_at,
+      ${targetColumn},
+      author:profiles!inner(
+        id,
+        full_name,
+        email,
+        role,
+        avatar_url
+      )
+    `
+    )
+    .eq("user_id", user.id)
+    .in(targetColumn, targetIds)
+
+  if (error) {
+    console.error("[getBatchUserReactions] Failed to fetch batch user reactions:", error)
+    throw error
+  }
+
+  const allUserReactions = userReactions || []
+
+  const result = targetIds.reduce((acc, id) => {
+    const itemUserReaction = allUserReactions.find((react) => react[targetColumn] === id) || null
+    acc[id] = itemUserReaction 
+    return acc
+  }, {} as GetBatchUserReactionsResult)
+
+  return result
 }
 
 /**
