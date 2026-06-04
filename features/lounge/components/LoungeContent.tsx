@@ -16,6 +16,7 @@ import MessageInput from "@/features/messages/components/MessageInput"
 import MessageBubbleSkeleton from "@/features/messages/components/MessageBubbleSkeleton"
 import { cn } from "@/utils/class-name"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 
 type LoungeContentProps = {
   messageType: MessageType
@@ -43,6 +44,12 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
     })
 
   const messages = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
+  const messageIds = useMemo(() => messages.map((m) => m.id), [messages])
+
+  const { data: userReactions } = useBatchUserReactions({ 
+    targetIds: messageIds, 
+    targetType: "message" 
+  })
 
   useIntersectionObserver({
     targetRef: loadMoreRef,
@@ -133,16 +140,20 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
               ))
             ) : messages.length > 0 ? (
               <>
-                {messages.map((message) => (
-                  <MiracleReveal key={message.id} animation="zoom-in">
-                    <MessageBubble
-                      messageType={messageType}
-                      pageSize={pageSize}
-                      message={message}
-                      onReply={setRepliedMessage}
-                    />
-                  </MiracleReveal>
-                ))}
+                {messages.map((message) => {
+                  const userReaction = userReactions?.[message.id] || null
+                  return (
+                    <MiracleReveal key={message.id} animation="zoom-in">
+                      <MessageBubble
+                        messageType={messageType}
+                        pageSize={pageSize}
+                        message={message}
+                        initialUserReaction={userReaction}
+                        onReply={setRepliedMessage}
+                      />
+                    </MiracleReveal>
+                  )
+                })}
                 {isFetchingNextPage &&
                   Array.from({ length: 2 }).map((_, i) => (
                     <MessageBubbleSkeleton key={i} isAuthor={i % 2 === 0} />

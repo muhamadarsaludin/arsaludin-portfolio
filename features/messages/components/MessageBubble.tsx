@@ -16,11 +16,13 @@ import MiracleTooltip from "@/components/miracle/Tooltip"
 import MiracleButton from "@/components/miracle/Button"
 import MiracleModal from "@/components/miracle/Modal"
 import { useMessageMutation } from "../hooks/useMessageMutation"
+import { Reaction } from "@/features/reactions/types/reactions.types"
 
 type MessageBubbleProps = {
   messageType: MessageType
   pageSize: number
   message: Message
+  initialUserReaction: Reaction | null
   onReply?: (message: Message) => void
 }
 
@@ -28,6 +30,7 @@ export default function MessageBubble({
   messageType,
   pageSize,
   message,
+  initialUserReaction,
   onReply,
 }: MessageBubbleProps) {
   const { remove, isRemoving } = useMessageMutation({ type: messageType, pageSize })
@@ -185,6 +188,7 @@ export default function MessageBubble({
           <ReactionGroup
             targetId={message.id}
             targetType="message"
+            initialUserReaction={initialUserReaction}
             initialReactionSummary={message.reaction_summary}
           />
           <div
