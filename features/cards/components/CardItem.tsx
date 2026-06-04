@@ -219,6 +219,7 @@ export default function CardItem({
         typeIconMap={typeIconMap}
         priorityColorMap={priorityColorMap}
         statusColorMap={statusColorMap}
+        initialUserReaction={initialUserReaction}
       />
 
       <CardDeleteModal

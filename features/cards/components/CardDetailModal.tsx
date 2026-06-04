@@ -11,6 +11,7 @@ import MiracleBadge from "@/components/miracle/Badge"
 import MiracleModal from "@/components/miracle/Modal"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import CommentGroup from "@/features/comments/components/CommentGroup"
+import { Reaction } from "@/features/reactions/types/reactions.types"
 
 type CardDetailModalProps = {
   isOpen: boolean
@@ -20,6 +21,7 @@ type CardDetailModalProps = {
   typeIconMap: Record<CardType, ReactNode>
   priorityColorMap: Record<CardPriority, BadgeColor>
   statusColorMap: Record<CardStatus, BadgeColor>
+  initialUserReaction: Reaction | null
 }
 
 export default function CardDetailModal({
@@ -30,6 +32,7 @@ export default function CardDetailModal({
   typeIconMap,
   priorityColorMap,
   statusColorMap,
+  initialUserReaction
 }: CardDetailModalProps) {
   const t = useTranslations("components.card.item")
   const td = useTranslations("data.roadmap")
@@ -129,6 +132,7 @@ export default function CardDetailModal({
           <ReactionGroup
             targetId={card.id}
             targetType="card"
+            initialUserReaction={initialUserReaction}
             initialReactionSummary={card.reaction_summary}
           />
           <CommentGroup
