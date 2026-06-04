@@ -46,7 +46,6 @@ export default function ReactionGroup({
     initialUserReaction,
     enabled: !!targetId && !hasInitialUserReaction,
   })
-  console.log("group", userReaction, initialUserReaction)
 
   const { toggle } = useReactionMutation({
     targetId,

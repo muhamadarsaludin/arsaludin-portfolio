@@ -28,7 +28,6 @@ export default function ReactionsPreview({
   onSelectReaction,
   tooltipPosition,
 }: ReactionsPreviewProps) {
-  console.log("user", userReaction)
   const [isOpen, setIsOpen] = useState(false)
   const { isSignedIn } = useAuth()
   const t = useTranslations("components.reaction")
