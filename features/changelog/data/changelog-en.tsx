@@ -5,7 +5,7 @@ import { LuPartyPopper } from "react-icons/lu"
 export const CHANGELOG_EN = [
   {
     version: "1.0.0",
-    releaseDate: "2026-06-03",
+    releaseDate: "2026-06-04",
     banner: (
       <MiracleBanner
         variant="secondary"
@@ -32,14 +32,16 @@ export const CHANGELOG_EN = [
 * [Projects](/projects) page to showcase and explore my work, with search and filter capabilities.  
 * [Achievements](/achievements) page to display my accomplishments, with search, filter, and modal-based detail views.  
 * [Articles](/articles) page to share my writings and insights, with search and filter features.  
-* [Forum](/forum) page as a chat-based discussion space for sharing ideas and communicating with others.  
 * [Roadmap](/roadmap) page as a kanban board to track development progress and collect bug reports, feature requests, improvements, and changes.  
+* [Lounge](/lounge) page as a chat-based discussion space for sharing ideas and communicating with others.
 * [Changelog](/changelog) page to document all updates, fixes, and new features across versions.  
 * [Gear & Setup](/gear-and-setup) page to showcase tools, devices, and setups that support my workflow.  
 * [Inspiration Website](/inspiration-website) page to curate websites used as references in building this portfolio.  
 * [Privacy Policy](/privacy-policy) page to explain how user data is collected, used, and protected.  
+* **!Download Resume** feature to download my latest resume.
+* **!Internationalization (i18n)** feature with English and Indonesian language support.
+* **!Theming** feature to switch between light, dark, and system themes for a personalized viewing experience. 
 * **!SignIn with Google** feature for user authentication.  
-* **!Logout** feature to end user sessions.  
 * **!Account Deletion** feature to permanently remove user data and account.  
 * **!Comment** feature to provide comments on projects and articles.  
 * **!Comment Reply** feature to provide replies to comments.
