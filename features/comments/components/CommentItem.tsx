@@ -19,12 +19,14 @@ import ReplyList from "./ReplyList"
 import { useReplyMutation } from "../hooks/useReplyMutation"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleBadge from "@/components/miracle/Badge"
+import { Reaction } from "@/features/reactions/types/reactions.types"
 
 type CommentItemProps = {
   comment: CommentData
   targetId: string
   targetType: CommentTargetType
   isReply?: boolean
+  initialUserReaction: Reaction | null
   onReplyComment?: (repliedComment: CommentData) => void
 }
 
@@ -33,6 +35,7 @@ export default function CommentItem({
   targetId,
   targetType,
   isReply = false,
+  initialUserReaction,
   onReplyComment,
 }: CommentItemProps) {
   const t = useTranslations("components.comment.item")
@@ -165,6 +168,7 @@ export default function CommentItem({
         <ReactionGroup
           targetId={comment.id}
           targetType="comment"
+          initialUserReaction={initialUserReaction}
           initialReactionSummary={comment.reaction_summary}
           tooltipPosition="left-center"
         />

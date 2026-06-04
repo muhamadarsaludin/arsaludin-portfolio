@@ -38,7 +38,7 @@ type GetBatchReactionsResult = Record<string, { summary: ReactionSummary; userRe
 
 type GetBatchUserReactionsParams = GetBatchReactionsParams
 
-type GetBatchUserReactionsResult = Record<string, Reaction | null>
+export type GetBatchUserReactionsResult = Record<string, Reaction | null>
 
 type ToggleReactionParams = {
   targetId: string
