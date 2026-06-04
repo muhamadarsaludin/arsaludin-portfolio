@@ -11,14 +11,19 @@ import MiracleTooltip from "@/components/miracle/Tooltip"
 import { LuInfo } from "react-icons/lu"
 import { FaLinkedin } from "react-icons/fa6"
 import Quote from "./Quote"
+import type { Reaction } from "@/features/reactions/types/reactions.types"
+
+type TestimonialCardProps = {
+  className?: string
+  testimonial: Testimonial
+  initialUserReaction: Reaction | null
+}
 
 export default function TestimonialCard({
-  testimonial,
   className,
-}: {
-  testimonial: Testimonial
-  className?: string
-}) {
+  testimonial,
+  initialUserReaction,
+}: TestimonialCardProps) {
   const t = useTranslations("components.testimonialCard")
   const [avatar, setAvatar] = useState(testimonial.avatar_url || "/dummy.webp")
   const initials = getInitials(testimonial.name)
@@ -91,7 +96,8 @@ export default function TestimonialCard({
           <ReactionGroup
             targetId={testimonial.id}
             targetType="testimonial"
-            initialSummary={testimonial.reaction_summary}
+            initialUserReaction={initialUserReaction}
+            initialReactionSummary={testimonial.reaction_summary}
           />
         </div>
       </div>

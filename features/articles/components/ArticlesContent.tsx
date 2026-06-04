@@ -13,7 +13,6 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
 import { useAvailableCategories } from "@/features/categories/hooks/useAvailableCategories"
-import type { CategoryTargetType } from "@/features/categories/types/categories.types"
 import { useUrlParams } from "@/hooks/useSearchParams"
 import MiracleBadge from "@/components/miracle/Badge"
 import { ARTICLES_PAGE_SIZE } from "../constants/articles.constans"
@@ -22,13 +21,13 @@ import Section from "@/components/Section"
 import ArticleCard from "./ArticleCard"
 import ArticleCardSkeleton from "./ArticleCardSkeleton"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 
 type ArticlesContentProps = {
   locale: string
-  targetType: CategoryTargetType
 }
 
-export default function ArticlesContent({ locale, targetType }: ArticlesContentProps) {
+export default function ArticlesContent({ locale }: ArticlesContentProps) {
   const t = useTranslations("pages.articles")
   const td = useTranslations("data")
   const { setParams, getParam, getArrayParam } = useUrlParams()
@@ -41,7 +40,7 @@ export default function ArticlesContent({ locale, targetType }: ArticlesContentP
   const debouncedSearch = useDebounce(search, 500)
   const [isOpenFilter, setIsOpenFilter] = useState(false)
 
-  const { data: categories } = useAvailableCategories({ locale, targetType })
+  const { data: categories } = useAvailableCategories({ locale, targetType: "article" })
   const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
   if (searchUrl !== prevSearchUrl) {
@@ -91,8 +90,15 @@ export default function ArticlesContent({ locale, targetType }: ArticlesContentP
     useInfiniteArticles(currentFilters)
 
   const articles = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
+  const articleIds = useMemo(() => articles.map((a) => a.id), [articles])
+
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: articleIds,
+    targetType: "article",
+  })
 
   const loadMoreRef = useRef<HTMLDivElement>(null)
+
   useIntersectionObserver({
     targetRef: loadMoreRef,
     onIntersect: fetchNextPage,
@@ -115,18 +121,25 @@ export default function ArticlesContent({ locale, targetType }: ArticlesContentP
     if (articles.length === 0) return <EmptyStateCard />
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-        {articles.map((article, index) => (
-          <MiracleReveal
-            animation="fade-up"
-            delay={{
-              default: 0,
-              sm: (index % 6) * 0.1,
-            }}
-            key={article.id}
-          >
-            <ArticleCard article={article} className="h-full w-full" />
-          </MiracleReveal>
-        ))}
+        {articles.map((article, index) => {
+          const userReaction = userReactions?.[article.id] || null
+          return (
+            <MiracleReveal
+              animation="fade-up"
+              delay={{
+                default: 0,
+                sm: (index % 6) * 0.1,
+              }}
+              key={article.id}
+            >
+              <ArticleCard
+                className="h-full w-full"
+                article={article}
+                initialUserReaction={userReaction}
+              />
+            </MiracleReveal>
+          )
+        })}
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <ArticleCardSkeleton key={i} />)}
       </div>

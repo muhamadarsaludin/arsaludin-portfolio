@@ -25,7 +25,6 @@ export default async function SkillsAndServicesSection({ className }: { classNam
           <div className="mx-auto mb-8 flex w-full flex-col items-center text-center md:w-8/12 lg:mb-10 lg:w-6/12 xl:mb-12">
             <Heading
               id="skills-and-services"
-              fontWeight="semibold"
               className="text-3xl md:text-4xl lg:text-5xl"
               linkClassName="text-[0.4em]!"
               noMarginTop

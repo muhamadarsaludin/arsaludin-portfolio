@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import type { ReactionSummary, ReactionTargetType } from "../types/reactions.types"
+import type { Reaction, ReactionSummary, ReactionTargetType } from "../types/reactions.types"
 import ReactionsPreview from "./ReactionsPreview"
 import ReactionPicker from "./ReactionPicker"
 import ReactionModal from "./ReactionModal"
@@ -14,7 +14,8 @@ import { useReactionMutation } from "../hooks/useReactionMutation"
 type ReactionGroupProps = {
   targetId: string
   targetType: ReactionTargetType
-  initialSummary?: ReactionSummary
+  initialReactionSummary?: ReactionSummary
+  initialUserReaction?: Reaction | null
   limit?: number
   tooltipPosition?: TooltipDefaultPosition
 }
@@ -22,21 +23,28 @@ type ReactionGroupProps = {
 export default function ReactionGroup({
   targetId,
   targetType,
-  initialSummary,
+  initialReactionSummary,
+  initialUserReaction,
   limit = MAX_TOP_REACTIONS,
   tooltipPosition,
 }: ReactionGroupProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const { data: userReaction } = useUserReaction({
-    targetId,
-    targetType,
-  })
+  const hasInitialReactionSummary = initialReactionSummary !== undefined
+  const hasInitialUserReaction = initialUserReaction !== undefined
 
   const { data: reactionSummary } = useReactionSummary({
     targetId,
     targetType,
-    initialSummary,
+    initialReactionSummary,
+    enabled: !!targetId && !hasInitialReactionSummary,
+  })
+
+  const { data: userReaction } = useUserReaction({
+    targetId,
+    targetType,
+    initialUserReaction,
+    enabled: !!targetId && !hasInitialUserReaction,
   })
 
   const { toggle } = useReactionMutation({

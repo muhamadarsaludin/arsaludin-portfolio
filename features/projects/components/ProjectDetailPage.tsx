@@ -288,7 +288,7 @@ export default async function ProjectDetailPage({ params }: StaticPageProps) {
                   <ReactionGroup
                     targetId={project.id}
                     targetType="project"
-                    initialSummary={project.reaction_summary}
+                    initialReactionSummary={project.reaction_summary}
                   />
                   <CommentGroup
                     title={project.name}

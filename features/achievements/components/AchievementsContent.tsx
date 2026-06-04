@@ -16,7 +16,6 @@ import AchievementCardSkeleton from "./AchievementCardSkeleton"
 import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
 import AchievementCard from "./AchievementCard"
 import { useAvailableCategories } from "@/features/categories/hooks/useAvailableCategories"
-import type { CategoryTargetType } from "@/features/categories/types/categories.types"
 import { useUrlParams } from "@/hooks/useSearchParams"
 import MiracleBadge from "@/components/miracle/Badge"
 import Section from "@/components/Section"
@@ -26,13 +25,13 @@ import {
   ACHIEVEMENTS_TYPES,
 } from "../constants/achievements.constants"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 
 type AchievementsContentProps = {
   locale: string
-  targetType: CategoryTargetType
 }
 
-export default function AchievementsContent({ locale, targetType }: AchievementsContentProps) {
+export default function AchievementsContent({ locale }: AchievementsContentProps) {
   const t = useTranslations("pages.achievements")
   const td = useTranslations("data")
   const { setParams, getParam, getArrayParam } = useUrlParams()
@@ -47,7 +46,7 @@ export default function AchievementsContent({ locale, targetType }: Achievements
   const debouncedSearch = useDebounce(search, 500)
   const [isOpenFilter, setIsOpenFilter] = useState(false)
 
-  const { data: categories } = useAvailableCategories({ locale, targetType })
+  const { data: categories } = useAvailableCategories({ locale, targetType: "achievement" })
   const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
   if (searchUrl !== prevSearchUrl) {
@@ -101,6 +100,13 @@ export default function AchievementsContent({ locale, targetType }: Achievements
     useInfiniteAchievements(currentFilters)
 
   const achievements = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
+  const achievementIds = useMemo(() => achievements.map((a) => a.id), [achievements])
+
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: achievementIds,
+    targetType: "achievement",
+  })
+
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   useIntersectionObserver({
@@ -129,18 +135,25 @@ export default function AchievementsContent({ locale, targetType }: Achievements
 
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-        {achievements.map((achievement, index) => (
-          <MiracleReveal
-            animation="fade-up"
-            delay={{
-              default: 0,
-              sm: (index % 6) * 0.1,
-            }}
-            key={achievement.id}
-          >
-            <AchievementCard achievement={achievement} className="h-full w-full" />
-          </MiracleReveal>
-        ))}
+        {achievements.map((achievement, index) => {
+          const userReaction = userReactions?.[achievement.id] || null
+          return (
+            <MiracleReveal
+              animation="fade-up"
+              delay={{
+                default: 0,
+                sm: (index % 6) * 0.1,
+              }}
+              key={achievement.id}
+            >
+              <AchievementCard
+                className="h-full w-full"
+                achievement={achievement}
+                initialUserReaction={userReaction}
+              />
+            </MiracleReveal>
+          )
+        })}
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <AchievementCardSkeleton key={`more-${i}`} />)}
       </div>

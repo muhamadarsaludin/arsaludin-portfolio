@@ -65,9 +65,9 @@ As a **UX Engineer** previously focused on web development, we were required to 
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       Documentation of learning progress through the official Android Developers curriculum
-    </p>
+    </div>
   </div>
 </div>
 
@@ -82,56 +82,59 @@ As the initial step of the project, we held a kick-off meeting bringing together
 This discussion resulted in several key agreements:
 
 - Establishing project ownership as a **shared project** with a centralized with contribution model, where the **UX Engineer** team acts as the main manager, while Android Developers actively contribute to the implementation and development of the design system.
-  <div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-android-design-system/centralized.webp",
-            alt: "Centralized Model in BLUE Web Design System",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Centralized Model in BLUE Web Design System
-      </p>
-    </div>
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-android-design-system/centralized-with-contributor.webp",
-            alt: "Centralized with Contribution Model in BLUE Android Design System",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Centralized with Contribution Model in BLUE Android Design System
-      </p>
+
+<div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/centralized.webp",
+          alt: "Centralized Model in BLUE Web Design System",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Centralized Model in BLUE Web Design System
     </div>
   </div>
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/centralized-with-contributor.webp",
+          alt: "Centralized with Contribution Model in BLUE Android Design System",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Centralized with Contribution Model in BLUE Android Design System
+    </div>
+  </div>
+</div>
+
 - Choosing **Jetpack Compose** as the main development foundation because it supports a modern approach and interoperability with Android View (XML) to facilitate a gradual adoption process.
 - Migrating design token scripts and some component libraries already based on BLUE 3.0 and built using Jetpack Compose to a new repository under the management of the UX Engineer team.
 - The development process was conducted iteratively through several sprints, with a duration initially planned for every 2 weeks, then adjusted to 1 month to accommodate cross-team processes as well as code review and Design QA cycles.
 - The entire development process, whether migration or the creation of new components or features, must go through code review with approval from at least one representative from each team (UX Engineer, Android Dev CE, and Android Dev SE), and pass Design QA by a designer before being implemented.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-android-design-system/development-process.webp",
-            alt: "BLUE Android Design System Development Process",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        BLUE Android Design System Development Process
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/development-process.webp",
+          alt: "BLUE Android Design System Development Process",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      BLUE Android Design System Development Process
     </div>
   </div>
+</div>
 
 ### 3. Development and Implementation
 
@@ -161,9 +164,9 @@ After approximately six months of development, the first version of the BLUE And
       className="h-full object-cover"
     />
   </div>
-  <small className="text-secondary mt-3 w-full text-center text-sm italic">
+  <div className="text-secondary mt-3 w-full text-center text-sm italic">
     First Version Release of BLUE Android Design System in July 2024
-  </small>
+  </div>
 </div>
 
 ### Component Library
@@ -181,9 +184,9 @@ The Component Library is the main foundation containing **more than 30 ready-to-
       aria-label="BLUE Android Design System Component Library Preview"
       className="w-full object-cover"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       BLUE Android Design System Component Library Preview
-    </p>
+    </div>
   </div>
 </div>
 
@@ -208,7 +211,9 @@ Design Tokens function as the single source of truth for basic visual elements s
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">BLUE design tokens structure</p>
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      BLUE design tokens structure
+    </div>
   </div>
   <div className="w-full">
     <MiracleImagePreview
@@ -220,9 +225,9 @@ Design Tokens function as the single source of truth for basic visual elements s
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       BLUE design tokens implementation
-    </p>
+    </div>
   </div>
 </div>
 
@@ -245,9 +250,9 @@ This system facilitates the consistent use of icons by developers, eliminates th
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       BLUE icon implementation in Android project
-    </p>
+    </div>
   </div>
 </div>
 
@@ -288,9 +293,9 @@ The development of this design system could not have been realized without the c
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       BLUE Android and iOS stakeholders and contributors
-    </p>
+    </div>
   </div>
 </div>
 

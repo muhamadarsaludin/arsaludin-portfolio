@@ -8,6 +8,7 @@ import CommentItem from "./CommentItem"
 import MiracleLoader from "@/components/miracle/Loader"
 import { useInfiniteReplies } from "../hooks/useInfiniteReplies"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
+import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 
 type ReplyListProps = {
   parentId: string
@@ -32,7 +33,13 @@ export default function ReplyList({
     enabled: isOpen,
   })
 
-  const allReplies = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
+  const replies = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
+  const replyIds = useMemo(() => replies.map((reply) => reply.id), [replies])
+
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: replyIds,
+    targetType: "comment",
+  })
 
   const isAnyLoading = isLoading || isFetchingNextPage
 
@@ -57,16 +64,20 @@ export default function ReplyList({
       {/* LIST REPLIES */}
       {isOpen && (
         <ul className="flex flex-col gap-5 pt-2">
-          {allReplies.map((reply, index) => (
-            <CommentItem
-              key={index}
-              comment={reply}
-              targetId={targetId}
-              targetType={targetType}
-              isReply={true}
-              onReplyComment={onReplyComment}
-            />
-          ))}
+          {replies.map((reply, index) => {
+            const userReaction = userReactions?.[reply.id] || null
+            return (
+              <CommentItem
+                key={index}
+                comment={reply}
+                targetId={targetId}
+                targetType={targetType}
+                isReply={true}
+                initialUserReaction={userReaction}
+                onReplyComment={onReplyComment}
+              />
+            )
+          })}
         </ul>
       )}
 
@@ -88,7 +99,7 @@ export default function ReplyList({
                     onClick={() => fetchNextPage()}
                     className="flex w-fit cursor-pointer items-center gap-1 text-xs font-semibold text-neutral-600 transition-colors duration-300 ease-in-out hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"
                   >
-                    {t("loadMore", { count: replyCount - allReplies.length })}
+                    {t("loadMore", { count: replyCount - replies.length })}
                     <LuChevronDown className="h-3 w-3" />
                   </button>
                 )}

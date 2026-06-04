@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
-import type { ReactionTargetType } from "../types/reactions.types"
+import type { Reaction, ReactionTargetType } from "../types/reactions.types"
 import { getUserReaction } from "../services/reactions"
 
 type UseUserReactionParams = {
   targetId: string
   targetType: ReactionTargetType
+  initialUserReaction?: Reaction | null
   enabled?: boolean
 }
 
@@ -16,7 +17,12 @@ type UseUserReactionParams = {
  * @param params.targetType - The type of target entity (e.g., 'project', 'blog')
  * @param params.enabled - Optional flag to conditionally toggle the query lifecycle (defaults to true)
  */
-export function useUserReaction({ targetId, targetType, enabled = true }: UseUserReactionParams) {
+export function useUserReaction({
+  targetId,
+  targetType,
+  initialUserReaction,
+  enabled = true,
+}: UseUserReactionParams) {
   return useQuery({
     queryKey: ["user-reaction", targetType, targetId],
     queryFn: () =>
@@ -24,6 +30,8 @@ export function useUserReaction({ targetId, targetType, enabled = true }: UseUse
         targetId,
         targetType,
       }),
+    // Use placeholderData for dynamic batching sync; change to initialData if migrating to 100% User-Centric.
+    placeholderData: initialUserReaction,
     enabled: !!targetId && enabled,
     staleTime: 1000 * 60 * 5,
   })

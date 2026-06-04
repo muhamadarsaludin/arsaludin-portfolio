@@ -44,21 +44,6 @@ export default async function RoadmapPage() {
     })
   )
 
-  const dehydratedState = dehydrate(queryClient)
-
-  /**
-   * HYDRATION FIX:
-   * Manually "aging" server data by 20 minutes to prevent it from overwriting
-   * the client's multi-page infinite cache during navigation.
-   */
-  const TWENTY_MINUTES_IN_MS = 1000 * 60 * 20
-
-  dehydratedState.queries.forEach((query) => {
-    if (query.queryKey[0] === "cards") {
-      query.state.dataUpdatedAt = query.state.dataUpdatedAt - TWENTY_MINUTES_IN_MS
-    }
-  })
-
   return (
     <Container>
       <Article className="pb-13 lg:pb-23">
@@ -73,14 +58,14 @@ export default async function RoadmapPage() {
           />
 
           <div className="mb-6 w-full md:mb-8">
-            <Heading id={t("title")} level={1} className="font-semibold">
+            <Heading id={t("title")} level={1}>
               {t("title")}
             </Heading>
             <p className="text-secondary mt-4">{t("description")}</p>
           </div>
         </MiracleReveal>
         {/* Roadmap Content */}
-        <HydrationBoundary state={dehydratedState}>
+        <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense
             fallback={
               <div className="flex w-full flex-col gap-6 md:gap-8">

@@ -13,7 +13,6 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
 import { useAvailableCategories } from "@/features/categories/hooks/useAvailableCategories"
-import type { CategoryTargetType } from "@/features/categories/types/categories.types"
 import { useUrlParams } from "@/hooks/useSearchParams"
 import MiracleBadge from "@/components/miracle/Badge"
 import { PROJECTS_PAGE_SIZE } from "../constants/projects.constans"
@@ -22,13 +21,13 @@ import ProjectCardSkeleton from "./ProjectCardSkeleton"
 import ProjectCard from "./ProjectCard"
 import Section from "@/components/Section"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 
 type ProjectsContentProps = {
   locale: string
-  targetType: CategoryTargetType
 }
 
-export default function ProjectsContent({ locale, targetType }: ProjectsContentProps) {
+export default function ProjectsContent({ locale }: ProjectsContentProps) {
   const t = useTranslations("pages.projects")
   const td = useTranslations("data")
   const { setParams, getParam, getArrayParam } = useUrlParams()
@@ -41,7 +40,7 @@ export default function ProjectsContent({ locale, targetType }: ProjectsContentP
   const [isOpenFilter, setIsOpenFilter] = useState(false)
   const [prevSearchUrl, setPrevSearchUrl] = useState(searchUrl)
 
-  const { data: categories } = useAvailableCategories({ locale, targetType })
+  const { data: categories } = useAvailableCategories({ locale, targetType: "project" })
   const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
   if (searchUrl !== prevSearchUrl) {
@@ -91,6 +90,13 @@ export default function ProjectsContent({ locale, targetType }: ProjectsContentP
     useInfiniteProjects(currentFilters)
 
   const projects = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
+  const projectIds = useMemo(() => projects.map((p) => p.id), [projects])
+
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: projectIds,
+    targetType: "project",
+  })
+
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   useIntersectionObserver({
@@ -116,18 +122,25 @@ export default function ProjectsContent({ locale, targetType }: ProjectsContentP
 
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-        {projects.map((project, index) => (
-          <MiracleReveal
-            animation="fade-up"
-            delay={{
-              default: 0,
-              sm: (index % 6) * 0.1,
-            }}
-            key={project.id}
-          >
-            <ProjectCard project={project} className="h-full w-full" />
-          </MiracleReveal>
-        ))}
+        {projects.map((project, index) => {
+          const userReaction = userReactions?.[project.id] || null
+          return (
+            <MiracleReveal
+              animation="fade-up"
+              delay={{
+                default: 0,
+                sm: (index % 6) * 0.1,
+              }}
+              key={project.id}
+            >
+              <ProjectCard
+                className="h-full w-full"
+                project={project}
+                initialUserReaction={userReaction}
+              />
+            </MiracleReveal>
+          )
+        })}
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <ProjectCardSkeleton key={`more-${i}`} />)}
       </div>
@@ -205,7 +218,6 @@ export default function ProjectsContent({ locale, targetType }: ProjectsContentP
               ) : (
                 <p className="text-secondary px-2 text-xs italic">No categories available</p>
               )}
-
               {(categorySlugs.length > 0 || searchUrl) && (
                 <div className="border-primary-inv w-full border-t pt-4">
                   <MiracleButton status="danger" size="sm" onClick={handleReset} fullWidth>

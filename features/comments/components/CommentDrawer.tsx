@@ -12,6 +12,7 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import MiracleBadge from "@/components/miracle/Badge"
+import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 
 type CommentDrawerProps = {
   isOpen: boolean
@@ -52,7 +53,13 @@ export default function CommentDrawer({
     enabled: isOpen,
   })
 
-  const allComments = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
+  const comments = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
+  const commentIds = useMemo(() => comments.map((comment) => comment.id), [comments])
+
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: commentIds,
+    targetType: "comment",
+  })
 
   useIntersectionObserver({
     targetRef: loadMoreRef,
@@ -99,7 +106,8 @@ export default function CommentDrawer({
               <CommentList
                 targetId={targetId}
                 targetType={targetType}
-                comments={allComments}
+                comments={comments}
+                userReactions={userReactions}
                 onReplyComment={setRepliedComment}
               />
               <div ref={loadMoreRef} className="min-h-6 py-4">

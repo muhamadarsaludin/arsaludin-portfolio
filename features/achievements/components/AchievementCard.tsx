@@ -10,14 +10,19 @@ import { LuAward } from "react-icons/lu"
 import type { BadgeColor } from "@/components/miracle/Badge"
 import MiracleBadge from "@/components/miracle/Badge"
 import { cn } from "@/utils/class-name"
+import type { Reaction } from "@/features/reactions/types/reactions.types"
+
+type AchievementCardProps = {
+  className?: string
+  achievement: Achievement
+  initialUserReaction: Reaction | null
+}
 
 export default function AchievementCard({
-  achievement,
   className,
-}: {
-  achievement: Achievement
-  className?: string
-}) {
+  achievement,
+  initialUserReaction,
+}: AchievementCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const typeBadgeColor: Record<AchievementType, BadgeColor> = {
@@ -81,7 +86,8 @@ export default function AchievementCard({
           <ReactionGroup
             targetId={achievement.id}
             targetType="achievement"
-            initialSummary={achievement.reaction_summary}
+            initialUserReaction={initialUserReaction}
+            initialReactionSummary={achievement.reaction_summary}
           />
         </div>
       </div>

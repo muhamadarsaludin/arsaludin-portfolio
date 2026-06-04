@@ -1,4 +1,3 @@
-// articles/page.tsx (Server Component)
 import { getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { getQueryClient } from "@/lib/query-client"
@@ -23,7 +22,7 @@ export default async function ArticlesPage(props: StaticPageProps) {
   const { locale } = await props.params
   const t = await getTranslations("pages.articles")
   const queryClient = getQueryClient()
-  const targetType: CategoryTargetType = "article"
+  const categoryTargetType: CategoryTargetType = "article"
 
   const defaultFilters = {
     locale,
@@ -44,25 +43,10 @@ export default async function ArticlesPage(props: StaticPageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", { locale, targetType }],
-      queryFn: () => getAvailableCategories({ locale, targetType }),
+      queryKey: ["available-categories", { locale, targetType: categoryTargetType }],
+      queryFn: () => getAvailableCategories({ locale, targetType: categoryTargetType }),
     }),
   ])
-
-  const dehydratedState = dehydrate(queryClient)
-
-  /**
-   * HYDRATION FIX:
-   * Manually "aging" server data by 20 minutes to prevent it from overwriting
-   * the client's multi-page infinite cache during navigation.
-   */
-  const TWENTY_MINUTES_IN_MS = 1000 * 60 * 20
-
-  dehydratedState.queries.forEach((query) => {
-    if (query.queryKey[0] === "articles") {
-      query.state.dataUpdatedAt = query.state.dataUpdatedAt - TWENTY_MINUTES_IN_MS
-    }
-  })
 
   return (
     <Container>
@@ -77,7 +61,7 @@ export default async function ArticlesPage(props: StaticPageProps) {
             className="mb-5 md:mb-6"
           />
           <header className="mb-8 w-full lg:mb-10 xl:mb-12">
-            <Heading id={t("title")} level={1} className="flex items-center gap-2 font-semibold">
+            <Heading id={t("title")} level={1} className="flex items-center gap-2">
               {t("title")}
             </Heading>
             <p className="text-secondary mt-4">{t("description")}</p>
@@ -85,7 +69,7 @@ export default async function ArticlesPage(props: StaticPageProps) {
         </MiracleReveal>
 
         {/* Articles Content */}
-        <HydrationBoundary state={dehydratedState}>
+        <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense
             fallback={
               <div className="flex w-full flex-col gap-6 md:gap-8">
@@ -101,7 +85,7 @@ export default async function ArticlesPage(props: StaticPageProps) {
               </div>
             }
           >
-            <ArticlesContent locale={locale} targetType={targetType} />
+            <ArticlesContent locale={locale} />
           </Suspense>
         </HydrationBoundary>
       </Article>

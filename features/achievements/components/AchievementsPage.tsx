@@ -22,7 +22,7 @@ export default async function AchievementsPage(props: StaticPageProps) {
   const { locale } = await props.params
 
   const t = await getTranslations("pages.achievements")
-  const targetType: CategoryTargetType = "achievement"
+  const categoryTargetType: CategoryTargetType = "achievement"
   const queryClient = getQueryClient()
 
   const defaultFilters = {
@@ -46,25 +46,10 @@ export default async function AchievementsPage(props: StaticPageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", { locale, targetType }],
-      queryFn: () => getAvailableCategories({ targetType, locale }),
+      queryKey: ["available-categories", { locale, targetType: categoryTargetType }],
+      queryFn: () => getAvailableCategories({ locale, targetType: categoryTargetType }),
     }),
   ])
-
-  const dehydratedState = dehydrate(queryClient)
-
-  /**
-   * HYDRATION FIX:
-   * Manually "aging" server data by 20 minutes to prevent it from overwriting
-   * the client's multi-page infinite cache during navigation.
-   */
-  const TWENTY_MINUTES_IN_MS = 1000 * 60 * 20
-
-  dehydratedState.queries.forEach((query) => {
-    if (query.queryKey[0] === "achievements") {
-      query.state.dataUpdatedAt = query.state.dataUpdatedAt - TWENTY_MINUTES_IN_MS
-    }
-  })
 
   return (
     <Container>
@@ -79,14 +64,14 @@ export default async function AchievementsPage(props: StaticPageProps) {
             className="mb-5 md:mb-6"
           />
           <div className="mb-10 w-full md:mb-12">
-            <Heading id={t("title")} level={1} className="font-semibold">
+            <Heading id={t("title")} level={1}>
               {t("title")}
             </Heading>
             <p className="text-secondary mt-4">{t("description")}</p>
           </div>
         </MiracleReveal>
         {/* Achievements Content */}
-        <HydrationBoundary state={dehydratedState}>
+        <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense
             fallback={
               <div className="flex w-full flex-col gap-6 md:gap-8">
@@ -102,7 +87,7 @@ export default async function AchievementsPage(props: StaticPageProps) {
               </div>
             }
           >
-            <AchievementsContent locale={locale} targetType={targetType} />
+            <AchievementsContent locale={locale} />
           </Suspense>
         </HydrationBoundary>
       </Article>

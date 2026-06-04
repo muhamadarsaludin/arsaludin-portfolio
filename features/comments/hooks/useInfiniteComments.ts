@@ -41,6 +41,6 @@ export function useInfiniteComments({
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined
     },
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60 * 5,
   })
 }

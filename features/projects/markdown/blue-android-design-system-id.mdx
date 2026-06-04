@@ -65,9 +65,9 @@ Sebagai **UX Engineer** yang sebelumnya berfokus pada pengembangan web, kami dit
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       Dokumentasi progres pembelajaran melalui kurikulum resmi Android Developers
-    </p>
+    </div>
   </div>
 </div>
 
@@ -82,56 +82,59 @@ Sebagai langkah awal proyek, kami menyelenggarakan rapat perdana yang mempertemu
 Diskusi ini menghasilkan beberapa kesepakatan utama:
 
 - Menetapkan kepemilikan proyek (ownership) sebagai **proyek milik bersama** dengan model **_centralized with contribution_**, di mana tim **UX Engineer** berperan sebagai pengelola utama, sementara Android Developer berkontribusi aktif dalam implementasi dan pengembangan design system.
-  <div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-android-design-system/centralized.webp",
-            alt: "Model Centralized pada BLUE Web Design System",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Model Centralized pada BLUE Web Design System
-      </p>
-    </div>
-    <div className="w-full">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-android-design-system/centralized-with-contributor.webp",
-            alt: "Model Centralized with Contribution pada BLUE Android Design System",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Model Centralized with Contribution pada BLUE Android Design System
-      </p>
+
+<div className="mt-4 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/centralized.webp",
+          alt: "Model Centralized pada BLUE Web Design System",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Model Centralized pada BLUE Web Design System
     </div>
   </div>
+  <div className="w-full">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/centralized-with-contributor.webp",
+          alt: "Model Centralized with Contribution pada BLUE Android Design System",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Model Centralized with Contribution pada BLUE Android Design System
+    </div>
+  </div>
+</div>
+
 - Memilih **Jetpack Compose** sebagai fondasi utama pengembangan karena mendukung pendekatan modern serta interoperabilitas dengan Android View (XML) untuk mempermudah proses adopsi bertahap.
 - Melakukan migrasi design token script dan sebagian component library yang sudah berbasis BLUE 3.0 dan dibangun menggunakan Jetpack Compose ke repository baru di bawah pengelolaan tim UX Engineer.
 - Proses pengembangan dilakukan secara iteratif melalui beberapa sprint, dengan durasi yang awalnya direncanakan setiap 2 minggu, kemudian disesuaikan menjadi 1 bulan untuk mengakomodasi proses lintas tim serta siklus code review dan Design QA.
 - Seluruh proses pengembangan, baik migrasi maupun pembuatan komponen atau fitur baru, wajib melalui code review dengan persetujuan (approval) minimal satu orang perwakilan dari setiap tim (UX Engineer, Android Dev CE, dan Android Dev SE), serta lolos Design QA oleh desainer sebelum diimplementasikan.
-  <div className="mt-4 flex w-full items-center justify-center">
-    <div className="w-full md:w-6/12">
-      <MiracleImagePreview
-        images={[
-          {
-            image_url: "/projects/blue-android-design-system/development-process.webp",
-            alt: "Proses Pengembangan BLUE Android Design System",
-          },
-        ]}
-        sizes="(max-width: 768px) 100vw, 750px"
-      />
-      <p className="text-secondary mt-3 text-center text-sm italic">
-        Proses Pengembangan BLUE Android Design System
-      </p>
+
+<div className="mt-4 flex w-full items-center justify-center">
+  <div className="w-full md:w-6/12">
+    <MiracleImagePreview
+      images={[
+        {
+          image_url: "/projects/blue-android-design-system/development-process.webp",
+          alt: "Proses Pengembangan BLUE Android Design System",
+        },
+      ]}
+      sizes="(max-width: 768px) 100vw, 750px"
+    />
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Proses Pengembangan BLUE Android Design System
     </div>
   </div>
+</div>
 
 ### 3. Pengembangan dan Implementasi
 
@@ -161,9 +164,9 @@ Setelah kurang lebih enam bulan pengembangan, versi pertama dari BLUE Android De
       className="h-full object-cover"
     />
   </div>
-  <small className="text-secondary mt-3 w-full text-center text-sm italic">
+  <div className="text-secondary mt-3 w-full text-center text-sm italic">
     Release Versi Pertama dari BLUE Android Design System pada July 2024
-  </small>
+  </div>
 </div>
 
 ### Component Library
@@ -181,9 +184,9 @@ Component Library merupakan fondasi utama yang berisi **lebih dari 30 komponen U
       aria-label="Pratinjau Component Library BLUE Android Design System"
       className="w-full object-cover"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       Pratinjau Component Library BLUE Android Design System
-    </p>
+    </div>
   </div>
 </div>
 
@@ -208,7 +211,9 @@ Design Tokens berfungsi sebagai _single source of truth_ untuk elemen visual das
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">Struktur BLUE design tokens</p>
+    <div className="text-secondary mt-3 text-center text-sm italic">
+      Struktur BLUE design tokens
+    </div>
   </div>
   <div className="w-full">
     <MiracleImagePreview
@@ -220,9 +225,9 @@ Design Tokens berfungsi sebagai _single source of truth_ untuk elemen visual das
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       Implementasi BLUE design tokens
-    </p>
+    </div>
   </div>
 </div>
 
@@ -245,9 +250,9 @@ Sistem ini mempermudah penggunaan ikon secara konsisten oleh pengembang, menghil
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       Implementasi BLUE icon pada proyek Android
-    </p>
+    </div>
   </div>
 </div>
 
@@ -288,9 +293,9 @@ Pengembangan design system ini tidak dapat terwujud tanpa kolaborasi yang erat d
       ]}
       sizes="(max-width: 768px) 100vw, 750px"
     />
-    <p className="text-secondary mt-3 text-center text-sm italic">
+    <div className="text-secondary mt-3 text-center text-sm italic">
       BLUE Android dan iOS stakeholders dan contributors
-    </p>
+    </div>
   </div>
 </div>
 

@@ -23,7 +23,7 @@ export default async function ProjectsPage(props: StaticPageProps) {
 
   const t = await getTranslations("pages.projects")
   const queryClient = getQueryClient()
-  const targetType: CategoryTargetType = "project"
+  const categoryTargetType: CategoryTargetType = "project"
 
   const defaultFilters = {
     locale,
@@ -44,25 +44,10 @@ export default async function ProjectsPage(props: StaticPageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", { locale, targetType }],
-      queryFn: () => getAvailableCategories({ locale, targetType }),
+      queryKey: ["available-categories", { locale, targetType: categoryTargetType }],
+      queryFn: () => getAvailableCategories({ locale, targetType: categoryTargetType }),
     }),
   ])
-
-  const dehydratedState = dehydrate(queryClient)
-
-  /**
-   * HYDRATION FIX:
-   * Manually "aging" server data by 20 minutes to prevent it from overwriting
-   * the client's multi-page infinite cache during navigation.
-   */
-  const TWENTY_MINUTES_IN_MS = 1000 * 60 * 20
-
-  dehydratedState.queries.forEach((query) => {
-    if (query.queryKey[0] === "projects") {
-      query.state.dataUpdatedAt = query.state.dataUpdatedAt - TWENTY_MINUTES_IN_MS
-    }
-  })
 
   return (
     <Container>
@@ -77,14 +62,14 @@ export default async function ProjectsPage(props: StaticPageProps) {
             className="mb-5 md:mb-6"
           />
           <header className="mb-8 w-full lg:mb-10 xl:mb-12">
-            <Heading id={t("title")} level={1} className="font-semibold">
+            <Heading id={t("title")} level={1}>
               {t("title")}
             </Heading>
             <p className="text-secondary mt-4">{t("description")}</p>
           </header>
         </MiracleReveal>
         {/* Projects Content */}
-        <HydrationBoundary state={dehydratedState}>
+        <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense
             fallback={
               <div className="flex w-full flex-col gap-6 md:gap-8">
@@ -100,7 +85,7 @@ export default async function ProjectsPage(props: StaticPageProps) {
               </div>
             }
           >
-            <ProjectsContent locale={locale} targetType={targetType} />
+            <ProjectsContent locale={locale} />
           </Suspense>
         </HydrationBoundary>
       </Article>
