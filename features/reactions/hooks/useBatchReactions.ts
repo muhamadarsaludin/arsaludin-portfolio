@@ -9,7 +9,7 @@ type UseBatchReactionsParams = {
 
 export function useBatchReactions({ targetIds, targetType }: UseBatchReactionsParams) {
   return useQuery({
-    queryKey: ["reactions", "batch", targetType, targetIds],
+    queryKey: ["reactions-batch", targetType],
     queryFn: () =>
       getBatchReactions({
         targetIds,
