@@ -19,6 +19,7 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import MiracleLoader from "@/components/miracle/Loader"
 import CardFormModal from "@/features/cards/components/CardFormModal"
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 
 type RoadmapColumnProps = {
   status: CardStatus
@@ -43,7 +44,14 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
   const { data, fetchNextPage, hasNextPage, isError, isLoading, isFetchingNextPage, refetch } =
     useInfiniteCardsByStatus({ status, ...filters })
 
-  const allCards = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
+  const cards = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
+  const cardIds = useMemo(() => cards.map((a) => a.id), [cards])
+
+  const { data: userReactions } = useBatchUserReactions({ 
+    targetIds: cardIds, 
+    targetType: "card" 
+  })
+
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   useIntersectionObserver({
@@ -108,15 +116,21 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
           Array.from({ length: 3 }).map((_, i) => <CardItemSkeleton key={i} />)
         ) : isError ? (
           <ErrorStateCard onRetry={() => refetch()} />
-        ) : allCards.length === 0 ? (
+        ) : cards.length === 0 ? (
           <CardEmpty />
         ) : (
           <>
-            {allCards.map((card) => (
-              <MiracleReveal key={card.id} animation="zoom-in">
-                <CardItem card={card} onUpdate={handleOpenForm} />
-              </MiracleReveal>
-            ))}
+            {cards.map((card) => {
+              const userReaction = userReactions?.[card.id] || null
+              return (
+                <MiracleReveal key={card.id} animation="zoom-in">
+                  <CardItem 
+                    card={card} 
+                    initialUserReaction={userReaction}
+                    onUpdate={handleOpenForm} />
+                </MiracleReveal>
+              )
+            })}
 
             {isFetchingNextPage && (
               <div className="flex flex-col gap-3">

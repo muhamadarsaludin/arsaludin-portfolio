@@ -29,14 +29,21 @@ import MiracleButton from "@/components/miracle/Button"
 import { useCardsMutation } from "@/features/cards/hooks/useCardMutation"
 import CardDetailModal from "./CardDetailModal"
 import CardDeleteModal from "./CardDeleteModal"
+import { Reaction } from "@/features/reactions/types/reactions.types"
 
 type CardItemProps = {
-  card: Card
-  onUpdate?: (card: Card) => void
   className?: string
+  card: Card
+  initialUserReaction: Reaction | null
+  onUpdate?: (card: Card) => void
 }
 
-export default function CardItem({ card, onUpdate, className }: CardItemProps) {
+export default function CardItem({ 
+  className,
+  card, 
+  initialUserReaction,
+  onUpdate, 
+}: CardItemProps) {
   const t = useTranslations("components.card.item")
   const td = useTranslations("data.roadmap")
   const { isSignedIn, profile } = useAuth()
@@ -191,6 +198,7 @@ export default function CardItem({ card, onUpdate, className }: CardItemProps) {
             <ReactionGroup
               targetId={card.id}
               targetType="card"
+              initialUserReaction={initialUserReaction}
               initialReactionSummary={card.reaction_summary}
             />
             <CommentGroup

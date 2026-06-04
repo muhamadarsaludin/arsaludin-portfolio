@@ -220,7 +220,6 @@ export default function ProjectsContent({ locale, targetType }: ProjectsContentP
               ) : (
                 <p className="text-secondary px-2 text-xs italic">No categories available</p>
               )}
-
               {(categorySlugs.length > 0 || searchUrl) && (
                 <div className="border-primary-inv w-full border-t pt-4">
                   <MiracleButton status="danger" size="sm" onClick={handleReset} fullWidth>
