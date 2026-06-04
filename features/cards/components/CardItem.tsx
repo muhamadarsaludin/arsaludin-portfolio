@@ -29,7 +29,7 @@ import MiracleButton from "@/components/miracle/Button"
 import { useCardsMutation } from "@/features/cards/hooks/useCardMutation"
 import CardDetailModal from "./CardDetailModal"
 import CardDeleteModal from "./CardDeleteModal"
-import { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction } from "@/features/reactions/types/reactions.types"
 
 type CardItemProps = {
   className?: string
@@ -38,11 +38,11 @@ type CardItemProps = {
   onUpdate?: (card: Card) => void
 }
 
-export default function CardItem({ 
+export default function CardItem({
   className,
-  card, 
+  card,
   initialUserReaction,
-  onUpdate, 
+  onUpdate,
 }: CardItemProps) {
   const t = useTranslations("components.card.item")
   const td = useTranslations("data.roadmap")

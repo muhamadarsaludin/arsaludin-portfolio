@@ -102,9 +102,9 @@ export default function AchievementsContent({ locale }: AchievementsContentProps
   const achievements = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const achievementIds = useMemo(() => achievements.map((a) => a.id), [achievements])
 
-  const { data: userReactions } = useBatchUserReactions({ 
-    targetIds: achievementIds, 
-    targetType: "achievement" 
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: achievementIds,
+    targetType: "achievement",
   })
 
   const loadMoreRef = useRef<HTMLDivElement>(null)
@@ -146,9 +146,9 @@ export default function AchievementsContent({ locale }: AchievementsContentProps
               }}
               key={achievement.id}
             >
-              <AchievementCard 
-                className="h-full w-full" 
-                achievement={achievement} 
+              <AchievementCard
+                className="h-full w-full"
+                achievement={achievement}
                 initialUserReaction={userReaction}
               />
             </MiracleReveal>

@@ -53,9 +53,7 @@ export default async function InspirationWebsitePage({ params }: InspirationWebs
             className="mb-5 md:mb-6"
           />
           <header>
-            <Heading level={1}>
-              {t("title")}
-            </Heading>
+            <Heading level={1}>{t("title")}</Heading>
             <p className="text-secondary mt-4">{t("description")}</p>
           </header>
         </MiracleReveal>
@@ -63,9 +61,7 @@ export default async function InspirationWebsitePage({ params }: InspirationWebs
           {/* SECTION 1: PERSONAL WEBSITES */}
           <div className="w-full">
             <MiracleReveal animation="fade-right">
-              <Heading>
-                {t("personal")}
-              </Heading>
+              <Heading>{t("personal")}</Heading>
             </MiracleReveal>
             <div className="mt-4 flex w-full flex-col gap-4">{renderedPersonals}</div>
           </div>
@@ -73,9 +69,7 @@ export default async function InspirationWebsitePage({ params }: InspirationWebs
           {/* SECTION 2: ORGANIZATION WEBSITES */}
           <div className="w-full">
             <MiracleReveal animation="fade-right">
-              <Heading>
-                {t("organization")}
-              </Heading>
+              <Heading>{t("organization")}</Heading>
             </MiracleReveal>
             <div className="mt-4 flex w-full flex-col gap-4">{renderedOrganizations}</div>
           </div>

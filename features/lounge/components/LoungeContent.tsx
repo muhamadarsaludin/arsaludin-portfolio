@@ -46,9 +46,9 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
   const messages = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const messageIds = useMemo(() => messages.map((m) => m.id), [messages])
 
-  const { data: userReactions } = useBatchUserReactions({ 
-    targetIds: messageIds, 
-    targetType: "message" 
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: messageIds,
+    targetType: "message",
   })
 
   useIntersectionObserver({

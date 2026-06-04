@@ -41,15 +41,25 @@ export const mdxComponents: MDXComponents = {
   MiracleImagePreview,
   Heading,
   // 1. Headings
-  h1: (props: HeadingProps) => <Heading level={1} className="text-primary font-semibold" {...props} />,
+  h1: (props: HeadingProps) => (
+    <Heading level={1} className="text-primary font-semibold" {...props} />
+  ),
 
-  h2: (props: HeadingProps) => <Heading level={2} className="text-primary font-semibold" {...props} />,
+  h2: (props: HeadingProps) => (
+    <Heading level={2} className="text-primary font-semibold" {...props} />
+  ),
 
-  h3: (props: HeadingProps) => <Heading level={3} className="text-primary font-semibold" {...props} />,
+  h3: (props: HeadingProps) => (
+    <Heading level={3} className="text-primary font-semibold" {...props} />
+  ),
 
-  h4: (props: HeadingProps) => <Heading level={4} className="text-primary font-semibold" {...props} />,
+  h4: (props: HeadingProps) => (
+    <Heading level={4} className="text-primary font-semibold" {...props} />
+  ),
 
-  h5: (props: HeadingProps) => <Heading level={5} className="text-primary font-semibold" {...props} />,
+  h5: (props: HeadingProps) => (
+    <Heading level={5} className="text-primary font-semibold" {...props} />
+  ),
 
   // Text
   p: (props: ParagraphProps) => <p className="text-secondary mt-4" {...props} />,

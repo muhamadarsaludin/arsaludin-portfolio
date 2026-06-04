@@ -1,13 +1,13 @@
 import CommentItem from "./CommentItem"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import { useTranslations } from "next-intl"
-import { GetBatchUserReactionsResult } from "@/features/reactions/services/reactions"
+import type { GetBatchUserReactionsResult } from "@/features/reactions/services/reactions"
 
 type CommentListProps = {
   targetId: string
   targetType: CommentTargetType
   comments: CommentData[]
-  userReactions?: GetBatchUserReactionsResult 
+  userReactions?: GetBatchUserReactionsResult
   onReplyComment: (comment: CommentData) => void
 }
 

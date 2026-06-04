@@ -56,9 +56,9 @@ export default function CommentDrawer({
   const comments = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
   const commentIds = useMemo(() => comments.map((comment) => comment.id), [comments])
 
-  const { data: userReactions } = useBatchUserReactions({ 
-    targetIds: commentIds, 
-    targetType: "comment"
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: commentIds,
+    targetType: "comment",
   })
 
   useIntersectionObserver({

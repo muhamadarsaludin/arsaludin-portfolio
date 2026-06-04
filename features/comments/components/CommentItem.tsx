@@ -19,7 +19,7 @@ import ReplyList from "./ReplyList"
 import { useReplyMutation } from "../hooks/useReplyMutation"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleBadge from "@/components/miracle/Badge"
-import { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction } from "@/features/reactions/types/reactions.types"
 
 type CommentItemProps = {
   comment: CommentData

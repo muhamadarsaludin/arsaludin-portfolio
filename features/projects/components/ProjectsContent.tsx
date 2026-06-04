@@ -92,9 +92,9 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
   const projects = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const projectIds = useMemo(() => projects.map((p) => p.id), [projects])
 
-  const { data: userReactions } = useBatchUserReactions({ 
-    targetIds: projectIds, 
-    targetType: "project" 
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: projectIds,
+    targetType: "project",
   })
 
   const loadMoreRef = useRef<HTMLDivElement>(null)
@@ -133,13 +133,13 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
               }}
               key={project.id}
             >
-              <ProjectCard 
-                className="h-full w-full" 
-                project={project} 
+              <ProjectCard
+                className="h-full w-full"
+                project={project}
                 initialUserReaction={userReaction}
               />
             </MiracleReveal>
-          )   
+          )
         })}
         {isFetchingNextPage &&
           Array.from({ length: 3 }).map((_, i) => <ProjectCardSkeleton key={`more-${i}`} />)}

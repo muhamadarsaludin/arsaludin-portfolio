@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, use } from "react"
+import { useState, useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { LuChevronDown, LuChevronUp } from "react-icons/lu"
 
@@ -36,9 +36,9 @@ export default function ReplyList({
   const replies = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
   const replyIds = useMemo(() => replies.map((reply) => reply.id), [replies])
 
-  const { data: userReactions } = useBatchUserReactions({ 
-    targetIds: replyIds, 
-    targetType: "comment" 
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: replyIds,
+    targetType: "comment",
   })
 
   const isAnyLoading = isLoading || isFetchingNextPage

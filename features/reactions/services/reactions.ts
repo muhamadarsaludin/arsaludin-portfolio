@@ -34,7 +34,10 @@ type GetBatchReactionsParams = {
   targetType: ReactionTargetType
 }
 
-type GetBatchReactionsResult = Record<string, { summary: ReactionSummary; userReaction: Reaction | null }>
+type GetBatchReactionsResult = Record<
+  string,
+  { summary: ReactionSummary; userReaction: Reaction | null }
+>
 
 type GetBatchUserReactionsParams = GetBatchReactionsParams
 
@@ -238,11 +241,9 @@ export async function getPaginatedReactions({
 export async function getBatchReactions({
   targetIds,
   targetType,
-}: GetBatchReactionsParams): Promise<
-  GetBatchReactionsResult
-> {
+}: GetBatchReactionsParams): Promise<GetBatchReactionsResult> {
   if (!targetIds || targetIds.length === 0) return {}
-  
+
   const clientSupabase = await createClient()
   const targetColumn = `${targetType}_id`
   const viewTable = `${targetType}_reaction_counts`
@@ -288,7 +289,10 @@ export async function getBatchReactions({
   }
 
   if (userReactionsResponse.error) {
-    console.error("[getBatchReactions] Failed to fetch batch user reactions:", userReactionsResponse.error)
+    console.error(
+      "[getBatchReactions] Failed to fetch batch user reactions:",
+      userReactionsResponse.error
+    )
     throw userReactionsResponse.error
   }
 
@@ -324,9 +328,9 @@ export async function getBatchReactions({
  * to completely eliminate client-side N+1 query bottlenecks for session-based private data.
  * @remarks
  * **FUTURE MIGRATION CONSIDERATION (HYBRID APPROACH):**
- * Current architecture is Hybrid (Summary from server, User Reaction batched here). It prevents N+1 
- * but risks minor UI flickering when server-side SSG data is stale. To achieve 100% zero-flickering 
- * and a clean Single Source of Truth for Optimistic Updates, remove the reaction summary from the 
+ * Current architecture is Hybrid (Summary from server, User Reaction batched here). It prevents N+1
+ * but risks minor UI flickering when server-side SSG data is stale. To achieve 100% zero-flickering
+ * and a clean Single Source of Truth for Optimistic Updates, remove the reaction summary from the
  * server query, use an empty state blueprint for the initial UI, and switch back to the original batch function.
  * @param params - The batch configuration parameters including target IDs and type.
  * @param params.targetIds - An array of unique identifiers for the entities receiving reactions (e.g., array of achievement UUIDs).
@@ -338,14 +342,14 @@ export async function getBatchUserReactions({
   targetIds,
   targetType,
 }: GetBatchUserReactionsParams): Promise<GetBatchUserReactionsResult> {
-  if (!targetIds || targetIds.length === 0) return {};
+  if (!targetIds || targetIds.length === 0) return {}
 
-  const clientSupabase = await createClient();
-  const targetColumn = `${targetType}_id`;
+  const clientSupabase = await createClient()
+  const targetColumn = `${targetType}_id`
 
   const {
     data: { user },
-  } = await clientSupabase.auth.getUser();
+  } = await clientSupabase.auth.getUser()
 
   if (!user) {
     return targetIds.reduce((acc, id) => {
@@ -385,7 +389,7 @@ export async function getBatchUserReactions({
 
   const result = targetIds.reduce((acc, id) => {
     const itemUserReaction = allUserReactions.find((react) => react[targetColumn] === id) || null
-    acc[id] = itemUserReaction 
+    acc[id] = itemUserReaction
     return acc
   }, {} as GetBatchUserReactionsResult)
 

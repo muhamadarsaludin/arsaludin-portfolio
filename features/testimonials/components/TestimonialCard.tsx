@@ -11,7 +11,7 @@ import MiracleTooltip from "@/components/miracle/Tooltip"
 import { LuInfo } from "react-icons/lu"
 import { FaLinkedin } from "react-icons/fa6"
 import Quote from "./Quote"
-import { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction } from "@/features/reactions/types/reactions.types"
 
 type TestimonialCardProps = {
   className?: string
@@ -22,7 +22,7 @@ type TestimonialCardProps = {
 export default function TestimonialCard({
   className,
   testimonial,
-  initialUserReaction
+  initialUserReaction,
 }: TestimonialCardProps) {
   const t = useTranslations("components.testimonialCard")
   const [avatar, setAvatar] = useState(testimonial.avatar_url || "/dummy.webp")

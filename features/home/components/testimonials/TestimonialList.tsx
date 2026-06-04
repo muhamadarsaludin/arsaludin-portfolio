@@ -13,7 +13,7 @@ export function TestimonialList({ locale }: { locale: string }) {
   const { data: testimonials, isLoading, isError, refetch } = useFeaturedTestimonials({ locale })
 
   const testimonialIds = useMemo(() => testimonials?.map((p) => p.id) ?? [], [testimonials])
-  
+
   const { data: userReactions } = useBatchUserReactions({
     targetIds: testimonialIds,
     targetType: "testimonial",
@@ -41,7 +41,11 @@ export function TestimonialList({ locale }: { locale: string }) {
             className="w-[75vw] shrink-0 snap-start sm:w-auto"
             key={testimonial.id}
           >
-            <TestimonialCard className="h-full w-full" testimonial={testimonial} initialUserReaction={userReaction} />
+            <TestimonialCard
+              className="h-full w-full"
+              testimonial={testimonial}
+              initialUserReaction={userReaction}
+            />
           </MiracleReveal>
         )
       })}

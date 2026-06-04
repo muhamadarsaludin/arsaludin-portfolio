@@ -17,11 +17,11 @@ type UseUserReactionParams = {
  * @param params.targetType - The type of target entity (e.g., 'project', 'blog')
  * @param params.enabled - Optional flag to conditionally toggle the query lifecycle (defaults to true)
  */
-export function useUserReaction({ 
-  targetId, 
-  targetType, 
+export function useUserReaction({
+  targetId,
+  targetType,
   initialUserReaction,
-  enabled = true 
+  enabled = true,
 }: UseUserReactionParams) {
   return useQuery({
     queryKey: ["user-reaction", targetType, targetId],

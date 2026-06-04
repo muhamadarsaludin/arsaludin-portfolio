@@ -26,13 +26,13 @@ export default function ReactionGroup({
   initialReactionSummary,
   initialUserReaction,
   limit = MAX_TOP_REACTIONS,
-  tooltipPosition
+  tooltipPosition,
 }: ReactionGroupProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const hasInitialReactionSummary = initialReactionSummary !== undefined
   const hasInitialUserReaction = initialUserReaction !== undefined
-  
+
   const { data: reactionSummary } = useReactionSummary({
     targetId,
     targetType,

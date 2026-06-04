@@ -9,7 +9,7 @@ import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import CommentGroup from "@/features/comments/components/CommentGroup"
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 import { useTranslations } from "next-intl"
-import { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction } from "@/features/reactions/types/reactions.types"
 
 type ProjectCardProps = {
   className?: string
@@ -17,11 +17,7 @@ type ProjectCardProps = {
   initialUserReaction: Reaction | null
 }
 
-export default function ProjectCard({
-  className,
-  project,
-  initialUserReaction
-}: ProjectCardProps) {
+export default function ProjectCard({ className, project, initialUserReaction }: ProjectCardProps) {
   const t = useTranslations("components.projectCard")
 
   return (

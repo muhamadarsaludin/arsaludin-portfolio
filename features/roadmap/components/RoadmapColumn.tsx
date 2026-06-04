@@ -47,9 +47,9 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
   const cards = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const cardIds = useMemo(() => cards.map((c) => c.id), [cards])
 
-  const { data: userReactions } = useBatchUserReactions({ 
-    targetIds: cardIds, 
-    targetType: "card" 
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: cardIds,
+    targetType: "card",
   })
 
   const loadMoreRef = useRef<HTMLDivElement>(null)
@@ -124,10 +124,11 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
               const userReaction = userReactions?.[card.id] || null
               return (
                 <MiracleReveal key={card.id} animation="zoom-in">
-                  <CardItem 
-                    card={card} 
+                  <CardItem
+                    card={card}
                     initialUserReaction={userReaction}
-                    onUpdate={handleOpenForm} />
+                    onUpdate={handleOpenForm}
+                  />
                 </MiracleReveal>
               )
             })}

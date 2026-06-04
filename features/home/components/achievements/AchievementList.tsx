@@ -26,7 +26,7 @@ export function AchievementList({ locale }: { locale: string }) {
     <div className="flex max-w-full snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-x-hidden lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
       {achievements.map((achievement, index) => {
         const userReaction = userReactions?.[achievement.id] || null
-        return(
+        return (
           <MiracleReveal
             animation={{
               default: "zoom-in",
@@ -40,7 +40,11 @@ export function AchievementList({ locale }: { locale: string }) {
             className="w-[75vw] shrink-0 snap-start sm:w-auto"
             key={achievement.id}
           >
-            <AchievementCard className="h-full w-full" achievement={achievement} initialUserReaction={userReaction} />
+            <AchievementCard
+              className="h-full w-full"
+              achievement={achievement}
+              initialUserReaction={userReaction}
+            />
           </MiracleReveal>
         )
       })}

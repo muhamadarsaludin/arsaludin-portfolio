@@ -92,9 +92,9 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
   const articles = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const articleIds = useMemo(() => articles.map((a) => a.id), [articles])
 
-  const { data: userReactions } = useBatchUserReactions({ 
-    targetIds: articleIds, 
-    targetType: "article" 
+  const { data: userReactions } = useBatchUserReactions({
+    targetIds: articleIds,
+    targetType: "article",
   })
 
   const loadMoreRef = useRef<HTMLDivElement>(null)
@@ -132,9 +132,9 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
               }}
               key={article.id}
             >
-              <ArticleCard 
-                className="h-full w-full" 
-                article={article} 
+              <ArticleCard
+                className="h-full w-full"
+                article={article}
                 initialUserReaction={userReaction}
               />
             </MiracleReveal>
