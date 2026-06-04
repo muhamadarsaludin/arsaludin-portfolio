@@ -13,7 +13,6 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
 import { useAvailableCategories } from "@/features/categories/hooks/useAvailableCategories"
-import type { CategoryTargetType } from "@/features/categories/types/categories.types"
 import { useUrlParams } from "@/hooks/useSearchParams"
 import MiracleBadge from "@/components/miracle/Badge"
 import { ARTICLES_PAGE_SIZE } from "../constants/articles.constans"
@@ -26,10 +25,9 @@ import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserRe
 
 type ArticlesContentProps = {
   locale: string
-  targetType: CategoryTargetType
 }
 
-export default function ArticlesContent({ locale, targetType }: ArticlesContentProps) {
+export default function ArticlesContent({ locale }: ArticlesContentProps) {
   const t = useTranslations("pages.articles")
   const td = useTranslations("data")
   const { setParams, getParam, getArrayParam } = useUrlParams()
@@ -42,7 +40,7 @@ export default function ArticlesContent({ locale, targetType }: ArticlesContentP
   const debouncedSearch = useDebounce(search, 500)
   const [isOpenFilter, setIsOpenFilter] = useState(false)
 
-  const { data: categories } = useAvailableCategories({ locale, targetType })
+  const { data: categories } = useAvailableCategories({ locale, targetType: "article" })
   const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
   if (searchUrl !== prevSearchUrl) {
@@ -96,7 +94,7 @@ export default function ArticlesContent({ locale, targetType }: ArticlesContentP
 
   const { data: userReactions } = useBatchUserReactions({ 
     targetIds: articleIds, 
-    targetType: targetType 
+    targetType: "article" 
   })
 
   const loadMoreRef = useRef<HTMLDivElement>(null)

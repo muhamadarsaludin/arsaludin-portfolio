@@ -45,7 +45,7 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
     useInfiniteCardsByStatus({ status, ...filters })
 
   const cards = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
-  const cardIds = useMemo(() => cards.map((a) => a.id), [cards])
+  const cardIds = useMemo(() => cards.map((c) => c.id), [cards])
 
   const { data: userReactions } = useBatchUserReactions({ 
     targetIds: cardIds, 

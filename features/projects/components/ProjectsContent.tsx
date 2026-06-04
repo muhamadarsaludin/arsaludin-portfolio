@@ -13,7 +13,6 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
 import { useAvailableCategories } from "@/features/categories/hooks/useAvailableCategories"
-import type { CategoryTargetType } from "@/features/categories/types/categories.types"
 import { useUrlParams } from "@/hooks/useSearchParams"
 import MiracleBadge from "@/components/miracle/Badge"
 import { PROJECTS_PAGE_SIZE } from "../constants/projects.constans"
@@ -26,10 +25,9 @@ import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserRe
 
 type ProjectsContentProps = {
   locale: string
-  targetType: CategoryTargetType
 }
 
-export default function ProjectsContent({ locale, targetType }: ProjectsContentProps) {
+export default function ProjectsContent({ locale }: ProjectsContentProps) {
   const t = useTranslations("pages.projects")
   const td = useTranslations("data")
   const { setParams, getParam, getArrayParam } = useUrlParams()
@@ -42,7 +40,7 @@ export default function ProjectsContent({ locale, targetType }: ProjectsContentP
   const [isOpenFilter, setIsOpenFilter] = useState(false)
   const [prevSearchUrl, setPrevSearchUrl] = useState(searchUrl)
 
-  const { data: categories } = useAvailableCategories({ locale, targetType })
+  const { data: categories } = useAvailableCategories({ locale, targetType: "project" })
   const categorySlugsList = useMemo(() => categories?.map((c) => c.slug) || [], [categories])
 
   if (searchUrl !== prevSearchUrl) {
@@ -92,11 +90,11 @@ export default function ProjectsContent({ locale, targetType }: ProjectsContentP
     useInfiniteProjects(currentFilters)
 
   const projects = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
-  const projectIds = useMemo(() => projects.map((a) => a.id), [projects])
+  const projectIds = useMemo(() => projects.map((p) => p.id), [projects])
 
   const { data: userReactions } = useBatchUserReactions({ 
     targetIds: projectIds, 
-    targetType: targetType 
+    targetType: "project" 
   })
 
   const loadMoreRef = useRef<HTMLDivElement>(null)

@@ -22,7 +22,7 @@ export default async function AchievementsPage(props: StaticPageProps) {
   const { locale } = await props.params
 
   const t = await getTranslations("pages.achievements")
-  const targetType: CategoryTargetType = "achievement"
+  const categoryTargetType: CategoryTargetType = "achievement"
   const queryClient = getQueryClient()
 
   const defaultFilters = {
@@ -46,8 +46,8 @@ export default async function AchievementsPage(props: StaticPageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", { locale, targetType }],
-      queryFn: () => getAvailableCategories({ targetType, locale }),
+      queryKey: ["available-categories", { locale, targetType: categoryTargetType }],
+      queryFn: () => getAvailableCategories({ locale, targetType: categoryTargetType }),
     }),
   ])
 
@@ -87,7 +87,7 @@ export default async function AchievementsPage(props: StaticPageProps) {
               </div>
             }
           >
-            <AchievementsContent locale={locale} targetType={targetType} />
+            <AchievementsContent locale={locale} />
           </Suspense>
         </HydrationBoundary>
       </Article>

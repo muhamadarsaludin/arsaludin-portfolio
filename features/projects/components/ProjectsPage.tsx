@@ -23,7 +23,7 @@ export default async function ProjectsPage(props: StaticPageProps) {
 
   const t = await getTranslations("pages.projects")
   const queryClient = getQueryClient()
-  const targetType: CategoryTargetType = "project"
+  const categoryTargetType: CategoryTargetType = "project"
 
   const defaultFilters = {
     locale,
@@ -44,8 +44,8 @@ export default async function ProjectsPage(props: StaticPageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", { locale, targetType }],
-      queryFn: () => getAvailableCategories({ locale, targetType }),
+      queryKey: ["available-categories", { locale, targetType: categoryTargetType }],
+      queryFn: () => getAvailableCategories({ locale, targetType: categoryTargetType }),
     }),
   ])
 
@@ -85,7 +85,7 @@ export default async function ProjectsPage(props: StaticPageProps) {
               </div>
             }
           >
-            <ProjectsContent locale={locale} targetType={targetType} />
+            <ProjectsContent locale={locale} />
           </Suspense>
         </HydrationBoundary>
       </Article>

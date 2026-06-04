@@ -1,4 +1,3 @@
-// articles/page.tsx (Server Component)
 import { getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { getQueryClient } from "@/lib/query-client"
@@ -23,7 +22,7 @@ export default async function ArticlesPage(props: StaticPageProps) {
   const { locale } = await props.params
   const t = await getTranslations("pages.articles")
   const queryClient = getQueryClient()
-  const targetType: CategoryTargetType = "article"
+  const categoryTargetType: CategoryTargetType = "article"
 
   const defaultFilters = {
     locale,
@@ -44,8 +43,8 @@ export default async function ArticlesPage(props: StaticPageProps) {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ["available-categories", { locale, targetType }],
-      queryFn: () => getAvailableCategories({ locale, targetType }),
+      queryKey: ["available-categories", { locale, targetType: categoryTargetType }],
+      queryFn: () => getAvailableCategories({ locale, targetType: categoryTargetType }),
     }),
   ])
 
@@ -86,7 +85,7 @@ export default async function ArticlesPage(props: StaticPageProps) {
               </div>
             }
           >
-            <ArticlesContent locale={locale} targetType={targetType} />
+            <ArticlesContent locale={locale} />
           </Suspense>
         </HydrationBoundary>
       </Article>
