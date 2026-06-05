@@ -14,6 +14,5 @@ export function useFeaturedAchievements({ locale }: UseFeaturedAchievementsParam
     queryKey: ["featured-achievements", locale],
     queryFn: () => getFeaturedAchievements({ locale }),
     staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false,
   })
 }

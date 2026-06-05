@@ -36,6 +36,5 @@ export function useInfiniteMessages({
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined
     },
-    staleTime: 1000 * 60,
   })
 }

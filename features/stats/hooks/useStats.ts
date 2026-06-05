@@ -12,6 +12,5 @@ export function useStats() {
     queryKey: ["stats"],
     queryFn: () => getStats(),
     staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false,
   })
 }

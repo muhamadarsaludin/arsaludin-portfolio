@@ -18,6 +18,5 @@ export function useBatchReactions({ targetIds, targetType }: UseBatchReactionsPa
         targetType,
       }),
     enabled: targetIds.length > 0,
-    staleTime: 1000 * 60 * 5,
   })
 }
