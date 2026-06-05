@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import ReactionGroup from "@/features/reactions/components-test/ReactionGroup"
+import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import { formatDate } from "@/utils/format-date"
 import { cn } from "@/utils/class-name"
 import type { Article } from "../types/articles.types"

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import type { Achievement, AchievementType } from "../types/achievements.types"
-import ReactionGroup from "@/features/reactions/components-test/ReactionGroup"
+import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import AchievementModal from "./AchievementModal"
 import { useTranslations } from "use-intl"
 import { LuAward } from "react-icons/lu"

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { cn } from "@/utils/class-name"
 import Image from "next/image"
-import ReactionGroup from "@/features/reactions/components-test/ReactionGroup"
+import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import { useTranslations } from "use-intl"
 import type { Testimonial } from "../types/testimonials.types"
 import { getInitials } from "@/utils/initials"

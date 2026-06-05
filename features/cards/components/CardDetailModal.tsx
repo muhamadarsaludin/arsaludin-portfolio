@@ -9,7 +9,7 @@ import { formatDate } from "@/utils/format-date"
 import type { BadgeColor } from "@/components/miracle/Badge"
 import MiracleBadge from "@/components/miracle/Badge"
 import MiracleModal from "@/components/miracle/Modal"
-import ReactionGroup from "@/features/reactions/components-test/ReactionGroup"
+import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import CommentGroup from "@/features/comments/components/CommentGroup"
 import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
 

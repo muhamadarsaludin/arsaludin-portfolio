@@ -5,11 +5,9 @@ import type { Reaction, ReactionSummary, ReactionTargetType } from "../types/rea
 import ReactionsPreview from "./ReactionsPreview"
 import ReactionPicker from "./ReactionPicker"
 import ReactionModal from "./ReactionModal"
-import { useReactionSummary } from "../hooks/useReactionSummary"
 import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 import { MAX_TOP_REACTIONS } from "../constants/reactions.constants"
-import { useUserReaction } from "../hooks/useUserReaction"
-import { useBatchReactionMutation } from "../hooks/useReactionMutationNew"
+import { useBatchReactionMutation } from "../hooks/useReactionMutation"
 
 type ReactionGroupProps = {
   targetId: string

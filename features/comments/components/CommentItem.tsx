@@ -17,7 +17,7 @@ import { timeAgo } from "@/utils/time-ago"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import ReplyList from "./ReplyList"
 import { useReplyMutation } from "../hooks/useReplyMutation"
-import ReactionGroup from "@/features/reactions/components-test/ReactionGroup"
+import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleBadge from "@/components/miracle/Badge"
 import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
 
