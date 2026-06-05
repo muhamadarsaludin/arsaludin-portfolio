@@ -127,10 +127,10 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
         ) : (
           <>
             {cards.map((card) => {
-              const commentCount = dataCommentCounts?.[card.id] ?? card.comment_count
+              const commentCount = dataCommentCounts?.[card.id] ?? 0
               const dataReaction = dataReactions?.[card.id]
-              const reactionSummary = dataReaction?.summary || card.reaction_summary
-              const userReaction = dataReaction?.userReaction || null
+              const reactionSummary = dataReaction?.summary ?? null
+              const userReaction = dataReaction?.userReaction ?? null
               return (
                 <MiracleReveal key={card.id} animation="zoom-in">
                   <CardItem

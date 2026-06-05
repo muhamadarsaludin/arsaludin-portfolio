@@ -66,8 +66,8 @@ export default function ReplyList({
         <ul className="flex flex-col gap-5 pt-2">
           {replies.map((reply, index) => {
             const dataReaction = dataReactions?.[reply.id]
-            const reactionSummary = dataReaction?.summary || reply.reaction_summary
-            const userReaction = dataReaction?.userReaction || null
+            const reactionSummary = dataReaction?.summary ?? null
+            const userReaction = dataReaction?.userReaction ?? null
             return (
               <CommentItem
                 key={index}

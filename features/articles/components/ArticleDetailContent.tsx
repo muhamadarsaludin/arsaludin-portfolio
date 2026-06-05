@@ -43,10 +43,10 @@ export default function ArticleDetailContent({
 
   if (!article) return null
 
-  const commentCount = dataCommentCounts?.[article.id] ?? article.comment_count
+  const commentCount = dataCommentCounts?.[article.id] ?? 0
   const dataReaction = dataReactions?.[article.id]
-  const reactionSummary = dataReaction?.summary || article.reaction_summary
-  const userReaction = dataReaction?.userReaction || null
+  const reactionSummary = dataReaction?.summary ?? null
+  const userReaction = dataReaction?.userReaction ?? null
 
   return (
     <div className="w-full">

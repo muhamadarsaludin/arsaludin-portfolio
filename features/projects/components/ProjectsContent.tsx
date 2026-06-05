@@ -129,10 +129,10 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {projects.map((project, index) => {
-          const commentCount = dataCommentCounts?.[project.id] ?? project.comment_count
+          const commentCount = dataCommentCounts?.[project.id] ?? 0
           const dataReaction = dataReactions?.[project.id]
-          const reactionSummary = dataReaction?.summary || project.reaction_summary
-          const userReaction = dataReaction?.userReaction || null
+          const reactionSummary = dataReaction?.summary ?? null
+          const userReaction = dataReaction?.userReaction ?? null
 
           return (
             <MiracleReveal
