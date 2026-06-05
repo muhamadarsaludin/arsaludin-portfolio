@@ -8,7 +8,6 @@ import type { ReactionSummary, ReactionTargetType, Reaction } from "../types/rea
 type UseBatchReactionMutationParams = {
   targetId: string
   targetType: ReactionTargetType
-  targetIds?: string[] // 🎯 Opsional: Boleh dihapus/dibiarkan karena kita pakai partial key
 }
 
 export function useBatchReactionMutation({
@@ -18,7 +17,6 @@ export function useBatchReactionMutation({
   const queryClient = useQueryClient()
   const { user, profile } = useAuth()
 
-  // 🎯 KUNCI PARSIAL: Gunakan awalan ini untuk menyapu laci batching reaksi (List & Detail sekaligus)
   const reactionsPartialKey = ["reactions-batch", targetType]
 
   const mutation = useMutation({
@@ -30,16 +28,13 @@ export function useBatchReactionMutation({
         throw new Error("Unauthorized: Authentication state missing.")
       }
 
-      // 1. Cancel kueri semua laci batching sejenis agar tidak bentrok data di background
       await queryClient.cancelQueries({ queryKey: reactionsPartialKey, exact: false })
 
-      // 2. 🎯 BACKUP MASSAL: Ambil snapshot dari semua jenis laci batching reaksi yang ada di memori
       const previousBatchQueries = queryClient.getQueriesData<GetBatchReactionsResult>({
         queryKey: reactionsPartialKey,
         exact: false,
       })
 
-      // 3. 🎯 OPERASI DUA ARUS (MASS SECTOR UPDATE)
       queryClient.setQueriesData<GetBatchReactionsResult>(
         { queryKey: reactionsPartialKey, exact: false },
         (oldBatch) => {
@@ -56,14 +51,12 @@ export function useBatchReactionMutation({
 
           let updatedReactions = [...prevSummary.allReactions]
 
-          // Kurangi hitungan emoji lama jika user sebelumnya sudah bereaksi
           if (prevReaction) {
             updatedReactions = updatedReactions
               .map((r) => (r.emoji === prevReaction.emoji ? { ...r, count: r.count - 1 } : r))
               .filter((r) => r.count > 0)
           }
 
-          // Tambah hitungan emoji baru jika statusnya bukan menghapus (toggle on)
           if (!isRemoving) {
             const existingIndex = updatedReactions.findIndex((r) => r.emoji === emoji)
             if (existingIndex > -1) {
@@ -96,7 +89,6 @@ export function useBatchReactionMutation({
                 author: profile,
               }
 
-          // Kembalikan objek map batch baru yang sudah terupdate
           return {
             ...safeOldBatch,
             [targetId]: {
@@ -111,7 +103,6 @@ export function useBatchReactionMutation({
     },
 
     onError: (_err, _variables, context) => {
-      // 🎯 ROLLBACK MASSAL: Jika Supabase ngadat, balikin semua laci ke kondisi aslinya
       if (context?.previousBatchQueries) {
         context.previousBatchQueries.forEach(([key, oldData]) => {
           queryClient.setQueryData(key, oldData)
@@ -120,7 +111,6 @@ export function useBatchReactionMutation({
     },
 
     onSettled: () => {
-      // 🎯 INVALIDATE MASSAL: Gosok semua cache biar disinkronkan ulang dengan database asli
       queryClient.invalidateQueries({ queryKey: reactionsPartialKey, exact: false })
     },
   })

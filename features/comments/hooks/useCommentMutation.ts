@@ -8,23 +8,19 @@ import { COMMENTS_PAGE_SIZE } from "../constants/comments.constants"
 type UseCommentMutationParams = {
   targetId: string
   targetType: CommentTargetType
-  targetIds: string[]
   pageSize?: number
 }
 
 export function useCommentMutation({
   targetId,
   targetType,
-  targetIds = [],
   pageSize = COMMENTS_PAGE_SIZE,
 }: UseCommentMutationParams) {
   const queryClient = useQueryClient()
   const { user, profile } = useAuth()
 
-  // 1. Kunci kueri list komentar individual (Halaman Detail)
   const queryKey = ["comments", targetType, targetId, { pageSize }]
 
-  // 2. 🎯 KUNCI PARSIAL: Gunakan ini untuk menyapu bersih semua laci batching (List & Detail)
   const batchCountPartialKey = ["comment-counts-batch", targetType]
 
   /**
@@ -37,14 +33,11 @@ export function useCommentMutation({
         throw new Error("Unauthorized: Authentication state missing.")
       }
 
-      // Batalin kueri detail dan seluruh kueri batch sejenis agar tidak bentrok data
       await queryClient.cancelQueries({ queryKey })
       await queryClient.cancelQueries({ queryKey: batchCountPartialKey, exact: false })
 
-      // Backup data lama list detail
       const previous = queryClient.getQueryData<InfiniteData<PaginatedComments>>(queryKey)
       
-      // 🎯 BACKUP MASSAL: Ambil snapshot dari semua laci batching yang ada di memori browser saat ini
       const previousBatchQueries = queryClient.getQueriesData<GetBatchCommentCountsResult>({
         queryKey: batchCountPartialKey,
         exact: false,
@@ -69,7 +62,6 @@ export function useCommentMutation({
         },
       }
 
-      // Layer 1: Update List Komentar Detail
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(queryKey, (old) => {
         if (!old) return old
         return {
@@ -80,7 +72,6 @@ export function useCommentMutation({
         }
       })
 
-      // Layer 2: 🎯 JURUS GEDOR MASSAL (+1): Dongkrak angka proyek ini di seluruh laci batching
       queryClient.setQueriesData<GetBatchCommentCountsResult>(
         { queryKey: batchCountPartialKey, exact: false },
         (old) => {
@@ -97,7 +88,6 @@ export function useCommentMutation({
     onError: (_err, _variables, context) => {
       if (context?.previous) queryClient.setQueryData(queryKey, context.previous)
       
-      // 🎯 ROLLBACK MASSAL: Kembalikan kondisi semua laci batching ke semula jika server error
       if (context?.previousBatchQueries) {
         context.previousBatchQueries.forEach(([key, oldData]) => {
           queryClient.setQueryData(key, oldData)
@@ -106,7 +96,6 @@ export function useCommentMutation({
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey })
-      // 🎯 INVALIDATE MASSAL: Paksa hangus semua cache batching biar disinkronkan ulang dari backend pusat
       queryClient.invalidateQueries({ queryKey: batchCountPartialKey, exact: false })
     },
   })
@@ -122,7 +111,6 @@ export function useCommentMutation({
 
       const previous = queryClient.getQueryData<InfiniteData<PaginatedComments>>(queryKey)
       
-      // 🎯 BACKUP MASSAL sebelum data dipotong
       const previousBatchQueries = queryClient.getQueriesData<GetBatchCommentCountsResult>({
         queryKey: batchCountPartialKey,
         exact: false,
@@ -139,7 +127,6 @@ export function useCommentMutation({
         }
       }
 
-      // Layer 1: Hapus komentar dari list UI detail
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(queryKey, (old) => {
         if (!old) return old
         return {
@@ -151,7 +138,6 @@ export function useCommentMutation({
         }
       })
 
-      // Layer 2: 🎯 JURUS GEDOR MASSAL (-totalDeleted): Sunat angka proyek ini di seluruh laci batching sekaligus
       queryClient.setQueriesData<GetBatchCommentCountsResult>(
         { queryKey: batchCountPartialKey, exact: false },
         (old) => {
@@ -168,7 +154,6 @@ export function useCommentMutation({
     onError: (_err, _variables, context) => {
       if (context?.previous) queryClient.setQueryData(queryKey, context.previous)
       
-      // 🎯 ROLLBACK MASSAL
       if (context?.previousBatchQueries) {
         context.previousBatchQueries.forEach(([key, oldData]) => {
           queryClient.setQueryData(key, oldData)

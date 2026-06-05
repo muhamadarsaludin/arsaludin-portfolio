@@ -11,7 +11,6 @@ import { useBatchReactionMutation } from "../hooks/useReactionMutation"
 
 type ReactionGroupProps = {
   targetId: string
-  targetIds: string[]
   targetType: ReactionTargetType
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
@@ -21,7 +20,6 @@ type ReactionGroupProps = {
 
 export default function ReactionGroup({
   targetId,
-  targetIds,
   targetType,
   reactionSummary,
   userReaction,
@@ -32,8 +30,7 @@ export default function ReactionGroup({
 
   const { toggle } = useBatchReactionMutation({
     targetId,
-    targetType,
-    targetIds,
+    targetType
   })
 
   const handleToggleReaction = (emoji: string) => {

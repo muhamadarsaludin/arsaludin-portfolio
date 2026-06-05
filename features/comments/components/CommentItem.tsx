@@ -25,8 +25,6 @@ type CommentItemProps = {
   comment: CommentData
   targetId: string
   targetType: CommentTargetType
-  targetIds: string[]
-  commentIds: string[]
   isReply?: boolean
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
@@ -38,8 +36,6 @@ export default function CommentItem({
   targetId,
   targetType,
   isReply = false,
-  targetIds,
-  commentIds,
   reactionSummary,
   userReaction,
   onReplyComment,
@@ -50,13 +46,11 @@ export default function CommentItem({
 
   const { remove: removeComment, isRemoving: isRemovingComment } = useCommentMutation({
     targetId,
-    targetType,
-    targetIds
+    targetType
   })
   const { remove: removeReply, isRemoving: isRemovingReply } = useReplyMutation({
     targetId,
-    targetType,
-    targetIds
+    targetType
   })
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -175,7 +169,6 @@ export default function CommentItem({
         </div>
         <ReactionGroup
           targetId={comment.id}
-          targetIds={commentIds}
           targetType="comment"
           reactionSummary={reactionSummary}
           userReaction={userReaction}
@@ -188,7 +181,6 @@ export default function CommentItem({
           parentId={comment.id}
           replyCount={comment.reply_count}
           targetId={targetId}
-          targetIds={targetIds}
           targetType={targetType}
           onReplyComment={onReplyComment}
         />

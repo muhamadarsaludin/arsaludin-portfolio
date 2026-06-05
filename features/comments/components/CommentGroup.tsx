@@ -9,7 +9,6 @@ import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 
 type CommentGroupProps = {
   targetId: string
-  targetIds: string[]
   targetType: CommentTargetType
   commentCount: number
   title?: ReactNode
@@ -18,7 +17,6 @@ type CommentGroupProps = {
 
 export default function CommentGroup({
   targetId,
-  targetIds,
   targetType,
   commentCount,
   title,
@@ -39,7 +37,6 @@ export default function CommentGroup({
       <CommentDrawer
         isOpen={isDrawerOpen}
         targetId={targetId}
-        targetIds={targetIds}
         targetType={targetType}
         title={title}
         commentCount={commentCount}

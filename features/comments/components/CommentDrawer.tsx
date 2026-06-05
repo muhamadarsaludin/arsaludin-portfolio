@@ -17,7 +17,6 @@ import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 type CommentDrawerProps = {
   isOpen: boolean
   targetId: string
-  targetIds: string[]
   targetType: CommentTargetType
   commentCount: number
   title?: ReactNode
@@ -27,7 +26,6 @@ type CommentDrawerProps = {
 export default function CommentDrawer({
   isOpen,
   targetId,
-  targetIds,
   targetType,
   commentCount,
   title,
@@ -91,7 +89,6 @@ export default function CommentDrawer({
       footer={
         <CommentInput
           targetId={targetId}
-          targetIds={targetIds}
           targetType={targetType}
           repliedComment={repliedComment}
           onClearReply={() => setRepliedComment(null)}
@@ -109,8 +106,6 @@ export default function CommentDrawer({
             <>
               <CommentList
                 targetId={targetId}
-                targetIds={targetIds}
-                commentIds={commentIds}
                 targetType={targetType}
                 comments={comments}
                 dataReactions={dataReactions}

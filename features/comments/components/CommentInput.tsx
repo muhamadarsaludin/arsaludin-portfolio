@@ -15,7 +15,6 @@ import { useReplyMutation } from "../hooks/useReplyMutation"
 
 type CommentInputProps = {
   targetId: string
-  targetIds: string[]
   targetType: CommentTargetType
   repliedComment: CommentData | null
   onClearReply: () => void
@@ -24,7 +23,6 @@ type CommentInputProps = {
 
 export default function CommentInput({
   targetId,
-  targetIds,
   targetType,
   repliedComment,
   onClearReply,
@@ -36,13 +34,11 @@ export default function CommentInput({
 
   const { add: addComment, isAdding: isAddingComment } = useCommentMutation({
     targetId,
-    targetType,
-    targetIds
+    targetType
   })
   const { add: addReply, isAdding: isAddingReply } = useReplyMutation({ 
     targetId, 
-    targetType,
-    targetIds
+    targetType
   })
 
   const isAdding = isAddingComment || isAddingReply

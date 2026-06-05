@@ -14,7 +14,6 @@ type ReplyListProps = {
   parentId: string
   replyCount: number
   targetId: string
-  targetIds: string[]
   targetType: CommentTargetType
   onReplyComment?: (repliedComment: CommentData) => void
 }
@@ -23,7 +22,6 @@ export default function ReplyList({
   parentId,
   replyCount,
   targetId,
-  targetIds,
   targetType,
   onReplyComment,
 }: ReplyListProps) {
@@ -75,12 +73,10 @@ export default function ReplyList({
                 key={index}
                 comment={reply}
                 targetId={targetId}
-                targetIds={targetIds}
                 targetType={targetType}
                 isReply={true}
                 reactionSummary={reactionSummary}
                 userReaction={userReaction}
-                commentIds={replyIds}
                 onReplyComment={onReplyComment}
               />
             )
