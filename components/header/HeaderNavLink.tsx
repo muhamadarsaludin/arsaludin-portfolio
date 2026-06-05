@@ -15,7 +15,7 @@ export default function HeaderNavLink({
   disabled = false,
 }: HeaderNavLinkProps) {
   const pathname = usePathname()
-  const isActive = pathname === href
+  const isActive = href === "/" ? pathname === href : pathname.startsWith(href)
 
   if (disabled) {
     return <span>{label}</span>
