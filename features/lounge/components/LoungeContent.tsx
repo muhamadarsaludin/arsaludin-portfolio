@@ -16,7 +16,6 @@ import MessageInput from "@/features/messages/components/MessageInput"
 import MessageBubbleSkeleton from "@/features/messages/components/MessageBubbleSkeleton"
 import { cn } from "@/utils/class-name"
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type LoungeContentProps = {

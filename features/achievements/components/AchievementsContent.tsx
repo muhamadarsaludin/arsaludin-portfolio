@@ -25,7 +25,6 @@ import {
   ACHIEVEMENTS_TYPES,
 } from "../constants/achievements.constants"
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type AchievementsContentProps = {

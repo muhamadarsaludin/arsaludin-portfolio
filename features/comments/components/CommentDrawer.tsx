@@ -12,7 +12,6 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import MiracleBadge from "@/components/miracle/Badge"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type CommentDrawerProps = {

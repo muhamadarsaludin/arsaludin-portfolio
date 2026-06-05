@@ -19,7 +19,6 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import MiracleLoader from "@/components/miracle/Loader"
 import CardFormModal from "@/features/cards/components/CardFormModal"
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type RoadmapColumnProps = {

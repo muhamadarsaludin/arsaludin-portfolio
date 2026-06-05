@@ -8,7 +8,6 @@ import CommentItem from "./CommentItem"
 import MiracleLoader from "@/components/miracle/Loader"
 import { useInfiniteReplies } from "../hooks/useInfiniteReplies"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
 import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type ReplyListProps = {
