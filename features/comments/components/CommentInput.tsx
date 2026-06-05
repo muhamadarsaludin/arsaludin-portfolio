@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useCommentMutation } from "../hooks/useCommentMutation"
+import { useCommentMutation } from "../hooks/useCommentMutationNew"
 import type { CommentTargetType, CommentData } from "../types/comments.types"
 import { useAuth } from "@/providers/AuthProvider"
 import MiracleTextField from "@/components/miracle/TextField"
@@ -15,6 +15,7 @@ import { useReplyMutation } from "../hooks/useReplyMutation"
 
 type CommentInputProps = {
   targetId: string
+  targetIds: string[]
   targetType: CommentTargetType
   repliedComment: CommentData | null
   onClearReply: () => void
@@ -23,6 +24,7 @@ type CommentInputProps = {
 
 export default function CommentInput({
   targetId,
+  targetIds,
   targetType,
   repliedComment,
   onClearReply,
@@ -35,8 +37,13 @@ export default function CommentInput({
   const { add: addComment, isAdding: isAddingComment } = useCommentMutation({
     targetId,
     targetType,
+    targetIds
   })
-  const { add: addReply, isAdding: isAddingReply } = useReplyMutation({ targetId, targetType })
+  const { add: addReply, isAdding: isAddingReply } = useReplyMutation({ 
+    targetId, 
+    targetType,
+    targetIds
+  })
 
   const isAdding = isAddingComment || isAddingReply
 

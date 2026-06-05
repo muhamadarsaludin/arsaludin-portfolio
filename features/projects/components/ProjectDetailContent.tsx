@@ -24,6 +24,7 @@ import { useProject } from "../hooks/useProject"
 import SkillBadges from "@/features/skills/components/SkillBadges"
 import MiracleButton from "@/components/miracle/Button"
 import MiracleBanner from "@/components/miracle/Banner"
+import { useBatchCommentCounts } from "@/features/comments/hooks/useBatchCommentCounts"
 
 type ProjectDetailContentProps = {
   slug: string
@@ -46,8 +47,14 @@ export default function ProjectDetailContent({
     targetType: "project",
   })
 
+  const { data: dataCommentCounts } = useBatchCommentCounts({
+    targetIds: projectIds,
+    targetType: "project",
+  })
+
   if (!project) return null
 
+  const commentCount = dataCommentCounts?.[project.id] ?? project.comment_count
   const dataReaction = dataReactions?.[project.id]
   const reactionSummary = dataReaction?.summary || null
   const userReaction = dataReaction?.userReaction || null
@@ -224,8 +231,9 @@ export default function ProjectDetailContent({
             <CommentGroup
               title={project.name}
               targetId={project.id}
+              targetIds={projectIds}
               targetType="project"
-              initialCount={project.comment_count}
+              commentCount={commentCount}
             />
           </div>
         </div>

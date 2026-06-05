@@ -10,27 +10,21 @@ import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 
 type CommentGroupProps = {
   targetId: string
+  targetIds: string[]
   targetType: CommentTargetType
-  initialCount?: number
+  commentCount: number
   title?: ReactNode
   tooltipPosition?: TooltipDefaultPosition
 }
 
 export default function CommentGroup({
   targetId,
+  targetIds,
   targetType,
-  initialCount,
+  commentCount,
   title,
   tooltipPosition,
 }: CommentGroupProps) {
-  const hasInitialCount = initialCount !== undefined
-  const { data: commentCount = 0 } = useCommentCount({
-    targetId,
-    targetType,
-    initialCount,
-    enabled: !!targetId && !hasInitialCount,
-  })
-
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   return (
@@ -46,6 +40,7 @@ export default function CommentGroup({
       <CommentDrawer
         isOpen={isDrawerOpen}
         targetId={targetId}
+        targetIds={targetIds}
         targetType={targetType}
         title={title}
         commentCount={commentCount}

@@ -5,18 +5,20 @@ import type { GetBatchReactionsResult } from "@/features/reactions/services/reac
 
 type CommentListProps = {
   targetId: string
+  targetIds: string[]
+  commentIds: string[]
   targetType: CommentTargetType
   comments: CommentData[]
   dataReactions?: GetBatchReactionsResult
-  commentIds: string[]
   onReplyComment: (comment: CommentData) => void
 }
 
 export default function CommentList({
   targetId,
+  targetIds,
+  commentIds,
   targetType,
   comments,
-  commentIds,
   dataReactions,
   onReplyComment,
 }: CommentListProps) {
@@ -40,8 +42,9 @@ export default function CommentList({
             key={comment.id}
             comment={comment}
             targetId={targetId}
-            targetType={targetType}
+            targetIds={targetIds}
             commentIds={commentIds}
+            targetType={targetType}
             reactionSummary={reactionSummary}
             userReaction={userReaction}
             onReplyComment={onReplyComment}

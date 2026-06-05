@@ -11,12 +11,12 @@ import MiracleButton from "@/components/miracle/Button"
 import MiraclePopover from "@/components/miracle/Popover"
 
 import { useAuth } from "@/providers/AuthProvider"
-import { useCommentMutation } from "../hooks/useCommentMutation"
+import { useCommentMutation } from "../hooks/useCommentMutationNew"
+import { useReplyMutation } from "../hooks/useReplyMutation"
 import { getInitials } from "@/utils/initials"
 import { timeAgo } from "@/utils/time-ago"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import ReplyList from "./ReplyList"
-import { useReplyMutation } from "../hooks/useReplyMutation"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleBadge from "@/components/miracle/Badge"
 import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
@@ -25,8 +25,9 @@ type CommentItemProps = {
   comment: CommentData
   targetId: string
   targetType: CommentTargetType
-  isReply?: boolean
+  targetIds: string[]
   commentIds: string[]
+  isReply?: boolean
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
   onReplyComment?: (repliedComment: CommentData) => void
@@ -37,6 +38,7 @@ export default function CommentItem({
   targetId,
   targetType,
   isReply = false,
+  targetIds,
   commentIds,
   reactionSummary,
   userReaction,
@@ -49,10 +51,12 @@ export default function CommentItem({
   const { remove: removeComment, isRemoving: isRemovingComment } = useCommentMutation({
     targetId,
     targetType,
+    targetIds
   })
   const { remove: removeReply, isRemoving: isRemovingReply } = useReplyMutation({
     targetId,
     targetType,
+    targetIds
   })
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -184,6 +188,7 @@ export default function CommentItem({
           parentId={comment.id}
           replyCount={comment.reply_count}
           targetId={targetId}
+          targetIds={targetIds}
           targetType={targetType}
           onReplyComment={onReplyComment}
         />

@@ -20,6 +20,7 @@ import MiracleLoader from "@/components/miracle/Loader"
 import CardFormModal from "@/features/cards/components/CardFormModal"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
+import { useBatchCommentCounts } from "@/features/comments/hooks/useBatchCommentCounts"
 
 type RoadmapColumnProps = {
   status: CardStatus
@@ -48,6 +49,11 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
   const cardIds = useMemo(() => cards.map((c) => c.id), [cards])
 
   const { data: dataReactions } = useBatchReactions({
+    targetIds: cardIds,
+    targetType: "card",
+  })
+
+  const { data: dataCommentCounts } = useBatchCommentCounts({
     targetIds: cardIds,
     targetType: "card",
   })
@@ -121,6 +127,7 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
         ) : (
           <>
             {cards.map((card) => {
+              const commentCount = dataCommentCounts?.[card.id] ?? card.comment_count
               const dataReaction = dataReactions?.[card.id]
               const reactionSummary = dataReaction?.summary || null
               const userReaction = dataReaction?.userReaction || null
@@ -131,6 +138,7 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
                     reactionSummary={reactionSummary}
                     userReaction={userReaction}
                     cardIds={cardIds}
+                    commentCount={commentCount}
                     onUpdate={handleOpenForm}
                   />
                 </MiracleReveal>

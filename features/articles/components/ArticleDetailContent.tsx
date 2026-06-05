@@ -13,6 +13,7 @@ import ArticleShareButton from "./ArticleShareButton"
 import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 import { useTranslations } from "next-intl"
 import { useArticle } from "../hooks/useArticle"
+import { useBatchCommentCounts } from "@/features/comments/hooks/useBatchCommentCounts"
 
 type ArticleDetailContentProps = {
   slug: string
@@ -35,8 +36,14 @@ export default function ArticleDetailContent({
     targetType: "article",
   })
 
+  const { data: dataCommentCounts } = useBatchCommentCounts({
+    targetIds: articleIds,
+    targetType: "article",
+  })
+
   if (!article) return null
 
+  const commentCount = dataCommentCounts?.[article.id] ?? article.comment_count
   const dataReaction = dataReactions?.[article.id]
   const reactionSummary = dataReaction?.summary || null
   const userReaction = dataReaction?.userReaction || null
@@ -172,8 +179,9 @@ export default function ArticleDetailContent({
             <CommentGroup
               title={article.title}
               targetId={article.id}
+              targetIds={articleIds}
               targetType="article"
-              initialCount={article.comment_count}
+              commentCount={commentCount}
             />
           </div>
         </div>

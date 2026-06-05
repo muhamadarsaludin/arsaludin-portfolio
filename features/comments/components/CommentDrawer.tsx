@@ -17,24 +17,27 @@ import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 type CommentDrawerProps = {
   isOpen: boolean
   targetId: string
+  targetIds: string[]
   targetType: CommentTargetType
-  title?: ReactNode
   commentCount: number
+  title?: ReactNode
   onClose: () => void
 }
 
 export default function CommentDrawer({
   isOpen,
   targetId,
+  targetIds,
   targetType,
-  title,
   commentCount,
+  title,
   onClose,
 }: CommentDrawerProps) {
   const t = useTranslations("components.comment.drawer")
-  const loadMoreRef = useRef<HTMLDivElement>(null)
-  const [repliedComment, setRepliedComment] = useState<CommentData | null>(null)
   const { isMobile } = useMediaQuery()
+  
+  const [repliedComment, setRepliedComment] = useState<CommentData | null>(null)
+  const loadMoreRef = useRef<HTMLDivElement>(null)
 
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen)
   const [prevTargetId, setPrevTargetId] = useState(targetId)
@@ -88,6 +91,7 @@ export default function CommentDrawer({
       footer={
         <CommentInput
           targetId={targetId}
+          targetIds={targetIds}
           targetType={targetType}
           repliedComment={repliedComment}
           onClearReply={() => setRepliedComment(null)}
@@ -105,9 +109,10 @@ export default function CommentDrawer({
             <>
               <CommentList
                 targetId={targetId}
+                targetIds={targetIds}
+                commentIds={commentIds}
                 targetType={targetType}
                 comments={comments}
-                commentIds={commentIds}
                 dataReactions={dataReactions}
                 onReplyComment={setRepliedComment}
               />

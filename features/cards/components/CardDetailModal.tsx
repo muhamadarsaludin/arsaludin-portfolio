@@ -24,6 +24,7 @@ type CardDetailModalProps = {
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
   cardIds: string[]
+  commentCount: number
 }
 
 export default function CardDetailModal({
@@ -37,6 +38,7 @@ export default function CardDetailModal({
   reactionSummary,
   userReaction,
   cardIds,
+  commentCount
 }: CardDetailModalProps) {
   const t = useTranslations("components.card.item")
   const td = useTranslations("data.roadmap")
@@ -143,8 +145,9 @@ export default function CardDetailModal({
           <CommentGroup
             title={card.title}
             targetId={card.id}
+            targetIds={cardIds}
             targetType="card"
-            initialCount={card.comment_count}
+            commentCount={commentCount}
           />
         </div>
       </div>

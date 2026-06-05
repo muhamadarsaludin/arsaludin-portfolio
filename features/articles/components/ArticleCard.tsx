@@ -18,6 +18,7 @@ type ArticleCardProps = {
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
   articleIds: string[]
+  commentCount: number
 }
 
 export default function ArticleCard({
@@ -26,6 +27,7 @@ export default function ArticleCard({
   reactionSummary,
   userReaction,
   articleIds,
+  commentCount
 }: ArticleCardProps) {
   const locale = useLocale()
 
@@ -70,10 +72,11 @@ export default function ArticleCard({
               userReaction={userReaction}
             />
             <CommentGroup
-              title={article.title}
               targetId={article.id}
+              targetIds={articleIds}
               targetType="article"
-              initialCount={article.comment_count}
+              commentCount={commentCount}
+              title={article.title}
             />
           </div>
         </div>

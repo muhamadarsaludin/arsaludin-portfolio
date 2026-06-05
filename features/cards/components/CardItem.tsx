@@ -37,6 +37,7 @@ type CardItemProps = {
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
   cardIds: string[]
+  commentCount: number
   onUpdate?: (card: Card) => void
 }
 
@@ -46,6 +47,7 @@ export default function CardItem({
   reactionSummary,
   userReaction,
   cardIds,
+  commentCount,
   onUpdate,
 }: CardItemProps) {
   const t = useTranslations("components.card.item")
@@ -209,8 +211,9 @@ export default function CardItem({
             <CommentGroup
               title={card.title}
               targetId={card.id}
+              targetIds={cardIds}
               targetType="card"
-              initialCount={card.comment_count}
+              commentCount={commentCount}
             />
           </div>
         </div>
@@ -227,6 +230,7 @@ export default function CardItem({
         cardIds={cardIds}
         reactionSummary={reactionSummary}
         userReaction={userReaction}
+        commentCount={commentCount}
       />
 
       <CardDeleteModal
