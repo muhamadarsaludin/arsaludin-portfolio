@@ -18,6 +18,6 @@ export function useProject({ slug, id, locale }: UseProjectParams) {
   return useQuery({
     queryKey: ["project", slug || id, locale],
     queryFn: () => getProject({ slug, id, locale }),
-    staleTime: 1000 * 60 * 30
+    staleTime: 1000 * 60 * 30,
   })
 }

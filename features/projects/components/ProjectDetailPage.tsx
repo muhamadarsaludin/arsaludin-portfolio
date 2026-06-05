@@ -14,7 +14,7 @@ import path from "path"
 import { promises as fs } from "fs"
 import { formatReadingTime, getMdxReadingTime } from "@/utils/reading-time"
 import ViewTracker from "@/features/shared/components/ViewTracker"
-import { Project } from "../types/projects.types"
+import type { Project } from "../types/projects.types"
 import ProjectDetailContent from "./ProjectDetailContent"
 
 const FALLBACK_LOCALES = routing.locales
@@ -103,9 +103,9 @@ export default async function ProjectDetailPage({ params }: StaticPageProps) {
               className="mb-6"
             />
           </MiracleReveal>
-          <ProjectDetailContent 
+          <ProjectDetailContent
             slug={slug}
-            locale={locale} 
+            locale={locale}
             displayReadingTime={displayReadingTime}
           />
           {Content && (

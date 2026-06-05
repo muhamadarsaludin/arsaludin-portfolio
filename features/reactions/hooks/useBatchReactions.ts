@@ -9,7 +9,7 @@ type UseBatchReactionsParams = {
 
 export function useBatchReactions({ targetIds, targetType }: UseBatchReactionsParams) {
   const serializedIds = targetIds.join(",")
-  
+
   return useQuery({
     queryKey: ["reactions-batch", targetType, serializedIds],
     queryFn: () =>

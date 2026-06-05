@@ -19,7 +19,11 @@ type BatchReactionsData = Record<
   }
 >
 
-export function useBatchReactionMutation({ targetId, targetType, targetIds }: UseBatchReactionMutationParams) {
+export function useBatchReactionMutation({
+  targetId,
+  targetType,
+  targetIds,
+}: UseBatchReactionMutationParams) {
   const queryClient = useQueryClient()
   const { user, profile } = useAuth()
 
@@ -29,7 +33,7 @@ export function useBatchReactionMutation({ targetId, targetType, targetIds }: Us
   const mutation = useMutation({
     mutationFn: (variables: { emoji: string }) =>
       toggleReactionAction({ targetId, targetType, emoji: variables.emoji }),
-      
+
     onMutate: async ({ emoji }) => {
       if (!user || !profile) {
         throw new Error("Unauthorized: Authentication state missing.")
@@ -40,7 +44,11 @@ export function useBatchReactionMutation({ targetId, targetType, targetIds }: Us
       const prevBatchData = queryClient.getQueryData<BatchReactionsData>(batchQueryKey)
 
       const currentItem = prevBatchData?.[targetId]
-      const prevSummary = currentItem?.summary || { allReactions: [], totalReactions: 0, totalEmojis: 0 }
+      const prevSummary = currentItem?.summary || {
+        allReactions: [],
+        totalReactions: 0,
+        totalEmojis: 0,
+      }
       const prevReaction = currentItem?.userReaction || null
 
       const isRemoving = prevReaction?.emoji === emoji
@@ -103,7 +111,7 @@ export function useBatchReactionMutation({ targetId, targetType, targetIds }: Us
         queryClient.setQueryData(batchQueryKey, context.prevBatchData)
       }
     },
-    
+
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: batchQueryKey })
     },

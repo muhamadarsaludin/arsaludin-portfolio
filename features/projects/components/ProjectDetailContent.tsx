@@ -1,10 +1,17 @@
 "use client"
 
-import { useMemo } from "react"
 import Image from "next/image"
 import Heading from "@/components/Heading"
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import { LuArrowUpRight, LuCalendar, LuCrown, LuEye, LuGithub, LuTimer, LuTriangleAlert } from "react-icons/lu"
+import {
+  LuArrowUpRight,
+  LuCalendar,
+  LuCrown,
+  LuEye,
+  LuGithub,
+  LuTimer,
+  LuTriangleAlert,
+} from "react-icons/lu"
 import MiracleBadge from "@/components/miracle/Badge"
 import { formatDate } from "@/utils/format-date"
 import UserAvatar from "@/features/auth/components/UserAvatar"
@@ -32,14 +39,14 @@ export default function ProjectDetailContent({
   const t = useTranslations("pages.project-detail")
   const { data: project } = useProject({ slug, locale })
 
-  if (!project) return null
-
-  const projectIds = useMemo(() => [project.id], [project.id])
+  const projectIds = project?.id ? [project.id] : []
 
   const { data: dataReactions } = useBatchReactions({
     targetIds: projectIds,
     targetType: "project",
   })
+
+  if (!project) return null
 
   const dataReaction = dataReactions?.[project.id]
   const reactionSummary = dataReaction?.summary || null
@@ -137,9 +144,7 @@ export default function ProjectDetailContent({
           <div className="border-primary grid grid-cols-1 gap-5 border-t p-5 md:grid-cols-2 md:p-6">
             {/* Author */}
             <div className="flex flex-col gap-2">
-              <p className="text-secondary text-xs tracking-tight uppercase">
-                {t("label.author")}
-              </p>
+              <p className="text-secondary text-xs tracking-tight uppercase">{t("label.author")}</p>
               <div className="flex items-center gap-2">
                 <UserAvatar user={project.author} className="h-8 w-8" />
                 <p className="text-primary text-sm font-medium">{project.author.full_name}</p>
@@ -149,9 +154,7 @@ export default function ProjectDetailContent({
             {/* Date Created */}
             {project.published_at && (
               <div className="flex flex-col gap-2">
-                <p className="text-secondary text-xs tracking-tight uppercase">
-                  {t("label.date")}
-                </p>
+                <p className="text-secondary text-xs tracking-tight uppercase">{t("label.date")}</p>
                 <div className="text-primary flex items-center gap-2 text-sm font-medium">
                   <LuCalendar size={16} className="text-secondary" />
                   {formatDate({ date: project.published_at, locale, dateStyle: "full" })}

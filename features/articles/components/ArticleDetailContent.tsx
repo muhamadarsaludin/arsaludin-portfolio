@@ -1,6 +1,5 @@
 "use client"
 
-import { useMemo } from "react"
 import Image from "next/image"
 import Heading from "@/components/Heading"
 import { MiracleReveal } from "@/components/miracle/Reveal"
@@ -29,14 +28,14 @@ export default function ArticleDetailContent({
   const t = useTranslations("pages.article-detail")
   const { data: article } = useArticle({ slug, locale })
 
-  if (!article) return null
-
-  const articleIds = useMemo(() => [article.id], [article.id])
+  const articleIds = article?.id ? [article.id] : []
 
   const { data: dataReactions } = useBatchReactions({
     targetIds: articleIds,
     targetType: "article",
   })
+
+  if (!article) return null
 
   const dataReaction = dataReactions?.[article.id]
   const reactionSummary = dataReaction?.summary || null
@@ -115,17 +114,13 @@ export default function ArticleDetailContent({
               <ArticleShareButton title={article.title} description={article.summary ?? ""} />
             </header>
 
-            {article.summary && (
-              <p className="text-secondary mt-2 text-sm">{article.summary}</p>
-            )}
+            {article.summary && <p className="text-secondary mt-2 text-sm">{article.summary}</p>}
           </div>
           {/* Mid Section*/}
           <div className="border-primary grid grid-cols-1 gap-5 border-t p-5 md:grid-cols-2 md:p-6">
             {/* Author */}
             <div className="flex flex-col gap-2">
-              <p className="text-secondary text-xs tracking-tight uppercase">
-                {t("label.author")}
-              </p>
+              <p className="text-secondary text-xs tracking-tight uppercase">{t("label.author")}</p>
               <div className="flex items-center gap-2">
                 <UserAvatar user={article.author} className="h-8 w-8" />
                 <p className="text-primary text-sm font-medium">{article.author.full_name}</p>
@@ -135,9 +130,7 @@ export default function ArticleDetailContent({
             {/* Date Created*/}
             {article.published_at && (
               <div className="flex flex-col gap-2">
-                <p className="text-secondary text-xs tracking-tight uppercase">
-                  {t("label.date")}
-                </p>
+                <p className="text-secondary text-xs tracking-tight uppercase">{t("label.date")}</p>
                 <div className="text-primary flex items-center gap-2 text-sm font-medium">
                   <LuCalendar size={16} className="text-secondary" />
                   {formatDate({ date: article.published_at, locale, dateStyle: "full" })}

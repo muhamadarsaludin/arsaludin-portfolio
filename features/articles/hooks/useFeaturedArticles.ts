@@ -15,6 +15,6 @@ export function useFeaturedArticles({ locale }: UseFeaturedArticlesParams) {
   return useQuery({
     queryKey: ["featured-articles", locale],
     queryFn: () => getFeaturedArticles({ locale }),
-    staleTime: 1000 * 60 * 30
+    staleTime: 1000 * 60 * 30,
   })
 }

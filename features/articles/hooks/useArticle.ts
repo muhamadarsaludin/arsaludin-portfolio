@@ -18,6 +18,6 @@ export function useArticle({ slug, id, locale }: UseArticleParams) {
   return useQuery({
     queryKey: ["article", slug || id, locale],
     queryFn: () => getArticle({ slug, id, locale }),
-    staleTime: 1000 * 60 * 30
+    staleTime: 1000 * 60 * 30,
   })
 }

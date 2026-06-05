@@ -20,7 +20,13 @@ type ArticleCardProps = {
   articleIds: string[]
 }
 
-export default function ArticleCard({ className, article, reactionSummary, userReaction, articleIds }: ArticleCardProps) {
+export default function ArticleCard({
+  className,
+  article,
+  reactionSummary,
+  userReaction,
+  articleIds,
+}: ArticleCardProps) {
   const locale = useLocale()
 
   return (

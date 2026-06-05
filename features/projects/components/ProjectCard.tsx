@@ -19,7 +19,13 @@ type ProjectCardProps = {
   projectIds: string[]
 }
 
-export default function ProjectCard({ className, project, reactionSummary, userReaction, projectIds }: ProjectCardProps) {
+export default function ProjectCard({
+  className,
+  project,
+  reactionSummary,
+  userReaction,
+  projectIds,
+}: ProjectCardProps) {
   const t = useTranslations("components.projectCard")
 
   return (

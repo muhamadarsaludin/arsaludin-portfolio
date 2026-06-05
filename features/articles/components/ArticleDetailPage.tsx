@@ -14,7 +14,7 @@ import { promises as fs } from "fs"
 import { formatReadingTime, getMdxReadingTime } from "@/utils/reading-time"
 import { getArticle } from "../services/articles"
 import ViewTracker from "@/features/shared/components/ViewTracker"
-import { Article as ArticleType } from "../types/articles.types"
+import type { Article as ArticleType } from "../types/articles.types"
 import ArticleDetailContent from "./ArticleDetailContent"
 
 /* -------------------------------
@@ -106,9 +106,9 @@ export default async function ArticleDetailPage({ params }: StaticPageProps) {
               className="mb-6"
             />
           </MiracleReveal>
-          <ArticleDetailContent 
+          <ArticleDetailContent
             slug={slug}
-            locale={locale} 
+            locale={locale}
             displayReadingTime={displayReadingTime}
           />
           {Content && (

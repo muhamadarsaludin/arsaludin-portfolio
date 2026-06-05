@@ -14,6 +14,6 @@ export function useFeaturedProjects({ locale }: UseFeaturedProjectsParams) {
   return useQuery({
     queryKey: ["featured-projects", locale],
     queryFn: () => getFeaturedProjects({ locale }),
-    staleTime: 1000 * 60 * 30
+    staleTime: 1000 * 60 * 30,
   })
 }
