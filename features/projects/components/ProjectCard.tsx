@@ -16,7 +16,7 @@ type ProjectCardProps = {
   project: Project
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
-  projectIds: string[]
+  commentCount: number
 }
 
 export default function ProjectCard({
@@ -24,7 +24,7 @@ export default function ProjectCard({
   project,
   reactionSummary,
   userReaction,
-  projectIds,
+  commentCount,
 }: ProjectCardProps) {
   const t = useTranslations("components.projectCard")
 
@@ -76,16 +76,15 @@ export default function ProjectCard({
       >
         <ReactionGroup
           targetId={project.id}
-          targetIds={projectIds}
           targetType="project"
           reactionSummary={reactionSummary}
           userReaction={userReaction}
         />
         <CommentGroup
-          title={project.name}
           targetId={project.id}
           targetType="project"
-          initialCount={project.comment_count}
+          commentCount={commentCount}
+          title={project.name}
         />
       </div>
     </div>

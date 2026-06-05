@@ -1,6 +1,7 @@
 import type { InfiniteData } from "@tanstack/react-query"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { CommentData, PaginatedComments, CommentTargetType } from "../types/comments.types"
+import type { GetBatchCommentCountsResult } from "../services/comments"
 import { useAuth } from "@/providers/AuthProvider"
 import { addReply, deleteReply } from "../services/replies"
 import { COMMENTS_PAGE_SIZE, REPLIES_PAGE_SIZE } from "../constants/comments.constants"
@@ -13,11 +14,8 @@ type UseReplyMutationParams = {
 }
 
 /**
- * Hook to manage reply mutations with multi-layered Optimistic Updates.
- * * Synchronizes three layers of cache:
- * 1. **Replies Thread**: The specific list of replies for a parent comment.
- * 2. **Main Comment List**: The parent comment's `reply_count` property.
- * 3. **Global Counter**: The total interaction count for the target entity.
+ * Hook to manage reply mutations with multi-layered Global Wildcard Optimistic Updates.
+ * Synchronizes individual reply streams, main comment metadata, and ALL shared batch counts.
  */
 export function useReplyMutation({
   targetId,
@@ -26,28 +24,36 @@ export function useReplyMutation({
   replyPageSize = REPLIES_PAGE_SIZE,
 }: UseReplyMutationParams) {
   const queryClient = useQueryClient()
-
-  const mainCommentsKey = ["comments", targetType, targetId, { pageSize: commentPageSize }]
-  const countKey = ["comment-count", targetType, targetId]
-
   const { user, profile } = useAuth()
 
+  const mainCommentsKey = ["comments", targetType, targetId, { pageSize: commentPageSize }]
+  const batchCountPartialKey = ["comment-counts-batch", targetType]
+
+  /**
+   * Mutation to create a new reply.
+   */
   const add = useMutation({
     mutationFn: addReply,
     onMutate: async (variables) => {
-      if (!user || !profile) return
+      if (!user || !profile) {
+        throw new Error("Unauthorized: Authentication state missing.")
+      }
 
       const pId = variables.parentId
       const repliesKey = ["replies", pId, { pageSize: replyPageSize }]
 
       await queryClient.cancelQueries({ queryKey: repliesKey })
       await queryClient.cancelQueries({ queryKey: mainCommentsKey })
-      await queryClient.cancelQueries({ queryKey: countKey })
+      await queryClient.cancelQueries({ queryKey: batchCountPartialKey, exact: false })
 
       const previousReplies = queryClient.getQueryData<InfiniteData<PaginatedComments>>(repliesKey)
       const previousMain =
         queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
-      const previousCount = queryClient.getQueryData<number>(countKey)
+
+      const previousBatchQueries = queryClient.getQueriesData<GetBatchCommentCountsResult>({
+        queryKey: batchCountPartialKey,
+        exact: false,
+      })
 
       const optimisticReply: CommentData = {
         id: `temp-${Date.now()}`,
@@ -75,9 +81,7 @@ export function useReplyMutation({
             pageParams: [undefined],
           }
         }
-
         const lastPageIndex = old.pages.length - 1
-
         return {
           ...old,
           pages: old.pages.map((page, i) =>
@@ -99,24 +103,40 @@ export function useReplyMutation({
         }
       })
 
-      queryClient.setQueryData<number>(countKey, (old) => (old ?? 0) + 1)
+      queryClient.setQueriesData<GetBatchCommentCountsResult>(
+        { queryKey: batchCountPartialKey, exact: false },
+        (old) => {
+          const safeOld = old ?? {}
+          return {
+            ...safeOld,
+            [targetId]: (safeOld[targetId] ?? 0) + 1,
+          }
+        }
+      )
 
-      return { previousReplies, previousMain, previousCount, repliesKey }
+      return { previousReplies, previousMain, previousBatchQueries, repliesKey }
     },
     onError: (_err, _vars, context) => {
       if (context?.repliesKey) queryClient.setQueryData(context.repliesKey, context.previousReplies)
       if (context?.previousMain) queryClient.setQueryData(mainCommentsKey, context.previousMain)
-      if (context?.previousCount !== undefined)
-        queryClient.setQueryData(countKey, context.previousCount)
+
+      if (context?.previousBatchQueries) {
+        context.previousBatchQueries.forEach(([key, oldData]) => {
+          queryClient.setQueryData(key, oldData)
+        })
+      }
     },
     onSettled: (_data, _error, variables) => {
       const repliesKey = ["replies", variables.parentId, { pageSize: replyPageSize }]
       queryClient.invalidateQueries({ queryKey: repliesKey })
       queryClient.invalidateQueries({ queryKey: mainCommentsKey })
-      queryClient.invalidateQueries({ queryKey: countKey })
+      queryClient.invalidateQueries({ queryKey: batchCountPartialKey, exact: false })
     },
   })
 
+  /**
+   * Mutation to delete a reply.
+   */
   const remove = useMutation({
     mutationFn: deleteReply,
     onMutate: async (variables) => {
@@ -125,23 +145,18 @@ export function useReplyMutation({
 
       await queryClient.cancelQueries({ queryKey: repliesKey })
       await queryClient.cancelQueries({ queryKey: mainCommentsKey })
-      await queryClient.cancelQueries({ queryKey: countKey })
+      await queryClient.cancelQueries({ queryKey: batchCountPartialKey, exact: false })
 
       const previousReplies = queryClient.getQueryData<InfiniteData<PaginatedComments>>(repliesKey)
       const previousMain =
         queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
-      const previousCount = queryClient.getQueryData<number>(countKey)
 
-      let totalDeleted = 1
-      if (previousReplies) {
-        for (const page of previousReplies.pages) {
-          const targetReply = page.data.find((c) => c.id === variables.commentId)
-          if (targetReply) {
-            totalDeleted += targetReply.reply_count || 0
-            break
-          }
-        }
-      }
+      const previousBatchQueries = queryClient.getQueriesData<GetBatchCommentCountsResult>({
+        queryKey: batchCountPartialKey,
+        exact: false,
+      })
+
+      const totalDeleted = 1
 
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
         if (!old) return old
@@ -169,21 +184,34 @@ export function useReplyMutation({
         }
       })
 
-      queryClient.setQueryData<number>(countKey, (old) => Math.max(0, (old ?? 0) - totalDeleted))
+      queryClient.setQueriesData<GetBatchCommentCountsResult>(
+        { queryKey: batchCountPartialKey, exact: false },
+        (old) => {
+          const safeOld = old ?? {}
+          return {
+            ...safeOld,
+            [targetId]: Math.max(0, (safeOld[targetId] ?? 0) - totalDeleted),
+          }
+        }
+      )
 
-      return { previousReplies, previousMain, previousCount, repliesKey }
+      return { previousReplies, previousMain, previousBatchQueries, repliesKey }
     },
     onError: (_err, _vars, context) => {
       if (context?.repliesKey) queryClient.setQueryData(context.repliesKey, context.previousReplies)
       if (context?.previousMain) queryClient.setQueryData(mainCommentsKey, context.previousMain)
-      if (context?.previousCount !== undefined)
-        queryClient.setQueryData(countKey, context.previousCount)
+
+      if (context?.previousBatchQueries) {
+        context.previousBatchQueries.forEach(([key, oldData]) => {
+          queryClient.setQueryData(key, oldData)
+        })
+      }
     },
     onSettled: (_data, _error, variables) => {
       const repliesKey = ["replies", variables.parentId, { pageSize: replyPageSize }]
       queryClient.invalidateQueries({ queryKey: repliesKey })
       queryClient.invalidateQueries({ queryKey: mainCommentsKey })
-      queryClient.invalidateQueries({ queryKey: countKey })
+      queryClient.invalidateQueries({ queryKey: batchCountPartialKey, exact: false })
     },
   })
 

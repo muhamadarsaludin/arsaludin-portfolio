@@ -137,7 +137,7 @@ export default function AchievementsContent({ locale }: AchievementsContentProps
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {achievements.map((achievement, index) => {
           const dataReaction = dataReactions?.[achievement.id]
-          const reactionSummary = dataReaction?.summary || null
+          const reactionSummary = dataReaction?.summary || achievement.reaction_summary
           const userReaction = dataReaction?.userReaction || null
           return (
             <MiracleReveal
@@ -153,7 +153,6 @@ export default function AchievementsContent({ locale }: AchievementsContentProps
                 achievement={achievement}
                 reactionSummary={reactionSummary}
                 userReaction={userReaction}
-                achievementIds={achievementIds}
               />
             </MiracleReveal>
           )

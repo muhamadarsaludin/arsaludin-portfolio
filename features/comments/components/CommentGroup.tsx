@@ -5,13 +5,12 @@ import { useState } from "react"
 import CommentButton from "./CommentButton"
 import CommentDrawer from "./CommentDrawer"
 import type { CommentTargetType } from "../types/comments.types"
-import { useCommentCount } from "../hooks/useCommentCount"
 import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 
 type CommentGroupProps = {
   targetId: string
   targetType: CommentTargetType
-  initialCount?: number
+  commentCount: number
   title?: ReactNode
   tooltipPosition?: TooltipDefaultPosition
 }
@@ -19,18 +18,10 @@ type CommentGroupProps = {
 export default function CommentGroup({
   targetId,
   targetType,
-  initialCount,
+  commentCount,
   title,
   tooltipPosition,
 }: CommentGroupProps) {
-  const hasInitialCount = initialCount !== undefined
-  const { data: commentCount = 0 } = useCommentCount({
-    targetId,
-    targetType,
-    initialCount,
-    enabled: !!targetId && !hasInitialCount,
-  })
-
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   return (

@@ -128,7 +128,9 @@ export async function getBatchReactions({
   targetIds,
   targetType,
 }: GetBatchReactionsParams): Promise<GetBatchReactionsResult> {
-  if (!targetIds || targetIds.length === 0) return {}
+  const validIds = targetIds.filter((id) => !id.startsWith("temp-"))
+
+  if (validIds.length === 0) return {}
 
   const clientSupabase = await createClient()
   const targetColumn = `${targetType}_id`
@@ -142,7 +144,7 @@ export async function getBatchReactions({
     supabase
       .from(viewTable)
       .select<string, ReactionCount & { [key: string]: string }>(`emoji, count, ${targetColumn}`)
-      .in(targetColumn, targetIds),
+      .in(targetColumn, validIds),
 
     user
       ? clientSupabase
@@ -165,7 +167,7 @@ export async function getBatchReactions({
           `
           )
           .eq("user_id", user.id)
-          .in(targetColumn, targetIds)
+          .in(targetColumn, validIds)
       : Promise.resolve({ data: [], error: null }),
   ])
 

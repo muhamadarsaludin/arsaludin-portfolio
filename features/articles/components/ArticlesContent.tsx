@@ -22,6 +22,7 @@ import ArticleCard from "./ArticleCard"
 import ArticleCardSkeleton from "./ArticleCardSkeleton"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
+import { useBatchCommentCounts } from "@/features/comments/hooks/useBatchCommentCounts"
 
 type ArticlesContentProps = {
   locale: string
@@ -97,6 +98,11 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
     targetType: "article",
   })
 
+  const { data: dataCommentCounts } = useBatchCommentCounts({
+    targetIds: articleIds,
+    targetType: "article",
+  })
+
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   useIntersectionObserver({
@@ -122,8 +128,9 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {articles.map((article, index) => {
+          const commentCount = dataCommentCounts?.[article.id] ?? article.comment_count
           const dataReaction = dataReactions?.[article.id]
-          const reactionSummary = dataReaction?.summary || null
+          const reactionSummary = dataReaction?.summary || article.reaction_summary
           const userReaction = dataReaction?.userReaction || null
           return (
             <MiracleReveal
@@ -139,7 +146,7 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
                 article={article}
                 reactionSummary={reactionSummary}
                 userReaction={userReaction}
-                articleIds={articleIds}
+                commentCount={commentCount}
               />
             </MiracleReveal>
           )

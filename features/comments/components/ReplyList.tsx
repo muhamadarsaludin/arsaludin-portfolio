@@ -66,7 +66,7 @@ export default function ReplyList({
         <ul className="flex flex-col gap-5 pt-2">
           {replies.map((reply, index) => {
             const dataReaction = dataReactions?.[reply.id]
-            const reactionSummary = dataReaction?.summary || null
+            const reactionSummary = dataReaction?.summary || reply.reaction_summary
             const userReaction = dataReaction?.userReaction || null
             return (
               <CommentItem
@@ -77,7 +77,6 @@ export default function ReplyList({
                 isReply={true}
                 reactionSummary={reactionSummary}
                 userReaction={userReaction}
-                commentIds={replyIds}
                 onReplyComment={onReplyComment}
               />
             )

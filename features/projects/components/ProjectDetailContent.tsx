@@ -24,6 +24,7 @@ import { useProject } from "../hooks/useProject"
 import SkillBadges from "@/features/skills/components/SkillBadges"
 import MiracleButton from "@/components/miracle/Button"
 import MiracleBanner from "@/components/miracle/Banner"
+import { useBatchCommentCounts } from "@/features/comments/hooks/useBatchCommentCounts"
 
 type ProjectDetailContentProps = {
   slug: string
@@ -46,10 +47,16 @@ export default function ProjectDetailContent({
     targetType: "project",
   })
 
+  const { data: dataCommentCounts } = useBatchCommentCounts({
+    targetIds: projectIds,
+    targetType: "project",
+  })
+
   if (!project) return null
 
+  const commentCount = dataCommentCounts?.[project.id] ?? project.comment_count
   const dataReaction = dataReactions?.[project.id]
-  const reactionSummary = dataReaction?.summary || null
+  const reactionSummary = dataReaction?.summary || project.reaction_summary
   const userReaction = dataReaction?.userReaction || null
 
   return (
@@ -216,7 +223,6 @@ export default function ProjectDetailContent({
           <div className="border-primary flex items-center justify-end border-t px-5 py-3 md:px-6">
             <ReactionGroup
               targetId={project.id}
-              targetIds={projectIds}
               targetType="project"
               userReaction={userReaction}
               reactionSummary={reactionSummary}
@@ -225,7 +231,7 @@ export default function ProjectDetailContent({
               title={project.name}
               targetId={project.id}
               targetType="project"
-              initialCount={project.comment_count}
+              commentCount={commentCount}
             />
           </div>
         </div>

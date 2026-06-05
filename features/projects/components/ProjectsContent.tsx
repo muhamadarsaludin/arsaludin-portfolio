@@ -22,6 +22,7 @@ import ProjectCard from "./ProjectCard"
 import Section from "@/components/Section"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
+import { useBatchCommentCounts } from "@/features/comments/hooks/useBatchCommentCounts"
 
 type ProjectsContentProps = {
   locale: string
@@ -97,6 +98,11 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
     targetType: "project",
   })
 
+  const { data: dataCommentCounts } = useBatchCommentCounts({
+    targetIds: projectIds,
+    targetType: "project",
+  })
+
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   useIntersectionObserver({
@@ -123,9 +129,11 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {projects.map((project, index) => {
+          const commentCount = dataCommentCounts?.[project.id] ?? project.comment_count
           const dataReaction = dataReactions?.[project.id]
-          const reactionSummary = dataReaction?.summary || null
+          const reactionSummary = dataReaction?.summary || project.reaction_summary
           const userReaction = dataReaction?.userReaction || null
+
           return (
             <MiracleReveal
               animation="fade-up"
@@ -140,7 +148,7 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
                 project={project}
                 reactionSummary={reactionSummary}
                 userReaction={userReaction}
-                projectIds={projectIds}
+                commentCount={commentCount}
               />
             </MiracleReveal>
           )

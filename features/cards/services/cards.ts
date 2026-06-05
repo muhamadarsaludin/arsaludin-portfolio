@@ -80,7 +80,7 @@ export async function getPaginatedCardsByStatus({
     .from("cards")
     .select<string, CardRawResponse>(CARDS_COLUMNS)
     .eq("status", status)
-    .order("order_index", { ascending: true, nullsFirst: false })
+    .order("order_index", { ascending: false, nullsFirst: false })
     .order("created_at", { ascending: false })
     .order("id", { ascending: false })
     .order("count", {

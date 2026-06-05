@@ -12,11 +12,11 @@ import MiraclePopover from "@/components/miracle/Popover"
 
 import { useAuth } from "@/providers/AuthProvider"
 import { useCommentMutation } from "../hooks/useCommentMutation"
+import { useReplyMutation } from "../hooks/useReplyMutation"
 import { getInitials } from "@/utils/initials"
 import { timeAgo } from "@/utils/time-ago"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import ReplyList from "./ReplyList"
-import { useReplyMutation } from "../hooks/useReplyMutation"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
 import MiracleBadge from "@/components/miracle/Badge"
 import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
@@ -26,7 +26,6 @@ type CommentItemProps = {
   targetId: string
   targetType: CommentTargetType
   isReply?: boolean
-  commentIds: string[]
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
   onReplyComment?: (repliedComment: CommentData) => void
@@ -37,7 +36,6 @@ export default function CommentItem({
   targetId,
   targetType,
   isReply = false,
-  commentIds,
   reactionSummary,
   userReaction,
   onReplyComment,
@@ -171,7 +169,6 @@ export default function CommentItem({
         </div>
         <ReactionGroup
           targetId={comment.id}
-          targetIds={commentIds}
           targetType="comment"
           reactionSummary={reactionSummary}
           userReaction={userReaction}

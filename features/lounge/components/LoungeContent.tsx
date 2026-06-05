@@ -83,16 +83,22 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
     scrollContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" })
   }
 
+  // CORE REALTIME ENGINE
   useEffect(() => {
     const channel = supabase
       .channel(`messages:${messageType}`)
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages", filter: `type=eq.${messageType}` },
-        () => {
-          queryClient.invalidateQueries({
+        {
+          event: "*",
+          schema: "public",
+          table: "messages",
+          filter: `type=eq.${messageType}`,
+        },
+        async () => {
+          await queryClient.invalidateQueries({
             queryKey,
-            refetchType: "active",
+            refetchType: "all",
           })
         }
       )
@@ -142,7 +148,7 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
               <>
                 {messages.map((message) => {
                   const dataReaction = dataReactions?.[message.id]
-                  const reactionSummary = dataReaction?.summary || null
+                  const reactionSummary = dataReaction?.summary || message.reaction_summary
                   const userReaction = dataReaction?.userReaction || null
                   return (
                     <MiracleReveal key={message.id} animation="zoom-in">
@@ -152,7 +158,6 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
                         message={message}
                         reactionSummary={reactionSummary}
                         userReaction={userReaction}
-                        messageIds={messageIds}
                         onReply={setRepliedMessage}
                       />
                     </MiracleReveal>

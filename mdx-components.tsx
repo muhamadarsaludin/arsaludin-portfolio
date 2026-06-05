@@ -157,7 +157,10 @@ export const mdxComponents: MDXComponents = {
   // Quote
   MiracleQuote: (props: BlockquoteProps) => (
     <blockquote
-      className={cn("border-blue mt-6 border-l-2", "text-primary! pl-4 italic")}
+      className={cn(
+        "border-blue text-primary mt-6 border-l-2 pl-4 font-semibold italic",
+        "[&_p]:text-primary [&_p]:font-semibold [&_p]:italic"
+      )}
       {...props}
     />
   ),

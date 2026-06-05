@@ -36,7 +36,10 @@ export default function CommentInput({
     targetId,
     targetType,
   })
-  const { add: addReply, isAdding: isAddingReply } = useReplyMutation({ targetId, targetType })
+  const { add: addReply, isAdding: isAddingReply } = useReplyMutation({
+    targetId,
+    targetType,
+  })
 
   const isAdding = isAddingComment || isAddingReply
 

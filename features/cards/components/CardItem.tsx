@@ -36,7 +36,7 @@ type CardItemProps = {
   card: Card
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
-  cardIds: string[]
+  commentCount: number
   onUpdate?: (card: Card) => void
 }
 
@@ -45,7 +45,7 @@ export default function CardItem({
   card,
   reactionSummary,
   userReaction,
-  cardIds,
+  commentCount,
   onUpdate,
 }: CardItemProps) {
   const t = useTranslations("components.card.item")
@@ -201,7 +201,6 @@ export default function CardItem({
           <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
             <ReactionGroup
               targetId={card.id}
-              targetIds={cardIds}
               targetType="card"
               reactionSummary={reactionSummary}
               userReaction={userReaction}
@@ -210,7 +209,7 @@ export default function CardItem({
               title={card.title}
               targetId={card.id}
               targetType="card"
-              initialCount={card.comment_count}
+              commentCount={commentCount}
             />
           </div>
         </div>
@@ -224,9 +223,9 @@ export default function CardItem({
         typeIconMap={typeIconMap}
         priorityColorMap={priorityColorMap}
         statusColorMap={statusColorMap}
-        cardIds={cardIds}
         reactionSummary={reactionSummary}
         userReaction={userReaction}
+        commentCount={commentCount}
       />
 
       <CardDeleteModal
