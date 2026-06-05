@@ -11,7 +11,7 @@ type FooterNavLinkProps = {
 
 export default function FooterNavLink({ href, label, disabled = false }: FooterNavLinkProps) {
   const pathname = usePathname()
-  const isActive = pathname === href
+  const isActive = href === "/" ? pathname === href : pathname.startsWith(href)
 
   if (disabled) {
     return <span className="text-neutral-med cursor-not-allowed py-2 text-sm">{label}</span>
