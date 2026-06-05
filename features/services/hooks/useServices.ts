@@ -16,6 +16,6 @@ export function useServices({ locale }: UseServicesProps) {
   return useQuery<Service[]>({
     queryKey: ["services", locale],
     queryFn: () => getServices({ locale }),
-    staleTime: 1000 * 60 * 30
+    staleTime: 1000 * 60 * 30,
   })
 }

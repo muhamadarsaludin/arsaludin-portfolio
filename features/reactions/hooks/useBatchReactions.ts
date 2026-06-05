@@ -17,6 +17,6 @@ export function useBatchReactions({ targetIds, targetType }: UseBatchReactionsPa
         targetIds,
         targetType,
       }),
-    enabled: targetIds.length > 0
+    enabled: targetIds.length > 0,
   })
 }

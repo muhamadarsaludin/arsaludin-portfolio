@@ -13,6 +13,6 @@ export function useFeaturedAchievements({ locale }: UseFeaturedAchievementsParam
   return useQuery({
     queryKey: ["featured-achievements", locale],
     queryFn: () => getFeaturedAchievements({ locale }),
-    staleTime: 1000 * 60 * 30
+    staleTime: 1000 * 60 * 30,
   })
 }

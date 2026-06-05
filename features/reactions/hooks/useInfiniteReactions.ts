@@ -39,6 +39,6 @@ export function useInfiniteReactions({
     initialPageParam: undefined as Cursor | undefined,
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined
-    }
+    },
   })
 }

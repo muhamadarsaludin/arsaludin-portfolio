@@ -13,6 +13,6 @@ export function useBatchCommentCounts({ targetIds, targetType }: UseBatchComment
   return useQuery({
     queryKey: ["comment-counts-batch", targetType, serializedIds],
     queryFn: () => getBatchCommentCounts({ targetIds, targetType }),
-    enabled: targetIds.length > 0
+    enabled: targetIds.length > 0,
   })
 }
