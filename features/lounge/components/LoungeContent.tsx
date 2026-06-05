@@ -17,6 +17,7 @@ import MessageBubbleSkeleton from "@/features/messages/components/MessageBubbleS
 import { cn } from "@/utils/class-name"
 import { MiracleReveal } from "@/components/miracle/Reveal"
 import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
+import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type LoungeContentProps = {
   messageType: MessageType
@@ -46,7 +47,7 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
   const messages = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const messageIds = useMemo(() => messages.map((m) => m.id), [messages])
 
-  const { data: userReactions } = useBatchUserReactions({
+  const { data: dataReactions } = useBatchReactions({
     targetIds: messageIds,
     targetType: "message",
   })
@@ -141,14 +142,18 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
             ) : messages.length > 0 ? (
               <>
                 {messages.map((message) => {
-                  const userReaction = userReactions?.[message.id] || null
+                  const dataReaction = dataReactions?.[message.id]
+                  const reactionSummary = dataReaction?.summary || null
+                  const userReaction = dataReaction?.userReaction || null
                   return (
                     <MiracleReveal key={message.id} animation="zoom-in">
                       <MessageBubble
                         messageType={messageType}
                         pageSize={pageSize}
                         message={message}
-                        initialUserReaction={userReaction}
+                        reactionSummary={reactionSummary}
+                        userReaction={userReaction}
+                        messageIds={messageIds}
                         onReply={setRepliedMessage}
                       />
                     </MiracleReveal>

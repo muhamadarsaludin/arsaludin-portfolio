@@ -17,16 +17,18 @@ import { timeAgo } from "@/utils/time-ago"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import ReplyList from "./ReplyList"
 import { useReplyMutation } from "../hooks/useReplyMutation"
-import ReactionGroup from "@/features/reactions/components/ReactionGroup"
+import ReactionGroup from "@/features/reactions/components-test/ReactionGroup"
 import MiracleBadge from "@/components/miracle/Badge"
-import type { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
 
 type CommentItemProps = {
   comment: CommentData
   targetId: string
   targetType: CommentTargetType
   isReply?: boolean
-  initialUserReaction: Reaction | null
+  commentIds: string[]
+  reactionSummary: ReactionSummary | null
+  userReaction: Reaction | null
   onReplyComment?: (repliedComment: CommentData) => void
 }
 
@@ -35,7 +37,9 @@ export default function CommentItem({
   targetId,
   targetType,
   isReply = false,
-  initialUserReaction,
+  commentIds,
+  reactionSummary,
+  userReaction,
   onReplyComment,
 }: CommentItemProps) {
   const t = useTranslations("components.comment.item")
@@ -145,7 +149,7 @@ export default function CommentItem({
                     </button>
                   }
                 >
-                  <div className="flex w-[140px] flex-col p-1">
+                  <div className="flex w-35 flex-col p-1">
                     <p className="text-secondary-inv mb-2 px-2 text-[10px] font-bold uppercase">
                       {t("action")}
                     </p>
@@ -167,9 +171,10 @@ export default function CommentItem({
         </div>
         <ReactionGroup
           targetId={comment.id}
+          targetIds={commentIds}
           targetType="comment"
-          initialUserReaction={initialUserReaction}
-          initialReactionSummary={comment.reaction_summary}
+          reactionSummary={reactionSummary}
+          userReaction={userReaction}
           tooltipPosition="left-center"
         />
       </div>

@@ -15,7 +15,6 @@ export function useFeaturedArticles({ locale }: UseFeaturedArticlesParams) {
   return useQuery({
     queryKey: ["featured-articles", locale],
     queryFn: () => getFeaturedArticles({ locale }),
-    staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 30
   })
 }

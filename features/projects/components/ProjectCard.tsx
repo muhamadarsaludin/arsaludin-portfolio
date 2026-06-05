@@ -5,19 +5,21 @@ import Image from "next/image"
 import type { Project } from "../types/projects.types"
 import { Link } from "@/i18n/navigation"
 import SkillBadges from "@/features/skills/components/SkillBadges"
-import ReactionGroup from "@/features/reactions/components/ReactionGroup"
+import ReactionGroup from "@/features/reactions/components-test/ReactionGroup"
 import CommentGroup from "@/features/comments/components/CommentGroup"
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 import { useTranslations } from "next-intl"
-import type { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
 
 type ProjectCardProps = {
   className?: string
   project: Project
-  initialUserReaction: Reaction | null
+  reactionSummary: ReactionSummary | null
+  userReaction: Reaction | null
+  projectIds: string[]
 }
 
-export default function ProjectCard({ className, project, initialUserReaction }: ProjectCardProps) {
+export default function ProjectCard({ className, project, reactionSummary, userReaction, projectIds }: ProjectCardProps) {
   const t = useTranslations("components.projectCard")
 
   return (
@@ -68,9 +70,10 @@ export default function ProjectCard({ className, project, initialUserReaction }:
       >
         <ReactionGroup
           targetId={project.id}
+          targetIds={projectIds}
           targetType="project"
-          initialUserReaction={initialUserReaction}
-          initialReactionSummary={project.reaction_summary}
+          reactionSummary={reactionSummary}
+          userReaction={userReaction}
         />
         <CommentGroup
           title={project.name}

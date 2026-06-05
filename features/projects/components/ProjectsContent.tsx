@@ -21,7 +21,7 @@ import ProjectCardSkeleton from "./ProjectCardSkeleton"
 import ProjectCard from "./ProjectCard"
 import Section from "@/components/Section"
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
+import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type ProjectsContentProps = {
   locale: string
@@ -92,7 +92,7 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
   const projects = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const projectIds = useMemo(() => projects.map((p) => p.id), [projects])
 
-  const { data: userReactions } = useBatchUserReactions({
+  const { data: dataReactions } = useBatchReactions({
     targetIds: projectIds,
     targetType: "project",
   })
@@ -123,7 +123,9 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {projects.map((project, index) => {
-          const userReaction = userReactions?.[project.id] || null
+          const dataReaction = dataReactions?.[project.id]
+          const reactionSummary = dataReaction?.summary || null
+          const userReaction = dataReaction?.userReaction || null
           return (
             <MiracleReveal
               animation="fade-up"
@@ -136,7 +138,9 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
               <ProjectCard
                 className="h-full w-full"
                 project={project}
-                initialUserReaction={userReaction}
+                reactionSummary={reactionSummary}
+                userReaction={userReaction}
+                projectIds={projectIds}
               />
             </MiracleReveal>
           )

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { cn } from "@/utils/class-name"
 import Image from "next/image"
-import ReactionGroup from "@/features/reactions/components/ReactionGroup"
+import ReactionGroup from "@/features/reactions/components-test/ReactionGroup"
 import { useTranslations } from "use-intl"
 import type { Testimonial } from "../types/testimonials.types"
 import { getInitials } from "@/utils/initials"
@@ -11,18 +11,22 @@ import MiracleTooltip from "@/components/miracle/Tooltip"
 import { LuInfo } from "react-icons/lu"
 import { FaLinkedin } from "react-icons/fa6"
 import Quote from "./Quote"
-import type { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
 
 type TestimonialCardProps = {
   className?: string
   testimonial: Testimonial
-  initialUserReaction: Reaction | null
+  reactionSummary: ReactionSummary | null
+  userReaction: Reaction | null
+  testimonialIds: string[]
 }
 
 export default function TestimonialCard({
   className,
   testimonial,
-  initialUserReaction,
+  reactionSummary,
+  userReaction,
+  testimonialIds,
 }: TestimonialCardProps) {
   const t = useTranslations("components.testimonialCard")
   const [avatar, setAvatar] = useState(testimonial.avatar_url || "/dummy.webp")
@@ -95,9 +99,10 @@ export default function TestimonialCard({
           )}
           <ReactionGroup
             targetId={testimonial.id}
+            targetIds={testimonialIds}
             targetType="testimonial"
-            initialUserReaction={initialUserReaction}
-            initialReactionSummary={testimonial.reaction_summary}
+            reactionSummary={reactionSummary}
+            userReaction={userReaction}
           />
         </div>
       </div>

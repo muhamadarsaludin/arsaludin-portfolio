@@ -4,7 +4,7 @@ import { MiracleReveal } from "@/components/miracle/Reveal"
 import AchievementCard from "@/features/achievements/components/AchievementCard"
 import AchievementCardSkeleton from "@/features/achievements/components/AchievementCardSkeleton"
 import { useFeaturedAchievements } from "@/features/achievements/hooks/useFeaturedAchievements"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
+import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 import { useMemo } from "react"
@@ -13,7 +13,7 @@ export function AchievementList({ locale }: { locale: string }) {
   const { data: achievements, isLoading, isError, refetch } = useFeaturedAchievements({ locale })
   const achievementIds = useMemo(() => achievements?.map((a) => a.id) ?? [], [achievements])
 
-  const { data: userReactions } = useBatchUserReactions({
+  const { data: dataReactions } = useBatchReactions({
     targetIds: achievementIds,
     targetType: "achievement",
   })
@@ -25,7 +25,10 @@ export function AchievementList({ locale }: { locale: string }) {
   return (
     <div className="flex max-w-full snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-x-hidden lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
       {achievements.map((achievement, index) => {
-        const userReaction = userReactions?.[achievement.id] || null
+        const dataReaction = dataReactions?.[achievement.id]
+        const reactionSummary = dataReaction?.summary || null
+        const userReaction = dataReaction?.userReaction || null
+
         return (
           <MiracleReveal
             animation={{
@@ -43,7 +46,9 @@ export function AchievementList({ locale }: { locale: string }) {
             <AchievementCard
               className="h-full w-full"
               achievement={achievement}
-              initialUserReaction={userReaction}
+              reactionSummary={reactionSummary}
+              userReaction={userReaction}
+              achievementIds={achievementIds}
             />
           </MiracleReveal>
         )

@@ -3,25 +3,29 @@
 import { useState } from "react"
 import Image from "next/image"
 import type { Achievement, AchievementType } from "../types/achievements.types"
-import ReactionGroup from "@/features/reactions/components/ReactionGroup"
+import ReactionGroup from "@/features/reactions/components-test/ReactionGroup"
 import AchievementModal from "./AchievementModal"
 import { useTranslations } from "use-intl"
 import { LuAward } from "react-icons/lu"
 import type { BadgeColor } from "@/components/miracle/Badge"
 import MiracleBadge from "@/components/miracle/Badge"
 import { cn } from "@/utils/class-name"
-import type { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
 
 type AchievementCardProps = {
   className?: string
   achievement: Achievement
-  initialUserReaction: Reaction | null
+  reactionSummary: ReactionSummary | null
+  userReaction: Reaction | null
+  achievementIds: string[]
 }
 
 export default function AchievementCard({
   className,
   achievement,
-  initialUserReaction,
+  reactionSummary,
+  userReaction,
+  achievementIds,
 }: AchievementCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -85,9 +89,10 @@ export default function AchievementCard({
         <div className="relative shrink-0">
           <ReactionGroup
             targetId={achievement.id}
+            targetIds={achievementIds}
             targetType="achievement"
-            initialUserReaction={initialUserReaction}
-            initialReactionSummary={achievement.reaction_summary}
+            reactionSummary={reactionSummary}
+            userReaction={userReaction}
           />
         </div>
       </div>

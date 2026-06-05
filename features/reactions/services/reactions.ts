@@ -34,7 +34,7 @@ type GetBatchReactionsParams = {
   targetType: ReactionTargetType
 }
 
-type GetBatchReactionsResult = Record<
+export type GetBatchReactionsResult = Record<
   string,
   { summary: ReactionSummary; userReaction: Reaction | null }
 >

@@ -13,6 +13,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import MiracleBadge from "@/components/miracle/Badge"
 import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
+import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type CommentDrawerProps = {
   isOpen: boolean
@@ -56,7 +57,7 @@ export default function CommentDrawer({
   const comments = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
   const commentIds = useMemo(() => comments.map((comment) => comment.id), [comments])
 
-  const { data: userReactions } = useBatchUserReactions({
+  const { data: dataReactions } = useBatchReactions({
     targetIds: commentIds,
     targetType: "comment",
   })
@@ -107,7 +108,8 @@ export default function CommentDrawer({
                 targetId={targetId}
                 targetType={targetType}
                 comments={comments}
-                userReactions={userReactions}
+                commentIds={commentIds}
+                dataReactions={dataReactions}
                 onReplyComment={setRepliedComment}
               />
               <div ref={loadMoreRef} className="min-h-6 py-4">

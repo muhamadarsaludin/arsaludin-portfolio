@@ -4,7 +4,7 @@ import { MiracleReveal } from "@/components/miracle/Reveal"
 import ProjectCard from "@/features/projects/components/ProjectCard"
 import ProjectCardSkeleton from "@/features/projects/components/ProjectCardSkeleton"
 import { useFeaturedProjects } from "@/features/projects/hooks/useFeaturedProjects"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
+import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 import { useMemo } from "react"
@@ -13,7 +13,7 @@ export function ProjectList({ locale }: { locale: string }) {
   const { data: projects, isLoading, isError, refetch } = useFeaturedProjects({ locale })
   const projectIds = useMemo(() => projects?.map((p) => p.id) ?? [], [projects])
 
-  const { data: userReactions } = useBatchUserReactions({
+  const { data: dataReactions } = useBatchReactions({
     targetIds: projectIds,
     targetType: "project",
   })
@@ -25,7 +25,10 @@ export function ProjectList({ locale }: { locale: string }) {
   return (
     <div className="flex max-w-full snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-x-hidden lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
       {projects.map((project, index) => {
-        const userReaction = userReactions?.[project.id] || null
+        const dataReaction = dataReactions?.[project.id]
+        const reactionSummary = dataReaction?.summary || null
+        const userReaction = dataReaction?.userReaction || null
+
         return (
           <MiracleReveal
             animation={{
@@ -43,7 +46,9 @@ export function ProjectList({ locale }: { locale: string }) {
             <ProjectCard
               className="h-full w-full"
               project={project}
-              initialUserReaction={userReaction}
+              reactionSummary={reactionSummary}
+              userReaction={userReaction}
+              projectIds={projectIds}
             />
           </MiracleReveal>
         )
