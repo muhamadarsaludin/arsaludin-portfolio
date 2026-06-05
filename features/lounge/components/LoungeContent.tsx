@@ -2,18 +2,14 @@
 
 import { supabase } from "@/lib/supabase/client"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { useQueryClient, type InfiniteData } from "@tanstack/react-query"
+import { useQueryClient } from "@tanstack/react-query"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import Section from "@/components/Section"
 import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 import MiracleBanner from "@/components/miracle/Banner"
 import { LuMegaphone, LuArrowDown, LuMessagesSquare } from "react-icons/lu"
 import { useTranslations } from "next-intl"
-import type {
-  Message,
-  MessageType,
-  PaginatedMessages,
-} from "@/features/messages/types/messages.types"
+import type { Message, MessageType } from "@/features/messages/types/messages.types"
 import { useInfiniteMessages } from "@/features/messages/hooks/useInfiniteMessages"
 import MessageBubble from "@/features/messages/components/MessageBubble"
 import MessageInput from "@/features/messages/components/MessageInput"

@@ -253,7 +253,7 @@ export async function getBatchCommentCounts({
 
     if (data) {
       data.forEach((row) => {
-        const id = (row as Record<string, any>)[targetColumn] as string
+        const id = (row as Record<string, string | null>)[targetColumn]
         if (id && id in countsMap) {
           countsMap[id] += 1
         }

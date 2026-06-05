@@ -1,6 +1,7 @@
 import type { InfiniteData } from "@tanstack/react-query"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { addComment, deleteComment, GetBatchCommentCountsResult } from "../services/comments"
+import type { GetBatchCommentCountsResult } from "../services/comments"
+import { addComment, deleteComment } from "../services/comments"
 import type { CommentData, PaginatedComments, CommentTargetType } from "../types/comments.types"
 import { useAuth } from "@/providers/AuthProvider"
 import { COMMENTS_PAGE_SIZE } from "../constants/comments.constants"

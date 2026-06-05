@@ -2,7 +2,8 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuth } from "@/providers/AuthProvider"
-import { GetBatchReactionsResult, toggleReactionAction } from "../services/reactions"
+import type { GetBatchReactionsResult } from "../services/reactions"
+import { toggleReactionAction } from "../services/reactions"
 import type { ReactionSummary, ReactionTargetType, Reaction } from "../types/reactions.types"
 
 type UseBatchReactionMutationParams = {

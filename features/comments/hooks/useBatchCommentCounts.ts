@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { getBatchCommentCounts } from "../services/comments"
-import { CommentTargetType } from "../types/comments.types"
+import type { CommentTargetType } from "../types/comments.types"
 
 type UseBatchCommentCountsParams = {
   targetIds: string[]
