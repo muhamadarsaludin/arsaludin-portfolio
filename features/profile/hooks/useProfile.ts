@@ -21,6 +21,5 @@ export function useProfile({ userId }: UseProfileParams) {
     },
     enabled: !!userId,
     staleTime: 1000 * 60 * 5,
-    refetchOnWindowFocus: false,
   })
 }

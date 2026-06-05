@@ -15,7 +15,6 @@ export const useExperiences = ({ locale }: UseExperiencesParams) => {
   return useQuery({
     queryKey: ["experiences", locale],
     queryFn: () => getExperiences({ locale }),
-    staleTime: 1000 * 60 * 60,
-    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 30,
   })
 }

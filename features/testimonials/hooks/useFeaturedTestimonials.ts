@@ -16,7 +16,6 @@ export function useFeaturedTestimonials({ locale }: UseFeaturedTestimonialsProps
   return useQuery({
     queryKey: ["featured-testimonials", locale],
     queryFn: () => getFeaturedTestimonials({ locale }),
-    staleTime: 1000 * 60 * 60,
-    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 30,
   })
 }

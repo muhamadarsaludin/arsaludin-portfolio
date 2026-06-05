@@ -17,7 +17,6 @@ export function useAvailableCategories({ locale, targetType }: UseAvailableCateg
   return useQuery<Category[]>({
     queryKey: ["available-category", { locale, targetType }],
     queryFn: () => getAvailableCategories({ targetType, locale }),
-    staleTime: 1000 * 60 * 60,
-    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 30,
   })
 }
