@@ -26,8 +26,8 @@ export function AchievementList({ locale }: { locale: string }) {
     <div className="flex max-w-full snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-x-hidden lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
       {achievements.map((achievement, index) => {
         const dataReaction = dataReactions?.[achievement.id]
-        const reactionSummary = dataReaction?.summary || achievement.reaction_summary
-        const userReaction = dataReaction?.userReaction || null
+        const reactionSummary = dataReaction?.summary ?? null
+        const userReaction = dataReaction?.userReaction ?? null
 
         return (
           <MiracleReveal

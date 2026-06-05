@@ -128,10 +128,10 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {articles.map((article, index) => {
-          const commentCount = dataCommentCounts?.[article.id] ?? article.comment_count
+          const commentCount = dataCommentCounts?.[article.id] ?? 0
           const dataReaction = dataReactions?.[article.id]
-          const reactionSummary = dataReaction?.summary || article.reaction_summary
-          const userReaction = dataReaction?.userReaction || null
+          const reactionSummary = dataReaction?.summary ?? null
+          const userReaction = dataReaction?.userReaction ?? null
           return (
             <MiracleReveal
               animation="fade-up"

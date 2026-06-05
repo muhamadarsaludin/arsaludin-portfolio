@@ -54,10 +54,10 @@ export default function ProjectDetailContent({
 
   if (!project) return null
 
-  const commentCount = dataCommentCounts?.[project.id] ?? project.comment_count
+  const commentCount = dataCommentCounts?.[project.id] ?? 0
   const dataReaction = dataReactions?.[project.id]
-  const reactionSummary = dataReaction?.summary || project.reaction_summary
-  const userReaction = dataReaction?.userReaction || null
+  const reactionSummary = dataReaction?.summary ?? null
+  const userReaction = dataReaction?.userReaction ?? null
 
   return (
     <div className="w-full">
