@@ -8,7 +8,7 @@ import CommentItem from "./CommentItem"
 import MiracleLoader from "@/components/miracle/Loader"
 import { useInfiniteReplies } from "../hooks/useInfiniteReplies"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
+import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type ReplyListProps = {
   parentId: string
@@ -36,7 +36,7 @@ export default function ReplyList({
   const replies = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data?.pages])
   const replyIds = useMemo(() => replies.map((reply) => reply.id), [replies])
 
-  const { data: userReactions } = useBatchUserReactions({
+  const { data: dataReactions } = useBatchReactions({
     targetIds: replyIds,
     targetType: "comment",
   })
@@ -65,7 +65,9 @@ export default function ReplyList({
       {isOpen && (
         <ul className="flex flex-col gap-5 pt-2">
           {replies.map((reply, index) => {
-            const userReaction = userReactions?.[reply.id] || null
+            const dataReaction = dataReactions?.[reply.id]
+            const reactionSummary = dataReaction?.summary || null
+            const userReaction = dataReaction?.userReaction || null
             return (
               <CommentItem
                 key={index}
@@ -73,7 +75,9 @@ export default function ReplyList({
                 targetId={targetId}
                 targetType={targetType}
                 isReply={true}
-                initialUserReaction={userReaction}
+                reactionSummary={reactionSummary}
+                userReaction={userReaction}
+                commentIds={replyIds}
                 onReplyComment={onReplyComment}
               />
             )

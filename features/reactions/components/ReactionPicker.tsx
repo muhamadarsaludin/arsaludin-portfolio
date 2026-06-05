@@ -27,8 +27,8 @@ const EmojiPicker = dynamic(() => import("emoji-picker-react"), {
 })
 
 type ReactionPickerProps = {
-  userReaction?: Reaction | null
-  reactionSummary?: ReactionSummary
+  reactionSummary: ReactionSummary | null
+  userReaction: Reaction | null
   onSelectReaction: (emoji: string) => void
   onShowDetail?: () => void
   tooltipPosition?: TooltipDefaultPosition

@@ -25,7 +25,7 @@ import {
   ACHIEVEMENTS_TYPES,
 } from "../constants/achievements.constants"
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
+import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type AchievementsContentProps = {
   locale: string
@@ -102,7 +102,7 @@ export default function AchievementsContent({ locale }: AchievementsContentProps
   const achievements = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const achievementIds = useMemo(() => achievements.map((a) => a.id), [achievements])
 
-  const { data: userReactions } = useBatchUserReactions({
+  const { data: dataReactions } = useBatchReactions({
     targetIds: achievementIds,
     targetType: "achievement",
   })
@@ -136,7 +136,9 @@ export default function AchievementsContent({ locale }: AchievementsContentProps
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {achievements.map((achievement, index) => {
-          const userReaction = userReactions?.[achievement.id] || null
+          const dataReaction = dataReactions?.[achievement.id]
+          const reactionSummary = dataReaction?.summary || null
+          const userReaction = dataReaction?.userReaction || null
           return (
             <MiracleReveal
               animation="fade-up"
@@ -149,7 +151,9 @@ export default function AchievementsContent({ locale }: AchievementsContentProps
               <AchievementCard
                 className="h-full w-full"
                 achievement={achievement}
-                initialUserReaction={userReaction}
+                reactionSummary={reactionSummary}
+                userReaction={userReaction}
+                achievementIds={achievementIds}
               />
             </MiracleReveal>
           )

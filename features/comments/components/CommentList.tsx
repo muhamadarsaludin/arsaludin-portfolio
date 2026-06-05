@@ -1,13 +1,14 @@
 import CommentItem from "./CommentItem"
 import type { CommentData, CommentTargetType } from "../types/comments.types"
 import { useTranslations } from "next-intl"
-import type { GetBatchUserReactionsResult } from "@/features/reactions/services/reactions"
+import type { GetBatchReactionsResult } from "@/features/reactions/services/reactions"
 
 type CommentListProps = {
   targetId: string
   targetType: CommentTargetType
   comments: CommentData[]
-  userReactions?: GetBatchUserReactionsResult
+  dataReactions?: GetBatchReactionsResult
+  commentIds: string[]
   onReplyComment: (comment: CommentData) => void
 }
 
@@ -15,7 +16,8 @@ export default function CommentList({
   targetId,
   targetType,
   comments,
-  userReactions,
+  commentIds,
+  dataReactions,
   onReplyComment,
 }: CommentListProps) {
   const t = useTranslations("components.comment.list")
@@ -30,14 +32,18 @@ export default function CommentList({
   return (
     <ul className="flex flex-col gap-5">
       {comments.map((comment) => {
-        const userReaction = userReactions?.[comment.id] || null
+        const dataReaction = dataReactions?.[comment.id]
+        const reactionSummary = dataReaction?.summary || null
+        const userReaction = dataReaction?.userReaction || null
         return (
           <CommentItem
             key={comment.id}
             comment={comment}
             targetId={targetId}
             targetType={targetType}
-            initialUserReaction={userReaction}
+            commentIds={commentIds}
+            reactionSummary={reactionSummary}
+            userReaction={userReaction}
             onReplyComment={onReplyComment}
           />
         )

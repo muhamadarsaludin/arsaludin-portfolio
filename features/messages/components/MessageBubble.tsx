@@ -16,13 +16,15 @@ import MiracleTooltip from "@/components/miracle/Tooltip"
 import MiracleButton from "@/components/miracle/Button"
 import MiracleModal from "@/components/miracle/Modal"
 import { useMessageMutation } from "../hooks/useMessageMutation"
-import type { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
 
 type MessageBubbleProps = {
   messageType: MessageType
   pageSize: number
   message: Message
-  initialUserReaction: Reaction | null
+  reactionSummary: ReactionSummary | null
+  userReaction: Reaction | null
+  messageIds: string[]
   onReply?: (message: Message) => void
 }
 
@@ -30,7 +32,9 @@ export default function MessageBubble({
   messageType,
   pageSize,
   message,
-  initialUserReaction,
+  reactionSummary,
+  userReaction,
+  messageIds,
   onReply,
 }: MessageBubbleProps) {
   const { remove, isRemoving } = useMessageMutation({ type: messageType, pageSize })
@@ -187,9 +191,10 @@ export default function MessageBubble({
         >
           <ReactionGroup
             targetId={message.id}
+            targetIds={messageIds}
             targetType="message"
-            initialUserReaction={initialUserReaction}
-            initialReactionSummary={message.reaction_summary}
+            reactionSummary={reactionSummary}
+            userReaction={userReaction}
           />
           <div
             className={cn("flex items-center gap-2", isAuthor ? "flex-row-reverse" : "flex-row")}

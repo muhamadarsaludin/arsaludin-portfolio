@@ -19,6 +19,5 @@ export function useProject({ slug, id, locale }: UseProjectParams) {
     queryKey: ["project", slug || id, locale],
     queryFn: () => getProject({ slug, id, locale }),
     staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false,
   })
 }

@@ -14,8 +14,8 @@ import type { Reaction, ReactionSummary } from "../types/reactions.types"
 import { MAX_TOP_REACTIONS } from "../constants/reactions.constants"
 
 type ReactionsPreviewProps = {
-  userReaction?: Reaction | null
-  reactionSummary?: ReactionSummary
+  reactionSummary: ReactionSummary | null
+  userReaction: Reaction | null
   limit?: number
   onSelectReaction: (emoji: string) => void
   tooltipPosition?: TooltipDefaultPosition

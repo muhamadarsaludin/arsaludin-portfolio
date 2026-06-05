@@ -1,7 +1,7 @@
 "use client"
 
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
+import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 import EmptyStateCard from "@/features/shared/components/EmptyStateCard"
 import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 import TestimonialCard from "@/features/testimonials/components/TestimonialCard"
@@ -14,7 +14,7 @@ export function TestimonialList({ locale }: { locale: string }) {
 
   const testimonialIds = useMemo(() => testimonials?.map((p) => p.id) ?? [], [testimonials])
 
-  const { data: userReactions } = useBatchUserReactions({
+  const { data: dataReactions } = useBatchReactions({
     targetIds: testimonialIds,
     targetType: "testimonial",
   })
@@ -26,7 +26,9 @@ export function TestimonialList({ locale }: { locale: string }) {
   return (
     <div className="flex max-w-full snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-x-hidden lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
       {testimonials.map((testimonial, index) => {
-        const userReaction = userReactions?.[testimonial.id] || null
+        const dataReaction = dataReactions?.[testimonial.id]
+        const reactionSummary = dataReaction?.summary || null
+        const userReaction = dataReaction?.userReaction || null
         return (
           <MiracleReveal
             animation={{
@@ -44,7 +46,9 @@ export function TestimonialList({ locale }: { locale: string }) {
             <TestimonialCard
               className="h-full w-full"
               testimonial={testimonial}
-              initialUserReaction={userReaction}
+              reactionSummary={reactionSummary}
+              userReaction={userReaction}
+              testimonialIds={testimonialIds}
             />
           </MiracleReveal>
         )

@@ -15,6 +15,5 @@ export function useFeaturedProjects({ locale }: UseFeaturedProjectsParams) {
     queryKey: ["featured-projects", locale],
     queryFn: () => getFeaturedProjects({ locale }),
     staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false,
   })
 }

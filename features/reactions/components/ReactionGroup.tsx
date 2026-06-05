@@ -5,51 +5,35 @@ import type { Reaction, ReactionSummary, ReactionTargetType } from "../types/rea
 import ReactionsPreview from "./ReactionsPreview"
 import ReactionPicker from "./ReactionPicker"
 import ReactionModal from "./ReactionModal"
-import { useReactionSummary } from "../hooks/useReactionSummary"
 import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 import { MAX_TOP_REACTIONS } from "../constants/reactions.constants"
-import { useUserReaction } from "../hooks/useUserReaction"
-import { useReactionMutation } from "../hooks/useReactionMutation"
+import { useBatchReactionMutation } from "../hooks/useReactionMutation"
 
 type ReactionGroupProps = {
   targetId: string
+  targetIds: string[]
   targetType: ReactionTargetType
-  initialReactionSummary?: ReactionSummary
-  initialUserReaction?: Reaction | null
+  reactionSummary: ReactionSummary | null
+  userReaction: Reaction | null
   limit?: number
   tooltipPosition?: TooltipDefaultPosition
 }
 
 export default function ReactionGroup({
   targetId,
+  targetIds,
   targetType,
-  initialReactionSummary,
-  initialUserReaction,
+  reactionSummary,
+  userReaction,
   limit = MAX_TOP_REACTIONS,
   tooltipPosition,
 }: ReactionGroupProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const hasInitialReactionSummary = initialReactionSummary !== undefined
-  const hasInitialUserReaction = initialUserReaction !== undefined
-
-  const { data: reactionSummary } = useReactionSummary({
+  const { toggle } = useBatchReactionMutation({
     targetId,
     targetType,
-    initialReactionSummary,
-    enabled: !!targetId && !hasInitialReactionSummary,
-  })
-
-  const { data: userReaction } = useUserReaction({
-    targetId,
-    targetType,
-    initialUserReaction,
-    enabled: !!targetId && !hasInitialUserReaction,
-  })
-
-  const { toggle } = useReactionMutation({
-    targetId,
-    targetType,
+    targetIds,
   })
 
   const handleToggleReaction = (emoji: string) => {

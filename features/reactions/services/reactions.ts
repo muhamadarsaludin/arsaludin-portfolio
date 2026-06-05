@@ -12,16 +12,6 @@ import type {
 import type { Cursor } from "@/features/shared/types/index.types"
 import { REACTIONS_PAGE_SIZE } from "../constants/reactions.constants"
 
-type GetReactionSummaryParams = {
-  targetId: string
-  targetType: ReactionTargetType
-}
-
-type GetUserReactionParams = {
-  targetId: string
-  targetType: ReactionTargetType
-}
-
 type GetPaginatedReactionsParams = {
   targetId: string
   targetType: ReactionTargetType
@@ -34,119 +24,15 @@ type GetBatchReactionsParams = {
   targetType: ReactionTargetType
 }
 
-type GetBatchReactionsResult = Record<
+export type GetBatchReactionsResult = Record<
   string,
   { summary: ReactionSummary; userReaction: Reaction | null }
 >
-
-type GetBatchUserReactionsParams = GetBatchReactionsParams
-
-export type GetBatchUserReactionsResult = Record<string, Reaction | null>
 
 type ToggleReactionParams = {
   targetId: string
   targetType: ReactionTargetType
   emoji: string
-}
-
-/**
- * Fetches reaction summary data for a specific target (e.g. project, article, etc).
- * @param params - The query configuration parameters object.
- * @param params.targetId - The unique identifier of the entity receiving reactions (e.g., project UUID, blog slug).
- * @param params.targetType - The entity type (e.g., 'project', 'blog') used to dynamically map columns and view tables.
- * @returns A promise that resolves to a {@link ReactionSummary} object containing the user state and aggregated metadata.
- * @example
- * // Used for client-side hydration on static portfolio pages (SSG)
- * const summary = await getReactionSummary({
- * targetId: "project_123",
- * targetType: "project",
- * });
- */
-export async function getReactionSummary({
-  targetId,
-  targetType,
-}: GetReactionSummaryParams): Promise<ReactionSummary> {
-  // Dynamic schema mapping based on target entity type
-  const targetColumn = `${targetType}_id`
-  const viewTable = `${targetType}_reaction_counts`
-
-  const { data, error } = await supabase
-    .from(viewTable)
-    .select<string, ReactionCount>("emoji, count")
-    .eq(targetColumn, targetId)
-    .order("count", { ascending: false })
-
-  if (error) {
-    console.error("[getReactionSummary] Failed to fetch reaction summary:", error)
-    throw error
-  }
-
-  const allReactions = data ?? []
-  const totalReactions = allReactions.reduce((acc, curr) => acc + (curr.count ?? 0), 0)
-
-  return {
-    allReactions,
-    totalReactions,
-    totalEmojis: allReactions.length,
-  }
-}
-
-/**
- * Fetches the specific reaction details made by a user on a given target.
- * @param params - The query configuration parameters object.
- * @param params.targetId - The unique identifier of the entity that was reacted to (e.g., project UUID, comment ID).
- * @param params.targetType - The entity type (e.g., 'project', 'comment') used to dynamically map columns.
- * @param params.userId - The unique identifier of the user whose reaction is being checked.
- * @returns A promise that resolves to the {@link Reaction} object if found, or `null` if the user has not reacted.
- * @example
- * // Used to determine if the active user should see an active/highlighted state on a reaction button
- * const userReaction = await getUserReaction({
- *   targetId: "project_123",
- *   targetType: "project",
- *   userId: "user_abc",
- * });
- */
-export async function getUserReaction({
-  targetId,
-  targetType,
-}: GetUserReactionParams): Promise<Reaction | null> {
-  const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) return null
-
-  const targetColumn = `${targetType}_id`
-
-  const { data, error } = await supabase
-    .from("reactions")
-    .select<string, Reaction>(
-      `
-      id,
-      emoji,
-      user_id,
-      created_at,
-      updated_at,
-      author:profiles!inner(
-        id,
-        full_name,
-        email,
-        role,
-        avatar_url
-      )
-    `
-    )
-    .eq(targetColumn, targetId)
-    .eq("user_id", user.id)
-    .maybeSingle()
-
-  if (error) {
-    console.error("[getUserReaction] failed to fetch user reaction:", error)
-    throw error
-  }
-
-  return data
 }
 
 /**
@@ -319,79 +205,6 @@ export async function getBatchReactions({
 
     return acc
   }, {} as GetBatchReactionsResult)
-
-  return result
-}
-
-/**
- * Fetches only the active user's specific reaction state for multiple targets simultaneously
- * to completely eliminate client-side N+1 query bottlenecks for session-based private data.
- * @remarks
- * **FUTURE MIGRATION CONSIDERATION (HYBRID APPROACH):**
- * Current architecture is Hybrid (Summary from server, User Reaction batched here). It prevents N+1
- * but risks minor UI flickering when server-side SSG data is stale. To achieve 100% zero-flickering
- * and a clean Single Source of Truth for Optimistic Updates, remove the reaction summary from the
- * server query, use an empty state blueprint for the initial UI, and switch back to the original batch function.
- * @param params - The batch configuration parameters including target IDs and type.
- * @param params.targetIds - An array of unique identifiers for the entities receiving reactions (e.g., array of achievement UUIDs).
- * @param params.targetType - The entity classification ('achievement', 'project', or 'blog') used to dynamically compute database relations and view mappings.
- * @returns A promise that resolves to an indexed lookup hash Map for O(1) user reaction retrieval.
- * @see {@link getBatchReactions} for the full client-side summary + reaction batching alternative.
- */
-export async function getBatchUserReactions({
-  targetIds,
-  targetType,
-}: GetBatchUserReactionsParams): Promise<GetBatchUserReactionsResult> {
-  if (!targetIds || targetIds.length === 0) return {}
-
-  const clientSupabase = await createClient()
-  const targetColumn = `${targetType}_id`
-
-  const {
-    data: { user },
-  } = await clientSupabase.auth.getUser()
-
-  if (!user) {
-    return targetIds.reduce((acc, id) => {
-      acc[id] = null
-      return acc
-    }, {} as GetBatchUserReactionsResult)
-  }
-
-  const { data: userReactions, error } = await clientSupabase
-    .from("reactions")
-    .select<string, Reaction & { [key: string]: string }>(
-      `
-      id,
-      emoji,
-      user_id,
-      created_at,
-      updated_at,
-      ${targetColumn},
-      author:profiles!inner(
-        id,
-        full_name,
-        email,
-        role,
-        avatar_url
-      )
-    `
-    )
-    .eq("user_id", user.id)
-    .in(targetColumn, targetIds)
-
-  if (error) {
-    console.error("[getBatchUserReactions] Failed to fetch batch user reactions:", error)
-    throw error
-  }
-
-  const allUserReactions = userReactions || []
-
-  const result = targetIds.reduce((acc, id) => {
-    const itemUserReaction = allUserReactions.find((react) => react[targetColumn] === id) || null
-    acc[id] = itemUserReaction
-    return acc
-  }, {} as GetBatchUserReactionsResult)
 
   return result
 }

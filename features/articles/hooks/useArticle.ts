@@ -14,11 +14,10 @@ type UseArticleParams = {
  * @param id - The unique UUID for the project (alternative to slug).
  * @returns The query result containing the formatted Project object or null.
  */
-export function useProject({ slug, id, locale }: UseArticleParams) {
+export function useArticle({ slug, id, locale }: UseArticleParams) {
   return useQuery({
     queryKey: ["article", slug || id, locale],
     queryFn: () => getArticle({ slug, id, locale }),
     staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false,
   })
 }

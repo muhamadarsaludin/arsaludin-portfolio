@@ -10,15 +10,23 @@ import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 import { LuCalendar } from "react-icons/lu"
 import { useLocale } from "next-intl"
 import CommentGroup from "@/features/comments/components/CommentGroup"
-import type { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
 
 type ArticleCardProps = {
   className?: string
   article: Article
-  initialUserReaction: Reaction | null
+  reactionSummary: ReactionSummary | null
+  userReaction: Reaction | null
+  articleIds: string[]
 }
 
-export default function ArticleCard({ className, article, initialUserReaction }: ArticleCardProps) {
+export default function ArticleCard({
+  className,
+  article,
+  reactionSummary,
+  userReaction,
+  articleIds,
+}: ArticleCardProps) {
   const locale = useLocale()
 
   return (
@@ -56,9 +64,10 @@ export default function ArticleCard({ className, article, initialUserReaction }:
           <div className="relative flex shrink-0 items-center">
             <ReactionGroup
               targetId={article.id}
+              targetIds={articleIds}
               targetType="article"
-              initialUserReaction={initialUserReaction}
-              initialReactionSummary={article.reaction_summary}
+              reactionSummary={reactionSummary}
+              userReaction={userReaction}
             />
             <CommentGroup
               title={article.title}

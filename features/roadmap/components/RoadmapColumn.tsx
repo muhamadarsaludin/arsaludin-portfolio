@@ -19,7 +19,7 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import MiracleLoader from "@/components/miracle/Loader"
 import CardFormModal from "@/features/cards/components/CardFormModal"
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
+import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type RoadmapColumnProps = {
   status: CardStatus
@@ -47,7 +47,7 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
   const cards = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const cardIds = useMemo(() => cards.map((c) => c.id), [cards])
 
-  const { data: userReactions } = useBatchUserReactions({
+  const { data: dataReactions } = useBatchReactions({
     targetIds: cardIds,
     targetType: "card",
   })
@@ -121,12 +121,16 @@ export default function RoadmapColumn({ status, filters, className }: RoadmapCol
         ) : (
           <>
             {cards.map((card) => {
-              const userReaction = userReactions?.[card.id] || null
+              const dataReaction = dataReactions?.[card.id]
+              const reactionSummary = dataReaction?.summary || null
+              const userReaction = dataReaction?.userReaction || null
               return (
                 <MiracleReveal key={card.id} animation="zoom-in">
                   <CardItem
                     card={card}
-                    initialUserReaction={userReaction}
+                    reactionSummary={reactionSummary}
+                    userReaction={userReaction}
+                    cardIds={cardIds}
                     onUpdate={handleOpenForm}
                   />
                 </MiracleReveal>

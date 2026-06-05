@@ -29,19 +29,23 @@ import MiracleButton from "@/components/miracle/Button"
 import { useCardsMutation } from "@/features/cards/hooks/useCardMutation"
 import CardDetailModal from "./CardDetailModal"
 import CardDeleteModal from "./CardDeleteModal"
-import type { Reaction } from "@/features/reactions/types/reactions.types"
+import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
 
 type CardItemProps = {
   className?: string
   card: Card
-  initialUserReaction: Reaction | null
+  reactionSummary: ReactionSummary | null
+  userReaction: Reaction | null
+  cardIds: string[]
   onUpdate?: (card: Card) => void
 }
 
 export default function CardItem({
   className,
   card,
-  initialUserReaction,
+  reactionSummary,
+  userReaction,
+  cardIds,
   onUpdate,
 }: CardItemProps) {
   const t = useTranslations("components.card.item")
@@ -197,9 +201,10 @@ export default function CardItem({
           <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
             <ReactionGroup
               targetId={card.id}
+              targetIds={cardIds}
               targetType="card"
-              initialUserReaction={initialUserReaction}
-              initialReactionSummary={card.reaction_summary}
+              reactionSummary={reactionSummary}
+              userReaction={userReaction}
             />
             <CommentGroup
               title={card.title}
@@ -219,7 +224,9 @@ export default function CardItem({
         typeIconMap={typeIconMap}
         priorityColorMap={priorityColorMap}
         statusColorMap={statusColorMap}
-        initialUserReaction={initialUserReaction}
+        cardIds={cardIds}
+        reactionSummary={reactionSummary}
+        userReaction={userReaction}
       />
 
       <CardDeleteModal

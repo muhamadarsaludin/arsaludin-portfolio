@@ -21,7 +21,7 @@ import Section from "@/components/Section"
 import ArticleCard from "./ArticleCard"
 import ArticleCardSkeleton from "./ArticleCardSkeleton"
 import { MiracleReveal } from "@/components/miracle/Reveal"
-import { useBatchUserReactions } from "@/features/reactions/hooks/useBatchUserReactions"
+import { useBatchReactions } from "@/features/reactions/hooks/useBatchReactions"
 
 type ArticlesContentProps = {
   locale: string
@@ -92,7 +92,7 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
   const articles = useMemo(() => data?.pages.flatMap((p) => p.data) ?? [], [data])
   const articleIds = useMemo(() => articles.map((a) => a.id), [articles])
 
-  const { data: userReactions } = useBatchUserReactions({
+  const { data: dataReactions } = useBatchReactions({
     targetIds: articleIds,
     targetType: "article",
   })
@@ -122,7 +122,9 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
     return (
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {articles.map((article, index) => {
-          const userReaction = userReactions?.[article.id] || null
+          const dataReaction = dataReactions?.[article.id]
+          const reactionSummary = dataReaction?.summary || null
+          const userReaction = dataReaction?.userReaction || null
           return (
             <MiracleReveal
               animation="fade-up"
@@ -135,7 +137,9 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
               <ArticleCard
                 className="h-full w-full"
                 article={article}
-                initialUserReaction={userReaction}
+                reactionSummary={reactionSummary}
+                userReaction={userReaction}
+                articleIds={articleIds}
               />
             </MiracleReveal>
           )
