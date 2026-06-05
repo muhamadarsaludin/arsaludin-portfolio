@@ -24,7 +24,7 @@ export default function ProjectCard({
   project,
   reactionSummary,
   userReaction,
-  commentCount
+  commentCount,
 }: ProjectCardProps) {
   const t = useTranslations("components.projectCard")
 

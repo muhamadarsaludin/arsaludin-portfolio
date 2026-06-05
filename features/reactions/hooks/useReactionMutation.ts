@@ -10,10 +10,7 @@ type UseBatchReactionMutationParams = {
   targetType: ReactionTargetType
 }
 
-export function useBatchReactionMutation({
-  targetId,
-  targetType,
-}: UseBatchReactionMutationParams) {
+export function useBatchReactionMutation({ targetId, targetType }: UseBatchReactionMutationParams) {
   const queryClient = useQueryClient()
   const { user, profile } = useAuth()
 

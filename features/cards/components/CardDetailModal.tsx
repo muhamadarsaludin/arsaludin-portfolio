@@ -36,7 +36,7 @@ export default function CardDetailModal({
   statusColorMap,
   reactionSummary,
   userReaction,
-  commentCount
+  commentCount,
 }: CardDetailModalProps) {
   const t = useTranslations("components.card.item")
   const td = useTranslations("data.roadmap")

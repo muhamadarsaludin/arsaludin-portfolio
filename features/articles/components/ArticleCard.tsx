@@ -25,7 +25,7 @@ export default function ArticleCard({
   article,
   reactionSummary,
   userReaction,
-  commentCount
+  commentCount,
 }: ArticleCardProps) {
   const locale = useLocale()
 

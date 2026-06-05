@@ -8,7 +8,7 @@ type UseBatchCommentCountsParams = {
 }
 
 export function useBatchCommentCounts({ targetIds, targetType }: UseBatchCommentCountsParams) {
-  const serializedIds = targetIds.join(",") 
+  const serializedIds = targetIds.join(",")
 
   return useQuery({
     queryKey: ["comment-counts-batch", targetType, serializedIds],

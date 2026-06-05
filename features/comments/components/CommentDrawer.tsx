@@ -33,7 +33,7 @@ export default function CommentDrawer({
 }: CommentDrawerProps) {
   const t = useTranslations("components.comment.drawer")
   const { isMobile } = useMediaQuery()
-  
+
   const [repliedComment, setRepliedComment] = useState<CommentData | null>(null)
   const loadMoreRef = useRef<HTMLDivElement>(null)
 

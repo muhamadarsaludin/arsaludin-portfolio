@@ -9,7 +9,11 @@ import ErrorStateCard from "@/features/shared/components/ErrorStateCard"
 import MiracleBanner from "@/components/miracle/Banner"
 import { LuMegaphone, LuArrowDown, LuMessagesSquare } from "react-icons/lu"
 import { useTranslations } from "next-intl"
-import type { Message, MessageType, PaginatedMessages } from "@/features/messages/types/messages.types"
+import type {
+  Message,
+  MessageType,
+  PaginatedMessages,
+} from "@/features/messages/types/messages.types"
 import { useInfiniteMessages } from "@/features/messages/hooks/useInfiniteMessages"
 import MessageBubble from "@/features/messages/components/MessageBubble"
 import MessageInput from "@/features/messages/components/MessageInput"
@@ -89,11 +93,11 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
       .channel(`messages:${messageType}`)
       .on(
         "postgres_changes",
-        { 
-          event: "*", 
-          schema: "public", 
-          table: "messages", 
-          filter: `type=eq.${messageType}` 
+        {
+          event: "*",
+          schema: "public",
+          table: "messages",
+          filter: `type=eq.${messageType}`,
         },
         async () => {
           await queryClient.invalidateQueries({

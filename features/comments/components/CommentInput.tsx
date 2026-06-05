@@ -34,11 +34,11 @@ export default function CommentInput({
 
   const { add: addComment, isAdding: isAddingComment } = useCommentMutation({
     targetId,
-    targetType
+    targetType,
   })
-  const { add: addReply, isAdding: isAddingReply } = useReplyMutation({ 
-    targetId, 
-    targetType
+  const { add: addReply, isAdding: isAddingReply } = useReplyMutation({
+    targetId,
+    targetType,
   })
 
   const isAdding = isAddingComment || isAddingReply

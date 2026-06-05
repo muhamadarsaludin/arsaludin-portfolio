@@ -27,7 +27,7 @@ export function useReplyMutation({
   const queryClient = useQueryClient()
   const { user, profile } = useAuth()
 
-  const mainCommentsKey = ["comments", targetType, targetId, { pageSize: commentPageSize }]  
+  const mainCommentsKey = ["comments", targetType, targetId, { pageSize: commentPageSize }]
   const batchCountPartialKey = ["comment-counts-batch", targetType]
 
   /**
@@ -46,10 +46,11 @@ export function useReplyMutation({
       await queryClient.cancelQueries({ queryKey: repliesKey })
       await queryClient.cancelQueries({ queryKey: mainCommentsKey })
       await queryClient.cancelQueries({ queryKey: batchCountPartialKey, exact: false })
-      
+
       const previousReplies = queryClient.getQueryData<InfiniteData<PaginatedComments>>(repliesKey)
-      const previousMain = queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
-      
+      const previousMain =
+        queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
+
       const previousBatchQueries = queryClient.getQueriesData<GetBatchCommentCountsResult>({
         queryKey: batchCountPartialKey,
         exact: false,
@@ -119,7 +120,7 @@ export function useReplyMutation({
     onError: (_err, _vars, context) => {
       if (context?.repliesKey) queryClient.setQueryData(context.repliesKey, context.previousReplies)
       if (context?.previousMain) queryClient.setQueryData(mainCommentsKey, context.previousMain)
-      
+
       if (context?.previousBatchQueries) {
         context.previousBatchQueries.forEach(([key, oldData]) => {
           queryClient.setQueryData(key, oldData)
@@ -148,8 +149,9 @@ export function useReplyMutation({
       await queryClient.cancelQueries({ queryKey: batchCountPartialKey, exact: false })
 
       const previousReplies = queryClient.getQueryData<InfiniteData<PaginatedComments>>(repliesKey)
-      const previousMain = queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
-      
+      const previousMain =
+        queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
+
       const previousBatchQueries = queryClient.getQueriesData<GetBatchCommentCountsResult>({
         queryKey: batchCountPartialKey,
         exact: false,
@@ -199,7 +201,7 @@ export function useReplyMutation({
     onError: (_err, _vars, context) => {
       if (context?.repliesKey) queryClient.setQueryData(context.repliesKey, context.previousReplies)
       if (context?.previousMain) queryClient.setQueryData(mainCommentsKey, context.previousMain)
-      
+
       if (context?.previousBatchQueries) {
         context.previousBatchQueries.forEach(([key, oldData]) => {
           queryClient.setQueryData(key, oldData)

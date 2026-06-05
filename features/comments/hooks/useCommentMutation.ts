@@ -37,7 +37,7 @@ export function useCommentMutation({
       await queryClient.cancelQueries({ queryKey: batchCountPartialKey, exact: false })
 
       const previous = queryClient.getQueryData<InfiniteData<PaginatedComments>>(queryKey)
-      
+
       const previousBatchQueries = queryClient.getQueriesData<GetBatchCommentCountsResult>({
         queryKey: batchCountPartialKey,
         exact: false,
@@ -87,7 +87,7 @@ export function useCommentMutation({
     },
     onError: (_err, _variables, context) => {
       if (context?.previous) queryClient.setQueryData(queryKey, context.previous)
-      
+
       if (context?.previousBatchQueries) {
         context.previousBatchQueries.forEach(([key, oldData]) => {
           queryClient.setQueryData(key, oldData)
@@ -110,7 +110,7 @@ export function useCommentMutation({
       await queryClient.cancelQueries({ queryKey: batchCountPartialKey, exact: false })
 
       const previous = queryClient.getQueryData<InfiniteData<PaginatedComments>>(queryKey)
-      
+
       const previousBatchQueries = queryClient.getQueriesData<GetBatchCommentCountsResult>({
         queryKey: batchCountPartialKey,
         exact: false,
@@ -153,7 +153,7 @@ export function useCommentMutation({
     },
     onError: (_err, _variables, context) => {
       if (context?.previous) queryClient.setQueryData(queryKey, context.previous)
-      
+
       if (context?.previousBatchQueries) {
         context.previousBatchQueries.forEach(([key, oldData]) => {
           queryClient.setQueryData(key, oldData)

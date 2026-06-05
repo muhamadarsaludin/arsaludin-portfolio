@@ -224,7 +224,7 @@ export async function getCommentCount({
 /**
  * Fetch comment counts in batch for multiple target IDs.
  * Combines N+1 database queries into a single efficient query.
- * 
+ *
  * @returns A promise that resolves to an object map: { [targetId]: count }
  */
 export async function getBatchCommentCounts({
@@ -242,10 +242,7 @@ export async function getBatchCommentCounts({
       .in(targetColumn, targetIds)
 
     if (error) {
-      console.error(
-        `[getBatchCommentCounts] Error fetching batch counts for ${targetType}:`,
-        error
-      )
+      console.error(`[getBatchCommentCounts] Error fetching batch counts for ${targetType}:`, error)
       return {}
     }
 

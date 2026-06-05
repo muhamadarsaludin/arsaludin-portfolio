@@ -30,7 +30,7 @@ export default function ReactionGroup({
 
   const { toggle } = useBatchReactionMutation({
     targetId,
-    targetType
+    targetType,
   })
 
   const handleToggleReaction = (emoji: string) => {

@@ -128,7 +128,6 @@ export async function getBatchReactions({
   targetIds,
   targetType,
 }: GetBatchReactionsParams): Promise<GetBatchReactionsResult> {
-  
   const validIds = targetIds.filter((id) => !id.startsWith("temp-"))
 
   if (validIds.length === 0) return {}

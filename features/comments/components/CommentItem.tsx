@@ -46,11 +46,11 @@ export default function CommentItem({
 
   const { remove: removeComment, isRemoving: isRemovingComment } = useCommentMutation({
     targetId,
-    targetType
+    targetType,
   })
   const { remove: removeReply, isRemoving: isRemovingReply } = useReplyMutation({
     targetId,
-    targetType
+    targetType,
   })
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)

@@ -23,7 +23,7 @@ export default function AchievementCard({
   className,
   achievement,
   reactionSummary,
-  userReaction
+  userReaction,
 }: AchievementCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
