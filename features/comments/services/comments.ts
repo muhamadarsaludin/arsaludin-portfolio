@@ -52,6 +52,13 @@ type GetCommentCountParams = {
   targetType: CommentTargetType
 }
 
+export type GetBatchCommentCountsParams = {
+  targetIds: string[]
+  targetType: CommentTargetType
+}
+
+export type GetBatchCommentCountsResult = Record<string, number>
+
 /**
  * Fetches a paginated list of top-level comments for a specific target entity.
  * @param targetId - The unique ID of the target entity (e.g., Post ID).
@@ -211,6 +218,55 @@ export async function getCommentCount({
   } catch (err) {
     console.error("[getCommentCount] Unexpected error:", err)
     return 0
+  }
+}
+
+/**
+ * Fetch comment counts in batch for multiple target IDs.
+ * Combines N+1 database queries into a single efficient query.
+ * 
+ * @returns A promise that resolves to an object map: { [targetId]: count }
+ */
+export async function getBatchCommentCounts({
+  targetIds,
+  targetType,
+}: GetBatchCommentCountsParams): Promise<GetBatchCommentCountsResult> {
+  if (!targetIds || targetIds.length === 0) return {}
+
+  const targetColumn = `${targetType}_id` as const
+
+  try {
+    const { data, error } = await supabase
+      .from("comments")
+      .select(targetColumn)
+      .in(targetColumn, targetIds)
+
+    if (error) {
+      console.error(
+        `[getBatchCommentCounts] Error fetching batch counts for ${targetType}:`,
+        error
+      )
+      return {}
+    }
+
+    const countsMap: Record<string, number> = {}
+    targetIds.forEach((id) => {
+      countsMap[id] = 0
+    })
+
+    if (data) {
+      data.forEach((row) => {
+        const id = (row as Record<string, any>)[targetColumn] as string
+        if (id && id in countsMap) {
+          countsMap[id] += 1
+        }
+      })
+    }
+
+    return countsMap
+  } catch (err) {
+    console.error("[getBatchCommentCounts] Unexpected error:", err)
+    return {}
   }
 }
 

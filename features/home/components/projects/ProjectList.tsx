@@ -1,6 +1,7 @@
 "use client"
 
 import { MiracleReveal } from "@/components/miracle/Reveal"
+import { useBatchCommentCounts } from "@/features/comments/hooks/useBatchCommentCounts"
 import ProjectCard from "@/features/projects/components/ProjectCard"
 import ProjectCardSkeleton from "@/features/projects/components/ProjectCardSkeleton"
 import { useFeaturedProjects } from "@/features/projects/hooks/useFeaturedProjects"
@@ -18,6 +19,11 @@ export function ProjectList({ locale }: { locale: string }) {
     targetType: "project",
   })
 
+  const { data: dataCommentCounts } = useBatchCommentCounts({
+    targetIds: projectIds,
+    targetType: "project",
+  })
+
   if (isLoading) return <ProjectListSkeleton />
   if (isError) return <ErrorStateCard onRetry={refetch} />
   if (!projects || projects.length === 0) return <EmptyStateCard />
@@ -25,6 +31,7 @@ export function ProjectList({ locale }: { locale: string }) {
   return (
     <div className="flex max-w-full snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-x-hidden lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
       {projects.map((project, index) => {
+        const commentCount = dataCommentCounts?.[project.id] ?? project.comment_count
         const dataReaction = dataReactions?.[project.id]
         const reactionSummary = dataReaction?.summary || null
         const userReaction = dataReaction?.userReaction || null
@@ -46,9 +53,10 @@ export function ProjectList({ locale }: { locale: string }) {
             <ProjectCard
               className="h-full w-full"
               project={project}
+              projectIds={projectIds}
               reactionSummary={reactionSummary}
               userReaction={userReaction}
-              projectIds={projectIds}
+              commentCount={commentCount}
             />
           </MiracleReveal>
         )

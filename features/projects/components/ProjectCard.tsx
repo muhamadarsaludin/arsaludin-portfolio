@@ -6,7 +6,7 @@ import type { Project } from "../types/projects.types"
 import { Link } from "@/i18n/navigation"
 import SkillBadges from "@/features/skills/components/SkillBadges"
 import ReactionGroup from "@/features/reactions/components/ReactionGroup"
-import CommentGroup from "@/features/comments/components/CommentGroup"
+import CommentGroup from "@/features/comments/components-new/CommentGroup"
 import { MiracleSkeleton } from "@/components/miracle/Skeleton"
 import { useTranslations } from "next-intl"
 import type { Reaction, ReactionSummary } from "@/features/reactions/types/reactions.types"
@@ -14,17 +14,19 @@ import type { Reaction, ReactionSummary } from "@/features/reactions/types/react
 type ProjectCardProps = {
   className?: string
   project: Project
+  projectIds: string[]
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
-  projectIds: string[]
+  commentCount: number
 }
 
 export default function ProjectCard({
   className,
   project,
+  projectIds,
   reactionSummary,
   userReaction,
-  projectIds,
+  commentCount
 }: ProjectCardProps) {
   const t = useTranslations("components.projectCard")
 
@@ -82,10 +84,11 @@ export default function ProjectCard({
           userReaction={userReaction}
         />
         <CommentGroup
-          title={project.name}
           targetId={project.id}
+          targetIds={projectIds}
           targetType="project"
-          initialCount={project.comment_count}
+          commentCount={commentCount}
+          title={project.name}
         />
       </div>
     </div>

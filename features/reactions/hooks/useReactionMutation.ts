@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuth } from "@/providers/AuthProvider"
-import { toggleReactionAction } from "../services/reactions"
+import { GetBatchReactionsResult, toggleReactionAction } from "../services/reactions"
 import type { ReactionSummary, ReactionTargetType, Reaction } from "../types/reactions.types"
 
 type UseBatchReactionMutationParams = {
@@ -10,14 +10,6 @@ type UseBatchReactionMutationParams = {
   targetType: ReactionTargetType
   targetIds: string[]
 }
-
-type BatchReactionsData = Record<
-  string,
-  {
-    summary: ReactionSummary
-    userReaction: Reaction | null
-  }
->
 
 export function useBatchReactionMutation({
   targetId,
@@ -41,7 +33,7 @@ export function useBatchReactionMutation({
 
       await queryClient.cancelQueries({ queryKey: batchQueryKey })
 
-      const prevBatchData = queryClient.getQueryData<BatchReactionsData>(batchQueryKey)
+      const prevBatchData = queryClient.getQueryData<GetBatchReactionsResult>(batchQueryKey)
 
       const currentItem = prevBatchData?.[targetId]
       const prevSummary = currentItem?.summary || {
@@ -93,7 +85,7 @@ export function useBatchReactionMutation({
             author: profile,
           }
 
-      queryClient.setQueryData<BatchReactionsData>(batchQueryKey, (oldBatch) => {
+      queryClient.setQueryData<GetBatchReactionsResult>(batchQueryKey, (oldBatch) => {
         return {
           ...oldBatch,
           [targetId]: {
