@@ -5,7 +5,6 @@ import { useState } from "react"
 import CommentButton from "./CommentButton"
 import CommentDrawer from "./CommentDrawer"
 import type { CommentTargetType } from "../types/comments.types"
-import { useCommentCount } from "../hooks/useCommentCount"
 import type { TooltipDefaultPosition } from "@/components/miracle/Tooltip"
 
 type CommentGroupProps = {

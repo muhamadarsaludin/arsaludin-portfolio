@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useCommentMutation } from "../hooks/useCommentMutationNew"
+import { useCommentMutation } from "../hooks/useCommentMutation"
 import type { CommentTargetType, CommentData } from "../types/comments.types"
 import { useAuth } from "@/providers/AuthProvider"
 import MiracleTextField from "@/components/miracle/TextField"

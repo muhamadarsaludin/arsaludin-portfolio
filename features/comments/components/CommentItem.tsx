@@ -11,7 +11,7 @@ import MiracleButton from "@/components/miracle/Button"
 import MiraclePopover from "@/components/miracle/Popover"
 
 import { useAuth } from "@/providers/AuthProvider"
-import { useCommentMutation } from "../hooks/useCommentMutationNew"
+import { useCommentMutation } from "../hooks/useCommentMutation"
 import { useReplyMutation } from "../hooks/useReplyMutation"
 import { getInitials } from "@/utils/initials"
 import { timeAgo } from "@/utils/time-ago"

@@ -16,8 +16,8 @@ type UseReplyMutationParams = {
 }
 
 /**
- * Hook to manage reply mutations with multi-layered Optimistic Updates.
- * Synchronizes individual reply streams, main comment metadata, and shared batch counts.
+ * Hook to manage reply mutations with multi-layered Global Wildcard Optimistic Updates.
+ * Synchronizes individual reply streams, main comment metadata, and ALL shared batch counts.
  */
 export function useReplyMutation({
   targetId,
@@ -29,10 +29,11 @@ export function useReplyMutation({
   const queryClient = useQueryClient()
   const { user, profile } = useAuth()
 
+  // 1. Kunci kueri list komentar utama individual (Halaman Detail)
   const mainCommentsKey = ["comments", targetType, targetId, { pageSize: commentPageSize }]
   
-  const serializedIds = targetIds.join(",")
-  const batchCountKey = ["comment-counts-batch", targetType, serializedIds]
+  // 2. 🎯 KUNCI PARSIAL: Gunakan awalan ini untuk menyapu laci batching (List & Detail) sekaligus
+  const batchCountPartialKey = ["comment-counts-batch", targetType]
 
   /**
    * Mutation to create a new reply.
@@ -47,13 +48,20 @@ export function useReplyMutation({
       const pId = variables.parentId
       const repliesKey = ["replies", pId, { pageSize: replyPageSize }]
 
+      // Batalin kueri thread balasan, list utama, dan seluruh laci batching sejenis agar tidak bentrok data
       await queryClient.cancelQueries({ queryKey: repliesKey })
       await queryClient.cancelQueries({ queryKey: mainCommentsKey })
-      await queryClient.cancelQueries({ queryKey: batchCountKey })
+      await queryClient.cancelQueries({ queryKey: batchCountPartialKey, exact: false })
       
+      // Backup data lama list replies dan main comments
       const previousReplies = queryClient.getQueryData<InfiniteData<PaginatedComments>>(repliesKey)
       const previousMain = queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
-      const previousBatchComments = queryClient.getQueryData<GetBatchCommentCountsResult>(batchCountKey)
+      
+      // 🎯 BACKUP MASSAL: Ambil snapshot dari semua laci batching yang ada di memori browser saat ini
+      const previousBatchQueries = queryClient.getQueriesData<GetBatchCommentCountsResult>({
+        queryKey: batchCountPartialKey,
+        exact: false,
+      })
 
       const optimisticReply: CommentData = {
         id: `temp-${Date.now()}`,
@@ -74,6 +82,7 @@ export function useReplyMutation({
         },
       }
 
+      // Layer 1: Tambah balasan ke ujung array thread balasan (Flat UI Friendly)
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
         if (!old) {
           return {
@@ -90,6 +99,7 @@ export function useReplyMutation({
         }
       })
 
+      // Layer 2: Update Main Comment List (Menaikkan angka reply_count di parent comment)
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey, (old) => {
         if (!old) return old
         return {
@@ -103,28 +113,37 @@ export function useReplyMutation({
         }
       })
 
-      queryClient.setQueryData<GetBatchCommentCountsResult>(batchCountKey, (old) => {
-        if (!old) return old
-        return {
-          ...old,
-          [targetId]: (old[targetId] ?? 0) + 1,
+      // Layer 3: 🎯 JURUS GEDOR MASSAL (+1): Dongkrak angka proyek ini di seluruh laci batching sekaligus
+      queryClient.setQueriesData<GetBatchCommentCountsResult>(
+        { queryKey: batchCountPartialKey, exact: false },
+        (old) => {
+          const safeOld = old ?? {}
+          return {
+            ...safeOld,
+            [targetId]: (safeOld[targetId] ?? 0) + 1,
+          }
         }
-      })
+      )
 
-      return { previousReplies, previousMain, previousBatchComments, repliesKey }
+      return { previousReplies, previousMain, previousBatchQueries, repliesKey }
     },
     onError: (_err, _vars, context) => {
       if (context?.repliesKey) queryClient.setQueryData(context.repliesKey, context.previousReplies)
       if (context?.previousMain) queryClient.setQueryData(mainCommentsKey, context.previousMain)
-      if (context?.previousBatchComments) {
-        queryClient.setQueryData(batchCountKey, context.previousBatchComments)
+      
+      // 🎯 ROLLBACK MASSAL: Kembalikan kondisi semua laci batching ke semula jika server error
+      if (context?.previousBatchQueries) {
+        context.previousBatchQueries.forEach(([key, oldData]) => {
+          queryClient.setQueryData(key, oldData)
+        })
       }
     },
     onSettled: (_data, _error, variables) => {
       const repliesKey = ["replies", variables.parentId, { pageSize: replyPageSize }]
       queryClient.invalidateQueries({ queryKey: repliesKey })
       queryClient.invalidateQueries({ queryKey: mainCommentsKey })
-      queryClient.invalidateQueries({ queryKey: batchCountKey })
+      // 🎯 INVALIDATE MASSAL: Paksa hangus semua cache batching biar disinkronkan ulang dari backend pusat
+      queryClient.invalidateQueries({ queryKey: batchCountPartialKey, exact: false })
     },
   })
 
@@ -139,22 +158,21 @@ export function useReplyMutation({
 
       await queryClient.cancelQueries({ queryKey: repliesKey })
       await queryClient.cancelQueries({ queryKey: mainCommentsKey })
-      await queryClient.cancelQueries({ queryKey: batchCountKey })
+      await queryClient.cancelQueries({ queryKey: batchCountPartialKey, exact: false })
 
       const previousReplies = queryClient.getQueryData<InfiniteData<PaginatedComments>>(repliesKey)
       const previousMain = queryClient.getQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey)
-      const previousBatchComments = queryClient.getQueryData<GetBatchCommentCountsResult>(batchCountKey)
+      
+      // 🎯 BACKUP MASSAL sebelum data dipotong
+      const previousBatchQueries = queryClient.getQueriesData<GetBatchCommentCountsResult>({
+        queryKey: batchCountPartialKey,
+        exact: false,
+      })
 
-      let totalDeleted = 1
-      if (previousReplies) {
-        for (const page of previousReplies.pages) {
-          const targetReply = page.data.find((c) => c.id === variables.commentId)
-          if (targetReply) {
-            totalDeleted += targetReply.reply_count || 0
-            break
-          }
-        }
-      }
+      // 🎯 KARENA FLAT THREAD: Menghapus 1 item balasan selalu bernilai tepat 1 angka bulat!
+      const totalDeleted = 1
+
+      // Layer 1: Hapus balasan dari array list flat UI
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(repliesKey, (old) => {
         if (!old) return old
         return {
@@ -166,6 +184,7 @@ export function useReplyMutation({
         }
       })
 
+      // Layer 2: Turunkan angka reply_count di parent comment utama sebanyak 1
       queryClient.setQueryData<InfiniteData<PaginatedComments>>(mainCommentsKey, (old) => {
         if (!old) return old
         return {
@@ -181,28 +200,36 @@ export function useReplyMutation({
         }
       })
 
-      queryClient.setQueryData<GetBatchCommentCountsResult>(batchCountKey, (old) => {
-        if (!old) return old
-        return {
-          ...old,
-          [targetId]: Math.max(0, (old[targetId] ?? 0) - totalDeleted),
+      // Layer 3: 🎯 JURUS GEDOR MASSAL (-1): Sunat angka proyek ini di seluruh laci batching sekaligus
+      queryClient.setQueriesData<GetBatchCommentCountsResult>(
+        { queryKey: batchCountPartialKey, exact: false },
+        (old) => {
+          const safeOld = old ?? {}
+          return {
+            ...safeOld,
+            [targetId]: Math.max(0, (safeOld[targetId] ?? 0) - totalDeleted),
+          }
         }
-      })
+      )
 
-      return { previousReplies, previousMain, previousBatchComments, repliesKey }
+      return { previousReplies, previousMain, previousBatchQueries, repliesKey }
     },
     onError: (_err, _vars, context) => {
       if (context?.repliesKey) queryClient.setQueryData(context.repliesKey, context.previousReplies)
       if (context?.previousMain) queryClient.setQueryData(mainCommentsKey, context.previousMain)
-      if (context?.previousBatchComments) {
-        queryClient.setQueryData(batchCountKey, context.previousBatchComments)
+      
+      // 🎯 ROLLBACK MASSAL
+      if (context?.previousBatchQueries) {
+        context.previousBatchQueries.forEach(([key, oldData]) => {
+          queryClient.setQueryData(key, oldData)
+        })
       }
     },
     onSettled: (_data, _error, variables) => {
       const repliesKey = ["replies", variables.parentId, { pageSize: replyPageSize }]
       queryClient.invalidateQueries({ queryKey: repliesKey })
       queryClient.invalidateQueries({ queryKey: mainCommentsKey })
-      queryClient.invalidateQueries({ queryKey: batchCountKey })
+      queryClient.invalidateQueries({ queryKey: batchCountPartialKey, exact: false })
     },
   })
 
