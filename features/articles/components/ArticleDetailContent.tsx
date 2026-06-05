@@ -45,7 +45,7 @@ export default function ArticleDetailContent({
 
   const commentCount = dataCommentCounts?.[article.id] ?? article.comment_count
   const dataReaction = dataReactions?.[article.id]
-  const reactionSummary = dataReaction?.summary || null
+  const reactionSummary = dataReaction?.summary || article.reaction_summary
   const userReaction = dataReaction?.userReaction || null
 
   return (
@@ -171,7 +171,6 @@ export default function ArticleDetailContent({
           <div className="border-primary flex items-center justify-end border-t px-5 py-3 md:px-6">
             <ReactionGroup
               targetId={article.id}
-              targetIds={articleIds}
               targetType="article"
               userReaction={userReaction}
               reactionSummary={reactionSummary}
@@ -179,7 +178,6 @@ export default function ArticleDetailContent({
             <CommentGroup
               title={article.title}
               targetId={article.id}
-              targetIds={articleIds}
               targetType="article"
               commentCount={commentCount}
             />

@@ -130,7 +130,7 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
         {articles.map((article, index) => {
           const commentCount = dataCommentCounts?.[article.id] ?? article.comment_count
           const dataReaction = dataReactions?.[article.id]
-          const reactionSummary = dataReaction?.summary || null
+          const reactionSummary = dataReaction?.summary || article.reaction_summary
           const userReaction = dataReaction?.userReaction || null
           return (
             <MiracleReveal
@@ -146,7 +146,6 @@ export default function ArticlesContent({ locale }: ArticlesContentProps) {
                 article={article}
                 reactionSummary={reactionSummary}
                 userReaction={userReaction}
-                articleIds={articleIds}
                 commentCount={commentCount}
               />
             </MiracleReveal>

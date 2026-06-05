@@ -31,7 +31,7 @@ export default function CommentList({
     <ul className="flex flex-col gap-5">
       {comments.map((comment) => {
         const dataReaction = dataReactions?.[comment.id]
-        const reactionSummary = dataReaction?.summary || null
+        const reactionSummary = dataReaction?.summary || comment.reaction_summary
         const userReaction = dataReaction?.userReaction || null
         return (
           <CommentItem

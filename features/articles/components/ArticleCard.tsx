@@ -17,7 +17,6 @@ type ArticleCardProps = {
   article: Article
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
-  articleIds: string[]
   commentCount: number
 }
 
@@ -26,7 +25,6 @@ export default function ArticleCard({
   article,
   reactionSummary,
   userReaction,
-  articleIds,
   commentCount
 }: ArticleCardProps) {
   const locale = useLocale()
@@ -66,14 +64,12 @@ export default function ArticleCard({
           <div className="relative flex shrink-0 items-center">
             <ReactionGroup
               targetId={article.id}
-              targetIds={articleIds}
               targetType="article"
               reactionSummary={reactionSummary}
               userReaction={userReaction}
             />
             <CommentGroup
               targetId={article.id}
-              targetIds={articleIds}
               targetType="article"
               commentCount={commentCount}
               title={article.title}

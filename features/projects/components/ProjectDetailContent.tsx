@@ -56,7 +56,7 @@ export default function ProjectDetailContent({
 
   const commentCount = dataCommentCounts?.[project.id] ?? project.comment_count
   const dataReaction = dataReactions?.[project.id]
-  const reactionSummary = dataReaction?.summary || null
+  const reactionSummary = dataReaction?.summary || project.reaction_summary
   const userReaction = dataReaction?.userReaction || null
 
   return (
@@ -223,7 +223,6 @@ export default function ProjectDetailContent({
           <div className="border-primary flex items-center justify-end border-t px-5 py-3 md:px-6">
             <ReactionGroup
               targetId={project.id}
-              targetIds={projectIds}
               targetType="project"
               userReaction={userReaction}
               reactionSummary={reactionSummary}
@@ -231,7 +230,6 @@ export default function ProjectDetailContent({
             <CommentGroup
               title={project.name}
               targetId={project.id}
-              targetIds={projectIds}
               targetType="project"
               commentCount={commentCount}
             />

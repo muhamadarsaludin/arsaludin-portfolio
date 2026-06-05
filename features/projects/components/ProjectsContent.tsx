@@ -131,7 +131,7 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
         {projects.map((project, index) => {
           const commentCount = dataCommentCounts?.[project.id] ?? project.comment_count
           const dataReaction = dataReactions?.[project.id]
-          const reactionSummary = dataReaction?.summary || null
+          const reactionSummary = dataReaction?.summary || project.reaction_summary
           const userReaction = dataReaction?.userReaction || null
 
           return (
@@ -148,7 +148,6 @@ export default function ProjectsContent({ locale }: ProjectsContentProps) {
                 project={project}
                 reactionSummary={reactionSummary}
                 userReaction={userReaction}
-                projectIds={projectIds}
                 commentCount={commentCount}
               />
             </MiracleReveal>

@@ -33,7 +33,7 @@ export function ProjectList({ locale }: { locale: string }) {
       {projects.map((project, index) => {
         const commentCount = dataCommentCounts?.[project.id] ?? project.comment_count
         const dataReaction = dataReactions?.[project.id]
-        const reactionSummary = dataReaction?.summary || null
+        const reactionSummary = dataReaction?.summary || project.reaction_summary
         const userReaction = dataReaction?.userReaction || null
 
         return (
@@ -53,7 +53,6 @@ export function ProjectList({ locale }: { locale: string }) {
             <ProjectCard
               className="h-full w-full"
               project={project}
-              projectIds={projectIds}
               reactionSummary={reactionSummary}
               userReaction={userReaction}
               commentCount={commentCount}

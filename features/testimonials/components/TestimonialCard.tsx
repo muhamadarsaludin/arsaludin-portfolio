@@ -18,7 +18,6 @@ type TestimonialCardProps = {
   testimonial: Testimonial
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
-  testimonialIds: string[]
 }
 
 export default function TestimonialCard({
@@ -26,7 +25,6 @@ export default function TestimonialCard({
   testimonial,
   reactionSummary,
   userReaction,
-  testimonialIds,
 }: TestimonialCardProps) {
   const t = useTranslations("components.testimonialCard")
   const [avatar, setAvatar] = useState(testimonial.avatar_url || "/dummy.webp")
@@ -99,7 +97,6 @@ export default function TestimonialCard({
           )}
           <ReactionGroup
             targetId={testimonial.id}
-            targetIds={testimonialIds}
             targetType="testimonial"
             reactionSummary={reactionSummary}
             userReaction={userReaction}

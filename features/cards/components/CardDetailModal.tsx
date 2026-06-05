@@ -23,7 +23,6 @@ type CardDetailModalProps = {
   statusColorMap: Record<CardStatus, BadgeColor>
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
-  cardIds: string[]
   commentCount: number
 }
 
@@ -37,7 +36,6 @@ export default function CardDetailModal({
   statusColorMap,
   reactionSummary,
   userReaction,
-  cardIds,
   commentCount
 }: CardDetailModalProps) {
   const t = useTranslations("components.card.item")
@@ -137,7 +135,6 @@ export default function CardDetailModal({
         >
           <ReactionGroup
             targetId={card.id}
-            targetIds={cardIds}
             targetType="card"
             reactionSummary={reactionSummary}
             userReaction={userReaction}
@@ -145,7 +142,6 @@ export default function CardDetailModal({
           <CommentGroup
             title={card.title}
             targetId={card.id}
-            targetIds={cardIds}
             targetType="card"
             commentCount={commentCount}
           />

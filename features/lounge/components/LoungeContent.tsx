@@ -148,7 +148,7 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
               <>
                 {messages.map((message) => {
                   const dataReaction = dataReactions?.[message.id]
-                  const reactionSummary = dataReaction?.summary || null
+                  const reactionSummary = dataReaction?.summary || message.reaction_summary
                   const userReaction = dataReaction?.userReaction || null
                   return (
                     <MiracleReveal key={message.id} animation="zoom-in">
@@ -158,7 +158,6 @@ export default function LoungeContent({ messageType, pageSize }: LoungeContentPr
                         message={message}
                         reactionSummary={reactionSummary}
                         userReaction={userReaction}
-                        messageIds={messageIds}
                         onReply={setRepliedMessage}
                       />
                     </MiracleReveal>

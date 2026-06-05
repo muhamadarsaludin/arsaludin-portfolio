@@ -24,7 +24,6 @@ type MessageBubbleProps = {
   message: Message
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
-  messageIds: string[]
   onReply?: (message: Message) => void
 }
 
@@ -34,7 +33,6 @@ export default function MessageBubble({
   message,
   reactionSummary,
   userReaction,
-  messageIds,
   onReply,
 }: MessageBubbleProps) {
   const { remove, isRemoving } = useMessageMutation({ type: messageType, pageSize })
@@ -191,7 +189,6 @@ export default function MessageBubble({
         >
           <ReactionGroup
             targetId={message.id}
-            targetIds={messageIds}
             targetType="message"
             reactionSummary={reactionSummary}
             userReaction={userReaction}

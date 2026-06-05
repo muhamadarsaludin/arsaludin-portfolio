@@ -17,15 +17,13 @@ type AchievementCardProps = {
   achievement: Achievement
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
-  achievementIds: string[]
 }
 
 export default function AchievementCard({
   className,
   achievement,
   reactionSummary,
-  userReaction,
-  achievementIds,
+  userReaction
 }: AchievementCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -89,7 +87,6 @@ export default function AchievementCard({
         <div className="relative shrink-0">
           <ReactionGroup
             targetId={achievement.id}
-            targetIds={achievementIds}
             targetType="achievement"
             reactionSummary={reactionSummary}
             userReaction={userReaction}

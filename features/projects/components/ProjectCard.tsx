@@ -14,7 +14,6 @@ import type { Reaction, ReactionSummary } from "@/features/reactions/types/react
 type ProjectCardProps = {
   className?: string
   project: Project
-  projectIds: string[]
   reactionSummary: ReactionSummary | null
   userReaction: Reaction | null
   commentCount: number
@@ -23,7 +22,6 @@ type ProjectCardProps = {
 export default function ProjectCard({
   className,
   project,
-  projectIds,
   reactionSummary,
   userReaction,
   commentCount
@@ -78,14 +76,12 @@ export default function ProjectCard({
       >
         <ReactionGroup
           targetId={project.id}
-          targetIds={projectIds}
           targetType="project"
           reactionSummary={reactionSummary}
           userReaction={userReaction}
         />
         <CommentGroup
           targetId={project.id}
-          targetIds={projectIds}
           targetType="project"
           commentCount={commentCount}
           title={project.name}
